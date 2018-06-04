@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@model PTT_NGROUR.Models.ViewModel.ModelHome
+<h2>Index</h2>
+
+
+
+@foreach (var i in Model.ListUsersAuth)
+{
+    <h1> @i.FIRSTNAME </h1><br/>    
+}
