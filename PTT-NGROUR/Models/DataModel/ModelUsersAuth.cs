@@ -30,5 +30,8 @@ namespace PTT_NGROUR.Models.DataModel
         public DateTime? UPDATE_DATE { get; set; }
 
         public string UPDATE_BY { get; set; }
+        public string ROLE_NAME { get; set; }
+        public string GROUP_NAME { get; set; }
+        public string COUNT_PASS { get; set; }
     }
 }

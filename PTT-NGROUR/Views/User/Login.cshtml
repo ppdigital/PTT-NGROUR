@@ -1,0 +1,16 @@
+﻿@model PTT_NGROUR.Models.User
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+
+<h2>Login</h2>
+<form method="post">
+    @Html.TextBoxFor(u => u.Username, new { @class = "input100 lato f4-l", @placeholder = "Username" })
+    @Html.PasswordFor(u => u.Password, new { @class = "input100 lato f4-l", @placeholder = "Password" })
+    @Html.CheckBoxFor(u => u.RememberMe, new { @class = "input-checkbox100", @id = "ckb1" })
+    <input type="submit" class="b mv2 ph3 f4-l f3-m f5-ns pv2 input-reset w-100  bg-blue-signin grow pointer f5 dib white lato br1" value="Log In" id="btnSignIn" />
+    @Html.ValidationSummary(true, "Login failed. Check your login details.")
+
+
+</form>

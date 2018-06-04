@@ -14,30 +14,31 @@ namespace PTT_NGROUR.Controllers
 
         public ActionResult Index()
         {
-            var dal = new DAL.DAL();
+            //var dal = new DAL.DAL();
 
-            var ds = dal.GetDataSet("select * from Users_Auth");
+            //var ds = dal.GetDataSet("select * from Users_Auth");
 
-            var dt = ds.Tables[0];
+            //var dt = ds.Tables[0];
 
-            var listUsers = new List<Models.DataModel.ModelUsersAuth>();
+            //var listUsers = new List<Models.DataModel.ModelUsersAuth>();
 
-            foreach (System.Data.DataRow dr in dt.Rows)
-            {
-                var user = new Models.DataModel.ModelUsersAuth() {
-                    //CREATE_BY = dr["CREATE_BY"].ToString(),
-                    //CREATE_DATE = Convert.ToDateTime(dr["CREATE_DATE"]),
-                    FIRSTNAME = dr["FIRSTNAME"].ToString()
-                };
-                listUsers.Add(user);
-            }
+            //foreach (System.Data.DataRow dr in dt.Rows)
+            //{
+            //    var user = new Models.DataModel.ModelUsersAuth() {
+            //        //CREATE_BY = dr["CREATE_BY"].ToString(),
+            //        //CREATE_DATE = Convert.ToDateTime(dr["CREATE_DATE"]),
+            //        FIRSTNAME = dr["FIRSTNAME"].ToString()
+            //    };
+            //    listUsers.Add(user);
+            //}
 
-            var model = new Models.ViewModel.ModelHome()
-            {
-                ListUsersAuth = listUsers
-            };
+            //var model = new Models.ViewModel.ModelHome()
+            //{
+            //    ListUsersAuth = listUsers
+            //};
 
-            return View(model);
+            //return View(model);
+            return RedirectToAction("Login", "User");
         }
 
     }
