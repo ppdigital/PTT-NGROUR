@@ -78,10 +78,49 @@ namespace PTT_NGROUR.DAL
             da.Fill(result);
             con.Close();
             con.Dispose();
-            con = null;
+            con = null;           
             da = null;
             GC.Collect();
             return result;
+        }
+
+        public IEnumerable<T> ReadData<T>(string pStrCommand, Func<IDataReader, T> pFuncReadData)
+        {
+            if (string.IsNullOrEmpty(pStrCommand) || pFuncReadData == null)
+            {
+                yield break;
+            }
+            var con = GetConnection();
+            
+            var com = GetCommand(pStrCommand, con);
+
+            if (con.State != ConnectionState.Open)
+            {
+                con.Open();
+            }
+
+
+            var reader = com.ExecuteReader();
+            while (reader.Read())
+            {
+                var result = pFuncReadData(reader);
+                if (!EqualityComparer<T>.Default.Equals(result, default(T)))
+                {
+                    yield return result;
+                }
+            }
+            reader.Close();
+            reader.Dispose();
+            reader = null;
+
+            con.Close();
+            con.Dispose();
+            con = null;
+
+            com.Dispose();
+            com = null;
+
+            GC.Collect();
         }
     }
 }
