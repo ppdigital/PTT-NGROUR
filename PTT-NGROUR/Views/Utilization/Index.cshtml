@@ -54,51 +54,47 @@
          </nav>
      </div>-->
     <!--Search Bar Web-->
-    <div class=" bg-white w-100 mb3 mt2 hidden-sm hidden-md ">
-
-        <label class="container ml5 lato f7">
-            <input type="radio" name="radio" id="radioAreaW" checked="checked" onclick="javascript:Check();">
-            <span class="checkmark">Region</span>
-        </label>
-        <label class="container lato f7 pl2">
+    <div class=" bg-white w-100 mb3 mt2 hidden-xs  hidden-sm hidden-md">
+        <div class="form-inline">
+            <label class=" ml5 lato f7">
+                <input type="radio" name="radio" id="radioAreaW" checked="checked" onclick="javascript:Check();">
+                <span class="checkmark">Region</span>
+            </label>
+            <select class="ba b--black-20 pa2 db w-13 ml2 form-control " id="seAreaW">
+                <option value="1" class="f7  drop_role " selected>region 1</option>
+                <option value="2" class="f7  drop_role ">region 2</option>
+                <option value="3" class="f7  drop_role ">region 3</option>
+                <option value="4" class="f7  drop_role ">region 4</option>
+                <option value="5" class="f7  drop_role ">region 5</option>
+                <option value="6" class="f7  drop_role ">region 6</option>
+                <option value="7" class="f7  drop_role ">region 7</option>
+                <option value="8" class="f7  drop_role ">region 8</option>
+                <option value="9" class="f7  drop_role ">region 9</option>
+                <option value="10" class="f7  drop_role ">region 10</option>
+                <option value="11" class="f7  drop_role ">region 11</option>
+            </select>
+        </div> 
+        <label class=" lato d-none ">
             <input type="radio" name="radio" id="radioLicenseW" onclick="javascript:Check();">
-            <span class="checkmark"> ใบอนุญาต</span>
+            <span class="checkmark"> License</span>
         </label>
 
-
-
-        <select class="f7 ba b--black-20 pa2 w-10 ml2 " id="seAreaW">
-            <option value="1" class="f7  drop_role " selected>region 1</option>
-            <option value="2" class="f7  drop_role ">region 2</option>
-            <option value="3" class="f7  drop_role ">region 3</option>
-            <option value="4" class="f7  drop_role ">region 4</option>
-            <option value="5" class="f7  drop_role ">region 5</option>
-            <option value="6" class="f7  drop_role ">region 6</option>
-            <option value="7" class="f7  drop_role ">region 7</option>
-            <option value="8" class="f7  drop_role ">region 8</option>
-            <option value="9" class="f7  drop_role ">region 9</option>
-            <option value="10" class="f7  drop_role ">region 10</option>
-            <option value="11" class="f7  drop_role ">region 11</option>
-
+        <select class="fba b--black-20 pa2 db w-13  ml2 form-control " id="seLicenseW">
+            <option value="license" class="f7  drop_role">License</option>
         </select>
 
-
-        <select class="f7 ba b--black-20 pa2 w-10  ml2  dn " id="seLicenseW">
-            <option value="license" class="f7  drop_role">ใบอนุญาต</option>
-        </select>
-
-        <select class=" ba b--black-20 pa2 db w-13 dib ml2 " onclick="javascript:dropdownTxt();" id="select">
+        <select class=" ba b--black-20 pa2 db w-13  ml2 form-control" onclick="javascript:dropdownTxt();" id="select">
             <option id=" seallw" value="all" class="f7 f8-m drop_role" selected>All</option>
             <option id="sePipelineW" value="pipeline" class="f7 drop_role">Pipeline</option>
             <option id="seGateW" value="gate" class="f7 drop_role">Gate Station</option>
             <option id="seMeteringW" value="metering" class="f7  drop_role">Metering Station</option>
         </select>
 
-        <input id="txtPipelineW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 " type="text" aria-describedby="name-desc" placeholder="PipeLine">
-        <input id="txtGateW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 " type="text" aria-describedby="name-desc" placeholder="Gate Station">
-        <input id="txtMeteringW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 " type="text" aria-describedby="name-desc" placeholder="Metering Station">
+        <input id="txtPipelineW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 form-control" type="text" aria-describedby="name-desc" placeholder="PipeLine">
+        <input id="txtGateW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 form-control" type="text" aria-describedby="name-desc" placeholder="Gate Station">
+        <input id="txtMeteringW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 form-control" type="text" aria-describedby="name-desc" placeholder="Metering Station">
 
-        <select class=" ba b--black-20 pa2 db w-13 dib ml2">
+        <select class=" ba b--black-20 pa2 db w-13 ml2 form-control">
             <option id="seAllW" value="all" class="f7 f8-m drop_role" selected>All Threshold</option>
             <option id="seGreenW" value="green" class="f7 f8-m drop_role">Green</option>
             <option id="seYellowW" value="yellow" class="f7  drop_role">Yellow</option>

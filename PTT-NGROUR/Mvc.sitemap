@@ -4,7 +4,16 @@
             xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
 
   <mvcSiteMapNode title="Home" controller="Home" action="Index">
-    <mvcSiteMapNode title="About" controller="Home" action="About"/>
+    <mvcSiteMapNode title="Dashboard" controller="Dashboard" action="Index"/>
+    <mvcSiteMapNode title="Utilization" controller="Utilization" action="Menu_Utilization">
+      <mvcSiteMapNode title="Utilization" controller="Utilization" action="Index"/>
+      <mvcSiteMapNode title="Customer Management" controller="Utilization" action="CustManage"/>
+      <mvcSiteMapNode title="Threshold Setting" controller="Utilization" action="ThresholdSetting"/>
+      <mvcSiteMapNode title="Import Excel" controller="Utilization" action="ImportExcel"/>
+    </mvcSiteMapNode>
+    <mvcSiteMapNode title="Admin" controller="Admin" action="Index">
+      <mvcSiteMapNode title="User Management" controller="Admin" action="UserManagement"/>
+    </mvcSiteMapNode>
   </mvcSiteMapNode>
 
 </mvcSiteMap>
