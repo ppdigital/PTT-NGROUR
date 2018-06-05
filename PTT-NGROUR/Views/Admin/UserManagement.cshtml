@@ -1,4 +1,4 @@
-﻿@model PTT_NGROUR.Models.DataModel.ModelUsersAuth
+﻿@model PTT_NGROUR.Models.UserManagement
 @{
     ViewBag.Title = "UserManagement";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -35,7 +35,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var user in UsersAuthItems)
+                @foreach (var user in ModelUsersAuth)
                 {
                     <tr>
                         <td style="display:none">@user.EMPLOY_ID</td>
@@ -230,7 +230,7 @@
     });
     function EDITUSER(id) {
 
-        @foreach (var item in Model)
+        @foreach (var item in ListUsersAuth)
         {
         <text>
         if (id == '@item.EMPLOY_ID') {

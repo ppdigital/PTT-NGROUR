@@ -158,7 +158,6 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LDAPSearch.cs" />
-    <Compile Include="Controllers\UtilizationController.cs" />
     <Compile Include="Controllers\ThresholdController.cs" />
     <Compile Include="DAL\DAL.cs" />
     <Compile Include="ExtentionAndLib\Ext.cs" />
@@ -319,8 +318,6 @@
     <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
-    <Content Include="Views\Utilization\Index.cshtml" />
-    <Content Include="Views\Utilization\ImportExcel.cshtml" />
     <Content Include="Views\Admin\UserManagement.cshtml" />
   </ItemGroup>
   <ItemGroup>
