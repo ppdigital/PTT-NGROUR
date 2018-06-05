@@ -1,0 +1,354 @@
+﻿@model PTT_NGROUR.Models.DataModel.ModelUsersAuth
+@{
+    ViewBag.Title = "UserManagement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Scripts/DataTables/datatables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/datatables.js"></script>
+
+<div class="panel panel-primary">
+    <div id="panel" class="panel-heading">
+        <div class="panel-title">
+            User Table
+            <button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#myModalCreate"><span class="glyphicon glyphicon-pencil"></span> Create</button>
+        </div>
+
+    </div>
+    <div id="panelcontent" class="panel-body">
+
+        <table class="table h6 table-striped table-bordered" id="UserDatailTable">
+            <thead>
+                <tr>
+                    <th style="display:none"></th>
+                    <th>Name</th>
+                    <th style="display:none">UserName</th>
+                    <th style="display:none">Password</th>
+                    <th>Group Name</th>
+                    <th>Role Name</th>
+                    <th>E-Mail</th>
+                    <th>Status</th>
+                    <th>Create Date</th>
+                    <th>Create By</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in UsersAuthItems)
+                {
+                    <tr>
+                        <td style="display:none">@user.EMPLOY_ID</td>
+                        <td>@item.FIRST_NAME @user.LAST_NAME</td>
+                        <td style="display:none">@user.USERNAME</td>
+                        <td style="display:none">@user.PASSWORD</td>
+                        <td>@user.GROUP_NAME </td>
+                        <td>@user.ROLE_NAME </td>
+                        <td>@user.EMAIL </td>
+                        <td>@user.STATUS </td>
+                        <td>@user.CREATE_DATE </td>
+                        <td>@user.CREATE_BY </td>
+
+                        <td class="btt">
+                            <div><button class="btn btn-link user" id="Edit" onclick="EDITUSER(@user.EMPLOY_ID)" data-toggle="modal" data-target="#myModalEdit"><span class="glyphicon glyphicon-edit"></span></button></div>
+                        </td>
+                        @*@using (Html.BeginForm("DeleteUser", "UserMgt", new { id = @item.EMPLOY_ID }))
+                            {*@
+                        <td>
+                            <button class="btn btn-link" onclick="ConfirmDel(@user.EMPLOY_ID)"><span class="glyphicon glyphicon-trash"></span></button>
+                        </td>
+                        @*}*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+    </div>
+
+</div>
+
+
+<div id="myModalCreate" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="panel-title">ADD USER</label>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <br />
+            <div style="max-height:300px;overflow:auto; padding-left:30px; padding-right:30px" id="SearchAD">
+                @{Html.RenderAction("SearchbyAD", "UserMgt");}
+            </div>
+            @*@using (Html.BeginForm("CreateUser", "UserMgt", new { returnUrl = Request.RawUrl }, FormMethod.Post))
+                {*@
+            <div class="modal-body">
+
+                <div class="container">
+                    <div>
+
+                        <br />
+                        <label id="CreateUser">User Detail</label>
+                    </div>
+                    <div>
+                        <table id="CreateUserTable">
+                            <tr>
+                                <td>EMPLOYEE ID:</td>
+                                <td>
+                                    @Html.TextBox("txtEmployeeIDCreate", null, new { @class = "form-control input-sm", @placeholder = "Employee ID" })<br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>FIRST NAME:</td>
+                                <td>
+                                    @Html.TextBox("txtFirstNameCreate", null, new { @class = "form-control input-sm", @placeholder = "First Name" })<br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>LAST NAME:</td>
+                                <td>
+                                    @Html.TextBox("txtLastNameCreate", null, new { @class = "form-control input-sm", @placeholder = "Last Name" })<br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>USERNAME:</td>
+                                <td>
+                                    @Html.TextBox("UserNameCreate", null, new { @class = "form-control input-sm", @placeholder = "Username" })<br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PASSWORD:</td>
+                                <td>
+                                    @Html.TextBox("PassWordCreate", null, new { @class = "form-control input-sm", placeholder = "Password" })<br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>MAIL:</td>
+                                <td>
+                                    @Html.TextBox("txtMailCreate", null, new { @class = "form-control input-sm", placeholder = "E-Mail" })<br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>IS AD:</td>
+                                <td>
+                                    @Html.TextBox("txtIsADCreate", "0", new { @class = "form-control input-sm", @id = "IsADCreate", @readonly = "readonly" })<br />
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="Save()" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-save"></span>Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+            </div>
+            @*}*@
+        </div>
+    </div>
+</div>
+<br />
+<div id="myModalEdit" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="panel-title">EDIT USER</label>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            @using (Html.BeginForm("EditUser", "UserMgt", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="container">
+                            <div>
+                                <br />
+                                <label id="EditUser">User Detail</label>
+                            </div>
+                            <div>
+                                <table id="EditUserTable">
+                                    <tr>
+                                        <td>EMPLOYEE ID:</td>
+                                        <td>
+                                            @Html.TextBox("txtEmployeeIDEdit", null, new { @class = "form-control input-sm", @placeholder = "Employee ID", @readonly = "readonly" })<br />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>FIRST NAME:</td>
+                                        <td>
+                                            @Html.TextBox("txtFirstNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })<br />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>LAST NAME:</td>
+                                        <td>
+                                            @Html.TextBox("txtLastNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })<br />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>MAIL:</td>
+                                        <td>
+                                            @Html.TextBox("txtMailEdit", null, new { @class = "form-control input-sm" })<br />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>IS AD:</td>
+                                        <td>
+                                            @Html.TextBox("txtIsADEdit", null, new { @class = "form-control input-sm", @id = "IsADEdit", @readonly = "readonly" })<br />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br />
+                                <br />
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-save"></span>Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<link href="~/Scripts/paging/dataTables.bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/paging/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/paging/dataTables.bootstrap.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#UserDatailTable').dataTable();
+
+        $('#myModalCreate').on('hidden.bs.modal', function () {
+            $(this).find("input,textarea").val('').end();
+
+        });
+    });
+    function EDITUSER(id) {
+
+        @foreach (var item in Model)
+        {
+        <text>
+        if (id == '@item.EMPLOY_ID') {
+            $("#txtEmployeeIDEdit").val('@item.EMPLOY_ID');
+            $("#txtFirstNameEdit").val('@item.FIRST_NAME');
+            $("#txtLastNameEdit").val('@item.LAST_NAME');
+            $("#IsADEdit").val('@item.IS_AD');
+            $("#txtMailEdit").val('@item.EMAIL');
+            @*var isad = '@item.IS_AD';
+            if (isad == "1") {
+                var txtMailEdit = document.getElementById("txtMailEdit");
+                txtMailEdit.setAttribute("readOnly", "true");
+                $("#txtMailEdit").val('@item.EMAIL');
+            }
+            else {
+                $("#txtMailEdit").prop('readonly', false);
+                $("#txtMailEdit").val('@item.EMAIL');
+            }*@
+
+        }
+        </text>
+        }
+    };
+
+    function Save() {
+
+        var txtEmployeeIDCreate = $("#txtEmployeeIDCreate").val();
+        var txtFirstNameCreate = $("#txtFirstNameCreate").val();
+        var txtLastNameCreate = $("#txtLastNameCreate").val();
+        var UserNameCreate = $("#UserNameCreate").val();
+        var PassWordCreate = $("#PassWordCreate").val();
+        var IsADCreate = $("#IsADCreate").val();
+        var txtMailCreate = $("#txtMailCreate").val();
+        console.log($("#txtEmployeeIDCreate").val());
+        var serverpath = apppath.substring(0, apppath.length - 1);
+        console.log(PassWordCreate);
+        if (txtMailCreate == "") {
+            alert("กรุณาระบุ E-mail");
+        }
+        else{
+
+            if (IsADCreate != "1") {
+                if (isNaN(txtEmployeeIDCreate)) {
+                    alert("ID ต้องเป็นตัวเลขเท่านั้น");
+                }
+                else {
+                    if (txtEmployeeIDCreate.length > 10) {
+                        alert("ID ต้องมีจำนวนไม่เกิน 10 ตัว");
+                    } else {
+
+                        if (PassWordCreate == "") {
+                            alert("โปรดใส่ password");
+                        }
+                        else {
+                            if (!/^\w+$/.test(PassWordCreate)) {
+                                alert("password ไม่ถูกต้อง password ต้องไม่มีอักขระพิเศษ");
+                            }
+                            else {
+                                if (PassWordCreate.length < 8) {
+                                    alert("password น้อยกว่า8ตัว โปรดใส่ password ใหม่");
+                                }
+                                else {
+                                    if (!/[A-Z]/.test(PassWordCreate)) {
+                                        alert("password ไม่ถูกต้อง ต้องมีอักษรพิมพ์ใหญ่อย่างน้อย1อักษร");
+                                    }
+                                    else {
+                                        if (!/[a-z]/.test(PassWordCreate)) {
+                                            alert("password ไม่ถูกต้อง ต้องมีอักษรพิมพ์เล็กอย่างน้อย1อักษร");
+                                        }
+                                        else {
+
+                                            if (!/[0-9]/.test(PassWordCreate)) {
+                                                alert("password ไม่ถูกต้อง ต้องมีตัวเลขอย่างน้อย1ตัว");
+                                            }
+                                            else {
+
+                                                $.ajax({
+                                                    async: true,
+                                                    cache: false,
+                                                    url: serverpath + '/UserMgt/CreateUser',
+                                                    type: 'POST',
+                                                    data: { txtEMPID: txtEmployeeIDCreate, txtFNC: txtFirstNameCreate, txtLNC: txtLastNameCreate, UNC: UserNameCreate, PWC: PassWordCreate, IsADCreate: IsADCreate, txtMailCreate: txtMailCreate },
+                                                    success: function (response) {
+                                                        alert(response);
+                                                        if (response == "เพิ่มข้อมูลเรียบร้อย") {
+                                                            $("#myModalCreate").modal('toggle');
+                                                            location.reload();
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                $.ajax({
+                    async: true,
+                    cache: false,
+                    url: serverpath + '/UserMgt/CreateUser',
+                    type: 'POST',
+                    data: { txtEMPID: txtEmployeeIDCreate, txtFNC: txtFirstNameCreate, txtLNC: txtLastNameCreate, UNC: UserNameCreate, PWC: PassWordCreate, IsADCreate: IsADCreate, txtMailCreate: txtMailCreate },
+                    success: function (response) {
+                        alert(response);
+                        if (response == "เพิ่มข้อมูลเรียบร้อย") {
+                            $("#myModalCreate").modal('toggle');
+                            location.reload();
+                        }
+                    }
+                });
+
+            }
+        }
+    };
+
+</script>

@@ -40,71 +40,65 @@
         background-color: #ddd;
     }
 </style>
-
-<body>
-
-    <!-- <div class=" w-100 mb1 pv2 hidden-sm hidden-md shadow-bottom  ph5 hidden-md hidden-sm">
-
-         <nav>
-
-             <a href="@Url.Action("Index", "Home")" class="no-underline f6 gray8"><i class="fa fa-home f6 gray8 pr1"></i>&nbsp;Home</a> <label class="gray7">&nbsp;/&nbsp;</label>
-             <a href="@Url.Action("Menu_Utilization", "Utilization")" class="no-underline f6 gray8">Utilization</a> <label class="gray7">&nbsp;/&nbsp;</label>
-             <a class="no-underline f6 b gray8">Utilization</a>
-
-         </nav>
-     </div>-->
+<br />
+<div class="container">
     <!--Search Bar Web-->
-    <div class=" bg-white w-100 mb3 mt2 hidden-xs  hidden-sm hidden-md">
-        <div class="form-inline">
-            <label class=" ml5 lato f7">
+    <div class=" p-3 mb-2 well well-sm text-dark hidden-xs  hidden-sm hidden-md">
+        <div class="form-inline mt-2 mb-2">
+            <label class=" ml-5 lato ">
                 <input type="radio" name="radio" id="radioAreaW" checked="checked" onclick="javascript:Check();">
                 <span class="checkmark">Region</span>
             </label>
-            <select class="ba b--black-20 pa2 db w-13 ml2 form-control " id="seAreaW">
-                <option value="1" class="f7  drop_role " selected>region 1</option>
-                <option value="2" class="f7  drop_role ">region 2</option>
-                <option value="3" class="f7  drop_role ">region 3</option>
-                <option value="4" class="f7  drop_role ">region 4</option>
-                <option value="5" class="f7  drop_role ">region 5</option>
-                <option value="6" class="f7  drop_role ">region 6</option>
-                <option value="7" class="f7  drop_role ">region 7</option>
-                <option value="8" class="f7  drop_role ">region 8</option>
-                <option value="9" class="f7  drop_role ">region 9</option>
-                <option value="10" class="f7  drop_role ">region 10</option>
-                <option value="11" class="f7  drop_role ">region 11</option>
+            <select class="ba b--black-20  db ml-2 form-control " id="seAreaW">
+                <option value="1" class="drop_role " selected>region 1</option>
+                <option value="2" class="drop_role ">region 2</option>
+                <option value="3" class="drop_role ">region 3</option>
+                <option value="4" class="drop_role ">region 4</option>
+                <option value="5" class="drop_role ">region 5</option>
+                <option value="6" class="drop_role ">region 6</option>
+                <option value="7" class="drop_role ">region 7</option>
+                <option value="8" class=" drop_role ">region 8</option>
+                <option value="9" class="drop_role ">region 9</option>
+                <option value="10" class="drop_role ">region 10</option>
+                <option value="11" class="drop_role ">region 11</option>
             </select>
-        </div> 
-        <label class=" lato d-none ">
+        </div>
+        <label class="lato d-none">
             <input type="radio" name="radio" id="radioLicenseW" onclick="javascript:Check();">
             <span class="checkmark"> License</span>
         </label>
 
-        <select class="w-13 ml2 form-control" id="seLicenseW">
+        <select class=" ml-2 form-control" id="seLicenseW">
             <option value="license" class="f7  drop_role">License</option>
         </select>
 
-        <select class=" ba b--black-20 pa2 db w-13  ml2 form-control" onclick="javascript:dropdownTxt();" id="select">
-            <option id=" seallw" value="all" class="f7 f8-m drop_role" selected>All</option>
-            <option id="sePipelineW" value="pipeline" class="f7 drop_role">Pipeline</option>
-            <option id="seGateW" value="gate" class="f7 drop_role">Gate Station</option>
-            <option id="seMeteringW" value="metering" class="f7  drop_role">Metering Station</option>
-        </select>
+        <div class="form-inline">
+            <select class=" ba b--black-20 pa2 db w-13  ml2 form-control" onclick="javascript:dropdownTxt();" id="select">
+                <option id=" seallw" value="all" class="f7 f8-m drop_role" selected>All</option>
+                <option id="sePipelineW" value="pipeline" class="f7 drop_role">Pipeline</option>
+                <option id="seGateW" value="gate" class="f7 drop_role">Gate Station</option>
+                <option id="seMeteringW" value="metering" class="f7  drop_role">Metering Station</option>
+            </select>
 
-        <input id="txtPipelineW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 form-control" type="text" aria-describedby="name-desc" placeholder="PipeLine">
-        <input id="txtGateW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 form-control" type="text" aria-describedby="name-desc" placeholder="Gate Station">
-        <input id="txtMeteringW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 form-control" type="text" aria-describedby="name-desc" placeholder="Metering Station">
+            <input id="txtPipelineW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 form-control" type="text" aria-describedby="name-desc" placeholder="PipeLine">
+            <input id="txtGateW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 form-control" type="text" aria-describedby="name-desc" placeholder="Gate Station">
+            <input id="txtMeteringW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 form-control" type="text" aria-describedby="name-desc" placeholder="Metering Station">
 
-        <select class=" ba b--black-20 pa2 db w-13 ml2 form-control">
-            <option id="seAllW" value="all" class="f7 f8-m drop_role" selected>All Threshold</option>
-            <option id="seGreenW" value="green" class="f7 f8-m drop_role">Green</option>
-            <option id="seYellowW" value="yellow" class="f7  drop_role">Yellow</option>
-            <option id="seRedW" value="red" class="f7 drop_role">Red</option>
-        </select>
-        <a id="btnSearch" class="f6 f-table-ns b--gray4 link dim tc w-5 pa2 dib gray bg-gray2 br1 mv2 ml1" href="#">
-            <i class="fa fa-search dib gray6" aria-hidden="true"></i>
-        </a>
-        <div class="fr mv3 mr3"> <a class="f6 link dim  w-5  blue5 pr2" href="@Url.Action("importexcel", "Utilization")" id="btnImExcelW">Import&nbsp;Excel</a>|<a class="f6 link dim w-5 pl1 blue5" href="@Url.Action("ThresholdSetting", "Utilization")" id="btn_imExcel">Threshold&nbsp;Setting</a> </div>
-        <div class="cr"></div>
+            <select class=" ba b--black-20 pa2 db w-13 ml2 form-control">
+                <option id="seAllW" value="all" class="f7 f8-m drop_role" selected>All Threshold</option>
+                <option id="seGreenW" value="green" class="f7 f8-m drop_role">Green</option>
+                <option id="seYellowW" value="yellow" class="f7  drop_role">Yellow</option>
+                <option id="seRedW" value="red" class="f7 drop_role">Red</option>
+            </select>
+
+            <a id="btnSearch" class="f6 f-table-ns b--gray4 link dim tc w-5 pa2 dib gray bg-gray2 br1 mv2 ml1" href="#">
+                <i class="fa fa-search dib gray6" aria-hidden="true"></i>
+            </a>
+            <div class=" mv3 mr3 form-inline">
+                <a class="f6 link dim  w-5  blue5 pr2 form-inline" href="@Url.Action("importexcel", "Utilization")" id="btnImExcelW">Import&nbsp;Excel</a>|<a class="f6 link dim w-5 pl1 blue5" href="@Url.Action("ThresholdSetting", "Utilization")" id="btn_imExcel">Threshold&nbsp;Setting</a>
+            </div>
+            <div class="cr"></div>
+        </div>
     </div>
     <!--End Search Bar Web-->
     <!--    Search Buutton Mobile  -->
@@ -462,9 +456,14 @@
 
 
     </script>
-    
-    <script type="text/javascript">
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            document.getElementById('seLicenseW').style.display = 'none';
+            document.getElementById('txtPipelineW').style.display = 'none';
+            document.getElementById('txtGateW').style.display = 'none';
+            document.getElementById('txtMeteringW').style.display = 'none';
+        });
 
         function Check() {
 
@@ -551,11 +550,11 @@
         }
     </script>
 
+</div>
 
 
 
 
-</body>
 
 
 
