@@ -29,7 +29,7 @@ namespace PTT_NGROUR.Controllers
             string domainName = string.Empty;
             string adPath = string.Empty;
             string strError = string.Empty;
-
+            var UsersLog = new List<Models.DataModel.ModelUsersLog>();
             domainName = ConfigurationManager.AppSettings["DirectoryDomain"];
             adPath = ConfigurationManager.AppSettings["DirectoryPath"];
 
@@ -49,7 +49,12 @@ namespace PTT_NGROUR.Controllers
                     {
                         ip = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
                     }
-
+                    //add log to USERS_AUTH_LOG
+                    var dal = new DAL.DAL();
+                    string empty = "";
+                    string insertLog = user.Username + "," + DateTime.Now + "," + this.Session.SessionID + "," + ip + "," + Request.Browser.Id +","+ empty;
+                    dal.GetCommand("INSERT into USERS_AUTH_LOG (EMPLOYEE_ID,DATE_LOGIN,SESSION_ID,IPADDRESS,BROWSER,LOG_STATUS) VALUES ("+insertLog+")", dal.GetConnection());
+                    
                     #endregion
                     //return RedirectToAction("Index", "Dashboard");
                     return RedirectToAction("UserManagement", "Admin");
