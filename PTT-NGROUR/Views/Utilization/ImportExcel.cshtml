@@ -1,0 +1,272 @@
+﻿@{
+    ViewBag.Title = "ImportExcel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="ph3-l ph2-m pb4">
+
+    <p class="gray6 b f4-l f5-m f6-ns">Import Excel</p>
+    <div class=" ph3-m mh3-l pt2-m pt1-ns  center">
+        <div class="bg-white pv1 br2 hidden-sm hidden-md pv2  w-100-l pl2 ">
+            <style>
+                .fileUpload {
+                    position: relative;
+                }
+
+                .upload {
+                    top: 0;
+                    right: 0;
+                    margin: 0;
+                    padding: 0;
+                    cursor: pointer;
+                    filter: alpha(opacity=0);
+                }
+
+                .head {
+                    background-color: #b3b3b3;
+                }
+
+                    .head tr th {
+                        text-align: left;
+                        font-weight: bold;
+                    }
+
+                table {
+                    border-collapse: collapse;
+                    background-color: white;
+                }
+
+                td {
+                    padding: 8px;
+                    text-align: left;
+                    border-bottom: 1px solid #ddd;
+                }
+
+                th {
+                    padding: 8px;
+                    border-bottom: 3px solid #ddd;
+                }
+            </style>
+
+
+            <div class="row" style="padding:15px">
+
+                <div class="w7 " id="filePathInput">
+
+                    <select class=" ba b--black-20 pa2 w-13 dib ml2 f5" id="seRegion">
+                        <option value="1" class="f5 f8-m drop_role" selected>Region 1</option>
+                        <option value="2" class="f5 drop_role">Region 2</option>
+                        <option value="3" class="f5 drop_role">Region 3</option>
+                        <option value="4" class="f5  drop_role">Region 4</option>
+                        <option value="5" class="f5 f8-m drop_role">Region 5</option>
+                        <option value="6" class="f5 drop_role">Region 6</option>
+                        <option value="7" class="f5 drop_role">Region 7</option>
+                        <option value="7" class="f5  drop_role">Region 8</option>
+                        <option value="9" class="f5 f8-m drop_role">Region 9</option>
+                        <option value="10" class="f5 drop_role">Region 10</option>
+                        <option value="11" class="f5 drop_role">Region 11</option>
+                    </select>
+
+                    <select class=" ba b--black-20 pa2 w-13 dib ml2 f5" id="seType">
+                        <option value="pipeline" class="f5 f8-m drop_role" selected>Pipeline</option>
+                        <option value="gate" class="f5 drop_role">Gate Station</option>
+                    </select>
+
+                    <select class=" ba b--black-20 pa2 w-13 dib ml2 f5" id="seMonth">
+                        <option value="1" class="f5 f8-m drop_role" selected>January</option>
+                        <option value="2" class="f5 drop_role">February</option>
+                        <option value="3" class="f5 drop_role">March</option>
+                        <option value="4" class="f5  drop_role">April</option>
+                        <option value="5" class="f5 f8-m drop_role">May</option>
+                        <option value="6" class="f5 drop_role">June</option>
+                        <option value="7" class="f5 drop_role">July</option>
+                        <option value="8" class="f5  drop_role">August</option>
+                        <option value="9" class="f5 f8-m drop_role">September</option>
+                        <option value="10" class="f5 drop_role">October</option>
+                        <option value="11" class="f5 drop_role">November</option>
+                        <option value="12" class="f5 drop_role">December</option>
+                    </select>
+
+                    <select class=" ba b--black-20 pa2 w-13 dib ml2 f5" id="seYear">
+                        <option value="2018" class="5 f8-m drop_role" selected>2018</option>
+                        <option value="2019" class="f5 drop_role">2019</option>
+                        <option value="2020" class="f5 drop_role">2020</option>
+                        <option value="2021" class="f5  drop_role">2021</option>
+                        <option value="2022" class="f5 f8-m drop_role">2022</option>
+                        <option value="2023" class="f5 drop_role">2023</option>
+                        <option value="2024" class="f5 drop_role">2024</option>
+                        <option value="2025" class="f5  drop_role">2025</option>
+                        <option value="2026" class="f5 f8-m drop_role">2026</option>
+                        <
+                    </select>
+
+                    <div class="dib">
+                        @using (Html.BeginForm("UploadFile", "InsertExceldata", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <i id="btnFileLoad" class="fileUpload dib" onclick="return fileLoad()">
+                            </i>
+                            <div class="ba b--black-20 pa2 mh2 poiter">
+                                <input type="file" class="upload f7 dib " name="UploadedFile" id="fileLoadDoc" accept=".xlsx">
+                            </div>
+                        }
+                    </div>
+                    <!-- <div class="dib" id="btnCreate" align="right">
+                         <input type="button" value="Import File" id="uploadFile" class="f5 bg-green2 white tc br1  pv2 ph3 ba">
+                     </div>-->
+                    <div align="right" class="dib" id="btnCreate">
+                        <input type="submit" value="Import File" id="uploadFile" class="btn f5 bg-green2 white tc br1  pv2 ph3 ba" />
+                    </div>
+
+
+                    <table class="table table-bordered table-responsive table-striped center mt3">
+                        <thead class="head">
+                        </thead>
+                        <tbody class="body"></tbody>
+                    </table>
+                    <!-- <label id="message"></label>-->
+
+
+
+                </div>
+                <script>
+                    //show Data Excel//
+                    $(function () {
+                        $('input[type="file"]').change(function (e) {
+                            debugger
+
+                            var filename = e.target.files[0].name;
+                            var Files = $("#fileLoadDoc").get(0);
+
+
+                            // $("#btnsbmt").trigger("click");
+                            formdata = new FormData();
+                            for (var i = 0; i < e.target.files.length; i++) {
+                                formdata.append(e.target.files[i].name, e.target.files[i]);
+                            }
+                            $.ajax({
+                                url: '@Url.Action("UploadFile")',
+                                type: "POST",
+                                datatype: "JSON",
+                                contentType: false,
+                                processData: false,
+                                data: formdata,
+                                success: function (result) {
+                                    debugger
+                                    var count = 0;
+                                    if (result != null) {
+                                        debugger
+                                        $("#message").css('color', 'b3b3b3').text("Your File has succesfully Loaded !!!")
+                                        $(".head").empty();
+                                        $(".body").empty();
+                                        for (var i = 0; i < result.row - 6; i++) {
+                                            if (i == 0) {
+                                                $(".head").append("<tr>");
+                                            }
+                                            else if (i > 2) {
+                                                $(".body").append("<tr class='tr" + i + "'>");
+                                            }
+                                            for (var j = 0; j < result.col; j++) {
+                                                if (i == 2) {
+                                                    $(".head tr").append("<th>" + result.data[count] + "</th>");
+                                                }
+                                                else if (i > 2) {
+
+                                                    if (result.data[count] != null) {
+                                                        $(".body .tr" + i + "").append("<td>" + result.data[count] + "</td>");
+                                                    }
+                                                    else {
+                                                        $(".body .tr" + i + "").append("<td></td>");
+                                                    }
+
+                                                }
+                                                count++;
+                                            }
+                                            if (i == 2) {
+                                                $(".head").append(" </tr>");
+
+                                            }
+                                            else {
+                                                $(".body .tr" + i + "").append("</tr>");
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        $("#message").css('color', 'red').text("Your File has failed to Loaded try again!!!")
+                                    }
+                                }
+                            })
+                        });
+                    });
+                    function fileLoad() {
+                        debugger
+
+                        $('#fileLoadDoc').val("");
+                        $('#btnFileLoad').val("");
+                       // $('#seRegion').val("");
+                        $("#fileLoadDoc").trigger('click');
+                    }
+                </script>
+
+
+                <script type="text/javascript">
+
+    $("#uploadFile").click(function () {
+
+       // var Region = $("#seRegion").val();
+        var fileUpload = $("#fileLoadDoc").get(0);
+        var files = fileUpload.files;
+        var fileData = new FormData();
+
+        for (var k = 0; k < files.length; k++) {
+            fileData.append(files.name, files[k]);
+        }
+
+      var Year = $('#seYear').val();
+      var Month = $('#seMonth').val();
+      var Region = $('#seRegion').val();
+      var Type = $('#seType').val();
+        fileData.append("year", Year);
+        fileData.append("month", Month);
+        fileData.append("region", Region);
+        fileData.append("type", Type);
+
+
+       $.ajax({
+          type: "POST",
+          url: '@Url.Action("InsertValuedata")',
+          data: {year: $('#seYear').val(), month: $('#seMonth').val() },
+          dataType: 'JSON'
+
+
+        });
+       // console.log(fileData);
+      //  console.log(Year);
+        $.ajax({
+
+            type: "POST",
+            url: '@Url.Action("InsertExceldata")',
+            data:  fileData,
+             dataType: 'JSON',
+           cache: false,
+           contentType: false,
+            processData: false,
+            success: function (response) {
+              if (response.success) {
+                    alert(response.responseText);
+
+                  $('#fileLoadDoc').val("");
+              }
+              else {
+                    alert(response.responseText);
+              }
+           }
+        });
+    });
+                </script>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+

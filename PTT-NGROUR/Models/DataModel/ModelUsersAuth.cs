@@ -5,6 +5,10 @@ using System.Web;
 
 namespace PTT_NGROUR.Models.DataModel
 {
+    public class ModelTUsersAuthItem
+    {
+        public ModelTUsersAuthItem[] UsersAuthItems { get; set; }
+    }
     public class ModelUsersAuth
     {
         public string EMPLOYEE_ID { get; set; }
@@ -33,5 +37,15 @@ namespace PTT_NGROUR.Models.DataModel
         public string ROLE_NAME { get; set; }
         public string GROUP_NAME { get; set; }
         public string COUNT_PASS { get; set; }
+    }
+    public class ModelUsersLog 
+    {
+        public int NO_ID { get; set; }
+        public string EMPLOYEE_ID { get; set; }
+        public DateTime? DATE_LOGIN { get; set; }
+        public string SESSION_ID { get; set; }
+        public string IPADDRESS { get; set; }
+        public string BROWSER { get; set; }
+        public string LOG_STATUS { get; set; }
     }
 }

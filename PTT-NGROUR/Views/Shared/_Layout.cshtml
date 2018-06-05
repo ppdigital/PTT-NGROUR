@@ -6,10 +6,12 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
    @*  <script src="~/Scripts/chart.js"></script>*@
       @Styles.Render("~/Content/bootstrap.css")
+    @Styles.Render("~/Content/bootstrap.min.css")
+    
     @*  @Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-
+    @Scripts.Render("~/bundles/bootstrap.js")
    
     <link href="~/Style/create.css" rel="stylesheet" />
 
@@ -185,8 +187,8 @@
 
 
 
-               
-             <div class="f6 lato"> @Html.MvcSiteMap().SiteMapPath()</div>
+
+                <div class="f6 lato"> @Html.MvcSiteMap().SiteMapPath()</div>
 
 
             </div>

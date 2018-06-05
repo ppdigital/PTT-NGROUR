@@ -1,7 +1,9 @@
-﻿using System;
+﻿using PTT_NGROUR.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -27,7 +29,7 @@ namespace PTT_NGROUR.Controllers
             string domainName = string.Empty;
             string adPath = string.Empty;
             string strError = string.Empty;
-
+            var UsersLog = new List<Models.DataModel.ModelUsersLog>();
             domainName = ConfigurationManager.AppSettings["DirectoryDomain"];
             adPath = ConfigurationManager.AppSettings["DirectoryPath"];
 
@@ -40,6 +42,20 @@ namespace PTT_NGROUR.Controllers
                         return RedirectToAction("ResetPassword", new { id = user.Username, isExpired = true });
                     }
                     FormsAuthentication.SetAuthCookie(user.Username, user.RememberMe);
+                    string browser = Request.Browser.Id;
+                    #region Insert Log
+                    string ip = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                    if (string.IsNullOrEmpty(ip))
+                    {
+                        ip = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                    }
+                    //add log to USERS_AUTH_LOG
+                    var dal = new DAL.DAL();
+                    string empty = "";
+                    string insertLog = user.Username + "," + DateTime.Now + "," + this.Session.SessionID + "," + ip + "," + Request.Browser.Id +","+ empty;
+                    dal.GetCommand("INSERT into USERS_AUTH_LOG (EMPLOYEE_ID,DATE_LOGIN,SESSION_ID,IPADDRESS,BROWSER,LOG_STATUS) VALUES ("+insertLog+")", dal.GetConnection());
+                    
+                    #endregion
                     //return RedirectToAction("Index", "Dashboard");
                     return RedirectToAction("UserManagement", "Admin");
                 }
