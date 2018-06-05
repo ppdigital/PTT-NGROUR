@@ -158,7 +158,6 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LDAPSearch.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UtilizationController.cs" />
     <Compile Include="Controllers\ThresholdController.cs" />
     <Compile Include="DAL\DAL.cs" />
