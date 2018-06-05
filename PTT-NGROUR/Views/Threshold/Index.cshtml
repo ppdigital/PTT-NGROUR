@@ -1,0 +1,34 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelThreshold
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.ThresholdItems)
+{
+    <tr>
+        <td>@item.Color</td>
+        <td>@item.MaxValue</td>
+        <td>@item.MinValue</td>
+        <td>@item.ThresholdId</td>
+        <td>@item.ThresholdType.ToString()</td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
