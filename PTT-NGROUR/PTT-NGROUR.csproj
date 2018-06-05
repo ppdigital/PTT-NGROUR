@@ -150,12 +150,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ThresholdController.cs" />
     <Compile Include="DAL\DAL.cs" />
-<<<<<<< HEAD
+
     <Compile Include="ExtentionAndLib\Ext.cs" />
-=======
+
     <Compile Include="DI\CommonConventions.cs" />
     <Compile Include="DI\StructureMap\Registries\MvcSiteMapProviderRegistry.cs" />
->>>>>>> 56bbaafa0e83f691c07bb99a9907b6e992ef595a
+
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -262,9 +262,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-<<<<<<< HEAD
+
     <Content Include="Views\Threshold\Index.cshtml" />
-=======
+
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
@@ -274,7 +274,7 @@
     <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
->>>>>>> 56bbaafa0e83f691c07bb99a9907b6e992ef595a
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
