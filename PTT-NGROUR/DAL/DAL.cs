@@ -91,15 +91,19 @@ namespace PTT_NGROUR.DAL
                 yield break;
             }
             var con = GetConnection();
-            
+            if (con == null)
+            {
+                yield break;
+            }
             var com = GetCommand(pStrCommand, con);
-
+            if (com == null)
+            {
+                yield break;
+            }
             if (con.State != ConnectionState.Open)
             {
                 con.Open();
-            }
-
-
+            }            
             var reader = com.ExecuteReader();
             while (reader.Read())
             {
@@ -121,6 +125,61 @@ namespace PTT_NGROUR.DAL
             com = null;
 
             GC.Collect();
+        }
+
+        public object ExecuteScalar(string pStrCommand, IDbConnection pConnection)
+        {
+            if (string.IsNullOrEmpty(pStrCommand) || pConnection == null)
+            {
+                return null;
+            }
+            var con = pConnection as OracleConnection;
+            if (con == null)
+            {
+                return null;
+            }
+            var com = GetCommand(pStrCommand, con);
+            if (com == null)
+            {
+                return null;
+            }
+            if (con.State != ConnectionState.Open)
+            {
+                con.Open();
+            }
+            var result = com.ExecuteScalar();
+
+            com.Dispose();
+            com = null;
+            GC.Collect();
+            return result;
+        }
+
+
+        public void ExecuteNonQuery(string pStrCommand, IDbConnection pConnection)
+        {
+            if (string.IsNullOrEmpty(pStrCommand) || pConnection == null)
+            {
+                return ;
+            }
+            var con = pConnection as OracleConnection;
+            if (con == null)
+            {
+                return ;
+            }
+            var com = GetCommand(pStrCommand, con);
+            if (com == null)
+            {
+                return ;
+            }
+            if (con.State != ConnectionState.Open)
+            {
+                con.Open();
+            }
+            com.ExecuteNonQuery();
+            com.Dispose();
+            com = null;
+            GC.Collect();            
         }
     }
 }
