@@ -51,9 +51,15 @@ namespace PTT_NGROUR.Controllers
                     }
                     //add log to USERS_AUTH_LOG
                     var dal = new DAL.DAL();
-                    string empty = "";
-                    string insertLog = user.Username + "," + DateTime.Now + "," + this.Session.SessionID + "," + ip + "," + Request.Browser.Id +","+ empty;
-                    dal.GetCommand("INSERT into USERS_AUTH_LOG (EMPLOYEE_ID,DATE_LOGIN,SESSION_ID,IPADDRESS,BROWSER,LOG_STATUS) VALUES ("+insertLog+")", dal.GetConnection());
+                    string empty = "''";
+                    string insertLog = "'" + user.Username + "',Sysdate,'" + this.Session.SessionID + "','" + ip + "','" + Request.Browser.Id + "'," + empty;
+                    string strCommand = "INSERT into USERS_AUTH_LOG (EMPLOYEE_ID,DATE_LOGIN,SESSION_ID,IPADDRESS,BROWSER,LOG_STATUS) VALUES ("+insertLog+")";
+                    var con = dal.GetConnection();
+                    con.Open();
+                    dal.GetCommand(strCommand, con).ExecuteNonQuery();
+                    con.Close();
+                    con.Dispose();
+
                     
                     #endregion
                     //return RedirectToAction("Index", "Dashboard");
