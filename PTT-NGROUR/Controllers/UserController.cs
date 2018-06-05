@@ -1,7 +1,9 @@
-﻿using System;
+﻿using PTT_NGROUR.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -40,6 +42,15 @@ namespace PTT_NGROUR.Controllers
                         return RedirectToAction("ResetPassword", new { id = user.Username, isExpired = true });
                     }
                     FormsAuthentication.SetAuthCookie(user.Username, user.RememberMe);
+                    string browser = Request.Browser.Id;
+                    #region Insert Log
+                    string ip = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                    if (string.IsNullOrEmpty(ip))
+                    {
+                        ip = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                    }
+
+                    #endregion
                     //return RedirectToAction("Index", "Dashboard");
                     return RedirectToAction("UserManagement", "Admin");
                 }
