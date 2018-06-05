@@ -320,6 +320,7 @@
     <Content Include="Views\Utilization\Index.cshtml" />
     <Content Include="Views\Utilization\ImportExcel.cshtml" />
     <Content Include="Views\Admin\UserManagement.cshtml" />
+    <Content Include="Views\User\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
