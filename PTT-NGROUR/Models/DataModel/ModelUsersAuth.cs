@@ -5,10 +5,7 @@ using System.Web;
 
 namespace PTT_NGROUR.Models.DataModel
 {
-    public class ModelTUsersAuthItem
-    {
-        public ModelTUsersAuthItem[] UsersAuthItems { get; set; }
-    }
+    
     public class ModelUsersAuth
     {
         public string EMPLOYEE_ID { get; set; }
