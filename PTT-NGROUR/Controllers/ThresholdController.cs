@@ -41,7 +41,7 @@ namespace PTT_NGROUR.Controllers
                 th.ThresholdId = reader["THRESHOLD_ID"].GetInt();
                 th.ThresholdType = reader["ThresholdType"].GetEnum<EnumThresholdType>(EnumThresholdType.None);
                 return th;
-            });
+            }).OrderBy(x=> x.ThresholdId);
             ModelThreshold model = new ModelThreshold() { 
                 ThresholdItems = listThreshold.ToArray() 
             };
