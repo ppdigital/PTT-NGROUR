@@ -7,8 +7,13 @@ using System.Web.Mvc;
 using PTT_NGROUR.ExtentionAndLib;
 using System.Text;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
+using System.Web.UI;
+using System.DirectoryServices;
+using PTT_NGROUR.Controllers;
+using System.Data;
 
-namespace PTT_NGROUR.App_Start
+namespace PTT_NGROUR.Controllers
 {
     public class AdminController : Controller
     {
@@ -20,11 +25,9 @@ namespace PTT_NGROUR.App_Start
             var dal = new DAL.DAL();
 
             var ds = dal.GetDataSet("select EMPLOYEE_ID ,FIRSTNAME ,LASTNAME ,EMAIL ,ROLE_ID ,GROUP_ID ,CREATE_DATE ,CREATE_BY from Users_Auth");
-
             var dt = ds.Tables[0];
-
             var listUsers = new List<Models.DataModel.ModelUsersAuth>();
-
+            
             foreach (System.Data.DataRow dr in dt.Rows)
             {
                 var user = new Models.DataModel.ModelUsersAuth()
@@ -42,12 +45,127 @@ namespace PTT_NGROUR.App_Start
                 listUsers.Add(user);
             }
 
+            var d_role = dal.GetDataSet("select ROLE_ID ,ROLE_NAME from USERS_ROLE");
+            var dt_role = d_role.Tables[0];
+            var listRole = new List<Models.DataModel.ModelUsersRole>();
+            foreach (System.Data.DataRow drole in dt_role.Rows)
+            {
+                var role = new Models.DataModel.ModelUsersRole()
+                {
+                    ROLE_ID = Convert.ToInt32(drole["ROLE_ID"].ToString()),
+                    ROLE_NAME = drole["ROLE_NAME"].ToString()
+                };
+
+                listRole.Add(new Models.DataModel.ModelUsersRole { ROLE_NAME = role.ROLE_NAME, ROLE_ID = role.ROLE_ID });    
+            }
+            ViewBag.seEditRole = listRole;
+            ViewBag.seCreateRole = listRole;
             var model = new Models.UserManagement()
             {
-                ModelUsersAuth = listUsers
+                ModelUsersAuth = listUsers,
+                ModelUsersRole = listRole
             };
 
             return View(model);
+
+        }
+
+        public ActionResult SearchbyAD(string txtSeacrh)
+        {
+            List<userManagement> bufferUser = new List<userManagement>();
+            userManagement userSearch = new userManagement();
+
+            if (txtSeacrh != null)
+            {
+
+                try
+                {
+                    string cn = txtSeacrh;
+                    //string login_name = "520154";
+                    //string pass = "100Piper$2";
+                    string login_name = "ictsupport";
+                    string pass = "1234";
+                    string[] txtTemp = Regex.Split(cn, " ");
+                    //cn = "";
+                    SQLServerQuery ii = new SQLServerQuery();
+                    DataTable Final_result = new DataTable();
+                    if (txtTemp.Length >= 2 && txtTemp[1] != null)
+                    {
+                        Final_result = ii.SearchInPIS(txtTemp[0], txtTemp[1]);
+
+                        if (Final_result.Rows.Count > 0)
+                        {
+
+                        }
+                        else
+                        {
+                            LDAPSearch searchInLdap = new LDAPSearch();
+                            DataTable dtTwo = searchInLdap.LDAPLoadAllUser("PTTICT", login_name, pass, @"LDAP://PTTICT.CORP", cn);
+                            if (dtTwo.Rows.Count > 0)
+                            {
+
+                                for (int i = 0; i < dtTwo.Rows.Count; i++)
+                                {
+                                    userSearch.EMPLOYEE_ID = dtTwo.Rows[i][0].ToString();
+                                    userSearch.FIRSTNAME = dtTwo.Rows[i][1].ToString();
+                                    userSearch.LASTNAME = dtTwo.Rows[i][2].ToString();
+                                    userSearch.EMAIL = Final_result.Rows[i][3].ToString();
+                                    bufferUser.Add(userSearch);
+
+                                }
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Final_result = ii.SearchInPIS(txtTemp[0], null);
+                        if (Final_result.Rows.Count > 0)
+                        {
+                            for (int i = 0; i < Final_result.Rows.Count; i++)
+                            {
+                                userSearch = new userManagement();
+                                userSearch.EMPLOYEE_ID = Final_result.Rows[i][0].ToString();
+                                userSearch.FIRSTNAME = Final_result.Rows[i][1].ToString();
+                                userSearch.LASTNAME = Final_result.Rows[i][2].ToString();
+                                userSearch.EMAIL = Final_result.Rows[i][3].ToString();
+                                bufferUser.Add(userSearch);
+                            }
+                        }
+                        else
+                        {
+                            LDAPSearch searchInLdap = new LDAPSearch();
+                            DataTable dtTwo = searchInLdap.LDAPLoadAllUser("PTTICT", login_name, pass, @"LDAP://PTTICT.CORP", cn);
+                            if (dtTwo.Rows.Count > 0)
+                            {
+
+                                for (int i = 0; i < dtTwo.Rows.Count; i++)
+                                {
+                                    userSearch.EMPLOYEE_ID = dtTwo.Rows[i][0].ToString();
+                                    userSearch.FIRSTNAME = dtTwo.Rows[i][1].ToString();
+                                    userSearch.LASTNAME = dtTwo.Rows[i][2].ToString();
+                                    userSearch.EMAIL = Final_result.Rows[i][3].ToString();
+                                    bufferUser.Add(userSearch);
+
+                                }
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return PartialView("SearchbyAD", bufferUser);
 
         }
 
@@ -138,6 +256,15 @@ namespace PTT_NGROUR.App_Start
             }
              return Content(LabelText);
     }
+        [HttpPost]
+        public ActionResult EditUser(string txtEmployeeIDEdit, string seRoleEdit, string txtMailEdit)
+        {
+            
+            return Redirect("UserManagement");
+
+           
+          
+        }
 
 }
     public class userManagement

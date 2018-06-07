@@ -11,7 +11,7 @@
     <div id="panel" class="panel-heading">
         <div class="panel-title">
             User Table
-            <button class="btn btn-default btn-xs pull-right" id="btnCreate" data-toggle="modal" data-target="#myModalCreate"><span class="glyphicon glyphicon-pencil"></span> Create</button>
+            <button class="btn btn-primary btn-xs pull-right" id="btnCreate" data-toggle="modal" data-target="#myModalCreate"><span class="glyphicon glyphicon-pencil"></span> Create</button>
         </div>
 
     </div>
@@ -43,8 +43,8 @@
                         <td>@user.CREATE_DATE </td>
                         <td>@user.CREATE_BY </td>
 
-                        <td class="btt">
-                            <div><button class="btn btn-link user" id="Edit" onclick="EDITUSER(@user.EMPLOYEE_ID)" data-toggle="modal" data-target="#myModalEdit"><span class="glyphicon glyphicon-edit"></span></button></div>
+                        <td >
+                            <a class="link dib fa fa-pencil-square-o fa-lg no-underline pt1-ns gray " id="Edit" name="btnOpenEdit" onclick="EDITUSER(@user.EMPLOYEE_ID)" data-toggle="modal" data-target="#myModalEdit" aria-hidden="true"></a>
                         </td>
                         
                         <td>
@@ -64,340 +64,365 @@
 
 <!--Modal Create -->
 
-<div id="myModalCreate" class="modal">
-    <div class="modal-content_np pa1 w-50-l  w-70-m w-100-ns br1">
+<div id="myModalCreate" class="modal bs-example-modal"   >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="panel-title">Create User</label>
+                <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <br />
+            <div class="mh3 mv3">
+                        <div style="max-height:200px;overflow:auto; padding-left:30px; padding-right:30px" id="SearchAD">
+                            <center>  @{Html.RenderAction("SearchbyAD", "Admin");} </center>
+                        </div>
 
-        <div class="fl dib ml3 f5 b pt3">Create User</div>
-        <span class="close_create nt2 pt3 mr3" id="closeCross">&times;</span>
+                <div class="modal-body">
+                    <div class="container">
+                      
+                          
+                        
+                            <label for="name" class="f6 b db mb3 ">User Detail</label>
+                            <table id="CreateUserTable">
+                                <tr>
+                                    <td class="b">EMPLOYEE ID : &nbsp;</td>
+                                    <td class="">
+                                       <input id="txtEmployeeIDCreate" class=" form-control " type="text" aria-describedby="name-desc" ><br />
+                                    </td>
+                                </tr>
 
-        <div class="cl cr"></div>
-        <hr class="style ml0 mr0" />
-        <div class="mh3 mv3">
-            <div class="black-80 center">
-                <div class=" mr-auto ml-auto">
-                    <div style="max-height:200px;overflow:auto; padding-left:30px; padding-right:30px" id="SearchAD">
-                        @*<center>  @{Html.RenderAction("SearchbyAD", "Admin");}</center>*@
+                                <tr>
+                                    <td>FIRST NAME : &nbsp;</td>
+                                    <td>
+                                        <input id="txtFirstNameCreate" class="  form-control " type="text" aria-describedby="name-desc" /><br />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>LAST NAME : &nbsp;</td>
+                                    <td>
+                                        <input id="txtLastNameCreate" class=" form-control " type="text" aria-describedby="name-desc" /><br />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>PASSWORD : &nbsp;</td>
+                                    <td>
+                                        <input id="PassWordCreate" class=" form-control " type="text" aria-describedby="name-desc"><br />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>E-MAIL : &nbsp;</td>
+                                    <td>
+                                        <input id="txtMailCreate" class=" form-control" type="text" aria-describedby="name-desc"><br />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>ROLE : &nbsp;</td>
+                                    <td>
+                                        <select class=" form-control" id="selectRoleCreate">
+                                            <option value="2" class="drop_role " selected>Viewer</option>
+                                            <option value="1" class="drop_role ">Admin</option>
+                                        </select><br />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Group : &nbsp;</td>
+                                    <td>
+                                        <input id="IsADCreate" class=" form-control" type="text" disabled value="Non PTT" aria-describedby="name-desc"><br />
+                                    </td>
+                                </tr>
+
+                            </table>
+                        
+                        </div>
                     </div>
                 </div>
-                <form id="myForm" action="">
-                    <div id="CreateUserTable" class="pt3">
-                        <div class="measure ">
-                            <label for="name" class="f6 b db mb3 ">User Detail</label>
-                        </div>
-                        <div class="measure center">
-                            <label for="name" class="f7 b db mb2 ">EMPLOYEE ID</label>
-                            <input id="txtEmployeeIDCreate" class=" ba b--black-20 pa1 mb2 db w-100 f7 form-control" type="text" aria-describedby="name-desc">
-
-                        </div>
-                        <div class="measure center w-100">
-                            <div class="dib w-50">
-                                <label for="name" class="f7 b db mb2 ">FIRST NAME</label>
-                                <input id="txtFirstNameCreate" class=" ba b--black-20 pa1 mb2 db f7 w-90 form-control" type="text" aria-describedby="name-desc" />
-                            </div>
-                            <div class="dib fr w-50 pl3">
-                                <label for="name" class="f7 b db mb2">LAST NAME</label>
-                                <input id="txtLastNameCreate" class=" ba b--black-20 pa1 mb2 db  f7 w-100 form-control" type="text" aria-describedby="name-desc" />
-                            </div><div class="cr"></div>
-                        </div>
-
-                        <div class="measure center">
-                            <label for="name" class="f7 b db mb2">PASSWORD</label>
-                            <input id="PassWordCreate" class="input-reset ba b--black-20 pa1 mb2 db w-100 f7 form-control " type="text" aria-describedby="name-desc">
-                        </div>
-
-                        <div class="measure center">
-                            <label for="name" class="f7 b db mb2">E-MAIL</label>
-                            <input id="txtMailCreate" class="input-reset ba b--black-20 pa1 mb2 db w-100 f7 form-control" type="text" aria-describedby="name-desc">
-                        </div>
-
-                        <div class="measure center">
-                            <label for="name" class="f7 b db mb2 ">ROLE</label>
-                            <select class="ba b--black-20 pa1 mb2 db w-100" id="selectRoleCreate">
-                                <option value="2" class="drop_role f7" selected>Viewer</option>
-                                <option value="1" class="drop_role f7">Admin</option>
-                            </select>
-                        </div>
-
-                        <div class="measure center">
-                            <label for="name" class="f7 b db mb2">Group</label>
-                            <input id="IsADCreate" class="input-reset ba b--black-20 pa1 mb2 db w-100 f7" type="text" disabled value="Non PTT" aria-describedby="name-desc">
-                        </div>
-
-                    </div>
-
-                </form>
+    
+            <div class="modal-footer">
+                <input type="button" class="btn btn-primary" id="btnCreateUser" value="Save" onclick="myFunction()">
+                <a type="button" class="btn btn-default cancleCreate" href="#0" id="btnCancle">Cancel</a>
             </div>
+            
 
         </div>
-        <br /><hr class="style" /><br />
-
-        <div class="dib w-100 nt2 mb2 nl2">
-            <a class="f7 link btn-default tc br1  pv2 ph3 ba cancleCreate fr" href="#0" id="btnCancle">Cancle</a>
-            <!--  <a class="f7 link bg-blue-button  tc br1   pv2 ph3 ba fr mr3" onclick="Save()" href="#0">Create User</a>-->
-            <input type="button" class="form-control f7 bg-blue-button tc br1 pv2 ph3 ba fr mr3" id="btnCreateUser" value="Save" onclick="myFunction()">
-        </div><div class="cr"></div>
-
     </div>
-
 </div>
-<div id="myModalEdit" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<!--Modal Edit -->
+
+<div id="myModalEdit" class="modal modalEdit" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <label class="panel-title">EDIT USER</label>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <span class="closeEdit nt2 pt3 mr3" id="closeCross">&times;</span>
             </div>
-            @using (Html.BeginForm("EditUser", "UserMgt", FormMethod.Post))
-            {
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="container">
-                            <div>
-                                <br />
-                                <label id="EditUser">User Detail</label>
+
+                @using (Html.BeginForm("EditUser", "Admin", FormMethod.Post))
+                {
+                    <div class="mh3 mv3">
+                        <div class="  black-80 center">
+                            <div class="measure center">
+                                <label for="name" class="b">EMPLOYEE ID</label>
+                                @Html.TextBox("txtEmployeeIDEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                <!--  <input id="txtEmployeeIDEdit" class=" ba b--black-20 pa1 mb2 db w-100 f7 form-control" type="text" disabled aria-describedby="name-desc">-->
+
                             </div>
-                            <div>
-                                <table id="EditUserTable">
-                                    <tr>
-                                        <td>EMPLOYEE ID:</td>
-                                        <td>
-                                            @Html.TextBox("txtEmployeeIDEdit", null, new { @class = "form-control input-sm", @placeholder = "Employee ID", @readonly = "readonly" })<br />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>FIRST NAME:</td>
-                                        <td>
-                                            @Html.TextBox("txtFirstNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })<br />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>LAST NAME:</td>
-                                        <td>
-                                            @Html.TextBox("txtLastNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })<br />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>MAIL:</td>
-                                        <td>
-                                            @Html.TextBox("txtMailEdit", null, new { @class = "form-control input-sm" })<br />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>IS AD:</td>
-                                        <td>
-                                            @Html.TextBox("txtIsADEdit", null, new { @class = "form-control input-sm", @id = "IsADEdit", @readonly = "readonly" })<br />
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br />
-                                <br />
+                            <div class="measure center w-100">
+                                <div class="dib w-50">
+                                    <label for="name" class="f7 b db mb2 ">FIRST NAME</label>
+                                    @Html.TextBox("txtFirstNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    <!-- <input id="txt_NameEdite" class="input-reset ba b--black-20 pa2 mb2 db f6 w-90" type="text" aria-describedby="name-desc" />-->
+                                </div>
+                                <div class="dib fr w-50 pl3">
+                                    <label for="name" class="f7 b db mb2">LAST NAME</label>
+                                    @Html.TextBox("txtLastNameEdit", null, new { @class = "form-control  input-sm", @readonly = "readonly" })
+                                    <!-- <input id="txt_LastNamEdite" class="input-reset ba b--black-20 pa2 mb2 db  f6 w-100" type="text" aria-describedby="name-desc" />-->
+                                </div><div class="cr"></div>
+                            </div>
+
+                            <div class="measure center">
+                                <label for="name" class="f7 b db mb2">E-Mail</label>
+                                @Html.TextBox("txtMailEdit", null, new { @class = "form-control ba b--black-20 pa2 mb2 db w-100 f6" })
+                                <!-- <input id="txt_editEmail" class="input-reset ba b--black-20 pa2 mb2 db w-100 f6" type="text" aria-describedby="name-desc"> -->
+                            </div>
+
+                            <div class=" center"> 
+                                <label for="name" class="f7 b db mb2 ">ROLE</label>
+                               
+                                <select class="form-control input" style="height: 30px" id="seEditRole">
+                                    @foreach (PTT_NGROUR.Models.DataModel.ModelUsersRole mr in Model.ModelUsersRole)
+                                    {
+                                        
+                                        <option value="@mr.ROLE_ID"   >@mr.ROLE_NAME</option>
+                                    }
+                                </select>
+                              <!--  <select class="form-control" id="seRoleEdit">
+                                    <option value="2" selected>Viewer</option>
+                                    <option value="1">Admin</option>
+                                </select>-->
 
                             </div>
 
+                            <div class="measure center">
+                                <label for="name" class="f7 b db mb2">GROUP</label>
+                                <!--<select class="ba b--black-20 pa2 mb2 db w-100" id="seGroupEdit">
+                                    <option value="1" class="drop_role"  id="edit_roleUser">PTT</option>
+                                    <option value="2" class="drop_role" id="edit_roleAdmin">Non PTT</option>
+                                </select>-->
+                                @Html.TextBox("seGroupEdit", null, new { @class = "form-control ba b--black-20 pa2 mb2 db f6 w-100 no-drop", @readonly = "readonly" })
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-save"></span>Save</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
-                </div>
-            }
+                   <br /> 
+                   <div class="modal-footer">
+                        <a class="f7 btn btn-default btn-sm cancleEdit" href="#0" id="btnCancle">Cancle</a>
+                        <button type="submit" class="btn btn-primary btn-sm">Edit User</button>
+                    </div>
+                }
         </div>
     </div>
 </div>
-<link href="~/Scripts/paging/dataTables.bootstrap.css" rel="stylesheet" />
-<script src="~/Scripts/paging/jquery.dataTables.min.js"></script>
-<script src="~/Scripts/paging/dataTables.bootstrap.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#UserDatailTable').dataTable();
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#UserDatailTable').dataTable();
 
-       // $('#myModalCreate').on('hidden.bs.modal', function () {
-          //  $(this).find("input,textarea").val('').end();
-
-        //});
-    });
-    var modalCreate = document.getElementById('myModalCreate');
-    var btnCreate = document.getElementById("btnCreate");
-    //var closeCreate = document.getElementsByClassName("close_create")[0];
-    //var cancleCreate = document.getElementsByClassName("cancleCreate")[0];
+            });
+            var modalCreate = document.getElementById('myModalCreate');
+            var btnCreate = document.getElementById("btnCreate");
+            var closeCreate = document.getElementsByClassName("close_create")[0];
+            var cancleCreate = document.getElementsByClassName("cancleCreate")[0];
 
 
 
-    btnCreate.onclick = function () {
-        modalCreate.style.display = "block";
-    }
-    //closeCreate.onclick = function () {
-       // modalCreate.style.display = "none";
-   // }
-   // cancleCreate.onclick = function () {
-     //   modalCreate.style.display = "none";
-   // }
-    window.onclick = function (event) {
-        if (event.target == modalCreate) {
-         modalCreate.style.display = "none";
-      }
-    }
-    function EDITUSER(id) {
-
-        @foreach (var item in Model.ModelUsersAuth)
-        {
-        <text>
-        if (id == '@item.EMPLOYEE_ID') {
-            $("#txtEmployeeIDEdit").val('@item.EMPLOYEE_ID');
-            $("#txtFirstNameEdit").val('@item.FIRSTNAME');
-            $("#txtLastNameEdit").val('@item.LASTNAME');
-            $("#IsADEdit").val('@item.IS_AD');
-            $("#txtMailEdit").val('@item.EMAIL');
-            @*var isad = '@item.IS_AD';
-            if (isad == "1") {
-                var txtMailEdit = document.getElementById("txtMailEdit");
-                txtMailEdit.setAttribute("readOnly", "true");
-                $("#txtMailEdit").val('@item.EMAIL');
+            btnCreate.onclick = function () {
+                modalCreate.style.display = "block";
             }
-            else {
-                $("#txtMailEdit").prop('readonly', false);
-                $("#txtMailEdit").val('@item.EMAIL');
-            }*@
+            closeCreate.onclick = function () {
+                modalCreate.style.display = "none";
+            }
+            cancleCreate.onclick = function () {
+                modalCreate.style.display = "none";
+            }
+            window.onclick = function (event) {
+                if (event.target == modalCreate) {
+                    modalCreate.style.display = "none";
+                }
+            }
 
+            var closeEdit = document.getElementsByClassName("closeEdit")[0];
+            var cancleEdit = document.getElementsByClassName("cancleEdit")[0];
+            var modalEdit = document.getElementById('myModalEdit');
+
+            closeEdit.onclick = function () {
+                modalEdit.style.display = "none";
+            }
+            cancleEdit.onclick = function () {
+                modalEdit.style.display = "none";
+            }
+            window.onclick = function (event) {
+                if (event.target == modalEdit) {
+                    modalEdit.style.display = "none";
+                }
+            }
+            function EDITUSER(id) {
+                modalEdit.style.display = "block";
+
+                @foreach (var user in Model.ModelUsersAuth)
+        {
+
+            <text>
+
+
+                if (id == '@user.EMPLOYEE_ID') {
+                    $("#txtEmployeeIDEdit").val('@user.EMPLOYEE_ID');
+                    $("#txtFirstNameEdit").val('@user.FIRSTNAME');
+                    $("#txtLastNameEdit").val('@user.LASTNAME');
+                    $("#IsADEdit").val('@user.IS_AD');
+                    $("#txtMailEdit").val('@user.EMAIL');
+                    $("#seGroupEdit").val('@user.GROUP_ID');
+                    $("#seEditRole").val('@user.ROLE_ID');
+
+                   
+                }
+                </text>
         }
-        </text>
-        }
-    };
+            };
 
-    function myFunction() {
-        console.log($("#txtEmployeeIDCreate").val());
-        console.log($("#IsADCreate").val());
-        console.log("Hello World");
-        var txtEmployeeIDCreate = document.getElementById("txtEmployeeIDCreate").value;
-        var txtFirstNameCreate = document.getElementById("txtFirstNameCreate").value;
-        var txtLastNameCreate = document.getElementById("txtLastNameCreate").value;
-        var PassWordCreate = document.getElementById("PassWordCreate").value;
-        var IsADCreate = document.getElementById("IsADCreate").value;
-        var txtMailCreate = document.getElementById("txtMailCreate").value;
-        var selectRoleCreate = document.getElementById("selectRoleCreate").value;
-        // var serverpath = apppath.substring(0, apppath.length - 1);
-        console.log(PassWordCreate);
+            function myFunction() {
+                console.log($("#txtEmployeeIDCreate").val());
+                console.log($("#IsADCreate").val());
+                console.log("Hello World");
+                var txtEmployeeIDCreate = document.getElementById("txtEmployeeIDCreate").value;
+                var txtFirstNameCreate = document.getElementById("txtFirstNameCreate").value;
+                var txtLastNameCreate = document.getElementById("txtLastNameCreate").value;
+                var PassWordCreate = document.getElementById("PassWordCreate").value;
+                var IsADCreate = document.getElementById("IsADCreate").value;
+                var txtMailCreate = document.getElementById("txtMailCreate").value;
+                var selectRoleCreate = document.getElementById("selectRoleCreate").value;
+                // var serverpath = apppath.substring(0, apppath.length - 1);
+                console.log(PassWordCreate);
 
-        if (IsADCreate == "PTT")
-        { IsADCreate = 1; }
-        else if (IsADCreate == "Non PTT")
-        { IsADCreate = 0; }
+                if (IsADCreate == "PTT")
+                { IsADCreate = 1; }
+                else if (IsADCreate == "Non PTT")
+                { IsADCreate = 0; }
 
-        console.log(IsADCreate);
+                console.log(IsADCreate);
 
-        if (txtMailCreate == "") {
-            alert("กรุณาระบุ E-mail");
-        }
-        else {
-
-            if (IsADCreate != "1") {
-                var IsADInsert = "Non PTT";
-                if (isNaN(txtEmployeeIDCreate)) {
-                    alert("ID ต้องเป็นตัวเลขเท่านั้น");
+                if (txtMailCreate == "") {
+                    alert("กรุณาระบุ E-mail");
                 }
                 else {
-                    if (txtEmployeeIDCreate.length > 10) {
-                        alert("ID ต้องมีจำนวนไม่เกิน 10 ตัว");
-                    } else {
 
-                        if (PassWordCreate == "") {
-                            alert("โปรดใส่ password");
+                    if (IsADCreate != "1") {
+                        var IsADInsert = "Non PTT";
+                        if (isNaN(txtEmployeeIDCreate)) {
+                            alert("ID ต้องเป็นตัวเลขเท่านั้น");
                         }
                         else {
-                            if (!/^\w+$/.test(PassWordCreate)) {
-                                alert("password ไม่ถูกต้อง password ต้องไม่มีอักขระพิเศษ");
-                            }
-                            else {
-                                if (PassWordCreate.length < 8) {
-                                    alert("password น้อยกว่า8ตัว โปรดใส่ password ใหม่");
+                            if (txtEmployeeIDCreate.length > 10) {
+                                alert("ID ต้องมีจำนวนไม่เกิน 10 ตัว");
+                            } else {
+
+                                if (PassWordCreate == "") {
+                                    alert("โปรดใส่ password");
                                 }
                                 else {
-                                    if (!/[A-Z]/.test(PassWordCreate)) {
-                                        alert("password ไม่ถูกต้อง ต้องมีอักษรพิมพ์ใหญ่อย่างน้อย1อักษร");
+                                    if (!/^\w+$/.test(PassWordCreate)) {
+                                        alert("password ไม่ถูกต้อง password ต้องไม่มีอักขระพิเศษ");
                                     }
                                     else {
-                                        if (!/[a-z]/.test(PassWordCreate)) {
-                                            alert("password ไม่ถูกต้อง ต้องมีอักษรพิมพ์เล็กอย่างน้อย1อักษร");
+                                        if (PassWordCreate.length < 8) {
+                                            alert("password น้อยกว่า8ตัว โปรดใส่ password ใหม่");
                                         }
                                         else {
-
-                                            if (!/[0-9]/.test(PassWordCreate)) {
-                                                alert("password ไม่ถูกต้อง ต้องมีตัวเลขอย่างน้อย1ตัว");
+                                            if (!/[A-Z]/.test(PassWordCreate)) {
+                                                alert("password ไม่ถูกต้อง ต้องมีอักษรพิมพ์ใหญ่อย่างน้อย1อักษร");
                                             }
                                             else {
+                                                if (!/[a-z]/.test(PassWordCreate)) {
+                                                    alert("password ไม่ถูกต้อง ต้องมีอักษรพิมพ์เล็กอย่างน้อย1อักษร");
+                                                }
+                                                else {
 
-                                                $.ajax({
-                                                    async: true,
-                                                    cache: false,
-                                                    url: '@Url.Action("CreateUser")',
-
-                                                    type: 'POST',
-                                                    data: { txtEMPID: txtEmployeeIDCreate, txtFNC: txtFirstNameCreate, txtLNC: txtLastNameCreate, PWC: PassWordCreate, IsADCreate: IsADCreate, txtMailCreate: txtMailCreate, selectRoleCreate: selectRoleCreate },
-                                                    success: function (response) {
-                                                        alert(response);
-                                                        if (response == "เพิ่มข้อมูลเรียบร้อย") {
-                                                            //$("#myModalCreate").style.display = "none";
-                                                            window.location.reload();
-                                                        }
+                                                    if (!/[0-9]/.test(PassWordCreate)) {
+                                                        alert("password ไม่ถูกต้อง ต้องมีตัวเลขอย่างน้อย1ตัว");
                                                     }
-                                                });
+                                                    else {
+
+                                                        $.ajax({
+                                                            async: true,
+                                                            cache: false,
+                                                            url: '@Url.Action("CreateUser")',
+
+                                                            type: 'POST',
+                                                            data: { txtEMPID: txtEmployeeIDCreate, txtFNC: txtFirstNameCreate, txtLNC: txtLastNameCreate, PWC: PassWordCreate, IsADCreate: IsADCreate, txtMailCreate: txtMailCreate, selectRoleCreate: selectRoleCreate },
+                                                            success: function (response) {
+                                                                alert(response);
+                                                                if (response == "เพิ่มข้อมูลเรียบร้อย") {
+                                                                    //$("#myModalCreate").style.display = "none";
+                                                                    window.location.reload();
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
                                             }
                                         }
+
                                     }
                                 }
-
                             }
                         }
                     }
+                    else {
+                        var IsADInsert = "PTT";
+                        $.ajax({
+                            async: true,
+                            cache: false,
+                            url: '@Url.Action("CreateUser")',
+                            type: 'POST',
+                            data: { txtEMPID: txtEmployeeIDCreate, txtFNC: txtFirstNameCreate, txtLNC: txtLastNameCreate, PWC: PassWordCreate, IsADCreate: IsADCreate, txtMailCreate: txtMailCreate, selectRoleCreate: selectRoleCreate },
+                            success: function (response) {
+                                alert(response);
+                                if (response == "เพิ่มข้อมูลเรียบร้อย") {
+                                    //$("#myModalCreate").style.display = "none";
+                                    window.location.reload();
+                                }
+                            }
+                        });
+
+                    }
                 }
-            }
-            else {
-                var IsADInsert = "PTT";
-                $.ajax({
-                    async: true,
-                    cache: false,
-                    url: '@Url.Action("CreateUser")',
-                    type: 'POST',
-                    data: { txtEMPID: txtEmployeeIDCreate, txtFNC: txtFirstNameCreate, txtLNC: txtLastNameCreate, PWC: PassWordCreate, IsADCreate: IsADCreate, txtMailCreate: txtMailCreate, selectRoleCreate: selectRoleCreate },
-                    success: function (response) {
-                        alert(response);
-                        if (response == "เพิ่มข้อมูลเรียบร้อย") {
-                            //$("#myModalCreate").style.display = "none";
-                            window.location.reload();
+            };
+
+        </script>
+
+        <script>
+
+            function ConfirmDel(id) {
+                var employeeid = id;
+                var Ok = confirm('Are you sure want to DELETE ?');
+                if (Ok) {
+                    // var serverpath = apppath.substring(0, apppath.length - 1);
+                    $.ajax({
+                        url: '@Url.Action("DeleteUser")',
+                        type: 'POST',
+                        data: { Id: employeeid },
+                        success: function () {
+                            alert("success");
                         }
-                    }
-                });
+                    });
+                    $("#Confirm").load('~/Views/Admin/UserManagement');
+                    return true;
+                    window.location.reload();
+                } else {
+                    return false;
+                }
+            };
 
-            }
-        }
-    };
-
-    </script>
-
-    <script>
-
-        function ConfirmDel(id) {
-            var employeeid = id;
-            var Ok = confirm('Are you sure want to DELETE ?');
-            if (Ok) {
-                // var serverpath = apppath.substring(0, apppath.length - 1);
-                $.ajax({
-                    url: '@Url.Action("DeleteUser")',
-                    type: 'POST',
-                    data: { Id: employeeid },
-                    success: function () {
-                        alert("success");
-                    }
-                });
-                $("#Confirm").load('~/Views/Admin/UserManagement');
-                return true;
-                window.location.reload();
-            } else {
-                return false;
-            }
-        };
-
-</script>
+        </script>
