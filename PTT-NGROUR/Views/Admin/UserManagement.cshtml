@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <link href="~/Scripts/DataTables/datatables.min.css" rel="stylesheet" />
 <script src="~/Scripts/DataTables/datatables.js"></script>
 
@@ -48,7 +49,7 @@
                         </td>
                         
                         <td>
-                            <button class="btn btn-link" onclick="ConfirmDel(@user.EMPLOYEE_ID)"><span class="glyphicon glyphicon-trash"></span></button>
+                            <button class="btn btn-link" onclick="ConfirmDel(@user.EMPLOYEE_ID)"><span class="fa fa-trash-o" aria-hidden="true"></span></button>
                         </td>
                     
                     </tr>
@@ -161,7 +162,8 @@
             </div>
 
                 @using (Html.BeginForm("EditUser", "Admin", FormMethod.Post))
-                {
+                {   
+                    
                     <div class="mh3 mv3">
                         <div class="  black-80 center">
                             <div class="measure center">
@@ -192,11 +194,11 @@
                             <div class=" center"> 
                                 <label for="name" class="f7 b db mb2 ">ROLE</label>
                                
-                                <select class="form-control input" style="height: 30px" id="seEditRole">
+                                <select class="form-control input" style="height: 30px" id="seRoleEdit" name="seRoleEdit">
                                     @foreach (PTT_NGROUR.Models.DataModel.ModelUsersRole mr in Model.ModelUsersRole)
                                     {
-                                        
-                                        <option value="@mr.ROLE_ID"   >@mr.ROLE_NAME</option>
+
+                                        <option value="@mr.ROLE_ID">@mr.ROLE_NAME</option>
                                     }
                                 </select>
                               <!--  <select class="form-control" id="seRoleEdit">
@@ -221,7 +223,10 @@
                         <a class="f7 btn btn-default btn-sm cancleEdit" href="#0" id="btnCancle">Cancle</a>
                         <button type="submit" class="btn btn-primary btn-sm">Edit User</button>
                     </div>
+                    
+                    
                 }
+                    
         </div>
     </div>
 </div>
@@ -229,6 +234,9 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $('#UserDatailTable').dataTable();
+                
+                
+
 
             });
             var modalCreate = document.getElementById('myModalCreate');
@@ -284,12 +292,13 @@
                     $("#IsADEdit").val('@user.IS_AD');
                     $("#txtMailEdit").val('@user.EMAIL');
                     $("#seGroupEdit").val('@user.GROUP_ID');
-                    $("#seEditRole").val('@user.ROLE_ID');
+                    $("#seRoleEdit").val('@user.ROLE_ID');
 
                    
                 }
-                </text>
-        }
+                </text>    
+        }  
+
             };
 
             function myFunction() {
@@ -415,12 +424,14 @@
                         data: { Id: employeeid },
                         success: function () {
                             alert("success");
+                            window.location.reload();
                         }
                     });
-                    $("#Confirm").load('~/Views/Admin/UserManagement');
-                    return true;
-                    window.location.reload();
-                } else {
+                    //$("#Confirm").load('~/Views/Admin/UserManagement');
+                   // return true;
+                   // window.location.reload();
+                }
+                else {
                     return false;
                 }
             };

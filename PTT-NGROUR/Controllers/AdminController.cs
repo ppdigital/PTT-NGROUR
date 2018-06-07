@@ -58,7 +58,7 @@ namespace PTT_NGROUR.Controllers
 
                 listRole.Add(new Models.DataModel.ModelUsersRole { ROLE_NAME = role.ROLE_NAME, ROLE_ID = role.ROLE_ID });    
             }
-            ViewBag.seEditRole = listRole;
+            ViewBag.seRoleEdit = listRole;
             ViewBag.seCreateRole = listRole;
             var model = new Models.UserManagement()
             {
@@ -175,7 +175,7 @@ namespace PTT_NGROUR.Controllers
               string txtIsADCreate = IsADCreate;
               int group = 0;
               string password = "";
-
+              string username = User.Identity.Name;
             if (txtEMPID != "" && txtFNC != "" && txtLNC != "")
             {
                 
@@ -235,10 +235,10 @@ namespace PTT_NGROUR.Controllers
                         }
 
                     }
-                    else { password = "''";
+                    else { password = "";
                     group = 1;
                     }
-                    string insertLog = "'" + txtEMPID.Trim() + "','" + txtFNC + "','" + txtLNC + "','" + IsADCreate + "','" + txtMailCreate + "','" + password + "','" + selectRoleCreate + "',Sysdate,'" + group + "','Por'";
+                    string insertLog = "'" + txtEMPID.Trim() + "','" + txtFNC + "','" + txtLNC + "','" + IsADCreate + "','" + txtMailCreate + "','" + password + "','" + selectRoleCreate + "',Sysdate,'" + group + "','" + username + "'";
                     string strCommand = "INSERT into USERS_AUTH (EMPLOYEE_ID,FIRSTNAME,LASTNAME,IS_AD,EMAIL,PASSWORD,ROLE_ID,CREATE_DATE,GROUP_ID,CREATE_BY) VALUES (" + insertLog + ")";
                     var con = dal.GetConnection();
                     con.Open();
@@ -258,13 +258,39 @@ namespace PTT_NGROUR.Controllers
     }
         [HttpPost]
         public ActionResult EditUser(string txtEmployeeIDEdit, string seRoleEdit, string txtMailEdit)
-        {
-            
-            return Redirect("UserManagement");
-
-           
-          
+        {   //string textEdit = "แก้ไข้อมูลเรียบร้อย";
+        int roleInt = Convert.ToInt32(seRoleEdit);
+            if (txtMailEdit != "")
+            {
+            var dal = new DAL.DAL();
+            string username = User.Identity.Name;
+            string strCommand = "UPDATE USERS_AUTH SET ROLE_ID ='" + roleInt + "',EMAIL='" + txtMailEdit + "',UPDATE_DATE=Sysdate,UPDATE_BY='Por' WHERE EMPLOYEE_ID='" + txtEmployeeIDEdit + "'";
+            var con = dal.GetConnection();
+            con.Open();
+            dal.GetCommand(strCommand, con).ExecuteNonQuery();
+            con.Close();
+            con.Dispose();
+          }
+            //else { textEdit = "โปรดกรอกข้อมูลให้ครบถ้วน"; }
+            //ViewBag.textAlert = textEdit;
+            //TempData["message"] = textEdit;
+            return Redirect("UserManagement"); 
         }
+        public ActionResult DeleteUser(string Id)
+        {
+            if (Id != "")
+            {
+                var dal = new DAL.DAL();
+                string username = User.Identity.Name;
+                string strCommand = "DELETE FROM USERS_AUTH WHERE EMPLOYEE_ID ='" + Id.Trim() + "'";
+                var con = dal.GetConnection();
+                con.Open();
+                dal.GetCommand(strCommand, con).ExecuteNonQuery();
+                con.Close();
+                con.Dispose();
+            }
+            return RedirectToAction("UserManagement");
+        }    
 
 }
     public class userManagement
