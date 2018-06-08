@@ -166,11 +166,11 @@ namespace PTT_NGROUR.Models
                     string _filterNameAttribute = (String)result.Properties["SAMAccountName"][0];
                     string _filterFullnameAttribute = (String)result.Properties["displayName"][0];
 
-                    var u = @"select * from USERS_AUTH where EMPLOYEE_ID ='" + _filterAttribute + "'and IS_AD == '1'";
+                    var u = @"select * from USERS_AUTH where EMPLOYEE_ID ='" + _filterAttribute + "'and IS_AD = '1'";
                     var ds2 = dal.GetDataSet(u);
                     if ((result != null && ds2.Tables[0].Rows.Count > 0) || (result == null && ds2.Tables[0].Rows.Count > 0))
                     {
-                        var e = @"select * from USERS_AUTH where EMPLOYEE_ID ='" + _filterAttribute + "'and IS_AD == '1'";
+                        var e = @"select * from USERS_AUTH where EMPLOYEE_ID ='" + _filterAttribute + "'and IS_AD = '1'";
                         var ds3 = dal.GetDataSet(e);
                         var dt = ds3.Tables[0];
                         foreach (System.Data.DataRow dr in dt.Rows)

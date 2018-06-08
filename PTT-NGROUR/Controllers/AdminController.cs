@@ -161,9 +161,9 @@ namespace PTT_NGROUR.Controllers
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-
+                    throw;
                 }
             }
 
