@@ -1,31 +1,12 @@
-﻿@{
+﻿@model PTT_NGROUR.Models.ViewModel.ModelUtilization
+
+@{
     ViewBag.Title = "Utilization";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 <style>
-    table {
-        border-collapse: collapse;
-        background-color: white;
-    }
-
-    td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-
-    th {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 3px solid #ddd;
-    }
-
-    tr:hover {
-        background-color: #f5f5f5;
-    }
-
     #scollbar::-webkit-scrollbar-track {
         border: 1px solid #f5f5f5;
         background-color: white;
@@ -39,52 +20,63 @@
     #scollbar::-webkit-scrollbar-thumb {
         background-color: #ddd;
     }
+
+    .well {
+        background-color: white;
+    }
 </style>
 <br />
-<div class="container">
+<div class="container-fluid">
     <!--Search Bar Web-->
-    <div class=" p-3 mb-2 well well-sm text-dark hidden-xs  hidden-sm hidden-md">
-        <div class="form-inline mt-2 mb-2">
-            <label class=" ml-5 lato ">
-                <input type="radio" name="radio" id="radioAreaW" checked="checked" onclick="javascript:Check();">
-                <span class="checkmark">Region</span>
-            </label>
-            <select class="ba b--black-20  db ml-2 form-control " id="seAreaW">
-                <option value="1" class="drop_role " selected>region 1</option>
-                <option value="2" class="drop_role ">region 2</option>
-                <option value="3" class="drop_role ">region 3</option>
-                <option value="4" class="drop_role ">region 4</option>
-                <option value="5" class="drop_role ">region 5</option>
-                <option value="6" class="drop_role ">region 6</option>
-                <option value="7" class="drop_role ">region 7</option>
-                <option value="8" class=" drop_role ">region 8</option>
-                <option value="9" class="drop_role ">region 9</option>
-                <option value="10" class="drop_role ">region 10</option>
-                <option value="11" class="drop_role ">region 11</option>
-            </select>
-        </div>
-        <label class="lato d-none">
-            <input type="radio" name="radio" id="radioLicenseW" onclick="javascript:Check();">
-            <span class="checkmark"> License</span>
-        </label>
+    <div class=" p-3 mb-2 well well-sm text-dark  ">
+        <div class="form-inline " style="padding-bottom:.5rem;">
+            <div class="form-inline">
+                <label class=" ml-5 lato ">
+                    <input type="radio" name="radio" id="radioRegionW" checked="checked" onclick="javascript:Check();">
+                    <span class="checkmark">Region</span>
+                </label>
+                <select class="ml-2 form-control lato height-30px fz-12px" name="seRegionW" id="seRegionW">
+                    @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
+                    {
+                        <option value="@ml.REGION_ID" class="h6" style="word-wrap:break-word;">@ml.REGION_NAME</option>
+                    }
+                </select>
+            </div>
 
-        <select class=" ml-2 form-control" id="seLicenseW">
-            <option value="license" class="f7  drop_role">License</option>
-        </select>
+            <label class="lato d-none ">
+                <input type="radio" name="radio" id="radioLicenseW" onclick="javascript:Check();">
+                <span class="checkmark"> License</span>
+            </label>
+
+            <select class="ml-2 form-control input lato height-30px fz-12px" name="seLicense" id="seLicenseW">
+                @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
+                {
+                    <option value="@ml.LICENSE_ID" class="h6" style="word-wrap:break-word;">@ml.LICENSE</option>
+                }
+            </select>
+
+        </div>
+        <!--  <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul id="ddlgetValue" class="dropdown-menu Sfleet" role="menu" style="width: 280px"></ul>
+          </div>-->
 
         <div class="form-inline">
-            <select class=" ba b--black-20 pa2 db w-13  ml2 form-control" onclick="javascript:dropdownTxt();" id="select">
+            <select class=" ba b--black-20 pa2 db w-13  ml2 form-control height-30px fz-12px" onclick="javascript:dropdownTxt();" id="select">
                 <option id=" seallw" value="all" class="f7 f8-m drop_role" selected>All</option>
                 <option id="sePipelineW" value="pipeline" class="f7 drop_role">Pipeline</option>
                 <option id="seGateW" value="gate" class="f7 drop_role">Gate Station</option>
                 <option id="seMeteringW" value="metering" class="f7  drop_role">Metering Station</option>
             </select>
 
-            <input id="txtPipelineW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 form-control" type="text" aria-describedby="name-desc" placeholder="PipeLine">
-            <input id="txtGateW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 form-control" type="text" aria-describedby="name-desc" placeholder="Gate Station">
-            <input id="txtMeteringW" class="dn input-reset ba b--black-20 pa2 mb2  w-13  ml1 form-control" type="text" aria-describedby="name-desc" placeholder="Metering Station">
+            <input id="txtPipelineW" class="dn input-reset w-13  ml1 form-control height-30px fz-12px" type="text" aria-describedby="name-desc" placeholder="PipeLine">
+            <input id="txtGateW" class="dn input-resetw-13  ml1 form-control height-30px fz-12px" type="text" aria-describedby="name-desc" placeholder="Gate Station">
+            <input id="txtMeteringW" class="dn input-reset  w-13  ml1 form-control height-30px fz-12px" type="text" aria-describedby="name-desc" placeholder="Metering Station">
 
-            <select class=" ba b--black-20 pa2 db w-13 ml2 form-control">
+            <select class=" ba b--black-20 pa2 db w-13 ml2 form-control height-30px fz-12px">
                 <option id="seAllW" value="all" class="f7 f8-m drop_role" selected>All Threshold</option>
                 <option id="seGreenW" value="green" class="f7 f8-m drop_role">Green</option>
                 <option id="seYellowW" value="yellow" class="f7  drop_role">Yellow</option>
@@ -94,52 +86,89 @@
             <a id="btnSearch" class="f6 f-table-ns b--gray4 link dim tc w-5 pa2 dib gray bg-gray2 br1 mv2 ml1" href="#">
                 <i class="fa fa-search dib gray6" aria-hidden="true"></i>
             </a>
-            <div class=" mv3 mr3 form-inline">
-                <a class="f6 link dim  w-5  blue5 pr2 form-inline" href="@Url.Action("importexcel", "Utilization")" id="btnImExcelW">Import&nbsp;Excel</a>|<a class="f6 link dim w-5 pl1 blue5" href="@Url.Action("ThresholdSetting", "Utilization")" id="btn_imExcel">Threshold&nbsp;Setting</a>
-            </div>
+
+            <a class="f6 link dim  w-5  blue5 pr2 form-inline" href="@Url.Action("importexcel", "Utilization")" id="btnImExcelW">Import&nbsp;Excel</a>|<a class="f6 link dim w-5 pl1 blue5" href="@Url.Action("ThresholdSetting", "Utilization")" id="btn_imExcel">Threshold&nbsp;Setting</a>
+
             <div class="cr"></div>
         </div>
-    </div>
-    <!--End Search Bar Web-->
-    <!--    Search Buutton Mobile  -->
-    <div class="hidden-lg bg-white w-100 mb3 pv2 mv2 ph2">
-
-        <label class="f6 gray6">Utilization</label>
-        <div class="dib fr mr3">
-            <a id="btnSearchModalM" class=" f6-m f7-ns  bg-blue-button link = tc w-5  br1 pv1 ph2" href="#">
-                search
-            </a>
-        </div>
-        <div class="dib fr mr3">
-            <!-- <a id="btnThreModalM" class=" f6-m f7-ns  b--gray4 link dim tc w-5  gray bg-gray2 br1 pv1 ph2" href="#">
-                  Threshold
-              </a>-->
-            <a id="btnThreModalM" class=" f6-m f7-ns bg-blue-button link tc w-5 br1 pv1 ph2" href="#">
-                Threshold
-            </a>
-        </div>
-    </div>   <!--  End  Search Buutton Mobile  -->
 
 
-    <div class="fr-l ph3-m mh3-l pt2-m pt1-ns w-75-l tc">
-        <div class="bg-white pv1 br2 hidden-sm hidden-md pv2  w-100-l pl2">
-            <div class="dib ph2"><i class="fa fa-circle fa-lg green" aria-hidden="true"></i> <label class="f7 ">Gate Station < 80 % , Pipeline < 55 ft/s </label></div>
-            <div class="dib ph2"><i class="fa fa-circle fa-lg yellow" aria-hidden="true"></i> <label class="f7 ">Gate Station > 80 %  , Pipeline > 55 ft/s </label></div>
-            <div class="dib ph2"><i class="fa fa-circle fa-lg red" aria-hidden="true"></i> <label class="f7 ">Gate Station > 87.5 % , Pipeline > 60 ft/s </label></div>
-        </div>
+        <!--End Search Bar Web-->
+        <!--    Search Buutton Mobile  -->
+        <!----> <div class="hidden-lg hidden-md hidden-sm bg-white w-100 mb-3 pv-2 mv-2 ph-2">
+
+            <label class="f6 gray6">Utilization</label>
+            <div class="dib fr mr3">
+                <a id="btnSearchModalM" class=" f6-m f7-ns  bg-blue-button link = tc w-5  br1 pv1 ph2" href="#">
+                    search
+                </a>
+            </div>
+            <div class="dib fr mr3">
+
+                <a id="btnThreModalM" class=" f6-m f7-ns bg-blue-button link tc w-5 br1 pv1 ph2" href="#">
+                    Threshold
+                </a>
+            </div>
+        </div>   <!--  End  Search Buutton Mobile  -->
     </div>
 
 
+    <!-- <div class="col-container">
+         <div class="bg-white hidden-sm hidden-xs col-sm-12 border-gray">
+             <i class="fa fa-circle fa-lg green" aria-hidden="true"></i> <label class="f7 ">Gate Station < 80 % , Pipeline < 55 ft/s </label>
+             <i class="fa fa-circle fa-lg yellow" aria-hidden="true"></i> <label class="f7 ">Gate Station > 80 %  , Pipeline > 55 ft/s </label>
+             <i class="fa fa-circle fa-lg red" aria-hidden="true"></i> <label class="f7 ">Gate Station > 87.5 % , Pipeline > 60 ft/s </label>
+         </div>
+     </div>-->
 
-    <div class="mh1-ns mh2-m ">
-        <div class="bg-white pv1-ns pv2-l pv2-m br2 fr-l w-75-l w-100-m w-100-ns mh3-l mt3-l">
+
+
+
+
+
+
+
+    <div class="col-container bg-white col-sm-12 border-gray ">
+        <div class="col col-sm-8 pt-15px pb-15px  pl-0 ">
+            <canvas></canvas>
+        </div>
+        <!-- <div class="pl2 pr2 border-left"></div>-->
+        <div class="col col-sm-4 pt-15px pb-15px pr-0 pl-0-xs pl-0-sm border-left-md border-left-lg">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i class="fa fa-circle fa-lg green" aria-hidden="true"></i></td>
+                            <td>Doe</td>
+                            <td>Metering</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-circle fa-lg green" aria-hidden="true"></i></td>
+                            <td>M</td>
+                            <td>Pipeline</td>
+
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-circle fa-lg green" aria-hidden="true"></i></td>
+                            <td>D</td>
+                            <td>Gate Station</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
 
 
-
-    <div class=" dt pl3 ph1-ns  pt3-m pt3-ns pv2-ns w-100-ns w-100-m  fl-ns ph2-m lato ">
+    <!--<div class=" dt pl3 ph1-ns  pt3-m pt3-ns pv2-ns w-100-ns w-100-m  fl-ns ph2-m lato ">
 
         <div class="fl-ns dib bg-white pa2-l pa1-ns pa2-m dib-ns dib-m  h-12-l h3-m  overflow-auto w-100-l w-50-ns w-40-m " id="scollbar">
             <div class="w-80-l w-70-m w-70-ns tc center-l center-m center-ns">
@@ -174,35 +203,7 @@
                         <td class="pa1 pl1 tc w3-l w3-m w3-ns"><i class=" fa fa-circle fa-lg green" id="status" aria-hidden="true"></i></td>
                         <td><div class="f5 f9-ns w4-l w4-m w3-ns"> Gate Station 5</div></td>
                     </tr>
-                    <!--  <tr class="hover_row">
-                        <td class="pa2 pl2 tc"><i class="f5 fa fa-circle fa-lg green" id="status" aria-hidden="true"></i></td>
-                        <td><div class="f5 f9-ns  w4-m"> Gate Station 6</div></td>
 
-                    </tr>
-                    <tr class="hover_row">
-                        <td class="pa2 pl2 tc"><i class="f5 fa fa-circle fa-lg green" id="status" aria-hidden="true"></i></td>
-                        <td><div class="f5 f9-ns  w4-m"> Gate Station 7</div></td>
-
-                    </tr>
-                    <tr class="hover_row">
-                        <td class="pa2 pl2 tc"><i class="f5 fa fa-circle fa-lg green" id="status" aria-hidden="true"></i></td>
-                        <td><div class="f5 f9-ns  w5-m"> Gate Station 8</div></td>
-
-                    </tr>
-                    <tr>
-                        <td class="pa2 pl2 tc"><i class="f5 fa fa-circle fa-lg green" id="status" aria-hidden="true"></i></td>
-                        <td><div class="f5 f9-ns  w4-m"> Gate Station 9</div></td>
-
-                    </tr>
-                    <tr>
-                        <td class="pa2 pl2 tc"><i class="f5 fa fa-circle fa-lg green" id="status" aria-hidden="true"></i></td>
-                        <td><div class="f5 f9-ns  w4-m"> Gate Station 10</div></td>
-                    </tr>
-
-                    <tr>
-                        <td class="pa2 pl2 tc"><i class="f5 fa fa-circle fa-lg green" id="status" aria-hidden="true"></i></td>
-                        <td><div class="f5 f9-ns  w4-m"> Gate Station 11</div></td>
-                    </tr> -->
 
                 </table>
             </div>
@@ -214,18 +215,9 @@
 
         </div>
 
-    </div>
-
-
-    <div class="cl cr"></div>
-
-
-
-
-
-
+    </div>-->
     <!--  Modal  Search  Mobile-->
-    <div id="modal_search" class="modal  pt6-ns pt5-l pt5-m hidden-lg">
+    <!--<div id="modal_search" class="modal  pt6-ns pt5-l pt5-m hidden-lg">
         <div class="modal-content_np pa1  w-60-m w-100-ns br1">
             <div class="fl dib ml3 f5 b pt3">Search</div>
             <span class="closeSearch nt2 pt3 mr3" id="closeCross">&times;</span>
@@ -233,61 +225,68 @@
             <hr class="style ml0 mr0" />
             <div class="mh3 mv3">
                 <form class="ma4  black-80 center ph5-m">
-                    <div class="measure ">
-                        <div class="ml1 mb2 pt2">
-                            <label class="container lato f7 mr3">
-                                <input type="radio" name="radio" id="radioAreaM" onclick="javascript:CheckM();" checked="checked">
-                                <span class="checkmark">region</span>
-                            </label>
-                            <label class="container lato f7">
-                                <input type="radio" name="radio" id="radioLicenseM" onclick="javascript:CheckM();">
-                                <span class="checkmark">ใบอนุญาต</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="measure">
-                        <select class="f7 ba b--black-20 pa2 w-100  ml1 mb2" id="seAreaM">
-                            <option value="1" class="f7  drop_role " selected>region 1</option>
-                            <option value="2" class="f7  drop_role ">region 2</option>
-                            <option value="3" class="f7  drop_role ">region 3</option>
-                            <option value="4" class="f7  drop_role ">region 4</option>
-                            <option value="5" class="f7  drop_role ">region 5</option>
-                            <option value="6" class="f7  drop_role ">region 6</option>
-                            <option value="7" class="f7  drop_role ">region 7</option>
-                            <option value="8" class="f7  drop_role ">region 8</option>
-                            <option value="9" class="f7  drop_role ">region 9</option>
-                            <option value="10" class="f7  drop_role ">region 10</option>
-                            <option value="11" class="f7  drop_role ">region 11</option>
-                        </select>
-                    </div>
-                    <div class="measure">
-                        <select class="f7 ba b--black-20 pa2 w-100 dn ml1 mb2" id="seLicenseM">
-                            <option value="license" class="f7  drop_role">ใบอนุญาต</option>
-                        </select>
-                    </div>
 
-                    <div class="measure">
-                        <select class=" ba b--black-20 pa2 db w-100 dib ml1 mb2" onclick="javascript:seSearchM();" id="selectM">
-                            <option id="seAllM" value="all" class="f7 f8-m drop_role " selected>All</option>
-                            <option id="sePipelineM" value="pipeline" class="f7  drop_rol ">Pipeline</option>
-                            <option id="seGateM" value="gate" class="f7 drop_role ">Gate Station</option>
-                            <option id="seMeteringM" value="metering" class=" f7 drop_role ">Metering Station</option>
-                        </select>
-                    </div>
-                    <div class="measure">
-                        <input id="txtPipelineM" class="input-reset ba b--black-20 pa2 mb2  w-100 ml1 dn" type="text" aria-describedby="name-desc" placeholder="PipeLine">
-                    </div>
-                    <div class="measure "><input id="txtGateM" class="input-reset ba b--black-20 pa2 mb2 w-100 ml1 dn" type="text" aria-describedby="name-desc" placeholder="Gate Station"> </div>
-                    <div class="measure"><input id="txtMeteringM" class="input-reset ba b--black-20 pa2 mb2 w-100  ml1 dn" type="text" aria-describedby="name-desc" placeholder="Metering Station"> </div>
-                    <div class="measure">
-                        <select class=" ba b--black-20 pa2 mb2  w-100 ml1">
-                            <option id="seAllM" value="all" class="f7 f8-m drop_role" selected>All Threshold</option>
-                            <option id="seGreenM" value="green" class="f7 f8-m drop_role">Green</option>
-                            <option id="seYellowM" value="yellow" class="f7  drop_role">Yellow</option>
-                            <option id="seRedM" value="red" class="f7 drop_role">Red</option>
-                            <option id="seOrangeM" value="red" class="f7 drop_role">Orange</option>
-                        </select>
-                    </div>
+                        <div class="measure ">
+                            <div class="ml1 mb2 pt2">
+                                <label class="container lato f7 mr3">
+                                    <input type="radio" name="radio" id="radioAreaM" onclick="javascript:CheckM();" checked="checked">
+                                    <span class="checkmark">region</span>
+                                </label>
+                                <label class="container lato f7">
+                                    <input type="radio" name="radio" id="radioLicenseM" onclick="javascript:CheckM();">
+                                    <span class="checkmark">ใบอนุญาต</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="measure">
+                            <select class="f7 ba b--black-20 pa2 w-100  ml1 mb2" id="seAreaM">
+                                <option value="1" class="f7  drop_role " selected>region 1</option>
+                                <option value="2" class="f7  drop_role ">region 2</option>
+                                <option value="3" class="f7  drop_role ">region 3</option>
+                                <option value="4" class="f7  drop_role ">region 4</option>
+                                <option value="5" class="f7  drop_role ">region 5</option>
+                                <option value="6" class="f7  drop_role ">region 6</option>
+                                <option value="7" class="f7  drop_role ">region 7</option>
+                                <option value="8" class="f7  drop_role ">region 8</option>
+                                <option value="9" class="f7  drop_role ">region 9</option>
+                                <option value="10" class="f7  drop_role ">region 10</option>
+                                <option value="11" class="f7  drop_role ">region 11</option>
+                            </select>
+                        </div>
+
+                        <div class="measure">
+                            <select class="ml-2 form-control input lato fs9-xs" name="seLicense" id="seLicenseM">
+                                @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
+                                {
+                                    <option value="@ml.LICENSE_ID" style="word-break: break-all">
+                                        @ml.LICENSE
+                                    </option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="measure">
+                            <select class=" ba b--black-20 pa2 db w-100 dib ml1 mb2" onclick="javascript:seSearchM();" id="selectM">
+                                <option id="seAllM" value="all" class="f7 f8-m drop_role " selected>All</option>
+                                <option id="sePipelineM" value="pipeline" class="f7  drop_rol ">Pipeline</option>
+                                <option id="seGateM" value="gate" class="f7 drop_role ">Gate Station</option>
+                                <option id="seMeteringM" value="metering" class=" f7 drop_role ">Metering Station</option>
+                            </select>
+                        </div>
+                        <div class="measure">
+                            <input id="txtPipelineM" class="input-reset ba b--black-20 pa2 mb2  w-100 ml1 dn" type="text" aria-describedby="name-desc" placeholder="PipeLine">
+                        </div>
+                        <div class="measure "><input id="txtGateM" class="input-reset ba b--black-20 pa2 mb2 w-100 ml1 dn" type="text" aria-describedby="name-desc" placeholder="Gate Station"> </div>
+                        <div class="measure"><input id="txtMeteringM" class="input-reset ba b--black-20 pa2 mb2 w-100  ml1 dn" type="text" aria-describedby="name-desc" placeholder="Metering Station"> </div>
+                        <div class="measure">
+                            <select class=" ba b--black-20 pa2 mb2  w-100 ml1">
+                                <option id="seAllM" value="all" class="f7 f8-m drop_role" selected>All Threshold</option>
+                                <option id="seGreenM" value="green" class="f7 f8-m drop_role">Green</option>
+                                <option id="seYellowM" value="yellow" class="f7  drop_role">Yellow</option>
+                                <option id="seRedM" value="red" class="f7 drop_role">Red</option>
+                                <option id="seOrangeM" value="red" class="f7 drop_role">Orange</option>
+                            </select>
+                        </div>
                 </form>
 
             </div>
@@ -306,7 +305,8 @@
             </div>
         </div>
 
-    </div>   <!-- End Modal  Search  Mobile-->
+    </div>  -->
+    <!-- End Modal  Search  Mobile-->
     <!--  Modal  Threshold  Mobile-->
     <div id="modalThreshold" class="modal  pt6-ns pt5-l pt5-m hidden-lg">
         <div class="modal-content_np pa1  w-60-m w-100-ns br1">
@@ -467,12 +467,12 @@
 
         function Check() {
 
-            if (document.getElementById('radioAreaW').checked) {
-                document.getElementById('seAreaW').style.display = 'inline-block';
+            if (document.getElementById('radioRegionW').checked) {
+                document.getElementById('seRegionW').style.display = 'inline-block';
                 document.getElementById('seLicenseW').style.display = 'none';
             } else if (document.getElementById('radioLicenseW').checked) {
                 document.getElementById('seLicenseW').style.display = 'inline-block';
-                document.getElementById('seAreaW').style.display = 'none';
+                document.getElementById('seRegionW').style.display = 'none';
 
             }
         }
