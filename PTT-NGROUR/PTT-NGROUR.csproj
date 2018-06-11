@@ -161,16 +161,22 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UtilizationController.cs" />
     <Compile Include="DAL\DAL.cs" />
+    <Compile Include="DTO\DtoUtilization.cs" />
     <Compile Include="ExtentionAndLib\Ext.cs" />
     <Compile Include="DI\CommonConventions.cs" />
     <Compile Include="DI\StructureMap\Registries\MvcSiteMapProviderRegistry.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataModel\ModelGateStationArchive.cs" />
+    <Compile Include="Models\DataModel\ModelGateStationImport.cs" />
+    <Compile Include="Models\DataModel\ModelPipelineArchive.cs" />
+    <Compile Include="Models\DataModel\ModelPipelineImport.cs" />
     <Compile Include="Models\DataModel\ModelUsersAuth.cs" />
     <Compile Include="Models\UserManagement.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\ViewModel\ModelHome.cs" />
+    <Compile Include="Models\ViewModel\ModelInsertExcelData.cs" />
     <Compile Include="Models\ViewModel\ModelThreshold.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -320,12 +326,10 @@
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
     <Content Include="Views\Admin\UserManagement.cshtml" />
-
     <Content Include="Views\Utilization\ImportExcel.cshtml" />
     <Content Include="Views\Utilization\Index.cshtml" />
-
     <Content Include="Views\User\ResetPassword.cshtml" />
-
+    <Content Include="Views\Utilization\ModalImportExcelDialog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

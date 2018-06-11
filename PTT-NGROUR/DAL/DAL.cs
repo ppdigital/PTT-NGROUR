@@ -127,6 +127,14 @@ namespace PTT_NGROUR.DAL
             GC.Collect();
         }
 
+        public object ExecuteScalar(string pStrCommand)
+        {
+            using (var con = GetConnection())
+            {
+                return ExecuteScalar(pStrCommand, con);
+            };
+        }
+
         public object ExecuteScalar(string pStrCommand, IDbConnection pConnection)
         {
             if (string.IsNullOrEmpty(pStrCommand) || pConnection == null)
@@ -155,7 +163,12 @@ namespace PTT_NGROUR.DAL
             return result;
         }
 
-
+        public void ExecuteNonQuery(string pStrCommand)
+        {
+            using (var con = GetConnection()) { 
+                ExecuteNonQuery(pStrCommand, con);            
+            };
+        }
         public void ExecuteNonQuery(string pStrCommand, IDbConnection pConnection)
         {
             if (string.IsNullOrEmpty(pStrCommand) || pConnection == null)

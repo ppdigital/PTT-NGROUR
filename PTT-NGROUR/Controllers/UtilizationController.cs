@@ -7,7 +7,12 @@ using System.Web.Mvc;
 //using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml;
-
+using PTT_NGROUR.ExtentionAndLib;
+using PTT_NGROUR.DAL;
+using Oracle.ManagedDataAccess.Client;
+using PTT_NGROUR.DTO;
+using PTT_NGROUR.Models.DataModel;
+using PTT_NGROUR.Models.ViewModel;
 namespace OUR_App.Controllers
 {
     public class UtilizationController : Controller
@@ -17,28 +22,29 @@ namespace OUR_App.Controllers
 
         #region - Col PipeLine -
 
-        private const int _intColPipelineName = 0;
-        private const int  _intColPipelineFlow = 1;
-        private const int  _intColPipelineDiameter = 2;
-        private const int  _intColPipelineLength = 3;
-        private const int  _intColPipelineEfficiency = 4;
-        private const int  _intColPipelineRoughness = 5;
-        private const int  _intColPipelineLoad = 6;
-        private const int  _intColPipelineResultDownstreamVelocity = 7;
-        private const int  _intColPipelineOutsideDiameter = 8;
-        private const int  _intColPipelineWallThickness = 9;
-        private const int _intColPipelineServiceState = 10;
+        private const int _intColPipelineName = 1;
+        private const int _intColPipelineFlow = 2;
+        private const int _intColPipelineDiameter = 3;
+        private const int _intColPipelineLength = 4;
+        private const int _intColPipelineEfficiency = 5;
+        private const int _intColPipelineRoughness = 6;
+        private const int _intColPipelineLoad = 7;
+        private const int _intColPipelineResultDownstreamVelocity = 8;
+        private const int _intColPipelineOutsideDiameter = 9;
+        private const int _intColPipelineWallThickness = 10;
+        private const int _intColPipelineServiceState = 11;
 
         #endregion
-        
-        #region - Col GateStation - 
 
-        private const int _intColGateName = 0;
-        private const int _intColGatePressure = 1;
-        private const int _intColGateFlow = 2;
-        private const int _intColGateDescription = 3;
+        #region - Col GateStation -
+
+        private const int _intColGateName = 1;
+        private const int _intColGatePressure = 2;
+        private const int _intColGateFlow = 3;
+        private const int _intColGateDescription = 4;
 
         #endregion
+
         public ActionResult Index()
         {
             return View();
@@ -91,402 +97,238 @@ namespace OUR_App.Controllers
         [HttpPost]
         public ActionResult InsertExceldata()
         {
-            string inYear = Request["year"];
-            string inMonth = Request["month"];
-            string inRegion = Request["region"];
-            string inType = Request["type"];
-
-
-
-            var CountRowInDBBeforInsert = 0;
-            string fPath = "";
-            string fname = "";
-
-            
-
-            HttpFileCollectionBase files = Request.Files;
-
-            
-            if (files != null && files.Count > 0)
+            var modelResult = new ModelInsertExcelData(){
+                success = false
+            };
+            try
             {
-                foreach (HttpPostedFileBase fb in files)
+
+                string inYear = Request["year"];
+                string inMonth = Request["month"];
+                string inRegion = Request["region"];
+                string inType = Request["type"];
+
+                HttpFileCollectionBase files = Request.Files;
+
+                if (files != null && files.Count > 0)
                 {
+                    var fb = files[0];
+
                     if (fb == null || fb.InputStream == null)
                     {
-                        continue;
+                        modelResult.responseText = "No File Data To Load";
+                        return Json(modelResult);
                     }
                     string exttension = System.IO.Path.GetExtension(fb.FileName);
                     if (!(new string[] { ".xls", ".xlsx" }).Contains(exttension))
                     {
-                        continue;
+                        modelResult.responseText = "File Type Not In xls or xlsx";
+                        return Json(modelResult);
                     }
-                    
-                    var package = new ExcelPackage(fb.InputStream);
-                    if (package.Workbook.Worksheets.Any())
+
+                    if (inType == "pipeline")
                     {
-                        var exWorkSheet = package.Workbook.Worksheets[1];
-
-                        int intColCount = exWorkSheet.Dimension.End.Column;
-                        int intRowCount = exWorkSheet.Dimension.End.Row;
-
-                        int intStartRow = 4;
-                        int intEndRow = intRowCount - 6;
-                    
-                        switch (inType) {
-                            case "gate":
-                                for (int intRow = intStartRow; intRow < intEndRow; ++intRow)
-                                {
-                                    string strGateName = exWorkSheet.Cells[intRow, _intColGateName].Text;
-                                    string strG = exWorkSheet.Cells[intRow , _intColGatePressure].
-                                }   
-                                break;
-                            case "pipeline":
-                                for (int intRow = intStartRow; intRow < intEndRow; ++intRow)
-                                {
-
-                                }
-                                break;
-                        }
-
+                        modelResult.ListUnSuccessPipeLine = insertExcelPipelineData(
+                            pFileStream: fb.InputStream,
+                            pIntMonth: Convert.ToInt32(inMonth),
+                            pIntRegionId: Convert.ToInt32(inRegion),
+                            pStrUploadBy: "user1" , 
+                            pIntYear: Convert.ToInt32(inYear));
+                        modelResult.success = true;
+                        modelResult.responseText = "เพิ่มข้อมูลสำเร็จ";
+                        return Json(modelResult);
+                    }
+                    else if (inType == "gate")
+                    {
+                        insertExcelGateData(
+                            pFileStream: fb.InputStream,
+                            pIntMonth: Convert.ToInt32(inMonth),
+                            pIntRegionId: Convert.ToInt32(inRegion),
+                            pStrUploadBy: "user1",
+                            pIntYear: Convert.ToInt32(inYear) ,
+                            pModelResult: modelResult
+                        );
+                        modelResult.success = true;
+                        modelResult.responseText = "เพิ่มข้อมูลสำเร็จ";
+                        return Json(modelResult);
                     }
 
 
-                    package.Dispose();
-                    package = null;
+
+
+                    //foreach (HttpPostedFileWrapper fb in files)
+                    
                 }
-                //------------------------------[ rdxrydjyt ]
+                return Json(new { success = true, responseText = "เพิ่มข้อมูลสำเร็จ" });
+            }
+            catch (Exception ex)
+            {
+                modelResult.responseText = ex.Message + Environment.NewLine + ex.StackTrace;
+                modelResult.success = false;                
+                return Json(modelResult);
+            }
+        }
 
-                for (int i = 0; i < files.Count; i++)
+
+        private ModelPipelineImport[] insertExcelPipelineData(
+        Stream pFileStream ,
+        int pIntMonth ,
+        int pIntRegionId , 
+        string pStrUploadBy ,
+        int pIntYear) 
+        {
+            var dto = new DtoUtilization();
+            var listPipeLineImport =  dto.ReadExcelPipelineImport(pFileStream, pIntMonth, pIntRegionId, pStrUploadBy, pIntYear).ToList();
+            var listRcProject = dto.GetListRcProject();
+            foreach (ModelPipelineImport modelPI in listPipeLineImport)
+            {
+                if (modelPI == null)
                 {
-                    HttpPostedFileBase file = files[i];
+                    continue;
+                }
+                dto.InsertPipelineImport(modelPI);
+            }
+            var listPipelineArchive = (from pi in listPipeLineImport
+                group pi by pi.RC_NAME.Split('-')[0]
+                into lpi
+                let maxV = lpi.Max(x => x.VELOCITY)
+                where listRcProject.Contains(lpi.Key)
+                select new {
+                    rcName = lpi.Key,
+                    pipeLineImport = lpi.Where(x => x.VELOCITY == maxV).FirstOrDefault()
+                }).Select(x => new ModelPipelineArchive() { 
+                    MONTH = x.pipeLineImport.MONTH,
+                    RC_NAME = x.rcName,
+                    REGION_ID = x.pipeLineImport.REGION_ID,
+                    UPLOAD_BY = x.pipeLineImport.UPLOAD_BY,
+                    VELOCITY = x.pipeLineImport.VELOCITY,
+                    YEAR = x.pipeLineImport.YEAR
+                });//.ForEach(x=> dto.InsertPipelineArchive(x));
+            foreach (ModelPipelineArchive pa in listPipelineArchive)
+            {
+                dto.InsertPipelineArchive(pa);
+            }
+            var result = listPipeLineImport.Where(x => !listRcProject.Contains(x.RC_NAME.Split('-')[0])).ToArray();
+            dto = null;
+            return result;
+        }
+
+        private void insertExcelGateData(
+        Stream pFileStream,
+        int pIntMonth,
+        int pIntRegionId,
+        string pStrUploadBy,
+        int pIntYear,
+        ModelInsertExcelData pModelResult)
+        {
+            var dto = new DtoUtilization();
+            
+            var listGate = dto.ReadExcelGateStationImport(pFileStream, pIntMonth, pIntRegionId, pStrUploadBy, pIntYear).ToList();
+            
+            var listMasterGateDataName = dto.GetListMasterGateStationName().ToList();
+            
+            var listGateHaveMasterData = listGate.Where(x => listMasterGateDataName.Contains(x.GATE_NAME)).ToList();
+
+            var listGateImportDuplicate = dto.GetListGateImportDuplicate(listGate).ToList();
+            
+            
+            //var listGateReadyToInsert = listGateHaveMasterData.Where(x => !listGateImportDuplicate.Any(y => y.GATE_NAME == x.GATE_NAME)).ToList();
+
+            //var 
+
+            var listGateDupplicate = new List<ModelGateStationImport>();            
+
+            var listGateUnsuccess = new List<ModelGateStationImport>();
+
+            var listArchiveDuplicate = dto.GetListGateArchiveDuplicate(listGate);
+
+            for (int i = listGate.Count - 1; i >= 0; --i)
+            {
+                var gateItem = listGate[i];
+                
+                var gateDuplicate = listGateImportDuplicate.FirstOrDefault(x=> x.GATE_NAME == gateItem.GATE_NAME);
+                if(gateDuplicate == null){
+                    dto.InsertGateImport(gateItem);
+
+
+                }else if(gateItem.FLOW != gateDuplicate.FLOW || gateItem.PRESSURE !=gateDuplicate.PRESSURE ) {
+                    gateItem.GATE_ID = gateDuplicate.GATE_ID;
+                    dto.UpdateGateImport(gateItem);
+                }
+                                
+                if (!listMasterGateDataName.Contains(gateItem.GATE_NAME))
+                {
+                    listGate.RemoveAt(i);
+                    listGateUnsuccess.Add(gateItem);
+                }
+                else if (dto.IsGateStationImportDuplicate(gateItem))
+                {
+                    listGate.RemoveAt(i);
+                    listGateDupplicate.Add(gateItem);
+                }
+                else
+                {
+                    var gateArchiveDuplicate = listArchiveDuplicate.FirstOrDefault(x=> x.GATE_NAME == gateItem.GATE_NAME);
                     
-                    if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                    var ga2 = new ModelGateStationArchive(gateItem);
+
+                    if (gateArchiveDuplicate == null)
                     {
-                        string[] testfiles = file.FileName.Split(new char[] { '\\' });
-                        fname = testfiles[testfiles.Length - 1];
+                        dto.InsertGateArchive(ga2);
                     }
                     else
                     {
-                        fname = file.FileName;
+                        ga2.GATE_ID = gateArchiveDuplicate.GATE_ID;
                     }
-
-                    fPath = Path.Combine(Server.MapPath("~/Content/ExcelFile/"), fname);
-                    file.SaveAs(fPath);
                 }
+            }
+            pModelResult.ListDuplicateGateStation = listGateDupplicate.ToArray();
+            pModelResult.ListUnSuccessGateStation = listGateUnsuccess.ToArray();
+            pModelResult.ListSuccessGateStation = listGate.ToArray();
+        }
 
-                var fileInfo = new FileInfo(@fPath);
-                string query = string.Format("Select * from [{0}]", "Sheet1$");
-                string CheckTypeFlieUpload = Path.GetExtension(fname);
-                if (CheckTypeFlieUpload == ".xls" || CheckTypeFlieUpload == ".xlsx")
+        private void insertExcelGateData2(
+        Stream pFileStream,
+        int pIntMonth,
+        int pIntRegionId,
+        string pStrUploadBy,
+        int pIntYear ,
+        ModelInsertExcelData pModelResult )
+        {
+            var dto = new DtoUtilization();
+            var listGate = dto.ReadExcelGateStationImport(pFileStream, pIntMonth, pIntRegionId, pStrUploadBy, pIntYear).ToList();
+            var listGateDupplicate = new List<ModelGateStationImport>();
+
+            var listGateDupplicate2 = dto.GetListGateImportDuplicate(listGate);
+
+            var listGateUnsuccess = new List<ModelGateStationImport>();
+            var listGateName = dto.GetListMasterGateStationName().ToList();
+            
+            for (int i = listGate.Count-1; i >= 0; --i)
+            {
+                var gateItem = listGate[i];
+                dto.InsertGateImport(gateItem);
+                if (!listGateName.Contains(gateItem.GATE_NAME))
                 {
-                    using (ExcelPackage package = new ExcelPackage(fileInfo))
-                    {
-                        var filenameExcel = fname;
-                        ExcelWorksheet wors = package.Workbook.Worksheets[1];
-                        string[] columnName = new string[wors.Dimension.End.Column]; //หัวคอลัมภ์
-                        string[,] DataTable = new string[wors.Dimension.End.Row - 1, wors.Dimension.End.Column]; // data in excel
-                        string table_name = wors.Name; // ชือ Sheet
-
-
-                        int k = 4; //ตัดหัวออก เริ่มบรรทัดที่ 4
-                        int num = 0;
-
-                        for (int j = 0; j < wors.Dimension.End.Row - 6; j++)
-                        {
-                            for (int i = 0; i < wors.Dimension.End.Column; i++)
-                            {
-
-                                if (wors.Cells[k, i + 1].Text != "")
-                                {
-                                    if (wors.Cells[k, i + 1].Text != "")
-                                    {
-                                        DataTable[num, i] = wors.Cells[k, i + 1].Text;
-
-                                    }
-
-                                }
-
-
-                            }
-                            k = k + 1;
-                            num = num + 1;
-                        }
-
-                        Console.WriteLine(DataTable);
-                        int countRow = wors.Dimension.End.Row - 6;   // count row in excel
-                        var cr = new EntitiesImportExcel();
-                        //int num_gate = 20;
-
-                        //------------Count Row In DB Befor Insert-------------
-                        if (inType == "gate")
-                        {
-                            using (var ccs = new EntitiesImportExcel())
-                            {
-                                CountRowInDBBeforInsert = (from o in ccs.GATESTATION_IMPORT
-                                                           select o).Count();
-                            }
-                            //------------End Count Row In DB Befor Insert--------------
-
-                            if (countRow > 0)
-                            {
-                                try
-                                {
-                                    string inGATE_NAME = "";
-                                    string inPRESSURE = "";
-                                    string inFLOW = "";
-
-                                    for (int x = 0; x < wors.Dimension.End.Row - 9; x++)
-                                    {
-
-                                        int y = 0;
-                                        inGATE_NAME = DataTable[x, y].ToString();
-                                        inPRESSURE = DataTable[x, y + 1].ToString();
-                                        inFLOW = DataTable[x, y + 2].ToString();
-
-                                        try
-                                        {
-
-                                            using (var ccs = new EntitiesImportExcel())
-                                            {
-                                                GATESTATION_IMPORT cs = new GATESTATION_IMPORT();
-
-                                                if (inGATE_NAME == "NULL")
-                                                {
-                                                    return Json(new { success = false, responseText = "มีข้อมูลที่เป็นช่องว่าง" }, JsonRequestBehavior.AllowGet);
-                                                }
-                                                else { cs.GATE_NAME = Convert.ToString(inGATE_NAME); }
-
-
-                                                if (inPRESSURE == "NULL")
-                                                {
-                                                    cs.PRESSURE = null;
-                                                }
-                                                else
-                                                {
-                                                    cs.PRESSURE = Convert.ToString(inPRESSURE);
-                                                }
-
-
-                                                if (inFLOW == "NULL")
-                                                {
-                                                    cs.FLOW = null;
-                                                }
-                                                else
-                                                {
-                                                    cs.FLOW = Convert.ToDecimal(inFLOW);
-                                                }
-                                                // cs.MONTH = 5;
-                                                cs.YEAR = Convert.ToDecimal(inYear);
-                                                cs.MONTH = Convert.ToDecimal(inMonth);
-                                                //cs.YEAR = Convert.ToDecimal(Request["Year"]);
-
-                                                //  cs.YEAR = Convert.ToDecimal(Request["seYear"].ToString());
-
-                                                cs.UPLOAD_DATE = DateTime.Now;
-                                                cs.UPLOAD_BY = "User1";
-                                                cs.REGION_ID = Convert.ToDecimal(inRegion);
-
-                                                ccs.GATESTATION_IMPORT.Add(cs);
-                                                ccs.SaveChanges();
-
-                                            } // num_gate = num_gate + 1; 
-                                        }
-                                        catch
-                                        {
-                                            // ข้อมูลซำใน Database return Content("เพิ่มข้อมูลไม่สำเร็จกรุณาเพิ่มข้อมูลใหม่");
-                                            return Json(new { success = false, responseText = "เพิ่มข้อมูลไม่สำเร็จกรุณาเพิ่มข้อมูลใหม่" });
-                                        }
-
-
-                                    } //
-
-                                }//
-                                catch
-                                { return Json(new { success = false, responseText = "เพิ่มข้อมูลไม่สำเร็จกรุณาเพิ่มข้อมูลใหม่" }); }//1
-
-                            }
-                        }
-                        else if (inType == "pipeline")
-                        {
-
-                            using (var ccs = new EntitiesImportExcel())
-                            {
-                                CountRowInDBBeforInsert = (from o in ccs.PIPELINE_IMPORT
-                                                           select o).Count();
-                            }
-                            //------------End Count Row In DB Befor Insert--------------
-
-                            if (countRow > 0)
-                            {
-                                try
-                                {
-
-                                    string inRC_NAME = "";
-                                    string inFLOW = "";
-                                    string inDIAMETER = "";
-                                    string inLENGTH = "";
-                                    string inEFFICIENCY = "";
-                                    string inROUGHNESS = "";
-                                    string inLOAD = "";
-                                    string inVELOCITY = "";
-                                    string inOUTSIDE_DIAMETER = "";
-                                    string inWALL_THICKNESS = "";
-                                    string inSERVICE_STATE = "";
-
-                                    for (int x = 0; x < wors.Dimension.End.Row - 9; x++)
-                                    {
-                                        int y = 0;
-
-                                        inRC_NAME = DataTable[x, y].ToString();
-                                        inFLOW = DataTable[x, y + 1].ToString();
-                                        inDIAMETER = DataTable[x, y + 2].ToString();
-                                        inLENGTH = DataTable[x, y + 3].ToString();
-                                        inEFFICIENCY = DataTable[x, y + 4].ToString();
-                                        inROUGHNESS = DataTable[x, y + 5].ToString();
-                                        inLOAD = DataTable[x, y + 6].ToString();
-                                        inVELOCITY = DataTable[x, y + 7].ToString();
-                                        inOUTSIDE_DIAMETER = DataTable[x, y + 8].ToString();
-                                        inWALL_THICKNESS = DataTable[x, y + 9].ToString();
-                                        inSERVICE_STATE = DataTable[x, y + 10].ToString();
-
-                                        try
-                                        {
-
-
-                                            using (var ccs = new EntitiesImportExcel())
-                                            {
-                                                PIPELINE_IMPORT cs = new PIPELINE_IMPORT();
-                                                //  cs.PIPELINE_ID = y + 1;
-                                                cs.MONTH = Convert.ToDecimal(inMonth);
-                                                cs.YEAR = Convert.ToDecimal(inYear);
-                                                cs.UPLOAD_DATE = DateTime.Now;
-                                                if (inRC_NAME == "NULL")
-                                                { return Json(new { success = false, responseText = "มีข้อมูลที่เป็นช่องว่าง" }, JsonRequestBehavior.AllowGet); }
-                                                else { cs.RC_NAME = Convert.ToString(inRC_NAME); }
-
-                                                if (inFLOW == "NULL")
-                                                { return Json(new { success = false, responseText = "มีข้อมูลที่เป็นช่องว่าง" }, JsonRequestBehavior.AllowGet); }
-                                                else { cs.FLOW = Convert.ToDecimal(inFLOW); }
-
-                                                if (inDIAMETER == "NULL")
-                                                { return Json(new { success = false, responseText = "มีข้อมูลที่เป็นช่องว่าง" }, JsonRequestBehavior.AllowGet); }
-                                                else { cs.DIAMETER = Convert.ToDecimal(inDIAMETER); }
-
-                                                if (inLENGTH == "NULL")
-                                                { return Json(new { success = false, responseText = "มีข้อมูลที่เป็นช่องว่าง" }, JsonRequestBehavior.AllowGet); }
-                                                else
-                                                { cs.LENGTH = Convert.ToDecimal(inLENGTH); }
-
-                                                if (inEFFICIENCY == "NULL")
-                                                { return Json(new { success = false, responseText = "มีข้อมูลที่เป็นช่องว่าง" }, JsonRequestBehavior.AllowGet); }
-                                                else
-                                                { cs.EFFICIENCY = Convert.ToDecimal(inEFFICIENCY); }
-
-                                                if (inROUGHNESS == "NULL")
-                                                { return Json(new { success = false, responseText = "มีข้อมูลที่เป็นช่องว่าง" }, JsonRequestBehavior.AllowGet); }
-                                                else
-                                                { cs.ROUGHNESS = Convert.ToDecimal(inROUGHNESS); }
-
-                                                if (inLOAD == "NULL")
-                                                { return Json(new { success = false, responseText = "มีข้อมูลที่เป็นช่องว่าง" }, JsonRequestBehavior.AllowGet); }
-                                                else
-                                                { cs.LOAD = Convert.ToDecimal(inLOAD); }
-
-                                                if (inVELOCITY == "NULL")
-                                                { return Json(new { success = false, responseText = "มีข้อมูลที่เป็นช่องว่าง" }, JsonRequestBehavior.AllowGet); }
-                                                else
-                                                { cs.VELOCITY = Convert.ToDecimal(inVELOCITY); }
-
-                                                if (inOUTSIDE_DIAMETER == "NULL")
-                                                { return Json(new { success = false, responseText = "มีข้อมูลที่เป็นช่องว่าง" }, JsonRequestBehavior.AllowGet); }
-                                                else
-                                                { cs.OUTSIDE_DIAMETER = Convert.ToDecimal(inOUTSIDE_DIAMETER); }
-
-                                                if (inWALL_THICKNESS == "NULL")
-                                                { return Json(new { success = false, responseText = "มีข้อมูลที่เป็นช่องว่าง" }, JsonRequestBehavior.AllowGet); }
-                                                else
-                                                { cs.WALL_THICKNESS = Convert.ToDecimal(inWALL_THICKNESS); }
-
-                                                if (inSERVICE_STATE == "NULL")
-                                                { return Json(new { success = false, responseText = "มีข้อมูลที่เป็นช่องว่าง" }, JsonRequestBehavior.AllowGet); }
-                                                else
-                                                { cs.SERVICE_STATE = Convert.ToString(inSERVICE_STATE); }
-
-
-
-                                                //  cs.YEAR = Convert.ToDecimal(Request["seYear"].ToString());
-
-
-                                                cs.UPLOAD_BY = "User1";
-                                                cs.REGION_ID = Convert.ToDecimal(inRegion);
-
-                                                ccs.PIPELINE_IMPORT.Add(cs);
-                                                ccs.SaveChanges();
-
-                                            }
-                                        }
-                                        catch
-                                        {
-                                            // ข้อมูลซำใน Database return Content("เพิ่มข้อมูลไม่สำเร็จกรุณาเพิ่มข้อมูลใหม่");
-                                            return Json(new { success = false, responseText = "เพิ่มข้อมูลไม่สำเร็จกรุณาเพิ่มข้อมูลใหม่" });
-                                        }
-
-                                    } //
-
-                                }//
-                                catch
-                                { return Json(new { success = false, responseText = "เพิ่มข้อมูลไม่สำเร็จกรุณาเพิ่มข้อมูลใหม่" }); }//1
-
-
-
-                            }
-                        }
-                        return Json(new { success = true, responseText = "เพิ่มข้อมูลสำเร็จ" });
-
-                        //------------Count Row In DB After Insert-------------
-
-                        /* var CountRowInDBAfterInsert = 0;
-                         using (var ccs1 = new EntitiesImportExcel())
-                         {
-                             CountRowInDBAfterInsert = (from o in ccs1.GATESTATION_IMPORT
-                                                        select o).Count();
-                         }
-                         //------------End Count Row In DB After Insert--------------
-
-                         int countRowbeforALL = CountRowInDBBeforInsert + countRow-3;
-
-                         if (countRowbeforALL == CountRowInDBAfterInsert)
-                         {
-                             //Process.Start("C:\\Quest Software\\Toad for Oracle 11.6\\Toad.exe");
-                             //Process.Start("C:\\Users\\Administrator\\Desktop\\Autogen_ห้ามลบ\\RouteGenerator.exe");
-                             //Process.Start("D:\\Users\\zparinya.th\\Desktop\\stands\\The_world_c252.png");
-                             return Json(new { responseText = "เพิ่มข้อมูลสำเร็จ" });
-                         }
-                         else
-                         {
-                             return Json(new { success = false, responseText = "เพิ่มข้อมูลไม่สำเร็จกรุณาเพิ่มข้อมูลใหม่" });
-                         } */
-
-
-
-                    }
-
+                    listGate.RemoveAt(i);
+                    listGateUnsuccess.Add(gateItem);
                 }
-
+                else if (dto.IsGateStationImportDuplicate(gateItem))
+                {
+                    listGate.RemoveAt(i);
+                    listGateDupplicate.Add(gateItem);
+                }
                 else
                 {
-                    //return Content("file ไม่ถูกต้อง กรุณาเลือก file ใหม่");
-                    return Json(new { success = false, responseText = "file ไม่ถูกต้อง กรุณาเลือก file ใหม่" });
+                    var ga2 = new ModelGateStationArchive(gateItem);
+                   
+                    dto.InsertGateArchive(ga2);
                 }
-
-            }
-            else
-            {
-                //return Content("กรุณาเลือกไฟล์ที่ต้องการ Upload");
-                return Json(new { success = false, responseText = "กรุณาเลือกไฟล์ที่ต้องการ Upload" });
-            }
-
-        }//3
+            }            
+            pModelResult.ListDuplicateGateStation = listGateDupplicate.ToArray();
+            pModelResult.ListUnSuccessGateStation = listGateUnsuccess.ToArray();
+            pModelResult.ListSuccessGateStation = listGate.ToArray(); 
+        }
 
         //[HttpPost]
         //public ActionResult InsertExceldata(string year, string month, string region, string type)
