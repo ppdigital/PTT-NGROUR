@@ -157,6 +157,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LDAPSearch.cs" />
+    <Compile Include="Controllers\SQLServerQuery.cs" />
     <Compile Include="Controllers\ThresholdController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UtilizationController.cs" />
@@ -253,6 +254,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\Chart\Chart.js" />
     <Content Include="Scripts\DataTables\DataTables-1.10.16\css\dataTables.bootstrap.css" />
     <Content Include="Scripts\DataTables\DataTables-1.10.16\css\dataTables.bootstrap.min.css" />
     <Content Include="Scripts\DataTables\DataTables-1.10.16\css\dataTables.bootstrap4.css" />
@@ -329,7 +331,11 @@
     <Content Include="Views\Utilization\ImportExcel.cshtml" />
     <Content Include="Views\Utilization\Index.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
+
     <Content Include="Views\Utilization\ModalImportExcelDialog.cshtml" />
+
+    <Content Include="Views\Admin\SearchByAD.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

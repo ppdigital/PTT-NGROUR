@@ -251,7 +251,7 @@ namespace OUR_App.Controllers
                     dto.InsertGateImport(gateItem);
 
 
-                }else if(gateItem.FLOW != gateDuplicate.FLOW || gateItem.PRESSURE !=gateDuplicate.PRESSURE ) {
+                }else if(gateItem.FLOW != gateDuplicate.FLOW && gateItem.PRESSURE !=gateDuplicate.PRESSURE ) {
                     gateItem.GATE_ID = gateDuplicate.GATE_ID;
                     dto.UpdateGateImport(gateItem);
                 }
@@ -260,12 +260,7 @@ namespace OUR_App.Controllers
                 {
                     listGate.RemoveAt(i);
                     listGateUnsuccess.Add(gateItem);
-                }
-                else if (dto.IsGateStationImportDuplicate(gateItem))
-                {
-                    listGate.RemoveAt(i);
-                    listGateDupplicate.Add(gateItem);
-                }
+                }                
                 else
                 {
                     var gateArchiveDuplicate = listArchiveDuplicate.FirstOrDefault(x=> x.GATE_NAME == gateItem.GATE_NAME);

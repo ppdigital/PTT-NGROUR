@@ -229,6 +229,33 @@ namespace PTT_NGROUR.DTO
             dal = null;
         }
 
+        public void UpdateGateArchive(Models.DataModel.ModelGateStationImport pModel)
+        {
+            if (pModel == null)
+            {
+                return;
+            }
+            string strCommand = @"UPDATE PTTOUR.GATESTATION_IMPORT
+                SET    
+                       GATE_NAME   = '{0}',
+                       PRESSURE    = {1},
+                       FLOW        = {2},
+                       MONTH       = {3},
+                       YEAR        = {4},
+                       UPLOAD_DATE = sysdate,
+                       UPLOAD_BY   = '{5}',
+                       REGION_ID   = {6}
+                WHERE  GATE_ID     = {7}";
+            strCommand = string.Format(strCommand,
+                pModel.GATE_NAME.Trim().Replace("'", "''"),
+                pModel.PRESSURE, pModel.FLOW, pModel.MONTH, pModel.YEAR,
+                pModel.UPLOAD_BY.Trim().Replace("'", "''"),
+                pModel.REGION_ID, pModel.GATE_ID);
+            var dal = new DAL.DAL();
+            dal.ExecuteNonQuery(strCommand);
+            dal = null;
+        }
+
         public void InsertPipelineArchive(Models.DataModel.ModelPipelineArchive pModel)
         {
             if (pModel == null)

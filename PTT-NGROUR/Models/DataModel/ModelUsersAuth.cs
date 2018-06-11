@@ -45,4 +45,10 @@ namespace PTT_NGROUR.Models.DataModel
         public string BROWSER { get; set; }
         public string LOG_STATUS { get; set; }
     }
+
+    public class ModelUsersRole
+    { public int ROLE_ID { get; set; }
+    public string ROLE_NAME { get; set; } 
+    }
+
 }
