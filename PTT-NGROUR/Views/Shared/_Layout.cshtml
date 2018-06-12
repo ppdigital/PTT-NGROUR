@@ -4,22 +4,32 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-   @*  <script src="~/Scripts/chart.js"></script>*@
-      @Styles.Render("~/Content/bootstrap.css")
+    @*  <script src="~/Scripts/chart.js"></script>*@
+    @Styles.Render("~/Content/bootstrap.css")
     @Styles.Render("~/Content/bootstrap.min.css")
-    
+    @Scripts.Render("~/bundles/bootstrap.js")
     @*  @Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap.js")
-   
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+
     <link href="~/Style/create.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <!--<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">-->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-  
     @RenderSection("style", false)
+    <style>
+        .nav > li > a:hover,.nav > li > a:focus {
+            background-color: rgba(0,0,0,.2);
+        }
+        .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
+            background-color: rgba(0,0,0,.2);
+        }
+        
+    </style>
 </head>
 <body>
 
@@ -28,154 +38,84 @@
         <!--   <div class="cover bg-center" style="background-image:url(http://localhost:13788/Content/Images/bg3.jpg);">-->
 
         <div id="header">
-            <div class="bg-blue5 hidden-xs hidden-sm hidden-md">
-                <div class="topnav" id="myTopnav">
-                    <div class="black-70">
-                        <a href="@Url.Action("Index", "Home")" class="mt-7">
-                            <!--  <img id="logo" width="80" src="http://localhost:13788/Content/Images/Logo_PTT.png" />-->
+            <nav class="navbar bg-blue5 hidden-xs hidden-sm  white" style="margin-bottom:0px;">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="@Url.Action("Index", "Home")" class=" navbar-brand">
                             <img id="logo" width="90" src="~/Content/logo/OURlogo1w.png" />
                         </a>
-                        <a href="javascript:void(0);" style="font-size:30px;" class="icon mr2 mt1" onclick="myFunction()">&#9776;</a>
 
-                        <div class="fr">
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li ><a href="@Url.Action("Index", "Dashboard")" class="white"><strong class="white lato f6">Dashboard</strong></a></li>
+                            <li><a href="@Url.Action("Index", "OAndM")" class="white"><strong class="white lato f6">O & M</strong></a></li>
+                            <!--<li><a href="#contact">Contact</a></li>-->
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong class="white lato f6">Utilization</strong><span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("Index", "Utilization")">Utilization</a></li>
+                                    <li><a href="@Url.Action("CustManage", "Utilization")">Customer</a></li>
+                                    <li><a href="@Url.Action("ImportExcel", "Utilization")">Import Excel</a></li>
+                                    <li><a href="@Url.Action("ThresholdSetting", "Utilization")">Threshold Setting</a></li>
+                                    <li><a href="@Url.Action("UReport", "Utilization")">Report</a></li>
+                                    
+                                </ul>
+                            </li>
+                            <li><a href="@Url.Action("Index", "RiskMang")" class="white"><strong class="white lato f6">Risk Management</strong></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong class="white lato f6">Admin</strong><span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("UserManage", "Admin")">User Management</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
                             @if (Request.IsAuthenticated)
-                            {
-                                <a><strong class=" lato white f6 menu1  name pr2-m pr4-l pr0-sm dib">@Html.Encode(User.Identity.Name)</strong></a>
-                            }
-                            <a href="#" id="menu" class="menu ml3-l white f6 hidden-sm hidden-md">
-                                <i class="fa fa-sign-out white" aria-hidden="true"></i>
-                                <strong class="lato white f6">Sign Out</strong>
-                            </a>
-                        </div>
-
-
-
-
-                        <a href="@Url.Action("Index", "Dashboard")" id="menu" class="menu ml3-l white f6"><strong>Dashboard</strong></a>
-                        <a href="@Url.Action("Index", "OAndM")" id="menu" class="menu f6 white"><strong>O & M</strong></a>
-                        <div class="dropdown1">
-                            <div class="dropbtn white f6 pointer" id="Mydropbtn1" onclick="menu_U()">
-                                <strong class="white lato f6">Utilization</strong>
-                                <i class="fa fa-caret-down white " aria-hidden="true"></i>
-                            </div>
-                            <div class="bg-blue">
-                                <div class="dropdown-content" id="dropbtn_U">
-                                    <a href="@Url.Action("Index", "Utilization")" class="menu"><strong class="gray6 f6">Utilization</strong></a>
-                                    <a href="@Url.Action("CustManage", "Utilization")" class="menu"><strong class="gray6 f6">Customer</strong></a>
-                                    <a href="@Url.Action("ImportExcel", "Utilization")" class=" menu"><strong class="gray6 f6">Import Excel</strong></a>
-                                    <a href="@Url.Action("ThresholdSetting", "Utilization")" class=" menu"><strong class="gray6 f6">Threshold Setting</strong></a>
-                                    <a href="@Url.Action("UReport", "Utilization")" class=" menu"><strong class="gray6 f6">Report</strong></a>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="@Url.Action("Index", "RiskMang")" id="menu" class="menu f6 white"><strong>Risk Management</strong></a>
-
-                        <div class="dropdown1">
-                            <div class="dropbtn white f6 pointer" id="Mydropbtn1" onclick="menu_Admin()">
-                                <strong class="white lato f6">Admin</strong>
-                                <i class="fa fa-caret-down white" aria-hidden="true"></i>
-                            </div>
-                            <div class="bg-blue">
-                                <div class="dropdown-content" id="dropbtn_Admin">
-                                    <a href="@Url.Action("UserManage", "Admin")" class="menu"><strong class="gray6 f6">User Management</strong></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="dropdown1">
-                    <div class="dropbtn gray6 f6" id="Mydropbtn1" onclick="myFunction1()">
-                        <strong class="gray6 lato f6">Admin</strong>
-                        <i class="fa fa-caret-down gray6 lato f6"></i>
-                    </div>
-                    <div class="bg-blue">
-                        <div class="dropdown-content" id="dropbtn1">
-                            <a href="@Url.Action("UserManage", "Admin")" class="menu"><strong class="gray6 f6">User Management</strong></a>
-                            <a href="#" class="menu"><strong class="gray6 f6">Link 2</strong></a>
-                            <a href="#" class="menu"><strong class="gray6 f6">Link 3</strong></a>
-                        </div>
-                    </div>
-                </div>-->
-                        <a class=" dib hidden-lg menu" id="menu" href="#">
-                            <i class="fa fa-user fa-lg white" aria-hidden="true"></i>
-                            <strong class="white lato f6">Sign Out</strong>
-                        </a>
-
-
-
-                        <!--   <a class="dib v-mid hidden-lg hidden-md" id="menu" href="#">
-                    <img src="~/Content/Images/Sign-out.png" width="30" class="nt2 nb2" />
-                    <strong>Sign Out</strong>
-                </a> -->
-                    </div>
+                           {
+                               <a><strong class=" lato white ">@Html.Encode(User.Identity.Name)</strong></a>
+                           }</li>
+                          
+                            <li><a href="#">
+                                <i class="fa fa-user fa-lg white" aria-hidden="true"></i>
+                                <strong class="white lato f6">Sign Out</strong></a>
+                            </li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
                 </div>
-            </div>
+            </nav>
 
 
 
-            <script>
-                var x = document.getElementById("myTopnav");
-                var y = document.getElementById("dropbtn1");
-                function myFunction() {
-                    if (x.className === "topnav") {
-                        x.className += " responsive";
-
-                    } else {
-                        x.className = "topnav";
-                        y.className = "dropdown-content";
-
-
-
-                    }
-                }
-                function menu_U() { document.getElementById("dropbtn_U").classList.toggle("show"); }
-                function menu_Admin() { document.getElementById("dropbtn_Admin").classList.toggle("show"); }
-                function myFunction1() { document.getElementById("dropbtn1").classList.toggle("show"); }
-
-                window.onclick = function (event) {
-                    if (!event.target.matches('#Mydropbtn1')) {
-
-                        var dropdowns = document.getElementsById("dropbtn1");
-                        var i;
-                        for (i = 0; i < dropdowns.length; i++) {
-                            var openDropdown = dropdowns[i];
-                            if (openDropdown.classList.contains('show')) {
-                                openDropdown.classList.remove('show');
-                            }
-
-                        }
-                    }
-                }
-
-
-
-            </script>
+            
 
             <!--        Mobile version     -->
-            <div class="dib w-100  dt w-100 dib bg-blue5 shadow-2 hidden-lg h2">
+            <div class="bg-blue5 shadow-2 hidden-lg hidden-md row" style="padding: 1rem 1rem">
 
-                <div class="dtc v-mid  pr3 w-nav-menu">
-                    <a class="white pl2 f7 no-underline" onclick="history.back(-1)" style=" vertical-align:middle; float:left; line-height: 3px" href="#">
+                <div class=" w-nav-menu col-sm-4" style="float:left">
+                    <a class="white no-underline" onclick="history.back(-1)" style=" vertical-align:middle; float:left; line-height: 3px" href="#">
                         <i class="fa fa-angle-left fa-lg" aria-hidden="true"></i>
-                        <div class="dib"> Back</div>
+                        <span class=" h5 b "> Back</span>
                     </a>
                 </div>
 
-
-
-
-                <div class="dtc v-mid pl3 pr3 w-nav-menu">
-                    <center>
-                        <!-- <div class="dtc v-mid"> <img id="logo" width="20" src="http://localhost:11445/Content/Images/logo3.png" /></div>
-                         <li class="dtc v-mid"><a class=" white f7 b pl2 mt1 ">OUR</a></li>-->
-                        <div class="dtc v-mid"> <img id="logo" width="100" src="http://localhost:11445/Content/logo/OURlogo1w.png" /></div>
-                    </center>
+                <div class="w-nav-menu col-sm-4 v-mid" style=" float: left">
+                    <center><img id="logo" width="100" src="~/Content/logo/OURlogo1w.png" /></center>
                 </div>
-                <div class="w-nav-menu">
+                <div class="w-nav-menu col-sm-4 " style="float:right">
 
                 </div>
 
 
             </div>
-
+            <div style="float:none"></div>
 
         </div>
 
@@ -183,20 +123,20 @@
         <!--    Body    -->
         <!--<div id="body" class="bg-gray3 pb3-ns pb3-m">-->
         <div id="body" class="bc-gray1 pb5-ns pb3-m">
-            <div class=" w-100 mb1 pv1 hidden-sm hidden-md shadow-bottom  ph5 hidden-md hidden-sm">
+           
+                <div class=" w-100 mb1 pv1 hidden-xs hidden-sm shadow-bottom  ph5">
+                    <div class="container-fluid">
+                        <div class="f6 lato "> @Html.MvcSiteMap().SiteMapPath()</div>
+                    </div>
+                    </div>
+            
 
-
-
-
-                <div class="f6 lato"> @Html.MvcSiteMap().SiteMapPath()</div>
-
-
-            </div>
             @RenderBody()
+            <br /><br /><br />
         </div>
 
 
-        <div class="f7 hidden-lg">
+        <!--<div class="f7 hidden-lg">
             <div class="f8 gray6 mt3" id="footer">
                 <center class="nt-footer">Copyright &copy; @DateTime.Now.Year PTT DIGITAL Solutions Co.ltd.</center>
             </div>
@@ -204,7 +144,7 @@
 
 
 
-            <div class="dt fl hidden w-100 dib h-menu-footer no-underline  bg-white ph0 bt bb b--black-05 " id="footer-fix">
+            <div class="dt fl  w-100 h-menu-footer no-underline  bg-white ph0 bt bb b--black-05 " id="footer-fix">
                 <a href="@Url.Action("Index", "Dashboard")" class="no-underline dtc v-mid tc w-20 menu_hover">
                     <i class="fa fa-tachometer fa-lg gray7" aria-hidden="true" id="dashboard"></i>
                     <div class="gray6 f-menu-footer pt1" id="t_dashboard">Dashboard</div>
@@ -235,21 +175,79 @@
                         </div>
                     </a>
                 </div>
-                <!-- <a class="dtc v-mid tc w-20" onclick = "openNav()">
-                     <div class="dib">
-                         <i class="fa fa-user  fa-lg gray7" aria-hidden="true"></i>
-                         <div class="gray6 f-menu-footer pt1">User</div>
-                     </div>
-                 </a>-->
-            </div>
-        </div>
 
-        <div class="pt3 hidden-sm hidden-md">
+            </div>
+        </div>-->
+
+
+        <div class="pt3 hidden-sm hidden-md hidden-xs">
             <div class="f8 black mt3" id="footer">
                 <center class=" f8">Copyright &copy; @DateTime.Now.Year PTT DIGITAL Solutions Co.ltd. PTT Group, All rights reserved. Terms of Use Privacy Policy . VERSION PRODUCTION 1</center>
             </div>
         </div>
     </div>
+    <footer class="hidden-lg hidden-md">
+        <div class="bg-white navbar-fixed-bottom ">
+
+
+            <div class="navbar-collapse" id="footer-body">
+                <center>
+                    <div class="nav navbar-nav w-100 ">
+                        <center>
+                            <a href="@Url.Action("Index", "Dashboard")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
+
+                                <i class="fa fa-tachometer fa-lg gray7" aria-hidden="true" id="dashboard"></i>
+                                <div class="gray6 f-menu-footer pt1" id="t_dashboard">Dashboard</div>
+                            </a>
+                        </center>
+                        <center>
+                            <a href="@Url.Action("Index", "Utilization")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
+
+                                <i class="fa fa-map-marker fa-lg gray7" aria-hidden="true" id="utilization"></i>
+                                <div class="gray6 f-menu-footer pt1" id="t_utilization">Utilization</div>
+
+                            </a>
+                        </center>
+                        <center>
+                            <div class="dtc v-mid tc w-20 menu_hover" style="float:left;">
+
+                                <i class="fa fa-cogs fa-lg gray7" aria-hidden="true" id="o_and_m"></i>
+                                <div class="gray6 f-menu-footer pt1" id="text_o_and_m">O & M</div>
+
+                            </div>
+                        </center>
+                        <center>
+                            <div class="dtc v-mid tc w-20 menu_hover" style="float:left;">
+
+                                <div class="dib ">
+                                    <i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" id="risk_manage"></i>
+                                    <div class="gray6 f-menu-footer pt1" id="t_risk_manage">Risk Manageent</div>
+                                </div>
+
+                            </div>
+                        </center>
+                        <center>
+                            <div class="dtc v-mid tc w-20 menu_hover" style="float:left;">
+
+                                <a class="tc" href="@Url.Action("MenuMobile", "User")">
+                                    <i class="fa fa-bars fa-lg gray7" aria-hidden="true" id="user"></i>
+                                    <div class="gray6 f-menu-footer pt1">Menu</div>
+                                </a>
+
+                            </div>
+                        </center>
+
+
+
+
+                    </div>
+                </center>
+            </div>
+
+
+        </div>
+
+    </footer>
 
     <script>
         var viewbag = '@(ViewBag.Title)';
@@ -286,7 +284,9 @@
     </script>
 
     <!--   </div>-->
-    @RenderSection("scripts", required: false)
+   @*@RenderSection("scripts", required: false)*@ 
 </body>
+
+
 </html>
 

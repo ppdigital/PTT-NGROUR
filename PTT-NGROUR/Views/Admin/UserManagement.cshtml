@@ -8,87 +8,93 @@
 <link href="~/Scripts/DataTables/datatables.min.css" rel="stylesheet" />
 <script src="~/Scripts/DataTables/datatables.js"></script>
 
-<div class="panel panel-primary">
-    <div id="panel" class="panel-heading">
-        <div class="panel-title">
-            User Table
-            <button class="btn btn-primary btn-xs pull-right" id="btnCreate" data-toggle="modal" data-target="#myModalCreate"><span class="glyphicon glyphicon-pencil"></span> Create</button>
+    <div class="container-fluid">
+        <br /><br />
+        <div class="panel panel-default">
+            <div id="panel" class="panel-heading">
+                <div class="panel-title h4">
+                    User
+                    <button class="b btn btn-primary btn-xs pull-right" id="btnCreate" data-toggle="modal" data-target="#myModalCreate"><span class="fa fa-pencil-square-o"></span> Create</button>
+                </div>
+
+            </div>
+            <div id="panelcontent" class="panel-body">
+                <div class="w-100" style="padding-left:-10px;border:1px">
+                    <div class="table-responsive">
+                        <table class="table h6 table-striped table-bordered" id="UserDatailTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>E-Mail</th>
+                                    <th>Group Name</th>
+                                    <th>Role Name</th>
+                                    <th>Create Date</th>
+                                    <th>Create By</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model.ModelUsersAuth)
+                                {
+                                    <tr>
+                                        <td>@user.EMPLOYEE_ID</td>
+                                        <td>@user.FIRSTNAME  @user.LASTNAME</td>
+                                        <td>@user.EMAIL</td>
+                                        <td>@user.GROUP_NAME</td>
+                                        <td>@user.ROLE_NAME</td>
+                                        <td>@user.CREATE_DATE</td>
+                                        <td>@user.CREATE_BY</td>
+
+                                        <td>
+                                            <center> <a class=" dib fa fa-pencil-square-o fa-lg no-underline gray " id="Edit" name="btnOpenEdit" onclick="EDITUSER(@user.EMPLOYEE_ID)" data-toggle="modal" data-target="#myModalEdit" aria-hidden="true"></a></center> 
+                                        </td>
+
+                                        <td>
+                                            <center> <button class="btn btn-link" onclick="ConfirmDel(@user.EMPLOYEE_ID)"><span class="fa fa-trash-o" aria-hidden="true"></span></button></center> 
+</td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-    </div>
-    <div id="panelcontent" class="panel-body">
 
-        <table class="table h6 table-striped table-bordered" id="UserDatailTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>E-Mail</th>
-                    <th>Group Name</th>
-                    <th>Role Name</th>
-                    <th>Create Date</th>
-                    <th>Create By</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model.ModelUsersAuth)
-                {
-                    <tr>
-                        <td>@user.EMPLOYEE_ID</td>
-                        <td>@user.FIRSTNAME  @user.LASTNAME</td>
-                        <td>@user.EMAIL</td>
-                        <td>@user.GROUP_NAME</td>
-                        <td>@user.ROLE_NAME</td>
-                        <td>@user.CREATE_DATE</td>
-                        <td>@user.CREATE_BY</td>
-
-                        <td >
-                            <a class=" dib fa fa-pencil-square-o fa-lg no-underline pt1-ns gray " id="Edit" name="btnOpenEdit" onclick="EDITUSER(@user.EMPLOYEE_ID)" data-toggle="modal" data-target="#myModalEdit" aria-hidden="true"></a>
-                        </td>
-                        
-                        <td>
-                            <button class="btn btn-link" onclick="ConfirmDel(@user.EMPLOYEE_ID)"><span class="fa fa-trash-o" aria-hidden="true"></span></button>
-                        </td>
-                    
-                    </tr>
-                }
-            </tbody>
-        </table>
-
+       
 
     </div>
+    <!--Modal Create -->
 
-</div>
+    <div id="myModalCreate" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <label class="panel-title">Create User</label>
+                    <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+                <br />
+                <div class="mh3 mv3">
+                    <div style="max-height:200px;overflow:auto; padding-left:30px; padding-right:30px" id="SearchAD">
+                        <center>  @{Html.RenderAction("SearchbyAD", "Admin");} </center>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="container">
 
 
-<!--Modal Create -->
 
-<div id="myModalCreate" class="modal bs-example-modal"   >
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <label class="panel-title">Create User</label>
-                <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            </div>
-            <br />
-            <div class="mh3 mv3">
-                        <div style="max-height:200px;overflow:auto; padding-left:30px; padding-right:30px" id="SearchAD">
-                            <center>  @{Html.RenderAction("SearchbyAD", "Admin");} </center>
-                        </div>
-
-                <div class="modal-body">
-                    <div class="container">
-                      
-                          
-                        
                             <label for="name" class="f6 b db mb3 ">User Detail</label>
                             <table id="CreateUserTable">
                                 <tr>
                                     <td class="b">EMPLOYEE ID : &nbsp;</td>
                                     <td class="">
-                                       <input id="txtEmployeeIDCreate" class=" form-control " type="text" aria-describedby="name-desc" ><br />
+                                        <input id="txtEmployeeIDCreate" class=" form-control " type="text" aria-describedby="name-desc"><br />
                                     </td>
                                 </tr>
 
@@ -137,33 +143,34 @@
                                 </tr>
 
                             </table>
-                        
+
                         </div>
                     </div>
                 </div>
-    
-            <div class="modal-footer">
-                <input type="button" class="btn btn-primary" id="btnCreateUser" value="Save" onclick="myFunction()">
-                <a type="button" class="btn btn-default cancleCreate" href="#0" id="btnCancle">Cancel</a>
-            </div>
-            
 
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-primary" id="btnCreateUser" value="Save" onclick="myFunction()">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                   <!-- <a type="button" class="btn btn-default cancleCreate" href="#0" id="btnCancle">Cancel</a>-->
+                </div>
+
+
+            </div>
         </div>
     </div>
-</div>
-<!--Modal Edit -->
+    <!--Modal Edit -->
 
-<div id="myModalEdit" class="modal modalEdit" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <label class="panel-title">EDIT USER</label>
-                <span class="closeEdit nt2 pt3 mr3" id="closeCross">&times;</span>
-            </div>
+    <div id="myModalEdit" class="modal modalEdit" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <label class="panel-title">EDIT USER</label>
+                    <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
 
                 @using (Html.BeginForm("EditUser", "Admin", FormMethod.Post))
-                {   
-                    
+                {
+
                     <div class="mh3 mv3">
                         <div class="  black-80 center">
                             <div class="measure center">
@@ -191,9 +198,9 @@
                                 <!-- <input id="txt_editEmail" class="input-reset ba b--black-20 pa2 mb2 db w-100 f6" type="text" aria-describedby="name-desc"> -->
                             </div>
 
-                            <div class=" center"> 
+                            <div class=" center">
                                 <label for="name" class="f7 b db mb2 ">ROLE</label>
-                               
+
                                 <select class="form-control input" style="height: 30px" id="seRoleEdit" name="seRoleEdit">
                                     @foreach (PTT_NGROUR.Models.DataModel.ModelUsersRole mr in Model.ModelUsersRole)
                                     {
@@ -201,7 +208,7 @@
                                         <option value="@mr.ROLE_ID">@mr.ROLE_NAME</option>
                                     }
                                 </select>
-                              <!--  <select class="form-control" id="seRoleEdit">
+                                <!--  <select class="form-control" id="seRoleEdit">
                                     <option value="2" selected>Viewer</option>
                                     <option value="1">Admin</option>
                                 </select>-->
@@ -218,66 +225,41 @@
                             </div>
                         </div>
                     </div>
-                   <br /> 
-                   <div class="modal-footer">
-                        <a class="f7 btn btn-default btn-sm cancleEdit" href="#0" id="btnCancle">Cancle</a>
+                    <br />
+                    <div class="modal-footer">
                         <button type="submit" class="btn btn-primary btn-sm">Edit User</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </div>
-                    
-                    
+
+
                 }
-                    
+
+            </div>
         </div>
     </div>
-</div>
 
-        <script type="text/javascript">
+    <script type="text/javascript">
             $(document).ready(function () {
                 $('#UserDatailTable').dataTable();
-                
-                
 
+              //  $('#myModalCreate').on('hidden.bs.modal', function () {
+                   // $(this).find("input,textarea").val('').end();
 
+               // });
+
+               
             });
             var modalCreate = document.getElementById('myModalCreate');
             var btnCreate = document.getElementById("btnCreate");
             var closeCreate = document.getElementsByClassName("close_create")[0];
             var cancleCreate = document.getElementsByClassName("cancleCreate")[0];
 
+           // $('#myModalCreate').appendTo("body").modal('show');
 
 
-            btnCreate.onclick = function () {
-                modalCreate.style.display = "block";
-            }
-            closeCreate.onclick = function () {
-                modalCreate.style.display = "none";
-            }
-            cancleCreate.onclick = function () {
-                modalCreate.style.display = "none";
-            }
-            window.onclick = function (event) {
-                if (event.target == modalCreate) {
-                    modalCreate.style.display = "none";
-                }
-            }
 
-            var closeEdit = document.getElementsByClassName("closeEdit")[0];
-            var cancleEdit = document.getElementsByClassName("cancleEdit")[0];
-            var modalEdit = document.getElementById('myModalEdit');
-
-            closeEdit.onclick = function () {
-                modalEdit.style.display = "none";
-            }
-            cancleEdit.onclick = function () {
-                modalEdit.style.display = "none";
-            }
-            window.onclick = function (event) {
-                if (event.target == modalEdit) {
-                    modalEdit.style.display = "none";
-                }
-            }
             function EDITUSER(id) {
-                modalEdit.style.display = "block";
+                //modalEdit.style.display = "block";
 
                 @foreach (var user in Model.ModelUsersAuth)
         {
@@ -294,14 +276,15 @@
                     $("#seGroupEdit").val('@user.GROUP_ID');
                     $("#seRoleEdit").val('@user.ROLE_ID');
 
-                   
+
                 }
-                </text>    
-        }  
+                </text>
+        }
 
             };
 
-            function myFunction() {
+        function myFunction() {
+          
                 console.log($("#txtEmployeeIDCreate").val());
                 console.log($("#IsADCreate").val());
                 console.log("Hello World");
@@ -409,9 +392,9 @@
                 }
             };
 
-        </script>
+    </script>
 
-        <script>
+    <script>
 
             function ConfirmDel(id) {
                 var employeeid = id;
@@ -428,12 +411,13 @@
                         }
                     });
                     //$("#Confirm").load('~/Views/Admin/UserManagement');
-                   // return true;
-                   // window.location.reload();
+                    // return true;
+                    // window.location.reload();
                 }
                 else {
                     return false;
                 }
             };
 
-        </script>
+    </script>
+

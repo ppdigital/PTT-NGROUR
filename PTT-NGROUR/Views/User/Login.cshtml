@@ -4,13 +4,90 @@
     Layout = null;
 }
 
-<h2>Login</h2>
-<form method="post">
-    @Html.TextBoxFor(u => u.Username, new { @class = "input100 lato f4-l", @placeholder = "Username" })
-    @Html.PasswordFor(u => u.Password, new { @class = "input100 lato f4-l", @placeholder = "Password" })
-    @Html.CheckBoxFor(u => u.RememberMe, new { @class = "input-checkbox100", @id = "ckb1" })
-    <input type="submit" class="b mv2 ph3 f4-l f3-m f5-ns pv2 input-reset w-100  bg-blue-signin grow pointer f5 dib white lato br1" value="Log In" id="btnSignIn" />
-    @Html.ValidationSummary(true, "Login failed. Check your login details.")
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <link href="~/style/create_login.css" rel="stylesheet" />
+    <link href="~/Style/create.css" rel="stylesheet" />
+    @Styles.Render("~/Content/bootstrap.css")
+    @Styles.Render("~/Content/bootstrap.min.css")
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.css' rel='stylesheet'>
+    <title>@ViewBag.Title</title>
+</head>
 
-</form>
+<div class="cover bg-center h-100 w-100 lato" style="background-image: url(http://localhost:3207/Content/Images/wall.png);">
+    <div class=" h-100 container-login100">
+
+        <!--<center><br /><h3 class="roboto f3 mt2 mb2">Name</h3></center>-->
+
+        <div class="  col-sm-12 ">
+            <center>
+                <div class="dib gray3 v-mid mb2">
+                    <!--   <img width="100" src="~/Content/Images/logo1.png" /><br />
+                   <div class="pt1"><label class="dib b white f3 t-shadow1">NGR - OUR</label> </div>-->
+                    <!--<label class="dib b white f5 t-shadow1"> System</label>-->
+                    <img class="w-3h-md w-25h-xs w-25h-sm w-4h-lg" src="~/Content/Logo/OURlogo1.png" /><br />
+                </div>
+            </center>
+            <br /><br /><br />
+            <div class="v-mid ">
+                <div class="ph3  black-80">
+                    <form method="post">
+                        <fieldset id="sign_up" class="ba b--transparent center col-sm-12">
+                            <!--<legend class="f4 fw6 ph0 mh0">Sign In</legend>-->
+                            <!--    <label class="db lh-copy fw6 f4 hidden fl blue1 mb3 pt3  w-50">Sign In</label><br /><br />-->
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-4">
+                                <div class="pt4 pt5-l ">
+                                    <div class="wrap-input100 validate-input lato " data-validate="Enter username">
+                                        @Html.TextBoxFor(u => u.Username, new { @class = "input100 lato ", @placeholder = "Username" })
+                                        <span class="focus-input100 lato" data-placeholder="&#xf207;"></span>
+                                    </div>
+
+                                    <div class="wrap-input100 validate-input lato" data-validate="Enter password">
+                                        @Html.PasswordFor(u => u.Password, new { @class = "input100 lato ", @placeholder = "Password" })
+                                        <span class="focus-input100 lato" data-placeholder="&#xf191;"></span>
+                                    </div>
+                                </div>
+
+                                <div class="contact100-form-checkbox">
+                                    @Html.CheckBoxFor(u => u.RememberMe, new { @class = "input-checkbox100 lato", @id = "ckb1" })
+                                    <label class="label-checkbox100 " for="ckb1">
+                                        <a class="black" id="check_remenber lato">Remember me</a>
+                                    </label>
+                                </div>
+                            </div>
+                           
+                        </fieldset>
+
+                        <br />
+                        <center>
+                            <div class="col-sm-12">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4">
+                                    <input type="submit" class="b input-reset btn btn-primary grow pointer lato " style="width:100%" value="Log In" id="btnSignIn" />
+                                @Html.ValidationSummary(true, "Login failed. Check your login details.")
+                                </div>
+                                <div class="col-sm-4"></div>
+                            </div>
+                        </center>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        <br />
+        <footer style="width:100%">
+            <div class=" w-100 f7 pv1 hidden-sm hidden-xs">
+                <center><label class=" white t-shadow1 f8 h6-lg" style="color:white;">Copyright &copy; @DateTime.Now.Year PTT DIGITAL Solutions Co.ltd. PTT Group, All rights reserved. Terms of Use Privacy Policy . VERSION PRODUCTION 1</label></center>
+            </div>
+
+            <div class=" w-100 f7 pv1 hidden-lg hidden-md">
+                <center><label class=" white t-shadow1 f8 h6-lg" style="color:white;">Copyright &copy; @DateTime.Now.Year PTT DIGITAL Solutions Co.ltd.</label></center>
+            </div>
+        </footer>
+    </div>
+</div>
+

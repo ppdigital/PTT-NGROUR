@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "MenuBar";
+  
+<ul class="nav navbar-nav">
+    <li style="display:@ViewData["Home_dashboardIndex_page"]">@Html.ActionLink("DASHBOARD", "Index", "Home")</li>
+    <li class="dropdown" style="display:@ViewData["Tracking_page"]">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">TRACKING<span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li style="display:@ViewData["Realtime_RealtimeIndex_page"]">@Html.ActionLink("Realtime", "Index", "Realtime")</li>
+            <li style="display:@ViewData["History_HistoryIndex_page"]">@Html.ActionLink("History", "Index", "History")</li>
+            @*<li style="display:@ViewData["ReportActivity_page"]">@Html.ActionLink("Activity History", "ReportActivity", "ReportPH3")</li>
+                <li style="display:@ViewData["Tracking_RealtimeCCRIndex_page"]">@Html.ActionLink("Realtime CCR", "CCRIndex", "Tracking")</li>
+                <li style="display:@ViewData["SearchArea_page"]">@Html.ActionLink("Search Area (History)", "Index", "SearchArea")</li>*@
+        </ul>
+    </li>
+    <li class="dropdown" style="display:@ViewData["Cctv_page"]">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">CCTV<span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li style="display:@ViewData["Cctv_CcrLivestream_page"]">@Html.ActionLink("Live Monitor", "Livestream", "CCTVMonitor")</li>
+            <li style="display:@ViewData["Cctv_CcrPlayback_page"]">@Html.ActionLink("CCTV Playback", "Playback", "CCTVMonitor")</li>
+            <li style="display:@ViewData["Ccr_CcrLiveMonitor_page"]">@Html.ActionLink("CCR Live Monitor", "CCRLiveMonitor", "CCRMonitor")</li>
+            <li style="display:@ViewData["Cctv_DeviceStatus_page"]">@Html.ActionLink("Device Status", "MDVRStatus", "CCTVMonitor")</li>
+            <li style="display:@ViewData["Cctv_MDVRRecordPlan_page"]">@Html.ActionLink("MDVR Record Plan", "RecordPlan", "CCTVMonitor")</li>
+        </ul>
+    </li>
+
+    <li style="display:@ViewData["Alarm_page"]">@Html.ActionLink("ALARM", "Index", "Alarm")</li>
+    <li class="dropdown" style="display:@ViewData["Report_page"]">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">REPORT<span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li style="display:@ViewData["Report_all_page"]">@Html.ActionLink("Report", "Index", "Report")</li>
+            <li style="display:@ViewData["ReportTravelExpense_page"]">@Html.ActionLink("Travel Expense", "Index", "ReportTravelExpense")</li>
+            <li style="display:@ViewData["ReportSearchVehicle_page"]">@Html.ActionLink("Search Licenseplate", "ReportSearchVehicle", "ReportPH3")</li>
+            <li style="display:@ViewData["ReportMultidrop_page"]">@Html.ActionLink("Report Multidrop", "ReportMultidrop", "ReportPH3")</li>
+
+        </ul>
+    </li>
+
+    <li class="dropdown" style="display:@ViewData["Config_page"]">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">CONFIG<span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li style="display:@ViewData["Geofence_page"]">@Html.ActionLink("Geofence", "Geofence", "Config")</li>
+            <li style="display:@ViewData["GeofenceFromGPS_page"]">@Html.ActionLink("Geofence from GPS Box", "GeofenceFromGPSBox", "Config")</li>
+            <li style="display:@ViewData["Route_page"]">@Html.ActionLink("Route", "Route", "Config")</li>
+            <li style="display:@ViewData["RouteWait_page"]">@Html.ActionLink("Route Waiting", "RouteWait", "Config")</li>
+            <li style="display:@ViewData["InitialFence_page"]">@Html.ActionLink("Initial Fence", "InitialFence", "Config")</li>
+            <li style="display:@ViewData["AlarmGroup_page"]">@Html.ActionLink("Alarm Group", "AlarmGroup", "Config")</li>
+            @*<li style="display:@ViewData["ReportReciever_page"]">@Html.ActionLink("Report Receiver", "ReportReciever", "Config")</li>*@
+            <li style="display:@ViewData["ConfigTerminal_page"]">@Html.ActionLink("Config Terminal", "ConfigTerminal", "Config")</li>
+            @if (user.GROUP_ID == 2007 || user.GROUP_ID == 1987 || user.GROUP_ID == 1967)
+            {
+                <li style="display:@ViewData["ConfigKpiAlarm_page"]">@Html.ActionLink("KPI Alarm", "ConfigKpiAlarm", "Config")</li>
+            }
+            <li style="display:@ViewData["Announcement_page"]">@Html.ActionLink("Dashboard Announcement", "Announcement", "Config")</li>
+            <li style="display:@ViewData["ConfigAutocall_page"]">@Html.ActionLink("Config Autocall", "ConfigAutocall", "Config")</li>
+            <li style="display:@ViewData["ConfigAutocallFence_page"]">@Html.ActionLink("Config Autocall Fence", "ConfigAutocallFence", "Config")</li>
+            <li style="display:@ViewData["ConfigVoicedes_page"]">@Html.ActionLink("Config Voice Description", "ConfigVoiceDes", "Config")</li>
+
+
+        </ul>
+    </li>
+    <li class="dropdown" style="display:@ViewData["Admin_page"]">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">ADMIN<span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li>@Html.ActionLink("Group management", "Groups", "UserMgt")</li>
+            <li>@Html.ActionLink("User management", "Users", "UserMgt")</li>
+            <li>@Html.ActionLink("Scheduling", "GroupsMail", "UserMgt")</li>
+            <li>@Html.ActionLink("User Email-Alarm", "UserEmailAlarm", "UserMgt")</li>
+            <li>@Html.ActionLink("User Email-Route", "ConfigEmailRoute", "Config")</li>
+        </ul>
+    </li>
+    <li style="display:@ViewData["Voice_page"]">@Html.ActionLink("VOICE", "Index", "Voice")</li>
+    <li style="display:@ViewData["help_page"]">@Html.ActionLink("HELP", "Index", "Help")</li>
+
+</ul>

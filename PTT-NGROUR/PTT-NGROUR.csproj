@@ -190,7 +190,12 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\wall.png" />
     <Content Include="Content\jasny-bootstrap.min.css" />
+    <Content Include="Content\Logo\OURlogo1.png" />
+    <Content Include="Content\Logo\OURlogo1w.png" />
+    <Content Include="Content\Logo\OURlogo2.png" />
+    <Content Include="Content\Logo\OURlogo2w.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -245,6 +250,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="DI\StructureMap\ReadMe.txt" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -336,6 +342,7 @@
     <Content Include="Views\User\ResetPassword.cshtml" />
     <Content Include="Views\Utilization\ModalImportExcelDialog.cshtml" />
     <Content Include="Views\Admin\SearchByAD.cshtml" />
+    <Content Include="Views\Authorize\MenuBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
