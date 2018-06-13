@@ -4,8 +4,8 @@
     ViewBag.Title = "Utilization";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+<link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
 <style>
     #scollbar::-webkit-scrollbar-track {
         border: 1px solid #f5f5f5;
@@ -27,6 +27,10 @@
 </style>
 <br />
 <div class="container-fluid">
+    <span style="float:right">
+        <a class="f6 link dim  w-5  blue5 pr2 form-inline " href="@Url.Action("importexcel", "Utilization")" id="btnImExcelW">Import&nbsp;Excel</a>|<a class="f6 link dim w-5 pl1 blue5" href="@Url.Action("ThresholdSetting", "Utilization")" id="btn_imExcel">Threshold&nbsp;Setting</a>
+    </span> <span style="float:none"></span>
+    <br />
     <!--Search Bar Web-->
     <div class=" p-3 mb-2 well well-sm text-dark  ">
         <div class="form-inline " style="padding-bottom:.5rem;">
@@ -35,26 +39,29 @@
                     <input type="radio" name="radio" id="radioRegionW" checked="checked" onclick="javascript:Check();">
                     <span class="checkmark">Region</span>
                 </label>
-                <select class="selectpicker ml-2 form-control lato height-30px fz-12px" name="seRegionW" id="seRegionW" multiple data-selected-text-format="count" data-live-search="true">
-                    @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
-                    {
-                        <option value="@ml.REGION_ID" class="h6" style="word-wrap:break-word;">@ml.REGION_NAME</option>
-                    }
-                </select>
+                <span id="seRegionW">
+                    <select class="selectpicker fz-12px" name="seRegionW" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
+                        @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
+                        {
+                            <option value="@ml.REGION_ID" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
+                        }
+                    </select>
+                </span>
+
+
+                <label class="lato d-none ">
+                    <input type="radio" name="radio" id="radioLicenseW" onclick="javascript:Check();">
+                    <span class="checkmark"> License</span>
+                </label>
+                <span id="seLicenseW">
+                    <select class="selectpicker " name="seLicense" id="seLicenseW" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
+                        @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
+                        {
+                            <option value="@ml.LICENSE_ID" style="word-wrap:break-word;">@ml.LICENSE</option>
+                        }
+                    </select>
+                </span>
             </div>
-
-            <label class="lato d-none ">
-                <input type="radio" name="radio" id="radioLicenseW" onclick="javascript:Check();">
-                <span class="checkmark"> License</span>
-            </label>
-
-            <select class="selectpicker ml-2 form-control input lato height-30px fz-12px" name="seLicense" id="seLicenseW" multiple data-selected-text-format="count" data-live-search="true">
-                @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
-                {
-                    <option value="@ml.LICENSE_ID" class="h6" style="word-wrap:break-word;">@ml.LICENSE</option>
-                }
-            </select>
-
         </div>
         <!--  <div class="input-group-btn">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -64,7 +71,7 @@
               <ul id="ddlgetValue" class="dropdown-menu Sfleet" role="menu" style="width: 280px"></ul>
           </div>-->
 
-        <div class="form-inline">
+      <!--  <div class="form-inline">
             <select class="form-control " onclick="javascript:dropdownTxt();" id="select">
                 <option id=" seallw" value="all" class="fz-12px drop_role" selected>All</option>
                 <option id="sePipelineW" value="pipeline" class="fz-12px drop_role">Pipeline</option>
@@ -90,7 +97,7 @@
             <a class="f6 link dim  w-5  blue5 pr2 form-inline" href="@Url.Action("importexcel", "Utilization")" id="btnImExcelW">Import&nbsp;Excel</a>|<a class="f6 link dim w-5 pl1 blue5" href="@Url.Action("ThresholdSetting", "Utilization")" id="btn_imExcel">Threshold&nbsp;Setting</a>
 
             <div class="cr"></div>
-        </div>
+        </div>-->
 
 
         <!--End Search Bar Web-->
@@ -123,19 +130,58 @@
 
 
     <div class="col-container bg-white col-sm-12 border-gray ">
-        <div class="col col-sm-8 pt-15px pb-15px  pl-0 ">
+        <div class="col col-sm-9 pt-15px pb-15px  pl-0 ">
             <canvas></canvas>
         </div>
         <!-- <div class="pl2 pr2 border-left"></div>-->
-        <div class="col col-sm-4 pt-15px pb-15px pr-0 pl-0-xs pl-0-sm border-left-md border-left-lg">
+        <div class="col col-sm-3 pt-15px pb-15px pr-0 pl-0-xs pl-0-sm border-left-md border-left-lg ">
+            <div class="form-inline">
+                
+                    <div class="input-group" style="width: 100% ">
+                        <div class="input-group-btn" style="width: 10% !important">
+                            <button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a id=" seAllW" class="fz-12px drop_role" href="#">All</a></li>
+                                <li><a id="sePipelineW" class="fz-12px drop_role" href="#">Pipeline</a></li>
+                                <li><a id="seGateW" class="fz-12px drop_role" href="#">Gate Station</a></li>
+                                <li><a id="seMeteringW" class="fz-12px  drop_role" href="#">Metering Station</a></li>
+
+                            </ul>
+                        </div>
+
+                        
+                            <input id="txtSearch" class="form-control input-sm " type="text" aria-describedby="name-desc" style="width: 100% !important">
+                            <!--<input id="txtGateW" class="form-control height-30px " type="text" aria-describedby="name-desc" placeholder="Gate Station">
+        <input id="txtMeteringW" class="form-control height-30px " type="text" aria-describedby="name-desc" placeholder="Metering Station">-->
+                            <div class="input-group-btn" style="width:20%">
+                                <button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
+                                    Threshold <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a id="seAllThresW" class="fz-12px drop_role" href="#">All Threshold</a></li>
+                                    <li><a id="seGreenW" class="fz-12px drop_role" href="#">Green</a></li>
+                                    <li><a id="seYellowW" class="fz-12px drop_role" href="#">Yellow</a></li>
+                                    <li><a id="seRedW" class="fz-12px drop_role" href="#">Red</a></li>
+                                </ul>
+                            </div>
+
+                            <!--<a id="btnSearch" class="f6 f-table-ns b--gray4 link dim tc w-5 pa2 dib gray bg-gray2 br1 mv2 ml1" href="#">
+            <i class="fa fa-search dib gray6" aria-hidden="true"></i>
+        </a>-->
+                            <!--  <a type="button" class="btn btn-primary btn-xs" href="#">
+            <span class="fa fa-search dib gray6 white" aria-hidden="true"></span>
+        </a>-->
+
+                            <div class="cr"></div>
+                        </div>
+            </div>
+            <br />
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Type</th>
-                        </tr>
+
                     </thead>
                     <tbody>
                         <tr>
@@ -472,7 +518,7 @@
         }
 
 
-        function dropdownTxt() {
+    /*    function dropdownTxt() {
             var value = document.getElementById('select').value;
             if (value == "all") {
                 document.getElementById('txtPipelineW').style.display = 'none';
@@ -496,7 +542,7 @@
                 document.getElementById('txtGateW').style.display = 'none';
                 document.getElementById('txtMeteringW').style.display = 'inline-block';
             }
-        }
+        }  */
 
 
         /*   Select  In Search Modal Mobile     */
