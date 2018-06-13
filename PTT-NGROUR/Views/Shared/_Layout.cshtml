@@ -53,29 +53,7 @@
 
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav">
-                            <li ><a href="@Url.Action("Index", "Dashboard")" class="white"><strong class="white lato f6">Dashboard</strong></a></li>
-                            <li><a href="@Url.Action("Index", "OAndM")" class="white"><strong class="white lato f6">O & M</strong></a></li>
-                            <!--<li><a href="#contact">Contact</a></li>-->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong class="white lato f6">Utilization</strong><span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="@Url.Action("Index", "Utilization")">Utilization</a></li>
-                                    <li><a href="@Url.Action("CustManage", "Utilization")">Customer</a></li>
-                                    <li><a href="@Url.Action("ImportExcel", "Utilization")">Import Excel</a></li>
-                                    <li><a href="@Url.Action("ThresholdSetting", "Utilization")">Threshold Setting</a></li>
-                                    <li><a href="@Url.Action("UReport", "Utilization")">Report</a></li>
-                                    
-                                </ul>
-                            </li>
-                            <li><a href="@Url.Action("Index", "RiskMang")" class="white"><strong class="white lato f6">Risk Management</strong></a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong class="white lato f6">Admin</strong><span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="@Url.Action("UserManage", "Admin")">User Management</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                      @{Html.RenderAction("MenuBar", "Authorize");}
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                             @if (Request.IsAuthenticated)
@@ -97,22 +75,22 @@
             
 
             <!--        Mobile version     -->
-            <div class="bg-blue5 shadow-2 hidden-lg hidden-md row" style="padding: 1rem 1rem">
-
-                <div class=" w-nav-menu col-sm-4" style="float:left">
-                    <a class="white no-underline" onclick="history.back(-1)" style=" vertical-align:middle; float:left; line-height: 3px" href="#">
-                        <i class="fa fa-angle-left fa-lg" aria-hidden="true"></i>
-                        <span class=" h5 b "> Back</span>
+            <div class="bg-blue5 shadow-2 hidden-lg hidden-md row" style="padding: 1rem 1rem; display: table;width:100%">
+                
+                <div class=" w-nav-menu col-sm-4" style=" float: left">
+                    <a class="white no-underline" onclick="history.back(-1)" style="display: table-cell; float: left; line-height: 3px" href="#">
+                        <i class="fa fa-angle-left fa-lg v-mid" aria-hidden="true"></i>
+                        <span class=" h5 b v-mid" style=" display: table-cell;"> Back</span>
                     </a>
                 </div>
 
-                <div class="w-nav-menu col-sm-4 v-mid" style=" float: left">
-                    <center><img id="logo" width="100" src="~/Content/logo/OURlogo1w.png" /></center>
-                </div>
-                <div class="w-nav-menu col-sm-4 " style="float:right">
+                    <div class="w-nav-menu col-sm-4 v-mid" style=" float: left">
+                        <center><img id="logo" width="100" src="~/Content/logo/OURlogo1w.png" /></center>
+                    </div>
+                    <div class="w-nav-menu col-sm-4 " style="float:right">
 
-                </div>
-
+                    </div>
+             
 
             </div>
             <div style="float:none"></div>

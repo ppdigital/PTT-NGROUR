@@ -205,7 +205,7 @@
                                     @foreach (PTT_NGROUR.Models.DataModel.ModelUsersRole mr in Model.ModelUsersRole)
                                     {
 
-                                        <option value="@mr.ROLE_ID">@mr.ROLE_NAME</option>
+                                        <option value="@mr.ROLE_ID" >@mr.ROLE_NAME</option>
                                     }
                                 </select>
                                 <!--  <select class="form-control" id="seRoleEdit">
@@ -221,7 +221,7 @@
                                     <option value="1" class="drop_role"  id="edit_roleUser">PTT</option>
                                     <option value="2" class="drop_role" id="edit_roleAdmin">Non PTT</option>
                                 </select>-->
-                                @Html.TextBox("seGroupEdit", null, new { @class = "form-control ba b--black-20 pa2 mb2 db f6 w-100 no-drop", @readonly = "readonly" })
+                                @Html.TextBox("seGroupEdit", null, new { @class = "form-control ba b--black-20 pa2 mb2 db f6 w-100 no-drop", @readonly = "readonly",@name="seGroupEdit"})
                             </div>
                         </div>
                     </div>
@@ -273,7 +273,7 @@
                     $("#txtLastNameEdit").val('@user.LASTNAME');
                     $("#IsADEdit").val('@user.IS_AD');
                     $("#txtMailEdit").val('@user.EMAIL');
-                    $("#seGroupEdit").val('@user.GROUP_ID');
+                    $("#seGroupEdit").val('@user.GROUP_NAME');
                     $("#seRoleEdit").val('@user.ROLE_ID');
 
 

@@ -24,7 +24,7 @@ namespace PTT_NGROUR.Controllers
         {
             var dal = new DAL.DAL();
 
-            var ds = dal.GetDataSet("SELECT A.EMPLOYEE_ID, A.FIRSTNAME, A.LASTNAME, A.EMAIL, R.ROLE_NAME, G.GROUP_NAME, A.CREATE_DATE, A.CREATE_BY FROM USERS_AUTH A LEFT JOIN USERS_GROUP G ON A.GROUP_ID = G.GROUP_ID LEFT JOIN USERS_ROLE R ON A.ROLE_ID = R.ROLE_ID ORDER BY CREATE_DATE DESC");
+            var ds = dal.GetDataSet("SELECT A.EMPLOYEE_ID, A.FIRSTNAME, A.LASTNAME, A.EMAIL, R.ROLE_NAME, G.GROUP_NAME, A.CREATE_DATE, A.CREATE_BY, A.ROLE_ID FROM USERS_AUTH A LEFT JOIN USERS_GROUP G ON A.GROUP_ID = G.GROUP_ID LEFT JOIN USERS_ROLE R ON A.ROLE_ID = R.ROLE_ID ORDER BY CREATE_DATE DESC");
             var dt = ds.Tables[0];
             var listUsers = new List<Models.DataModel.ModelUsersAuth>();
             
@@ -36,11 +36,12 @@ namespace PTT_NGROUR.Controllers
                     FIRSTNAME = dr["FIRSTNAME"].ToString(),
                     LASTNAME = dr["LASTNAME"].ToString(),
                     EMAIL = dr["EMAIL"].ToString(),
-                   // ROLE_ID = Convert.ToInt32(dr["ROLE_ID"].ToString()),
+                    ROLE_ID = Convert.ToInt32(dr["ROLE_ID"].ToString()),
                     ROLE_NAME = dr["ROLE_NAME"].ToString(),
                     CREATE_DATE = dr["CREATE_DATE"].GetDate(),// Convert.ToDateTime(dr["CREATE_DATE"].ToString()),
                     CREATE_BY = dr["CREATE_BY"].ToString(),
                     GROUP_NAME = dr["GROUP_NAME"].ToString(),
+
                     //GROUP_ID = Convert.ToInt32(dr["GROUP_ID"].ToString())
 
                 };
