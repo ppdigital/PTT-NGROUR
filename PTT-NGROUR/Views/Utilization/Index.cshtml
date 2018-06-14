@@ -22,9 +22,7 @@
         background-color: #ddd;
     }
 
-    .well {
-        background-color: white;
-    }
+    
     
 </style>
 
@@ -32,53 +30,54 @@
    
 
 <br />
-<div class="container-fluid">
+<div class="container-fluid" style="margin-top:-.8rem">
     <span style="float:right">
-        <a class="f6 link dim  w-5  blue5 pr2 form-inline " href="@Url.Action("importexcel", "Utilization")" id="btnImExcelW">Import&nbsp;Excel</a>|<a class="f6 link dim w-5 pl1 blue5" href="@Url.Action("ThresholdSetting", "Utilization")" id="btn_imExcel">Threshold&nbsp;Setting</a>
+        <a class="f6 link dim  w-5  blue5 pr2 form-inline " href="@Url.Action("importexcel", "Utilization")" id="btnImExcel">Import&nbsp;Excel</a>|<a class="f6 link dim w-5 pl1 blue5" href="@Url.Action("ThresholdSetting", "Utilization")" id="btn_imExcel">Threshold&nbsp;Setting</a>
     </span> <span style="float:none"></span>
     <br />
     <!--Search Bar Web-->
-    <div class=" p-3 mb-2 well well-sm text-dark  ">
+    <div class=" p-3 mb-2 well well-sm text-dark well-white">
         <div class="form-inline " style="padding-bottom:.5rem;">
             <div class="form-inline">
-                <label class=" ml-5 lato ">
-                    <input type="radio" name="radio" id="radioRegionW" checked="checked" onclick="javascript:Check();">
-                    <span class="checkmark">Region</span>
+                <label class=" ml-5 lato" style="padding-right:6px">
+                    <input type="radio" name="radio" id="radioRegion" checked="checked" onclick="javascript:Check();">
+                    <span class="checkmark h6 b">Region</span>
                 </label>
-                <span id="seRegionW">
-                    <select class="selectpicker fz-12px" name="seRegionW" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
+                <label class="lato d-none ">
+                    <input type="radio" name="radio" id="radioLicense" onclick="javascript:Check();">
+                    <span class="checkmark h6 b"> License</span>
+                </label>
+                <span id="seRegion">
+                    <select class="selectpicker fz-12px" name="seRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
                         @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
                         {
-                            <option value="@ml.REGION_ID" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
+                            <option value="@ml.REGION_ID" class="text-grey" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
                         }
                     </select>
                 </span>
 
 
-                <label class="lato d-none ">
-                    <input type="radio" name="radio" id="radioLicenseW" onclick="javascript:Check();">
-                    <span class="checkmark"> License</span>
-                </label>
-                <span id="seLicenseW">
-                    <select class="selectpicker  " data-size="8" name="seLicense" id="seLicenseW" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
+
+                <span id="seLicense">
+                    <select class="selectpicker  " data-size="8" name="seLicense" id="seLicense" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
                         @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
                         {
-                            <option class="hidden-sm hidden-xs"value="@ml.LICENSE_ID" style="word-wrap: break-word" >@ml.LICENSE</option>
-                            <option class="hidden-lg hidden-md"value="@ml.LICENSE_ID" style="word-wrap: break-word;white-space:normal" >@ml.LICENSE</option>
+                            <option class="hidden-sm hidden-xs" value="@ml.LICENSE_ID" style="word-wrap: break-word">@ml.LICENSE</option>
+                            <option class="hidden-lg hidden-md" value="@ml.LICENSE_ID" style="word-wrap: break-word;white-space:normal">@ml.LICENSE</option>
                         }
                     </select>
                 </span>
-                <a id="btnSearch" class="btn btn-primary f-table-ns  " href="#" style="margin-left:10px;">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </a>
+                <button type="button" class="btn btn-primary  ">
+                    <span class="glyphicon glyphicon-search"></span> Search
+                </button>
             </div>
         </div>
-       
-
-    
 
 
-        
+
+
+
+
     </div>
 
 
@@ -91,51 +90,59 @@
      </div>-->
 
 
-    <div class="col-container bg-white col-sm-12 border-gray ">
+    <div class="col-container col-container-white col-sm-12 ">
         <div class="col col-sm-9 pt-15px pb-15px  pl-0 ">
             <canvas></canvas>
         </div>
         <!-- <div class="pl2 pr2 border-left"></div>-->
         <div class="col col-sm-3 pt-15px pb-15px pr-0 pl-0-xs pl-0-sm border-left-md border-left-lg ">
             <div class="form-inline">
-                
-                    <div class="input-group" style="width: 100% ">
-                        <div class="input-group-btn" style="width: 10% !important">
-                            <button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a id="seAll" class="fz-12px drop_role" >All</a></li>
-                                <li><a id="sePipeline" class="fz-12px drop_role" href="#">Pipeline</a></li>
-                                <li><a id="seGate" class="fz-12px drop_role" href="#">Gate Station</a></li>
-                                <li><a id="seMetering" class="fz-12px  drop_role" href="#">Metering Station</a></li>
 
-                            </ul>
-                        </div>
+                <div class="input-group" style="width: 100% ">
+                    <div class="input-group-btn" style="width: 10% !important">
+                        <button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a id="seAll" class="fz-12px drop_role">All</a></li>
+                            <li><a id="sePipeline" class="fz-12px drop_role" href="#">Pipeline</a></li>
+                            <li><a id="seGate" class="fz-12px drop_role" href="#">Gate Station</a></li>
+                            <li><a id="seMetering" class="fz-12px  drop_role" href="#">Metering Station</a></li>
 
-                        
-                            <input id="txtSearch" class="form-control input-sm " type="text" aria-describedby="name-desc" style="width: 100% !important">
-                            <!--<input id="txtGateW" class="form-control height-30px " type="text" aria-describedby="name-desc" placeholder="Gate Station">
-        <input id="txtMeteringW" class="form-control height-30px " type="text" aria-describedby="name-desc" placeholder="Metering Station">-->
-                            <div class="input-group-btn" style="width:20%">
-                                <button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
-                                    Threshold <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a id="seAllThresW" class="fz-12px drop_role" href="#">All Threshold</a></li>
-                                    <li><a id="seGreenW" class="fz-12px drop_role" href="#">Green</a></li>
-                                    <li><a id="seYellowW" class="fz-12px drop_role" href="#">Yellow</a></li>
-                                    <li><a id="seRedW" class="fz-12px drop_role" href="#">Red</a></li>
-                                </ul>
-                            </div>
+                        </ul>
+                    </div>
 
-                          
-                            <!--  <a type="button" class="btn btn-primary btn-xs" href="#">
-            <span class="fa fa-search dib gray6 white" aria-hidden="true"></span>
-        </a>-->
 
-                            <div class="cr"></div>
-                        </div>
+                    <input id="txtSearch" class="form-control input-sm " type="text" aria-describedby="name-desc" style="width: 100% !important">
+
+                    <div class="input-group-btn" style="width:30%">
+                        <!--   <button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
+                              Threshold <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                              <li><a id="seAllThres" class="fz-12px drop_role" href="#">All Threshold</a></li>
+                              <li><a id="seGree" class="fz-12px drop_role" href="#">Green</a></li>
+                              <li><a id="seYello" class="fz-12px drop_role" href="#">Yellow</a></li>
+                              <li><a id="seRed" class="fz-12px drop_role" href="#">Red</a></li>
+                          </ul>-->
+
+                        <select class="form-control form-control-sm fz-12px" id="sel1" style="height: 30px !important;">
+                            <option id="seAllThres" class="fz-12px drop_role">All Threshold</option>
+                            <option id="seGree" class="fz-12px drop_role">Green</option>
+                            <option id="seYello" class="fz-12px drop_role">Yellow</option>
+                            <option id="seRed" class="fz-12px drop_role">Red</option>
+                        </select>
+
+                    </div>
+
+
+
+                    <!--  <a type="button" class="btn btn-primary btn-xs" href="#">
+                        <span class="fa fa-search dib gray6 white" aria-hidden="true"></span>
+                    </a>-->
+
+                    <div class="cr"></div>
+                </div>
             </div>
             <br />
             <div class="table-responsive">
@@ -168,159 +175,36 @@
 
 
 
-    <!--<div class=" dt pl3 ph1-ns  pt3-m pt3-ns pv2-ns w-100-ns w-100-m  fl-ns ph2-m lato ">
-
-        <div class="fl-ns dib bg-white pa2-l pa1-ns pa2-m dib-ns dib-m  h-12-l h3-m  overflow-auto w-100-l w-50-ns w-40-m " id="scollbar">
-            <div class="w-80-l w-70-m w-70-ns tc center-l center-m center-ns">
-                <table class="">
-                    <tr class="hover-bg-inherit">
-                        <th class="w3-l w3-m w3-ns f9-ns"></th>
-                        <th class="f9-ns w5-l w4-m w3-ns">Gate Station</th>
-                    </tr>
-
-                    <tr>
-                        <td class="pa1 pl1 tc w3-l w3-m w3-ns"><i class=" fa fa-circle fa-lg green " id="status" aria-hidden="true"></i></td>
-                        <td><div class="f5 f9-ns w4-l w4-m w3-ns"> Gate Station 1</div></td>
-                    </tr>
-
-                    <tr>
-                        <td class="pa1 pl1 tc w3-l w3-m w3-ns"><i class=" fa fa-circle fa-lg green" id="status" aria-hidden="true"></i></td>
-                        <td><div class="f5 f9-ns w4-l w4-m w3-ns"> Gate Station 2</div></td>
-                    </tr>
-
-                    <tr>
-                        <td class="pa1 pl1 tc w3-l w3-m w3-ns"><i class=" fa fa-circle fa-lg green" id="status" aria-hidden="true"></i></td>
-                        <td><div class="f5 f9-ns  w4-l w4-m w3-ns"> Gate Station 3</div></td>
-
-                    </tr>
-                    <tr>
-                        <td class="pa1 pl1 tc w3-l w3-m w3-ns"><i class=" fa fa-circle fa-lg green" id="status" aria-hidden="true"></i></td>
-                        <td><div class="f5 f9-ns w4-l w4-m w3-ns"> Gate Station 4</div></td>
-
-                    </tr>
-
-                    <tr>
-                        <td class="pa1 pl1 tc w3-l w3-m w3-ns"><i class=" fa fa-circle fa-lg green" id="status" aria-hidden="true"></i></td>
-                        <td><div class="f5 f9-ns w4-l w4-m w3-ns"> Gate Station 5</div></td>
-                    </tr>
 
 
-                </table>
-            </div>
-
-        </div>
-        <div class=" mv3-l w-50-ns w-57-m w-100-l fr-ns fr-m ">
-
-            <div class="bg-white pv2  ml2-ns">   </div>
-
-        </div>
-
-    </div>-->
-    <!--  Modal  Search  Mobile-->
-    <!--<div id="modal_search" class="modal  pt6-ns pt5-l pt5-m hidden-lg">
-        <div class="modal-content_np pa1  w-60-m w-100-ns br1">
-            <div class="fl dib ml3 f5 b pt3">Search</div>
-            <span class="closeSearch nt2 pt3 mr3" id="closeCross">&times;</span>
-            <div class="cl cr"></div>
-            <hr class="style ml0 mr0" />
-            <div class="mh3 mv3">
-                <form class="ma4  black-80 center ph5-m">
-
-                        <div class="measure ">
-                            <div class="ml1 mb2 pt2">
-                                <label class="container lato f7 mr3">
-                                    <input type="radio" name="radio" id="radioAreaM" onclick="javascript:CheckM();" checked="checked">
-                                    <span class="checkmark">region</span>
-                                </label>
-                                <label class="container lato f7">
-                                    <input type="radio" name="radio" id="radioLicenseM" onclick="javascript:CheckM();">
-                                    <span class="checkmark">ใบอนุญาต</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="measure">
-                            <select class="f7 ba b--black-20 pa2 w-100  ml1 mb2" id="seAreaM">
-                                <option value="1" class="f7  drop_role " selected>region 1</option>
-                                <option value="2" class="f7  drop_role ">region 2</option>
-                                <option value="3" class="f7  drop_role ">region 3</option>
-                                <option value="4" class="f7  drop_role ">region 4</option>
-                                <option value="5" class="f7  drop_role ">region 5</option>
-                                <option value="6" class="f7  drop_role ">region 6</option>
-                                <option value="7" class="f7  drop_role ">region 7</option>
-                                <option value="8" class="f7  drop_role ">region 8</option>
-                                <option value="9" class="f7  drop_role ">region 9</option>
-                                <option value="10" class="f7  drop_role ">region 10</option>
-                                <option value="11" class="f7  drop_role ">region 11</option>
-                            </select>
-                        </div>
-
-                        <div class="measure">
-                            <select class="ml-2 form-control input lato fs9-xs" name="seLicense" id="seLicenseM">
-                                @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
-                                {
-                                    <option value="@ml.LICENSE_ID" style="word-break: break-all">
-                                        @ml.LICENSE
-                                    </option>
-                                }
-                            </select>
-                        </div>
-
-            
-
-    </div>  -->
-   
 
 
 
     <script type="text/javascript">
         $(document).ready(function () {
-            document.getElementById('seLicenseW').style.display = 'none';
-            
+            document.getElementById('seLicense').style.display = 'none';
+
         });
 
         function Check() {
 
-            if (document.getElementById('radioRegionW').checked) {
-                document.getElementById('seRegionW').style.display = 'inline-block';
-                document.getElementById('seLicenseW').style.display = 'none';
-            } else if (document.getElementById('radioLicenseW').checked) {
-                document.getElementById('seLicenseW').style.display = 'inline-block';
-                document.getElementById('seRegionW').style.display = 'none';
+            if (document.getElementById('radioRegion').checked) {
+                document.getElementById('seRegion').style.display = 'inline-block';
+                document.getElementById('seLicense').style.display = 'none';
+            } else if (document.getElementById('radioLicense').checked) {
+                document.getElementById('seLicense').style.display = 'inline-block';
+                document.getElementById('seRegion').style.display = 'none';
 
             }
         }
 
 
-    /*    function dropdownTxt() {
-            var value = document.getElementById('select').value;
-            if (value == "all") {
-                document.getElementById('txtPipelineW').style.display = 'none';
-                document.getElementById('txtGateW').style.display = 'none';
-                document.getElementById('txtMeteringW').style.display = 'none';
-            }
-
-            else if (value == "pipeline") {
-                document.getElementById('txtPipelineW').style.display = 'inline-block';
-                document.getElementById('txtGateW').style.display = 'none';
-                document.getElementById('txtMeteringW').style.display = 'none';
-            }
-            else if (value == "gate") {
-                document.getElementById('txtPipelineW').style.display = 'none';
-                document.getElementById('txtGateW').style.display = 'inline-block';
-                document.getElementById('txtMeteringW').style.display = 'none';
-            }
-
-            else if (value == "metering") {
-                document.getElementById('txtPipelineW').style.display = 'none';
-                document.getElementById('txtGateW').style.display = 'none';
-                document.getElementById('txtMeteringW').style.display = 'inline-block';
-            }
-        }  */
 
 
-       
 
-       
+
+
+
     </script>
 
 </div>

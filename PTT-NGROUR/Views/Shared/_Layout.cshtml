@@ -36,11 +36,11 @@
 <body>
 
 
-    <div id="container" class="bg-gray3">
+    <div id="container" class="bg-grey-100">
         <!--   <div class="cover bg-center" style="background-image:url(http://localhost:13788/Content/Images/bg3.jpg);">-->
 
         <div id="header">
-            <nav class="navbar bg-blue5 hidden-xs hidden-sm  white" style="margin-bottom:0px;">
+            <nav class="navbar bg-blue5 hidden-xs hidden-sm  white" style="margin-bottom:0px;border-radius:0px;">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -50,22 +50,25 @@
                             <span class="icon-bar"></span>
                         </button>
                         <a href="@Url.Action("Index", "Home")" class=" navbar-brand">
-                            <img id="logo" width="90" src="~/Content/logo/OURlogo1w.png" />
+                            <img id="logo" width="90" style="margin-top:-.5rem;" src="~/Content/logo/OURlogo1w.png" />
                         </a>
 
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
-                      @{Html.RenderAction("MenuBar", "Authorize");}
+                        @{Html.RenderAction("MenuBar", "Authorize");}
                         <ul class="nav navbar-nav navbar-right">
                             <li>
-                            @if (Request.IsAuthenticated)
-                           {
-                               <a><strong class=" lato white ">@Html.Encode(User.Identity.Name)</strong></a>
-                           }</li>
-                          
-                            <li><a href="#">
-                                <i class="fa fa-user fa-lg white" aria-hidden="true"></i>
-                                <strong class="white lato f6">Sign Out</strong></a>
+                                @if (Request.IsAuthenticated)
+                                {
+                                    <a><strong class="lato white">@Html.Encode(User.Identity.Name)</strong></a>
+                                }
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-user fa-lg white" aria-hidden="true"></i>
+                                    <strong class="white lato f6">Sign Out</strong>
+                                </a>
                             </li>
                         </ul>
                     </div><!--/.nav-collapse -->
@@ -74,26 +77,26 @@
 
 
 
-            
+
 
             <!--        Mobile version     -->
             <div class="bg-blue5 shadow-2 hidden-lg hidden-md row" style="padding: 1rem 1rem; display: table;width:100%">
-                
+
                 <div class=" w-nav-menu col-sm-4" style=" float: left">
                     <a class="white no-underline form-inline v-mid" onclick="history.back(-1)" style=" float: left; line-height: 3px" href="#">
-                       
+
                         <i class="fa fa-angle-left fa-lg v-mid" aria-hidden="true"></i>
-                        <span class=" h5 b " > Back</span>
+                        <span class=" h5 b "> Back</span>
                     </a>
                 </div>
 
-                    <div class="w-nav-menu col-sm-4 v-mid" style=" float: left">
-                        <center><img id="logo" width="100" src="~/Content/logo/OURlogo1w.png" /></center>
-                    </div>
-                    <div class="w-nav-menu col-sm-4 " style="float:right">
+                <div class="w-nav-menu col-sm-4 v-mid" style=" float: left">
+                    <center><img id="logo" width="100" src="~/Content/logo/OURlogo1w.png" /></center>
+                </div>
+                <div class="w-nav-menu col-sm-4 " style="float:right">
 
-                    </div>
-             
+                </div>
+
 
             </div>
             <div style="float:none"></div>
@@ -103,14 +106,14 @@
 
         <!--    Body    -->
         <!--<div id="body" class="bg-gray3 pb3-ns pb3-m">-->
-        <div id="body" class="bc-gray1 pb5-ns pb3-m">
-           
-                <div class=" w-100 mb1 pv1 hidden-xs hidden-sm shadow-bottom  ph5">
-                    <div class="container-fluid">
-                        <div class="f6 lato "> @Html.MvcSiteMap().SiteMapPath()</div>
-                    </div>
-                    </div>
-            
+        <div id="body" class="bg-grey-100 pb5-ns pb3-m">
+
+            <div class=" w-100 mb1 pv1 hidden-xs hidden-sm shadow-bottom  ph5">
+                <div class="container-fluid">
+                    <div class="f6 lato "> @Html.MvcSiteMap().SiteMapPath()</div>
+                </div>
+            </div>
+
 
             @RenderBody()
             <br /><br /><br />
