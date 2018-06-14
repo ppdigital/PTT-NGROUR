@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = "MenuMobile";
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/style/create.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    
+</head>
+
+<body>
+    <div id="container" class="w-100">
+
+
+
+        <div class="pl4 pr3">
+            <div class="mt4">
+                <div class="dtc v-mid ">
+
+                    <span class="dtc v-mid pl3">
+                        <a class=" f5 pl2 mt1 black gray6">User ID</a><br /><br />
+                        <a class=" f5 pl2 mt1 black gray6">User Name</a>
+                    </span>
+                </div>
+            </div>
+            <br /><hr class="style" />
+            <!--<div class="b--solid b--gray3 bw-menu w-100 bg-gray5 "> </div>--><br />
+
+
+
+            <nav>
+                <ul class="nav">
+                    <li style="width:100%"><a href="@Url.Action("Index", "Home")"><i class="fa fa-home fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Home</a></li>
+                    <li style="width:100%"><a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-tachometer fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Dashboard</a></li>
+                    <li style="width:100%">
+                        <a href="#" id="btn-1" data-toggle="collapse" data-target="#submenu1" aria-expanded="false">
+                            <i class="fa fa-map-marker fa-lg gray7" aria-hidden="true" style="width:9%"></i>Utilization
+                            <i class="glyphicon glyphicon-menu-down pull-right"></i>
+                        </a>
+                        <ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1">
+                            <li style="width:100%"><a href="@Url.Action("Index", "Utilization")"><span style="padding-left: 60px"">Utilization</span></a></li>
+                            <li style="width:100%"><a href="@Url.Action("CustManage", "Utilization")"><span style="padding-left:60px">Customer</span></a></li>
+                            <li style="width:100%"><a href="@Url.Action("ImportExcel", "Utilization")"><span style="padding-left:60px">Import Excel</span></a></li>
+                            <li style="width:100%"><a href="@Url.Action("ThresholdSetting", "Utilization")"><span style="padding-left:60px">Threshold Setting</span></a></li>
+                            <li style="width:100%"><a href="@Url.Action("UReport", "Utilization")"><span style="padding-left:60px">Report</span></a></li>
+                        </ul>
+                    </li>
+                    <li style="width:100%"><a href="#"><i class="fa fa-cogs fa-lg gray7" aria-hidden="true" style="width:9%"> </i>O & M</a></li>
+                    <li style="width:100%"><a href="#"><i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Risk Management</a></li>
+                    <li style="width:100%">
+                        <a href="#" id="btn-1" data-toggle="collapse" data-target="#Admin" aria-expanded="false" >
+                            <i class="fa fa-user fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Admin<i class="glyphicon glyphicon-menu-down pull-right"></i></a>
+                        <ul class="nav collapse" id="Admin" role="menu" aria-labelledby="btn-1">
+                            <li><a href="@Url.Action("Index", "Utilization")"><span style="padding-left:60px">UserManagement</span></a></li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+
+
+            <footer class="hidden-lg hidden-md">
+                <div class="bg-white navbar-fixed-bottom ">
+
+
+                    <div class="navbar-collapse" id="footer-body">
+                        <center>
+                            <div class="nav navbar-nav w-100 ">
+                                <center>
+                                    <a href="@Url.Action("Index", "Dashboard")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
+
+                                        <i class="fa fa-tachometer fa-lg gray7" aria-hidden="true" id="dashboard"></i>
+                                        <div class="gray6 f-menu-footer pt1" id="t_dashboard">Dashboard</div>
+                                    </a>
+                                </center>
+                                <center>
+                                    <a href="@Url.Action("Index", "Utilization")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
+
+                                        <i class="fa fa-map-marker fa-lg gray7" aria-hidden="true" id="utilization"></i>
+                                        <div class="gray6 f-menu-footer pt1" id="t_utilization">Utilization</div>
+
+                                    </a>
+                                </center>
+                                <center>
+                                    <div class="dtc v-mid tc w-20 menu_hover no-underline" style="float:left;">
+
+                                        <i class="fa fa-cogs fa-lg gray7" aria-hidden="true" id="o_and_m"></i>
+                                        <div class="gray6 f-menu-footer pt1" id="text_o_and_m">O & M</div>
+
+                                    </div>
+                                </center>
+                                <center>
+                                    <div class="dtc v-mid tc w-20 menu_hover no-underline" style="float:left;">
+
+                                        <div class="dib ">
+                                            <i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" id="risk_manage"></i>
+                                            <div class="gray6 f-menu-footer pt1" id="t_risk_manage">Risk Manageent</div>
+                                        </div>
+
+                                    </div>
+                                </center>
+                                <center>
+                                    <div class="dtc v-mid tc w-20 menu_hover no-underline" style="float:left;">
+
+                                        <a class="tc" href="@Url.Action("MenuMobile", "Home")">
+                                            <i class="fa fa-bars fa-lg gray7" aria-hidden="true" id="user"></i>
+                                            <div class="gray6 f-menu-footer pt1">Menu</div>
+                                        </a>
+
+                                    </div>
+                                </center>
+
+
+
+
+                            </div>
+                        </center>
+                    </div> <div style="float:none"></div>
+
+
+                </div>
+
+            </footer>
+        </div>
+    </div>
+
+   
+
+
+</body>
+</html>

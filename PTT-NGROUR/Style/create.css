@@ -633,11 +633,13 @@ select .inline{display: inline-block;}
  .pl-0-xs {padding-left: 0px}
   .pr-0-xs {padding-left: 0px}
   .w-25h-xs{width:250px}
+
  } 
 
 
  /* size sm*/
-  @media (min-width:768px) and (max-width:991px){
+  @media (min-width:768px) and (max-width:991px)
+  {
 .h6-sm {font-size:12px}
 .w-100p-sm{width:100%}
  .border-left-sm{border-left :.5px solid #ccc}
@@ -645,7 +647,8 @@ select .inline{display: inline-block;}
  .pl-0-sm{padding-left: 0px}
  .pr-0-sm {padding-left: 0px}
  .w-25h-sm{width:250px}
-  }
+
+}
 
   /* size md*/
    @media (min-width:992px) and (max-width:1199px){

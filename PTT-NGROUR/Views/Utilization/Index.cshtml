@@ -6,6 +6,7 @@
 }
 <link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
+
 <style>
     #scollbar::-webkit-scrollbar-track {
         border: 1px solid #f5f5f5;
@@ -24,7 +25,12 @@
     .well {
         background-color: white;
     }
+    
 </style>
+
+    
+   
+
 <br />
 <div class="container-fluid">
     <span style="float:right">
@@ -54,69 +60,25 @@
                     <span class="checkmark"> License</span>
                 </label>
                 <span id="seLicenseW">
-                    <select class="selectpicker " name="seLicense" id="seLicenseW" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
+                    <select class="selectpicker  " data-size="8" name="seLicense" id="seLicenseW" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
                         @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
                         {
-                            <option value="@ml.LICENSE_ID" style="word-wrap:break-word;">@ml.LICENSE</option>
+                            <option class="hidden-sm hidden-xs"value="@ml.LICENSE_ID" style="word-wrap: break-word" >@ml.LICENSE</option>
+                            <option class="hidden-lg hidden-md"value="@ml.LICENSE_ID" style="word-wrap: break-word;white-space:normal" >@ml.LICENSE</option>
                         }
                     </select>
                 </span>
+                <a id="btnSearch" class="btn btn-primary f-table-ns  " href="#" style="margin-left:10px;">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
-        <!--  <div class="input-group-btn">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                  <span class="caret"></span>
-                  <span class="sr-only">Toggle Dropdown</span>
-              </button>
-              <ul id="ddlgetValue" class="dropdown-menu Sfleet" role="menu" style="width: 280px"></ul>
-          </div>-->
+       
 
-      <!--  <div class="form-inline">
-            <select class="form-control " onclick="javascript:dropdownTxt();" id="select">
-                <option id=" seallw" value="all" class="fz-12px drop_role" selected>All</option>
-                <option id="sePipelineW" value="pipeline" class="fz-12px drop_role">Pipeline</option>
-                <option id="seGateW" value="gate" class="fz-12px  drop_role">Gate Station</option>
-                <option id="seMeteringW" value="metering" class="fz-12px  drop_role">Metering Station</option>
-            </select>
-
-            <input id="txtPipelineW" class=" form-control " type="text" aria-describedby="name-desc" placeholder="Pipeline">
-            <input id="txtGateW" class="form-control height-30px " type="text" aria-describedby="name-desc" placeholder="Gate Station">
-            <input id="txtMeteringW" class="form-control height-30px " type="text" aria-describedby="name-desc" placeholder="Metering Station">
-
-            <select class=" form-control ">
-                <option id="seAllW" value="all" class="f7 drop_role" selected>All Threshold</option>
-                <option id="seGreenW" value="green" class="f7  drop_role">Green</option>
-                <option id="seYellowW" value="yellow" class="f7 drop_role">Yellow</option>
-                <option id="seRedW" value="red" class="f7 drop_role">Red</option>
-            </select>
-
-            <a id="btnSearch" class="f6 f-table-ns b--gray4 link dim tc w-5 pa2 dib gray bg-gray2 br1 mv2 ml1" href="#">
-                <i class="fa fa-search dib gray6" aria-hidden="true"></i>
-            </a>
-
-            <a class="f6 link dim  w-5  blue5 pr2 form-inline" href="@Url.Action("importexcel", "Utilization")" id="btnImExcelW">Import&nbsp;Excel</a>|<a class="f6 link dim w-5 pl1 blue5" href="@Url.Action("ThresholdSetting", "Utilization")" id="btn_imExcel">Threshold&nbsp;Setting</a>
-
-            <div class="cr"></div>
-        </div>-->
+    
 
 
-        <!--End Search Bar Web-->
-        <!--    Search Buutton Mobile  -->
-        <!----> <div class="hidden-lg hidden-md hidden-sm bg-white w-100 mb-3 pv-2 mv-2 ph-2">
-
-            <label class="f6 gray6">Utilization</label>
-            <div class="dib fr mr3">
-                <a id="btnSearchModalM" class=" f6-m f7-ns  bg-blue-button link = tc w-5  br1 pv1 ph2" href="#">
-                    search
-                </a>
-            </div>
-            <div class="dib fr mr3">
-
-                <a id="btnThreModalM" class=" f6-m f7-ns bg-blue-button link tc w-5 br1 pv1 ph2" href="#">
-                    Threshold
-                </a>
-            </div>
-        </div>   <!--  End  Search Buutton Mobile  -->
+        
     </div>
 
 
@@ -143,10 +105,10 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a id=" seAllW" class="fz-12px drop_role" href="#">All</a></li>
-                                <li><a id="sePipelineW" class="fz-12px drop_role" href="#">Pipeline</a></li>
-                                <li><a id="seGateW" class="fz-12px drop_role" href="#">Gate Station</a></li>
-                                <li><a id="seMeteringW" class="fz-12px  drop_role" href="#">Metering Station</a></li>
+                                <li><a id="seAll" class="fz-12px drop_role" >All</a></li>
+                                <li><a id="sePipeline" class="fz-12px drop_role" href="#">Pipeline</a></li>
+                                <li><a id="seGate" class="fz-12px drop_role" href="#">Gate Station</a></li>
+                                <li><a id="seMetering" class="fz-12px  drop_role" href="#">Metering Station</a></li>
 
                             </ul>
                         </div>
@@ -167,9 +129,7 @@
                                 </ul>
                             </div>
 
-                            <!--<a id="btnSearch" class="f6 f-table-ns b--gray4 link dim tc w-5 pa2 dib gray bg-gray2 br1 mv2 ml1" href="#">
-            <i class="fa fa-search dib gray6" aria-hidden="true"></i>
-        </a>-->
+                          
                             <!--  <a type="button" class="btn btn-primary btn-xs" href="#">
             <span class="fa fa-search dib gray6 white" aria-hidden="true"></span>
         </a>-->
@@ -305,204 +265,17 @@
                             </select>
                         </div>
 
-                        <div class="measure">
-                            <select class=" ba b--black-20 pa2 db w-100 dib ml1 mb2" onclick="javascript:seSearchM();" id="selectM">
-                                <option id="seAllM" value="all" class="f7 f8-m drop_role " selected>All</option>
-                                <option id="sePipelineM" value="pipeline" class="f7  drop_rol ">Pipeline</option>
-                                <option id="seGateM" value="gate" class="f7 drop_role ">Gate Station</option>
-                                <option id="seMeteringM" value="metering" class=" f7 drop_role ">Metering Station</option>
-                            </select>
-                        </div>
-                        <div class="measure">
-                            <input id="txtPipelineM" class="input-reset ba b--black-20 pa2 mb2  w-100 ml1 dn" type="text" aria-describedby="name-desc" placeholder="PipeLine">
-                        </div>
-                        <div class="measure "><input id="txtGateM" class="input-reset ba b--black-20 pa2 mb2 w-100 ml1 dn" type="text" aria-describedby="name-desc" placeholder="Gate Station"> </div>
-                        <div class="measure"><input id="txtMeteringM" class="input-reset ba b--black-20 pa2 mb2 w-100  ml1 dn" type="text" aria-describedby="name-desc" placeholder="Metering Station"> </div>
-                        <div class="measure">
-                            <select class=" ba b--black-20 pa2 mb2  w-100 ml1">
-                                <option id="seAllM" value="all" class="f7 f8-m drop_role" selected>All Threshold</option>
-                                <option id="seGreenM" value="green" class="f7 f8-m drop_role">Green</option>
-                                <option id="seYellowM" value="yellow" class="f7  drop_role">Yellow</option>
-                                <option id="seRedM" value="red" class="f7 drop_role">Red</option>
-                                <option id="seOrangeM" value="red" class="f7 drop_role">Orange</option>
-                            </select>
-                        </div>
-                </form>
-
-            </div>
-            <br /><hr class="style" /><br />
-
-            <div class="measure">
-                <div class=" w-100 pv3">
-                    <div class="dib fr nt3 pr6" id="btnCreate mh2">
-                        <a class="f7 link bg-blue-button tc br1 pv2 ph3 ba" href="#0" id="btnSearch">Search</a>
-                    </div> <div class="cr"></div>
-                    <div class="dib fr nt3 cancleCreate mh3">
-                        <a class="f7 link btn-default tc cancle_search br1  pv2 ph3 ba " href="#0" id="btnCancle">Cancle</a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+            
 
     </div>  -->
-    <!-- End Modal  Search  Mobile-->
-    <!--  Modal  Threshold  Mobile-->
-    <div id="modalThreshold" class="modal  pt6-ns pt5-l pt5-m hidden-lg">
-        <div class="modal-content_np pa1  w-60-m w-100-ns br1">
-
-            <div class="fl dib ml3 f5 b pt3">Threshold</div>
-            <span class="closeThreshold nt2 pt3 mr3" id="closeCross">&times;</span>
-
-            <div class="cl cr"></div>
-            <hr class="style ml0 mr0" />
-            <div class="mh3 mv3">
-                <form class="  black-80 center">
-                    <div class="measure ">
-
-                        <div class=" ph3-m mh3-l pt3-l pt2-m pt1-ns w-60-l">
-                            <!--  <div class="dib pv3">
-                                <i class="fa fa-circle fa-2x green w3 fl" aria-hidden="true"></i><span class="cl"></span>
-                                <label class="f7 dib pt2">Gate Station < 80% , Pipeline < 55 ft/s </label>
-                            </div>
-                            <div class="dib pv3">
-                                <i class="fa fa-circle fa-2x yellow w3 fl" aria-hidden="true"></i> <span class="cl"></span>
-                                <label class="f7 dib pt2">Gate Station > 80% , Pipeline > 55 ft/s </label>
-                            </div>
-                            <div class="dib pv3">
-                                <i class="fa fa-circle fa-2x red w3 fl" aria-hidden="true"></i><span class="cl"></span>
-                                <label class="f7 dib pt2">Gate Station > 87.5% , Pipeline > 60 ft/s </label>
-                            </div>-->
-                            <center>
-                                <table class="tc pb3 ">
-                                    <tr class="hover-bg-inherit">
-                                        <th class="f6-m f7-ns  w-30">Threshold</th>
-                                        <th class="f6-m f7-ns  w-40">Gate Station</th>
-                                        <th class="f6-m f7-ns   w-40">Pipeline</th>
-
-                                    </tr>
-                                    <tr>
-                                        <td class="pa2 pl2 tc"><i class="f5 fa fa-circle fa-lg green" id="status" aria-hidden="true"></i></td>
-                                        <td><div class="f6-m f7-ns"> < 80% </div></td>
-                                        <td><div class="f6-m f7-ns"> < 55 ft/s </div></td>
-
-                                    </tr>
-                                    <tr>
-                                        <td class="pa2 pl2 tc"><i class="f5 fa fa-circle fa-lg yellow" id="status" aria-hidden="true"></i></td>
-                                        <td><div class="f6-m f7-ns"> > 80% </div></td>
-                                        <td><div class="f6-m f7-ns"> > 55 ft/s </div></td>
-
-                                    </tr>
-                                    <tr>
-                                        <td class="pa2 pl2 tc"><i class="f5 fa fa-circle fa-lg red" id="status" aria-hidden="true"></i></td>
-                                        <td><div class="f6-m f7-ns"> > 87.5% </div></td>
-                                        <td><div class="f6-m f7-ns"> > 60 ft/s </div></td>
-                                    </tr>
-                                    <tr>
-                                </table>
-                            </center>
-                        </div> <div class="cr cl"></div>
-
-                    </div>
+   
 
 
-                </form>
-
-            </div>
-            <br /><hr class="style" /><br />
-            <div class="measure">
-                <div class=" w-100 pv3">
-                    <div class="dib fr nt3 pr6" id="btnCreate mh2">
-                        <a class="f7 link bg-blue-button  tc br1   pv2 ph3 ba" href="@Url.Action("ThresholdSetting", "Utilization")">Threshold setting</a>
-                    </div> <div class="cr"></div>
-                    <div class="dib fr nt3 cancleCreate mh3">
-                        <a class="f7 link btn-default tc cancleThreshold br1  pv2 ph3 ba " href="#0" id="btnCancle">Close</a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-    </div>   <!-- End Modal  Search  Mobile-->
-
-
-
-
-    <script>
-
-        // Get the modal
-        var modal_search = document.getElementById('modal_search');
-
-        // Get the button that opens the modal
-        var btn_searchModal = document.getElementById("btnSearchModalM");
-
-        // Get the element that closes the modal
-        var closeSearch = document.getElementsByClassName("closeSearch")[0];
-        var cancle_search = document.getElementsByClassName("cancle_search")[0];
-
-        // When the user clicks the button, open the modal
-        btn_searchModal.onclick = function () {
-            modal_search.style.display = "block";
-        }
-
-        // When the user clicks on (x), close the modal
-        closeSearch.onclick = function () {
-            modal_search.style.display = "none";
-        }
-        // When the user clicks on cancle button, close the modal
-        cancle_search.onclick = function () {
-            modal_search.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal_search) {
-                modal_search.style.display = "none";
-            }
-        }
-
-
-        // Get the modal
-        var modalThreshold = document.getElementById('modalThreshold');
-
-        // Get the button that opens the modal
-        var btnThreModal = document.getElementById("btnThreModalM");
-
-        // Get the element that closes the modal
-        var closeThreshold = document.getElementsByClassName("closeThreshold")[0];
-        var cancleThreshold = document.getElementsByClassName("cancleThreshold")[0];
-
-        // When the user clicks the button, open the modal
-        btnThreModal.onclick = function () {
-            modalThreshold.style.display = "block";
-        }
-
-        // When the user clicks on (x), close the modal
-        closeThreshold.onclick = function () {
-            modalThreshold.style.display = "none";
-        }
-        // When the user clicks on cancle button, close the modal
-        cancleThreshold.onclick = function () {
-            modalThreshold.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modalThreshold) {
-                modalThreshold.style.display = "none";
-            }
-        }
-
-
-
-    </script>
 
     <script type="text/javascript">
         $(document).ready(function () {
             document.getElementById('seLicenseW').style.display = 'none';
-            document.getElementById('txtPipelineW').style.display = 'none';
-            document.getElementById('txtGateW').style.display = 'none';
-            document.getElementById('txtMeteringW').style.display = 'none';
+            
         });
 
         function Check() {
@@ -545,49 +318,9 @@
         }  */
 
 
-        /*   Select  In Search Modal Mobile     */
-        function seSearchM() {
-            var value = document.getElementById('selectM').value;
-            if (value == "all") {
-                document.getElementById('txtPipelineM').style.display = 'none';
-                document.getElementById('txtGateM').style.display = 'none';
-                document.getElementById('txtMeteringM').style.display = 'none';
-            }
+       
 
-            else if (value == "pipeline") {
-                document.getElementById('txtPipelineM').style.display = 'block';
-                document.getElementById('txtGateM').style.display = 'none';
-                document.getElementById('txtMeteringM').style.display = 'none';
-            }
-            else if (value == "gate") {
-                document.getElementById('txtPipelineM').style.display = 'none';
-                document.getElementById('txtGateM').style.display = 'block';
-                document.getElementById('txtMeteringM').style.display = 'none';
-            }
-
-            else if (value == "metering") {
-                document.getElementById('txtPipelineM').style.display = 'none';
-                document.getElementById('txtGateM').style.display = 'none';
-                document.getElementById('txtMeteringM').style.display = 'block';
-            }
-        }
-
-
-
-
-
-
-        function CheckM() {
-
-            if (document.getElementById('radioAreaM').checked) {
-                document.getElementById('seAreaM').style.display = 'inline-block';
-                document.getElementById('seLicenseM').style.display = 'none';
-            } else if (document.getElementById('radioLicenseM').checked) {
-                document.getElementById('seLicenseM').style.display = 'inline-block';
-                document.getElementById('seAreaM').style.display = 'none';
-
-            }
-        }
+       
     </script>
 
 </div>

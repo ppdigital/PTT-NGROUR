@@ -40,6 +40,8 @@ namespace PTT_NGROUR.Controllers
             //return View(model);
             return RedirectToAction("Login", "User");
         }
+        public ActionResult MenuMobile()
+        { return View(); }
 
     }
 }
