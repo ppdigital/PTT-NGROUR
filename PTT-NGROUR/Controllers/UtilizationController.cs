@@ -14,6 +14,7 @@ using PTT_NGROUR.DTO;
 
 using PTT_NGROUR.Models.DataModel;
 using PTT_NGROUR.Models.ViewModel;
+using System.Data;
 
 namespace PTT_NGROUR.Controllers
 {
@@ -94,6 +95,10 @@ namespace PTT_NGROUR.Controllers
             };
 
             return View(model);
+        }
+        public ActionResult SearchRegion(int[] region)
+        {
+            return View();
         }
 
         public ActionResult ImportExcel()
@@ -731,4 +736,10 @@ namespace PTT_NGROUR.Controllers
         //}//3
 
     }
+    public class utilization
+    {
+        public string REGION_NAME { get; set; }
+        public int REGION_ID { get; set; }
+}
+
 }

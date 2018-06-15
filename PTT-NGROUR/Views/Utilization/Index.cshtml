@@ -48,7 +48,7 @@
                     <span class="checkmark h6 b"> License</span>
                 </label>
                 <span id="seRegion">
-                    <select class="selectpicker fz-12px" name="seRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
+                    <select class="selectpicker fz-12px" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
                         @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
                         {
                             <option value="@ml.REGION_ID" class="text-grey" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
@@ -145,7 +145,7 @@
                 </div>
             </div>
             <br />
-            <div class="table-responsive">
+            <div class="table-responsive" id="TableValue">
                 <table class="table table-striped table-hover">
                     <thead>
 
@@ -191,36 +191,83 @@
             if (document.getElementById('radioRegion').checked) {
                 document.getElementById('seRegion').style.display = 'inline-block';
                 document.getElementById('seLicense').style.display = 'none';
-               
-            } 
+
+            }
             else if (document.getElementById('radioLicense').checked) {
                 document.getElementById('seLicense').style.display = 'inline-block';
                 document.getElementById('seRegion').style.display = 'none';
             }
         }
-
+        var region;
         $('#MultiRegion').change(function () {
-            var arr = $(this).val();
-            console.log(arr);
-            //console.log(arr)
+             SeRegion = $(this).val();
+            // console.log(region);
+
         })
 
         function Search()
         {
-            if (document.getElementById('radioRegion').checked) {
-                $('#MultiRegion').change(function () {
-                    var arr = $(this).val();
-                    console.log(arr);
-                    //console.log(arr)
-                })
+            if (document.getElementById('radioRegion').checked)
+            {
+                    console.log(SeRegion);
+                  $.ajax({
+                        url: '@Url.Action("SearchRegion")',
+                        type: 'POST',
+                        data: JSON.stringify(SeRegion),
+                        contentType: 'application/json; charset=utf-8',
+                        datatype: 'json',
+                        success: function () {
+                            alert("success");
+                            window.location.reload();
+                        },
+                      error: function (result) {
+                          alert('Fail ');
+                      }
+                    });
+                
+                
+               // console.log(SeRegion);
             }
+            //else if (document.getElementById('radioLicense').checked) {
+              //  console.log(arr);
+           // }
         }
 
 
+    </script>
+
+    <script>
+        var region;
+        $('#MultiRegion').change(function () {
+            SeRegion = $(this).val();
+            // console.log(region);
+
+        })
+        function Search() {
+            if (document.getElementById('radioRegion').checked) {
+                console.log(SeRegion);
+                $.ajax({
+                    url: '@Url.Action("SearchRegion")',
+                    type: 'POST',
+                    data: JSON.stringify(SeRegion),
+                    contentType: 'application/json; charset=utf-8',
+                    datatype: 'json',
+                    success: function () {
+                        alert("success");
+                        window.location.reload();
+                    },
+                    error: function (result) {
+                        alert('Fail ');
+                    }
+                });
 
 
-
-
+                // console.log(SeRegion);
+            }
+            //else if (document.getElementById('radioLicense').checked) {
+            //  console.log(arr);
+            // }
+        }
     </script>
 
 </div>
