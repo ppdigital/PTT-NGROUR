@@ -5,25 +5,24 @@
 </style>
 
  <ul class="nav navbar-nav">
-                            <li ><a href="@Url.Action("Index", "Dashboard")" class="white"><strong class="white lato f6">Dashboard</strong></a></li>
-                            <li><a href="@Url.Action("Index", "OAndM")" class="white"><strong class="white lato f6">O & M</strong></a></li>
+                            <li ><a href="@Url.Action("Index", "Dashboard")" class="white"><span class="white">Dashboard</span></a></li>
+                            <li><a href="@Url.Action("Index", "OAndM")" class="white"><span class="white">O & M</span></a></li>
                             <!--<li><a href="#contact">Contact</a></li>-->
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong class="white lato f6">Utilization</strong><span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white ">Utilization</span><span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="@Url.Action("Index", "Utilization")">Utilization</a></li>
-                                    <li><a href="@Url.Action("CustManage", "Utilization")">Customer</a></li>
-                                    <li><a href="@Url.Action("ImportExcel", "Utilization")">Import Excel</a></li>
-                                    <li><a href="@Url.Action("ThresholdSetting", "Utilization")">Threshold Setting</a></li>
-                                    <li><a href="@Url.Action("UReport", "Utilization")">Report</a></li>
-                                    
+                                    <li><a href="@Url.Action("Index", "Utilization")" ><span class="text-grey txt-normal h6">Utilization</span></a></li>
+                                    <li><a href="@Url.Action("CustManage", "Utilization")"><span class="text-grey txt-normal h6">Customer</span></a></li>
+                                    <li><a href="@Url.Action("ImportExcel", "Utilization")"><span class="text-grey txt-normal h6">Import Excel</span></a></li>
+                                    <li><a href="@Url.Action("ThresholdSetting", "Utilization")"><span class="text-grey txt-normal h6">Threshold Setting</span></a></li>
+                                    <li><a href="@Url.Action("UReport", "Utilization")"><span class="text-grey txt-normal h6">Report</span></a></li>
                                 </ul>
                             </li>
-                            <li><a href="@Url.Action("Index", "RiskMang")" class="white"><strong class="white lato f6">Risk Management</strong></a></li>
+                            <li><a href="@Url.Action("Index", "RiskMang")" class="white"><span class="white ">Risk Management</span></a></li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong class="white lato f6">Admin</strong><span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white">Admin</span><span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="@Url.Action("UserManagement", "Admin")">User Management</a></li>
+                                    <li><a href="@Url.Action("UserManagement", "Admin")"><span class="text-grey txt-normal h6">User Management</span></a></li>
                                 </ul>
                             </li>
                         </ul>

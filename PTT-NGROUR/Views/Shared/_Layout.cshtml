@@ -57,19 +57,23 @@
                     <div id="navbar" class="navbar-collapse collapse">
                         @{Html.RenderAction("MenuBar", "Authorize");}
                         <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                @if (Request.IsAuthenticated)
+                            <li class="dropdown">
+@if (Request.IsAuthenticated)
                                 {
-                                    <a><strong class="lato white">@Html.Encode(User.Identity.Name)</strong></a>
-                                }
+                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white">@Html.Encode(User.Identity.Name)</span></a>
+                                <ul class="dropdown-menu ">
+                                    <li><a href="@Url.Action("CustManage", "Utilization")">
+                                            <i class="fa fa-user text-grey" aria-hidden="true"></i>
+                                            <span class="text-grey txt-normal h6">&nbsp;Change Password</span></a></li>
+                                 <li><a href="@Url.Action("Index", "Utilization")">
+                                         <i class="fa fa-power-off text-grey" aria-hidden="true"></i>
+                                         <span class="text-grey txt-normal h6">&nbsp;Sign Out</span></a>
+                                    </li>
+                                </ul>  }
                             </li>
+                            
 
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-user fa-lg white" aria-hidden="true"></i>
-                                    <strong class="white lato f6">Sign Out</strong>
-                                </a>
-                            </li>
+                            
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>

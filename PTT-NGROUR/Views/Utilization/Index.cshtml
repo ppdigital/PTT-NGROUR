@@ -67,7 +67,7 @@
                         }
                     </select>
                 </span>
-                <button type="button" class="btn btn-primary  ">
+                <button type="button" class="btn btn-primary " id="btnSearch" onclick="Search()">
                     <span class="glyphicon glyphicon-search"></span> Search
                 </button>
             </div>
@@ -191,14 +191,30 @@
             if (document.getElementById('radioRegion').checked) {
                 document.getElementById('seRegion').style.display = 'inline-block';
                 document.getElementById('seLicense').style.display = 'none';
-            } else if (document.getElementById('radioLicense').checked) {
+               
+            } 
+            else if (document.getElementById('radioLicense').checked) {
                 document.getElementById('seLicense').style.display = 'inline-block';
                 document.getElementById('seRegion').style.display = 'none';
-
             }
         }
 
+        $('#MultiRegion').change(function () {
+            var arr = $(this).val();
+            console.log(arr);
+            //console.log(arr)
+        })
 
+        function Search()
+        {
+            if (document.getElementById('radioRegion').checked) {
+                $('#MultiRegion').change(function () {
+                    var arr = $(this).val();
+                    console.log(arr);
+                    //console.log(arr)
+                })
+            }
+        }
 
 
 
