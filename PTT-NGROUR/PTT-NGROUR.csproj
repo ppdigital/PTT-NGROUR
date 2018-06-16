@@ -172,6 +172,7 @@
     </Compile>
     <Compile Include="Models\DataModel\ModelGateStationArchive.cs" />
     <Compile Include="Models\DataModel\ModelGateStationImport.cs" />
+    <Compile Include="Models\DataModel\ModelGetU.cs" />
     <Compile Include="Models\DataModel\ModelRegion.cs" />
     <Compile Include="Models\DataModel\ModelPipelineArchive.cs" />
     <Compile Include="Models\DataModel\ModelPipelineImport.cs" />

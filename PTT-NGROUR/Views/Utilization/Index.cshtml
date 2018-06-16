@@ -21,7 +21,15 @@
     #scollbar::-webkit-scrollbar-thumb {
         background-color: #ddd;
     }
+    .dotg {
+        height: 15px;
+        width: 15px;
+        background-color: green;
+        border-radius: 50%;
+        display: inline-block;
+    }
 
+  
     
     
 </style>
@@ -113,7 +121,7 @@
                     </div>
 
 
-                    <input id="txtSearch" class="form-control input-sm " type="text" aria-describedby="name-desc" style="width: 100% !important">
+                    <input id="txtSearch" class="form-control input-sm " type="text" aria-describedby="name-desc" style="width: 100% !important" onkeyup="myFunction()">
 
                     <div class="input-group-btn" style="width:30%">
                         <!--   <button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
@@ -126,11 +134,11 @@
                               <li><a id="seRed" class="fz-12px drop_role" href="#">Red</a></li>
                           </ul>-->
 
-                        <select class="form-control form-control-sm fz-12px" id="sel1" style="height: 30px !important;">
-                            <option id="seAllThres" class="fz-12px drop_role">All Threshold</option>
-                            <option id="seGree" class="fz-12px drop_role">Green</option>
-                            <option id="seYello" class="fz-12px drop_role">Yellow</option>
-                            <option id="seRed" class="fz-12px drop_role">Red</option>
+                        <select class="form-control form-control-sm fz-12px" id="color-filter" style="height: 30px !important;">
+                            <option id="seAllThres" class="fz-12px drop_role" value="All Threshold">All Threshold</option>
+                            <option id="seGree" class="fz-12px drop_role" value="green">Green</option>
+                            <option id="seYello" class="fz-12px drop_role" value="yellow">Yellow</option>
+                            <option id="seRed" class="fz-12px drop_role" value="red">Red</option>
                         </select>
 
                     </div>
@@ -146,7 +154,7 @@
             </div>
             <br />
             <div class="table-responsive" id="TableValue">
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover" id="utilTbl">
                     <thead>
 
                     </thead>
@@ -198,45 +206,8 @@
                 document.getElementById('seRegion').style.display = 'none';
             }
         }
-        var region;
-        $('#MultiRegion').change(function () {
-             SeRegion = $(this).val();
-            // console.log(region);
-
-        })
-
-        function Search()
-        {
-            if (document.getElementById('radioRegion').checked)
-            {
-                    console.log(SeRegion);
-                  $.ajax({
-                        url: '@Url.Action("SearchRegion")',
-                        type: 'POST',
-                        data: JSON.stringify(SeRegion),
-                        contentType: 'application/json; charset=utf-8',
-                        datatype: 'json',
-                        success: function () {
-                            alert("success");
-                            window.location.reload();
-                        },
-                      error: function (result) {
-                          alert('Fail ');
-                      }
-                    });
-                
-                
-               // console.log(SeRegion);
-            }
-            //else if (document.getElementById('radioLicense').checked) {
-              //  console.log(arr);
-           // }
-        }
 
 
-    </script>
-
-    <script>
         var region;
         $('#MultiRegion').change(function () {
             SeRegion = $(this).val();
@@ -244,30 +215,71 @@
 
         })
         function Search() {
+            let url;
             if (document.getElementById('radioRegion').checked) {
-                console.log(SeRegion);
+                url = '@Url.Action("SearchRegion")';
+            }
+            else if (document.getElementById('radioLicense').checked) {
+                url = '@Url.Action("SearchLicense")';
+            }
                 $.ajax({
-                    url: '@Url.Action("SearchRegion")',
+                    url: url,
                     type: 'POST',
                     data: JSON.stringify(SeRegion),
                     contentType: 'application/json; charset=utf-8',
                     datatype: 'json',
-                    success: function () {
-                        alert("success");
-                        window.location.reload();
+                    success: function (data) {
+                        $('#utilTbl').find('tbody tr').each(function () {
+                            this.remove();
+                        });
+                        for (let i in data) {
+                            if (data[i].COLOR == 'Green') {
+                                data[i].COLOR = '<span class="dotg"></span>'
+                                color = "Green"
+                                console.log(color);
+                            } else if (data[i].COLOR == 'Yellow') {
+                                data[i].COLOR = 'Y'
+                                color = "Yellow"
+                                console.log(color);
+                            }
+                            $('#utilTbl > tbody:last-child').append('<tr><td>' + data[i].COLOR + '</td><td>' + data[i].NAME + '</td><td>' + data[i].TYPE + '</td></tr>');
+                        }
                     },
                     error: function (result) {
                         alert('Fail ');
                     }
                 });
-
-
-                // console.log(SeRegion);
+            
+            
+        }//function searcch
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("txtSearch");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("utilTbl");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
             }
-            //else if (document.getElementById('radioLicense').checked) {
-            //  console.log(arr);
-            // }
         }
+
+        //////////////////////
+        //$("#ThresholdSelect").change(function () {
+
+        //});
+        //$("#ThresholdSelect").trigger('change');
+
+    
+
+        //////////////////////
+
     </script>
 
 </div>
