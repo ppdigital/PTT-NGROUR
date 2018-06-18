@@ -16,12 +16,15 @@ namespace PTT_NGROUR.ExtentionAndLib
         }
 
         public static int GetInt(this object pObject)
+        {            
+            return GetInt(pObject , 0);
+        }
+
+        public static int GetInt(this object pObject , int pIntDefaultValue)
         {
-            if (pObject == null || Convert.IsDBNull(pObject))
-            {
-                return 0;
-            }
-            return Convert.ToInt32(pObject);
+            string strValue = pObject.GetString();
+            int result;
+            return int.TryParse(strValue , out result)?result : pIntDefaultValue;
         }
 
         public static DateTime? GetDate(this object pObject)
@@ -35,11 +38,14 @@ namespace PTT_NGROUR.ExtentionAndLib
 
         public static decimal GetDecimal(this object pObject)
         {
-            if (pObject == null || Convert.IsDBNull(pObject))
-            {
-                return decimal.Zero;
-            }
-            return Convert.ToDecimal(pObject);
+            return GetDecimal(pObject , decimal.Zero);
+        }
+
+        public static decimal GetDecimal(this object pObject , decimal pDecDefaultValue)
+        {  
+            string strValue = pObject.GetString();
+            decimal result;
+            return decimal.TryParse(strValue, out result)?result : pDecDefaultValue;   
         }
 
         public static T GetEnum<T>(this object pObject, T pDefaultValue) where T : struct

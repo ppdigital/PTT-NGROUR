@@ -38,7 +38,7 @@ namespace PTT_NGROUR.DTO
         public IEnumerable<Models.DataModel.ModelGateStationImport> ReadExcelGateStationImport(
         System.IO.Stream pStreamExcel,
         int pIntMonth,
-        int pIntRegionId,
+        string pStrRegionId,
         string pStrUploadBy,
         int pIntYear)
         {
@@ -63,7 +63,7 @@ namespace PTT_NGROUR.DTO
                         GATE_NAME = getExcelGateValue(exWorkSheet, intRow, enumExcelGateColumn.GateName).GetString(),
                         MONTH = pIntMonth,
                         PRESSURE = getExcelGateValue(exWorkSheet, intRow, enumExcelGateColumn.GatePressure).GetDecimal(),
-                        REGION_ID = pIntRegionId,
+                        REGION = pStrRegionId,
                         UPLOAD_BY = pStrUploadBy,
                         UPLOAD_DATE = DateTime.Now,
                         YEAR = pIntYear
@@ -76,7 +76,7 @@ namespace PTT_NGROUR.DTO
         public IEnumerable<Models.DataModel.ModelPipelineImport> ReadExcelPipelineImport(
         System.IO.Stream pStreamExcel,
         int pIntMonth,
-        int pIntRegionId,
+        string pStrRegionId,
         string pStrUploadBy,
         int pIntYear)
         {
@@ -106,7 +106,7 @@ namespace PTT_NGROUR.DTO
                         OUTSIDE_DIAMETER = getExcelPipelineValue(exWorkSheet, intRow, enumExcelPipelineColumn.OUTSIDE_DIAMETER).GetDecimal(),
                         PIPELINE_ID = 0,
                         RC_NAME = getExcelPipelineValue(exWorkSheet, intRow, enumExcelPipelineColumn.RC_NAME).GetString(),
-                        REGION_ID = pIntRegionId,
+                        REGION = pStrRegionId,
                         ROUGHNESS = getExcelPipelineValue(exWorkSheet, intRow, enumExcelPipelineColumn.ROUGHNESS).GetDecimal(),
                         SERVICE_STATE = getExcelPipelineValue(exWorkSheet, intRow, enumExcelPipelineColumn.SERVICE_STATE).GetString(),
                         UPLOAD_BY = pStrUploadBy,
@@ -150,7 +150,7 @@ namespace PTT_NGROUR.DTO
             return result;
         }
 
-        public IEnumerable<string> GetListMasterGateStationName()
+        public IEnumerable<string> GetListGisGateStationName()
         {
             var dal = new DAL.DAL();
             string strCommand = "select distinct Name from GIS_Gate_Station";
@@ -167,14 +167,14 @@ namespace PTT_NGROUR.DTO
             {
                 return;
             }
-            string strCommand = @"INSERT INTO PTTOUR.PIPELINE_IMPORT ( RC_NAME, FLOW, DIAMETER, LENGTH, EFFICIENCY, 
+            string strCommand = @"INSERT INTO PIPELINE_IMPORT ( RC_NAME, FLOW, DIAMETER, LENGTH, EFFICIENCY, 
                 ROUGHNESS, LOAD, VELOCITY, OUTSIDE_DIAMETER, WALL_THICKNESS, SERVICE_STATE,
-                MONTH, YEAR, UPLOAD_DATE, UPLOAD_BY, REGION_ID) 
+                MONTH, YEAR, UPLOAD_DATE, UPLOAD_BY, REGION) 
                 VALUES ( '{0}' ,{1} ,{2} ,{3} ,{4} ,{5} ,{6} , {7} ,{8} ,{9} ,'{10}' ,{11} ,{12} , sysdate , '{13}' , {14} )";
             strCommand = string.Format(strCommand,
-                pModel.RC_NAME.Replace("'", "''"), pModel.FLOW, pModel.DIAMETER, pModel.LENGTH, pModel.EFFICIENCY,
+                pModel.RC_NAME.Trim().Replace("'", "''"), pModel.FLOW, pModel.DIAMETER, pModel.LENGTH, pModel.EFFICIENCY,
                 pModel.ROUGHNESS, pModel.LOAD, pModel.VELOCITY, pModel.OUTSIDE_DIAMETER, pModel.WALL_THICKNESS, pModel.SERVICE_STATE.Replace("'", "''"),
-                pModel.MONTH, pModel.YEAR, pModel.UPLOAD_BY.Replace("'", "''"), pModel.REGION_ID);
+                pModel.MONTH, pModel.YEAR, pModel.UPLOAD_BY.Trim().Replace("'", "''"), pModel.REGION.Trim().Replace("'", "''"));
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
             dal = null;
@@ -186,17 +186,17 @@ namespace PTT_NGROUR.DTO
             {
                 return;
             }
-            string strCommand = @"INSERT INTO PTTOUR.GATESTATION_IMPORT ( GATE_NAME,PRESSURE,FLOW, MONTH, YEAR,UPLOAD_DATE, UPLOAD_BY,REGION_ID) 
-                VALUES ( '{0}',{1},{2},{3},{4},SYSDATE,'{5}',{6} )";
+            string strCommand = @"INSERT INTO GATESTATION_IMPORT ( GATE_NAME,PRESSURE,FLOW, MONTH, YEAR,UPLOAD_DATE, UPLOAD_BY,REGION) 
+                VALUES ( '{0}',{1},{2},{3},{4},SYSDATE,'{5}','{6}' )";
 
             strCommand = string.Format(strCommand,
-                pModel.GATE_NAME.Trim().Replace("'", "''"), 
-                pModel.PRESSURE, 
-                pModel.FLOW, 
-                pModel.MONTH, 
-                pModel.YEAR, 
-                pModel.UPLOAD_BY.Trim().Replace("'", "''"), 
-                pModel.REGION_ID);
+                pModel.GATE_NAME.Trim().Replace("'", "''"),
+                pModel.PRESSURE,
+                pModel.FLOW,
+                pModel.MONTH,
+                pModel.YEAR,
+                pModel.UPLOAD_BY.Trim().Replace("'", "''"),
+                pModel.REGION.Trim().Replace("'", "''"));
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
             dal = null;
@@ -208,49 +208,99 @@ namespace PTT_NGROUR.DTO
             {
                 return;
             }
-            string strCommand = @"UPDATE PTTOUR.GATESTATION_IMPORT
-                SET    
-                       GATE_NAME   = '{0}',
-                       PRESSURE    = {1},
-                       FLOW        = {2},
-                       MONTH       = {3},
-                       YEAR        = {4},
-                       UPLOAD_DATE = sysdate,
-                       UPLOAD_BY   = '{5}',
-                       REGION_ID   = {6}
-                WHERE  GATE_ID     = {7}";
+            string strCommand = @"UPDATE GATESTATION_IMPORT SET    	
+GATE_NAME   = '{0}',
+    PRESSURE    = {1},
+    FLOW        = {2},
+    UPLOAD_DATE = sysdate,
+    UPLOAD_BY   = '{3}',
+    REGION      = '{4}'
+WHERE  	1=1
+	AND GATE_ID     = {5}
+	AND MONTH       = {6}
+	AND YEAR        = {7}";
             strCommand = string.Format(strCommand,
-                pModel.GATE_NAME.Trim().Replace("'","''"), 
-                pModel.PRESSURE, pModel.FLOW, pModel.MONTH, pModel.YEAR, 
-                pModel.UPLOAD_BY.Trim().Replace("'","''"), 
-                pModel.REGION_ID , pModel.GATE_ID);
+                pModel.GATE_NAME.Trim().Replace("'", "''"),
+                pModel.PRESSURE, pModel.FLOW,
+                pModel.UPLOAD_BY.Trim().Replace("'", "''"),
+                pModel.REGION.Trim().Replace("'", "''"), pModel.GATE_ID,
+                pModel.MONTH,
+                pModel.YEAR);
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
             dal = null;
         }
 
-        public void UpdateGateArchive(Models.DataModel.ModelGateStationImport pModel)
+        public void UpdatePipelineImport(Models.DataModel.ModelPipelineImport pModel)
         {
             if (pModel == null)
             {
                 return;
             }
-            string strCommand = @"UPDATE PTTOUR.GATESTATION_IMPORT
-                SET    
-                       GATE_NAME   = '{0}',
-                       PRESSURE    = {1},
-                       FLOW        = {2},
-                       MONTH       = {3},
-                       YEAR        = {4},
-                       UPLOAD_DATE = sysdate,
-                       UPLOAD_BY   = '{5}',
-                       REGION_ID   = {6}
-                WHERE  GATE_ID     = {7}";
+            string strCommand = @"UPDATE PIPELINE_IMPORT SET
+       RC_NAME          = '{0}',
+       FLOW             = {1},
+       DIAMETER         = {2},
+       LENGTH           = {3},
+       EFFICIENCY       = {4},
+       ROUGHNESS        = {5},
+       LOAD             = {6},
+       VELOCITY         = {7},
+       OUTSIDE_DIAMETER = {8},
+       WALL_THICKNESS   = {9},
+       SERVICE_STATE    = '{10}',       
+       UPLOAD_DATE      = sysdate,
+       UPLOAD_BY        = '{11}',
+       REGION           = '{12}'
+WHERE 1=1 
+	AND PIPELINE_ID	= {13}
+	AND MONTH	= {14}
+	AND YEAR	= {15}";
+            strCommand = string.Format(strCommand, 
+                pModel.RC_NAME.Trim().Replace("'","''") , 
+                pModel.FLOW ,
+                pModel.DIAMETER ,
+                pModel.LENGTH ,
+                pModel.EFFICIENCY ,
+                pModel.ROUGHNESS ,
+                pModel.LOAD,
+                pModel.VELOCITY,
+                pModel.OUTSIDE_DIAMETER,
+                pModel.WALL_THICKNESS,
+                pModel.SERVICE_STATE.Trim().Replace("'","''"),
+                pModel.UPLOAD_BY.Trim().Replace("'", "''"),
+                pModel.REGION.Trim().Replace("'", "''"),
+                pModel.PIPELINE_ID ,
+                pModel.MONTH ,
+                pModel.YEAR
+            );
+            var dal = new DAL.DAL();
+            dal.ExecuteNonQuery(strCommand);
+            dal = null;
+        }
+
+        public void UpdateGateArchive(Models.DataModel.ModelGateStationArchive pModel)
+        {
+            if (pModel == null)
+            {
+                return;
+            }
+            string strCommand = @"UPDATE GATESTATION_ARCHIVE SET    
+       	GATE_NAME   = '{0}',
+       	FLOW        = {1}
+       	UPLOAD_DATE = sysdate,
+       	UPLOAD_BY   = '{2}',
+       	REGION      = '{3}',
+       	FLAG_ID     = {4}
+WHERE 1=1 
+	AND GATE_ID     = {5}
+	AND MONTH       = {6}
+	AND YEAR        = {7}";
             strCommand = string.Format(strCommand,
                 pModel.GATE_NAME.Trim().Replace("'", "''"),
-                pModel.PRESSURE, pModel.FLOW, pModel.MONTH, pModel.YEAR,
+                pModel.FLOW, 
                 pModel.UPLOAD_BY.Trim().Replace("'", "''"),
-                pModel.REGION_ID, pModel.GATE_ID);
+                pModel.REGION, pModel.GATE_ID);
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
             dal = null;
@@ -262,15 +312,15 @@ namespace PTT_NGROUR.DTO
             {
                 return;
             }
-            string strCommand = @"INSERT INTO PTTOUR.PIPELINE_ARCHIVE (RC_NAME, MONTH, YEAR, UPLOAD_DATE, UPLOAD_BY, REGION_ID,FLAG_ID, VELOCITY) 
+            string strCommand = @"INSERT INTO PTTOUR.PIPELINE_ARCHIVE (RC_NAME, MONTH, YEAR, UPLOAD_DATE, UPLOAD_BY, REGION,FLAG_ID, VELOCITY) 
             VALUES ( '{0}',{1} , {2} , sysdate , '{3}' , {4} , {5} , {6})";
 
             strCommand = string.Format(strCommand,
-                pModel.RC_NAME.Replace("'", "''"),
+                pModel.RC_NAME.Trim().Replace("'", "''"),
                 pModel.MONTH,
                 pModel.YEAR,
-                pModel.UPLOAD_BY.Replace("'", "''"),
-                pModel.REGION_ID,
+                pModel.UPLOAD_BY.Trim().Replace("'", "''"),
+                pModel.REGION.Trim().Replace("'", "''"),
                 pModel.FLAG_ID,
                 pModel.VELOCITY);
             var dal = new DAL.DAL();
@@ -278,22 +328,49 @@ namespace PTT_NGROUR.DTO
             dal = null;
 
         }
+
+
+        public void UpdatePipelineArchive(Models.DataModel.ModelPipelineArchive pModel)
+        {
+            if (pModel == null) return;
+            string strCommand = @"UPDATE PIPELINE_ARCHIVE SET    
+       RC_NAME     = '{0}',       
+       UPLOAD_DATE = sysdate,
+       UPLOAD_BY   = '{1}',
+       REGION      = '{2}',
+       FLAG_ID     = {3},
+       VELOCITY    = {4}
+WHERE  1=1
+	AND PIPELINE_ID = {5}	
+	AND    MONTH       = {6}
+	AND    YEAR        = {7}";
+
+            strCommand = string.Format(strCommand,
+                pModel.RC_NAME.Trim().Replace("'", "''"), 
+                 
+                pModel.UPLOAD_BY.Trim().Replace("'" , "''") , 
+                pModel.REGION.Trim().Replace("'" , "''"), 
+                pModel.FLAG_ID , pModel.VELOCITY , pModel.PIPELINE_ID , pModel.MONTH, pModel.YEAR );
+            var dal = new DAL.DAL();
+            dal.ExecuteNonQuery(strCommand);
+            dal = null;
+        }
         public void InsertGateArchive(Models.DataModel.ModelGateStationArchive pModel)
         {
             if (pModel == null)
             {
                 return;
             }
-            string strCommand = @"INSERT INTO PTTOUR.GATESTATION_ARCHIVE (GATE_NAME, FLOW,MONTH,YEAR, UPLOAD_DATE,UPLOAD_BY, REGION_ID, FLAG_ID) 
-                VALUES ('{0}',{1},{2},{3},sysdate,'{4}',{5},{6} )";
+            string strCommand = @"INSERT INTO PTTOUR.GATESTATION_ARCHIVE (GATE_NAME, FLOW,MONTH,YEAR, UPLOAD_DATE,UPLOAD_BY, REGION, FLAG_ID) 
+                VALUES ('{0}',{1},{2},{3},sysdate,'{4}','{5}',{6} )";
 
             strCommand = string.Format(strCommand,
-                pModel.GATE_NAME.Replace("'", "''"),
+                pModel.GATE_NAME.Trim().Replace("'", "''"),
                 pModel.FLOW,
                 pModel.MONTH,
                 pModel.YEAR,
-                pModel.UPLOAD_BY.Replace("'", "''"),
-                pModel.REGION_ID,
+                pModel.UPLOAD_BY.Trim().Replace("'", "''"),
+                pModel.REGION.Trim().Replace("'", "''"),
                 pModel.FLAG_ID);
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
@@ -301,7 +378,8 @@ namespace PTT_NGROUR.DTO
 
         }
 
-        public bool IsGateStationImportDuplicate(Models.DataModel.ModelGateStationImport pModel){
+        public bool IsGateStationImportDuplicate(Models.DataModel.ModelGateStationImport pModel)
+        {
             if (pModel == null)
             {
                 return false;
@@ -322,7 +400,7 @@ namespace PTT_NGROUR.DTO
             {
                 return null;
             }
-            string strAllGateName = 
+            string strAllGateName =
                 pListModel.Select(x => "'" + x.GATE_NAME.Replace("'", "''") + "'")
                 .Aggregate((x, y) => x + "," + y);
             if (string.IsNullOrEmpty(strAllGateName))
@@ -335,11 +413,80 @@ namespace PTT_NGROUR.DTO
             var model1 = pListModel.First();
             strCommand = string.Format(strCommand, model1.YEAR, model1.MONTH, strAllGateName);
             var dal = new DAL.DAL();
-            var result = dal.ReadData<Models.DataModel.ModelGateStationImport>( 
-                pStrCommand: strCommand, 
+            var result = dal.ReadData<Models.DataModel.ModelGateStationImport>(
+                pStrCommand: strCommand,
                 pFuncReadData: x => new Models.DataModel.ModelGateStationImport(x));
             dal = null;
             return result;
+        }
+
+        public IEnumerable<Models.DataModel.ModelPipelineImport> GetListPipeline()
+        {
+            string strCommand = @"select * from PIPELINE_IMPORT";
+            var dal = new DAL.DAL();
+            var result = dal.ReadData<Models.DataModel.ModelPipelineImport>(
+                pStrCommand: strCommand,
+                pFuncReadData: r => new Models.DataModel.ModelPipelineImport(r));
+            dal = null;
+            return result;
+        }
+
+
+        public IEnumerable<Models.DataModel.ModelPipelineImport> GetListPipelineImportDuplicate(IEnumerable<Models.DataModel.ModelPipelineImport> pListModel)
+        {
+            if (pListModel == null && !pListModel.Any(x=> x != null))
+            {
+                return null;
+            }
+            string strAllRcName = pListModel
+                .Where(x => x != null && !string.IsNullOrEmpty( x.RC_NAME))
+                .Select(x => "'" + x.RC_NAME.Replace("'", "''") + "'")
+                .Aggregate((x, y) => x + "," + y);
+
+            if(string.IsNullOrEmpty(strAllRcName))
+            {
+                return null;
+            }
+            string strCommand = @"select * from PIPELINE_IMPORT
+            where year = {0} and month = {1}
+            and RC_NAME in ({2})";
+            var model1 = pListModel.Where(x=> x!= null).First();
+            strCommand = string.Format(strCommand, model1.YEAR, model1.MONTH, strAllRcName);
+            var dal = new DAL.DAL();
+            var result = dal.ReadData<Models.DataModel.ModelPipelineImport>(
+                pStrCommand: strCommand, 
+                pFuncReadData: r => new Models.DataModel.ModelPipelineImport(r));
+            dal = null;
+            return result;
+        }
+
+        public IEnumerable<Models.DataModel.ModelPipelineArchive> GetListPipelineArchiveDuplicate(IEnumerable<Models.DataModel.ModelPipelineArchive> pListModel)
+        {
+            if (pListModel == null && !pListModel.Any())
+            {
+                return null;
+            }
+            string strAllRcName = pListModel.Select(x => "'" + x.RC_NAME.Replace("'", "''") + "'")
+                .Aggregate((x, y) => x + "," + y); ;
+            if (string.IsNullOrEmpty(strAllRcName))
+            {
+                return null;
+            }
+            string strCommand = @"select * from PIPELINE_ARCHIVE
+            where year = {0} and month = {1}
+            and RC_NAME in ({2})";
+            var model1 = pListModel.First();
+
+            strCommand = string.Format(strCommand, model1.YEAR, model1.MONTH, strAllRcName);
+            var dal = new DAL.DAL();
+            var result = dal.ReadData<Models.DataModel.ModelPipelineArchive>(
+                pStrCommand: strCommand,
+                pFuncReadData: x => new Models.DataModel.ModelPipelineArchive(x)
+            );
+
+            dal = null;
+            return result;
+            
         }
 
         public IEnumerable<Models.DataModel.ModelGateStationArchive> GetListGateArchiveDuplicate(IEnumerable<Models.DataModel.ModelGateStationImport> pListModel)
@@ -363,7 +510,8 @@ namespace PTT_NGROUR.DTO
             var dal = new DAL.DAL();
             var result = dal.ReadData<Models.DataModel.ModelGateStationArchive>(
                 pStrCommand: strCommand,
-                pFuncReadData: x => { 
+                pFuncReadData: x =>
+                {
                     var gi = new Models.DataModel.ModelGateStationImport(x);
                     return new Models.DataModel.ModelGateStationArchive(gi);
                 });

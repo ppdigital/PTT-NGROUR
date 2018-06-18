@@ -17,7 +17,7 @@ namespace PTT_NGROUR.Models.DataModel
             this.FLOW = pModelGateImport.FLOW;
             this.GATE_NAME = pModelGateImport.GATE_NAME;
             this.MONTH = pModelGateImport.MONTH;
-            this.REGION_ID = pModelGateImport.REGION_ID;
+            this.REGION = pModelGateImport.REGION;
             this.UPLOAD_BY = pModelGateImport.UPLOAD_BY;
             this.YEAR = pModelGateImport.YEAR;
             this.GATE_ID = pModelGateImport.GATE_ID;
@@ -32,7 +32,7 @@ namespace PTT_NGROUR.Models.DataModel
         public int YEAR { get; set; }
         public DateTime? UPLOAD_DATE { get; set; }
         public string UPLOAD_BY { get; set; }
-        public int REGION_ID { get; set; }
+        public string REGION { get; set; }
         public int FLAG_ID { get; set; }
     }
 }

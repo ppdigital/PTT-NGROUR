@@ -85,8 +85,8 @@ namespace PTT_NGROUR.Controllers
             }
 
             //  ViewBag.seLicense = listLicense;
-          
-             var model = new Models.ViewModel.ModelUtilization()
+
+            var model = new Models.ViewModel.ModelUtilization()
             {
                 ListLicense = listLicense,
                 ListRegion = listRegion
@@ -143,7 +143,8 @@ namespace PTT_NGROUR.Controllers
         [HttpPost]
         public ActionResult InsertExceldata()
         {
-            var modelResult = new ModelInsertExcelData(){
+            var modelResult = new ModelInsertExcelData()
+            {
                 success = false
             };
             try
@@ -174,12 +175,13 @@ namespace PTT_NGROUR.Controllers
 
                     if (inType == "pipeline")
                     {
-                        modelResult.ListUnSuccessPipeLine = insertExcelPipelineData(
+                         insertExcelPipelineData(
                             pFileStream: fb.InputStream,
                             pIntMonth: Convert.ToInt32(inMonth),
-                            pIntRegionId: Convert.ToInt32(inRegion),
-                            pStrUploadBy: "user1" , 
-                            pIntYear: Convert.ToInt32(inYear));
+                            pStrRegionId: inRegion,
+                            pStrUploadBy: "user1",
+                            pIntYear: Convert.ToInt32(inYear) , 
+                            pModelResult:modelResult);
                         modelResult.success = true;
                         modelResult.responseText = "เพิ่มข้อมูลสำเร็จ";
                         return Json(modelResult);
@@ -189,9 +191,9 @@ namespace PTT_NGROUR.Controllers
                         insertExcelGateData(
                             pFileStream: fb.InputStream,
                             pIntMonth: Convert.ToInt32(inMonth),
-                            pIntRegionId: Convert.ToInt32(inRegion),
+                            pStrRegionId: inRegion,
                             pStrUploadBy: "user1",
-                            pIntYear: Convert.ToInt32(inYear) ,
+                            pIntYear: Convert.ToInt32(inYear),
                             pModelResult: modelResult
                         );
                         modelResult.success = true;
@@ -203,28 +205,115 @@ namespace PTT_NGROUR.Controllers
 
 
                     //foreach (HttpPostedFileWrapper fb in files)
-                    
+
                 }
                 return Json(new { success = true, responseText = "เพิ่มข้อมูลสำเร็จ" });
             }
             catch (Exception ex)
             {
                 modelResult.responseText = ex.Message + Environment.NewLine + ex.StackTrace;
-                modelResult.success = false;                
+                modelResult.success = false;
                 return Json(modelResult);
             }
         }
 
-
-        private ModelPipelineImport[] insertExcelPipelineData(
-        Stream pFileStream ,
-        int pIntMonth ,
-        int pIntRegionId , 
-        string pStrUploadBy ,
-        int pIntYear) 
+        private void insertExcelPipelineData(
+        Stream pFileStream,
+        int pIntMonth,
+        string pStrRegionId,
+        string pStrUploadBy,
+        int pIntYear,
+        ModelInsertExcelData pModelResult)
         {
             var dto = new DtoUtilization();
-            var listPipeLineImport =  dto.ReadExcelPipelineImport(pFileStream, pIntMonth, pIntRegionId, pStrUploadBy, pIntYear).ToList();
+            var listExcelPipeline = dto.ReadExcelPipelineImport(
+                 pStreamExcel: pFileStream,
+                 pIntMonth: pIntMonth,
+                 pIntYear: pIntYear,
+                 pStrUploadBy: pStrUploadBy,
+                 pStrRegionId: pStrRegionId).Where(x=> x!= null).ToList();
+            var listRc = dto.GetListRcProject().Where(x=> !string.IsNullOrEmpty(x)).ToList();
+
+            var listPipelineAll = dto.GetListPipeline().ToList();
+
+            var listPipelineDuplicate = dto.GetListPipelineImportDuplicate(listExcelPipeline)
+            .Where(x=> x!= null).ToList();
+
+            for (int i = listExcelPipeline.Count - 1; i >= 0; --i)
+            {
+                var pipeLine = listExcelPipeline[i];
+                var pipeLineDuplicate = listPipelineDuplicate.FirstOrDefault(x => x.RC_NAME == pipeLine.RC_NAME);
+                if(pipeLineDuplicate == null)
+                {
+                    dto.InsertPipelineImport(pipeLine);
+                }
+                else
+                {
+                    pipeLine.PIPELINE_ID = pipeLineDuplicate.PIPELINE_ID;
+                    dto.UpdatePipelineImport(pipeLine);
+                }
+            }
+
+
+            //var listPipelineForInsert = listExcelPipeline
+            //    .Where(x => listPipelineDuplicate == null || listPipelineDuplicate.Any(y => y.RC_NAME == x.RC_NAME))
+            //    .ToList();
+            //listPipelineForInsert.ForEach(z => dto.InsertPipelineImport(z));
+
+            //var listPipelineForUpdate = listExcelPipeline
+            //    .Where(x => listPipelineDuplicate != null && listPipelineDuplicate.Any(y => y.RC_NAME == x.RC_NAME))
+            //    .ToList();
+
+
+
+            var listPipelineArchive =
+                (from pi in listExcelPipeline
+                 group pi by pi.RC_NAME.Split('-')[0] into lpi
+                 let maxV = lpi.Max(x => x.VELOCITY)
+                 where listRc.Contains(lpi.Key)
+                 select new
+                 {
+                     rcName = lpi.Key,
+                     pipeLineImport = lpi.Where(x => x.VELOCITY == maxV).FirstOrDefault()
+                 }).Select(x => new ModelPipelineArchive()
+                 {
+                     MONTH = x.pipeLineImport.MONTH,
+                     RC_NAME = x.rcName,
+                     REGION = x.pipeLineImport.REGION,
+                     UPLOAD_BY = x.pipeLineImport.UPLOAD_BY,
+                     VELOCITY = x.pipeLineImport.VELOCITY,
+                     YEAR = x.pipeLineImport.YEAR 
+                 }).ToList();
+            var listPipelineArchiveDuplicate = dto.GetListPipelineArchiveDuplicate(listPipelineArchive)
+                .Where(x=> x!= null).ToList();
+            for (int i = listPipelineArchive.Count - 1; i >= 0; --i)
+            {
+                var pla = listPipelineArchive[i];
+                var plaDupplicate = listPipelineArchiveDuplicate.FirstOrDefault(x => x.RC_NAME == pla.RC_NAME);
+                if(plaDupplicate == null)
+                {
+                    dto.InsertPipelineArchive(pla);
+                }
+                else
+                {
+                    pla.PIPELINE_ID = plaDupplicate.PIPELINE_ID;
+                    dto.UpdatePipelineArchive(pla);
+                }
+            }
+
+            pModelResult.ListSuccessPipeLine = listExcelPipeline.Where(x => listPipelineArchive.Any(y => x.RC_NAME.StartsWith(y.RC_NAME))).ToArray();
+            //pModelResult.ListUnSuccessPipeLine = listExcelPipeline.Where(x => !listPipelineArchive.Any(y => x.RC_NAME.StartsWith(y.RC_NAME))).ToArray();
+            pModelResult.ListUnSuccessPipeLine = listExcelPipeline.Where(x => pModelResult.ListSuccessPipeLine.Any(y => y.RC_NAME == x.RC_NAME)).ToArray();
+        }
+        private ModelPipelineImport[] insertExcelPipelineData2(
+        Stream pFileStream,
+        int pIntMonth,
+        int pIntRegionId,
+        string pStrUploadBy,
+        int pIntYear)
+        {
+            var dto = new DtoUtilization();
+            var listPipeLineImport = dto.ReadExcelPipelineImport(pFileStream, pIntMonth, pIntRegionId.ToString(), pStrUploadBy, pIntYear).ToList();
             var listRcProject = dto.GetListRcProject();
             foreach (ModelPipelineImport modelPI in listPipeLineImport)
             {
@@ -235,21 +324,23 @@ namespace PTT_NGROUR.Controllers
                 dto.InsertPipelineImport(modelPI);
             }
             var listPipelineArchive = (from pi in listPipeLineImport
-                group pi by pi.RC_NAME.Split('-')[0]
+                                       group pi by pi.RC_NAME.Split('-')[0]
                 into lpi
-                let maxV = lpi.Max(x => x.VELOCITY)
-                where listRcProject.Contains(lpi.Key)
-                select new {
-                    rcName = lpi.Key,
-                    pipeLineImport = lpi.Where(x => x.VELOCITY == maxV).FirstOrDefault()
-                }).Select(x => new ModelPipelineArchive() { 
-                    MONTH = x.pipeLineImport.MONTH,
-                    RC_NAME = x.rcName,
-                    REGION_ID = x.pipeLineImport.REGION_ID,
-                    UPLOAD_BY = x.pipeLineImport.UPLOAD_BY,
-                    VELOCITY = x.pipeLineImport.VELOCITY,
-                    YEAR = x.pipeLineImport.YEAR
-                });//.ForEach(x=> dto.InsertPipelineArchive(x));
+                                       let maxV = lpi.Max(x => x.VELOCITY)
+                                       where listRcProject.Contains(lpi.Key)
+                                       select new
+                                       {
+                                           rcName = lpi.Key,
+                                           pipeLineImport = lpi.Where(x => x.VELOCITY == maxV).FirstOrDefault()
+                                       }).Select(x => new ModelPipelineArchive()
+                                       {
+                                           MONTH = x.pipeLineImport.MONTH,
+                                           RC_NAME = x.rcName,
+                                           REGION = x.pipeLineImport.REGION,
+                                           UPLOAD_BY = x.pipeLineImport.UPLOAD_BY,
+                                           VELOCITY = x.pipeLineImport.VELOCITY,
+                                           YEAR = x.pipeLineImport.YEAR
+                                       });//.ForEach(x=> dto.InsertPipelineArchive(x));
             foreach (ModelPipelineArchive pa in listPipelineArchive)
             {
                 dto.InsertPipelineArchive(pa);
@@ -262,27 +353,22 @@ namespace PTT_NGROUR.Controllers
         private void insertExcelGateData(
         Stream pFileStream,
         int pIntMonth,
-        int pIntRegionId,
+        string pStrRegionId,
         string pStrUploadBy,
         int pIntYear,
         ModelInsertExcelData pModelResult)
         {
             var dto = new DtoUtilization();
-            
-            var listGate = dto.ReadExcelGateStationImport(pFileStream, pIntMonth, pIntRegionId, pStrUploadBy, pIntYear).ToList();
-            
-            var listMasterGateDataName = dto.GetListMasterGateStationName().ToList();
-            
-            var listGateHaveMasterData = listGate.Where(x => listMasterGateDataName.Contains(x.GATE_NAME)).ToList();
+
+            var listGate = dto.ReadExcelGateStationImport(pFileStream, pIntMonth, pStrRegionId, pStrUploadBy, pIntYear).ToList();
+
+            var listGisGateDataName = dto.GetListGisGateStationName().ToList();
+
+            var listGateHaveMasterData = listGate.Where(x => listGisGateDataName.Contains(x.GATE_NAME)).ToList();
 
             var listGateImportDuplicate = dto.GetListGateImportDuplicate(listGate).ToList();
-            
-            
-            //var listGateReadyToInsert = listGateHaveMasterData.Where(x => !listGateImportDuplicate.Any(y => y.GATE_NAME == x.GATE_NAME)).ToList();
 
-            //var 
-
-            var listGateDupplicate = new List<ModelGateStationImport>();            
+            var listGateDupplicate = new List<ModelGateStationImport>();
 
             var listGateUnsuccess = new List<ModelGateStationImport>();
 
@@ -291,26 +377,29 @@ namespace PTT_NGROUR.Controllers
             for (int i = listGate.Count - 1; i >= 0; --i)
             {
                 var gateItem = listGate[i];
-                
-                var gateDuplicate = listGateImportDuplicate.FirstOrDefault(x=> x.GATE_NAME == gateItem.GATE_NAME);
-                if(gateDuplicate == null){
+
+                var gateDuplicate = listGateImportDuplicate.FirstOrDefault(x => x.GATE_NAME == gateItem.GATE_NAME);
+                if (gateDuplicate == null)
+                {
                     dto.InsertGateImport(gateItem);
 
 
-                }else if(gateItem.FLOW != gateDuplicate.FLOW && gateItem.PRESSURE !=gateDuplicate.PRESSURE ) {
+                }
+                else if (gateItem.FLOW != gateDuplicate.FLOW && gateItem.PRESSURE != gateDuplicate.PRESSURE)
+                {
                     gateItem.GATE_ID = gateDuplicate.GATE_ID;
                     dto.UpdateGateImport(gateItem);
                 }
-                                
-                if (!listMasterGateDataName.Contains(gateItem.GATE_NAME))
+
+                if (!listGisGateDataName.Contains(gateItem.GATE_NAME))
                 {
                     listGate.RemoveAt(i);
                     listGateUnsuccess.Add(gateItem);
-                }                
+                }
                 else
                 {
-                    var gateArchiveDuplicate = listArchiveDuplicate.FirstOrDefault(x=> x.GATE_NAME == gateItem.GATE_NAME);
-                    
+                    var gateArchiveDuplicate = listArchiveDuplicate.FirstOrDefault(x => x.GATE_NAME == gateItem.GATE_NAME);
+
                     var ga2 = new ModelGateStationArchive(gateItem);
 
                     if (gateArchiveDuplicate == null)
@@ -320,56 +409,16 @@ namespace PTT_NGROUR.Controllers
                     else
                     {
                         ga2.GATE_ID = gateArchiveDuplicate.GATE_ID;
+                        dto.UpdateGateArchive(ga2);
                     }
                 }
             }
-            pModelResult.ListDuplicateGateStation = listGateDupplicate.ToArray();
+            //pModelResult.ListDuplicateGateStation = listGateDupplicate.ToArray();
             pModelResult.ListUnSuccessGateStation = listGateUnsuccess.ToArray();
             pModelResult.ListSuccessGateStation = listGate.ToArray();
         }
 
-        private void insertExcelGateData2(
-        Stream pFileStream,
-        int pIntMonth,
-        int pIntRegionId,
-        string pStrUploadBy,
-        int pIntYear ,
-        ModelInsertExcelData pModelResult )
-        {
-            var dto = new DtoUtilization();
-            var listGate = dto.ReadExcelGateStationImport(pFileStream, pIntMonth, pIntRegionId, pStrUploadBy, pIntYear).ToList();
-            var listGateDupplicate = new List<ModelGateStationImport>();
 
-            var listGateDupplicate2 = dto.GetListGateImportDuplicate(listGate);
-
-            var listGateUnsuccess = new List<ModelGateStationImport>();
-            var listGateName = dto.GetListMasterGateStationName().ToList();
-            
-            for (int i = listGate.Count-1; i >= 0; --i)
-            {
-                var gateItem = listGate[i];
-                dto.InsertGateImport(gateItem);
-                if (!listGateName.Contains(gateItem.GATE_NAME))
-                {
-                    listGate.RemoveAt(i);
-                    listGateUnsuccess.Add(gateItem);
-                }
-                else if (dto.IsGateStationImportDuplicate(gateItem))
-                {
-                    listGate.RemoveAt(i);
-                    listGateDupplicate.Add(gateItem);
-                }
-                else
-                {
-                    var ga2 = new ModelGateStationArchive(gateItem);
-                   
-                    dto.InsertGateArchive(ga2);
-                }
-            }            
-            pModelResult.ListDuplicateGateStation = listGateDupplicate.ToArray();
-            pModelResult.ListUnSuccessGateStation = listGateUnsuccess.ToArray();
-            pModelResult.ListSuccessGateStation = listGate.ToArray(); 
-        }
 
         //[HttpPost]
         //public ActionResult InsertExceldata(string year, string month, string region, string type)
