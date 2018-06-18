@@ -67,7 +67,7 @@
 
 
                 <span id="seLicense">
-                    <select class="selectpicker  " data-size="8" name="seLicense" id="seLicense" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
+                    <select class="selectpicker  " data-size="8" name="MultiLicense" id="MultiLicense" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
                         @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
                         {
                             <option class="hidden-sm hidden-xs" value="@ml.LICENSE_ID" style="word-wrap: break-word">@ml.LICENSE</option>
@@ -210,18 +210,27 @@
             // console.log(region);
 
         })
+        $('#MultiLicense').change(function () {
+            SeLicense = $(this).val();
+            // console.log(region);
+
+        })
+        
         function Search() {
             let url;
+            let multidata;
             if (document.getElementById('radioRegion').checked) {
                 url = '@Url.Action("SearchRegion")';
+                multidata = SeRegion;
             }
             else if (document.getElementById('radioLicense').checked) {
                 url = '@Url.Action("SearchLicense")';
+                multidata = SeLicense;
             }
                 $.ajax({
                     url: url,
                     type: 'POST',
-                    data: JSON.stringify(SeRegion),
+                    data: JSON.stringify(multidata),
                     contentType: 'application/json; charset=utf-8',
                     datatype: 'json',
                     success: function (data) {
