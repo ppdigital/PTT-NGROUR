@@ -521,28 +521,13 @@ hr.style {
 
 
 
-/* Add an active class to the active dropdown button */
-.active {
-    background-color: gray;
-    color: black;
-}
 
-/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
-.dropdown-container {
-    display: none;
-    background-color: white;
-    padding-left: 45px;
-}
 
-.sidenav_menu a:hover, .dropdown-btn:hover ,.menu_hover:hover{
-    background-color: #e6e6e6;
- 
-}
 
-a:active {
-    background-color: #e6e6e6;
-    color:#666666;
-}
+
+
+
+
 
 .f_tree{font-size: .7rem;}
 
