@@ -593,6 +593,8 @@
     <Content Include="Views\Admin\SearchByAD.cshtml" />
     <Content Include="Views\Authorize\MenuBar.cshtml" />
     <Content Include="Views\Home\MenuMobile.cshtml" />
+    <Content Include="Views\Shared\_WelcomeLayout.cshtml" />
+    <Content Include="Views\Home\MenuWeb.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

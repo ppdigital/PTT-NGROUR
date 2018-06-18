@@ -740,3 +740,6 @@ position:relative
 
 
 .margin-lr0{margin-top:0!important; margin-bottom:0!important;}
+.border-box{box-sizing:border-box;}
+.border-none{border:0px 0px !important; border-color:white; padding:0px 0px !important;margin-top:0px !important;margin-bottom:0px !important; }
+

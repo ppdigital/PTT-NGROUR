@@ -108,16 +108,28 @@
 
                 <div class="input-group" style="width: 100% ">
                     <div class="input-group-btn" style="width: 10% !important">
-                        <button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
+                        <!--<button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" id="type-filter">
-                            <li><a id="seAll" class="fz-12px drop_role">All</a></li>
+                            <li><a id="seAll"  class="fz-12px drop_role">All</a></li>
                             <li><a id="sePipeline" class="fz-12px drop_role" href="#">Pipeline</a></li>
                             <li><a id="seGate" class="fz-12px drop_role" href="#">Gate Station</a></li>
                             <li><a id="seMetering" class="fz-12px  drop_role" href="#">Metering Station</a></li>
 
-                        </ul>
+                        </ul>-->
+                        <div class="dropdown">
+                            <button class="btn btn-secondary btn-default dropdown-toggle btn-block btn-sm" id="dropdownMenu2" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <button id="seAll"  class="btn btn-default dropdown-item btn-block fz-12px drop_role border-none" type="button">All</button>
+                                <button id="sePipeline"  class="btn btn-default dropdown-item btn-block fz-12px drop_role border-none" type="button">Pipeline</button>
+                                <button id="seGate"  class="btn btn-default dropdown-item btn-block fz-12px drop_role border-none " type="button">Gate Station</button>
+                                <button id="seMetering"  class="btn btn-default dropdown-item btn-block fz-12px drop_role border-none " type="button">Metering Station</button>
+                            </div>
+                        </div>
+
                     </div>
 
 

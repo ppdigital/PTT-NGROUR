@@ -43,5 +43,8 @@ namespace PTT_NGROUR.Controllers
         public ActionResult MenuMobile()
         { return View(); }
 
+        public ActionResult MenuWeb()
+        { return View(); }
+
     }
 }
