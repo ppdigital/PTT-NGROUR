@@ -14,6 +14,7 @@ using PTT_NGROUR.DTO;
 
 using PTT_NGROUR.Models.DataModel;
 using PTT_NGROUR.Models.ViewModel;
+using System.Data;
 
 namespace PTT_NGROUR.Controllers
 {
@@ -95,7 +96,66 @@ namespace PTT_NGROUR.Controllers
 
             return View(model);
         }
+        [HttpPost]
+        public JsonResult SearchRegion(int[] region)
+        {
+            var dal = new DAL.DAL();
+            string regionStr = string.Join("','", region);
+            var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "')";
+            var ds = dal.GetDataSet(searchregion);
 
+
+            var listRegion = new List<Models.DataModel.ModelGetU>();
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+
+
+                foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+                {
+                    var reg = new Models.DataModel.ModelGetU()
+                    {
+                        NO = dr["NO"].ToString(),
+                        NAME = dr["NAME"].ToString(),
+                        COLOR = dr["COLOR"].ToString(),
+                        VALUE = dr["VALUE"].ToString(),
+                        TYPE = dr["TYPE"].ToString()
+                    };
+                    listRegion.Add(reg);
+                }
+            }
+
+            return Json(listRegion, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult SearchLicense(int[] region)
+        {
+            var dal = new DAL.DAL();
+            string regionStr = string.Join("','", region);
+            var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "')";
+            var ds = dal.GetDataSet(searchregion);
+
+
+            var listRegion = new List<Models.DataModel.ModelGetU>();
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+
+
+                foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+                {
+                    var reg = new Models.DataModel.ModelGetU()
+                    {
+                        NO = dr["NO"].ToString(),
+                        NAME = dr["NAME"].ToString(),
+                        COLOR = dr["COLOR"].ToString(),
+                        VALUE = dr["VALUE"].ToString(),
+                        TYPE = dr["TYPE"].ToString()
+                    };
+                    listRegion.Add(reg);
+                }
+            }
+
+            return Json(listRegion, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult ImportExcel()
         {
             return View();
@@ -780,4 +840,10 @@ namespace PTT_NGROUR.Controllers
         //}//3
 
     }
+    public class utilization
+    {
+        public string REGION_NAME { get; set; }
+        public int REGION_ID { get; set; }
+}
+
 }
