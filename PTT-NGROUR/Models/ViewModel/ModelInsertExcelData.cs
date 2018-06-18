@@ -15,13 +15,13 @@ namespace PTT_NGROUR.Models.ViewModel
 
         public DataModel.ModelPipelineImport[] ListSuccessPipeLine { get; set; }
 
-        public DataModel.ModelPipelineImport[] ListDuplicatePipeLine { get; set; }
+        //public DataModel.ModelPipelineImport[] ListDuplicatePipeLine { get; set; }
 
         public DataModel.ModelGateStationImport[] ListSuccessGateStation { get; set; }
 
         public DataModel.ModelGateStationImport[] ListUnSuccessGateStation { get; set; }
 
-        public DataModel.ModelGateStationImport[] ListDuplicateGateStation { get; set; }
+        //public DataModel.ModelGateStationImport[] ListDuplicateGateStation { get; set; }
 
     }
 }

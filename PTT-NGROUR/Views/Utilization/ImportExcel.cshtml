@@ -231,14 +231,14 @@
         fileData.append("type", Type);
 
 
-       $.ajax({
+       @*$.ajax({
           type: "POST",
           url: '@Url.Action("InsertValuedata")',
           data: {year: $('#seYear').val(), month: $('#seMonth').val() },
           dataType: 'JSON'
 
 
-        });
+        });*@
        // console.log(fileData);
       //  console.log(Year);
         $.ajax({

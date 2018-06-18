@@ -20,7 +20,7 @@ namespace PTT_NGROUR.Models.DataModel
             this.GATE_NAME = pReader["GATE_NAME"].GetString();
             this.MONTH = pReader["MONTH"].GetInt();
             this.PRESSURE = pReader["PRESSURE"].GetDecimal();
-            this.REGION_ID = pReader["REGION_ID"].GetInt();
+            this.REGION = pReader["REGION"].GetString();
             this.UPLOAD_BY = pReader["UPLOAD_BY"].GetString();
             this.UPLOAD_DATE = pReader["UPLOAD_DATE"].GetDate();
             this.YEAR = pReader["YEAR"].GetInt();            
@@ -35,7 +35,7 @@ namespace PTT_NGROUR.Models.DataModel
         public int YEAR { get; set; }
         public DateTime? UPLOAD_DATE { get; set; }
         public string UPLOAD_BY { get; set; }
-        public int REGION_ID { get; set; }
+        public string REGION { get; set; }
 
         public ModelGateStationImport Clone()
         {
@@ -46,7 +46,7 @@ namespace PTT_NGROUR.Models.DataModel
                 GATE_NAME = this.GATE_NAME,
                 MONTH = this.MONTH,
                 PRESSURE = this.PRESSURE,
-                REGION_ID = this.REGION_ID,
+                REGION = this.REGION,
                 UPLOAD_BY = this.UPLOAD_BY,
                 UPLOAD_DATE = this.UPLOAD_DATE,
                 YEAR =this.YEAR                
