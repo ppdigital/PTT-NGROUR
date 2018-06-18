@@ -114,6 +114,7 @@ namespace PTT_NGROUR.Controllers
                 {
                     var reg = new Models.DataModel.ModelGetU()
                     {
+                        NO = dr["NO"].ToString(),
                         NAME = dr["NAME"].ToString(),
                         COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
@@ -143,6 +144,7 @@ namespace PTT_NGROUR.Controllers
                 {
                     var reg = new Models.DataModel.ModelGetU()
                     {
+                        NO = dr["NO"].ToString(),
                         NAME = dr["NAME"].ToString(),
                         COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
