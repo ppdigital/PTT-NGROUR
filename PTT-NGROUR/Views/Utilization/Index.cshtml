@@ -107,7 +107,7 @@
             <div class="form-inline">
 
                 <div class="input-group" style="width: 100% ">
-                    <div class="input-group-btn" style="width: 10% !important">
+                    <div class="input-group-btn" style="width: 20% !important">
                         <!--<button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
                             <span class="caret"></span>
                         </button>
@@ -118,17 +118,12 @@
                             <li><a id="seMetering" class="fz-12px  drop_role" href="#">Metering Station</a></li>
 
                         </ul>-->
-                        <div class="dropdown">
-                            <button class="btn btn-secondary btn-default dropdown-toggle btn-block btn-sm" id="dropdownMenu2" data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <button id="seAll"  class="btn btn-default dropdown-item btn-block fz-12px drop_role border-none" type="button">All</button>
-                                <button id="sePipeline"  class="btn btn-default dropdown-item btn-block fz-12px drop_role border-none" type="button">Pipeline</button>
-                                <button id="seGate"  class="btn btn-default dropdown-item btn-block fz-12px drop_role border-none " type="button">Gate Station</button>
-                                <button id="seMetering"  class="btn btn-default dropdown-item btn-block fz-12px drop_role border-none " type="button">Metering Station</button>
-                            </div>
-                        </div>
+                        <select class="form-control form-control-sm fz-12px" id="threshold-filter" style="height: 30px !important;">
+                            <option id="seAll" class="fz-12px drop_role" value="all">All</option>
+                            <option id="sePipeline" class="fz-12px drop_role" value="green">Pipeline</option>
+                            <option id="seGate" class="fz-12px drop_role" value="yellow">Gate Station</option>
+                            <option id="seMetering" class="fz-12px drop_role" value="red">Metering</option>
+                        </select>
 
                     </div>
 
