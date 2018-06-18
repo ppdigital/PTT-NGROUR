@@ -118,11 +118,11 @@
                             <li><a id="seMetering" class="fz-12px  drop_role" href="#">Metering Station</a></li>
 
                         </ul>-->
-                        <select class="form-control form-control-sm fz-12px" id="threshold-filter" style="height: 30px !important;">
+                        <select class="form-control form-control-sm fz-12px" id="type-filter" style="height: 30px !important;">
                             <option id="seAll" class="fz-12px drop_role" value="all">All</option>
-                            <option id="sePipeline" class="fz-12px drop_role" value="green">Pipeline</option>
-                            <option id="seGate" class="fz-12px drop_role" value="yellow">Gate Station</option>
-                            <option id="seMetering" class="fz-12px drop_role" value="red">Metering</option>
+                            <option id="sePipeline" class="fz-12px drop_role" value="PIPELINE">Pipeline</option>
+                            <option id="seGate" class="fz-12px drop_role" value="GATESTATION">Gate Station</option>
+                            <option id="seMetering" class="fz-12px drop_role" value="METERING">Metering</option>
                         </select>
 
                     </div>
@@ -247,7 +247,7 @@
                             console.log('color1' + color1);
                             console.log('data' + data[i].NO);
                             
-                            $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '"><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
+                            $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
                         }
                     },
                     error: function (result) {
@@ -321,30 +321,17 @@
             updateFilters();
         }
 
-        // Assigned User Dropdown Filter
+        // Threshold Dropdown Filter
         $('#threshold-filter').on('change', function () {
             changeFilter.call(this, 'color');
         });
 
-        // Task Status Dropdown Filter
-        $('#status-filter').on('change', function () {
-            changeFilter.call(this, 'status');
+        // Type Dropdown Filter
+        $('#type-filter').on('change', function () {
+            changeFilter.call(this, 'type');
         });
 
-        // Task Milestone Dropdown Filter
-        $('#milestone-filter').on('change', function () {
-            changeFilter.call(this, 'milestone');
-        });
-
-        // Task Priority Dropdown Filter
-        $('#priority-filter').on('change', function () {
-            changeFilter.call(this, 'priority');
-        });
-
-        // Task Tags Dropdown Filter
-        $('#tags-filter').on('change', function () {
-            changeFilter.call(this, 'tags');
-        });
+       
 
         //////////////////////
 
