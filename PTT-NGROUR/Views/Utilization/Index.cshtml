@@ -21,13 +21,13 @@
     #scollbar::-webkit-scrollbar-thumb {
         background-color: #ddd;
     }
-    .dotg {
+    /* .dotg {
         height: 15px;
         width: 15px;
         background-color: green;
         border-radius: 50%;
         display: inline-block;
-    }
+    }*/
 
   
     
@@ -99,11 +99,11 @@
 
 
     <div class="col-container col-container-white col-sm-12 ">
-        <div class="col col-sm-9 pt-15px pb-15px  pl-0 ">
+        <div class="col col-sm-8 pt-15px pb-15px  pl-0 ">
             <canvas></canvas>
         </div>
         <!-- <div class="pl2 pr2 border-left"></div>-->
-        <div class="col col-sm-3 pt-15px pb-15px pr-0 pl-0-xs pl-0-sm border-left-md border-left-lg ">
+        <div class="col col-sm-4 pt-15px pb-15px pr-0 pl-0-xs pl-0-sm border-left-md border-left-lg ">
             <div class="form-inline">
 
                 <div class="input-group" style="width: 100% ">
@@ -153,7 +153,7 @@
                 </div>
             </div>
             <br />
-            <div class="table-responsive" id="TableValue">
+            <div class="table-responsive scrollable-height scrollable-height-lg" id="TableValue">
                 <table class="table table-striped table-hover" id="utilTbl">
                     <thead>
 
@@ -234,7 +234,7 @@
                         });
                         for (let i in data) {
                             if (data[i].COLOR == 'Green') {
-                                data[i].COLOR = '<span class="dotg"></span>'
+                                data[i].COLOR = '<span class="fa fa-circle " style="color:green"></span>'
                                 color1 = "green"
                                 console.log(color1);
                             } else if (data[i].COLOR == 'Yellow') {
@@ -243,7 +243,7 @@
                                 console.log(color1);
                             }
                             
-                            $('#utilTbl > tbody:last-child').append('<tr class="rowfil" data-color="'+color1+'"><td>' + data[i].COLOR + '</td><td>' + data[i].NAME + '</td><td>' + data[i].TYPE + '</td></tr>');
+                            $('#utilTbl > tbody:last-child').append('<tr class="rowfil" data-color="' + color1 + '"><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
                         }
                     },
                     error: function (result) {
