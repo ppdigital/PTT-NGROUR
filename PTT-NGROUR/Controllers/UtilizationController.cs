@@ -127,15 +127,15 @@ namespace PTT_NGROUR.Controllers
             return Json(listRegion, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult SearchLicense(int[] region)
+        public JsonResult SearchLicense(int[] license)
         {
             var dal = new DAL.DAL();
-            string regionStr = string.Join("','", region);
-            var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "')";
-            var ds = dal.GetDataSet(searchregion);
+            string licenseStr = string.Join("','", license);
+            var searchlicense = @"select * from VIEW_GATEPIPEMETER_MENU WHERE LICENSE IN ('" + licenseStr + "')";
+            var ds = dal.GetDataSet(searchlicense);
 
 
-            var listRegion = new List<Models.DataModel.ModelGetU>();
+            var listLicense= new List<Models.DataModel.ModelGetU>();
             if (ds.Tables[0].Rows.Count > 0)
             {
 
@@ -150,11 +150,11 @@ namespace PTT_NGROUR.Controllers
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString()
                     };
-                    listRegion.Add(reg);
+                    listLicense.Add(reg);
                 }
             }
 
-            return Json(listRegion, JsonRequestBehavior.AllowGet);
+            return Json(listLicense, JsonRequestBehavior.AllowGet);
         }
         public ActionResult ImportExcel()
         {
