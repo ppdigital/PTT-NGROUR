@@ -181,6 +181,7 @@
     <Compile Include="Models\DataModel\ModelUsersAuth.cs" />
     <Compile Include="Models\UserManagement.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ViewModel\ModelJsonResult.cs" />
     <Compile Include="Models\ViewModel\ModelUtilization.cs" />
     <Compile Include="Models\ViewModel\ModelHome.cs" />
     <Compile Include="Models\ViewModel\ModelInsertExcelData.cs" />

@@ -30,6 +30,8 @@ namespace PTT_NGROUR.Models.ViewModel
             MinValue = pReader["MINVAL"].GetDecimal();
             ThresholdId = pReader["THRESHOLD_ID"].GetInt();
             ThresholdType = pReader["ThresholdType"].GetEnum<Models.ViewModel.EnumThresholdType>(Models.ViewModel.EnumThresholdType.None);
+            UPDATED_BY = pReader["UPDATED_BY"].GetString();
+            COLOR_HEX = pReader["COLOR_HEX"].GetString();
         }
 
         public int ThresholdId { get; set; }
@@ -37,5 +39,7 @@ namespace PTT_NGROUR.Models.ViewModel
         public EnumThresholdType ThresholdType { get; set; }
         public decimal MinValue { get; set; }
         public decimal MaxValue { get; set; }
+        public string UPDATED_BY { get; set; }
+        public string COLOR_HEX { get; set; }
     }
 }

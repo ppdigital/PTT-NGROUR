@@ -555,7 +555,9 @@ WHERE  1=1
                 'PipeLine' ThresholdType ,
                 COLOR , 
                 MINVAL , 
-                MAXVAL 
+                MAXVAL ,
+                UPDATED_BY ,
+                COLOR_HEX
             from PIPELINE_THRESHOLD
             union all
             select 
@@ -564,6 +566,8 @@ WHERE  1=1
                 COLOR , 
                 MINVAL , 
                 MAXVAL 
+                UPDATED_BY ,
+                COLOR_HEX
             from GATESTATION_THRESHOLD";
             var dal = new DAL.DAL();
             var listThreshold = dal.ReadData<Models.ViewModel.ModelThresholdItem>(strQuery, x => new Models.ViewModel.ModelThresholdItem(x));
@@ -579,5 +583,46 @@ WHERE  1=1
             return listThreshold;
         }
 
+        public void UpdateThreshold(Models.ViewModel.ModelThresholdItem pModel)
+        {
+            if(pModel == null)
+            {
+                return;
+            }
+            string strCommand = string.Empty;            
+            if (pModel.ThresholdType == Models.ViewModel.EnumThresholdType.GateStation)
+            {                
+                strCommand = @"UPDATE GATESTATION_THRESHOLD
+SET 
+       MINVAL                = {0},
+       MAXVAL                = {1},
+       UPDATED_DATE          = sysdate,
+       UPDATED_BY            = '{2}',
+WHERE  GATE_THRESHOLD_ID = {3}";
+            }
+            else if( pModel.ThresholdType == Models.ViewModel.EnumThresholdType.PipeLine )
+            {
+                strCommand = @"UPDATE PIPELINE_THRESHOLD
+SET
+       MINVAL                = {0},
+       MAXVAL                = {1},
+       UPDATED_DATE          = sysdate,
+       UPDATED_BY            = '{2}',
+WHERE  PIPELINE_THRESHOLD_ID = {3}";
+            }
+            if (string.IsNullOrEmpty(strCommand))
+            {
+                return;
+            }
+            strCommand = string.Format(strCommand,                 
+                pModel.MinValue, 
+                pModel.MaxValue, 
+                pModel.UPDATED_BY.Trim().Replace("'","''"), 
+                pModel.ThresholdId);
+
+            var dal = new DAL.DAL();
+            dal.ExecuteNonQuery(strCommand);
+            dal = null;
+        }
     }
 }
