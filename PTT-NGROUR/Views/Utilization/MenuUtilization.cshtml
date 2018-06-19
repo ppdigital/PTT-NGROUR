@@ -1,7 +1,13 @@
 ﻿@{
-    ViewBag.Title = "MenuWeb";
+    ViewBag.Title = "MenuUtilization";
     Layout = "~/Views/Shared/_WelcomeLayout.cshtml";
 }
+
+
+
+
+
+
 
 
 <body>
@@ -24,14 +30,16 @@
 
 
         <div class="v-mid ph3-l ph3-m ph5-ns pv6  hidden-sm border-box mt3">
-            <div class="mx9 center cf ph2">
-                <a class=" db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box " href="@Url.Action("Index", "Dashboard")">
-                    <div class=" aspect-ratio aspect-ratio--4x3 va bg-white shadow-3">
+
+            <center>
+
+                <a class=" db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box" href="@Url.Action("Index", "Utilization")">
+                    <div class=" aspect-ratio aspect-ratio--4x3  bg-white shadow-3">
                         <div class="dt aspect-ratio--object lazyload">
 
-                            <div class="dtc v-mid ">
-                                <center> <i class="fa fa-tachometer fa-3x blue5" aria-hidden="true"></i></center>
-                                <p class="tc-ns measure-wide tc-ns f6-l f4-m f3-ns lh-copy tc">Dashboard</p>
+                            <div class="dtc v-mid">
+                                <center><i class="fa fa-map-marker fa-3x blue5" aria-hidden="true"></i></center>
+                                <p class=" measure-wide  f6 lh-copy tc">Utilization</p>
                                 <!--<img id="logo" class="w-40 nt3" src="~/Content/Images/icon_dashboard.png" />-->
                             </div>
 
@@ -39,63 +47,64 @@
                     </div>
                 </a>
 
-                <a class="db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box" href="@Url.Action("Index", "OAndM")">
-                    <div class=" aspect-ratio aspect-ratio--4x3 va-m bg-white shadow-3">
-
-                        <div class="dt aspect-ratio--object lazyload">
-
-                            <div class="dtc v-mid pt3">
-                                <center>  <i class="fa fa-cogs fa-3x blue5 " aria-hidden="true"></i></center>
-                                <p class="tc-ns measure-wide tc-ns f4-m f6-l f3-ns lh-copy tc">Operation <br />& Maintenance</p>
-                                <!-- <img id="logo" class="w-40 nt3" src="~/Content/Images/icon_o.png" />-->
+                <a class=" db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box" href="@Url.Action("Customer", "Utilization")">
+                    <div class=" aspect-ratio aspect-ratio--4x3  bg-white shadow-3">
+                        <div class="aspect-ratio--object lazyload" style="background-repeat: no-repeat; background-position: center center; background-size: cover;">
+                            <div class="dt aspect-ratio--object lazyload">
+                                <div class="dtc v-mid ">
+                                    <center><i class="fa fa-user fa-3x blue5" aria-hidden="true"></i></center>
+                                    <p class="tc measure-wide tc-ns f6 lh-copy ">Customer</p>
+                                    <!-- <img id="logo" class="w-40 nt3" src="~/Content/Images/icon_o.png" />-->
+                                </div>
                             </div>
-
                         </div>
                     </div>
                 </a>
 
-                <a class="db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box " href="@Url.Action("MenuUtilization", "Utilization")">
+                <a class=" db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box" href="@Url.Action("ImportExcel", "Utilization")">
+                    <div class=" aspect-ratio aspect-ratio--4x3  bg-white shadow-3">
+                        <div class="aspect-ratio--object lazyload" style="background-repeat: no-repeat; background-position: center center; background-size: cover;">
+                            <div class="dt aspect-ratio--object lazyload">
+                                <div class="dtc v-mid ">
+                                    <center><i class="fa fa-upload fa-3x blue5" aria-hidden="true"></i></center>
+                                    <p class="tc measure-wide tc-ns f6 lh-copy ">Import Excel</p>
+                                    <!-- <img id="logo" class="w-40 nt3" src="~/Content/Images/icon_o.png" />-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a class=" db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box" href="@Url.Action("ThresholdSetting", "Utilization")">
                     <div class=" aspect-ratio aspect-ratio--4x3 bg-white shadow-3">
-                        <div class="dt aspect-ratio--object lazyload">
-
-                            <div class="dtc v-mid">
-                                <center><i class="fa fa-map-marker fa-3x blue5" aria-hidden="true"></i></center>
-                                <p class="tc-ns measure-wide tc-ns f4-m f6-l f3-ns lh-copy tc">Utilization</p>
+                        <div class="aspect-ratio--object lazyload" style="background-repeat: no-repeat; background-position: center center; background-size: cover;">
+                            <div class="dt aspect-ratio--object lazyload">
+                                <div class="dtc v-mid">
+                                    <center><i class="fa fa-cogs fa-3x blue5" aria-hidden="true"></i></center>
+                                    <p class="tc measure-wide tc-ns f6 lh-copy">Threshold Setting</p>
+                                </div>
                             </div>
-
                         </div>
                     </div>
-
                 </a>
 
-                <a class="db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box " href="@Url.Action("Index", "RiskManag")">
+                <a class=" db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box" href="@Url.Action("Report", "Utilization")">
+       
                     <div class=" aspect-ratio aspect-ratio--4x3 bg-white shadow-3">
-                        <!-- <div class="aspect-ratio--object lazyload " style="background-repeat: no-repeat; background-position: center center; background-size: cover;">-->
-                        <div class="dt aspect-ratio--object lazyload">
-                            <div class="dtc v-mid ">
-                                <center>  <i class="fa fa-exclamation-triangle fa-3x blue5" aria-hidden="true"></i></center>
-                                <p class="tc-ns measure-wide  tc f6-l f4-m f3-ns lh-copy tc">Risk Management</p>
+                        <div class="aspect-ratio--object lazyload" style="background-repeat: no-repeat; background-position: center center; background-size: cover;">
+                            <div class="dt aspect-ratio--object lazyload">
+                                <div class="dtc v-mid">
+                                    <center><i class="fa fa-file-text fa-3x blue5" aria-hidden="true"></i></center>
+                                    <p class="tc measure-wide tc-ns f6 lh-copy">Report</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </a>
 
-                <a class="db pointer no-underline grow  black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box " href="@Url.Action("UserManage", "Admin")">
-                    <div class=" aspect-ratio aspect-ratio--4x3 bg-white shadow-3">
-
-                        <div class="dt aspect-ratio--object lazyload">
-
-                            <div class="dtc v-mid">
-                                <center><i class="fa fa fa-user fa-3x blue5" aria-hidden="true"></i></center>
-                                <p class="tc-ns measure-wide tc f4-m f6-l f3-ns lh-copy tc">User Management</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-
-            </div>
+            </center>
         </div>
+
 
         <center>
             <div class="hidden dib b--black-10 bg-white shadow-2 br3 mt3 pv2 ph3">
@@ -141,7 +150,6 @@
 
 
 
-
                         <!--   <a class="dtc v-mid dib fr white f7 no-underline" href="#">
                             <i class="fa fa-sign-out" aria-hidden="true"></i>
                             Sign Out
@@ -159,8 +167,8 @@
 
                 <div class="dtc v-mid tc">
 
-                    <i class="fa fa-tachometer fa-2x blue5" aria-hidden="true"></i>
-                    <div class="silver f6 pt3"> Dashboard</div>
+                    <i class="fa fa-map-marker fa-2x blue5" aria-hidden="true"></i>
+                    <div class="silver f6 pt3"> Utilization</div>
                 </div>
             </a>
 
@@ -168,41 +176,28 @@
             <a class="dt fr hidden  dib w-50 vh-25 no-underline  bg-white bb b-gray1 menu_hover" href="#">
                 <br />
                 <div class="dtc v-mid tc">
-                    <i class="fa fa-cogs fa-2x blue5" aria-hidden="true"></i>
-                    <div class="silver f6 pt3">Operation & Maintenance</div>
+                    <i class="fa fa-user fa-2x blue5" aria-hidden="true"></i>
+                    <div class="silver f6 pt3">Customer Management</div>
                 </div>
             </a>
 
 
             <center>
                 <div class="cb">
-                    <a class="dt fl hidden  dib w-50 vh-25 no-underline  bg-white br bb b-gray1 menu_hover " href="@Url.Action("Menu_Utilization", "Utilization")">
+                    <a class="dt fl hidden  dib w-50 vh-25 no-underline  bg-white br bb b-gray1 menu_hover " href="#">
                         <div class="dtc v-mid tc">
-                            <i class="fa fa-map-marker fa-2x blue5" aria-hidden="true"></i>
-                            <div class="silver f6 pt3">Utilization</div>
+                            <i class="fa fa-cogs fa-2x blue5" aria-hidden="true"></i>
+                            <div class="silver f6 pt3">Threshold Setting</div>
                         </div>
                     </a>
 
-                    <a class="dt fr hidden  dib w-50 vh-25 no-underline  bg-white bb b-gray1 menu_hover" href="#">
-                        <div class="dtc v-mid tc">
-                            <i class="fa fa-exclamation-triangle fa-2x blue5" aria-hidden="true"></i>
-                            <div class="silver tc f6 pt3">Risk Management</div>
-                        </div>
-                    </a>
+                    <div class=" hidden  dib w-50 vh-25 no-underline  bg-white bb b-gray1 ">
+
+                    </div>
                 </div>
             </center>
             <center>
-                <div class="cb">
-                    <a class="dt fl hidden  dib w-50 vh-25 no-underline  bg-white ph0 br bb b-gray1 menu_hover" href="@Url.Action("UserManage", "Admin")">
-                        <div class="dtc v-mid tc">
-                            <i class="fa fa-user fa-2x blue5" aria-hidden="true"></i>
-                            <div class="silver f6 pt3">User Management</div>
-                        </div>
-                    </a>
 
-                    <div class="dt fr hidden  dib w-50 vh-25 no-underline  bg-white ph0 bb b-gray1"></div>
-
-                </div>
             </center>
         </div>
 
@@ -254,12 +249,14 @@
         $("#reportpage").click(function () {
             window.location.href = serverpath + '/Report';
         });
-        $("#helppage").click(function () {
+        $("#CPage").click(function () {
             window.location.href = serverpath + '/Help';
         });
         $("#UPage").click(function () {
             window.location.href = serverpath + '/Utilization';
         });
+
+        href="@Url.Action("CustManage", "Utilization")"
 
     });
 
@@ -284,3 +281,6 @@
 
 
 </script>
+
+
+

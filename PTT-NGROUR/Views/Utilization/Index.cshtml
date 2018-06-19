@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
-<script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
+
 
 <style>
     #scollbar::-webkit-scrollbar-track {
@@ -72,7 +72,7 @@
                     </div>
                 </div>
 
-                <span class="col-lg-3 col-md-3 col-xs-10 ">
+                <span class="col-lg-3 col-md-3  ">
                     <button type="button" class="btn btn-primary" id="btnSearch" onclick="Search()" style="border-radius:0">
                         <span class="glyphicon glyphicon-search"></span> Search
                     </button>
@@ -109,7 +109,16 @@
 
     <div class="col-container col-container-white col-sm-12 ">
         <div class="col col-sm-8 pt-15px pb-15px  pl-0 ">
-            <canvas></canvas>
+            <script src='https://maps.googleapis.com/maps/api/js?v=3.exp'></script><div style='overflow:hidden;height:440px;width:100%;'>
+                <div id='gmap_canvas' style='height:440px;width:100%;'></div><div><small><a href="embedgooglemaps.com/">https://embedgooglemaps.com/</a></small></div><div><small><a href="http://promocode.com.ph/hotels-com/">Go Here</a></small></div>
+                <style>
+                    #gmap_canvas img {
+                        max-width: none !important;
+                        background: none !important;
+                    }
+                </style>
+            </div>
+            <script type='text/javascript'>function init_map() { var myOptions = { zoom: 13, center: new google.maps.LatLng(13.77132193197602, 100.50594397835755), mapTypeId: google.maps.MapTypeId.ROADMAP }; map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions); marker = new google.maps.Marker({ map: map, position: new google.maps.LatLng(13.77132193197602, 100.50594397835755) }); infowindow = new google.maps.InfoWindow({ content: '<strong>RC0000001</strong><br>Bangkok, Thailand<br>' }); google.maps.event.addListener(marker, 'click', function () { infowindow.open(map, marker); }); infowindow.open(map, marker); } google.maps.event.addDomListener(window, 'load', init_map);</script>
         </div>
         <!-- <div class="pl2 pr2 border-left"></div>-->
         <div class="col col-sm-4 pt-15px pb-15px pr-0 pl-0-xs pl-0-sm border-left-md border-left-lg ">
@@ -191,7 +200,8 @@
 
 
 
-
+@section scripts{
+    <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -355,6 +365,7 @@
 
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    }
 </div>
 
 

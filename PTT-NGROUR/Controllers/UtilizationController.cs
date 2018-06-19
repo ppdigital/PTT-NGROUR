@@ -131,6 +131,9 @@ namespace PTT_NGROUR.Controllers
 
             return View(model);
         }
+        public ActionResult MenuUtilization()
+        { return View(); }
+       
         [HttpPost]
         public JsonResult SearchRegion(int[] region)
         {
