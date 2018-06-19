@@ -45,48 +45,57 @@
     <br />
     <!--Search Bar Web-->
     <div class=" p-3 mb-2 well well-sm text-dark well-white">
-        <div class="form-inline " style="padding-bottom:.5rem;">
-            <div class="form-inline">
-                <label class=" ml-5 lato" style="padding-right:6px">
-                    <input type="radio" name="radio" id="radioRegion" checked="checked" onclick="javascript:Check();">
-                    <span class="checkmark h6 b">Region</span>
-                </label>
-                <label class="lato d-none ">
-                    <input type="radio" name="radio" id="radioLicense" onclick="javascript:Check();">
-                    <span class="checkmark h6 b"> License</span>
-                </label>
-                <span id="seRegion">
-                    <select class="selectpicker fz-12px" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
-                        @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
-                        {
-                            <option value="@ml.REGION_ID" class="text-grey" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
-                        }
-                    </select>
+        <div class=" " style="padding-bottom:.5rem;">
+            <div class="row">
+                <div class="col-lg-5 col-md-5" id="seRegion">
+                    <div class="form-group">
+
+                        <select class="selectpicker fz-12px form-control" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
+                            @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
+                            {
+                                <option value="@ml.REGION_ID" class="text-grey" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+             
+                <div class="col-lg-5 col-md-5" id="seLicense">
+                    <div class="form-group">
+                            <select class="selectpicker fz-12px form-control" name="MultiLicense" id="MultiLicense" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
+                                @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
+                                {
+                                    <option class="hidden-sm hidden-xs" value="@ml.LICENSE_ID" style="word-wrap: break-word">@ml.LICENSE</option>
+                                    <option class="hidden-lg hidden-md" value="@ml.LICENSE_ID" style="word-wrap: break-word;white-space:normal">@ml.LICENSE</option>
+                                }
+                            </select>
+                    </div>
+                </div>
+
+                <span class="col-lg-3 col-md-3 col-xs-10 ">
+                    <button type="button" class="btn btn-primary" id="btnSearch" onclick="Search()" style="border-radius:0">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
                 </span>
 
+                </div>
+
+                    <label class=" ml-5 lato" style="padding-right:6px">
+                        <input type="radio" name="radio" id="radioRegion" checked="checked" onclick="javascript:Check();">
+                        <span class="checkmark h6 b">Region</span>
+                    </label>
+                    <label class="lato d-none ">
+                        <input type="radio" name="radio" id="radioLicense" onclick="javascript:Check();">
+                        <span class="checkmark h6 b"> License</span>
+                    </label>
+                </div>
 
 
-                <span id="seLicense">
-                    <select class="selectpicker  " data-size="8" name="MultiLicense" id="MultiLicense" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
-                        @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
-                        {
-                            <option class="hidden-sm hidden-xs" value="@ml.LICENSE_ID" style="word-wrap: break-word">@ml.LICENSE</option>
-                            <option class="hidden-lg hidden-md" value="@ml.LICENSE_ID" style="word-wrap: break-word;white-space:normal">@ml.LICENSE</option>
-                        }
-                    </select>
-                </span>
-                <button type="button" class="btn btn-primary " id="btnSearch" onclick="Search()">
-                    <span class="glyphicon glyphicon-search"></span> Search
-                </button>
+
+
+
+
             </div>
-        </div>
-
-
-
-
-
-
-    </div>
 
 
     <!-- <div class="col-container">
