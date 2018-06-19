@@ -45,48 +45,57 @@
     <br />
     <!--Search Bar Web-->
     <div class=" p-3 mb-2 well well-sm text-dark well-white">
-        <div class="form-inline " style="padding-bottom:.5rem;">
-            <div class="form-inline">
-                <label class=" ml-5 lato" style="padding-right:6px">
-                    <input type="radio" name="radio" id="radioRegion" checked="checked" onclick="javascript:Check();">
-                    <span class="checkmark h6 b">Region</span>
-                </label>
-                <label class="lato d-none ">
-                    <input type="radio" name="radio" id="radioLicense" onclick="javascript:Check();">
-                    <span class="checkmark h6 b"> License</span>
-                </label>
-                <span id="seRegion">
-                    <select class="selectpicker fz-12px" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
-                        @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
-                        {
-                            <option value="@ml.REGION_ID" class="text-grey" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
-                        }
-                    </select>
+        <div class=" " style="padding-bottom:.5rem;">
+            <div class="row">
+                <div class="col-lg-5 col-md-5" id="seRegion">
+                    <div class="form-group">
+
+                        <select class="selectpicker fz-12px form-control" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
+                            @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
+                            {
+                                <option value="@ml.REGION_ID" class="text-grey" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+             
+                <div class="col-lg-5 col-md-5" id="seLicense">
+                    <div class="form-group">
+                            <select class="selectpicker fz-12px form-control" name="MultiLicense" id="MultiLicense" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
+                                @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
+                                {
+                                    <option class="hidden-sm hidden-xs" value="@ml.LICENSE_ID" style="word-wrap: break-word">@ml.LICENSE</option>
+                                    <option class="hidden-lg hidden-md" value="@ml.LICENSE_ID" style="word-wrap: break-word;white-space:normal">@ml.LICENSE</option>
+                                }
+                            </select>
+                    </div>
+                </div>
+
+                <span class="col-lg-3 col-md-3 col-xs-10 ">
+                    <button type="button" class="btn btn-primary" id="btnSearch" onclick="Search()" style="border-radius:0">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
                 </span>
 
+                </div>
+
+                    <label class=" ml-5 lato" style="padding-right:6px">
+                        <input type="radio" name="radio" id="radioRegion" checked="checked" onclick="javascript:Check();">
+                        <span class="checkmark h6 b">Region</span>
+                    </label>
+                    <label class="lato d-none ">
+                        <input type="radio" name="radio" id="radioLicense" onclick="javascript:Check();">
+                        <span class="checkmark h6 b"> License</span>
+                    </label>
+                </div>
 
 
-                <span id="seLicense">
-                    <select class="selectpicker  " data-size="8" name="seLicense" id="seLicense" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
-                        @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
-                        {
-                            <option class="hidden-sm hidden-xs" value="@ml.LICENSE_ID" style="word-wrap: break-word">@ml.LICENSE</option>
-                            <option class="hidden-lg hidden-md" value="@ml.LICENSE_ID" style="word-wrap: break-word;white-space:normal">@ml.LICENSE</option>
-                        }
-                    </select>
-                </span>
-                <button type="button" class="btn btn-primary " id="btnSearch" onclick="Search()">
-                    <span class="glyphicon glyphicon-search"></span> Search
-                </button>
+
+
+
+
             </div>
-        </div>
-
-
-
-
-
-
-    </div>
 
 
     <!-- <div class="col-container">
@@ -107,7 +116,7 @@
             <div class="form-inline">
 
                 <div class="input-group" style="width: 100% ">
-                    <div class="input-group-btn" style="width: 10% !important">
+                    <div class="input-group-btn" style="width: 20% !important">
                         <!--<button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
                             <span class="caret"></span>
                         </button>
@@ -118,17 +127,12 @@
                             <li><a id="seMetering" class="fz-12px  drop_role" href="#">Metering Station</a></li>
 
                         </ul>-->
-                        <div class="dropdown">
-                            <button class="btn btn-secondary btn-default dropdown-toggle btn-block btn-sm" id="dropdownMenu2" data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <button id="seAll"  class="btn btn-default dropdown-item btn-block fz-12px drop_role border-none" type="button">All</button>
-                                <button id="sePipeline"  class="btn btn-default dropdown-item btn-block fz-12px drop_role border-none" type="button">Pipeline</button>
-                                <button id="seGate"  class="btn btn-default dropdown-item btn-block fz-12px drop_role border-none " type="button">Gate Station</button>
-                                <button id="seMetering"  class="btn btn-default dropdown-item btn-block fz-12px drop_role border-none " type="button">Metering Station</button>
-                            </div>
-                        </div>
+                        <select class="form-control form-control-sm fz-12px" id="type-filter" style="height: 30px !important;">
+                            <option id="seAll" class="fz-12px drop_role" value="all">All</option>
+                            <option id="sePipeline" class="fz-12px drop_role" value="PIPELINE">Pipeline</option>
+                            <option id="seGate" class="fz-12px drop_role" value="GATESTATION">Gate Station</option>
+                            <option id="seMetering" class="fz-12px drop_role" value="METERING">Metering</option>
+                        </select>
 
                     </div>
 
@@ -215,18 +219,27 @@
             // console.log(region);
 
         })
+        $('#MultiLicense').change(function () {
+            SeLicense = $(this).val();
+            // console.log(region);
+
+        })
+        
         function Search() {
             let url;
+            let multidata;
             if (document.getElementById('radioRegion').checked) {
                 url = '@Url.Action("SearchRegion")';
+                multidata = SeRegion;
             }
             else if (document.getElementById('radioLicense').checked) {
                 url = '@Url.Action("SearchLicense")';
+                multidata = SeLicense;
             }
                 $.ajax({
                     url: url,
                     type: 'POST',
-                    data: JSON.stringify(SeRegion),
+                    data: JSON.stringify(multidata),
                     contentType: 'application/json; charset=utf-8',
                     datatype: 'json',
                     success: function (data) {
@@ -252,7 +265,7 @@
                             console.log('color1' + color1);
                             console.log('data' + data[i].NO);
                             
-                            $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '"><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
+                            $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
                         }
                     },
                     error: function (result) {
@@ -326,30 +339,17 @@
             updateFilters();
         }
 
-        // Assigned User Dropdown Filter
+        // Threshold Dropdown Filter
         $('#threshold-filter').on('change', function () {
             changeFilter.call(this, 'color');
         });
 
-        // Task Status Dropdown Filter
-        $('#status-filter').on('change', function () {
-            changeFilter.call(this, 'status');
+        // Type Dropdown Filter
+        $('#type-filter').on('change', function () {
+            changeFilter.call(this, 'type');
         });
 
-        // Task Milestone Dropdown Filter
-        $('#milestone-filter').on('change', function () {
-            changeFilter.call(this, 'milestone');
-        });
-
-        // Task Priority Dropdown Filter
-        $('#priority-filter').on('change', function () {
-            changeFilter.call(this, 'priority');
-        });
-
-        // Task Tags Dropdown Filter
-        $('#tags-filter').on('change', function () {
-            changeFilter.call(this, 'tags');
-        });
+       
 
         //////////////////////
 

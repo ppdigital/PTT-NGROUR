@@ -27,117 +27,22 @@
     <!--<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">-->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
     @RenderSection("style", false)
-  
+
 </head>
+
+
 <body>
 
 
-    <div id="container" style="background-image: url(http://localhost:3207/Content/Images/wall.png);">
-       
-        <div id="header">
-            <!--        Mobile version     -->
-            <nav class="navbar bg-blue5 hidden-xs hidden-sm  white" style="margin-bottom:0px;border-radius:0px;">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        
-                        <a href="@Url.Action("Index", "Home")" class=" navbar-brand">
-                            <img id="logo" width="90" style="margin-top:-.5rem;" src="~/Content/logo/OURlogo1w.png" />
-                        </a>
+    @Scripts.Render("~/bundles/jquery")
 
-                    </div>
-              
-                </div>
-            </nav>
-
-        </div>
-
-
-        <!--    Body    -->
-        <!--<div id="body" class="bg-gray3 pb3-ns pb3-m">-->
-        <div id="body col-sm-12">
-            <div class="container container-table ">
-                <div class="row vertical-center-row">
-                    @RenderBody()
-                </div>
-            </div>
-        </div>
-        
-
-       
-
-
-        <div class="pt3 hidden-sm hidden-md hidden-xs">
-            <div class="f8 black mt3" id="footer">
-                <center class=" f8">Copyright &copy; @DateTime.Now.Year PTT DIGITAL Solutions Co.ltd. PTT Group, All rights reserved. Terms of Use Privacy Policy . VERSION PRODUCTION 1</center>
-            </div>
-        </div>
-    </div>
-    <footer class="hidden-lg hidden-md">
-        <div class="bg-white navbar-fixed-bottom ">
-
-
-            <div class="navbar-collapse" id="footer-body">
-                <center>
-                    <div class="nav navbar-nav w-100 ">
-                        <center>
-                            <a href="@Url.Action("Index", "Dashboard")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
-
-                                <i class="fa fa-tachometer fa-lg gray7" aria-hidden="true" id="dashboard"></i>
-                                <div class="gray6 f-menu-footer pt1" id="t_dashboard">Dashboard</div>
-                            </a>
-                        </center>
-                        <center>
-                            <a href="@Url.Action("Index", "Utilization")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
-
-                                <i class="fa fa-map-marker fa-lg gray7" aria-hidden="true" id="utilization"></i>
-                                <div class="gray6 f-menu-footer pt1" id="t_utilization">Utilization</div>
-
-                            </a>
-                        </center>
-                        <center>
-                            <div class="dtc v-mid tc w-20 menu_hover" style="float:left;">
-
-                                <i class="fa fa-cogs fa-lg gray7" aria-hidden="true" id="o_and_m"></i>
-                                <div class="gray6 f-menu-footer pt1" id="text_o_and_m">O & M</div>
-
-                            </div>
-                        </center>
-                        <center>
-                            <div class="dtc v-mid tc w-20 menu_hover" style="float:left;">
-
-                                <div class="dib ">
-                                    <i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" id="risk_manage"></i>
-                                    <div class="gray6 f-menu-footer pt1" id="t_risk_manage">Risk Manageent</div>
-                                </div>
-
-                            </div>
-                        </center>
-                        <center>
-                            <div class="dtc v-mid tc w-20 menu_hover" style="float:left;">
-
-                                <a class="tc" href="@Url.Action("MenuMobile", "Home")">
-                                    <i class="fa fa-bars fa-lg gray7" aria-hidden="true" id="user"></i>
-                                    <div class="gray6 f-menu-footer pt1">Menu</div>
-                                </a>
-
-                            </div>
-                        </center>
+    @RenderBody()
 
 
 
 
-                    </div>
-                </center>
-            </div> <div style="float:none"></div>
 
-
-        </div>
-
-    </footer>
-
-    
 </body>
-
 
 </html>
 
