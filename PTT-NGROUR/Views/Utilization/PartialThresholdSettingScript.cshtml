@@ -1,0 +1,930 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelThreshold
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/Scripts/jquery-ui-slider-pips.js"></script>
+<script>
+
+    $("#btnSave").click(function () {
+        alert("save click");
+    });
+
+    @for (int i = 0; i < Model.ThresholdItems.Length; ++i)
+    {
+        IHtmlString strSlideID = Html.Raw( string.Format("\"#divSlider{0}\"" , i.ToString()));
+        IHtmlString strNumMinID = Html.Raw( string.Format("\"#numMin{0}\"", i.ToString()));
+        IHtmlString strNumMaxID = Html.Raw(string.Format("\"#numMax{0}\"", i.ToString()));
+<text>
+    $(@strSlideID).slider({
+        max: 100,
+        min: 1,
+        range: true,
+        values: [ @Model.ThresholdItems[i].MinValue, @Model.ThresholdItems[i].MaxValue],
+        @*slide: function (e, u) {
+            if (u.values[0] > 50) {
+                u.values[0] = 50;
+                e.preventDefault()
+                return false;
+            } else {
+            }
+            $(@strNumMinID).val(u.values[0]);
+            $(@strNumMaxID).val(u.values[1]);
+
+        }*@
+    }).slider("pips", {
+        rest: "label",
+        step: 10
+    }).slider("float");
+
+    @*$(@strNumMinID).on("change", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        $(@strSlideID).slider("values", 0, $(this).val());
+
+    });
+    $(@strNumMaxID).on("change", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        $(@strSlideID).slider("values", 1, $(this).val());
+
+    });*@
+    </text>
+    }
+
+    var _strDivSlide = "#divSlider";
+    var _strNumMin = "#numMin";
+    var _strNumMax = "#numMax";
+
+    var _doEvent = true;
+    //----------------------------------------//
+
+    var _divSlideGate1 = $(_strDivSlide + 0);
+    var _divSlideGate2 = $(_strDivSlide + 2);
+    var _divSlideGate3 = $(_strDivSlide + 4);
+
+    var _numGateMin1 = $(_strNumMin + 0);
+    var _numGateMin2 = $(_strNumMin + 2);
+    var _numGateMin3 = $(_strNumMin + 4);
+
+    var _numGateMax1 = $(_strNumMax + 0);
+    var _numGateMax2 = $(_strNumMax + 2);
+    var _numGateMax3 = $(_strNumMax + 4);
+
+    //---------------------------------------------//
+    var _divSlidePipeLine1 = $(_strDivSlide + 1);
+    var _divSlidePipeLine2 = $(_strDivSlide + 3);
+    var _divSlidePipeLine3 = $(_strDivSlide + 5);
+
+    var _numPipeLineMin1 = $(_strNumMin + 1);
+    var _numPipeLineMin2 = $(_strNumMin + 3);
+    var _numPipeLineMin3 = $(_strNumMin + 5);
+
+    var _numPipeLineMax1 = $(_strNumMax + 1);
+    var _numPipeLineMax2 = $(_strNumMax + 3);
+    var _numPipeLineMax3 = $(_strNumMax + 5);
+
+//------------[ Function ]---------------------------//
+
+    function setMaxSlider(pIntNo, pIntValue) {
+        $(_strDivSlide + pIntNo).slider("values", 1, pIntValue);
+        $(_strNumMax + pIntNo).val(pIntValue);
+    }
+
+    function setMinSlider(pIntNo, pIntValue) {
+        $(_strDivSlide + pIntNo).slider("values", 0, pIntValue);
+        $(_strNumMin + pIntNo).val(pIntValue);
+    }
+
+    function getSliderMaxValue(pIntNo) {
+        return parseFloat($(_strDivSlide + pIntNo).slider("values", 1));
+    }
+
+    function getSliderMinValue(pIntNo) {
+        return parseFloat($(_strDivSlide + pIntNo).slider("values", 0));
+    }
+    //-------------------------------------//
+    function setMaxGateSlider(pIntNo, pIntValue) {
+        pIntNo = 2 * (pIntNo - 1);
+        setMaxSlider(pIntNo, pIntValue)
+    }
+
+    function setMinGateSlider(pIntNo, pIntValue) {
+        pIntNo = 2 * (pIntNo - 1);
+        setMinSlider(pIntNo, pIntValue)
+    }
+    function getMaxGateSlider(pIntNo) {
+        pIntNo = 2 * (pIntNo - 1);
+        return getSliderMaxValue(pIntNo);
+    }
+
+    function getMinGateSlider(pIntNo) {
+        pIntNo = 2 * (pIntNo - 1);
+        return getSliderMinValue(pIntNo);
+    }
+    //-------------------------//
+
+    function setMaxPipeLineSlider(pIntNo, pIntValue) {
+        pIntNo = (2 * pIntNo) - 1;
+        setMaxSlider(pIntNo, pIntValue);
+    }
+    function setMinPipeLineSlider(pIntNo, pIntValue) {
+        pIntNo = (2 * pIntNo) - 1;
+        setMinSlider(pIntNo, pIntValue);
+    }
+    function getMaxPipeLineSlider(pIntNo) {
+        pIntNo = (2 * pIntNo) - 1;
+        return getSliderMaxValue(pIntNo);
+    }
+    function getMinPipeLineSlider(pIntNo) {
+        pIntNo = (2 * pIntNo) - 1;
+        return getSliderMinValue(pIntNo);
+    }
+    //------------[ Slide Gate 1 ]---------------------------//
+    _divSlideGate1.on("slide", function (e, u) {
+        if (!_doEvent) {
+            return;
+        }
+        _doEvent = false;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var intMaxGate1 = u.values[1];
+        if (intMaxGate1 > 96) {
+            intMaxGate1 = 96;
+        } else if (intMinGate1 < 2) {
+            intMaxGate1 = 2
+        }
+        setMaxGateSlider(1, intMaxGate1)
+        var intMinGate1 = u.values[0];
+        if (intMinGate1 > 95) {
+            intMinGate1 = 95;
+        } else if (intMinGate1 < 1) {
+            intMinGate1 = 1;
+        }
+        setMinGateSlider(1 , intMinGate1);
+
+        var intMinGate2 = getMinGateSlider(2);
+        if (intMaxGate1 >= intMinGate2) {
+            intMinGate2 = intMaxGate1 + 1;
+            setMinGateSlider(2, intMinGate2);
+            var intMaxGate2 = getMaxGateSlider(2);
+            if (intMinGate2 >= intMaxGate2) {
+                intMaxGate2 = intMinGate2 + 1;
+                setMaxGateSlider(2, intMaxGate2);
+                var intMinGate3 = getMinGateSlider(3);
+                if (intMaxGate2 >= intMinGate3) {
+                    intMinGate3 = intMaxGate2 + 1;
+                    setMinGateSlider(3, intMinGate3);
+                    var intMaxGate3 = getMaxGateSlider(3);
+                    if (intMinGate3 >= intMaxGate3) {
+                        intMaxGate3 = intMinGate3 + 1;
+                        setMaxGateSlider(3, intMaxGate3);
+                    }
+                }
+            }
+        }
+        _doEvent = true;
+    });
+
+    //_divSlideGate1.on("slide", function (e, u) {
+    //    if (!_doEvent) return;
+    //    _doEvent = false;
+    //    var intMaxGate1 = u.values[1];
+    //    if (intMaxGate1 > 96) {
+    //        intMaxGate1 = 96;
+    //        u.values[1] = 96;
+    //    }
+    //    var intMinGate2 = _divSlideGate2.slider("values", 0);
+    //    var intMaxGate2 = _divSlideGate2.slider("values", 1);
+    //    if (intMaxGate1 > intMinGate2) {
+    //        _divSlideGate2.slider("values", 0, intMaxGate1 + 1);
+    //        _numGateMin2.val(intMaxGate1 + 1);
+
+    //    }
+    //    if (intMaxGate1 > intMaxGate2 - 1) {
+    //        _divSlideGate2.slider("values", 1, intMaxGate1 + 2);
+    //        _numGateMax2.val(intMaxGate1 + 2);
+    //    }
+
+    //    var intMinGate3 = _divSlideGate3.slider("values", 0);
+    //    var intMaxGate3 = _divSlideGate3.slider("values", 1);
+    //    if (intMaxGate2 > intMinGate3) {
+    //        _divSlideGate3.slider("values", 0, intMaxGate2 + 1);
+    //        _numGateMin3.val(intMaxGate2 + 1)
+
+    //    }
+    //    if (intMaxGate2 > intMaxGate3 - 1) {
+    //        _divSlideGate3.slider("values", 1, intMaxGate2 + 2);
+    //        _numGateMax3.val(intMaxGate2 + 2);
+    //    }
+    //    _numGateMin1.val( u.values[0]);
+    //    _numGateMax1.val(u.values[1]);
+    //    _doEvent = true;
+    //});
+
+//------------[ Slide Gate 2 ]---------------------------//
+    _divSlideGate2.on("slide", function (e, u) {
+        if (!_doEvent) return;
+        _doEvent = false;
+        var intMaxGate2 = u.values[1];
+        var intMinGate2 = u.values[0];
+
+        if (intMinGate2 < 3) {
+            intMinGate2 = 3;
+        }
+        if (intMaxGate2 > 98) {
+            intMaxGate2 = 98;
+        }
+        _numGateMin2.val(intMinGate2);
+        _numGateMax2.val(intMaxGate2);
+
+        var intMaxGate1 = getMaxGateSlider(1)//_divSlideGate1.slider("values", 0);
+        if (intMinGate2 <= intMaxGate1) {
+            intMaxGate1 = intMinGate2 - 1;
+            setMaxGateSlider(1, intMaxGate1);
+            var intMinGate1 = getMinGateSlider(1);
+            if (intMaxGate1 <= intMinGate1) {
+                intMinGate1 = intMaxGate1 - 1;
+                setMinGateSlider(1, intMinGate1);
+            }
+        }
+
+        var intMinGate3 = _divSlideGate3.slider("values", 0);
+        if (intMaxGate2 > intMinGate3) {
+            intMinGate3 = intMaxGate2 + 1
+            _divSlideGate3.slider("values", 0, intMinGate3);
+            _numGateMin3.val(intMinGate3);
+            var intMaxGate3 = _divSlideGate3.slider("values", 1);
+            if (intMinGate3 >= intMaxGate3 ) {
+                intMaxGate3 = intMinGate3 + 1;
+                _divSlideGate3.slider("values", 1, intMaxGate3);
+                _numGateMax3.val(intMaxGate3);
+            }
+        }
+        _doEvent = true;
+    });
+
+//----------------------[ Slider Gate 3 ]------------------------//
+    _divSlideGate3.on("slide", function (e, u) {
+        if(!_doEvent)return;
+        _doEvent = false;
+        var intMinGate3 = u.values[0];
+
+        if (intMinGate3 < 5) {
+            intMinGate3 = 5;
+        }
+        _numGateMin3.val(intMinGate3);
+        _numGateMax3.val(u.values[1]);
+        var intMaxGate2 = _divSlideGate2.slider("values", 1);
+        if (intMinGate3 <= intMaxGate2) {
+            intMaxGate2 = intMinGate3 - 1;
+            setMaxGateSlider(2, intMaxGate2);
+            var intMinGate2 = getMinGateSlider(2);
+            if (intMaxGate2 <= intMinGate2) {
+                intMinGate2 = intMaxGate2 - 1;
+                setMinGateSlider(2, intMinGate2);
+                var intMaxGate1 = getMaxGateSlider(1);
+                if (intMinGate2 <= intMaxGate1) {
+                    intMaxGate1 = intMinGate2 - 1;
+                    setMaxGateSlider(1, intMaxGate1);
+                    var intMinGate1 = getMinGateSlider(1);
+                    if (intMinGate1 >= intMaxGate1) {
+                        intMinGate1 = intMaxGate1 - 1;
+                        setMinGateSlider(1, intMinGate1);
+                    }
+                }
+            }
+        }
+        _doEvent = true;
+    });
+    //------------[ Slide PipeLine 1 ]---------------------------//
+    _divSlidePipeLine1.on("slide", function (e, u) {
+        if (!_doEvent) return;
+        _doEvent = false;
+        var intMaxPipeLine1 = u.values[1];
+        if (intMaxPipeLine1 > 96) {
+            intMaxPipeLine1 = 96;
+            u.values[1] = 96;
+        }
+        var intMinPipeLine2 = getMinPipeLineSlider(2);
+        if (intMaxPipeLine1 >= intMinPipeLine2) {
+            intMinPipeLine2 = intMaxPipeLine1 + 1;
+            setMinPipeLineSlider(2, intMinPipeLine2);
+            var intMaxPipeLine2 = getMaxPipeLineSlider(2);
+            if (intMinPipeLine2 >= intMaxPipeLine2) {
+                intMaxPipeLine2 = intMinPipeLine2 + 1;
+                setMaxPipeLineSlider(2, intMaxPipeLine2);
+                var intMinPipeLine3 = getMinPipeLineSlider(3);
+                if (intMaxPipeLine2 >= intMinPipeLine3) {
+                    intMinPipeLine3 = intMaxPipeLine2 + 1;
+                    setMinPipeLineSlider(3, intMinPipeLine3);
+                    var intMaxPipeLine3 = getMaxPipeLineSlider(3);
+                    if (intMinPipeLine3 >= intMaxPipeLine3) {
+                        intMaxPipeLine3 = intMinPipeLine3 + 1;
+                        setMaxPipeLineSlider(3, intMaxPipeLine3);
+                    }
+                }
+            }
+        }
+        _numPipeLineMin1.val(u.values[0]);
+        _numPipeLineMax1.val(u.values[1]);
+        _doEvent = true;
+    });
+
+    //------------[ Slide PipeLine 2 ]---------------------------//
+    _divSlidePipeLine2.on("slide", function (e, u) {
+        if (!_doEvent) return;
+        _doEvent = false;
+        var intMaxPipeLine2 = u.values[1];
+        var intMinPipeLine2 = u.values[0];
+
+        if (intMinPipeLine2 < 3) {
+            intMinPipeLine2 = 3;
+        }
+        if (intMaxPipeLine2 > 98) {
+            intMaxPipeLine2 = 98;
+        }
+        _numPipeLineMin2.val(intMinPipeLine2);
+        _numPipeLineMax2.val(intMaxPipeLine2);
+
+        var intMaxPipeLine1 = getMaxPipeLineSlider(1)//_divSlideGate1.slider("values", 0);
+        if (intMinPipeLine2 <= intMaxPipeLine1) {
+            intMaxPipeLine1 = intMinPipeLine2 - 1;
+            setMaxPipeLineSlider(1, intMaxPipeLine1);
+            var intMinPipeLine1 = getMinPipeLineSlider(1);
+            if (intMaxPipeLine1 <= intMinPipeLine1) {
+                intMinPipeLine1 = intMaxPipeLine1 - 1;
+                setMinPipeLineSlider(1, intMinPipeLine1);
+            }
+        }
+
+        var intMinPipeLine3 = _divSlidePipeLine3.slider("values", 0);
+        if (intMaxPipeLine2 > intMinPipeLine3) {
+            intMinPipeLine3 = intMaxPipeLine2 + 1
+            _divSlidePipeLine3.slider("values", 0, intMinPipeLine3);
+            _numPipeLineMin3.val(intMinPipeLine3);
+            var intMaxPipeLine3 = _divSlidePipeLine3.slider("values", 1);
+            if (intMinPipeLine3 >= intMaxPipeLine3) {
+                intMaxPipeLine3 = intMinPipeLine3 + 1;
+                _divSlidePipeLine3.slider("values", 1, intMaxPipeLine3);
+                _numPipeLineMax3.val(intMaxPipeLine3);
+            }
+        }
+        _doEvent = true;
+    });
+    //----------------------[ Slider PipeLine 3 ]------------------------//
+    _divSlidePipeLine3.on("slide", function (e, u) {
+        if (!_doEvent) return;
+        _doEvent = false;
+        var intMinPipeLine3 = u.values[0];
+        var intMaxPipeLine3 = u.values[1];
+        if (intMinPipeLine3 < 5) {
+            intMinPipeLine3 = 5;
+        }
+        _numPipeLineMin3.val(intMinPipeLine3);
+        _numPipeLineMax3.val(intMaxPipeLine3);
+
+        var intMaxPipeLine2 = _divSlidePipeLine2.slider("values", 1);
+        if (intMinPipeLine3 <= intMaxPipeLine2) {
+            intMaxPipeLine2 = intMinPipeLine3 - 1;
+            setMaxPipeLineSlider(2, intMaxPipeLine2);
+            var intMinPipeLine2 = getMinPipeLineSlider(2);
+            if (intMaxPipeLine2 <= intMinPipeLine2) {
+                intMinPipeLine2 = intMaxPipeLine2 - 1;
+                setMinPipeLineSlider(2, intMinPipeLine2);
+                var intMaxPipeLine1 = getMaxPipeLineSlider(1);
+                if (intMinPipeLine2 <= intMaxPipeLine1) {
+                    intMaxPipeLine1 = intMinPipeLine2 - 1;
+                    setMaxPipeLineSlider(1, intMaxPipeLine1);
+                    var intMinPipeLine1 = getMinPipeLineSlider(1);
+                    if (intMinPipeLine1 >= intMaxPipeLine1) {
+                        intMinPipeLine1 = intMaxPipeLine1 - 1;
+                        setMinPipeLineSlider(1, intMinPipeLine1);
+                    }
+                }
+            }
+        }
+        _doEvent = true;
+    });
+
+    //------------[ Num Min Gate 1 ]-------------------------//
+
+    _numGateMin1.on("change", function (e) {
+        if (!_doEvent) return;
+        _doEvent = false;
+        e.stopPropagation();
+        e.preventDefault();
+        var intMinGate1 = parseFloat( $(this).val());
+        if (intMinGate1 > 95) {
+            intMinGate1 = 95;
+        }
+        setMinGateSlider(1, intMinGate1);
+        var intMaxGate1 = getMaxGateSlider(1);
+        if (intMinGate1 >= intMaxGate1) {
+            intMaxGate1 = intMinGate1 + 1;
+            setMaxGateSlider(1, intMaxGate1);
+            var intMinGate2 = getMinGateSlider(2);
+            if (intMaxGate1 >= intMinGate2) {
+                intMinGate2 = intMaxGate1 + 1;
+                setMinGateSlider(2, intMinGate2);
+                var intMaxGate2 = getMaxGateSlider(2);
+                if (intMinGate2 >= intMaxGate2) {
+                    intMaxGate2 = intMinGate2 + 1;
+                    setMaxGateSlider(2, intMaxGate2);
+                    var intMinGate3 = getMinGateSlider(3);
+                    if (intMaxGate2 >= intMinGate3) {
+                        intMinGate3 = intMaxGate2 + 1;
+                        setMinGateSlider(3, intMinGate3);
+                        var intMaxGate3 = getMaxGateSlider(3);
+                        if (intMinGate3 >= intMaxGate3) {
+                            intMaxGate3 = intMinGate3 + 1;
+                            setMaxGateSlider(3, intMaxGate3);
+                        }
+                    }
+                }
+            }
+        }
+        _doEvent = true;
+    });
+
+    //---------[ Num Max Gate 1 ]---------------------------------//
+    _numGateMax1.on("change", function (e) {
+        if (!_doEvent) {
+            return;
+        }
+        _doEvent = false;
+        e.stopPropagation();
+        e.preventDefault();
+        var intMaxGate1 = parseFloat($(this).val());
+        if (intMaxGate1 < 2) {
+            intMaxGate1 = 2;
+        }
+        if (intMaxGate1 > 96) {
+            intMaxGate1 = 96;
+        }
+        setMaxGateSlider(1, intMaxGate1);
+        var intMinGate1 = getMinGateSlider(1);
+        if (intMaxGate1 <= intMinGate1) {
+            intMinGate1 = intMaxGate1 - 1;
+            setMinGateSlider(1, intMinGate1);
+        }
+
+        var intMinGate2 = getMinGateSlider(2);
+        if (intMaxGate1 >= intMinGate2) {
+            intMinGate2 = intMaxGate1 + 1;
+            setMinGateSlider(2, intMinGate2);
+            var intMaxGate2 = getMaxGateSlider(2);
+            if (intMinGate2 >= intMaxGate2) {
+                intMaxGate2 = intMinGate2 + 1;
+                setMaxGateSlider(2, intMaxGate2);
+                var intMinGate3 = getMinGateSlider(3);
+                if (intMaxGate2 >= intMinGate3) {
+                    intMinGate3 = intMaxGate2 + 1;
+                    setMinGateSlider(3, intMinGate3);
+                    var intMaxGate3 = getMaxGateSlider(3);
+                    if (intMinGate3 >= intMaxGate3) {
+                        intMaxGate3 = intMinGate3 + 1;
+                        setMaxGateSlider(3, intMaxGate3);
+                    }
+                }
+            }
+        }
+        _doEvent = true;
+    });
+    //---------[ Num Min Gate 2 ]---------------------------------//
+    _numGateMin2.on("change", function (e) {
+        if (!_doEvent) {
+            return;
+        }
+        _doEvent = false;
+        e.stopPropagation();
+        e.preventDefault();
+        var intMinGate2 = parseFloat($(this).val());
+        if (intMinGate2 > 97) {
+            intMinGate2 = 97;
+        }
+        if (intMinGate2 < 3) {
+            intMinGate2 = 3;
+        }
+        setMinGateSlider(2, intMinGate2);
+
+        var intMaxGate1 = getMaxGateSlider(1);
+        if (intMaxGate1 >= intMinGate2) {
+            intMaxGate1 = intMinGate2 - 1;
+            var intMinGate1 = getMinGateSlider(1);
+            if (intMinGate1 >= intMaxGate1) {
+                intMinGate1 = intMaxGate1 - 1;
+                setMinGateSlider(1, intMinGate1);
+            }
+        }
+
+        var intMaxGate2 = getMaxGateSlider(2);
+        if (intMinGate2 >= intMaxGate2) {
+            intMaxGate2 = intMinGate2 + 1;
+            setMaxGateSlider(2, intMaxGate2);
+            var intMinGate3 = getMinGateSlider(3);
+            if (intMaxGate2 >= intMinGate3) {
+                intMinGate3 = intMaxGate2 + 1;
+                setMinGateSlider(3, intMinGate3);
+                var intMaxGate3 = getMaxGateSlider(3);
+                if (intMinGate3 >= intMaxGate3) {
+                    intMaxGate3 = intMinGate3 + 1;
+                    setMaxGateSlider(3, intMaxGate3);
+                }
+            }
+        }
+        _doEvent = true;
+    });
+    //-----------[ Num Max Gate 2]--------------//
+    _numGateMax2.on("change", function (e) {
+        if (!_doEvent) return;
+        _doEvent = false;
+        e.stopPropagation();
+        e.preventDefault();
+        var intMaxGate2 = parseFloat($(this).val());
+        if (intMaxGate2 > 98) {
+            intMaxGate2 = 98;
+        } else if (intMaxGate2 < 4) {
+            intMaxGate2 = 4;
+        }
+        setMaxGateSlider(2, intMaxGate2);
+        var intMinGate2 = getMinGateSlider(2);
+        if (intMinGate2 >= intMaxGate2) {
+            intMinGate2 = intMaxGate2 - 1;
+            setMinGateSlider(2, intMinGate2);
+            var intMaxGate1 = getMaxGateSlider(1);
+            if (intMaxGate1 >= intMinGate2) {
+                intMaxGate1 = intMinGate2 - 1;
+                setMaxGateSlider(1, intMaxGate1);
+                var intMinGate1 = getMinGateSlider(1);
+                if (intMinGate1 >= intMaxGate1) {
+                    intMinGate1 = intMaxGate1 - 1;
+                    setMinGateSlider(1, intMinGate1);
+                }
+            }
+        }
+
+        var intMinGate3 = getMinGateSlider(3);
+        if (intMaxGate2 >= intMinGate3) {
+            intMinGate3 = intMaxGate2 + 1;
+            setMinGateSlider(3, intMinGate3);
+            var intMaxGate3 = getMaxGateSlider(3);
+            if (intMinGate3 >= intMaxGate3) {
+                intMaxGate3 = intMinGate3 + 1;
+                setMaxGateSlider(3, intMaxGate3);
+            }
+        }
+
+        _doEvent = true;
+    });
+
+    //-------------[ NumMinGate 3 ]-----------------//
+    _numGateMin3.on("change", function (e) {
+        if (!_doEvent) {
+            return;
+        }
+        _doEvent = false;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var intMinGate3 = parseFloat($(this).val());
+        if (intMinGate3 < 5) {
+            intMinGate3 = 5;
+        } else if (intMinGate3 > 99) {
+            intMinGate3 = 99;
+        }
+        setMinGateSlider(3, intMinGate3);
+
+        var intMaxGate3 = getMaxGateSlider(3);
+        if (intMaxGate3 <= intMinGate3) {
+            intMaxGate3 = intMinGate3 + 1;
+            setMaxGateSlider(3, intMaxGate3);
+        }
+
+        var intMaxGate2 = getMaxGateSlider(2);
+        if (intMaxGate2 >= intMinGate3) {
+            intMaxGate2 = intMinGate3 - 1;
+            setMaxGateSlider(2, intMaxGate2);
+            var intMinGate2 = getMinGateSlider(2);
+            if (intMinGate2 >= intMaxGate2) {
+                intMinGate2 = intMaxGate2 - 1;
+                setMinGateSlider(2, intMinGate2);
+                var intMaxGate1 = getMaxGateSlider(1);
+                if (intMaxGate1 >= intMinGate2) {
+                    intMaxGate1 = intMinGate2 - 1;
+                    setMaxGateSlider(1, intMaxGate1);
+                    var intMinGate1 = getMinGateSlider(1);
+                    if (intMinGate1 >= intMaxGate1) {
+                        intMinGate1 = intMaxGate1 - 1;
+                        setMinGateSlider(1, intMinGate1);
+                    }
+                }
+            }
+        }
+
+        _doEvent = true;
+    });
+
+    //-------------[ NumMaxGate 3 ]-----------------//
+    _numGateMax3.on("change", function (e) {
+        if (!_doEvent) return;
+        _doEvent = false;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var intMaxGate3 = parseFloat($(this).val());
+        if (intMaxGate3 > 100) {
+            intMaxGate3 = 100;
+        } else if (intMaxGate3 < 6) {
+            intMaxGate3 = 6;
+        }
+        setMaxGateSlider(3, intMaxGate3);
+        var intMinGate3 = getMinGateSlider(3);
+        if (intMinGate3 >= intMaxGate3) {
+            intMinGate3 = intMaxGate3 - 1;
+            setMinGateSlider(3, intMinGate3);
+            var intMaxGate2 = getMaxGateSlider(2);
+            if (intMaxGate2 >= intMinGate3) {
+                intMaxGate2 = intMinGate3 - 1;
+                setMaxGateSlider(2, intMaxGate2);
+                var intMinGate2 = getMinGateSlider(2);
+                if (intMinGate2 >= intMaxGate2) {
+                    intMinGate2 = intMaxGate2 - 1;
+                    setMinGateSlider(2, intMinGate2);
+                    var intMaxGate1 = getMaxGateSlider(1);
+                    if (intMaxGate1 >= intMinGate2) {
+                        intMaxGate1 = intMinGate2 - 1;
+                        setMaxGateSlider(1, intMaxGate1);
+                        var intMinGate1 = getMinGateSlider(1);
+                        if (intMinGate1 >= intMaxGate1) {
+                            intMinGate1 = intMaxGate1 - 1;
+                            setMinGateSlider(1, intMinGate1);
+                        }
+                    }
+                }
+            }
+        }
+        _doEvent = true;
+    });
+
+    //------------[ Num Min PipeLine 1 ]-------------------------//
+
+    _numPipeLineMin1.on("change", function (e) {
+        if (!_doEvent) return;
+        _doEvent = false;
+        e.stopPropagation();
+        e.preventDefault();
+        var intMinPipeLine1 = parseFloat($(this).val());
+        if (intMinPipeLine1 > 95) {
+            intMinPipeLine1 = 95;
+        }
+        setMinPipeLineSlider(1, intMinPipeLine1);
+        var intMaxPipeLine1 = getMaxPipeLineSlider(1);
+        if (intMinPipeLine1 >= intMaxPipeLine1) {
+            intMaxPipeLine1 = intMinPipeLine1 + 1;
+            setMaxPipeLineSlider(1, intMaxPipeLine1);
+            var intMinPipeLine2 = getMinPipeLineSlider(2);
+            if (intMaxPipeLine1 >= intMinPipeLine2) {
+                intMinPipeLine2 = intMaxPipeLine1 + 1;
+                setMinPipeLineSlider(2, intMinPipeLine2);
+                var intMaxPipeLine2 = getMaxPipeLineSlider(2);
+                if (intMinPipeLine2 >= intMaxPipeLine2) {
+                    intMaxPipeLine2 = intMinPipeLine2 + 1;
+                    setMaxPipeLineSlider(2, intMaxPipeLine2);
+                    var intMinPipeLine3 = getMinPipeLineSlider(3);
+                    if (intMaxPipeLine2 >= intMinPipeLine3) {
+                        intMinPipeLine3 = intMaxPipeLine2 + 1;
+                        setMinPipeLineSlider(3, intMinPipeLine3);
+                        var intMaxPipeLine3 = getMaxPipeLineSlider(3);
+                        if (intMinPipeLine3 >= intMaxPipeLine3) {
+                            intMaxPipeLine3 = intMinPipeLine3 + 1;
+                            setMaxPipeLineSlider(3, intMaxPipeLine3);
+                        }
+                    }
+                }
+            }
+        }
+        _doEvent = true;
+    });
+
+    //---------[ Num Max PipeLine 1 ]---------------------------------//
+    _numPipeLineMax1.on("change", function (e) {
+        if (!_doEvent) {
+            return;
+        }
+        _doEvent = false;
+        e.stopPropagation();
+        e.preventDefault();
+        var intMaxPipeLine1 = parseFloat($(this).val());
+        if (intMaxPipeLine1 < 2) {
+            intMaxPipeLine1 = 2;
+        }
+        if (intMaxPipeLine1 > 96) {
+            intMaxPipeLine1 = 96;
+        }
+        setMaxPipeLineSlider(1, intMaxPipeLine1);
+        var intMinPipeLine1 = getMinPipeLineSlider(1);
+        if (intMaxPipeLine1 <= intMinPipeLine1) {
+            intMinPipeLine1 = intMaxPipeLine1 - 1;
+            setMinPipeLineSlider(1, intMinPipeLine1);
+        }
+
+        var intMinPipeLine2 = getMinPipeLineSlider(2);
+        if (intMaxPipeLine1 >= intMinPipeLine2) {
+            intMinPipeLine2 = intMaxPipeLine1 + 1;
+            setMinPipeLineSlider(2, intMinPipeLine2);
+            var intMaxPipeLine2 = getMaxPipeLineSlider(2);
+            if (intMinPipeLine2 >= intMaxPipeLine2) {
+                intMaxPipeLine2 = intMinPipeLine2 + 1;
+                setMaxPipeLineSlider(2, intMaxPipeLine2);
+                var intMinPipeLine3 = getMinPipeLineSlider(3);
+                if (intMaxPipeLine2 >= intMinPipeLine3) {
+                    intMinPipeLine3 = intMaxPipeLine2 + 1;
+                    setMinPipeLineSlider(3, intMinPipeLine3);
+                    var intMaxPipeLine3 = getMaxPipeLineSlider(3);
+                    if (intMinPipeLine3 >= intMaxPipeLine3) {
+                        intMaxPipeLine3 = intMinPipeLine3 + 1;
+                        setMaxPipeLineSlider(3, intMaxPipeLine3);
+                    }
+                }
+            }
+        }
+        _doEvent = true;
+    });
+    //---------[ Num Min PipeLine 2 ]---------------------------------//
+    _numPipeLineMin2.on("change", function (e) {
+        if (!_doEvent) {
+            return;
+        }
+        _doEvent = false;
+        e.stopPropagation();
+        e.preventDefault();
+        var intMinPipeLine2 = parseFloat($(this).val());
+        if (intMinPipeLine2 > 97) {
+            intMinPipeLine2 = 97;
+        }
+        if (intMinPipeLine2 < 3) {
+            intMinPipeLine2 = 3;
+        }
+        setMinPipeLineSlider(2, intMinPipeLine2);
+
+        var intMaxPipeLine1 = getMaxPipeLineSlider(1);
+        if (intMaxPipeLine1 >= intMinPipeLine2) {
+            intMaxPipeLine1 = intMinPipeLine2 - 1;
+            var intMinPipeLine1 = getMinPipeLineSlider(1);
+            if (intMinPipeLine1 >= intMaxPipeLine1) {
+                intMinPipeLine1 = intMaxPipeLine1 - 1;
+                setMinPipeLineSlider(1, intMinPipeLine1);
+            }
+        }
+
+        var intMaxPipeLine2 = getMaxPipeLineSlider(2);
+        if (intMinPipeLine2 >= intMaxPipeLine2) {
+            intMaxPipeLine2 = intMinPipeLine2 + 1;
+            setMaxPipeLineSlider(2, intMaxPipeLine2);
+            var intMinPipeLine3 = getMinPipeLineSlider(3);
+            if (intMaxPipeLine2 >= intMinPipeLine3) {
+                intMinPipeLine3 = intMaxPipeLine2 + 1;
+                setMinPipeLineSlider(3, intMinPipeLine3);
+                var intMaxPipeLine3 = getMaxPipeLineSlider(3);
+                if (intMinPipeLine3 >= intMaxPipeLine3) {
+                    intMaxPipeLine3 = intMinPipeLine3 + 1;
+                    setMaxPipeLineSlider(3, intMaxPipeLine3);
+                }
+            }
+        }
+        _doEvent = true;
+    });
+    //-----------[ Num Max PipeLine 2]--------------//
+    _numPipeLineMax2.on("change", function (e) {
+        if (!_doEvent) return;
+        _doEvent = false;
+        e.stopPropagation();
+        e.preventDefault();
+        var intMaxPipeLine2 = parseFloat($(this).val());
+        if (intMaxPipeLine2 > 98) {
+            intMaxPipeLine2 = 98;
+        } else if (intMaxPipeLine2 < 4) {
+            intMaxPipeLine2 = 4;
+        }
+        setMaxPipeLineSlider(2, intMaxPipeLine2);
+        var intMinPipeLine2 = getMinPipeLineSlider(2);
+        if (intMinPipeLine2 >= intMaxPipeLine2) {
+            intMinPipeLine2 = intMaxPipeLine2 - 1;
+            setMinPipeLineSlider(2, intMinPipeLine2);
+            var intMaxPipeLine1 = getMaxPipeLineSlider(1);
+            if (intMaxPipeLine1 >= intMinPipeLine2) {
+                intMaxPipeLine1 = intMinPipeLine2 - 1;
+                setMaxPipeLineSlider(1, intMaxPipeLine1);
+                var intMinPipeLine1 = getMinPipeLineSlider(1);
+                if (intMinPipeLine1 >= intMaxPipeLine1) {
+                    intMinPipeLine1 = intMaxPipeLine1 - 1;
+                    setMinPipeLineSlider(1, intMinPipeLine1);
+                }
+            }
+        }
+
+        var intMinPipeLine3 = getMinPipeLineSlider(3);
+        if (intMaxPipeLine2 >= intMinPipeLine3) {
+            intMinPipeLine3 = intMaxPipeLine2 + 1;
+            setMinPipeLineSlider(3, intMinPipeLine3);
+            var intMaxPipeLine3 = getMaxPipeLineSlider(3);
+            if (intMinPipeLine3 >= intMaxPipeLine3) {
+                intMaxPipeLine3 = intMinPipeLine3 + 1;
+                setMaxPipeLineSlider(3, intMaxPipeLine3);
+            }
+        }
+
+        _doEvent = true;
+    });
+
+    //-------------[ NumMinPipeLine 3 ]-----------------//
+    _numPipeLineMin3.on("change", function (e) {
+        if (!_doEvent) {
+            return;
+        }
+        _doEvent = false;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var intMinPipeLine3 = parseFloat($(this).val());
+        if (intMinPipeLine3 < 5) {
+            intMinPipeLine3 = 5;
+        } else if (intMinPipeLine3 > 99) {
+            intMinPipeLine3 = 99;
+        }
+        setMinPipeLineSlider(3, intMinPipeLine3);
+
+        var intMaxPipeLine3 = getMaxPipeLineSlider(3);
+        if (intMaxPipeLine3 <= intMinPipeLine3) {
+            intMaxPipeLine3 = intMinPipeLine3 + 1;
+            setMaxPipeLineSlider(3, intMaxPipeLine3);
+        }
+
+        var intMaxPipeLine2 = getMaxPipeLineSlider(2);
+        if (intMaxPipeLine2 >= intMinPipeLine3) {
+            intMaxPipeLine2 = intMinPipeLine3 - 1;
+            setMaxPipeLineSlider(2, intMaxPipeLine2);
+            var intMinPipeLine2 = getMinPipeLineSlider(2);
+            if (intMinPipeLine2 >= intMaxPipeLine2) {
+                intMinPipeLine2 = intMaxPipeLine2 - 1;
+                setMinPipeLineSlider(2, intMinPipeLine2);
+                var intMaxPipeLine1 = getMaxPipeLineSlider(1);
+                if (intMaxPipeLine1 >= intMinPipeLine2) {
+                    intMaxPipeLine1 = intMinPipeLine2 - 1;
+                    setMaxPipeLineSlider(1, intMaxPipeLine1);
+                    var intMinPipeLine1 = getMinPipeLineSlider(1);
+                    if (intMinPipeLine1 >= intMaxPipeLine1) {
+                        intMinPipeLine1 = intMaxPipeLine1 - 1;
+                        setMinPipeLineSlider(1, intMinPipeLine1);
+                    }
+                }
+            }
+        }
+
+        _doEvent = true;
+    });
+
+    //-------------[ NumMaxPipeLine 3 ]-----------------//
+    _numPipeLineMax3.on("change", function (e) {
+        if (!_doEvent) return;
+        _doEvent = false;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var intMaxPipeLine3 = parseFloat($(this).val());
+        if (intMaxPipeLine3 > 100) {
+            intMaxPipeLine3 = 100;
+        } else if (intMaxPipeLine3 < 6) {
+            intMaxPipeLine3 = 6;
+        }
+        setMaxPipeLineSlider(3, intMaxPipeLine3);
+        var intMinPipeLine3 = getMinPipeLineSlider(3);
+        if (intMinPipeLine3 >= intMaxPipeLine3) {
+            intMinPipeLine3 = intMaxPipeLine3 - 1;
+            setMinPipeLineSlider(3, intMinPipeLine3);
+            var intMaxPipeLine2 = getMaxPipeLineSlider(2);
+            if (intMaxPipeLine2 >= intMinPipeLine3) {
+                intMaxPipeLine2 = intMinPipeLine3 - 1;
+                setMaxPipeLineSlider(2, intMaxPipeLine2);
+                var intMinPipeLine2 = getMinPipeLineSlider(2);
+                if (intMinPipeLine2 >= intMaxPipeLine2) {
+                    intMinPipeLine2 = intMaxPipeLine2 - 1;
+                    setMinPipeLineSlider(2, intMinPipeLine2);
+                    var intMaxPipeLine1 = getMaxPipeLineSlider(1);
+                    if (intMaxPipeLine1 >= intMinPipeLine2) {
+                        intMaxPipeLine1 = intMinPipeLine2 - 1;
+                        setMaxPipeLineSlider(1, intMaxPipeLine1);
+                        var intMinPipeLine1 = getMinPipeLineSlider(1);
+                        if (intMinPipeLine1 >= intMaxPipeLine1) {
+                            intMinPipeLine1 = intMaxPipeLine1 - 1;
+                            setMinPipeLineSlider(1, intMinPipeLine1);
+                        }
+                    }
+                }
+            }
+        }
+        _doEvent = true;
+    });
+
+
+
+</script>

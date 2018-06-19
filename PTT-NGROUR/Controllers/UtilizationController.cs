@@ -48,6 +48,18 @@ namespace PTT_NGROUR.Controllers
 
         #endregion
 
+        public ActionResult ThresholdSetting()
+        {
+            var dto = new DTO.DtoUtilization();
+            var listThreshold = dto.GetListThreshold().OrderBy(x=> x.ThresholdId).ToArray();
+            var modelResult = new Models.ViewModel.ModelThreshold()
+            {
+                ThresholdItems = listThreshold
+            };
+            return View(modelResult);
+        }
+
+
         public ActionResult Index()
         {
             var dal = new DAL.DAL();

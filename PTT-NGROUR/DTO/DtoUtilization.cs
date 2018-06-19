@@ -548,5 +548,36 @@ WHERE  1=1
             return 1.Equals(objExecute);
         }
 
+        public IEnumerable<Models.ViewModel.ModelThresholdItem> GetListThreshold()
+        {
+            string strQuery = @"select 
+                PIPELINE_THRESHOLD_ID THRESHOLD_ID , 
+                'PipeLine' ThresholdType ,
+                COLOR , 
+                MINVAL , 
+                MAXVAL 
+            from PIPELINE_THRESHOLD
+            union all
+            select 
+                GATE_THRESHOLD_ID THRESHOLD_ID , 
+                'GateStation' ThresholdType ,
+                COLOR , 
+                MINVAL , 
+                MAXVAL 
+            from GATESTATION_THRESHOLD";
+            var dal = new DAL.DAL();
+            var listThreshold = dal.ReadData<Models.ViewModel.ModelThresholdItem>(strQuery, x => new Models.ViewModel.ModelThresholdItem(x));
+            //{
+            //    var th = new Models.ViewModel.ModelThresholdItem();
+            //    th.Color = reader["COLOR"].GetString();
+            //    th.MaxValue = reader["MAXVAL"].GetDecimal();
+            //    th.MinValue = reader["MINVAL"].GetDecimal();
+            //    th.ThresholdId = reader["THRESHOLD_ID"].GetInt();
+            //    th.ThresholdType = reader["ThresholdType"].GetEnum<Models.ViewModel.EnumThresholdType>(Models.ViewModel.EnumThresholdType.None);
+            //    return th;
+            //});
+            return listThreshold;
+        }
+
     }
 }

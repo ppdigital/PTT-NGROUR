@@ -1,0 +1,115 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelThreshold
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Color</th>
+            <th>Type</th>
+            <th>Min / Max</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int j = 0; j < Model.ThresholdItems.Length; ++j)
+        {
+            <tr>
+                <td><div class="circleBase" style="background-color: @Model.ThresholdItems[j].Color"></div> </td>
+                <td>@Model.ThresholdItems[j].ThresholdType.ToString()</td>
+                <td>
+                    <div class="input-group" style="">
+                        <input type="number"
+                               id="@("numMin" + j.ToString())"
+                               style="width:100px;"
+                               class="form-control "
+                               value="@Model.ThresholdItems[j].MinValue">
+                        <div class="input-group-addon"
+                             style="width:100%"
+                             id="@("divSlider" + j.ToString())"
+                             data-min="@Model.ThresholdItems[j].MinValue"
+                             data-max="@Model.ThresholdItems[j].MaxValue"></div>
+                        <input id="@("numMax" + j.ToString())"
+                               type="number"
+                               style="width:100px;"
+                               class="form-control "
+                               value="@Model.ThresholdItems[j].MaxValue">
+                    </div>
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+
+</table>
+<div id="flat-slider"></div>
+<button id="btnSave" class="btn btn-success">
+    <i class="glyphicon glyphicon-save"></i>&nbsp;SAVE
+</button>
+@section style{
+    @*<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/simeydotme/jQuery-ui-Slider-Pips/master/dist/jquery-ui-slider-pips.css" />*@
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.min.css" />
+    <link rel="stylesheet" href="~/Content/jquery-ui-slider-pips.css" />
+    <style>
+        .circleBase {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+        }
+
+        .ui-slider {
+            background: #d5cebc;
+            border: none;
+            border-radius: 0;
+        }
+
+            .ui-slider .ui-slider-handle {
+                width: 20px;
+                height: 100%;
+                border-radius: 5px;
+                border-color: gray;
+                top: 0;
+            }
+
+                .ui-slider .ui-slider-handle.ui-state-hover,
+                .ui-slider .ui-slider-handle.ui-state-focus,
+                .ui-slider .ui-slider-handle.ui-state-active {
+                    border-color: #172f38;
+                }
+
+        /*.ui-slider .ui-slider-pip*/
+        .ui-slider-pips .ui-slider-line {
+            background: rgba(0,0,255,0.25) !important;
+            height: 100% !important;
+            width: 2px;
+        }
+
+        .ui-slider-pips .ui-slider-pip {
+            height: 100% !important;
+        }
+
+        .ui-slider-range {
+            background-color: rgba(0,0,255,0.2);
+        }
+
+        .ui-slider-pip {
+            top: 0 !important;
+        }
+
+
+        .ui-slider-label {
+            top: 40% !important;
+            left: 0 !important;
+            width: 0 !important;
+            color: blue;
+        }
+    </style>
+}
+
+@section scripts{  @Html.Partial("PartialThresholdSettingScript", Model); }
+
