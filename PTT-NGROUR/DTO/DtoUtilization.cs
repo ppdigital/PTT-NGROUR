@@ -565,7 +565,7 @@ WHERE  1=1
                 'GateStation' ThresholdType ,
                 COLOR , 
                 MINVAL , 
-                MAXVAL 
+                MAXVAL ,
                 UPDATED_BY ,
                 COLOR_HEX
             from GATESTATION_THRESHOLD";
@@ -597,7 +597,7 @@ SET
        MINVAL                = {0},
        MAXVAL                = {1},
        UPDATED_DATE          = sysdate,
-       UPDATED_BY            = '{2}',
+       UPDATED_BY            = '{2}'
 WHERE  GATE_THRESHOLD_ID = {3}";
             }
             else if( pModel.ThresholdType == Models.ViewModel.EnumThresholdType.PipeLine )
@@ -607,7 +607,7 @@ SET
        MINVAL                = {0},
        MAXVAL                = {1},
        UPDATED_DATE          = sysdate,
-       UPDATED_BY            = '{2}',
+       UPDATED_BY            = '{2}'
 WHERE  PIPELINE_THRESHOLD_ID = {3}";
             }
             if (string.IsNullOrEmpty(strCommand))

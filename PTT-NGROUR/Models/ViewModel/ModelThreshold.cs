@@ -12,7 +12,7 @@ namespace PTT_NGROUR.Models.ViewModel
 
     public enum EnumThresholdType
     {
-        None , GateStation, PipeLine
+        None, GateStation, PipeLine
     }
 
     public class ModelThresholdItem
@@ -34,12 +34,80 @@ namespace PTT_NGROUR.Models.ViewModel
             COLOR_HEX = pReader["COLOR_HEX"].GetString();
         }
 
+        private string _updateBy = string.Empty;
+        private string _colorHex = string.Empty;
+        private string _color = string.Empty;
+
+
         public int ThresholdId { get; set; }
-        public string Color { get; set; }
+        public string Color
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _color = string.Empty;
+                }
+                else if (value.Length > 20)
+                {
+                    _color = value.Substring(0, 20);
+                }
+                else
+                {
+                    _color = value;
+                }
+            }
+        }
         public EnumThresholdType ThresholdType { get; set; }
         public decimal MinValue { get; set; }
         public decimal MaxValue { get; set; }
-        public string UPDATED_BY { get; set; }
-        public string COLOR_HEX { get; set; }
+        public string UPDATED_BY
+        {
+            get
+            {
+                return _updateBy;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _updateBy = string.Empty;
+                }
+                else if (value.Length > 20)
+                {
+                    _updateBy = value.Substring(0, 20);
+                }
+                else
+                {
+                    _updateBy = value;
+                }
+            }
+        }
+        public string COLOR_HEX
+        {
+            get
+            {
+                return _colorHex;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _colorHex = string.Empty;
+                }
+                else if (value.Length > 7)
+                {
+                    _colorHex = value.Substring(0, 7);
+                }
+                else
+                {
+                    _colorHex = value;
+                }
+            }
+        }
     }
 }

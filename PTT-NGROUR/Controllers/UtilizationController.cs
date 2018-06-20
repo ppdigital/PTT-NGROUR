@@ -71,7 +71,11 @@ namespace PTT_NGROUR.Controllers
                     return Json(result);
                 }
                 var dto = new DTO.DtoUtilization();
-                pListThreshold.ToList().ForEach(x => dto.UpdateThreshold(x));
+                foreach(var th in pListThreshold.Where(x => x != null))
+                {                    
+                    th.UPDATED_BY = User.Identity.Name;
+                    dto.UpdateThreshold(th);
+                }               
                 dto = null;
                 result.SetResultValue("Update Complete");
                 

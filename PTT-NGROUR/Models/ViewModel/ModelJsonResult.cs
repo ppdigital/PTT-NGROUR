@@ -46,6 +46,14 @@ namespace PTT_NGROUR.Models.ViewModel
 
         public EnumJsonResultStatus Status { get; set; }
 
+        public  string StatusText
+        {
+            get
+            {
+                return Status.ToString();
+            }
+        }
+
         public string ErrorMessage { get; set; }
 
         public string ErrorStackTrace { get; set; }

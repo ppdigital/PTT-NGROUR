@@ -4,7 +4,42 @@
 <script>
 
     $("#btnSave").click(function () {
-        alert("save click");
+        var x = [
+
+            @for (int i = 0; i < Model.ThresholdItems.Length; ++i)
+            {
+
+                <text>
+                {
+                    ThresholdId: @Model.ThresholdItems[i].ThresholdId ,
+                    ThresholdType : "@Model.ThresholdItems[i].ThresholdType.ToString()" ,
+                    MinValue : getSliderMinValue(@i) ,
+                    MaxValue : getSliderMaxValue(@i)
+                },
+                </text>
+            }
+        ];
+        var strUrl = "@Url.Action("SaveThresholdSetting")"
+        
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            type: "POST",
+            data:JSON.stringify ( { pListThreshold : x}),
+            url: strUrl,
+            success: function(data){
+                var strMessage = "";
+                if(data.Status === 0){
+                    strMessage = data.Result;
+                }else if(data.Status === 1){
+                    strMessage = data.ErrorMessage + "\r\n"  + data.ErrorStackTrace;
+                }else{
+                    strMessage = data.ErrorMessage;
+                }
+                //console.log(data);
+                alert(strMessage);
+            }
+        });
+        console.log(x);
     });
 
     @for (int i = 0; i < Model.ThresholdItems.Length; ++i)
