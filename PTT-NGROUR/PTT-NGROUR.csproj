@@ -504,6 +504,7 @@
     <Content Include="Scripts\bootstrap-select-1.12.4\sass\variables.scss" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\Chart\Chart.js" />
+    <Content Include="Scripts\Chart\Chart.PieceLabel.min.js" />
     <Content Include="Scripts\DataTables\DataTables-1.10.16\css\dataTables.bootstrap.css" />
     <Content Include="Scripts\DataTables\DataTables-1.10.16\css\dataTables.bootstrap.min.css" />
     <Content Include="Scripts\DataTables\DataTables-1.10.16\css\dataTables.bootstrap4.css" />
