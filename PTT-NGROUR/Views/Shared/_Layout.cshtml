@@ -44,7 +44,7 @@
         <!--   <div class="cover bg-center" style="background-image:url(http://localhost:13788/Content/Images/bg3.jpg);">-->
 
         <div id="header">
-            <nav class="navbar bg-blue5 hidden-xs hidden-sm  white" style="margin-bottom:0px;border-radius:0px;">
+            <nav class="navbar bg-blue5 hidden-xs hidden-sm  white" style="margin-bottom:0rem;border-radius:0px;padding:0rem 2rem 0rem 2rem">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -90,7 +90,7 @@
 
 
             <!--        Mobile version     -->
-            <div class="bg-blue5 shadow-2 hidden-lg hidden-md row" style="padding: 1rem 1rem; display: table;width:100%">
+            <div class="bg-blue5 shadow-2 hidden-lg hidden-md" style="padding: 1rem 1rem; display: table;width:100%">
 
                 <div class=" w-nav-menu col-sm-4" style=" float: left">
                     <a class="white no-underline form-inline v-mid" onclick="history.back(-1)" style=" float: left; line-height: 3px" href="#">
@@ -116,13 +116,16 @@
 
         <!--    Body    -->
         <!--<div id="body" class="bg-gray3 pb3-ns pb3-m">-->
-        <div id="body" class="bg-grey-100 pb5-ns pb3-m">
-
-            <div class=" w-100 mb1 pv1 hidden-xs hidden-sm shadow-bottom  ph5">
-                <div class="container-fluid">
-                    <div class="f6 lato "> @Html.MvcSiteMap().SiteMapPath()</div>
-                </div>
+        
+        <div class=" w-100 mb1 pv1 hidden-xs hidden-sm bg-white shadow-bottom">
+            <div class="container-fluid ">
+                <div class=" lato pull-left" style="padding-left: 2rem; padding-top: 1rem; padding-bottom: 1rem;"> @ViewBag.Title</div>
+                <div class=" lato pull-right" style="padding-right: 2rem; padding-top: 1rem; padding-bottom: 1rem"> @Html.MvcSiteMap().SiteMapPath()</div>
             </div>
+        </div>
+        <div id="body" class="bg-grey-100 ">
+
+           
 
 
             @RenderBody()
