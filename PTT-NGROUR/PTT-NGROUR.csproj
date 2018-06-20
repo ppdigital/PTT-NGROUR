@@ -157,6 +157,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthorizeController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LDAPSearch.cs" />
     <Compile Include="Controllers\SQLServerQuery.cs" />
@@ -594,10 +595,10 @@
     <Content Include="Views\Utilization\ThresholdSetting.cshtml" />
     <Content Include="Views\Utilization\PartialThresholdSettingScript.cshtml" />
     <Content Include="Views\Utilization\MenuUtilization.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Dashboard\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
