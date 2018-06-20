@@ -59,6 +59,33 @@ namespace PTT_NGROUR.Controllers
             return View(modelResult);
         }
 
+        [HttpPost]
+        public ActionResult SaveThresholdSetting(ModelThresholdItem[] pListThreshold)
+        {
+            var result = new ModelJsonResult<string>();
+            try
+            {
+                if(pListThreshold == null || !pListThreshold.Any())
+                {
+                    result.SetError("Input Is Null Or Empty");
+                    return Json(result);
+                }
+                var dto = new DTO.DtoUtilization();
+                foreach(var th in pListThreshold.Where(x => x != null))
+                {                    
+                    th.UPDATED_BY = User.Identity.Name;
+                    dto.UpdateThreshold(th);
+                }               
+                dto = null;
+                result.SetResultValue("Update Complete");
+                
+            }
+            catch (Exception ex)
+            {
+                result.SetException(ex);
+            }
+            return Json(result);
+        }
 
         public ActionResult Index()
         {
