@@ -637,8 +637,8 @@ select .inline{display: inline-block;}
  .pr-0-sm {padding-left: 0px}
  .w-25h-sm{width:250px}
  .pieGraph-sm{
-     width:30%;
-     height:30%
+     width:35%;
+     height:35%
   }
 
 }
@@ -651,8 +651,8 @@ select .inline{display: inline-block;}
 .border-left-md{border-left :.5px solid #ccc}
 .w-3h-md{width:300px}
 .scrollable-height-md{max-height:360px;overflow-y:scroll}
-.pieGraph-md{width:40%;
-             height:40%
+.pieGraph-md{width:50%;
+             height:50%
 }
    }
    .scrollable-height{max-height:350px;overflow-y:scroll}
@@ -664,8 +664,8 @@ select .inline{display: inline-block;}
 .border-left-lg{border-left: 1px solid rgba(0,0,0,.0625);}
 .w-4h-lg{width:400px}
 .scrollable-height-lg{max-height:360px;overflow-y:scroll}
-.pieGraph-lg{width:40%;
-             height:40%
+.pieGraph-lg{width:70%;
+             height:70%
 }
    }
 
