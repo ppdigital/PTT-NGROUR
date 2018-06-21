@@ -225,10 +225,10 @@ namespace PTT_NGROUR.Controllers
         }
 
         [HttpPost]
-        public JsonResult SearchRegionAll(int[] region)
+        public JsonResult SearchRegionAll()
         {
             var dal = new DAL.DAL();
-            var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU AND TYPE NOT LIKE 'METERING'";
+            var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE TYPE NOT LIKE 'METERING' AND REGION IS NOT NULL";
             var ds = dal.GetDataSet(searchregion);
 
 
