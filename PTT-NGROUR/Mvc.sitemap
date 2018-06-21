@@ -5,7 +5,7 @@
 
   <mvcSiteMapNode title="Home" controller="Home" action="MenuWeb">
     <mvcSiteMapNode title="Dashboard" controller="Dashboard" action="Index"/>
-    <mvcSiteMapNode title="Utilization" controller="Utilization" action="Menu_Utilization">
+    <mvcSiteMapNode title="Utilization" controller="Utilization" action="MenuUtilization">
       <mvcSiteMapNode title="Utilization" controller="Utilization" action="Index"/>
       <mvcSiteMapNode title="Customer Management" controller="Utilization" action="CustManage"/>
       <mvcSiteMapNode title="Threshold Setting" controller="Utilization" action="ThresholdSetting"/>

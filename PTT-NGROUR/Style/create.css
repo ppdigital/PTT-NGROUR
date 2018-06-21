@@ -622,6 +622,9 @@ select .inline{display: inline-block;}
  .pieGraph-xs{width:300px;
              height:300px
 }
+    .h7-xs {
+        font-size: 8px !important;
+    }
 
  } 
 
@@ -786,3 +789,14 @@ html, body{height:100%; margin:0;padding:0}
 .ph2{padding-left:2rem; padding-right:2rem;}
 .pv5{padding-top:.5rem; padding-bottom:.5rem;}
 .pt5{padding-top:.5rem; }
+
+.input100:focus {
+  outline: 0;
+  outline-color: transparent;
+  outline-style: none;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+.cr{clear:right;}

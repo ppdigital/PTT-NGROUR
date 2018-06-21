@@ -1,54 +1,78 @@
 ﻿@model PTT_NGROUR.Models.ViewModel.ModelThreshold
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Threshold Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container-fluid ph0-xs">
+    <br />
+    <div class="ph2 ph0-xs">
+        <div class=" p-3 mb-2 col-container col-container-white text-dark">
+            <div class="ph0-xs" style="padding-bottom:1rem;padding-top:1rem;padding-left:1rem;padding-right:1rem;">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="h7-xs">Color</th>
+                            <th class="h7-xs">Type</th>
+                            <th class="h7-xs">Min<span class="pull-right">Max</span><span class="cr"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int j = 0; j < Model.ThresholdItems.Length; ++j)
+                        {
+                            <tr>
+                                <td><div class="circleBase" style="background-color: @Model.ThresholdItems[j].COLOR_HEX"></div> </td>
+                               @if (@Model.ThresholdItems[j].ThresholdType.ToString() == "GateStation")
+                        {
+                   <td class="h7-xs">Gate Station (%)</td>}
+                          else if (@Model.ThresholdItems[j].ThresholdType.ToString() == "PipeLine")
+                         {
+                            <td class="h7-xs">Pipeline (ft/s)</td>} 
+                                <td class="col-xs-12">
 
-<h2>Index</h2>
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>Color</th>
-            <th>Type</th>
-            <th>Min / Max</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int j = 0; j < Model.ThresholdItems.Length; ++j)
-        {
-            <tr>
-                <td><div class="circleBase" style="background-color: @Model.ThresholdItems[j].Color"></div> </td>
-                <td>@Model.ThresholdItems[j].ThresholdType.ToString()</td>
-                <td>
-                    <div class="input-group" style="">
-                        <input type="number"
-                               id="@("numMin" + j.ToString())"
-                               style="width:100px;"
-                               class="form-control "
-                               value="@Model.ThresholdItems[j].MinValue">
-                        <div class="input-group-addon"
-                             style="width:100%"
-                             id="@("divSlider" + j.ToString())"
-                             data-min="@Model.ThresholdItems[j].MinValue"
-                             data-max="@Model.ThresholdItems[j].MaxValue"></div>
-                        <input id="@("numMax" + j.ToString())"
-                               type="number"
-                               style="width:100px;"
-                               class="form-control "
-                               value="@Model.ThresholdItems[j].MaxValue">
-                    </div>
-                </td>
-            </tr>
-        }
+                                    <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2" style="padding-left:0rem;padding-right:0rem;">
+                                            <input type="number"
+                                                   id="@("numMin" + j.ToString())"
+                                                   class="form-control input-sm h7-xs"
+                                                   value="@Model.ThresholdItems[j].MinValue" />
+                                        </div>
+                                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-8" style="padding-left:0rem;padding-right:0rem;">
+                                            <div class="input-group-addon input-sm h7-xs"
+                                                 id="@("divSlider" + j.ToString())"
+                                                 data-min="@Model.ThresholdItems[j].MinValue"
+                                                 data-max="@Model.ThresholdItems[j].MaxValue"
+                                                 style="height: 30px !important;">
+
+                                            </div>
+                                        </div>
+                                        <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-2" style="padding-left:0rem;padding-right:0rem;">
+                                            <input id="@("numMax" + j.ToString())"
+                                                   type="number"
+                                                   class="form-control input-sm h7-xs"
+                                                   value="@Model.ThresholdItems[j].MaxValue" />
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
 
 
-    </tbody>
+                    </tbody>
 
-</table>
-<div id="flat-slider"></div>
-<button id="btnSave" class="btn btn-success">
-    <i class="glyphicon glyphicon-save"></i>&nbsp;SAVE
-</button>
+                </table>
+              <!--  <div id="flat-slider"></div>-->
+               
+                    <button id="btnSave" class="btn btn-success pull-right" type="button">
+                        <i class="glyphicon glyphicon-save"></i>&nbsp;SAVE
+                    </button><span class="cr"></span>
+                <br /><br />
+
+            </div>
+        </div>
+    </div>
+</div>
 @section style{
     @*<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/simeydotme/jQuery-ui-Slider-Pips/master/dist/jquery-ui-slider-pips.css" />*@
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
@@ -63,17 +87,17 @@
         }
 
         .ui-slider {
-            background: #d5cebc;
+            background: #f9fafb;
             border: none;
             border-radius: 0;
         }
 
             .ui-slider .ui-slider-handle {
                 width: 20px;
-                height: 100%;
-                border-radius: 5px;
-                border-color: gray;
-                top: 0;
+                height: 70%;
+                border-radius: 50px;
+                border-color: #babfc4;
+                top: 5px;
             }
 
                 .ui-slider .ui-slider-handle.ui-state-hover,
@@ -84,9 +108,9 @@
 
         /*.ui-slider .ui-slider-pip*/
         .ui-slider-pips .ui-slider-line {
-            background: rgba(0,0,255,0.25) !important;
+            background: #b3bfca !important;
             height: 100% !important;
-            width: 2px;
+            width: 1px;
         }
 
         .ui-slider-pips .ui-slider-pip {
@@ -94,7 +118,7 @@
         }
 
         .ui-slider-range {
-            background-color: rgba(0,0,255,0.2);
+            background-color: rgba(3, 138, 255, 0.35);
         }
 
         .ui-slider-pip {
@@ -106,7 +130,21 @@
             top: 40% !important;
             left: 0 !important;
             width: 0 !important;
-            color: blue;
+            color: #847a7a;
+        }
+        .ui-state-active {
+            border-color: #172f38 ;
+        }
+        .ui-slider-horizontal .ui-slider-range {
+            top: 6px !important;
+            height: 60% !important;
+        }
+        .btn-success {
+            background-image: none !important;
+            border-radius: 0px;
+            text-shadow: 0 0px 0 rgba(0,0,0,0);
+            border-color: transparent;
+            
         }
     </style>
 }

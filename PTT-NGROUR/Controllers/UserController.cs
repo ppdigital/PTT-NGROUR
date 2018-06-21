@@ -63,7 +63,7 @@ namespace PTT_NGROUR.Controllers
                     con.Dispose();
                     #endregion
                     //return RedirectToAction("Index", "Dashboard");
-                    return RedirectToAction("UserManagement", "Admin");
+                    return RedirectToAction("MenuWeb", "Home");
                     //return RedirectToAction("ResetPassword", "User");
                 }
                 else
