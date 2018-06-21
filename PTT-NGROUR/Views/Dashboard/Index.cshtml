@@ -109,21 +109,21 @@
                                 <div class="form-inline">
                                     <center>
                                         <div class="input-group">
-                                            <div class="input-group-btn col-lg-1 col-md-3" style="padding-left:0rem;padding-right:0rem;">
+                                            <div class="input-group-btn col-lg-1 col-md-3 col-sm-3 col-xs-3" style="padding-left:0rem;padding-right:0rem;">
 
                                                 <select class="form-control form-control-sm fz-12px" id="type-filter" style="height: 30px !important;">
                                                     <option id="seAll" class="fz-12px drop_role" value="all">All</option>
                                                     <option id="sePipeline" class="fz-12px drop_role" value="PIPELINE">Pipeline</option>
                                                     <option id="seGate" class="fz-12px drop_role" value="GATESTATION">Gate Station</option>
-                                                    <option id="seMetering" class="fz-12px drop_role" value="METERING">Metering</option>
+                                                    
                                                 </select>
 
                                             </div>
 
-                                            <div class="input-group-btn col-lg-2 col-md-6" style="padding-left:0rem;padding-right:0rem;">
+                                            <div class="input-group-btn col-lg-2 col-md-6 col-sm-6 col-xs-6" style="padding-left:0rem;padding-right:0rem;">
                                                 <input id="txtSearch" class="form-control input-sm " type="text" aria-describedby="name-desc" onkeyup="myFunction()">
                                             </div>
-                                            <div class="input-group-btn col-lg-1 col-md-3" style="padding-left:0rem;padding-right:0rem;">
+                                            <div class="input-group-btn col-lg-1 col-md-3 col-sm-3 col-xs-3" style="padding-left:0rem;padding-right:0rem;">
 
                                                 <select class="form-control form-control-sm fz-12px" id="threshold-filter" style="height: 30px !important;">
                                                     <option id="seAllThres" class="fz-12px drop_role" value="all">All Threshold</option>
@@ -170,6 +170,9 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 document.getElementById('seLicense').style.display = 'none';
+                $('#MultiRegion').selectpicker('selectAll');
+
+
 
             });
 
