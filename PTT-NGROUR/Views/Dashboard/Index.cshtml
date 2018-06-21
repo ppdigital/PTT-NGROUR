@@ -171,9 +171,6 @@
             $(document).ready(function () {
                 document.getElementById('seLicense').style.display = 'none';
                 $('#MultiRegion').selectpicker('selectAll');
-
-
-
             });
 
             function Check() {
@@ -204,13 +201,16 @@
 
             function Search() {
                 let url;
+                let graphurl;
                 let multidata;
                 if (document.getElementById('radioRegion').checked) {
                     url = '@Url.Action("SearchRegion")';
+                    graphurl = '@Url.Action("SearchGraphRegion")';
                     multidata = SeRegion;
                 }
                 else if (document.getElementById('radioLicense').checked) {
                     url = '@Url.Action("SearchLicense")';
+                    graphurl = '@Url.Action("SearchGraphLicense")';
                     multidata = SeLicense;
                 }
                 $.ajax({
@@ -246,7 +246,91 @@
                         }
                     },
                     error: function (result) {
-                        alert('Fail ');
+                        alert('Please select the data');
+                    }
+                });
+
+                Chart.defaults.global.legend.labels.usePointStyle = true;
+                Chart.defaults.doughnutLabels = Chart.helpers.clone(Chart.defaults.doughnut);
+                var helpers = Chart.helpers;
+                var defaults = Chart.defaults;
+                $.ajax({
+                    type: "POST",
+                    url: graphurl,
+                    data: JSON.stringify(multidata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (chData) {
+                        var aData = chData;
+                        var aLabels = aData[0];
+                        var aDatasets1 = aData[1];
+                        var dataT = {
+                            labels: aLabels,
+                            datasets: [{
+                                label: "Test Data",
+                                data: aDatasets1,
+                                fill: false,
+                                backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                                hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                                borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                                borderWidth: 1
+                            }]
+                        };
+                        var ctx = $("#pieGate").get(0).getContext("2d");
+                        var myNewChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: dataT,
+                            options: {
+                                responsive: true,
+                                pieceLabel: { mode: 'value', fontColor: 'white' },
+                                title: { display: true },
+                                legend: { position: 'bottom' },
+                                scales: {
+                                    xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
+                                    yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
+                                },
+                            }
+                        });
+                    }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: graphurl,
+                    data: JSON.stringify(multidata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (chData) {
+                        var aData = chData;
+                        var aLabels = aData[0];
+                        var aDatasets1 = aData[1];
+                        var dataT = {
+                            labels: aLabels,
+                            datasets: [{
+                                label: "Test Data",
+                                data: aDatasets1,
+                                fill: false,
+                                backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                                hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                                borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                                borderWidth: 1
+                            }]
+                        };
+                        var ctx = $("#piePipeline").get(0).getContext("2d");
+                        var myNewChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: dataT,
+                            options: {
+                                responsive: true,
+                                pieceLabel: { mode: 'value', fontColor: 'white' },
+                                title: { display: true },
+                                legend: { position: 'bottom' },
+                                scales: {
+                                    xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
+                                    yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
+                                },
+                            }
+                        });
                     }
                 });
 
@@ -411,6 +495,44 @@
                             },
                         }
                     });
+                }
+            });
+
+            //////////////////////////////////////
+
+            $.ajax({
+                url: "/Dashboard/SearchRegionAll",
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                datatype: 'json',
+                success: function (data) {
+                    $('#utilTbl').find('tbody tr').each(function () {
+                        this.remove();
+                    });
+                    for (let i in data) {
+                        if (data[i].COLOR == 'Green') {
+                            data[i].COLOR = '<span class="fa fa-circle " style="color:#16a085"></span>'
+                            color1 = "green"
+                            console.log(color1);
+                        } else if (data[i].COLOR == 'Yellow') {
+                            data[i].COLOR = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
+                            color1 = "yellow"
+                            console.log(color1);
+                        } else if (data[i].COLOR == 'Red') {
+                            data[i].COLOR = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
+                            color1 = "red"
+                        } else {
+                            data[i].COLOR = "";
+                            color1 = "no"
+                        }
+                        console.log('color1' + color1);
+                        console.log('data' + data[i].NO);
+
+                        $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
+                    }
+                },
+                error: function (result) {
+                    alert('Please select the data');
                 }
             });
         </script>
