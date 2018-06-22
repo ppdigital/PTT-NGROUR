@@ -1,6 +1,8 @@
 ﻿<script>
 
-   
+    var _graphPipeLine = null;
+
+    var _graphGate = null;   
 
     function Search() {
         let url;
@@ -94,14 +96,19 @@
         };
 
         let strIdPie = "";
+        let objGraph = null;
         if (pStrMode === "PIPELINE") {
             strIdPie = "#piePipeline";
+            objGraph = _graphPipeLine;
         } else if (pStrMode === "GATE") {
             strIdPie = "#pieGate";
+            objGraph = _graphGate
         }
-
+        if (objGraph != null) {
+            objGraph.destroy();            
+        }
         let ctx = $(strIdPie).get(0).getContext("2d");
-        let myNewChart = new Chart(ctx, {
+        objGraph = new Chart(ctx, {
             type: 'doughnut',
             data: dataT,
             options: {
@@ -115,8 +122,7 @@
                 },
             }
         });
-
-        myNewChart.update();
+        objGraph.update();
     }
 
 </script>
