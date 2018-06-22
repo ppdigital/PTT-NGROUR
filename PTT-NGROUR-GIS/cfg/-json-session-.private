@@ -1,0 +1,20 @@
+﻿{
+	"session": {
+		"USER_ID": "999999999",
+		"TITLE": "Guest",
+		"NAME": "ผู้ใช้งาน",
+		"SURNAME": "ทั่วไป",
+		"DEPT1": "1",
+		"DEPT2": "1",
+		"DEPT3": null,
+		"DEPT4": null,
+		"POSITION": null,
+		"ROLE_ID": "89",
+		"ADDRESS": null,
+		"TEL": null,
+		"EMAIL": null,
+		"STATUS": "1",
+		"IMG": null,
+		"RESERVED": null
+	}
+}

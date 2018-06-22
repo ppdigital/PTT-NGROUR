@@ -1,0 +1,57 @@
+﻿<div class="ui-hidden">
+    <style type="text/css">
+        /*append css here*/
+    </style>
+    <script type="text/javascript">
+        require([
+            "dojo/dom-style",
+            "dojo/dom",
+            "dojo/on",
+            "dijit/registry",
+            "dojo/_base/lang",
+            "dojo/ready",
+            "dojo/dom-construct",
+
+            "esri/map",
+
+            "widgets/Routing/Widget"
+
+        ], function (
+            domStyle,
+            dom,
+            on,
+            registry,
+            lang,
+            ready,
+            domConstruct,
+
+            Map,
+
+            Routing
+           ) {
+            ready(function () {
+                /*append script here*/
+                var map = new Map("mapDiv", {
+                    basemap: "streets",
+                    center: [100.5, 13.8],
+                    zoom: 13
+                });
+
+                on(map, "load", function () {
+                    var routing = new Routing({ map: map });
+                    domConstruct.place(routing.domNode, dom.byId("routingDiv"), "only");
+                });
+
+            });
+        });
+    </script>
+</div>
+<div class="ui-body ui-overflow-auto">
+    <!--append content here-->
+    <div id="routingDiv" style="float:left; width:400px;">
+        test
+    </div>
+    <div id="mapDiv" style="float:left; width:800px;">
+
+    </div>
+</div>

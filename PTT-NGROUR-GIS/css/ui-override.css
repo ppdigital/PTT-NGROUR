@@ -1,0 +1,124 @@
+﻿/* Add By nattawit.kr 2018/06/15*/
+.amos-textbox {
+    /*display: block !important;*/
+    margin-bottom: 6px;
+    -webkit-backface-visibility: hidden;
+}
+
+    .amos-textbox .amos-icon-x {
+        margin: .7em .8em 0 0;
+    }
+
+    .amos-textbox.amos-form-required .amos-label-container:after {
+        content: "*";
+        color: #d32330;
+        position: absolute;
+    }
+
+    .amos-textbox > .amos-label-container {
+        margin-right: 10px;
+    }
+
+        .amos-textbox > .amos-label-container > .amos-textbox-label {
+            width: auto;
+        }
+
+    .amos-textbox > .amos-textbox-container {
+        position: relative;
+    }
+
+        .amos-textbox > .amos-textbox-container > .amos-textbox-message {
+            position: absolute;
+            right: 0;
+            width: 100%;
+            text-align: right;
+            line-height: 16px;
+            font-size: 12px;
+        }
+
+        .amos-textbox > .amos-textbox-container > .amos-textbox-input {
+            display: block !important;
+            border-radius: 4px;
+            -webkit-backface-visibility: hidden;
+            background-color: #EAF4FF;
+        }
+
+    .amos-textbox input {
+        height: 30px !important;
+        padding: 4px 8px;
+    }
+
+.amos-textbox-layout {
+    height: 30px !important;
+}
+
+.amos-textbox-input:hover {
+    box-shadow: 0 0 1px rgb(4, 147, 200);
+}
+
+.amos-textbox.amos-form-focus .amos-textbox-input,
+.amos-textarea.amos-form-focus .amos-textarea-input {
+    border: 1px solid rgb(4, 147, 200) !important;
+    box-shadow: 0 0 1px rgb(4, 147, 200) !important;
+}
+
+.amos-textarea.amos-form-disabled .amos-textarea-input {
+    box-shadow: none;
+}
+
+*::-moz-placeholder {
+    font-style: normal;
+}
+
+.amos-dropdown {
+    /*background-color: #bebebe !important;
+    position: fixed !important;*/
+}
+
+.amos-dropdown-inner {
+    /*max-height: 140px !important;*/
+}
+
+.amos-date-textbox .amos-dropdown-inner {
+    /*max-height: 180px !important;*/
+}
+
+.amos-dropdown-inner *:not(.amos-list-no-item):not(.amos-calendar-cell) {
+    overflow: visible;
+    white-space: normal;
+    text-align: left;
+}
+
+.amos-list-li-item {
+    padding: 4px 8px;
+    -webkit-backface-visibility: hidden;
+    background-color: #FAF4FF;
+}
+
+.amos-dropdown-inner *:not(.amos-list-no-item):not(.amos-calendar-cell) {
+    overflow: visible;
+    white-space: normal;
+    text-align: left;
+}
+/*End Add By nattawit.kr 2018/06/15*/
+
+.esriPopup .titlePane {
+    height: 30px;
+    background-color: white;
+    color: #337FD4;
+    line-height: 30px;
+    border-bottom: 1px solid #E2E2E1;
+}
+
+.esriPopup .titleButton {
+    top: 6px;
+}
+
+    .esriPopup .titleButton.maximize {
+        display: none;
+    }
+
+.esriPopup .actionsPane,
+.esriPopup .contentPane {
+    background-color: white;
+}

@@ -1,0 +1,78 @@
+﻿@font-face {
+    font-family: "Kanit";
+    font-style: normal;
+    font-weight: normal;
+    src: url("../fonts/Kanit/Kanit-Regular.ttf") format("truetype");
+}
+
+body * {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+}
+
+body {
+    font-family: Kanit;
+    font-size: 14px;
+    letter-spacing: 0.72px;
+    line-height: 24px;
+}
+
+body, html, .ui-body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+.container-body{
+    padding: 14px 20px;
+    background-color: rgba(255,255,255,1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+.container-footer{
+    padding: 15px 20px;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .only-medium:not(.only-small) {
+        display: none !important;
+    }
+
+    .only-large:not(.only-small) {
+        display: none !important;
+    }
+}
+
+
+/*@media only screen and (min-width: 769px) and (max-width: 1280px) {*/
+@media only screen and (min-width: 769px) and (max-width: 1100px) {
+
+    .only-small:not(.only-medium) {
+        display: none !important;
+    }
+
+    .only-large:not(.only-medium) {
+        display: none !important;
+    }
+}
+
+
+/*@media only screen and (min-width: 1281px) {*/
+@media only screen and (min-width: 1101px) {
+
+    .only-small:not(.only-large) {
+        display: none !important;
+    }
+
+    .only-medium:not(.only-large) {
+        display: none !important;
+    }
+}

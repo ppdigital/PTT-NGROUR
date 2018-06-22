@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>PTT-OUR</title>
+    <meta charset="utf-8" />
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        iframe {
+            width: calc(100vw - 2px);
+            height: calc(50vh - 2px);
+            border: 1px solid black;
+        }
+
+        .div-main {
+            transform: translate(0,0);
+            display: inline-block;
+        }
+
+        @media only screen and (min-width: 769px) {
+            iframe {
+                width: 1000px;
+                height: 800px;
+            }
+
+            .div-main {
+                transform: translate(10px,10px);
+            }
+        }
+    </style>
+    <script>
+        var misJSON = null;
+        function sendInput() {
+            console.log(document.getElementById("inputData"));
+            misJSON = eval("(" + document.getElementById("inputData").value + ")");
+        }
+    </script>
+</head>
+<body>
+    <div class="div-main">
+        input <textarea id="inputData"></textarea>
+        <input type="button" value="send" id="buttonSend" onclick="sendInput()" />
+
+        <br />
+        <iframe src="Page.aspx" width="1000" height="800"></iframe>
+    </div>
+</body>
+</html>

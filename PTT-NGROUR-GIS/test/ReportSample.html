@@ -1,0 +1,146 @@
+﻿<div class="ui-hidden">
+    <style type="text/css">
+        /*append css here*/
+        tr {
+            vertical-align: top;
+        }
+    </style>
+    <script type="text/javascript">
+        require([
+            "dojo/dom-style",
+            "dojo/dom",
+            "dojo/on",
+            "dijit/registry",
+            "dojo/_base/lang",
+            "dojo/query",
+
+            "core/_ReportMixin",
+
+            "dojo/ready"
+        ], function (
+            domStyle,
+            dom,
+            on,
+            registry,
+            lang,
+            query,
+
+            _ReportMixin,
+
+            ready
+           ) {
+            ready(function () {
+                /*append script here*/
+                var rpt = new _ReportMixin();
+
+                on(dom.byId("btnReport"), "click", lang.hitch(this, function () {
+                    var chks = query("input[type=checkbox]:checked");
+                    console.log("chks", chks);
+                    var arrChk = [];
+                    chks.forEach(lang.hitch(this, function (o) {
+                        console.log(o, o.value);
+                        arrChk.push(o.value);
+                    }));
+
+
+                    var config = {
+                        "RDLC_PATH": dom.byId("rptRdlc").value, //**require เป็น path ของ rdlc ที่อยู่ใน reports/rdlc/
+                        "REPORT_PAGE": dom.byId("rptPage").value, //default จะเป็น reports/Report.aspx
+                        "REPORT_NAME": dom.byId("rptName").value, //สำหรับ Title และ Export File
+                        "DISABLE_EXPORT": arrChk.join(","), //ระบุ format ที่ต้องการปิด excel,word,pdf โดย default จะเปิดทั้งหมด
+                        "IFRAME": null //ระบุ iframe ที่ต้องการให้ report ไปแสดง หากไม่ระบุจะเปิดเป็น tab ใหม่
+                    };
+
+                    var parameters = { //parameters จะไปสร้าง Report Parameter ใน RDLC ให้ตามชื่อที่กำหนดใน json object และต้องไปสร้างใน RDLC ให้ชื่อตรงกัน
+                        "REPORT_TITLE": dom.byId("rptTitle").value,
+                        "VERSION": dom.byId("rptVersion").value,
+                        "IMG": dom.byId("rptImage").value
+                    }
+
+                    //datasets จะไปสร้าง DataSet ให้ใน RDLC ตามชื่อที่กำหนดใน json object และต้องไปสร้าง DataSet ให้ตรงกันใน RDLC
+                    //กรณี store ส่ง SP และ parameter 
+                    //กรณีมี data อยู่แล้วส่งไปได้เลยเป็น array of json
+                    var datasets = { 
+                        "dataset1": {
+                            "SP": "UM_Q_USER_SEARCH",
+                            "KEYWORD": "",
+                            "BEGIN": 0,
+                            "END": 10
+                        },
+                        "dataset2": {
+                            "SP": "UM_Q_ROLE_LIST"
+                        },
+                        "dataset3": [
+                            { FIELD1: "value 1", FIELD2: "value 2", FIELD3: "value 3", FIELD4: "value 4" },
+                            { FIELD1: "value 1", FIELD2: "value 2", FIELD3: "value 3", FIELD4: "value 4" },
+                            { FIELD1: "value 1", FIELD2: "value 2", FIELD3: "value 3", FIELD4: "value 4" }
+                        ]
+                    };
+
+                    //require "core/_ReportMixin" แล้วเรียกใช้ openReport() สำหรับเปิด report
+                    rpt.openReport(parameters, datasets, config);
+                }));
+            });
+        });
+    </script>
+</div>
+<div class="ui-body ui-overflow-auto">
+    <!--append content here-->
+    <table>
+        <tr>
+            <td colspan="2">Report Parameter</td>
+        </tr>
+        <tr>
+            <td>Title</td>
+            <td>
+                <input id="rptTitle" type="text" value="รายงานตัวอย่าง" /><br />
+            </td>
+        </tr>
+        <tr>
+            <td>Version</td>
+            <td>
+                <input id="rptVersion" type="text" value="1.0" /></td>
+        </tr>
+        <tr>
+            <td>Image</td>
+            <td>
+                <input id="rptImage" type="text" value="http://157.179.28.135/amos/3.0/beta/images/template/sample-UM1.png" /></td>
+        </tr>
+    </table>
+    <br />
+    <table>
+        <tr>
+            <td colspan="2">Report Config</td>
+        </tr>
+        <tr>
+            <td>RDLC Path</td>
+            <td>
+                <input id="rptRdlc" type="text" value="ReportSample.rdlc" />
+            </td>
+        </tr>
+        <tr>
+            <td>Report Page</td>
+            <td>
+                <input id="rptPage" type="text" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>Report Name</td>
+            <td>
+                <input id="rptName" type="text" value="Report Sample" />
+            </td>
+        </tr>
+        <tr>
+            <td>Disable Export</td>
+            <td>
+                <input type="checkbox" name="DISABLE_EXPORT" id="chkExcel" value="excel" />
+                <label for="chkExcel">excel</label><br />
+                <input type="checkbox" name="DISABLE_EXPORT" id="chkPdf" value="pdf" />
+                <label for="chkPdf">pdf</label><br />
+                <input type="checkbox" name="DISABLE_EXPORT" id="chkWord" value="word" />
+                <label for="chkWord">word</label>
+            </td>
+        </tr>
+    </table>
+    <input id="btnReport" type="button" value="Open report" />
+</div>

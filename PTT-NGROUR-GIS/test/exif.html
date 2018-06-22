@@ -1,0 +1,67 @@
+﻿<div class="ui-hidden">
+    <style type="text/css">
+        /*append css here*/
+        .amos-textbox-label {
+            width: 7em;
+        }
+
+        .amos-checkbox-container {
+            margin-right: 5px;
+        }
+    </style>
+    <script type="text/javascript">
+        require([
+            "esrith/amos/form/FormValidator",
+            "esrith/amos/form/Upload",
+            "esrith/amos/form/Button",
+
+            "core/_WidgetBase",
+            "core/exif",
+
+            "dojo/dom-style",
+            "dojo/dom",
+            "dojo/on",
+            "dijit/registry",
+            "dojo/_base/lang",
+            "dojo/ready"
+        ], function (
+            FormValidator,
+            Upload,
+            Button,
+
+            _WidgetBase,
+            exif,
+
+            domStyle,
+            dom,
+            on,
+            registry,
+            lang,
+            ready
+           ) {
+            var frmUpload = null;
+            ready(function () {
+                /*append script here*/
+                var wgBase = new _WidgetBase();
+
+                document.getElementById("imgInput").onchange = function (e) {
+                    exif.getData(e.target.files[0], function () {
+                        console.log(exif.coordinateImage(e.target.files[0]));
+                    });
+                }
+            });
+
+            this.beforeSubmit = function () {
+                console.log("beforeSubmit arg ::", arguments);
+            }
+
+            this.afterSubmit = function () {
+                console.log("afterSubmit arg ::", arguments);
+            };
+        });
+    </script>
+</div>
+<div class="ui-body ui-overflow-auto">
+    <!--append content here-->
+    <input type="file" id="imgInput" />
+</div>

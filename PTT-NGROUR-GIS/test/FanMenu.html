@@ -1,0 +1,31 @@
+﻿<div class="ui-hidden">
+    <script type="text/javascript">
+        require([
+            "dojo/dom-style",
+            "dojo/dom",
+            "dojo/on",
+            "dijit/registry",
+            "dojo/_base/lang",
+            "dojo/ready",
+
+            "widgets/FanMenu/Widget"
+        ], function (
+            domStyle,
+            dom,
+            on,
+            registry,
+            lang,
+            ready,
+
+            _Widget
+           ) {
+            var frmUpload = null;
+            ready(function () {
+                top._wg = new _Widget({ automatic: true, parentNode: document.getElementById("content") });
+            });
+        });
+    </script>
+</div>
+<div class="ui-body ui-overflow-auto">
+    <div id="content" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0;"></div>
+</div>

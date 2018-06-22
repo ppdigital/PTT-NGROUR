@@ -1,0 +1,85 @@
+﻿<div class="amos-sample-header">
+    <style type="text/css">
+    </style>
+    <script type="text/javascript">
+        document.title = "Bookmark";
+        require([
+        "dojo/ready",
+        "config/app",
+        "dojo/dom",
+        "dijit/registry",
+        "dojo/on",
+        "dojo/_base/lang",
+        "esrith/amos/form/Button",
+
+        "esrith/amos/core/DataStore",
+        "esri/map",
+        //"esrith/amos/widgets/menuMap/config/MenuMap",
+
+        "widgets/Bookmark/widget"
+        ],
+
+        function (
+        ready,
+        AppConfig,
+        dom,
+        registry,
+        on,
+        lang,
+        Button,
+
+        DataStore,
+        Map,
+        //MenuMapConfig,
+
+        _Widget
+        ) {
+
+            ready(function () {
+                var map = new Map("divMap", { basemap: "streets" });
+                on(map, "load", function (res) {
+                    require(["widgets/BookMark/widget",
+                             "dojo/dom-construct", "dojo/dom", "dojo/on", "dojo/_base/lang"
+                    ]
+                        , lang.hitch(this, function (
+                                BookMark,
+                                domConstruct, dom, on, lang
+                                , _WidgetBase
+                            ) {
+
+                            var initParam = {
+                                map: map
+                                //,userId: "01"
+                            };
+
+                            var bookMark = new BookMark(initParam);
+                            domConstruct.place(bookMark.domNode, dom.byId("bmkWg"));
+
+                            on(bookMark, "add-complete", lang.hitch(this, function () {
+                                console.log("add-complete");
+                            }));
+                            on(bookMark, "update-complete", lang.hitch(this, function () {
+                                console.log("update-complete");
+                            }));
+                            on(bookMark, "delete-complete", lang.hitch(this, function () {
+                                console.log("delete-complete");
+                            }));
+
+                        }));
+                });
+            });
+
+        });
+    </script>
+</div>
+<div class="amos-sample-body" style="padding: 10px">
+
+    <div id="divContentMap" data-dojo-type="dijit/layout/ContentPane">
+        <div id="divMenuMap">
+        </div>
+        <div id="divMap" data-dojo-type="" data-dojo-props="" style="width: 95%; height: auto; border: 1px solid #000; margin: 10px auto;">
+            <div id="bmkWg" style="position: absolute; background-color: white; z-index: 1; border: 1px solid; left: 28px; width: 260px; top: 120px; height: 300px;">
+            </div>
+        </div>
+    </div>
+</div>

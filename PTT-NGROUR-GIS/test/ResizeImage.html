@@ -1,0 +1,84 @@
+﻿<div class="ui-hidden">
+    <style type="text/css">
+        /*append css here*/
+        .amos-textbox-label {
+            width: 7em;
+        }
+
+        .amos-checkbox-container {
+            margin-right: 5px;
+        }
+    </style>
+    <script type="text/javascript">
+        require([
+            "esrith/amos/form/FormValidator",
+            "esrith/amos/form/Upload",
+            "esrith/amos/form/TextBox",
+            "esrith/amos/form/CheckBox",
+            "esrith/amos/form/Button",
+
+            "core/_WidgetBase",
+
+            "dojo/dom-style",
+            "dojo/dom",
+            "dojo/on",
+            "dijit/registry",
+            "dojo/_base/lang",
+            "dojo/ready"
+        ], function (
+            FormValidator,
+            Upload,
+            TextBox,
+            CheckBox,
+            Button,
+
+            _WidgetBase,
+
+            domStyle,
+            dom,
+            on,
+            registry,
+            lang,
+            ready
+           ) {
+            var frmUpload = null;
+            ready(function () {
+                /*append script here*/
+                frmUpload = registry.byId("frmUpload");
+                var wgBase = new _WidgetBase();
+                var dataStore = wgBase.reqDS("COOR_IMAGE");
+                frmUpload.set("dataStore", dataStore);
+                //action = dataStore.url;
+                console.log(frmUpload);
+
+            });
+
+            this.beforeSubmit = function () {
+                console.log("beforeSubmit arg ::", arguments);
+            }
+
+            this.afterSubmit = function () {
+                console.log("afterSubmit arg ::", arguments);
+            };
+        });
+    </script>
+</div>
+<div class="ui-body ui-overflow-auto">
+    <!--append content here-->
+    <form id="frmUpload"
+          data-dojo-type="esrith/amos/form/FormValidator"
+          data-dojo-props="beforeSubmit: beforeSubmit, afterSubmit: afterSubmit"
+          enctype="multipart/form-data">
+        <!--<div data-dojo-type="esrith/amos/form/Upload" data-dojo-props="label:'IMAGE_FILE'"></div>-->
+        <div data-dojo-type="esrith/amos/form/TextBox" data-dojo-props="label:'IMAGE_URL', name:'IMAGE_URL'"></div>
+        <div data-dojo-type="esrith/amos/form/TextBox" data-dojo-props="label:'FILE_SIZE', name:'FILE_SIZE', value:'128000'"></div>
+
+      
+       
+        <div data-dojo-type="esrith/amos/form/TextBox" data-dojo-props="label:'WIDTH', name:'WIDTH',value:'1080'"></div>
+        <div data-dojo-type="esrith/amos/form/TextBox" data-dojo-props="label:'HEIGHT', name:'HEIGHT',value:'900'"></div>
+
+        <div data-dojo-type="esrith/amos/form/CheckBox" data-dojo-props="label:'AUTO_RATIO', name:'AUTO_RATIO', value:true, checked: true" style="display:block"></div>
+        <div data-dojo-type="esrith/amos/form/Button" data-dojo-props="label:'Upload', type:'submit'" style="margin-top: 10px;"></div>
+    </form>
+</div>

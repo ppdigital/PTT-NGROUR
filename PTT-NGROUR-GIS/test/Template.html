@@ -1,0 +1,34 @@
+﻿<div class="ui-hidden">
+    <style type="text/css">
+        /*append css here*/
+    </style>
+    <script type="text/javascript">
+        require([
+            "dojo/dom-style",
+            "dojo/dom",
+            "dojo/on",
+            "dijit/registry",
+            "dojo/_base/lang",
+            "dojo/ready"
+        ], function (
+            domStyle,
+            dom,
+            on,
+            registry,
+            lang,
+            ready
+           ) {
+            ready(function () {
+                /*append script here*/
+            });
+        });
+    </script>
+</div>
+<div class="ui-body ui-overflow-auto">
+    <!--append content here-->
+    <form action="services/DataService.svc/DS_FILE_UPLOAD" enctype="multipart/form-data" method="post">
+        <input type="text" name="param" value="test" />
+        <input type="file" name="test" />
+        <input type="submit" />
+    </form>
+</div>

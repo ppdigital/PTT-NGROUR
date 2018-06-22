@@ -1,0 +1,21 @@
+﻿<div class="ui-body">
+    <div class="widget-valign-ref"></div>
+    <form class="widget-login-form" data-dojo-attach-point="frmValid" data-dojo-type="esrith/amos/form/FormValidator">
+        <div data-dojo-attach-point="txtUsername" data-dojo-type="esrith/amos/form/TextBox"
+            class="login-name-textbox"
+            style="width: 100%;"
+            data-dojo-props="required: true, name:'USERNAME', placeHolder: '${nlsGlobal.textbox.login.username}', value:'user01', requiredMessage: '${nlsGlobal.textbox.errorRequired}'">
+        </div>
+        <div data-dojo-type="esrith/amos/form/TextBox"
+            class="login-pass-textbox"
+            style="width: 100%"
+            data-dojo-props="required: true, type:'password', name:'PASSWORD', placeHolder: '${nlsGlobal.textbox.login.password}', value:'user01', requiredMessage: '${nlsGlobal.textbox.errorRequired}'">
+        </div>
+        <div data-dojo-type="esrith/amos/form/Button"
+            data-dojo-attach-point="btnLogin"
+            class="login-name-textbox"
+            data-dojo-props="label: '${nlsGlobal.button.login}'">
+        </div>
+        <div data-dojo-attach-point="divForgetPass" class="amos-hide ui-forget-password">Forget Password</div>
+    </form>
+</div>
