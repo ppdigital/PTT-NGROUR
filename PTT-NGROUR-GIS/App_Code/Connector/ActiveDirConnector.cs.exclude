@@ -1,0 +1,113 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Web;
+
+/// <summary>
+/// Summary description for ActiveDirConnector
+/// </summary>
+namespace Connector
+{
+    public class ActiveDirConnector
+    {
+        private static string _AssemblyName = "System.DirectoryServices";
+        private static Assembly _Assembly = null;
+        private static Type _DirectoryEntry = null;
+        private static Type _DirectorySearcher = null;
+        private static Type _SearchResult = null;
+        private static Type _PropertyCollection = null;
+        private static Type _PropertyValueCollection = null;
+
+
+
+        public string Path = string.Empty;
+        public string Domain = string.Empty;
+        public string DefaultUserName = string.Empty;
+        public string DefaultPassword = string.Empty;
+
+        public List<string> ExceptedProperties = new List<string>() { 
+            "objectCategory",
+            "objectClass",
+            "objectGUID",
+            "objectSid",
+            "userCertificate"
+        };
+
+        public ActiveDirConnector()
+        {
+            //
+            // TODO: Add constructor logic here
+            //
+            if (_Assembly == null)
+            {
+                _Assembly = Util.AssemblyFromName(_AssemblyName);
+                _DirectoryEntry = _Assembly.GetType(string.Format("{0}.{1}", _AssemblyName, "DirectoryEntry"));
+                _DirectorySearcher = _Assembly.GetType(string.Format("{0}.{1}", _AssemblyName, "DirectorySearcher"));
+                _SearchResult = _Assembly.GetType(string.Format("{0}.{1}", _AssemblyName, "SearchResult"));
+                _PropertyCollection = _Assembly.GetType(string.Format("{0}.{1}", _AssemblyName, "PropertyCollection"));
+                _PropertyValueCollection = _Assembly.GetType(string.Format("{0}.{1}", _AssemblyName, "PropertyValueCollection"));
+            }
+
+            Path = AMSCore.WebConfigReadKey("AD_PATH");
+            Domain = AMSCore.WebConfigReadKey("AD_DOMAIN");
+            DefaultUserName = AMSCore.WebConfigReadKey("AD_USERNAME");
+            DefaultPassword = AMSCore.WebConfigReadKey("AD_PASSWORD");
+        }
+
+        public Dictionary<string, object> Authen(string username, string password)
+        {
+            Dictionary<string, object> userDetail = null;
+            string domainAndUsername = null;
+            object entry = null;
+            object deSearch = null;
+            object result = null;
+            object drEntry = null;
+            object propEntry = null;
+            System.Collections.Specialized.StringCollection propertiesToLoad = null;
+            System.Collections.IDictionaryEnumerator enumEntry = null;
+
+            try
+            {
+                domainAndUsername = string.Format(@"{0}\{1}", this.Domain, username);
+                entry = Activator.CreateInstance(_DirectoryEntry, new object[] { this.Path, domainAndUsername, password });
+                deSearch = Activator.CreateInstance(_DirectorySearcher, new object[] { entry });
+                _DirectorySearcher.GetProperty("Filter").SetValue(deSearch, string.Format("(sAMAccountName={0})", username));
+                propertiesToLoad = _DirectorySearcher.GetProperty("PropertiesToLoad").GetValue(deSearch) as System.Collections.Specialized.StringCollection;
+                propertiesToLoad.Add("sAMAccountName");
+                result = _DirectorySearcher.GetMethod("FindOne").Invoke(deSearch, new object[] { });
+                if (result != null)
+                {
+                    userDetail = new Dictionary<string, object>();
+                    drEntry = _SearchResult.GetMethod("GetDirectoryEntry").Invoke(result, new object[] { });
+                    propEntry = _DirectoryEntry.GetProperty("Properties").GetValue(drEntry);
+                    enumEntry = _PropertyCollection.GetMethod("GetEnumerator").Invoke(propEntry, new object[] { }) as System.Collections.IDictionaryEnumerator;
+                    enumEntry.Reset();
+                    while (enumEntry.MoveNext())
+                    {
+                        if (this.ExceptedProperties.Contains(enumEntry.Key.ToString()))
+                        {
+                            continue;
+                        }
+                        object value = _PropertyValueCollection.GetProperty("Value").GetValue(enumEntry.Value);
+                        if (value is DateTime)
+                        {
+                            value = Util.DateTimeToString(value as DateTime?);
+                        }
+                        userDetail.Add(enumEntry.Key.ToString(), value);
+                    }
+                }
+            }
+            catch// (Exception ex)
+            {
+                return userDetail;
+            }
+            finally
+            {
+                _DirectoryEntry.GetMethod("Close").Invoke(entry, new object[] { });
+            }
+            return userDetail;
+        }
+
+    }
+}

@@ -1,0 +1,32 @@
+﻿<div>
+    <div class="verticle">
+        <label data-dojo-attach-point="axle1Label" class="valign-mid">Lat : </label>
+        <div data-dojo-type="esrith/amos/form/NumberTextBox" data-dojo-attach-point="axle1"
+             data-dojo-props="width:'7rem', 
+             format: '#,###.####',
+             disabled: true 
+             "></div>
+    </div>
+    <div class="horizontal">
+        <label data-dojo-attach-point="axle2Label" class="valign-mid">| Lon : </label>
+        <div data-dojo-type="esrith/amos/form/NumberTextBox" data-dojo-attach-point="axle2"
+             data-dojo-props="width:'7rem',
+             format: '#,###.####',
+             disabled: true 
+             " ></div>
+    </div>
+    <!--<button data-dojo-attach-point="switchGeometryTypeButton"
+            data-dojo-type="esrith/amos/form/Button" class="switchGeometry">Lat/Lon</button>-->
+    <div class="switchGeometry" data-dojo-type="esrith/amos/form/Select" 
+         data-dojo-attach-point="switchGeometryTypeButton"
+         data-dojo-props="displayField:'label',
+            style:'width: 100px; height: auto; ',
+            value:'Lat/Lon',
+            valueField:'label',
+            dataStore:[{
+                'label':'Lat/Lon'
+            },{
+                'label':'X/Y'
+            }]">
+    </div>
+</div>

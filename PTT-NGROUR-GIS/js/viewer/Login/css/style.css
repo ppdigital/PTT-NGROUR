@@ -1,0 +1,50 @@
+﻿
+.widget-login {
+    text-align: center;
+}
+
+    .widget-login > * {
+        text-align: left;
+    }
+
+    .widget-login .widget-valign-ref {
+        vertical-align: middle;
+        display: inline-block;
+        height: 100%;
+    }
+
+    .widget-login .widget-login-form {
+        width: 500px;
+        display: inline-block;
+        vertical-align: middle;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+        .widget-login .widget-login-form .amos-textbox {
+            display: block;
+            margin-bottom: 1.4em;
+        }
+
+            .widget-login .widget-login-form .amos-textbox .amos-textbox-container {
+                display: block;
+                position: relative;
+            }
+
+        .widget-login .widget-login-form .amos-textbox-message {
+            position: absolute;
+            white-space: nowrap;
+            top: 100%;
+            left: 0;
+        }
+
+
+    .widget-login .login-name-textbox {
+        display: block;
+    }
+
+        .widget-login .login-name-textbox .amos-button-container {
+            display: table;
+            width: 100%;
+        }

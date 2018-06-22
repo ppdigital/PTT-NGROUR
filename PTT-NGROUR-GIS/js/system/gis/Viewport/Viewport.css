@@ -1,0 +1,588 @@
+﻿.viewport-gis {
+    background-color: #444444;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+    .viewport-gis > .menu-panel {
+        background-color: #ffffff;
+        width: 300px;
+        position: absolute;
+        top: 44px;
+        bottom: 0;
+        left: -300px;
+        z-index: 999;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+        -moz-transition: all ease-out 200ms;
+        -o-transition: all ease-out 200ms;
+        -webkit-transition: all ease-out 200ms;
+        transition: all ease-out 200ms;
+    }
+
+        .viewport-gis > .menu-panel > .container {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+            .viewport-gis > .menu-panel > .container > .header {
+                background-color: #ffffff;
+                width: 100%;
+                margin: 16px 0 4px;
+                padding: 16px;
+                font-size: 18px;
+                color: #30b88b;
+            }
+
+            .viewport-gis > .menu-panel > .container > .divider {
+                background-color: #e7e7e7;
+                width: 100%;
+                height: 8px;
+                margin: 16px 0;
+            }
+
+            .viewport-gis > .menu-panel > .container > div:first-child {
+                margin-top: 16px;
+            }
+
+            .viewport-gis > .menu-panel > .container > div:last-child {
+                margin-bottom: 16px;
+            }
+
+            .viewport-gis > .menu-panel > .container > .item {
+                display: table;
+                table-layout: fixed;
+                padding-left: 16px;
+                width: 100%;
+                cursor: pointer;
+                border-left-style: solid;
+                border-left-width: 4px;
+                border-left-color: rgba(119, 199, 164, 0);
+                -moz-transition: all ease-out 200ms;
+                -o-transition: all ease-out 200ms;
+                -webkit-transition: all ease-out 200ms;
+                transition: all ease-out 200ms;
+            }
+
+                .viewport-gis > .menu-panel > .container > .item.selected {
+                    background-color: #30b88b;
+                    color: #ffffff;
+                }
+
+                .viewport-gis > .menu-panel > .container > .item:hover {
+                    border-left-color: #30b88b;
+                }
+
+                .viewport-gis > .menu-panel > .container > .item > .icon {
+                    background-position: center 8px;
+                    background-repeat: no-repeat;
+                    display: table-cell;
+                    width: 72px;
+                }
+
+                .viewport-gis > .menu-panel > .container > .item > .label {
+                    display: table-cell;
+                    padding: 16px 8px;
+                    vertical-align: middle;
+                    border-bottom: 1px solid #e7e7e7;
+                }
+
+                    .viewport-gis > .menu-panel > .container > .item > .label > .sub-menu-container {
+                        position: absolute;
+                        margin-top: 16px;
+                        margin-left: -8px;
+                        height: 0;
+                        opacity: 0;
+                        overflow: hidden;
+                        -moz-transition: all ease-out 200ms;
+                        -o-transition: all ease-out 200ms;
+                        -webkit-transition: all ease-out 200ms;
+                        transition: all ease-out 200ms;
+                    }
+
+                        .viewport-gis > .menu-panel > .container > .item > .label > .sub-menu-container > .item {
+                            display: table;
+                            table-layout: fixed;
+                            width: 100%;
+                            cursor: pointer;
+                            border-left-style: solid;
+                            border-left-width: 4px;
+                            border-left-color: rgba(119, 199, 164, 0);
+                            -moz-transition: all ease-out 200ms;
+                            -o-transition: all ease-out 200ms;
+                            -webkit-transition: all ease-out 200ms;
+                            transition: all ease-out 200ms;
+                        }
+
+                            .viewport-gis > .menu-panel > .container > .item > .label > .sub-menu-container > .item.selected {
+                                background-color: #30b88b;
+                                color: #ffffff;
+                            }
+
+                            .viewport-gis > .menu-panel > .container > .item > .label > .sub-menu-container > .item:hover {
+                                border-left-color: #30b88b;
+                            }
+
+                            .viewport-gis > .menu-panel > .container > .item > .label > .sub-menu-container > .item > .icon {
+                                background-position: center;
+                                background-repeat: no-repeat;
+                                display: table-cell;
+                                width: 36px;
+                            }
+
+                            .viewport-gis > .menu-panel > .container > .item > .label > .sub-menu-container > .item > .label {
+                                display: table-cell;
+                                padding: 16px 8px;
+                                vertical-align: middle;
+                            }
+
+                            .viewport-gis > .menu-panel > .container > .item > .label > .sub-menu-container > .item.selected > .label {
+                                border-bottom-width: 0;
+                            }
+
+                        .viewport-gis > .menu-panel > .container > .item > .label > .sub-menu-container.visible {
+                            position: relative;
+                            height: auto;
+                            opacity: 1;
+                        }
+
+                .viewport-gis > .menu-panel > .container > .item.selected > .label {
+                    border-bottom-width: 0;
+                }
+
+    .viewport-gis > .main-container {
+        background-color: #ffffff;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        -moz-transition: all ease-out 200ms;
+        -o-transition: all ease-out 200ms;
+        -webkit-transition: all ease-out 200ms;
+        transition: all ease-out 200ms;
+    }
+
+        .viewport-gis > .main-container > .dim {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.4;
+            pointer-events: none;
+            -moz-transition: all ease-out 200ms;
+            -o-transition: all ease-out 200ms;
+            -webkit-transition: all ease-out 200ms;
+            transition: all ease-out 200ms;
+        }
+
+        .viewport-gis > .main-container > .header {
+            background-color: rgba(255, 255, 255, 0.8);
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 44px;
+            border-bottom: 1px solid #e7e7e7;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+        }
+
+            .viewport-gis > .main-container > .header > .logo-container {
+                position: relative;
+                top: 0;
+                left: 0;
+                width: 108px;
+                height: 44px;
+                float: left;
+                -moz-transition: all ease-out 200ms;
+                -o-transition: all ease-out 200ms;
+                -webkit-transition: all ease-out 200ms;
+                transition: all ease-out 200ms;
+            }
+
+                .viewport-gis > .main-container > .header > .logo-container > .toggle-menu-panel {
+                    position: absolute;
+                    width: 44px;
+                }
+
+                    .viewport-gis > .main-container > .header > .logo-container > .toggle-menu-panel > .x {
+                        height: 44px;
+                        margin-left: 50%;
+                    }
+
+                        .viewport-gis > .main-container > .header > .logo-container > .toggle-menu-panel > .x:before {
+                            background-color: #393939;
+                            content: "";
+                            position: absolute;
+                            top: 45%;
+                            width: 2px;
+                            height: 16px;
+                            -moz-transform: translateY(-50%) rotate(-90deg);
+                            -ms-transform: translateY(-50%) rotate(-90deg);
+                            -o-transform: translateY(-50%) rotate(-90deg);
+                            -webkit-transform: translateY(-50%) rotate(-90deg);
+                            transform: translateY(-50%) rotate(-90deg);
+                            -moz-transition: all ease-out 200ms;
+                            -o-transition: all ease-out 200ms;
+                            -webkit-transition: all ease-out 200ms;
+                            transition: all ease-out 200ms;
+                        }
+
+                        .viewport-gis > .main-container > .header > .logo-container > .toggle-menu-panel > .x:after {
+                            background-color: #393939;
+                            content: "";
+                            position: absolute;
+                            top: 55%;
+                            width: 2px;
+                            height: 16px;
+                            -moz-transform: translateY(-50%) rotate(90deg);
+                            -ms-transform: translateY(-50%) rotate(90deg);
+                            -o-transform: translateY(-50%) rotate(90deg);
+                            -webkit-transform: translateY(-50%) rotate(90deg);
+                            transform: translateY(-50%) rotate(90deg);
+                            -moz-transition: all ease-out 200ms;
+                            -o-transition: all ease-out 200ms;
+                            -webkit-transition: all ease-out 200ms;
+                            transition: all ease-out 200ms;
+                        }
+
+                .viewport-gis > .main-container > .header > .logo-container > .logo {
+                    background-image: url(../../../../images/logo.png);
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    position: absolute;
+                    top: 50%;
+                    right: 0;
+                    left: 44px;
+                    height: 32px;
+                    -moz-transform: translateY(-50%);
+                    -ms-transform: translateY(-50%);
+                    -o-transform: translateY(-50%);
+                    -webkit-transform: translateY(-50%);
+                    transform: translateY(-50%);
+                    -moz-transition: all ease-out 200ms;
+                    -o-transition: all ease-out 200ms;
+                    -webkit-transition: all ease-out 200ms;
+                    transition: all ease-out 200ms;
+                }
+
+        .viewport-gis > .main-container > .wrapper {
+            position: absolute;
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
+            .viewport-gis > .main-container > .wrapper > .content-panel {
+                position: relative;
+                display: table-row;
+                -moz-transition: all ease-out 200ms;
+                -o-transition: all ease-out 200ms;
+                -webkit-transition: all ease-out 200ms;
+                transition: all ease-out 200ms;
+            }
+
+                .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper {
+                    position: absolute;
+                    display: table;
+                    table-layout: fixed;
+                    width: 100%;
+                    height: 100%;
+                    -moz-transition: all ease-out 200ms;
+                    -o-transition: all ease-out 200ms;
+                    -webkit-transition: all ease-out 200ms;
+                    transition: all ease-out 200ms;
+                }
+
+                    .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .map {
+                        position: relative;
+                        display: table-row;
+                        -moz-transition: all ease-out 200ms;
+                        -o-transition: all ease-out 200ms;
+                        -webkit-transition: all ease-out 200ms;
+                        transition: all ease-out 200ms;
+                    }
+
+                        .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .map > .cell {
+                            position: relative;
+                            display: table-cell;
+                        }
+
+                            .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .map > .cell > .container {
+                                background-color: #393939;
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 100%;
+                            }
+
+                                .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .map > .cell > .container > .esriMapContainer > .esriSimpleSlider.esriSimpleSliderVertical.esriSimpleSliderTL, .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .map > .cell > .container > .esriMapContainer > .esriPopup {
+                                    z-index: auto !important;
+                                }
+
+                    .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > div.bottom-panel.minimize > .cell > .container > .awesome-panel > .header > .button-container > .button.maximize {
+                        display: none;
+                    }
+
+                    .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel {
+                        position: relative;
+                        display: table-row;
+                    }
+
+                        .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel.hide:not(.visible) {
+                            display: none;
+                        }
+
+                        .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel:not(.visible) > .cell {
+                            height: 1% !important;
+                        }
+
+                            .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel:not(.visible) > .cell > .container > .awesome-panel > .header {
+                                position: absolute;
+                            }
+
+                        .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel.maximize > .cell {
+                            height: 100%;
+                        }
+
+                        .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel > .cell {
+                            position: relative;
+                            display: table-cell;
+                            height: 50%;
+                            -moz-transition: all ease-out 200ms;
+                            -o-transition: all ease-out 200ms;
+                            -webkit-transition: all ease-out 200ms;
+                            transition: all ease-out 200ms;
+                        }
+
+                            .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel > .cell > .container {
+                                position: relative;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 100%;
+                                z-index: 30;
+                            }
+
+            .viewport-gis > .main-container > .wrapper > div.right-panel.minimize > .cell > .container > .awesome-panel > .header > .button-container > .button.maximize {
+                display: none;
+            }
+
+            .viewport-gis > .main-container > .wrapper > .right-panel {
+                position: relative;
+                display: table-row;
+            }
+
+                .viewport-gis > .main-container > .wrapper > .right-panel.hide:not(.visible) {
+                    display: none;
+                }
+
+                .viewport-gis > .main-container > .wrapper > .right-panel:not(.visible) > .cell {
+                    height: 1% !important;
+                }
+
+                    .viewport-gis > .main-container > .wrapper > .right-panel:not(.visible) > .cell > .container > .awesome-panel > .header {
+                        position: absolute;
+                    }
+
+                .viewport-gis > .main-container > .wrapper > .right-panel.maximize > .cell {
+                    height: 100%;
+                }
+
+                .viewport-gis > .main-container > .wrapper > .right-panel > .cell {
+                    position: relative;
+                    display: table-cell;
+                    height: 50%;
+                    -moz-transition: all ease-out 200ms;
+                    -o-transition: all ease-out 200ms;
+                    -webkit-transition: all ease-out 200ms;
+                    transition: all ease-out 200ms;
+                }
+
+                    .viewport-gis > .main-container > .wrapper > .right-panel > .cell > .container {
+                        position: relative;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        z-index: 30;
+                    }
+
+
+    /* SHOW MENU */
+    .viewport-gis.show-menu-panel > .menu-panel {
+        -moz-transform: translateX(100%);
+        -ms-transform: translateX(100%);
+        -o-transform: translateX(100%);
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+    }
+
+    .viewport-gis.show-menu-panel > .main-container > .dim {
+        background-color: #000000;
+        left: 300px;
+        opacity: 0.4;
+        pointer-events: auto;
+        z-index: 999;
+    }
+
+    .viewport-gis.show-menu-panel > .main-container > .header > .logo-container {
+        width: 300px;
+    }
+
+        .viewport-gis.show-menu-panel > .main-container > .header > .logo-container > .toggle-menu-panel > .x:before {
+            top: 50%;
+            -moz-transform: translateY(-50%) rotate(-45deg);
+            -ms-transform: translateY(-50%) rotate(-45deg);
+            -o-transform: translateY(-50%) rotate(-45deg);
+            -webkit-transform: translateY(-50%) rotate(-45deg);
+            transform: translateY(-50%) rotate(-45deg);
+        }
+
+        .viewport-gis.show-menu-panel > .main-container > .header > .logo-container > .toggle-menu-panel > .x:after {
+            top: 50%;
+            -moz-transform: translateY(-50%) rotate(45deg);
+            -ms-transform: translateY(-50%) rotate(45deg);
+            -o-transform: translateY(-50%) rotate(45deg);
+            -webkit-transform: translateY(-50%) rotate(45deg);
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .viewport-gis.show-menu-panel > .main-container > .header > .logo-container > .logo {
+            right: 44px;
+        }
+/* SHOW MENU */
+
+@media only screen and (min-width: 769px) {
+
+    .viewport-gis > .main-container > .wrapper {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: block;
+        width: auto;
+        height: auto;
+    }
+
+        .viewport-gis > .main-container > .wrapper > .content-panel {
+            display: block;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .viewport-gis > .main-container > .wrapper > div.right-panel.minimize {
+            height: 100%;
+        }
+
+            .viewport-gis > .main-container > .wrapper > div.right-panel.minimize > .cell > .container > .awesome-panel > .header > .button-container > .button.maximize {
+                display: block;
+            }
+
+        .viewport-gis > .main-container > .wrapper > .right-panel {
+            display: block;
+            width: 300px;
+            height: calc(100% - 44px);
+            margin-top: 44px;
+            float: right;
+            overflow: hidden;
+            -moz-transition: all ease-out 200ms;
+            -o-transition: all ease-out 200ms;
+            -webkit-transition: all ease-out 200ms;
+            transition: all ease-out 200ms;
+        }
+
+            .viewport-gis > .main-container > .wrapper > .right-panel:not(.visible) {
+                display: block;
+                width: 0 !important;
+            }
+
+            .viewport-gis > .main-container > .wrapper > .right-panel > .cell {
+                position: static;
+            }
+
+                .viewport-gis > .main-container > .wrapper > .right-panel > .cell > .container {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                    .viewport-gis > .main-container > .wrapper > .right-panel > .cell > .container > .awesome-panel > .header > .button-container > .button.minimize,
+                    .viewport-gis > .main-container > .wrapper > .right-panel > .cell > .container > .awesome-panel > .header > .button-container > .button.maximize {
+                        display: none;
+                    }
+}
+
+
+/*@media only screen and (min-width: 1281px) {*/
+@media only screen and (min-width: 1101px) {
+
+    .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper {
+        display: block;
+    }
+
+        .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel {
+            position: absolute;
+            top: 44px;
+            bottom: 0;
+            display: block;
+            width: 300px;
+            float: left;
+            overflow: hidden;
+            -moz-transition: all ease-out 200ms;
+            -o-transition: all ease-out 200ms;
+            -webkit-transition: all ease-out 200ms;
+            transition: all ease-out 200ms;
+        }
+
+            .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel.hide:not(.visible) {
+                display: block;
+                -moz-transform: translateX(-100%);
+                -ms-transform: translateX(-100%);
+                -o-transform: translateX(-100%);
+                -webkit-transform: translateX(-100%);
+                transform: translateX(-100%);
+            }
+
+            .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel:not(.visible) > .cell {
+                height: 100% !important;
+            }
+
+            .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel > .cell {
+                position: static;
+            }
+
+                .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel > .cell > .container {
+                    position: absolute;
+                }
+
+                    .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel > .cell > .container > .awesome-panel > .header > .button-container > .button.minimize,
+                    .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .bottom-panel > .cell > .container > .awesome-panel > .header > .button-container > .button.maximize {
+                        display: none;
+                    }
+
+        .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .map {
+            display: block;
+            height: 100%;
+        }
+
+            .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .map > .cell {
+                display: block;
+                height: 100%;
+            }
+
+    .viewport-gis > .main-container > .wrapper > .content-panel.show-bottom-panel > .wrapper > .map {
+        margin-left: 300px;
+    }
+}
+
