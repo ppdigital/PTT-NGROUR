@@ -598,11 +598,9 @@
     <Content Include="Views\Utilization\PartialThresholdSettingScript.cshtml" />
     <Content Include="Views\Utilization\MenuUtilization.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
-
     <Content Include="Views\Utilization\PartialModalExcelScript.cshtml" />
-
     <Content Include="Views\Utilization\Report.cshtml" />
-
+    <Content Include="Views\Dashboard\PartialIndexScript.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

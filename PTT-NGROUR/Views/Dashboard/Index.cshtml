@@ -167,7 +167,11 @@
     @section scripts{
         <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
 
+        @Html.Partial("PartialIndexScript")
+
         <script type="text/javascript">
+            var SeRegion;
+            var SeLicense;
             $(document).ready(function () {
                 document.getElementById('seLicense').style.display = 'none';
                 $('#MultiRegion').selectpicker('selectAll');
@@ -199,7 +203,8 @@
 
             })
 
-            function Search() {
+            function Search2() {
+                
                 let url;
                 let graphurl;
                 let multidata;
@@ -275,7 +280,7 @@
                                 borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                                 borderWidth: 1
                             }]
-                        };
+                        }; 
                         var ctx = $("#pieGate").get(0).getContext("2d");
                         var myNewChart = new Chart(ctx, {
                             type: 'doughnut',
@@ -426,6 +431,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (chData) {
+                    console.log(chData);
                     var aData = chData;
                     var aLabels = aData[0];
                     var aDatasets1 = aData[1];
@@ -440,7 +446,7 @@
                             borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                             borderWidth: 1
                         }]
-                    };
+                    }; 
                     var ctx = $("#pieGate").get(0).getContext("2d");
                     var myNewChart = new Chart(ctx, {
                         type: 'doughnut',
