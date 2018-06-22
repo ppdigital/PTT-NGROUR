@@ -1,5 +1,228 @@
-﻿@{
+﻿@model PTT_NGROUR.Models.ViewModel.ModelUtilization
+@{
     ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+<br />
+<div class="container-fluid" style="margin-top:-.8rem">
 
-<h2>Report</h2>
+    <!--Search Bar -->
+    <div class="ph2 ph0-xs">
+        <div class=" p-3 mb-2 col-container col-container-white text-dark ">
+            <div style="padding-bottom:.5rem;padding-top:.5rem">
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <span class="col-lg-2 col-md-2 col-sm-2"></span>
+                        <span class="col-lg-2 col-md-2 col-sm-3 col-xs-7" style="padding-top:7px;padding-right:0rem">
+                            <label class=" ml-5 lato" style="padding-right:6px">
+                                <input type="radio" name="radio" id="radioRegion" checked="checked" onclick="javascript:Check();">
+                                <span class="checkmark h6 b">Region</span>
+                            </label>
+                            <label class="d-none ">
+                                <input type="radio" name="radio" id="radioLicense" onclick="javascript:Check();">
+                                <span class="checkmark h6 b"> License</span>
+                            </label>
+                        </span>
+                        <div class="col-lg-5 col-md-5  col-sm-5 col-xs-7" id="seRegion" style="padding-bottom: 0rem !important">
+                            <div class="form-group" style="margin-bottom:5px;">
+
+                                <select class="selectpicker fz-12px form-control fz-12px" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;">
+                                    @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
+                                    {
+                                        <option value="@ml.REGION_ID" class="text-grey fz-12px" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-7" id="seLicense" style="padding-bottom: 0rem !important">
+                            <div class="form-group" style="margin-bottom:5px;">
+                                <select class="selectpicker fz-12px form-control fz-12px" name="MultiLicense" id="MultiLicense" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true">
+                                    @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
+                                    {
+                                        <option class="hidden-sm hidden-xs" value="@ml.LICENSE_ID" style="word-wrap: break-word">@ml.LICENSE</option>
+                                        <option class="hidden-lg hidden-md" value="@ml.LICENSE_ID" style="word-wrap: break-word;white-space:normal">@ml.LICENSE</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <span class="col-lg-3 col-md-3 col-sm-3 col-xs-1"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!--Search month Year -->
+        <div class=" p-3 mb-2 col-container col-container-white text-dark ">
+            <div style="padding-bottom:.5rem;padding-top:.5rem">
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                        <span class="col-lg-2 col-md-3 col-sm-3 col-xs-7" style="padding-right:0rem;width:190px">
+                            <label class="h5">Period &nbsp;</label>
+                            <label class=" ml-5 lato" style="padding-right:6px">
+                                <input type="radio" name="radioMY" id="radioMonth" checked="checked" onclick="javascript:Check();">
+                                <span class="checkmark h6 b">Month</span>
+                            </label>
+                            <label class="d-none ">
+                                <input type="radio" name="radioMY" id="radioYear" onclick="javascript: Check();">
+                                <span class="checkmark h6 b">Year</span>
+                            </label>
+                        </span>
+                        <div class="col-lg-2 col-md-2  col-sm-2 col-xs-3" id="chooseMonth" style="padding-bottom: 0rem !important; width: 160px; padding-right: 0rem; ">
+                            <div class="form-group" style="margin-bottom:5px; ">
+
+                                <select class="form-control form-control-sm fz-12px" id="seMonth" style="height: 30px !important;">
+                                    <option value="1" class="f5 f8-m drop_role" selected>January</option>
+                                    <option value="2" class="f5 drop_role">February</option>
+                                    <option value="3" class="f5 drop_role">March</option>
+                                    <option value="4" class="f5  drop_role">April</option>
+                                    <option value="5" class="f5 f8-m drop_role">May</option>
+                                    <option value="6" class="f5 drop_role">June</option>
+                                    <option value="7" class="f5 drop_role">July</option>
+                                    <option value="8" class="f5  drop_role">August</option>
+                                    <option value="9" class="f5 f8-m drop_role">September</option>
+                                    <option value="10" class="f5 drop_role">October</option>
+                                    <option value="11" class="f5 drop_role">November</option>
+                                    <option value="12" class="f5 drop_role">December</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4" id="chooseYear" style="padding-bottom: 0rem !important;padding-right:0rem;">
+                            <div class="form-group" style="margin-bottom:5px;">
+                                <select class="form-control form-control-sm fz-12px" id="seYear" style="height: 30px !important;width:120px ">
+                                    <option value="2018" class="5 f8-m drop_role" selected>2018</option>
+                                    <option value="2019" class="f5 drop_role">2019</option>
+                                    <option value="2020" class="f5 drop_role">2020</option>
+                                    <option value="2021" class="f5  drop_role">2021</option>
+                                    <option value="2022" class="f5 f8-m drop_role">2022</option>
+                                    <option value="2023" class="f5 drop_role">2023</option>
+                                    <option value="2024" class="f5 drop_role">2024</option>
+                                    <option value="2025" class="f5  drop_role">2025</option>
+                                    <option value="2026" class="f5 f8-m drop_role">2026</option>
+                                    <
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-md-2  col-sm-2 col-xs-4" id="chooseYear" style="padding-bottom: 0rem !important; padding-right: 0rem;">
+                            <select class="form-control form-control-sm fz-12px" id="type-filter" style="height: 30px !important;">
+                                <option id="seAll" class="fz-12px drop_role" value="all">All</option>
+                                <option id="sePipeline" class="fz-12px drop_role" value="PIPELINE">Pipeline</option>
+                                <option id="seGate" class="fz-12px drop_role" value="GATESTATION">Gate Station</option>
+
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-2  col-sm-3 col-xs-4" id="chooseYear" style="padding-bottom: 0rem !important; padding-right: 0rem;">
+                            <select class="form-control form-control-sm fz-12px" id="threshold-filter" style="height: 30px !important;">
+                                <option id="seAllThres" class="fz-12px drop_role" value="all">All Threshold</option>
+                                <option id="seGree" class="fz-12px drop_role" value="green">Green</option>
+                                <option id="seYello" class="fz-12px drop_role" value="yellow">Yellow</option>
+                                <option id="seRed" class="fz-12px drop_role" value="red">Red</option>
+                            </select>
+                        </div>
+
+                        <span class="col-lg-1 col-md-1 col-sm-1 col-xs-3 ">
+                            <button type="button" class="btn btn-primary btn-sm" id="btnSearch" onclick="Search()" style="border-radius:0">
+                                <span class="glyphicon glyphicon-search"></span> Search
+                            </button>
+
+                        </span>
+                        <span class=" pull-right">
+                            <span class="col-lg-1 col-md-1 col-sm-1 col-xs-1  ">
+                                <i class="fa fa-file-pdf-o fa-lg" aria-hidden="true" style="padding-top:10px"></i>
+                            </span>
+                        </span>
+                        <span class="cr"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <br/>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-3">
+                   <div class=" p-3 mb-2 col-container col-container-green text-dark">
+                       <div class="ph2" style="padding-bottom:1rem;padding-top:1rem">
+                           <div><label class="h6">Gate Staton&nbsp;:</label></div>
+                           <div><label class="h6">Pipeline&nbsp;:</label></div>
+                           </div>
+                       </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class=" p-3 mb-2 col-container col-container-yellow text-dark">
+                        <div class="ph2" style="padding-bottom:1rem;padding-top:1rem">
+                            <div><label class="h6">Gate Staton&nbsp;:</label></div>
+                            <div><label class="h6">Pipeline&nbsp;:</label></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class=" p-3 mb-2 col-container col-container-red text-dark">
+                        <div class="ph2" style="padding-bottom:1rem;padding-top:1rem">
+                            <div><label class="h6">Gate Staton&nbsp;:</label></div>
+                            <div><label class="h6">Pipeline&nbsp;:</label></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class=" p-3 mb-2 col-container col-container-orange text-dark">
+                        <div class="ph2" style="padding-bottom:1rem;padding-top:1rem">
+                            <div><label class="h6">Gate Staton&nbsp;:</label></div>
+                            <div><label class="h6">Pipeline&nbsp;:</label></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br />
+       </div>
+</div>
+            @section scripts{
+
+                <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        document.getElementById('seLicense').style.display = 'none';
+
+                    });
+
+                    function Check() {
+
+                        if (document.getElementById('radioRegion').checked) {
+                            document.getElementById('seRegion').style.display = 'inline-block';
+                            document.getElementById('seLicense').style.display = 'none';
+
+                        }
+                        else if (document.getElementById('radioLicense').checked) {
+                            document.getElementById('seLicense').style.display = 'inline-block';
+                            document.getElementById('seRegion').style.display = 'none';
+                        }
+                        if (document.getElementById('radioMonth').checked) {
+                            document.getElementById('chooseMonth').style.display = 'inline-block';
+                            document.getElementById('chooseYear').style.display = 'inline-block';
+                        }
+                        else if (document.getElementById('radioYear').checked) {
+                            document.getElementById('chooseMonth').style.display = 'none';
+                            document.getElementById('chooseYear').style.display = 'inline-block';
+                        }
+
+                    }
+                </script>
+            }
