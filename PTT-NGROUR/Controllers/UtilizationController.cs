@@ -135,6 +135,9 @@ namespace PTT_NGROUR.Controllers
 
             return View(model);
         }
+        public ActionResult Report() 
+        { return View();}
+
         public ActionResult MenuUtilization()
         { return View(); }
        
