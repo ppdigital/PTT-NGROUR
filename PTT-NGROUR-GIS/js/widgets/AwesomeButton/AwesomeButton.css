@@ -1,0 +1,119 @@
+﻿.awesome-button {
+    width: 32px;
+    height: 32px;
+}
+
+    .awesome-button > .wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+        .awesome-button > .wrapper > .sub-item-container {
+            position: absolute;
+            visibility: hidden;
+            overflow: hidden;
+        }
+
+            .awesome-button > .wrapper > .sub-item-container.visible {
+                visibility: visible;
+            }
+
+            .awesome-button > .wrapper > .sub-item-container.top {
+                bottom: 100%;
+                width: 100%;
+                margin-bottom: 16px;
+            }
+
+            .awesome-button > .wrapper > .sub-item-container.right {
+                left: 100%;
+                height: 100%;
+                margin-left: 16px;
+            }
+
+            .awesome-button > .wrapper > .sub-item-container.bottom {
+                top: 100%;
+                width: 100%;
+                margin-top: 16px;
+            }
+
+            .awesome-button > .wrapper > .sub-item-container.left {
+                right: 100%;
+                height: 100%;
+                margin-right: 16px;
+            }
+
+            .awesome-button > .wrapper > .sub-item-container > .button {
+                background-color: #ffffff;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 60%;
+                position: relative;
+                display: inline-block;
+                width: 32px;
+                height: 32px;
+                margin: 8px;
+                /*border-radius: 50%;*/
+                cursor: pointer;
+                opacity: 0;
+                float: left;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+                -moz-transition: all ease-out 200ms;
+                -o-transition: all ease-out 200ms;
+                -webkit-transition: all ease-out 200ms;
+                transition: all ease-out 200ms;
+            }
+
+                .awesome-button > .wrapper > .sub-item-container > .button.visible {
+                    opacity: 1 !important;
+                    -moz-transform: scale(1) translate(0, 0) !important;
+                    -ms-transform: scale(1) translate(0, 0) !important;
+                    -o-transform: scale(1) translate(0, 0) !important;
+                    -webkit-transform: scale(1) translate(0, 0) !important;
+                    transform: scale(1) translate(0, 0) !important;
+                }
+
+            .awesome-button > .wrapper > .sub-item-container.top > .button {
+                -moz-transform: scale(0.2) translate(0, 120%);
+                -ms-transform: scale(0.2) translate(0, 120%);
+                -o-transform: scale(0.2) translate(0, 120%);
+                -webkit-transform: scale(0.2) translate(0, 120%);
+                transform: scale(0.2) translate(0, 120%);
+            }
+
+            .awesome-button > .wrapper > .sub-item-container.right > .button {
+                -moz-transform: scale(0.2) translate(-120%, 0);
+                -ms-transform: scale(0.2) translate(-120%, 0);
+                -o-transform: scale(0.2) translate(-120%, 0);
+                -webkit-transform: scale(0.2) translate(-120%, 0);
+                transform: scale(0.2) translate(-120%, 0);
+            }
+
+            .awesome-button > .wrapper > .sub-item-container.bottom > .button {
+                -moz-transform: scale(0.2) translate(0, -120%);
+                -ms-transform: scale(0.2) translate(0, -120%);
+                -o-transform: scale(0.2) translate(0, -120%);
+                -webkit-transform: scale(0.2) translate(0, -120%);
+                transform: scale(0.2) translate(0, -120%);
+            }
+
+            .awesome-button > .wrapper > .sub-item-container.left > .button {
+                -moz-transform: scale(0.2) translate(120%, 0);
+                -ms-transform: scale(0.2) translate(120%, 0);
+                -o-transform: scale(0.2) translate(120%, 0);
+                -webkit-transform: scale(0.2) translate(120%, 0);
+                transform: scale(0.2) translate(120%, 0);
+            }
+
+        .awesome-button > .wrapper > .button {
+            background-color: #ffffff;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 60%;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            /*border-radius: 50%;*/
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+        }

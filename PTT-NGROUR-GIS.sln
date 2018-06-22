@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PTTOUR-GIS", "http://localhost/PTTOUR-GIS", "{9DB3F743-DE28-45A3-9665-2A556D0BAA42}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "false"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/PTTOUR-GIS"
+		Debug.AspNetCompiler.PhysicalPath = "PTT-NGROUR-GIS\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\PTTOUR-GIS\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/PTTOUR-GIS"
+		Release.AspNetCompiler.PhysicalPath = "PTT-NGROUR-GIS\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\PTTOUR-GIS\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "PTT-NGROUR-GIS\"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DB3F743-DE28-45A3-9665-2A556D0BAA42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DB3F743-DE28-45A3-9665-2A556D0BAA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

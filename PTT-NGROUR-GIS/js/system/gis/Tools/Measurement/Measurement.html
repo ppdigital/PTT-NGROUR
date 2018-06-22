@@ -1,0 +1,76 @@
+﻿<div>
+    <div class="divCondition">
+        <div class="divRow divTools">
+            <div style="width:40px"></div>
+            <div data-dojo-attach-point="btnArea" data-dojo-type="esrith/amos/form/ImageButton"
+                 data-dojo-props="
+                 url:'${config.resource.btn_measurement_tool_01_normal}',
+                 overUrl:'${config.resource.btn_measurement_tool_01_hover}',
+                 activeUrl:'${config.resource.btn_measurement_tool_01_selected}',
+                 activeOverUrl:'${config.resource.btn_measurement_tool_01_selected}',
+                 label:'เครื่องมือวัดพื้นที่',
+                 enabledToggle:true ,name:'menu'
+                 ">
+            </div>
+            <div data-dojo-attach-point="btnDistance" data-dojo-type="esrith/amos/form/ImageButton"
+                 data-dojo-props="
+                 url:'${config.resource.btn_measurement_tool_02_normal}',
+                 overUrl:'${config.resource.btn_measurement_tool_02_hover}',
+                 activeUrl:'${config.resource.btn_measurement_tool_02_selected}',
+                 activeOverUrl:'${config.resource.btn_measurement_tool_02_selected}',
+                 label:'เครื่องมือวัดระยะทาง',
+                 enabledToggle:true ,name:'menu'
+                 ">
+            </div>
+            <div data-dojo-attach-point="btnLocation" data-dojo-type="esrith/amos/form/ImageButton"
+                 data-dojo-props="
+                 url:'${config.resource.btn_measurement_tool_03_normal}',
+                 overUrl:'${config.resource.btn_measurement_tool_03_hover}',
+                 activeUrl:'${config.resource.btn_measurement_tool_03_selected}',
+                 activeOverUrl:'${config.resource.btn_measurement_tool_03_selected}',
+                 label:'เครื่องมือระบุพิกัด',
+                 enabledToggle:true ,name:'menu'
+                 ">
+            </div>
+            <div class="amos-hide"
+                 data-dojo-attach-point="btnAngle" data-dojo-type="esrith/amos/form/ImageButton"
+                 data-dojo-props="
+                 url:'${config.resource.btn_measurement_tool_04_normal}',
+                 overUrl:'${config.resource.btn_measurement_tool_04_hover}',
+                 activeUrl:'${config.resource.btn_measurement_tool_04_selected}',
+                 activeOverUrl:'${config.resource.btn_measurement_tool_04_selected}',
+                 label:'เครื่องมือวัดมุม',
+                 enabledToggle:true ,name:'menu'
+                 ">
+            </div>
+            <div class="amos-hide"
+                 data-dojo-attach-point="btnFreehandAngle" data-dojo-type="esrith/amos/form/ImageButton"
+                 data-dojo-props="
+                 url:'${config.resource.btn_measurement_tool_05_normal}',
+                 overUrl:'${config.resource.btn_measurement_tool_05_hover}',
+                 activeUrl:'${config.resource.btn_measurement_tool_05_selected}',
+                 activeOverUrl:'${config.resource.btn_measurement_tool_05_selected}',
+                 label:'เครื่องมือวัดมุมอิสระ',
+                 enabledToggle:true ,name:'menu'
+                 ">
+            </div>
+            <div style="width:40px"></div>
+        </div>
+    </div>
+    <div class="divUnit">
+        <div data-dojo-attach-point="fltUnit" data-dojo-type="esrith/amos/form/Select"
+             data-dojo-props="
+             width:'100%',
+             placeholder: 'หน่วยการวัด',
+             displayField:'LABEL',
+             value:1,
+             valueField:'VALUE'">
+        </div>
+    </div>
+
+    <div class="divResult">
+        <div data-dojo-attach-point="titleResult" class="titleResult">ผลลัพธ์</div>
+        <hr />
+        <div data-dojo-attach-point="divResult" class="result"></div>
+    </div>
+</div>

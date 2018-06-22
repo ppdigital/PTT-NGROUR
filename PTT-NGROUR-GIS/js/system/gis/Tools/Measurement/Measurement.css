@@ -1,0 +1,93 @@
+﻿.amos-Measurement {
+}
+
+.divCondition {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: table;
+    padding: 10px;
+    width: 100%;
+}
+
+.divRow {
+    display: table-row;
+}
+
+.divResultContainer {
+    display: table;
+    width: 100%;
+}
+
+.divResult {
+    padding: 10px;
+}
+
+.divUnit {
+    padding: 10px;
+}
+
+.divTools {
+    text-align: center;
+}
+
+    .divTools div {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+.divRow.divTools > .amos-image-button > .amos-button-container {
+    display: inline-block;
+}
+
+
+
+.result {
+    height: 56px;
+}
+
+/*location*/
+.divIcon, .divText, .divTitle {
+    display: inline-block;
+    vertical-align: middle;
+    /*padding: 0 8px;*/
+}
+
+.divTitle {
+    text-align: center;
+    width: 45%;
+}
+
+.divIcon {
+    /*display: table-cell;*/
+    width: 10%;
+}
+
+.divText {
+    text-align: center;
+    font-size: 0.9em;
+}
+
+    .divText.col-x-y {
+        width: 45%;
+    }
+
+.iconClick:before {
+    content: url(./resources/icn_pin_lalong.png);
+    width: 10px;
+    height: 24px;
+}
+
+.iconMove:before {
+    content: url(./resources/icn_curser_lalong.png);
+    width: 9px;
+    height: 12px;
+}
+
+.amos-Measurement .amos-dropdown {
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+    bottom: auto !important;
+}

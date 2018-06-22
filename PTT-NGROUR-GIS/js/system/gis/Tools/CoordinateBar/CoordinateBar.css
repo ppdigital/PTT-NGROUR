@@ -1,0 +1,83 @@
+﻿.coordinateBar {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: white;
+    padding-left: 20px;
+    display: none;
+    box-shadow: 0 0px 1px rgba(0, 0, 0, 0.6);
+}
+
+    .coordinateBar .valign-mid {
+        vertical-align: middle;
+    }
+
+    .coordinateBar .verticle,
+    .coordinateBar .horizontal {
+        display: inline-block;
+        color: #3A83D5;
+        /*width: 7.5rem;*/
+    }
+
+    .coordinateBar .switchGeometry .amos-textbox-textnode > input {
+        color: white;
+    }
+
+    .coordinateBar .switchGeometry .amos-textbox-input {
+        background-color: #468BD5;
+        border-radius: 0px;
+    }
+
+    .coordinateBar .switchGeometry .amos-icon-down-arrow {
+        border-bottom: 1px solid white;
+        border-right: 1px solid white;
+    }
+
+    .coordinateBar .switchGeometry .amos-textbox-layout-item:hover .amos-icon-down-arrow {
+        border-bottom-color: #ffc000;
+        border-right-color: #ffc000;
+    }
+/*.coordinateBar .switchGeometry {
+        height: 30px;
+        width: 90px;
+        padding: 0;
+        border-width: 1px;
+        background-color: darkblue;
+        border: 0;
+        color: white;
+        padding: 5px 15px;
+    }*/
+
+/*   . coordinateBar .switchGeometry:hover {
+            background-color: darkgray;
+            color: white;
+}*/
+
+/*overide*/
+{
+    background-color: #478CD7;
+}
+
+.coordinateBar .amos-textbox {
+    vertical-align: middle;
+    margin-bottom: 0px;
+}
+
+.coordinateBar .amos-form-disabled * {
+    color: #393939 !important;
+}
+
+.coordinateBar .amos-textbox.amos-form-disabled .amos-textbox-input {
+    border: 0;
+    background-color: white;
+}
+
+.coordinateBar .amos-textbox-input:hover {
+    box-shadow: 0 0 0 0px;
+}
+
+@media only screen and (min-width: 769px) {
+    .coordinateBar {
+        display: block;
+    }
+}

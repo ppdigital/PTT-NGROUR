@@ -1,0 +1,16 @@
+﻿{
+    "data": [{
+        "COL_SPLIT": "|",
+        "ROW_SPLIT": "^",
+        "PAGE_SIZE": 20,
+        "HOTMENU_NUM": 4
+    }],
+    "data2": [],
+    "data3": [],
+    "data4": [{
+        "SYS_ID": "GIS",
+        "SYS_NAME": "ระบบแผนที่",
+        "SYS_DETAIL": null
+    }],
+    "data5": []
+}
