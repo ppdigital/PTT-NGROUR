@@ -15,7 +15,7 @@ namespace PTT_NGROUR.Models.DataModel
 
         public ModelPipelineImport(System.Data.IDataReader pReader)
         {
-            if(pReader == null)
+            if (pReader == null)
             {
                 return;
             }
@@ -36,6 +36,31 @@ namespace PTT_NGROUR.Models.DataModel
             this.VELOCITY = pReader["VELOCITY"].GetDecimal();
             this.WALL_THICKNESS = pReader["WALL_THICKNESS"].GetDecimal();
             this.YEAR = pReader["YEAR"].GetInt();
+        }
+
+        public ModelPipelineImport Clone()
+        {
+            var result = new ModelPipelineImport()
+            {
+                DIAMETER = this.DIAMETER,
+                EFFICIENCY = this.EFFICIENCY,
+                FLOW = this.FLOW,
+                LENGTH = this.LENGTH,
+                LOAD = this.LOAD,
+                MONTH = this.MONTH,
+                OUTSIDE_DIAMETER = this.OUTSIDE_DIAMETER,
+                PIPELINE_ID = this.PIPELINE_ID,
+                RC_NAME = this.RC_NAME,
+                REGION = this.REGION,
+                ROUGHNESS = this.ROUGHNESS,
+                SERVICE_STATE = this.SERVICE_STATE,
+                UPLOAD_BY = this.UPLOAD_BY,
+                UPLOAD_DATE = this.UPLOAD_DATE,
+                VELOCITY = this.VELOCITY,
+                WALL_THICKNESS = this.WALL_THICKNESS,
+                YEAR = this.YEAR
+            };
+            return result;
         }
 
         public int PIPELINE_ID { get; set; }
@@ -72,7 +97,7 @@ namespace PTT_NGROUR.Models.DataModel
 
         public string REGION { get; set; }
 
-        
+
 
 
     }

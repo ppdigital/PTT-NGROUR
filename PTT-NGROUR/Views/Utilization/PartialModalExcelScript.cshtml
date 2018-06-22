@@ -1,0 +1,127 @@
+﻿<script>
+    var _divModalPipelineImport = $("#ModalImportPipe");
+    var _divModalGateImport = $("#ModalImportGate");
+
+    var _tblPipelineImportSuccess = $("#tblPipelineSuccess");
+    var _tblPipelineImportError = $("#tblPipelineError");
+    var _tblGateSuccess = $("#tblGateSuccess");
+    var _tblGateError = $("#tblGateError");
+    //_divModalPipelineImport.modal("show");
+
+    function getHtmlGate(pList) {
+        if (!Array.isArray(pList) || !pList.length) {
+            return "";
+        }
+        var result = "";
+        for (var i in pList) {
+            var lsg = pList[i];
+            result += "<tr><td>" + lsg.GATE_NAME
+                + "</td><td>" + lsg.PRESSURE
+                + "</td><td>" + lsg.FLOW + "</td><tr>";
+        }
+        return result;
+    }
+    function getHtmlPipeline(pList) {
+        if (!Array.isArray(pList) || !pList.length) {
+            return "";
+        }
+        var result = "";
+        for (var i in pList) {
+            var lsg = pList[i];
+            result += "<tr><td>" + lsg.RC_NAME
+                + "</td><td>" + lsg.FLOW
+                + "</td><td>" + lsg.DIAMETER
+                + "</td><td>" + lsg.LENGTH
+                + "</td><td>" + lsg.EFFICIENCY
+                + "</td><td>" + lsg.ROUGHNESS
+                + "</td><td>" + lsg.LOAD
+                + "</td><td>" + lsg.VELOCITY
+                + "</td><td>" + lsg.OUTSIDE_DIAMETER
+                + "</td><td>" + lsg.WALL_THICKNESS
+                + "</td><td>" + lsg.SERVICE_STATE
+                + "</td><tr>";
+        }
+        return result;
+    }
+
+
+    function importExcelSuccess(pData) {
+        if (pData == null) {
+            return;
+        }
+        switch (pData.Status) {
+            case 0:                
+                console.log(pData.Result);
+                var result = pData.Result;
+                var listPipelineS = result.ListSuccessPipeLine;
+                var listPipelineE = result.ListUnSuccessPipeLine;
+                if ((result.ListSuccessGateStation != null && result.ListSuccessGateStation.length > 0)
+                    || (result.ListUnSuccessGateStation != null && result.ListUnSuccessGateStation.length > 0)) {
+                    var strHtmlGateError = getHtmlGate(result.ListUnSuccessGateStation);
+                    var strHtmlGateSuccess = getHtmlGate(result.ListSuccessGateStation);
+                    
+                    _tblGateError.html(strHtmlGateError);
+                    _tblGateSuccess.html(strHtmlGateSuccess);
+                    _divModalGateImport.modal('show');
+                }
+                else if ((listPipelineS && listPipelineS.length) || (listPipelineE && listPipelineE.length)) {
+                    console.log(listPipelineE);
+                    console.log(listPipelineS);
+                    var strHtmlPipeS = getHtmlPipeline(listPipelineS);
+                    var strHtmlPipeE = getHtmlPipeline(listPipelineE);
+                    _tblPipelineImportError.html(strHtmlPipeE);
+                    _tblPipelineImportSuccess.html(strHtmlPipeS);
+                    _divModalPipelineImport.modal("show");
+                }
+
+                break;
+            case 1:
+                var strError = pData.ErrorMessage + "\r\n" + ErrorStackTrace;
+                alert(strError);
+                break;
+            case 2:
+                alert(pData.ErrorMessage);
+                break;
+        }
+    }
+
+
+    $("#uploadFile").click(function () {
+
+        // var Region = $("#seRegion").val();
+        var fileUpload = $("#fileLoadDoc").get(0);
+        var files = fileUpload.files;
+        var fileData = new FormData();
+
+        for (var k = 0; k < files.length; k++) {
+            fileData.append(files.name, files[k]);
+        }
+
+        var Year = $('#seYear').val();
+        var Month = $('#seMonth').val();
+        var Region = $('#seRegion').val();
+        var Type = $('#seType').val();
+        fileData.append("year", Year);
+        fileData.append("month", Month);
+        fileData.append("region", Region);
+        fileData.append("type", Type);
+
+
+
+       $.ajax({
+
+           type: "POST",
+           url: '@Url.Action("InsertExceldata")',
+           data:  fileData,
+           dataType: 'JSON',
+           cache: false,
+           contentType: false,
+           processData: false,
+           success: function (response) {
+               importExcelSuccess(response);
+           }
+       });
+    });
+
+
+</script>

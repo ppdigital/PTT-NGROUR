@@ -588,7 +588,7 @@
     <Content Include="Views\Utilization\ImportExcel.cshtml" />
     <Content Include="Views\Utilization\Index.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
-    <Content Include="Views\Utilization\ModalImportExcelDialog.cshtml" />
+    <Content Include="Views\Utilization\PartialModalExcel.cshtml" />
     <Content Include="Views\Admin\SearchByAD.cshtml" />
     <Content Include="Views\Authorize\MenuBar.cshtml" />
     <Content Include="Views\Home\MenuMobile.cshtml" />
@@ -598,6 +598,7 @@
     <Content Include="Views\Utilization\PartialThresholdSettingScript.cshtml" />
     <Content Include="Views\Utilization\MenuUtilization.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Utilization\PartialModalExcelScript.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -51,7 +51,7 @@ namespace PTT_NGROUR.Controllers
         public ActionResult ThresholdSetting()
         {
             var dto = new DTO.DtoUtilization();
-            var listThreshold = dto.GetListThreshold().OrderBy(x=> x.ThresholdId).ToArray();
+            var listThreshold = dto.GetListThreshold().OrderBy(x => x.ThresholdId).ToArray();
             var modelResult = new Models.ViewModel.ModelThreshold()
             {
                 ThresholdItems = listThreshold
@@ -65,20 +65,20 @@ namespace PTT_NGROUR.Controllers
             var result = new ModelJsonResult<string>();
             try
             {
-                if(pListThreshold == null || !pListThreshold.Any())
+                if (pListThreshold == null || !pListThreshold.Any())
                 {
                     result.SetError("Input Is Null Or Empty");
                     return Json(result);
                 }
                 var dto = new DTO.DtoUtilization();
-                foreach(var th in pListThreshold.Where(x => x != null))
-                {                    
+                foreach (var th in pListThreshold.Where(x => x != null))
+                {
                     th.UPDATED_BY = User.Identity.Name;
                     dto.UpdateThreshold(th);
-                }               
+                }
                 dto = null;
                 result.SetResultValue("Update Complete");
-                
+
             }
             catch (Exception ex)
             {
@@ -137,7 +137,7 @@ namespace PTT_NGROUR.Controllers
         }
         public ActionResult MenuUtilization()
         { return View(); }
-       
+
         [HttpPost]
         public JsonResult SearchRegion(int[] region)
         {
@@ -177,7 +177,7 @@ namespace PTT_NGROUR.Controllers
             var ds = dal.GetDataSet(searchlicense);
 
 
-            var listLicense= new List<Models.DataModel.ModelGetU>();
+            var listLicense = new List<Models.DataModel.ModelGetU>();
             if (ds.Tables[0].Rows.Count > 0)
             {
 
@@ -243,12 +243,10 @@ namespace PTT_NGROUR.Controllers
 
 
         [HttpPost]
-        public ActionResult InsertExceldata()
+        public JsonResult InsertExceldata()
         {
-            var modelResult = new ModelInsertExcelData()
-            {
-                success = false
-            };
+            var result = new ModelJsonResult<ModelInsertExcelData>();
+            var modelInsertExcel = new ModelInsertExcelData();
             try
             {
 
@@ -259,63 +257,61 @@ namespace PTT_NGROUR.Controllers
 
                 HttpFileCollectionBase files = Request.Files;
 
-                if (files != null && files.Count > 0)
+
+                if (files == null || 0.Equals(files.Count))
                 {
-                    var fb = files[0];
+                    result.SetError("No File Data To Load");
+                    return Json(result);
+                }
 
-                    if (fb == null || fb.InputStream == null)
-                    {
-                        modelResult.responseText = "No File Data To Load";
-                        return Json(modelResult);
-                    }
-                    string exttension = System.IO.Path.GetExtension(fb.FileName);
-                    if (!(new string[] { ".xls", ".xlsx" }).Contains(exttension))
-                    {
-                        modelResult.responseText = "File Type Not In xls or xlsx";
-                        return Json(modelResult);
-                    }
+                var fb = files[0];
 
-                    if (inType == "pipeline")
-                    {
-                         insertExcelPipelineData(
-                            pFileStream: fb.InputStream,
-                            pIntMonth: Convert.ToInt32(inMonth),
-                            pStrRegionId: inRegion,
-                            pStrUploadBy: "user1",
-                            pIntYear: Convert.ToInt32(inYear) , 
-                            pModelResult:modelResult);
-                        modelResult.success = true;
-                        modelResult.responseText = "เพิ่มข้อมูลสำเร็จ";
-                        return Json(modelResult);
-                    }
-                    else if (inType == "gate")
-                    {
+                if (fb == null || fb.InputStream == null)
+                {
+                    result.SetError("No File Data To Load");
+                    return Json(result);
+                }
+                string exttension = System.IO.Path.GetExtension(fb.FileName);
+                if (!(new string[] { ".xls", ".xlsx" }).Contains(exttension))
+                {
+                    result.SetError("File Type Not In xls or xlsx");
+                    return Json(result);
+                }
+                switch (inType)
+                {
+                    case "pipeline":
+                        insertExcelPipelineData(
+                           pFileStream: fb.InputStream,
+                           pIntMonth: inMonth.GetInt(),
+                           pStrRegionId: inRegion,
+                           pStrUploadBy: User.Identity.Name,
+                           pIntYear: inYear.GetInt(),
+                           pModelResult: modelInsertExcel
+                        );
+                        result.SetResultValue(modelInsertExcel);
+                        break;                        
+                    case "gate":
                         insertExcelGateData(
                             pFileStream: fb.InputStream,
-                            pIntMonth: Convert.ToInt32(inMonth),
+                            pIntMonth: inMonth.GetInt(),
                             pStrRegionId: inRegion,
-                            pStrUploadBy: "user1",
-                            pIntYear: Convert.ToInt32(inYear),
-                            pModelResult: modelResult
+                            pStrUploadBy: User.Identity.Name,
+                            pIntYear: inYear.GetInt(),
+                            pModelResult: modelInsertExcel
                         );
-                        modelResult.success = true;
-                        modelResult.responseText = "เพิ่มข้อมูลสำเร็จ";
-                        return Json(modelResult);
-                    }
-
-
-
-
-                    //foreach (HttpPostedFileWrapper fb in files)
-
+                        result.SetResultValue(modelInsertExcel);
+                        break;
+                    default:
+                        result.SetError("Incomplete Unknow Type : " + inType);
+                        break;
                 }
-                return Json(new { success = true, responseText = "เพิ่มข้อมูลสำเร็จ" });
+                return Json(result);
+                
             }
             catch (Exception ex)
             {
-                modelResult.responseText = ex.Message + Environment.NewLine + ex.StackTrace;
-                modelResult.success = false;
-                return Json(modelResult);
+                result.SetException(ex);
+                return Json(result);
             }
         }
 
@@ -333,19 +329,131 @@ namespace PTT_NGROUR.Controllers
                  pIntMonth: pIntMonth,
                  pIntYear: pIntYear,
                  pStrUploadBy: pStrUploadBy,
-                 pStrRegionId: pStrRegionId).Where(x=> x!= null).ToList();
-            var listRc = dto.GetListRcProject().Where(x=> !string.IsNullOrEmpty(x)).ToList();
+                 pStrRegionId: pStrRegionId).Where(x => x != null).ToList();
+
+            //select distinct RC_Project from GIS_NGR_PL
+            var listRc = dto.GetListRcProject().Where(x => !string.IsNullOrEmpty(x)).ToList();
+
+           
+            var listPipelineDuplicate = dto.GetListPipelineImportDuplicate(listExcelPipeline)
+            .Where(x => x != null).ToList();
+
+            var dicPipeline = new Dictionary<string, List<ModelPipelineImport>>();
+            var listError = new List<ModelPipelineImport>();
+            for (int i = listExcelPipeline.Count - 1; i >= 0; --i)
+            {
+                var pipeLine = listExcelPipeline[i];
+                var pipeLineDuplicate = listPipelineDuplicate.FirstOrDefault(x => x.RC_NAME == pipeLine.RC_NAME);
+                // Insert Pipeline
+                if (pipeLineDuplicate == null)
+                {
+                    dto.InsertPipelineImport(pipeLine);
+                }
+                else
+                {
+                    // If Exists Update Pipeline
+                    pipeLine.PIPELINE_ID = pipeLineDuplicate.PIPELINE_ID;
+                    dto.UpdatePipelineImport(pipeLine);
+                }
+
+                // Group List Pipeline To Dictionary By RcName
+                string strRcName = pipeLine.RC_NAME.Split('-')[0];
+                if (listRc.Contains(strRcName))
+                {
+                    if (dicPipeline.ContainsKey(strRcName))
+                    {
+                        dicPipeline[strRcName].Add(pipeLine.Clone());
+                    }
+                    else
+                    {
+                        var listPl = new List<ModelPipelineImport>() { pipeLine.Clone() };
+                        dicPipeline.Add(strRcName, listPl);
+                    }
+                }
+                else
+                {
+                    listExcelPipeline.RemoveAt(i);
+                    listError.Add(pipeLine);
+                }
+            }
+            pModelResult.ListSuccessPipeLine = listExcelPipeline.ToArray();
+            pModelResult.ListUnSuccessPipeLine = listError.ToArray();
+
+            //convert Dictionary To List PipelineArchive
+            var listPLA = new List<ModelPipelineArchive>();
+           
+            foreach(var dic in dicPipeline)
+            {
+                var decMax = dic.Value.Max(x => x.VELOCITY);
+                var pl = dic.Value.Where(x => x.VELOCITY == decMax).First();
+                pl.RC_NAME = dic.Key;
+                listPLA.Add(new ModelPipelineArchive(pl));
+                dic.Value.Clear();                
+            }
+
+            var listPlAD = dto.GetListPipelineArchiveDuplicate(listPLA).Where(x=> x!= null).ToList();
+
+            foreach(var pla in listPLA)
+            {
+                var plad = listPlAD.Where(x => x.RC_NAME == pla.RC_NAME).FirstOrDefault();
+                if(plad == null)
+                {
+                    // Insert PipelineArchive
+                    dto.InsertPipelineArchive(pla);
+                }
+                else
+                {
+                    // If Exists Update PipelineArchive
+                    pla.PIPELINE_ID = plad.PIPELINE_ID;
+                    dto.UpdatePipelineArchive(pla);
+                }
+            }
+
+            dto = null;
+            listError.Clear();
+            listError = null;
+            listExcelPipeline.Clear();
+            listExcelPipeline = null;
+            listPipelineDuplicate.Clear();
+            listPipelineDuplicate = null;
+            listPLA.Clear();
+            listPLA = null;
+            listPlAD.Clear();
+            listPlAD = null;
+            listRc.Clear();
+            listRc = null;
+            dicPipeline.Clear();
+            dicPipeline = null;
+            GC.Collect();                        
+        }
+
+        private void insertExcelPipelineData2(
+        Stream pFileStream,
+        int pIntMonth,
+        string pStrRegionId,
+        string pStrUploadBy,
+        int pIntYear,
+        ModelInsertExcelData pModelResult)
+        {
+            var dto = new DtoUtilization();
+            var listExcelPipeline = dto.ReadExcelPipelineImport(
+                 pStreamExcel: pFileStream,
+                 pIntMonth: pIntMonth,
+                 pIntYear: pIntYear,
+                 pStrUploadBy: pStrUploadBy,
+                 pStrRegionId: pStrRegionId).Where(x => x != null).ToList();
+            var listRc = dto.GetListRcProject().Where(x => !string.IsNullOrEmpty(x)).ToList();
 
             var listPipelineAll = dto.GetListPipeline().ToList();
 
             var listPipelineDuplicate = dto.GetListPipelineImportDuplicate(listExcelPipeline)
-            .Where(x=> x!= null).ToList();
+            .Where(x => x != null).ToList();
 
             for (int i = listExcelPipeline.Count - 1; i >= 0; --i)
             {
                 var pipeLine = listExcelPipeline[i];
                 var pipeLineDuplicate = listPipelineDuplicate.FirstOrDefault(x => x.RC_NAME == pipeLine.RC_NAME);
-                if(pipeLineDuplicate == null)
+                if (pipeLineDuplicate == null)
                 {
                     dto.InsertPipelineImport(pipeLine);
                 }
@@ -384,15 +492,15 @@ namespace PTT_NGROUR.Controllers
                      REGION = x.pipeLineImport.REGION,
                      UPLOAD_BY = x.pipeLineImport.UPLOAD_BY,
                      VELOCITY = x.pipeLineImport.VELOCITY,
-                     YEAR = x.pipeLineImport.YEAR 
+                     YEAR = x.pipeLineImport.YEAR
                  }).ToList();
             var listPipelineArchiveDuplicate = dto.GetListPipelineArchiveDuplicate(listPipelineArchive)
-                .Where(x=> x!= null).ToList();
+                .Where(x => x != null).ToList();
             for (int i = listPipelineArchive.Count - 1; i >= 0; --i)
             {
                 var pla = listPipelineArchive[i];
                 var plaDupplicate = listPipelineArchiveDuplicate.FirstOrDefault(x => x.RC_NAME == pla.RC_NAME);
-                if(plaDupplicate == null)
+                if (plaDupplicate == null)
                 {
                     dto.InsertPipelineArchive(pla);
                 }
@@ -886,6 +994,6 @@ namespace PTT_NGROUR.Controllers
     {
         public string REGION_NAME { get; set; }
         public int REGION_ID { get; set; }
-}
+    }
 
 }

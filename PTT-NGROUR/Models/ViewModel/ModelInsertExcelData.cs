@@ -7,9 +7,9 @@ namespace PTT_NGROUR.Models.ViewModel
 {
     public class ModelInsertExcelData
     {
-        public bool success { get; set; }
+        //public bool success { get; set; }
 
-        public string responseText { get; set; }
+        //public string responseText { get; set; }
 
         public DataModel.ModelPipelineImport[] ListUnSuccessPipeLine { get; set; }
 

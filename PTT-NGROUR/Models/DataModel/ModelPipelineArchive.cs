@@ -28,7 +28,40 @@ namespace PTT_NGROUR.Models.DataModel
             this.VELOCITY = pReader["VELOCITY"].GetDecimal();
             this.YEAR = pReader["YEAR"].GetInt();
         }
-        
+
+        public ModelPipelineArchive(ModelPipelineImport pPipelineImport)
+        {
+            if (pPipelineImport == null)
+            {
+                return;
+            }
+            this.PIPELINE_ID = pPipelineImport.PIPELINE_ID;           
+            this.MONTH = pPipelineImport.MONTH;
+            this.RC_NAME = pPipelineImport.RC_NAME;
+            this.REGION = pPipelineImport.REGION;
+            this.UPLOAD_BY = pPipelineImport.UPLOAD_BY;
+            this.UPLOAD_DATE = pPipelineImport.UPLOAD_DATE;
+            this.VELOCITY = pPipelineImport.VELOCITY;
+            this.YEAR = pPipelineImport.YEAR;
+        }
+
+        public ModelPipelineArchive Clone()
+        {
+            var result = new ModelPipelineArchive()
+            {
+                PIPELINE_ID=this.PIPELINE_ID ,
+                FLAG_ID=this.FLAG_ID,
+                MONTH = this.MONTH,
+                RC_NAME = this.RC_NAME,
+                REGION = this.REGION,
+                UPLOAD_BY = this.UPLOAD_BY,
+                UPLOAD_DATE = this.UPLOAD_DATE,
+                VELOCITY = this.VELOCITY,
+                YEAR = this.YEAR
+            };
+            return result;
+        }
+
 
         public int PIPELINE_ID { get; set; }
         public string RC_NAME { get; set; }
