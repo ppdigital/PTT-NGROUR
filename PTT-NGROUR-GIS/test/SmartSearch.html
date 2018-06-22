@@ -1,0 +1,47 @@
+﻿<div class="ui-hidden">
+    <script type="text/javascript">
+        require([
+            "dojo/dom-style",
+            "dojo/dom",
+            "dojo/on",
+            "dijit/registry",
+            "dojo/_base/lang",
+            "dojo/ready",
+
+            "widgets/SmartSearch/Widget"
+        ], function (
+            domStyle,
+            dom,
+            on,
+            registry,
+            lang,
+            ready,
+
+            _Widget
+           ) {
+            var frmUpload = null;
+            ready(function () {
+                top._wg = new _Widget({
+                    width: '300px',
+                    enableSetting: false,
+                    showIcon: true,
+                    enableBottomBar: false,
+                    enableFavorite: false,
+                }, dom.byId("widget"));
+                top._wg.set("displayField", "DISPLAY");
+                top._wg.set("valueField", "VALUE");
+                //  widget.set("enableSetting", false);
+
+                on(top._wg, "add-favorite", function (e) {
+                    console.log("add-favorite: ", e);
+                });
+                on(top._wg, "remove-favorite", function (e) {
+                    console.log("remove-favorite: ", e);
+                });
+            });
+        });
+    </script>
+</div>
+<div class="ui-body ui-overflow-auto">
+    <div id="widget"></div>
+</div>

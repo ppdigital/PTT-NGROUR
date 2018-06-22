@@ -1,0 +1,76 @@
+﻿<div class="ui-hidden">
+    <style type="text/css">
+        /*append css here*/
+    </style>
+    <script type="text/javascript">
+        require([
+            "esrith/amos/form/FormValidator",
+            "esrith/amos/form/TextBox",
+            "esrith/amos/form/Upload",
+            "esrith/amos/form/Button",
+
+            "core/_WidgetBase",
+
+            "dojo/dom-style",
+            "dojo/dom",
+            "dojo/on",
+            "dijit/registry",
+            "dojo/_base/lang",
+            "dojo/ready"
+        ], function (
+            FormValidator,
+            TextBox,
+            Upload,
+            Button,
+
+            _WidgetBase,
+
+            domStyle,
+            dom,
+            on,
+            registry,
+            lang,
+            ready
+           ) {
+            var frmUpload = null;
+            ready(function () {
+                /*append script here*/
+                frmUpload = registry.byId("frmUpload");
+                var wgBase = new _WidgetBase();
+                var dataStore = wgBase.reqDS("DS_FILE_UPLOAD");
+                frmUpload.set("dataStore", dataStore);
+                //action = dataStore.url;
+                console.log(frmUpload);
+
+            });
+
+            this.beforeSubmit = function () {
+                //var wgBase = new _WidgetBase();
+
+                //throw new Error("");
+            }
+
+            this.afterSubmit = function () {
+                console.log(arguments);
+            };
+        });
+    </script>
+</div>
+<div class="ui-body ui-overflow-auto">
+    <!--append content here-->
+    <form id="frmUpload"
+        data-dojo-type="esrith/amos/form/FormValidator"
+        data-dojo-props="
+        beforeSubmit: beforeSubmit,
+        afterSubmit: afterSubmit"
+        enctype="multipart/form-data">
+        <div data-dojo-type="esrith/amos/form/TextBox" data-dojo-props="label:'PARAM1'"></div>
+        <div data-dojo-type="esrith/amos/form/TextBox" data-dojo-props="label:'PARAM2'"></div>
+        <div data-dojo-type="esrith/amos/form/TextBox" data-dojo-props="label:'PARAM3'"></div>
+        <div data-dojo-type="esrith/amos/form/Upload" data-dojo-props="label:'FILE1'"></div>
+        <div data-dojo-type="esrith/amos/form/Upload" data-dojo-props="label:'FILE2'"></div>
+        <div data-dojo-type="esrith/amos/form/Upload" data-dojo-props="label:'FILE3'"></div>
+        <div data-dojo-type="esrith/amos/form/Button" data-dojo-props="label:'Upload', type:'submit'"></div>
+        <div data-dojo-type="esrith/amos/form/Button" data-dojo-props="label:'Reset', type:'reset'"></div>
+    </form>
+</div>

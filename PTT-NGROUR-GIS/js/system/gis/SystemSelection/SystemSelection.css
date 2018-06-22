@@ -1,0 +1,123 @@
+﻿.system-selection {
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    opacity: 0;
+    -moz-transition: all ease-out 200ms;
+    -o-transition: all ease-out 200ms;
+    -webkit-transition: all ease-out 200ms;
+    transition: all ease-out 200ms;
+}
+
+    .system-selection.visible {
+        opacity: 1;
+        z-index: 999;
+    }
+
+        .system-selection.visible > .container > .item {
+            -moz-transform: scale(1);
+            -ms-transform: scale(1);
+            -o-transform: scale(1);
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+
+    .system-selection > .container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 196px;
+        max-height: 100%;
+        text-align: center;
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+        .system-selection > .container > .item {
+            background-color: #ffffff;
+            position: relative;
+            display: inline-block;
+            width: 180px;
+            height: 180px;
+            margin: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid #30b88b;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            -moz-transform: scale(0.8);
+            -ms-transform: scale(0.8);
+            -o-transform: scale(0.8);
+            -webkit-transform: scale(0.8);
+            transform: scale(0.8);
+            -moz-transition: all ease-out 200ms;
+            -o-transition: all ease-out 200ms;
+            -webkit-transition: all ease-out 200ms;
+            transition: all ease-out 200ms;
+        }
+
+            .system-selection > .container > .item > .animate {
+                background-color: #30b88b;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 142%;
+                height: 142%;
+                -moz-transform: rotate(-45deg) translateY(-110%);
+                -ms-transform: rotate(-45deg) translateY(-110%);
+                -o-transform: rotate(-45deg) translateY(-110%);
+                -webkit-transform: rotate(-45deg) translateY(-110%);
+                transform: rotate(-45deg) translateY(-110%);
+                -moz-transition: all ease-out 200ms;
+                -o-transition: all ease-out 200ms;
+                -webkit-transition: all ease-out 200ms;
+                transition: all ease-out 200ms;
+            }
+
+            .system-selection > .container > .item > .icon {
+                background-position: center;
+                background-repeat: no-repeat;
+                position: relative;
+                width: 100%;
+                height: 140px;
+            }
+
+            .system-selection > .container > .item > .label {
+                background-color: rgba(0, 0, 0, 0.1);
+                position: relative;
+                width: 100%;
+                height: 40px;
+                text-align: center;
+                line-height: 40px;
+                -moz-transition: all ease-out 200ms;
+                -o-transition: all ease-out 200ms;
+                -webkit-transition: all ease-out 200ms;
+                transition: all ease-out 200ms;
+            }
+
+            .system-selection > .container > .item:hover > .animate {
+                -moz-transform: rotate(-45deg) translateY(-30%);
+                -ms-transform: rotate(-45deg) translateY(-30%);
+                -o-transform: rotate(-45deg) translateY(-30%);
+                -webkit-transform: rotate(-45deg) translateY(-30%);
+                transform: rotate(-45deg) translateY(-30%);
+            }
+
+            .system-selection > .container > .item:hover > .label {
+                color: #ffffff;
+            }
+
+
+
+@media only screen and (min-width: 769px) {
+
+    .system-selection > .container {
+        width: 100%;
+    }
+}

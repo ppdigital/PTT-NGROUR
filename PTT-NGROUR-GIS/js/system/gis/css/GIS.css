@@ -1,0 +1,256 @@
+﻿
+
+.viewport-gis > .menu-panel > .container > .item > .icon.routing {
+    background-image: url(../resources/images/btn_menu_routing.png);
+}
+
+.viewport-gis > .menu-panel > .container > .item.selected > .icon.routing {
+    background-image: url(../resources/images/btn_menu_routing_selected.png);
+}
+
+.viewport-gis > .menu-panel > .container > .item > .icon.search {
+    background-image: url(../resources/images/btn_menu_search.png);
+}
+
+.viewport-gis > .menu-panel > .container > .item.selected > .icon.search {
+    background-image: url(../resources/images/btn_menu_search_selected.png);
+}
+
+.viewport-gis > .menu-panel > .container > .item > .icon.buffer {
+    background-image: url(../resources/images/btn_menu_buffer.png);
+}
+
+.viewport-gis > .menu-panel > .container > .item.selected > .icon.buffer {
+    background-image: url(../resources/images/btn_menu_buffer_selected.png);
+}
+
+/*.awesome-button > .wrapper > .button.normal{
+    display: none;
+}*/
+
+/*.awesome-button {
+    display: none;
+}*/
+.awesome-button {
+    display: block;
+}
+
+    .awesome-button.normal {
+        display: none;
+    }
+
+    .awesome-button > .wrapper > .button.more {
+        background-image: url(../resources/images/btn_onmap_more.png);
+        background-size: auto;
+    }
+
+    .awesome-button > .wrapper > .button.systems {
+        background-image: url(../resources/images/btn_onmap_systems.png);
+        background-size: auto;
+    }
+
+    .awesome-button > .wrapper > .button.measurement {
+        background-image: url(../resources/images/btn_onmap_measurement.png);
+        background-size: auto;
+    }
+
+    .awesome-button > .wrapper > .sub-item-container > .button.toc {
+        background-image: url(../resources/images/btn_onmap_toc.png);
+    }
+
+.system-selection > .container > .item > .icon.logout {
+    background-image: url(../resources/images/btn_system_logout.png);
+}
+
+.system-selection > .container > .item:hover > .icon.logout {
+    background-image: url(../resources/images/btn_system_logout_hover.png);
+}
+
+.system-selection > .container > .item > .icon.gis {
+    background-image: url(../resources/images/btn_system_gis.png);
+}
+
+.system-selection > .container > .item:hover > .icon.gis {
+    background-image: url(../resources/images/btn_system_gis_hover.png);
+}
+
+.system-selection > .container > .item > .icon.um {
+    background-image: url(../resources/images/btn_system_um.png);
+}
+
+.system-selection > .container > .item:hover > .icon.um {
+    background-image: url(../resources/images/btn_system_um_hover.png);
+}
+
+.awesome-panel.measurement {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 0;
+    -moz-transition: all ease-out 200ms;
+    -o-transition: all ease-out 200ms;
+    -webkit-transition: all ease-out 200ms;
+    transition: all ease-out 200ms;
+}
+
+    .awesome-panel.measurement.visible {
+        height: 320px;
+    }
+/*Add BY Nattawit.kr 2018/06/15*/
+@media only screen and (min-width: 359px) {
+
+    .awesome-panel.measurement {
+        position: absolute;
+        top: 90%;
+        right: 20%;
+        bottom: auto;
+        left: auto;
+        width: 250px;
+        height: auto;
+        border-radius: 2px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        -moz-transform: scale(0.4);
+        -ms-transform: scale(0.4);
+        -o-transform: scale(0.4);
+        -webkit-transform: scale(0.4);
+        /*Add By Nattawit.kr 2018/06/15 > Edit Move Click measurement All Select
+        transform: scale(0.4);
+        */
+        transform: scale(0.0);
+        /*End Add*/
+    }
+
+        .awesome-panel.measurement.visible {
+            opacity: 1;
+            -moz-transform: scale(1);
+            -ms-transform: scale(1);
+            -o-transform: scale(1);
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+}
+/*End Add BY Nattawit.kr 2018/06/15*/
+
+@media only screen and (min-width: 769px) {
+
+    .awesome-panel.measurement {
+        position: absolute;
+        top: 68px;
+        right: 24px;
+        bottom: auto;
+        left: auto;
+        width: 260px;
+        height: 320px;
+        border-radius: 2px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        -moz-transform: scale(0.4);
+        -ms-transform: scale(0.4);
+        -o-transform: scale(0.4);
+        -webkit-transform: scale(0.4);
+        /*Add By Nattawit.kr 2018/06/15 > Edit Move Click measurement All Select
+        transform: scale(0.4);
+        */
+        transform: scale(0.0);
+        /*End Add*/
+    }
+
+        .awesome-panel.measurement.visible {
+            opacity: 1;
+            -moz-transform: scale(1);
+            -ms-transform: scale(1);
+            -o-transform: scale(1);
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+}
+
+.awesome-panel.gotoXY {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 0;
+    -moz-transition: all ease-out 200ms;
+    -o-transition: all ease-out 200ms;
+    -webkit-transition: all ease-out 200ms;
+    transition: all ease-out 200ms;
+}
+
+    .awesome-panel.gotoXY.visible {
+        height: 235px;
+    }
+
+.colorBlue {
+    color: #337FD4;
+}
+/*css override*/
+.map .awesome-panel > .header {
+    background-color: #458AD5;
+    color: white;
+}
+
+.container.map .esriPopup .sizer {
+    width: 330px;
+}
+
+    .container.map .esriPopup .sizer .title {
+        line-height: inherit;
+    }
+
+
+/*css override*/
+
+@media only screen and (min-width: 769px) {
+
+    .awesome-panel.gotoXY {
+        position: absolute;
+        top: 68px;
+        right: 55px;
+        bottom: auto;
+        left: auto;
+        width: 340px;
+        height: 235px;
+        border-radius: 2px;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        -moz-transform: scale(0.4);
+        -ms-transform: scale(0.4);
+        -o-transform: scale(0.4);
+        -webkit-transform: scale(0.4);
+        transform: scale(0.4);
+    }
+
+        .awesome-panel.gotoXY.visible {
+            opacity: 1;
+            -moz-transform: scale(1);
+            -ms-transform: scale(1);
+            -o-transform: scale(1);
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+}
+
+@media only screen and (min-width: 769px) {
+    /*.awesome-button > .wrapper > .button.normal{
+        display: block;
+    }
+    .awesome-button > .wrapper > .button.more{
+        display: none;
+    }*/
+
+    .awesome-button {
+        display: none;
+    }
+
+        .awesome-button.normal {
+            display: block;
+        }
+}
+
+
+/*@media only screen and (min-width: 1281px) {*/
+@media only screen and (min-width: 1101px) {
+}
