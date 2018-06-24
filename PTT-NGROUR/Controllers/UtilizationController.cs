@@ -209,7 +209,13 @@ namespace PTT_NGROUR.Controllers
                         NAME = dr["NAME"].ToString(),
                         COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
-                        TYPE = dr["TYPE"].ToString()
+                        TYPE = dr["TYPE"].ToString(),
+                        FLAG = dr["FLAG"].ToString(),
+                        REGION = dr["REGION"].ToString(),
+                        LICENSE = dr["LICENSE"].ToString(),
+                        STATUS = dr["STATUS"].ToString(),
+                        MONTH = dr["MONTH"].ToString(),
+                        YEAR = dr["YEAR"].ToString(),
                     };
                     listRegion.Add(reg);
                 }

@@ -33,7 +33,11 @@
     
     
 </style>
-
+@{
+    PTT_NGROUR.Models.User users = new PTT_NGROUR.Models.User();
+    @Html.Hidden("username",users.Username);
+    @Html.Hidden("flag",users.Roleid);
+}
 
 <br />
 <div class="container-fluid" style="margin-top:-.8rem">
@@ -225,7 +229,7 @@
                     }
                 }
 
-
+                var map_info_json;
                 var region;
                 $('#MultiRegion').change(function () {
                     SeRegion = $(this).val();
@@ -256,30 +260,7 @@
                         contentType: 'application/json; charset=utf-8',
                         datatype: 'json',
                         success: function (data) {
-                            $('#utilTbl').find('tbody tr').each(function () {
-                                this.remove();
-                            });
-                            for (let i in data) {
-                                if (data[i].COLOR == 'Green') {
-                                    data[i].COLOR = '<span class="fa fa-circle " style="color:#16a085"></span>'
-                                    color1 = "green"
-                                    console.log(color1);
-                                } else if (data[i].COLOR == 'Yellow') {
-                                    data[i].COLOR = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
-                                    color1 = "yellow"
-                                    console.log(color1);
-                                } else if (data[i].COLOR == 'Red') {
-                                    data[i].COLOR = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
-                                    color1 = "red"
-                                } else {
-                                    data[i].COLOR = "";
-                                    color1 = "no"
-                                }
-                                console.log('color1' + color1);
-                                console.log('data' + data[i].NO);
-
-                                $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
-                            }
+                            initMapTable(data);
                         },
                         error: function (result) {
                             alert('Fail ');
@@ -305,7 +286,50 @@
                         }
                     }
                 }
+                function utilTblOnclick() {
+                    let map_info = $(this).data("map_info");
+                    map_info_json = {
+                        "menu": "utilization-search",
+                        "type": map_info.TYPE,
+                        "command": "view",
+                        "flag": $('#flag').val() == 1? true:false,
+                        "flagby": $('#username').val(),
+                        "parameter": {
+                            "REGION": map_info.REGION,
+                            "LICENSE": map_info.LICENSE,
+                            "NAME": map_info.NAME,
+                            "MONTH": map_info.MONTH,
+                            "YEAR": map_info.YEAR,
+                        }
+                    }
+                }
+                function initMapTable(data) {
+                    console.log(data)
+                    $('#utilTbl').find('tbody tr').each(function () {
+                        this.remove();
+                    });
+                    for (let i in data) {
+                        if (data[i].COLOR == 'Green') {
+                            data[i].COLOR = '<span class="fa fa-circle " style="color:#16a085"></span>'
+                            color1 = "green"
+                            console.log(color1);
+                        } else if (data[i].COLOR == 'Yellow') {
+                            data[i].COLOR = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
+                            color1 = "yellow"
+                            console.log(color1);
+                        } else if (data[i].COLOR == 'Red') {
+                            data[i].COLOR = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
+                            color1 = "red"
+                        } else {
+                            data[i].COLOR = "";
+                            color1 = "no"
+                        }
 
+                        $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
+                        $('#utilTbl > tbody >tr:last-child').data('map_info', data[i]);
+                        $('#utilTbl > tbody >tr:last-child').click(utilTblOnclick);
+                    }
+                }
                 //////////////////////
 
                 //$("#threshold-filter").change(function () {
