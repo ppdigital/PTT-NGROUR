@@ -53,6 +53,7 @@
         min: 1,
         range: true,
         values: [ @Model.ThresholdItems[i].MinValue, @Model.ThresholdItems[i].MaxValue],
+        step: 0.01
         @*slide: function (e, u) {
             if (u.values[0] > 50) {
                 u.values[0] = 50;
@@ -66,7 +67,7 @@
         }*@
     }).slider("pips", {
         rest: "label",
-        step: 10
+        step: 1000
     }).slider("float");
 
     @*$(@strNumMinID).on("change", function (e) {
@@ -120,20 +121,20 @@
 
     function setMaxSlider(pIntNo, pIntValue) {
         $(_strDivSlide + pIntNo).slider("values", 1, pIntValue);
-        $(_strNumMax + pIntNo).val(pIntValue);
+        $(_strNumMax + pIntNo).val(pIntValue.toFixed(2));
     }
 
     function setMinSlider(pIntNo, pIntValue) {
         $(_strDivSlide + pIntNo).slider("values", 0, pIntValue);
-        $(_strNumMin + pIntNo).val(pIntValue);
+        $(_strNumMin + pIntNo).val(pIntValue.toFixed(2));
     }
 
     function getSliderMaxValue(pIntNo) {
-        return parseFloat($(_strDivSlide + pIntNo).slider("values", 1));
+        return parseFloat($(_strDivSlide + pIntNo).slider("values", 1)).toFixed(2);
     }
 
     function getSliderMinValue(pIntNo) {
-        return parseFloat($(_strDivSlide + pIntNo).slider("values", 0));
+        return parseFloat($(_strDivSlide + pIntNo).slider("values", 0)).toFixed(2);
     }
     //-------------------------------------//
     function setMaxGateSlider(pIntNo, pIntValue) {

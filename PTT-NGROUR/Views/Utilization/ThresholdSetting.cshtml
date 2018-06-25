@@ -35,7 +35,7 @@
                                             <input type="number"
                                                    id="@("numMin" + j.ToString())"
                                                    class="form-control input-sm h7-xs"
-                                                   value="@Model.ThresholdItems[j].MinValue" />
+                                                   value="@Model.ThresholdItems[j].MinValue.ToString("n2")" />
                                         </div>
                                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-8" style="padding-left:0rem;padding-right:0rem;">
                                             <div class="input-group-addon input-sm h7-xs"
@@ -50,7 +50,7 @@
                                             <input id="@("numMax" + j.ToString())"
                                                    type="number"
                                                    class="form-control input-sm h7-xs"
-                                                   value="@Model.ThresholdItems[j].MaxValue" />
+                                                   value="@Model.ThresholdItems[j].MaxValue.ToString("n2")" />
 
                                         </div>
                                     </div>
