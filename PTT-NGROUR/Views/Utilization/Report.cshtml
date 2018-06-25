@@ -344,7 +344,7 @@
             contentType: 'application/json; charset=utf-8',
             datatype: 'json',
             success: function (data) {
-                console.log(data);
+                //console.log(data);
                 showPIE("PIPELINE", data);
                 showPIE("GATE", data);
                 showUtilTable(data);
@@ -356,7 +356,8 @@
     }
 
       function showUtilTable(data) {
-         
+          
+          
           
         $('#utilTbl').find('tbody tr').each(function () {
             this.remove();
@@ -512,11 +513,11 @@
                             if (data[i].COLOR == 'Green') {
                                 data[i].COLOR = '<span class="fa fa-circle " style="color:#16a085"></span>'
                                 color1 = "green"
-                                console.log(color1);
+                                //console.log(color1);
                             } else if (data[i].COLOR == 'Yellow') {
                                 data[i].COLOR = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
                                 color1 = "yellow"
-                                console.log(color1);
+                                //console.log(color1);
                             } else if (data[i].COLOR == 'Red') {
                                 data[i].COLOR = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
                                 color1 = "red"
@@ -524,8 +525,8 @@
                                 data[i].COLOR = "";
                                 color1 = "no"
                             }
-                            console.log('color1' + color1);
-                            console.log('data' + data[i].NO);
+                            //console.log('color1' + color1);
+                            //console.log('data' + data[i].NO);
 
                             num = 1 + Number(i);
                             if (document.getElementById('radioMonth').checked) {
@@ -718,7 +719,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (chData) {
-                console.log(chData);
+                //console.log(chData);
                 var aData = chData;
                 var aLabels = aData[0];
                 var aDatasets1 = aData[1];
@@ -799,18 +800,17 @@
             contentType: 'application/json; charset=utf-8',
             datatype: 'json',
             success: function (data) {
-                $('#utilTbl').find('tbody tr').each(function () {
-                    this.remove();
-                });
+                
+                let tbl = $("#utilTbl").DataTable();
                 for (let i in data) {
                     if (data[i].COLOR == 'Green') {
                         data[i].COLOR = '<span class="fa fa-circle " style="color:#16a085"></span>'
                         color1 = "green"
-                        console.log(color1);
+                        //console.log(color1);
                     } else if (data[i].COLOR == 'Yellow') {
                         data[i].COLOR = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
                         color1 = "yellow"
-                        console.log(color1);
+                        //console.log(color1);
                     } else if (data[i].COLOR == 'Red') {
                         data[i].COLOR = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
                         color1 = "red"
@@ -818,8 +818,8 @@
                         data[i].COLOR = "";
                         color1 = "no"
                     }
-                    console.log('color1' + color1);
-                    console.log('data' + data[i].NO);
+                    //console.log('color1' + color1);
+                    //console.log('data' + data[i].NO);
 
                     num = 1 + Number(i);
                     if (document.getElementById('radioMonth').checked) {
@@ -827,8 +827,11 @@
                     }
                     else if (document.getElementById('radioYear').checked)
                     { dataMonthYear = data[i].YEAR; }
-                    $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>');
+                    var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+                    tbl.row.add($(rowItem));
+                    //$('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>');
                 }
+                tbl.draw();
             },
             error: function (result) {
                 alert('Please select the data');
