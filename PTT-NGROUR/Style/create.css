@@ -625,7 +625,7 @@ select .inline{display: inline-block;}
     .h7-xs {
         font-size: 8px !important;
     }
-
+    .fn-xs{float:none !important;}
  } 
 
 
@@ -829,3 +829,4 @@ input:-webkit-autofill {
 }
 .cr{clear:right;}
 .fl{float:left;}
+.pb2{padding-bottom:2rem;}

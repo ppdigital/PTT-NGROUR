@@ -245,7 +245,13 @@ namespace PTT_NGROUR.Controllers
                         NAME = dr["NAME"].ToString(),
                         COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
-                        TYPE = dr["TYPE"].ToString()
+                        TYPE = dr["TYPE"].ToString(),
+                        FLAG = dr["FLAG"].ToString(),
+                        REGION = dr["REGION"].ToString(),
+                        LICENSE = dr["LICENSE"].ToString(),
+                        STATUS = dr["STATUS"].ToString(),
+                        MONTH = dr["MONTH"].ToString(),
+                        YEAR = dr["YEAR"].ToString(),
                     };
                     listLicense.Add(reg);
                 }
@@ -682,6 +688,138 @@ namespace PTT_NGROUR.Controllers
             pModelResult.ListUnSuccessGateStation = listGateUnsuccess.ToArray();
             pModelResult.ListSuccessGateStation = listGate.ToArray();
         }
+
+        [HttpPost]
+        public JsonResult AllGate()
+        {
+            var dal = new DAL.DAL();
+            var ds = dal.GetDataSet("SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE TYPE = 'GATESTATION' AND REGION IS NOT NULL");
+            decimal green = 0;
+            decimal red = 0;
+            decimal yellow = 0;
+            decimal total = 0;
+            foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+            {
+                if (dr["COLOR"].Equals("Green"))
+                {
+                    green++;
+                }
+                else if (dr["COLOR"].Equals("Red"))
+                {
+                    red++;
+                }
+                else if (dr["COLOR"].Equals("Yellow"))
+                {
+                    yellow++;
+                }
+
+            }
+            total = ds.Tables[0].Rows.Count;
+            //green = (green / total) * 100;
+            //red = (red / total) * 100;
+            //yellow = (yellow / total) * 100;
+
+            List<object> iData = new List<object>();
+            //Creating sample data  
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Name", System.Type.GetType("System.String"));
+            dt.Columns.Add("Color", System.Type.GetType("System.String"));
+
+            DataRow dr1 = dt.NewRow();
+            dr1 = dt.NewRow();
+            dr1["Name"] = "Alert";
+            dr1["Color"] = red;
+            dt.Rows.Add(dr1);
+
+            dr1 = dt.NewRow();
+            dr1["Name"] = "Warning";
+            dr1["Color"] = yellow;
+            dt.Rows.Add(dr1);
+
+            dr1 = dt.NewRow();
+            dr1["Name"] = "Pass";
+            dr1["Color"] = green;
+            dt.Rows.Add(dr1);
+
+
+
+
+            //Looping and extracting each DataColumn to List<Object>  
+            foreach (DataColumn dc in dt.Columns)
+            {
+                List<object> x = new List<object>();
+                x = (from DataRow drr in dt.Rows select drr[dc.ColumnName]).ToList();
+                iData.Add(x);
+            }
+            //Source data returned as JSON  
+            return Json(iData, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AllPipeline()
+        {
+            var dal = new DAL.DAL();
+            var ds = dal.GetDataSet("SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE TYPE = 'PIPELINE' AND REGION IS NOT NULL");
+            decimal green = 0;
+            decimal red = 0;
+            decimal yellow = 0;
+            decimal total = 0;
+            foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+            {
+                if (dr["COLOR"].Equals("Green"))
+                {
+                    green++;
+                }
+                else if (dr["COLOR"].Equals("Red"))
+                {
+                    red++;
+                }
+                else if (dr["COLOR"].Equals("Yellow"))
+                {
+                    yellow++;
+                }
+
+            }
+            total = ds.Tables[0].Rows.Count;
+            //green = (green / total) * 100;
+            //red = (red / total) * 100;
+            //yellow = (yellow / total) * 100;
+
+            List<object> iData = new List<object>();
+            //Creating sample data  
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Name", System.Type.GetType("System.String"));
+            dt.Columns.Add("Color", System.Type.GetType("System.String"));
+
+            DataRow dr1 = dt.NewRow();
+            dr1 = dt.NewRow();
+            dr1["Name"] = "Alert";
+            dr1["Color"] = red;
+            dt.Rows.Add(dr1);
+
+            dr1 = dt.NewRow();
+            dr1["Name"] = "Warning";
+            dr1["Color"] = yellow;
+            dt.Rows.Add(dr1);
+
+            dr1 = dt.NewRow();
+            dr1["Name"] = "Pass";
+            dr1["Color"] = green;
+            dt.Rows.Add(dr1);
+
+
+
+
+            //Looping and extracting each DataColumn to List<Object>  
+            foreach (DataColumn dc in dt.Columns)
+            {
+                List<object> x = new List<object>();
+                x = (from DataRow drr in dt.Rows select drr[dc.ColumnName]).ToList();
+                iData.Add(x);
+            }
+            //Source data returned as JSON  
+            return Json(iData, JsonRequestBehavior.AllowGet);
+        }  
 
 
 
