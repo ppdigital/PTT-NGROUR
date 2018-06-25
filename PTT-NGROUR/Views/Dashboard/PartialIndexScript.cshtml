@@ -1,10 +1,12 @@
-﻿<script>
+﻿@model PTT_NGROUR.Models.ViewModel.ModelUtilization
+<script>
 
     var _graphPipeLine = null;
 
     var _graphGate = null;   
-
+    var SeRegion = [ @Model.ListRegion.Select(x=> x.REGION_ID.ToString()).Aggregate((x,y)=> x+ ","+y) ];
     function Search() {
+        
         let url;
        
         let multidata;
@@ -19,6 +21,7 @@
             multidata = SeLicense;
             strMode = "license";
         }
+        
         $.ajax({
             url: url,
             type: 'POST',
