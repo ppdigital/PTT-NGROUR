@@ -10,6 +10,7 @@
       <mvcSiteMapNode title="Customer Management" controller="Utilization" action="CustManage"/>
       <mvcSiteMapNode title="Threshold Setting" controller="Utilization" action="ThresholdSetting"/>
       <mvcSiteMapNode title="Import Excel" controller="Utilization" action="ImportExcel"/>
+    <mvcSiteMapNode title="Report" controller="Utilization" action="Report"/>
     </mvcSiteMapNode>
     <mvcSiteMapNode title="Admin" controller="Admin" action="Index">
       <mvcSiteMapNode title="User Management" controller="Admin" action="UserManagement"/>

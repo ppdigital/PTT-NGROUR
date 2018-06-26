@@ -31,7 +31,7 @@
                                 <select class="selectpicker fz-12px form-control" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;">
                                     @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
                                     {
-                                        <option value="@ml.REGION_ID" class="text-grey" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
+                                        <option value="@ml.REGION_ID" class="text-grey" style="word-wrap:break-word;font-size:15px" selected="selected">@ml.REGION_NAME</option>
                                     }
                                 </select>
                             </div>
@@ -104,26 +104,27 @@
                                     </center>
                                   </div>
                             </div>
+                           
                            <!--Search Donut Graph-->
-                            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 pt-15px pb-15px pr-0 pl-0 border-left-md border-left-lg ">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-15px pb-15px pr-0 pl-0 border-left-md border-left-lg" style="float:none">
                                 <div class="form-inline">
                                     <center>
                                         <div class="input-group">
-                                            <div class="input-group-btn col-lg-1 col-md-3 col-sm-3 col-xs-3" style="padding-left:0rem;padding-right:0rem;">
+                                            <div class="input-group-btn col-lg-1 col-md-3 col-sm-3 col-xs-3 fn-xs" style="padding-left:0rem;padding-right:0rem;">
 
                                                 <select class="form-control form-control-sm fz-12px" id="type-filter" style="height: 30px !important;">
                                                     <option id="seAll" class="fz-12px drop_role" value="all">All</option>
                                                     <option id="sePipeline" class="fz-12px drop_role" value="PIPELINE">Pipeline</option>
                                                     <option id="seGate" class="fz-12px drop_role" value="GATESTATION">Gate Station</option>
-                                                    
+
                                                 </select>
 
                                             </div>
 
-                                            <div class="input-group-btn col-lg-2 col-md-6 col-sm-6 col-xs-6" style="padding-left:0rem;padding-right:0rem;">
+                                            <div class="input-group-btn col-lg-2 col-md-6 col-sm-6 col-xs-6 fn-xs" style="padding-left:0rem;padding-right:0rem;">
                                                 <input id="txtSearch" class="form-control input-sm " type="text" aria-describedby="name-desc" onkeyup="myFunction()">
                                             </div>
-                                            <div class="input-group-btn col-lg-1 col-md-3 col-sm-3 col-xs-3" style="padding-left:0rem;padding-right:0rem;">
+                                            <div class="input-group-btn col-lg-1 col-md-3 col-sm-3 col-xs-3 fn-xs" style="padding-left:0rem;padding-right:0rem;">
 
                                                 <select class="form-control form-control-sm fz-12px" id="threshold-filter" style="height: 30px !important;">
                                                     <option id="seAllThres" class="fz-12px drop_role" value="all">All Threshold</option>
@@ -167,10 +168,14 @@
     @section scripts{
         <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
 
+        @Html.Partial("PartialIndexScript")
+
         <script type="text/javascript">
+            var SeRegion;
+            var SeLicense;
             $(document).ready(function () {
                 document.getElementById('seLicense').style.display = 'none';
-                $('#MultiRegion').selectpicker('selectAll');
+                $('#MultiRegion').selectpicker('selectAll').selectpicker('refresh');
             });
 
             function Check() {
@@ -199,7 +204,8 @@
 
             })
 
-            function Search() {
+            function Search2() {
+                
                 let url;
                 let graphurl;
                 let multidata;
@@ -275,7 +281,7 @@
                                 borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                                 borderWidth: 1
                             }]
-                        };
+                        }; 
                         var ctx = $("#pieGate").get(0).getContext("2d");
                         var myNewChart = new Chart(ctx, {
                             type: 'doughnut',
@@ -335,7 +341,8 @@
                 });
 
 
-            }//function searcch
+            }
+            //function searcch
             function myFunction() {
                 var input, filter, table, tr, td, i;
                 input = document.getElementById("txtSearch");
@@ -426,6 +433,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (chData) {
+                    console.log(chData);
                     var aData = chData;
                     var aLabels = aData[0];
                     var aDatasets1 = aData[1];
@@ -440,7 +448,7 @@
                             borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                             borderWidth: 1
                         }]
-                    };
+                    }; 
                     var ctx = $("#pieGate").get(0).getContext("2d");
                     var myNewChart = new Chart(ctx, {
                         type: 'doughnut',

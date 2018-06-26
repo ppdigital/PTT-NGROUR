@@ -1,0 +1,131 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelUtilization
+<script>
+
+    var _graphPipeLine = null;
+
+    var _graphGate = null;   
+    var SeRegion = [ @Model.ListRegion.Select(x=> x.REGION_ID.ToString()).Aggregate((x,y)=> x+ ","+y) ];
+    function Search() {
+        
+        let url;
+       
+        let multidata;
+        let strMode = "";
+        if (document.getElementById('radioRegion').checked) {
+            url = '@Url.Action("SearchRegion")';            
+            multidata = SeRegion;
+            strMode = "region";
+        }
+        else if (document.getElementById('radioLicense').checked) {
+            url = '@Url.Action("SearchLicense")';            
+            multidata = SeLicense;
+            strMode = "license";
+        }
+        
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(multidata),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+                console.log(data);
+                showPIE("PIPELINE", data);
+                showPIE("GATE", data);
+                showUtilTable(data);
+            },
+            error: function (result) {
+                alert('Please select the data');
+            }
+        });
+    }
+
+    function showUtilTable(data){
+        $('#utilTbl').find('tbody tr').each(function () {
+            this.remove();
+        });
+        for (let i in data) {
+            if (data[i].COLOR == 'Green') {
+                data[i].COLOR = '<span class="fa fa-circle " style="color:#16a085"></span>'
+                color1 = "green";
+            } else if (data[i].COLOR == 'Yellow') {
+                data[i].COLOR = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
+                color1 = "yellow";
+            } else if (data[i].COLOR == 'Red') {
+                data[i].COLOR = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
+                color1 = "red"
+            } else {
+                data[i].COLOR = "";
+                color1 = "no"
+            }            
+
+            $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
+        }
+    }
+
+    function showPIE(pStrMode , pListData ) {
+        let intAlert = 0;
+        let intWarning = 0;
+        let intPass = 0;
+        for (let i in pListData) {
+            let data = pListData[i];
+
+            if (data.TYPE !== pStrMode) {
+                continue;
+            }
+            switch (data.COLOR) {
+            case "Green":
+                intPass++;
+                break;
+            case "Red":
+                intAlert++;
+                break;
+            case "Yellow":
+                intWarning++;
+                break;
+            }            
+        }        
+        let dataT = {
+            labels: ["Alert", "Warning", "Pass"],
+            datasets: [{
+                label: "Test Data",
+                data: [intAlert, intWarning, intPass],
+                fill: false,
+                backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                borderWidth: 1
+            }]
+        };
+
+        let strIdPie = "";
+        let objGraph = null;
+        if (pStrMode === "PIPELINE") {
+            strIdPie = "#piePipeline";
+            objGraph = _graphPipeLine;
+        } else if (pStrMode === "GATE") {
+            strIdPie = "#pieGate";
+            objGraph = _graphGate
+        }
+        if (objGraph != null) {
+            objGraph.destroy();            
+        }
+        let ctx = $(strIdPie).get(0).getContext("2d");
+        objGraph = new Chart(ctx, {
+            type: 'doughnut',
+            data: dataT,
+            options: {
+                responsive: true,
+                pieceLabel: { mode: 'value', fontColor: 'white' },
+                title: { display: true },
+                legend: { position: 'bottom' },
+                scales: {
+                    xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
+                    yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
+                },
+            }
+        });
+        objGraph.update();
+    }
+
+</script>

@@ -415,7 +415,7 @@ select option .drop_role:hover{
 }
 .h12{height:12rem;}
 
-.h6{height:6rem}
+.height6{height:6rem}
 
 #footer-fix{
     position:fixed;
@@ -625,7 +625,7 @@ select .inline{display: inline-block;}
     .h7-xs {
         font-size: 8px !important;
     }
-
+    .fn-xs{float:none !important;}
  } 
 
 
@@ -735,6 +735,33 @@ position:relative
     background-color:white !important;
     color:#72777a;
 }
+.col-container-yellow{
+    
+    border: 1px solid rgba(0,0,0,.0625)!important;
+    background-color:#f1c40f !important;
+    color:white;
+}
+.col-container-green{
+    
+    border: 1px solid rgba(0,0,0,.0625)!important;
+    background-color:#16a085 !important;
+    color:white;
+}
+
+.col-container-red{
+    
+    border: 1px solid rgba(0,0,0,.0625)!important;
+    background-color:#e74c3c !important;
+    color:white;
+}
+
+.col-container-orange{
+    
+    border: 1px solid rgba(0,0,0,.0625)!important;
+    background-color:#e67e22 !important;
+    color:white;
+}
+
 .b{font-weight:bold;}
 .text-grey{ color:#72777a;}
 .txt-normal{font-size: 13.92px;}
@@ -801,3 +828,5 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 .cr{clear:right;}
+.fl{float:left;}
+.pb2{padding-bottom:2rem;}
