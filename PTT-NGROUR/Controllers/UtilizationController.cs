@@ -206,8 +206,11 @@ namespace PTT_NGROUR.Controllers
                     var reg = new Models.DataModel.ModelGetU()
                     {
                         NO = dr["NO"].ToString(),
+                        ID = dr["ID"].ToString(),
                         NAME = dr["NAME"].ToString(),
-                        COLOR = dr["COLOR"].ToString(),
+                        //COLOR = dr["COLOR"].ToString(),
+                        THRESHOLD = dr["THRESHOLD"].ToString(),
+                        OBJ_TYPE = dr["OBJ_TYPE"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
@@ -243,7 +246,7 @@ namespace PTT_NGROUR.Controllers
                     {
                         NO = dr["NO"].ToString(),
                         NAME = dr["NAME"].ToString(),
-                        COLOR = dr["COLOR"].ToString(),
+                        //COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
