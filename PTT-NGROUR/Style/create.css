@@ -763,7 +763,7 @@ position:relative
 }
 
 .b{font-weight:bold;}
-.text-grey{ color:#72777a;}
+.text-grey{ color:#72777a !important;}
 .txt-normal{font-size: 13.92px;}
 .pointer{cursor: pointer;}
 
@@ -830,3 +830,4 @@ input:-webkit-autofill {
 .cr{clear:right;}
 .fl{float:left;}
 .pb2{padding-bottom:2rem;}
+.border-box-gray{border: 1px solid rgba(0,0,0,.0625);}

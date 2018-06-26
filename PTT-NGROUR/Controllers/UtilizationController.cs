@@ -184,6 +184,68 @@ namespace PTT_NGROUR.Controllers
             return View(model);
         }
 
+        public ActionResult Customer()
+        {
+            var dal = new DAL.DAL();
+            var i = 0;
+            var ds = dal.GetDataSet("SELECT * FROM VIEW_SHIPTO_SOLDTO");
+            var dt = ds.Tables[0];
+            var listCus = new List<Models.DataModel.ModelVIEW_SHIPTO_SOLDTO>();
+            foreach (System.Data.DataRow dr in dt.Rows)
+            {    i = i + 1;
+                var cus = new Models.DataModel.ModelVIEW_SHIPTO_SOLDTO()
+                {   count = i,
+                    SHIP_TO_NAME = dr["SHIP_TO_NAME"].ToString(),
+                    SHIP_TO_SNAME = dr["SHIP_TO_SNAME"].ToString(),
+                    SHIP_TO = dr["SHIP_TO"].ToString(),
+                    SOLD_TO = dr["SOLD_TO"].ToString(),
+                    SOLD_TO_FLAG_SHAPE = Convert.ToInt32(dr["SOLD_TO_FLAG_SHAPE"].ToString())
+                };
+                
+                listCus.Add(cus);
+            }
+
+            var dscus = dal.GetDataSet("SELECT * FROM NGR_CUSTOMER C LEFT JOIN NGR_CUSTOMER_OFFICE CO ON C.SOLD_TO = CO.SOLD_TO");
+            var dtcus = dscus.Tables[0];
+            var listCusAll = new List<Models.DataModel.ModelNGR_CUST_ALL>();
+            foreach (System.Data.DataRow drcus in dtcus.Rows)
+            {
+                var cusAll = new Models.DataModel.ModelNGR_CUST_ALL()
+                {
+                    CUST_NAME = drcus["CUST_NAME"].ToString(),
+                    CUST_SNAME = drcus["CUST_SNAME"].ToString(),
+                    SHIP_TO = drcus["SHIP_TO"].ToString(),
+                    CUST_NAME_EN = drcus["CUST_NAME_EN"].ToString(),
+                    SHIP_TO_ADDRESS = drcus["SHIP_TO_ADDRESS"].ToString(),
+                    PLANT_NAME = drcus["PLANT_NAME"].ToString(),
+                    SALES_DISTRICT = drcus["SALES_DISTRICT"].ToString(),
+                    CONTRACT_TYPE = drcus["CONTRACT_TYPE"].ToString(),
+                    IE_NAME = drcus["IE_NAME"].ToString(),
+                    REGION = drcus["REGION"].ToString(),
+                    UPDATED_BY = drcus["UPDATED_BY"].ToString(),
+                    UPDATED_DATE = drcus["UPDATED_DATE"].GetDate(),
+
+                    OBJECTID = drcus["OBJECTID"].ToString(),
+                    SOLD_TO = drcus["SOLD_TO"].ToString(),
+                    FLAG_SHAPE = Convert.ToInt32(drcus["FLAG_SHAPE"].ToString()),
+                    SOLD_TO_NAME = drcus["SOLD_TO_NAME"].ToString(),
+                    SOLD_TO_ADDRESS = drcus["SOLD_TO_ADDRESS"].ToString(),
+                    STATUS = drcus["STATUS"].ToString()
+                };
+                listCusAll.Add(cusAll);
+            }
+
+  
+            var model = new Models.ViewModel.Customer()
+            {
+                ListViewShipToSoldTo = listCus,
+                ListCustAll = listCusAll
+
+            };
+
+            return View(model);
+        }
+
         public ActionResult MenuUtilization()
         { return View(); }
 
@@ -819,7 +881,9 @@ namespace PTT_NGROUR.Controllers
             }
             //Source data returned as JSON  
             return Json(iData, JsonRequestBehavior.AllowGet);
-        }  
+        }
+
+       
 
 
 

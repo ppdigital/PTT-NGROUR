@@ -7,7 +7,7 @@
     <mvcSiteMapNode title="Dashboard" controller="Dashboard" action="Index"/>
     <mvcSiteMapNode title="Utilization" controller="Utilization" action="MenuUtilization">
       <mvcSiteMapNode title="Utilization" controller="Utilization" action="Index"/>
-      <mvcSiteMapNode title="Customer Management" controller="Utilization" action="CustManage"/>
+      <mvcSiteMapNode title="Customer Management" controller="Utilization" action="Customer"/>
       <mvcSiteMapNode title="Threshold Setting" controller="Utilization" action="ThresholdSetting"/>
       <mvcSiteMapNode title="Import Excel" controller="Utilization" action="ImportExcel"/>
     <mvcSiteMapNode title="Report" controller="Utilization" action="Report"/>
