@@ -93,7 +93,7 @@
                         <div class="col-lg-2 col-md-2  col-sm-2 col-xs-3" id="chooseMonth" style="padding-bottom: 0rem !important; width: 160px; padding-right: 0rem; ">
                             <div class="form-group" style="margin-bottom:5px; ">
 
-                                <select class="form-control form-control-sm fz-12px" id="seMonth" style="height: 30px !important;">
+                                <select class="form-control form-control-sm fz-12px" id="Month-filter" style="height: 30px !important;">
                                     <option value="1" class="f5 f8-m drop_role" selected>January</option>
                                     <option value="2" class="f5 drop_role">February</option>
                                     <option value="3" class="f5 drop_role">March</option>
@@ -113,7 +113,7 @@
 
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4" id="chooseYear" style="padding-bottom: 0rem !important;padding-right:0rem;">
                             <div class="form-group" style="margin-bottom:5px;">
-                                <select class="form-control form-control-sm fz-12px" id="seYear" style="height: 30px !important;width:120px ">
+                                <select class="form-control form-control-sm fz-12px" id="Year-filter" style="height: 30px !important;width:120px ">
                                     <option value="2018" class="5 f8-m drop_role" selected>2018</option>
                                     <option value="2019" class="f5 drop_role">2019</option>
                                     <option value="2020" class="f5 drop_role">2020</option>
@@ -356,21 +356,23 @@
     }
 
       function showUtilTable(data) {
-          
-          
-          
+          let tblShow = $("#utilTbl").DataTable();
+          tblShow.clear()
         $('#utilTbl').find('tbody tr').each(function () {
             this.remove();
         });
+       
         for (let i in data) {
             num = 1 + Number(i);
             if (document.getElementById('radioMonth').checked)
             { dataMonthYear =data[i].MONTH  + ' / ' + data[i].YEAR ; 
             }
             else if(document.getElementById('radioYear').checked)
-            { dataMonthYear =   data[i].YEAR; }
-            $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>');
-        }
+            { dataMonthYear = data[i].YEAR; }
+
+            var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+            tblShow.row.add($(rowItem));
+        } tblShow.draw();
     }
 
     function showPIE(pStrMode, pListData) {
@@ -499,6 +501,8 @@
                     graphurl = '@Url.Action("SearchGraphLicense")';
                     multidata = SeLicense;
                 }
+                let tblSearch2 = $("#utilTbl").DataTable();
+                tblSearch2.clear()
                 $.ajax({
                     url: url,
                     type: 'POST',
@@ -509,20 +513,22 @@
                         $('#utilTbl').find('tbody tr').each(function () {
                             this.remove();
                         });
+
+                        
                         for (let i in data) {
                             if (data[i].COLOR == 'Green') {
-                                data[i].COLOR = '<span class="fa fa-circle " style="color:#16a085"></span>'
+                               
                                 color1 = "green"
                                 //console.log(color1);
                             } else if (data[i].COLOR == 'Yellow') {
-                                data[i].COLOR = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
+                              
                                 color1 = "yellow"
                                 //console.log(color1);
                             } else if (data[i].COLOR == 'Red') {
-                                data[i].COLOR = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
+                              
                                 color1 = "red"
                             } else {
-                                data[i].COLOR = "";
+                                
                                 color1 = "no"
                             }
                             //console.log('color1' + color1);
@@ -534,8 +540,9 @@
                             }
                             else if (document.getElementById('radioYear').checked)
                             { dataMonthYear = data[i].YEAR; }
-                            $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>');
-                        }
+                            var rowItemSearch2 = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+                            tblSearch2.row.add($(rowItemSearch2));
+                        } tblSearch2.draw();
                     },
                     error: function (result) {
                         alert('Please select the data');
@@ -671,6 +678,8 @@
       filters = {
           color: null,
       };
+           
+        
 
             function updateFilters() {
                 $('.rowfil').hide().filter(function () {
@@ -696,6 +705,15 @@
             // Threshold Dropdown Filter
             $('#threshold-filter').on('change', function () {
                 changeFilter.call(this, 'color');
+            });
+        // Month Dropdown Filter
+            $('#Month-filter').on('change', function () {
+                changeFilter.call(this, 'month');
+            });
+
+            // Year Dropdown Filter
+            $('#Year-filter').on('change', function () {
+                changeFilter.call(this, 'year');
             });
 
             // Type Dropdown Filter
@@ -793,29 +811,32 @@
         });
 
         //////////////////////////////////////
-
+        let tblRegionAll = $("#utilTbl").DataTable();
+        tblRegionAll.clear()
         $.ajax({
             url: "/Dashboard/SearchRegionAll",
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             datatype: 'json',
             success: function (data) {
+                $('#utilTbl').find('tbody tr').each(function () {
+                    this.remove();
+                });
                 
-                let tbl = $("#utilTbl").DataTable();
                 for (let i in data) {
                     if (data[i].COLOR == 'Green') {
-                        data[i].COLOR = '<span class="fa fa-circle " style="color:#16a085"></span>'
+                        
                         color1 = "green"
                         //console.log(color1);
                     } else if (data[i].COLOR == 'Yellow') {
-                        data[i].COLOR = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
+                     
                         color1 = "yellow"
                         //console.log(color1);
                     } else if (data[i].COLOR == 'Red') {
-                        data[i].COLOR = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
+                      
                         color1 = "red"
                     } else {
-                        data[i].COLOR = "";
+           
                         color1 = "no"
                     }
                     //console.log('color1' + color1);
@@ -827,11 +848,11 @@
                     }
                     else if (document.getElementById('radioYear').checked)
                     { dataMonthYear = data[i].YEAR; }
-                    var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
-                    tbl.row.add($(rowItem));
+                    var rowItemRegionAll = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+                    tblRegionAll.row.add($(rowItemRegionAll));
                     //$('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>');
                 }
-                tbl.draw();
+                tblRegionAll.draw();
             },
             error: function (result) {
                 alert('Please select the data');
