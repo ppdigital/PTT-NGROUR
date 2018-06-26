@@ -1,8 +1,8 @@
 ﻿@font-face {
-    font-family: "Kanit";
+    /*font-family: "Kanit";
     font-style: normal;
     font-weight: normal;
-    src: url("../fonts/Kanit/Kanit-Regular.ttf") format("truetype");
+    src: url("../fonts/Kanit/Kanit-Regular.ttf") format("truetype");*/
 }
 
 body * {
@@ -14,8 +14,9 @@ body * {
 }
 
 body {
-    font-family: Kanit;
-    font-size: 14px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /*font-family: Kanit;*/
+    font-size: 12px;
     letter-spacing: 0.72px;
     line-height: 24px;
 }
@@ -31,13 +32,41 @@ body, html, .ui-body {
     margin: 0;
 }
 
-.container-body{
+.container-body {
     padding: 14px 20px;
     background-color: rgba(255,255,255,1);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
-.container-footer{
+
+.container-footer {
     padding: 15px 20px;
+}
+
+.btn {
+    width: 70px;
+    border-radius: 4px;
+    padding-left: 0px;
+    border-width: 1px;
+    color: white;
+    border-width: 0px;
+}
+
+.btn-primary {
+    background-color: #337FD4;
+}
+
+.btn-default {
+    background-color: #BABFC5;
+}
+
+.btn-default:hover,
+.btn-primary:hover {
+    background-color: #e9e9e9;
+}
+
+
+.text-right {
+    text-align: right;
 }
 
 @media only screen and (max-width: 768px) {

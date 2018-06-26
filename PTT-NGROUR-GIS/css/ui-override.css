@@ -101,24 +101,28 @@
     text-align: left;
 }
 /*End Add By nattawit.kr 2018/06/15*/
-
-.esriPopup .titlePane {
-    height: 30px;
-    background-color: white;
-    color: #337FD4;
-    line-height: 30px;
-    border-bottom: 1px solid #E2E2E1;
+.esriPopup {
+    font-family: Kanit;
 }
 
-.esriPopup .titleButton {
-    top: 6px;
-}
-
-    .esriPopup .titleButton.maximize {
-        display: none;
+    .esriPopup .titlePane {
+        height: 30px;
+        background-color: white;
+        color: #337FD4;
+        line-height: 30px;
+        border-bottom: 1px solid #E2E2E1;
     }
 
-.esriPopup .actionsPane,
-.esriPopup .contentPane {
-    background-color: white;
-}
+    .esriPopup .titleButton {
+        top: 6px;
+    }
+
+        .esriPopup .titleButton.maximize {
+            display: none;
+        }
+
+    .esriPopup .actionsPane,
+    .esriPopup .contentPane {
+        /*background-color: white;*/
+        background-color: rgba(255, 255, 255, 0.5) !important;
+    }

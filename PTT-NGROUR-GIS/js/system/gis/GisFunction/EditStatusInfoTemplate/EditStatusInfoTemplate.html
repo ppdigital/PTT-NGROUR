@@ -1,0 +1,48 @@
+﻿<div data-dojo-attach-point="infoWidget">
+    <div data-dojo-attach-point="infoPage">
+        <div class="container-body">
+            <div data-dojo-attach-point="infoContainer">
+            </div>
+        </div>
+        <div class="container-footer amos-hide" data-dojo-attach-point="flagButton">
+            <div style="text-align: center; "  >
+                <div data-dojo-type="esrith/amos/form/Button" data-dojo-props="style:'width: 256px; height: 25px; text-align: center;'">
+                    Flag
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-dojo-attach-point="editPage" class="amos-hide">
+        <div class="container-body">
+            <div data-dojo-attach-point="backButton" data-dojo-type="esrith/amos/form/Button" data-dojo-props="style:'height: 25px; text-align: center;'"
+                 class="btn btn-primary">
+                Back
+            </div>
+            <div>
+                <div style="display: flex;">
+                    <div style="width: 50%;">
+                        <div data-dojo-attach-point="x" data-dojo-type="esrith/amos/form/RadioButton" data-dojo-props="label:'On progress',name:'status',value:1">
+                        </div>
+                    </div>
+                    <div style="width: 50%;">
+                        <div  data-dojo-type="esrith/amos/form/RadioButton" data-dojo-props="label:'Close',name:'status',value:0">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div  data-dojo-type="esrith/amos/form/TextArea" data-dojo-attach-point="comment"
+                         data-dojo-props="label:'Comment:'">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-footer">
+            <div class="text-right">
+                <div data-dojo-attach-point="saveButton" data-dojo-type="esrith/amos/form/Button"
+                     class="btn btn-primary">
+                    Save
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

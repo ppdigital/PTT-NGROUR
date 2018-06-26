@@ -309,23 +309,51 @@
                         this.remove();
                     });
                     for (let i in data) {
-                        if (data[i].COLOR == 'Green') {
-                            data[i].COLOR = '<span class="fa fa-circle " style="color:#16a085"></span>'
+                        if (data[i].THRESHOLD == 'Pass') {
+                            THRESHOLD = '<span class="fa fa-circle " style="color:#16a085"></span>'
                             color1 = "green"
-                            console.log(color1);
-                        } else if (data[i].COLOR == 'Yellow') {
-                            data[i].COLOR = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
+                        } else if (data[i].THRESHOLD == 'Warning') {
+                            THRESHOLD = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
                             color1 = "yellow"
-                            console.log(color1);
-                        } else if (data[i].COLOR == 'Red') {
-                            data[i].COLOR = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
+                        } else if (data[i].THRESHOLD == 'Alert') {
+                            THRESHOLD = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
                             color1 = "red"
+                        } else if(data[i].FLAG == '1'){
+                            THRESHOLD = '<span class="fa fa-circle " style="color:#e67e22"></span>'
+                            color1 = "flag"
                         } else {
-                            data[i].COLOR = "";
+                            THRESHOLD = "";
                             color1 = "no"
                         }
+                        if (data[i].STATUS == 'Inactive' && data[i].TYPE == 'METERING') {
+                            status = 'style="color:red"';
+                        } else {
+                            status = "";
+                        }
 
-                        $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
+                        if (data[i].TYPE == 'METERING') {
+                            
+                            if (data[i].ID == "") {
+                                name = "" + data[i].NAME;
+                                value = data[i].OBJ_TYPE;
+                            } else {
+                                name = "" + data[i].NAME + " (" + data[i].ID + ")";
+                                value = data[i].OBJ_TYPE;
+                            }
+                      
+                        } else {
+                            name = data[i].NAME;
+                            if (data[i].TYPE == 'PIPELINE') {
+                                value = data[i].VALUE + " ft/s";
+                            } else if (data[i].TYPE == 'GATESTATION') {
+                                value = data[i].VALUE + " %";
+                            }     
+                            
+                        }
+
+                  
+
+                        $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h6 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
                         $('#utilTbl > tbody >tr:last-child').data('map_info', data[i]);
                         $('#utilTbl > tbody >tr:last-child').click(utilTblOnclick);
                     }

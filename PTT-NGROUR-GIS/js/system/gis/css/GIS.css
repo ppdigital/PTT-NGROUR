@@ -191,17 +191,23 @@
     background-color: #458AD5;
     color: white;
 }
+.map .amos-radio-label{
+    padding-left: 3px;
+}
 
 .container.map .esriPopup .sizer {
     width: 330px;
+}
+.container.map .esriPopup .contentPane{
+    padding:0;
+    background-color: rgba(255, 255, 255, 0.5) !important;
 }
 
     .container.map .esriPopup .sizer .title {
         line-height: inherit;
     }
-
-
 /*css override*/
+
 
 @media only screen and (min-width: 769px) {
 
@@ -254,3 +260,4 @@
 /*@media only screen and (min-width: 1281px) {*/
 @media only screen and (min-width: 1101px) {
 }
+
