@@ -318,6 +318,9 @@
                         } else if (data[i].THRESHOLD == 'Alert') {
                             THRESHOLD = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
                             color1 = "red"
+                        } else if(data[i].FLAG == '1'){
+                            THRESHOLD = '<span class="fa fa-circle " style="color:#e67e22"></span>'
+                            color1 = "flag"
                         } else {
                             THRESHOLD = "";
                             color1 = "no"
@@ -329,11 +332,23 @@
                         }
 
                         if (data[i].TYPE == 'METERING') {
-                            value = data[i].OBJ_TYPE;
-                            name = "" + data[i].NAME + " (" + data[i].ID + ")";
+                            
+                            if (data[i].ID == "") {
+                                name = "" + data[i].NAME;
+                                value = data[i].OBJ_TYPE;
+                            } else {
+                                name = "" + data[i].NAME + " (" + data[i].ID + ")";
+                                value = data[i].OBJ_TYPE;
+                            }
+                      
                         } else {
-                            value = data[i].VALUE;
                             name = data[i].NAME;
+                            if (data[i].TYPE == 'PIPELINE') {
+                                value = data[i].VALUE + " ft/s";
+                            } else if (data[i].TYPE == 'GATESTATION') {
+                                value = data[i].VALUE + " %";
+                            }     
+                            
                         }
 
                   
