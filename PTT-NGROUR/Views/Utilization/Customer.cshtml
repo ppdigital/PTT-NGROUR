@@ -70,7 +70,7 @@
 
     </div>
 </div>
-   <!--Modal Edit -->
+<!--Modal Edit -->
 
 <div id="myModalEdit" class="modal modalEdit" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -85,12 +85,96 @@
 
                 <div class="mh3 mv3">
                     <div class="  black-80 center">
-                        <div class="measure center">
-                            <label for="name" class="b">EMPLOYEE ID</label>
-                            @Html.TextBox("txtCustNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
-
+                        <div class="row">
+                            <div class="measure center form-inline col-lg-12">
+                                <label for="name" class="col-lg-5 b">Customer Name :</label>
+                                <div class="col-lg-6">
+                                    @Html.TextBox("txtCustNameEdit", null, new { @class = "form-control input-sm col-lg-12", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
-                   
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Customer Name English :</label>
+                            @Html.TextBox("txtCustNameENEdit", null, new { @class = "form-control input-sm" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Customer SName :</label>
+                            @Html.TextBox("txtCustSNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Ship-To :</label>
+                            @Html.TextBox("txtShipToEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Ship-To Address</label>
+                            @Html.TextBox("txtShipToAddrEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Sale District</label>
+                            @Html.TextBox("txtSaleEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Contract Type</label>
+                            @Html.TextBox("txtContractEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">IE Name</label>
+                            @Html.TextBox("txtIENameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Region</label>
+                            @Html.TextBox("txtRegionEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Udate By</label>
+                            @Html.TextBox("txtUpdateByEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Update Date</label>
+                            @Html.TextBox("txtUpdateDateEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Object ID</label>
+                            @Html.TextBox("txtObjectIDEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Sold-To</label>
+                            @Html.TextBox("txtSoldToEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Flag Shape</label>
+                            @Html.TextBox("txtFlagShapeEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Sold-To Name</label>
+                            @Html.TextBox("txtSoldToNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Sold-To Address</label>
+                            @Html.TextBox("txtSoldToAddrEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+                        <div class="measure center form-inline">
+                            <label for="name" class="b">Status</label>
+                            @Html.TextBox("txtStatusEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+
+
                     </div>
                 </div>
                 <br />
@@ -106,16 +190,16 @@
     </div>
 </div>
 
-           
-             
-                
-           
 
-        
-      
-          
 
-    
+
+
+
+
+
+
+
+
 
 
 
@@ -130,23 +214,46 @@
     });
     function EDITUSER(cust) {
         //modalEdit.style.display = "block";
-        
-           @foreach (var cusAll in Model.ListCustAll)
-        {    
 
+           @foreach (var cusAll in Model.ListCustAll)
+        {
             <text>
         console.log(cust);
-             
-        if (cust == '@cusAll.SHIP_TO') {
-            
-                    $("#txtCustNameEdit").val('@cusAll.CUST_NAME');
+        if (cust == '@cusAll.SHIP_TO')
+        {
+            $("#txtCustNameEdit").val('@cusAll.CUST_NAME');
+            $("#txtCustSNameEdit").val('@cusAll.CUST_SNAME');
+            $("#txtShipToEdit").val('@cusAll.SHIP_TO');
+            $("#txtCustNameENEdit").val('@cusAll.CUST_NAME_EN');
+            $("#txtShipToAddrEdit").val('@cusAll.SHIP_TO_ADDRESS');
+            $("#txtPlantNameEdit").val('@cusAll.PLANT_NAME');
+            $("#txtSaleEdit").val('@cusAll.SALES_DISTRICT');
+            $("#txtContractEdit").val('@cusAll.CONTRACT_TYPE');
+            $("#txtIENameEdit").val('@cusAll.IE_NAME');
+            $("#txtRegionEdit").val('@cusAll.REGION');
+            $("#txtUpdateByEdit").val('@cusAll.UPDATED_BY');
+            $("#txtUpdateDateEdit").val('@cusAll.UPDATED_DATE');
+            $("#txtObjectIDEdit").val('@cusAll.OBJECTID');
+            $("#txtSoldToEdit").val('@cusAll.SOLD_TO');
+            $("#txtFlagShapeEdit").val('@cusAll.FLAG_SHAPE');
+            $("#txtFlagShapeEdit").val('@cusAll.FLAG_SHAPE');
+            $("#txtSoldToNameEdit").val('@cusAll.SOLD_TO_NAME');
+            $("#txtSoldToAddrEdit").val('@cusAll.SOLD_TO_ADDRESS');
+            $("#txtStatusEdit").val('@cusAll.STATUS');
+
+
+
+
+
+
+
             console.log('@cusAll.CUST_NAME');
-            
+
                 }
             </text>
         }
 
     };
-       
+
     </script>
-    }
+}

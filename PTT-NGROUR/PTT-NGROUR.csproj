@@ -204,7 +204,10 @@
     <Content Include="Content\bootstrap-3.3.7-dist\js\bootstrap.js" />
     <Content Include="Content\bootstrap-3.3.7-dist\js\bootstrap.min.js" />
     <Content Include="Content\bootstrap-3.3.7-dist\js\npm.js" />
+    <Content Include="Content\bootstrap-datepicker.css" />
+    <Content Include="Content\bootstrap-datepicker.js" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -257,7 +260,10 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap-select-1.12.4\.gitignore" />
     <Content Include="Scripts\bootstrap-select-1.12.4\dist\css\bootstrap-select.css" />
     <Content Include="Scripts\bootstrap-select-1.12.4\dist\css\bootstrap-select.min.css" />
@@ -465,6 +471,7 @@
     <Content Include="Scripts\bootstrap-select-1.12.4\js\i18n\defaults-zh_CN.js" />
     <Content Include="Scripts\bootstrap-select-1.12.4\js\i18n\defaults-zh_TW.js" />
     <Content Include="Scripts\bootstrap-select-1.12.4\test.html" />
+    <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="DI\StructureMap\ReadMe.txt" />
     <Content Include="Global.asax" />
@@ -483,6 +490,9 @@
     <Content Include="Content\bootstrap-3.3.7-dist\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\bootstrap-3.3.7-dist\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -566,6 +576,11 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Style\create.css" />
     <Content Include="Style\create_login.css" />
@@ -609,11 +624,8 @@
     <Content Include="Views\Utilization\PartialModalExcelScript.cshtml" />
     <Content Include="Views\Utilization\Report.cshtml" />
     <Content Include="Views\Dashboard\PartialIndexScript.cshtml" />
-
     <Content Include="Views\Utilization\ReportPdf.cshtml" />
-
     <Content Include="Views\Utilization\Customer.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

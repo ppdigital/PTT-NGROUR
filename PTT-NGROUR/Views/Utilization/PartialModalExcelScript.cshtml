@@ -2,11 +2,15 @@
     var _divModalPipelineImport = $("#ModalImportPipe");
     var _divModalGateImport = $("#ModalImportGate");
 
+    var _divModalLoading = $("#ModalLoading");
+
     var _tblPipelineImportSuccess = $("#tblPipelineSuccess");
     var _tblPipelineImportError = $("#tblPipelineError");
     var _tblGateSuccess = $("#tblGateSuccess");
     var _tblGateError = $("#tblGateError");
     //_divModalPipelineImport.modal("show");
+
+    _divModalLoading.modal('show');
 
     function getHtmlGate(pList) {
         if (!Array.isArray(pList) || !pList.length) {
