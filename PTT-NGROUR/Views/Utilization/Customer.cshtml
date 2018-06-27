@@ -1,0 +1,152 @@
+﻿@model PTT_NGROUR.Models.ViewModel.Customer
+@{
+    ViewBag.Title = "Customer Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Scripts/DataTables/datatables.min.css" rel="stylesheet" />
+<div class="container-fluid ph2">
+    <br /><br />
+    <ul class="nav nav-tabs" style="border-color: rgba(0,0,0,.0625) !important">
+        <li class="active" style="border-color: rgba(0,0,0,.0625) !important; "><a data-toggle="tab" href="#customer">Customer</a></li>
+        <li><a data-toggle="tab" href="#metering">Metering</a></li>
+    </ul>
+
+    <div class="tab-content bg-white border-box-gray" style="border-top: none !important">
+        <div id="customer" class="tab-pane fade in active">
+            <div class="ph2 pv2">
+                <div class="table-responsive">
+                    <table class="table h6 table-striped table-bordered" id="CustomerTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Customer Name</th>
+                                <th>Customer SName</th>
+                                <th>Ship To</th>
+                                <th>Sold To</th>
+                                <th>Satus</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Map</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (PTT_NGROUR.Models.DataModel.ModelVIEW_SHIPTO_SOLDTO cus in Model.ListViewShipToSoldTo)
+                            {
+                                <tr>
+                                    <td>@cus.count</td>
+                                    <td>@cus.SHIP_TO_NAME</td>
+                                    <td>@cus.SHIP_TO_SNAME</td>
+                                    <td>@cus.SHIP_TO</td>
+                                    <td>@cus.SOLD_TO</td>
+                                    <td>@cus.SOLD_TO_FLAG_SHAPE</td>
+                                    <td>View</td>
+
+                                    <td>
+                                        <center> <a class=" dib fa fa-pencil-square-o fa-lg no-underline gray " id="Edit" name="btnOpenEdit" onclick="EDITUSER('@cus.SHIP_TO')" data-toggle="modal" data-target="#myModalEdit" aria-hidden="true"></a></center>
+                                    </td>
+                                    <td><center><i class="fa fa-map-marker" aria-hidden="true"></i></center></td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+
+        <div id="metering" class="tab-pane fade">
+
+
+        </div>
+
+    </div>
+</div>
+   <!--Modal Edit -->
+
+<div id="myModalEdit" class="modal modalEdit" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="panel-title">EDIT USER</label>
+                <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+
+            @using (Html.BeginForm("EditCustomer", "Admin", FormMethod.Post))
+            {
+
+                <div class="mh3 mv3">
+                    <div class="  black-80 center">
+                        <div class="measure center">
+                            <label for="name" class="b">EMPLOYEE ID</label>
+                            @Html.TextBox("txtCustNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+
+                        </div>
+                   
+                    </div>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-sm">Edit User</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+
+
+            }
+
+        </div>
+    </div>
+</div>
+
+           
+             
+                
+           
+
+        
+      
+          
+
+    
+
+
+
+
+
+
+@section scripts{
+    <script src="~/Scripts/DataTables/datatables.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#CustomerTable').dataTable();
+    });
+    function EDITUSER(cust) {
+        //modalEdit.style.display = "block";
+        
+           @foreach (var cusAll in Model.ListCustAll)
+        {    
+
+            <text>
+        console.log(cust);
+             
+        if (cust == '@cusAll.SHIP_TO') {
+            
+                    $("#txtCustNameEdit").val('@cusAll.CUST_NAME');
+            console.log('@cusAll.CUST_NAME');
+            
+                }
+            </text>
+        }
+
+    };
+       
+    </script>
+    }

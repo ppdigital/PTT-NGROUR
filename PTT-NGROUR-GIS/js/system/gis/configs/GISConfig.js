@@ -210,7 +210,7 @@
                         name: "open-basemap"
                     }
                 ]
-            }, {
+            }/*, {
                 title: "MIS Data",
                 iconClassName: "xxx",
                 buttonClassName: "normal",
@@ -225,7 +225,7 @@
                         name: "open-misdata"
                     }
                 ]
-            }, , {
+            }*/, {
                 iconClassName: "more",
                 style: {
                     position: "absolute",
@@ -234,7 +234,7 @@
                 },
                 subItemPosition: "left",
                 subItems: [
-                    {
+                    /*{
                         title: "MIS Data",
                         iconClassName: "xxx",
                         events: [
@@ -243,7 +243,7 @@
                                 name: "open-misdata"
                             }
                         ]
-                    },
+                    },*/
                     {
                         title: "TOC",
                         iconClassName: "toc",

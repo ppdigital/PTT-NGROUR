@@ -41,12 +41,13 @@
         select: function (misData) {
             console.log("select", misData);
             switch (misData.command) {
-                case "zoom":
+                case "view":
                     var z = new zoom();
                     z.start(misData);
                     //console.log(this.reqSP(dashboardGateSP, { data: misData.data }));
                     break;
-                case "search":
+                case "edit":
+                    //custommer management
                     break;
             }
         }

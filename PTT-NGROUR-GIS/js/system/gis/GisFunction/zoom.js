@@ -11,14 +11,12 @@
 
     "esri/geometry/Point",
     "esri/geometry/Polyline",
-    "esri/InfoTemplate",
-    "esri/dijit/InfoWindow",
     "esri/symbols/PictureMarkerSymbol",
     "esri/symbols/SimpleLineSymbol",
     "esri/graphic",
     "esri/Color",
 
-    "system/gis/test/PokTest/PokTest"
+    "system/gis/GisFunction/EditStatusInfoTemplate/EditStatusInfoTemplate"
 ], function (
     _WidgetBase,
 
@@ -32,14 +30,12 @@
 
     Point,
     Polyline,
-    InfoTemplate,
-    InfoWindow,
     PictureMarkerSymbol,
     SimpleLineSymbol,
     graphic,
     Color,
 
-    Test
+    EditStatusInfoTemplate
     ) {
     return declare([
         _WidgetBase
@@ -55,13 +51,15 @@
             //this.zoom();
         },
         start: function (misData) {
-            var data = misData.data,
+            var data = misData.parameter,
                 sp,
+                updateSP,
                 params = {},
                 Shape;
 
-            if (misData.layer == 'GATE_STATION') {
+            if (misData.type == 'GATE_STATION') {
                 Shape = Point;
+                updateSP = 'ULT_U_STATUS_GATE_STATION';
                 this.header = 'Gate Station';
                 if (misData.menu == 'dashboard') {
                     sp = 'DHB_Q_GATE_STATION';
@@ -70,8 +68,9 @@
                 } else if (misData.menu == 'utilization-search') {
                     sp = 'UTL_Q_GATE_STATION';
                 }
-            } else if (misData.layer == 'NGR_PL') {
+            } else if (misData.type == 'PIPELINE') {
                 Shape = Polyline;
+                updateSP = 'ULT_U_STATUS_PIPELINE';
                 this.header = "Pipeline";
                 if (misData.menu == 'dashboard') {
                     sp = 'DHB_Q_NGR_PL';
@@ -80,8 +79,9 @@
                 } else if (misData.menu == 'utilization-search') {
                     sp = 'UTL_Q_NGR_PL';
                 }
-            } else if (misData.layer == 'METERING') {
+            } else if (misData.type == 'METERING') {
                 Shape = Point;
+                updateSP = 'ULT_U_STATUS_METERING';
                 this.header = 'Metering';
                 sp = 'UTL_Q_METERING';
             }
@@ -98,29 +98,44 @@
                     console.log(sp, response);
                     if (response.success == true) {
                         if (response.data.length > 0) {
-
-                            for (var i = 0; i < response.data.length; i++) {
-                                var obj = response.data[i];
-                                var geometry = this.geometry.fromST(obj.GEOMETRY);
-                                //console.log(geometry);
-                                var shape = new Shape(geometry);
-                                var color = response.data[i].COLOR;
-                                var infoTemplate = this.getInfoTemplate(response.data[i], response.data1);
-                                //console.log(shape);
-                                this.zoomToShape(shape).then(lang.hitch(this, function (defer) {
-                                    this.clearGraphic();
-                                    this.addGraphic(shape, color, infoTemplate);
-
-                                    var x = new Test();
-                                    console.log(x);
-                                    //this.map.infoWindow.setContent(x.domNode);
-                                    this.map.infoWindow.setContent(infoTemplate.content);
-                                    this.map.infoWindow.setTitle(infoTemplate.title);
-                                    this.map.infoWindow.show(this.point);
-
-                                    //console.log(this.map.graphics);
-                                }));
+                            var geometry = this.geometry.fromST(response.data[0].GEOMETRY);
+                            var shape = new Shape(geometry);
+                            var color = response.data[0].COLOR;
+                            var customTemplate = new EditStatusInfoTemplate(updateSP, params);
+                            customTemplate.setInfoTemplate(response.data[0], response.data1, this.header);
+                            if (misData.flag == true && !misData.type.match(/^(METERING)$/)) {
+                                customTemplate.showFlagButton();
                             }
+                            var infoTemplate = customTemplate.getInfoTemplate();
+                            
+                            if (response.data.length > 1) {
+                                for (var i = 1; i < response.data.length; i++) {
+                                    var obj = response.data[i];
+                                    var line = this.geometry.fromST(obj.GEOMETRY);
+                                    //console.log(geometry);
+                                    for (var j = 0; j < line.paths.length; j++) {
+                                        shape.addPath(line.paths[j]);
+                                    }
+                                    //console.log(shape);
+                                }
+                            }
+
+                            //var infoTemplate = this.getInfoTemplate(response.data[0], response.data1);
+
+                            //console.log();
+                            this.zoomToShape(shape).then(lang.hitch(this, function (defer) {
+                                this.clearGraphic();
+                                this.addGraphic(shape, color, infoTemplate);
+
+                                //var x = new EditStatusInfoTemplate(y, response.data1);
+                                //console.log(x);
+                                //this.map.infoWindow.setContent(x.domNode);
+                                this.map.infoWindow.setContent(infoTemplate);
+                                this.map.infoWindow.setTitle(infoTemplate.title);
+                                this.map.infoWindow.show(this.point);
+
+                                //console.log(this.map.graphics);
+                            }));
 
                         }
                     }
@@ -135,35 +150,10 @@
             if (shape.type === 'point') {
                 return this.map.centerAndZoom(shape, 19);
             } else {
-                return this.map.setExtent(shape.getExtent());
+                return this.map.setExtent(shape.getExtent(), true);
             }
         },
-        getInfoTemplate: function (data, fieldDetail) {
-            var attrTable = [],
-                name;
-            Object.keys(data).map(lang.hitch(this, function (fieldName) {
-                if (fieldName.match(/^(NAME|RC_PROJECT)$/)) {
-                    name = data[fieldName];
-                } else if (fieldName.match(/^(GEOMETRY|COLOR)$/)) {
-                    // do nothing
-                }
-                else {
-                    var field = this.find(fieldDetail, 'FIELDNAME', fieldName);
-                    var attrContent = '<tr><td style="width: 100px; color: #337FD4;">' + field.DISPLAY + '</td><td style="color: #337FD4;">:</td><td>' + data[fieldName] + '</td></tr>';
-                    attrTable += attrContent;
-                }
-            }));
-            //console.log(attrTable);
 
-            var infoTemplate = new InfoTemplate(
-                //'<div style="box-shadow: 0 1px 0 #42546b; padding: 0.5rem 0; margin-bottom: 0.5rem;">'+ this.header+' : ' + name + '</div>',
-                 this.header + ' : ' + name,
-                '<table style="width: 100%;">' +
-                attrTable +
-                '</table>'
-            );
-            return infoTemplate;
-        },
         addGraphic: function (shape, color, info) {
             var marker = null;
             if (shape.type == 'point') {
@@ -180,25 +170,18 @@
                 //console.log(medianPath, medianPoint);
                 this.point = shape.getPoint(medianPath, medianPoint);
             }
-            marker.infoTemplate = info;
+            //marker.setInfoTemplate(info);
+            //Window['map'] = this.map;
             this.map.graphics.add(marker);
+            console.log(this.map);
         },
         clearGraphic: function () {
             var graphics = this.map.graphics.graphics;
             for (var i = 0; i < graphics.length; i++) {
-                if (graphics[i].infoTemplate != undefined) {
+                //if (graphics[i].infoTemplate != undefined) {
                     this.map.graphics.remove(graphics[i--]);
-                }
+                //}
             }
-        },
-        find: function (array, field, targetValue) {
-            var result = null;
-            array.forEach( function (object) {
-                if (object[field] == targetValue) {
-                    result =  object;
-                }
-            });
-            return result;
         }
     });
 });
