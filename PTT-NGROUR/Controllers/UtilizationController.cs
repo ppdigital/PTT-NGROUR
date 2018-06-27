@@ -15,6 +15,7 @@ using PTT_NGROUR.DTO;
 using PTT_NGROUR.Models.DataModel;
 using PTT_NGROUR.Models.ViewModel;
 using System.Data;
+using Rotativa;
 
 namespace PTT_NGROUR.Controllers
 {
@@ -184,6 +185,54 @@ namespace PTT_NGROUR.Controllers
             return View(model);
         }
 
+
+        public ActionResult ReportPdf()
+        {
+            var dal = new DAL.DAL();
+            var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE TYPE NOT LIKE 'METERING' AND REGION IS NOT NULL";
+            var ds = dal.GetDataSet(searchregion);
+
+
+            var listRegion = new List<Models.DataModel.ModelGetU>();
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+
+
+                foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+                {
+                    var reg = new Models.DataModel.ModelGetU()
+                    {
+                        NO = dr["NO"].ToString(),
+                        NAME = dr["NAME"].ToString(),
+                        COLOR = dr["COLOR"].ToString(),
+                        VALUE = dr["VALUE"].ToString(),
+                        TYPE = dr["TYPE"].ToString(),
+                        FLAG = dr["FLAG"].ToString(),
+                        REGION = dr["REGION"].ToString(),
+                        LICENSE = dr["LICENSE"].ToString(),
+                        STATUS = dr["STATUS"].ToString(),
+                        MONTH = dr["MONTH"].ToString(),
+                        YEAR = dr["YEAR"].ToString(),
+                    };
+                    listRegion.Add(reg);
+                }
+            }
+
+            ds.Tables[0].Clear();
+            ds.Tables[0].Dispose();
+            ds.Clear();
+            ds.Dispose();
+            ds = null;
+            dal = null;
+            return new ViewAsPdf(listRegion);
+            //return View(listRegion);
+        }
+
+        public ActionResult PrintViewToPdf()
+        {
+            var report = new ActionAsPdf("Report");
+            return report;
+        }
         public ActionResult MenuUtilization()
         { return View(); }
 
