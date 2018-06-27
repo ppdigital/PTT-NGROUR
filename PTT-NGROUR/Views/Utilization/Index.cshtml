@@ -319,13 +319,13 @@
                             THRESHOLD = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
                             color1 = "red"
                         } else if(data[i].FLAG == '1'){
-                            THRESHOLD = '<span class="fa fa-circle " style="color:#e67e22"></span>'
+                            THRESHOLD = '<span class="fa fa-flag " style="color:#e67e22"></span>'
                             color1 = "flag"
                         } else {
                             THRESHOLD = "";
                             color1 = "no"
                         }
-                        if (data[i].STATUS == 'Inactive' && data[i].TYPE == 'METERING') {
+                        if (data[i].STATUS == 'INACTIVE' && data[i].TYPE == 'METERING') {
                             status = 'style="color:red"';
                         } else {
                             status = "";
