@@ -175,7 +175,7 @@
             var SeLicense;
             $(document).ready(function () {
                 document.getElementById('seLicense').style.display = 'none';
-                $('#MultiRegion').selectpicker('selectAll').selectpicker('refresh');
+                //$('#MultiRegion').selectpicker('selectAll').selectpicker('refresh');
             });
 
             function Check() {
@@ -427,84 +427,84 @@
             Chart.defaults.doughnutLabels = Chart.helpers.clone(Chart.defaults.doughnut);
             var helpers = Chart.helpers;
             var defaults = Chart.defaults;
-            $.ajax({
-                type: "POST",
-                url: "/Dashboard/AllGate",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (chData) {
-                    console.log(chData);
-                    var aData = chData;
-                    var aLabels = aData[0];
-                    var aDatasets1 = aData[1];
-                    var dataT = {
-                        labels: aLabels,
-                        datasets: [{
-                            label: "Test Data",
-                            data: aDatasets1,
-                            fill: false,
-                            backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                            hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                            borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                            borderWidth: 1
-                        }]
-                    }; 
-                    var ctx = $("#pieGate").get(0).getContext("2d");
-                    var myNewChart = new Chart(ctx, {
-                        type: 'doughnut',
-                        data: dataT,
-                        options: {
-                            responsive: true,
-                            pieceLabel: { mode: 'value', fontColor: 'white' },
-                            title: { display: true },
-                            legend: { position: 'bottom' },
-                            scales: {
-                                xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
-                                yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
-                            },
-                        }
-                    });
-                }
-            });
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/Dashboard/AllGate",
+            //    contentType: "application/json; charset=utf-8",
+            //    dataType: "json",
+            //    success: function (chData) {
+            //        console.log(chData);
+            //        var aData = chData;
+            //        var aLabels = aData[0];
+            //        var aDatasets1 = aData[1];
+            //        var dataT = {
+            //            labels: aLabels,
+            //            datasets: [{
+            //                label: "Test Data",
+            //                data: aDatasets1,
+            //                fill: false,
+            //                backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+            //                hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+            //                borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+            //                borderWidth: 1
+            //            }]
+            //        }; 
+            //        var ctx = $("#pieGate").get(0).getContext("2d");
+            //        var myNewChart = new Chart(ctx, {
+            //            type: 'doughnut',
+            //            data: dataT,
+            //            options: {
+            //                responsive: true,
+            //                pieceLabel: { mode: 'value', fontColor: 'white' },
+            //                title: { display: true },
+            //                legend: { position: 'bottom' },
+            //                scales: {
+            //                    xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
+            //                    yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
+            //                },
+            //            }
+            //        });
+            //    }
+            //});
 
-            $.ajax({
-                type: "POST",
-                url: "/Dashboard/AllPipeline",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (chData) {
-                    var aData = chData;
-                    var aLabels = aData[0];
-                    var aDatasets1 = aData[1];
-                    var dataT = {
-                        labels: aLabels,
-                        datasets: [{
-                            label: "Test Data",
-                            data: aDatasets1,
-                            fill: false,
-                            backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                            hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                            borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                            borderWidth: 1
-                        }]
-                    };
-                    var ctx = $("#piePipeline").get(0).getContext("2d");
-                    var myNewChart = new Chart(ctx, {
-                        type: 'doughnut',
-                        data: dataT,
-                        options: {
-                            responsive: true,
-                            pieceLabel: { mode: 'value', fontColor: 'white' },
-                            title: { display: true },
-                            legend: { position: 'bottom' },
-                            scales: {
-                                xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
-                                yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
-                            },
-                        }
-                    });
-                }
-            });
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/Dashboard/AllPipeline",
+            //    contentType: "application/json; charset=utf-8",
+            //    dataType: "json",
+            //    success: function (chData) {
+            //        var aData = chData;
+            //        var aLabels = aData[0];
+            //        var aDatasets1 = aData[1];
+            //        var dataT = {
+            //            labels: aLabels,
+            //            datasets: [{
+            //                label: "Test Data",
+            //                data: aDatasets1,
+            //                fill: false,
+            //                backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+            //                hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+            //                borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+            //                borderWidth: 1
+            //            }]
+            //        };
+            //        var ctx = $("#piePipeline").get(0).getContext("2d");
+            //        var myNewChart = new Chart(ctx, {
+            //            type: 'doughnut',
+            //            data: dataT,
+            //            options: {
+            //                responsive: true,
+            //                pieceLabel: { mode: 'value', fontColor: 'white' },
+            //                title: { display: true },
+            //                legend: { position: 'bottom' },
+            //                scales: {
+            //                    xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
+            //                    yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
+            //                },
+            //            }
+            //        });
+            //    }
+            //});
 
             //////////////////////////////////////
 

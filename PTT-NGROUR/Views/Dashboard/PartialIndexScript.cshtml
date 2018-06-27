@@ -93,7 +93,23 @@
         }
     }
 
-    function showPIE(pStrMode , pListData ) {
+    function showPIE(pStrMode, pListData) {
+
+        let strIdPie = "";
+        let objGraph = null;
+        if (pStrMode === "PIPELINE") {
+            strIdPie = "#piePipeline";
+            objGraph = _graphPipeLine;
+        } else if (pStrMode === "GATE") {
+            strIdPie = "#pieGate";
+            objGraph = _graphGate
+        }
+        if (objGraph != null) {
+            objGraph.destroy();
+        }
+        //if (!pListData || !pListData.length) {
+        //    return;
+        //}
         let intAlert = 0;
         let intWarning = 0;
         let intPass = 0;
@@ -128,18 +144,7 @@
             }]
         };
 
-        let strIdPie = "";
-        let objGraph = null;
-        if (pStrMode === "PIPELINE") {
-            strIdPie = "#piePipeline";
-            objGraph = _graphPipeLine;
-        } else if (pStrMode === "GATE") {
-            strIdPie = "#pieGate";
-            objGraph = _graphGate
-        }
-        if (objGraph != null) {
-            objGraph.destroy();            
-        }
+        
         let ctx = $(strIdPie).get(0).getContext("2d");
         objGraph = new Chart(ctx, {
             type: 'doughnut',
@@ -155,7 +160,14 @@
                 },
             }
         });
+        if (pStrMode === "PIPELINE") {            
+            _graphPipeLine = objGraph;
+        } else if (pStrMode === "GATE") {            
+            _graphGate = objGraph;
+        }
         objGraph.update();
     }
+
+    Search();
 
 </script>
