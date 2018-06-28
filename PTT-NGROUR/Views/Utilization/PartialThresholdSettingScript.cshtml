@@ -47,26 +47,18 @@
         IHtmlString strSlideID = Html.Raw( string.Format("\"#divSlider{0}\"" , i.ToString()));
         IHtmlString strNumMinID = Html.Raw( string.Format("\"#numMin{0}\"", i.ToString()));
         IHtmlString strNumMaxID = Html.Raw(string.Format("\"#numMax{0}\"", i.ToString()));
+        int intMin = i - (i % 2);
+        int intMax = 96 + intMin;
 <text>
     $(@strSlideID).slider({
-        max: 100,
-        min: 1,
+        max: @intMax,
+        min: @intMin,
         range: true,
         values: [ @Model.ThresholdItems[i].MinValue, @Model.ThresholdItems[i].MaxValue],
         step: 0.01
-        @*slide: function (e, u) {
-            if (u.values[0] > 50) {
-                u.values[0] = 50;
-                e.preventDefault()
-                return false;
-            } else {
-            }
-            $(@strNumMinID).val(u.values[0]);
-            $(@strNumMaxID).val(u.values[1]);
 
-        }*@
     }).slider("pips", {
-        rest: "label",
+    rest: "label",
         step: 1000
     }).slider("float");
 
@@ -175,6 +167,7 @@
     }
     //------------[ Slide Gate 1 ]---------------------------//
     _divSlideGate1.on("slide", function (e, u) {
+        
         if (!_doEvent) {
             return;
         }
@@ -185,18 +178,17 @@
         var intMaxGate1 = u.values[1];
         if (intMaxGate1 > 96) {
             intMaxGate1 = 96;
-        } else if (intMinGate1 < 2) {
-            intMaxGate1 = 2
+        } else if (intMaxGate1 < 1) {
+            intMaxGate1 = 1
         }
         setMaxGateSlider(1, intMaxGate1)
         var intMinGate1 = u.values[0];
         if (intMinGate1 > 95) {
             intMinGate1 = 95;
         } 
-        else if (intMinGate1 < 2) {
-            intMinGate1 = 2;
-        }
-        console.log(intMinGate1);
+        else if (intMinGate1 < 0) {
+            intMinGate1 = 0;
+        }        
         setMinGateSlider(1 , intMinGate1);
 
         var intMinGate2 = getMinGateSlider(2);
@@ -220,59 +212,25 @@
             }
         }
         _doEvent = true;
-    });
-
-    //_divSlideGate1.on("slide", function (e, u) {
-    //    if (!_doEvent) return;
-    //    _doEvent = false;
-    //    var intMaxGate1 = u.values[1];
-    //    if (intMaxGate1 > 96) {
-    //        intMaxGate1 = 96;
-    //        u.values[1] = 96;
-    //    }
-    //    var intMinGate2 = _divSlideGate2.slider("values", 0);
-    //    var intMaxGate2 = _divSlideGate2.slider("values", 1);
-    //    if (intMaxGate1 > intMinGate2) {
-    //        _divSlideGate2.slider("values", 0, intMaxGate1 + 1);
-    //        _numGateMin2.val(intMaxGate1 + 1);
-
-    //    }
-    //    if (intMaxGate1 > intMaxGate2 - 1) {
-    //        _divSlideGate2.slider("values", 1, intMaxGate1 + 2);
-    //        _numGateMax2.val(intMaxGate1 + 2);
-    //    }
-
-    //    var intMinGate3 = _divSlideGate3.slider("values", 0);
-    //    var intMaxGate3 = _divSlideGate3.slider("values", 1);
-    //    if (intMaxGate2 > intMinGate3) {
-    //        _divSlideGate3.slider("values", 0, intMaxGate2 + 1);
-    //        _numGateMin3.val(intMaxGate2 + 1)
-
-    //    }
-    //    if (intMaxGate2 > intMaxGate3 - 1) {
-    //        _divSlideGate3.slider("values", 1, intMaxGate2 + 2);
-    //        _numGateMax3.val(intMaxGate2 + 2);
-    //    }
-    //    _numGateMin1.val( u.values[0]);
-    //    _numGateMax1.val(u.values[1]);
-    //    _doEvent = true;
-    //});
+    });    
 
 //------------[ Slide Gate 2 ]---------------------------//
     _divSlideGate2.on("slide", function (e, u) {
+        
         if (!_doEvent) return;
         _doEvent = false;
         var intMaxGate2 = u.values[1];
         var intMinGate2 = u.values[0];
 
-        if (intMinGate2 < 3) {
-            intMinGate2 = 3;
+        if (intMinGate2 < 2) {
+            intMinGate2 = 2;
         }
         if (intMaxGate2 > 98) {
             intMaxGate2 = 98;
         }
-        _numGateMin2.val(intMinGate2);
-        _numGateMax2.val(intMaxGate2);
+
+        _numGateMin2.val(intMinGate2.toFixed(2));
+        _numGateMax2.val(intMaxGate2.toFixed(2));
 
         var intMaxGate1 = getMaxGateSlider(1)//_divSlideGate1.slider("values", 0);
         if (intMinGate2 <= intMaxGate1) {
@@ -306,11 +264,11 @@
         _doEvent = false;
         var intMinGate3 = u.values[0];
 
-        if (intMinGate3 < 5) {
-            intMinGate3 = 5;
+        if (intMinGate3 < 4) {
+            intMinGate3 = 4;
         }
-        _numGateMin3.val(intMinGate3);
-        _numGateMax3.val(u.values[1]);
+        _numGateMin3.val(intMinGate3.toFixed(2));
+        _numGateMax3.val(u.values[1].toFixed(2));
         var intMaxGate2 = _divSlideGate2.slider("values", 1);
         if (intMinGate3 <= intMaxGate2) {
             intMaxGate2 = intMinGate3 - 1;
@@ -374,14 +332,14 @@
         var intMaxPipeLine2 = u.values[1];
         var intMinPipeLine2 = u.values[0];
 
-        if (intMinPipeLine2 < 3) {
-            intMinPipeLine2 = 3;
+        if (intMinPipeLine2 < 2) {
+            intMinPipeLine2 = 2;
         }
         if (intMaxPipeLine2 > 98) {
             intMaxPipeLine2 = 98;
         }
-        _numPipeLineMin2.val(intMinPipeLine2);
-        _numPipeLineMax2.val(intMaxPipeLine2);
+        _numPipeLineMin2.val(intMinPipeLine2.toFixed(2));
+        _numPipeLineMax2.val(intMaxPipeLine2.toFixed(2));
 
         var intMaxPipeLine1 = getMaxPipeLineSlider(1)//_divSlideGate1.slider("values", 0);
         if (intMinPipeLine2 <= intMaxPipeLine1) {
@@ -414,11 +372,11 @@
         _doEvent = false;
         var intMinPipeLine3 = u.values[0];
         var intMaxPipeLine3 = u.values[1];
-        if (intMinPipeLine3 < 5) {
-            intMinPipeLine3 = 5;
+        if (intMinPipeLine3 < 4) {
+            intMinPipeLine3 = 4;
         }
-        _numPipeLineMin3.val(intMinPipeLine3);
-        _numPipeLineMax3.val(intMaxPipeLine3);
+        _numPipeLineMin3.val(intMinPipeLine3.toFixed(2));
+        _numPipeLineMax3.val(intMaxPipeLine3.toFixed(2));
 
         var intMaxPipeLine2 = _divSlidePipeLine2.slider("values", 1);
         if (intMinPipeLine3 <= intMaxPipeLine2) {
