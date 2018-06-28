@@ -470,6 +470,68 @@ namespace PTT_NGROUR.Controllers
             return Json("", JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult IsDuplicateExcelData()
+        {
+            var result = new ModelJsonResult<bool>();
+            string inYear = Request["year"];
+            string inMonth = Request["month"];
+            string inRegion = Request["region"];
+            string inType = Request["type"];
+
+            HttpFileCollectionBase files = Request.Files;
+
+
+            if (files == null || 0.Equals(files.Count))
+            {
+                result.SetError("No File Data To Load");
+                return Json(result);
+            }
+
+            var fb = files[0];
+
+            if (fb == null || fb.InputStream == null)
+            {
+                result.SetError("No File Data To Load");
+                return Json(result);
+            }
+            string exttension = System.IO.Path.GetExtension(fb.FileName);
+            if (!(new string[] { ".xls", ".xlsx" }).Contains(exttension))
+            {
+                result.SetError("File Type Not In xls or xlsx");
+                return Json(result);
+            }
+            var dto = new DTO.DtoUtilization();
+            bool isDuplicate = false;
+            switch (inType)
+            {
+                case "pipeline":
+                    var listPipeLine = dto.ReadExcelPipelineImport(
+                        pStreamExcel: fb.InputStream,
+                        pIntMonth: inMonth.GetInt(),
+                        pStrRegionId: inRegion,
+                        pStrUploadBy: User.Identity.Name,
+                        pIntYear: inYear.GetInt()
+                    );
+                    isDuplicate = dto.GetListPipelineImportDuplicate(listPipeLine).Any();
+                    
+                    break;
+                case "gate":
+                    var listGate = dto.ReadExcelGateStationImport( 
+                        pStreamExcel: fb.InputStream,  
+                        pIntMonth: inMonth.GetInt(), 
+                        pStrRegionId : inRegion, 
+                        pStrUploadBy: User.Identity.Name, 
+                        pIntYear: inYear.GetInt()
+                    );
+                    isDuplicate = dto.GetListGateImportDuplicate(listGate).Any();
+                    
+                    break;
+            }
+            result.SetResultValue(isDuplicate);
+
+            return Json(result);
+        }
 
         [HttpPost]
         public JsonResult InsertExceldata()

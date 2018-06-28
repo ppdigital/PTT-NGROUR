@@ -192,9 +192,11 @@
         var intMinGate1 = u.values[0];
         if (intMinGate1 > 95) {
             intMinGate1 = 95;
-        } else if (intMinGate1 < 1) {
-            intMinGate1 = 1;
+        } 
+        else if (intMinGate1 < 2) {
+            intMinGate1 = 2;
         }
+        console.log(intMinGate1);
         setMinGateSlider(1 , intMinGate1);
 
         var intMinGate2 = getMinGateSlider(2);

@@ -2,11 +2,15 @@
     var _divModalPipelineImport = $("#ModalImportPipe");
     var _divModalGateImport = $("#ModalImportGate");
 
+    var _divModalLoading = $("#ModalLoading").modal({ backdrop: "static", keyboard: false, show : false });
+
     var _tblPipelineImportSuccess = $("#tblPipelineSuccess");
     var _tblPipelineImportError = $("#tblPipelineError");
     var _tblGateSuccess = $("#tblGateSuccess");
     var _tblGateError = $("#tblGateError");
     //_divModalPipelineImport.modal("show");
+    
+    //_divModalLoading.modal('show');
 
     function getHtmlGate(pList) {
         if (!Array.isArray(pList) || !pList.length) {
@@ -84,10 +88,70 @@
                 break;
         }
     }
+    function showLoading(pIsShow) {
+        if (pIsShow) {
+            _divModalLoading.modal('show');
+        } else {
+            _divModalLoading.modal('hide');
+        }
+    }
 
+
+    var handlingError = function (jqXHR, exception) {
+        var msg = '';
+        if (jqXHR.status === 0) {
+            msg = 'Not connect.\n Verify Network.';
+        } else if (jqXHR.status == 404) {
+            msg = 'Requested page not found. [404]';
+        } else if (jqXHR.status == 500) {
+            msg = 'Internal Server Error [500].';
+        } else if (exception === 'parsererror') {
+            msg = 'Requested JSON parse failed.';
+        } else if (exception === 'timeout') {
+            msg = 'Time out error.';
+        } else if (exception === 'abort') {
+            msg = 'Ajax request aborted.';
+        } else {
+            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        }
+        showLoading(false);
+        alert(msg);
+    }
+
+    function checkExcelDupclicate(pFileData, pOnsuccess) {
+        if (pFileData == null) {
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("IsDuplicateExcelData")',
+            data: pFileData,
+            dataType: 'JSON',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.StatusText == "OK") {                    
+                    if (!response.Result || confirm("Data Is Duplicate Are You Sure To Import ?")) {
+                        if (pOnsuccess != null) {
+                            pOnsuccess();
+                        }
+                    } else {
+                        showLoading(false);
+                    }
+                } else {
+                    showLoading(false);
+                    alert(response.ErrorMessage);
+                }                
+            },
+            error: handlingError
+        });
+    }
 
     $("#uploadFile").click(function () {
 
+        showLoading(true);
         // var Region = $("#seRegion").val();
         var fileUpload = $("#fileLoadDoc").get(0);
         var files = fileUpload.files;
@@ -107,20 +171,24 @@
         fileData.append("type", Type);
 
 
+        checkExcelDupclicate(fileData, function () {
+           $.ajax({
+               type: "POST",
+               url: '@Url.Action("InsertExceldata")',
+               data:  fileData,
+               dataType: 'JSON',
+               cache: false,
+               contentType: false,
+               processData: false,
+               success: function (response) {
+                   importExcelSuccess(response);
+                   showLoading(false);
+               },
+               error : handlingError
 
-       $.ajax({
+           });
 
-           type: "POST",
-           url: '@Url.Action("InsertExceldata")',
-           data:  fileData,
-           dataType: 'JSON',
-           cache: false,
-           contentType: false,
-           processData: false,
-           success: function (response) {
-               importExcelSuccess(response);
-           }
-       });
+        });
     });
 
 

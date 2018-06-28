@@ -23,11 +23,13 @@
                             <tr>
                                 <td><div class="circleBase" style="background-color: @Model.ThresholdItems[j].COLOR_HEX"></div> </td>
                                @if (@Model.ThresholdItems[j].ThresholdType.ToString() == "GateStation")
-                        {
-                   <td class="h7-xs">Gate Station (%)</td>}
-                          else if (@Model.ThresholdItems[j].ThresholdType.ToString() == "PipeLine")
-                         {
-                            <td class="h7-xs">Pipeline (ft/s)</td>} 
+                                {
+                                    <td class="h7-xs">Gate Station (%)</td>
+                               }
+                               else if (@Model.ThresholdItems[j].ThresholdType.ToString() == "PipeLine")
+                               {
+                                    <td class="h7-xs">Pipeline (ft/s)</td>
+                               } 
                                 <td class="col-xs-12">
 
                                     <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
