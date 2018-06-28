@@ -164,11 +164,13 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LDAPSearch.cs" />
+    <Compile Include="Controllers\OMController.cs" />
     <Compile Include="Controllers\SQLServerQuery.cs" />
     <Compile Include="Controllers\ThresholdController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UtilizationController.cs" />
     <Compile Include="DAL\DAL.cs" />
+    <Compile Include="DTO\DtoOM.cs" />
     <Compile Include="DTO\DtoUtilization.cs" />
     <Compile Include="ExtentionAndLib\Ext.cs" />
     <Compile Include="DI\CommonConventions.cs" />
@@ -180,6 +182,7 @@
     <Compile Include="Models\DataModel\ModelGateStationImport.cs" />
     <Compile Include="Models\DataModel\ModelCustomer.cs" />
     <Compile Include="Models\DataModel\ModelGetU.cs" />
+    <Compile Include="Models\DataModel\ModelMeterMaintenance.cs" />
     <Compile Include="Models\DataModel\ModelRegion.cs" />
     <Compile Include="Models\DataModel\ModelPipelineArchive.cs" />
     <Compile Include="Models\DataModel\ModelPipelineImport.cs" />
@@ -187,6 +190,7 @@
     <Compile Include="Models\DataModel\ModelUsersAuth.cs" />
     <Compile Include="Models\UserManagement.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ViewModel\ModelOmIndex.cs" />
     <Compile Include="Models\ViewModel\ModelViewCustomer.cs" />
     <Compile Include="Models\ViewModel\ModelJsonResult.cs" />
     <Compile Include="Models\ViewModel\ModelUtilization.cs" />
@@ -626,6 +630,7 @@
     <Content Include="Views\Dashboard\PartialIndexScript.cshtml" />
     <Content Include="Views\Utilization\ReportPdf.cshtml" />
     <Content Include="Views\Utilization\Customer.cshtml" />
+    <Content Include="Views\OM\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

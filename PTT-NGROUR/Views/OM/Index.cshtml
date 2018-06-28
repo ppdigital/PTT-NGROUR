@@ -1,0 +1,76 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelOmIndex
+@{
+    ViewBag.Title = "Index";
+}
+<div id="container" style="width: 75%;">
+    <canvas id="canvas"></canvas>
+</div>
+<h2>Index</h2>
+
+<h3>@string.Join("," ,Model.BarGraph.ListLabel) </h3>
+<table class="table table-bordered table-hover">
+    @*<thead>
+        <tr>
+            <th></th>
+        </tr>
+    </thead>*@
+    <tbody>
+
+        
+        @foreach (var item in Model.BarGraph.ListML)
+        {
+            <tr>
+                <td>@item.Label</td>
+                <td>@item.ListData.Select(x=>x.ToString()).Aggregate((x,y) => x + " , " + y)</td>
+            </tr>
+            
+        }
+
+
+        @foreach (var item in Model.ListMeterMaintenance)
+        {
+            <tr>
+                <td>@item.ACTUAL</td>
+                <td>@item.ML</td>
+                <td>@item.PM_INTERVAL</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section scripts{
+    <script src="~/Scripts/Chart/Chart.js"></script>
+    <script>
+    var barChartData = {
+        labels:[@Model.BarGraph.ListLabel.Select(x=> new HtmlString( "'" + x + "'")).Aggregate((x,y)=> new HtmlString(x + "," +y))],
+        backgroundColor: "rgba(255, 0, 0, 0.9)",
+        datasets: [
+            @foreach (var item in Model.BarGraph.ListML)
+            {
+                <text>
+                {
+                    label: "@item.Label" ,
+                    data: [ @item.ListData.Select(x => x.ToString()).Aggregate((x, y) => x + " , " + y) ]
+                },
+                </text>
+            }
+        ]
+    };
+
+    var ctx = document.getElementById('canvas').getContext('2d');
+    window.myBar = new Chart(ctx, {
+				type: 'bar',
+				data: barChartData,
+				options: {
+					responsive: true,
+					legend: {
+						position: 'top',
+					},
+					title: {
+						display: true,
+						text: 'Chart.js Bar Chart'
+					}
+				}
+			});
+
+    </script>
+}
