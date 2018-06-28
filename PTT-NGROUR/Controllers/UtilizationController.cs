@@ -1072,12 +1072,13 @@ namespace PTT_NGROUR.Controllers
             return Redirect("Customer"); 
         }
              [HttpPost]
-             public ActionResult EditMeter(string txtMeterNameMEdit, string txtMeterNumMEdit, string txtMeterTypeMEdit, int seStatusMEdit,string datepicCommdateMEdit, int txtObjectIDMEdit)
+             public ActionResult EditMeter(string datepicCommdateMEdit, string txtMeterNameMEdit, string txtMeterNumMEdit, string txtMeterTypeMEdit, int seStatusMEdit, int txtObjectIDMEdit)   
              {   //string textEdit = "แก้ไข้อมูลเรียบร้อย";
-                
+                 //String[] date1 = date.split("/");
+                 //var mainDate = DateTime.ParseExact(datepicCommdateMEdit, "dd/MM/yyyy HH:mm:ss", null);
                  var dalEditMeter = new DAL.DAL();
                  string username = User.Identity.Name;
-                 string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET METER_NUMBER = '" + txtMeterNumMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE='" + datepicCommdateMEdit + "',UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE OBJECT_ID='" + txtObjectIDMEdit + "'";
+                 string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET METER_NUMBER = '" + txtMeterNumMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE=TO_DATE('" + datepicCommdateMEdit + "', 'd/m/yyyy'),UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE OBJECT_ID='" + txtObjectIDMEdit + "'";
                  var conMeter = dalEditMeter.GetConnection();
                  conMeter.Open();
                  dalEditMeter.GetCommand(strCommandEditMeter, conMeter).ExecuteNonQuery();

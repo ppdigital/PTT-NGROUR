@@ -670,7 +670,7 @@
             </div>
 
             @using (Html.BeginForm("EditMeter", "Utilization", FormMethod.Post))
-            {
+            { 
 
                 <div class="pv2 mv3">
                     <div class="  black-80 center">
@@ -806,7 +806,7 @@
                                     <label for="name" class="b pull-right">Start Date :</label>
                                 </span>
                                 <div class="col-lg-6 col-md-7 ">
-                                    <input type="text" class="form-control form-control-sm fz-12px" id="datepicCommdateMEdit" style="height: 30px !important" />
+                                    <input type="text" class="form-control form-control-sm fz-12px" id="datepicCommdateMEdit" name="datepicCommdateMEdit" style="height: 30px !important" />
                                    
                                 </div>
                             </div>
@@ -840,6 +840,8 @@
                 $('#MeterTable').dataTable({
                     responsive: true
                 });
+
+               
                 
             });
 
