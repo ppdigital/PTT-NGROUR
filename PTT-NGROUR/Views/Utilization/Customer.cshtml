@@ -8,12 +8,13 @@
     <br /><br />
     <ul class="nav nav-tabs" style="border-color: rgba(0,0,0,.0625) !important">
         <li class="active" style="border-color: rgba(0,0,0,.0625) !important; "><a data-toggle="tab" href="#customer">Customer</a></li>
-        <li><a data-toggle="tab" href="#metering">Metering</a></li>
+        
+        <li  style="border-color: rgba(0,0,0,.0625) !important; "><a data-toggle="tab" href="#metering">Metering</a></li>
     </ul>
 
     <div class="tab-content bg-white border-box-gray" style="border-top: none !important">
         <div id="customer" class="tab-pane fade in active">
-            <div class="ph2 pv2">
+            <div class="ph2 pv2 w-100">
                 <div class="table-responsive">
                     <table class="table h6 table-striped table-bordered" id="CustomerTable">
                         <thead>
@@ -41,10 +42,68 @@
                                     <td>@cus.SHIP_TO</td>
                                     <td>@cus.SOLD_TO</td>
                                     <td>@cus.SOLD_TO_FLAG_SHAPE</td>
-                                    <td>View</td>
+                                    <td><center> <a class=" dib glyphicon glyphicon-zoom-in fa-lg no-underline gray " id="ViewCust" name="btnOpenView" onclick="ViewCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalViewCust" aria-hidden="true"></a></center></td>
+                                    
+                                    <td>
+                                        <center> <a class=" dib fa fa-pencil-square-o fa-lg no-underline gray " id="EditCust" name="btnOpenEdit" onclick="EditCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalEditCust" aria-hidden="true"></a></center>
+                                    </td>
+                                    <td><center><i class="fa fa-map-marker" aria-hidden="true"></i></center></td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div id="metering" class="tab-pane fade">
+            <div class="ph2 pv2">
+                <div class="table-responsive">
+                    <table class="table h6 table-striped table-bordered" id="MeterTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Customer Name</th>
+                                <th>License Code</th>
+                                <th>Meter Name</th>
+                                <th>Meter Number</th>
+                                <th>Meter Type</th>
+                                <th>Region</th>
+                                <th>Ship-To</th>
+                                <th>Sold-To</th>
+                                <th>Sold-To Name</th>
+                                <th>Status</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Map</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (PTT_NGROUR.Models.DataModel.ModelVIEW_METER meter in Model.ListViewMeter)
+                            {
+                                <tr>
+                                    <td>@meter.countMeter</td>
+                                    <td>@meter.CUST_NAME</td>
+                                    <td>@meter.LICENSE_CODE</td>
+                                    <td>@meter.METER_NAME</td>
+                                    <td>@meter.METER_NUMBER</td>
+                                    <td>@meter.METER_TYPE</td>
+                                    <td>@meter.REGION</td>
+                                    <td>@meter.SHIP_TO</td>
+                                    <td>@meter.SOLD_TO</td>
+                                    <td>@meter.SOLD_TO_NAME</td>
+                                    <td>@meter.STATUS</td>
+
+                                    <td><center> <a class=" dib glyphicon glyphicon-zoom-in fa-lg no-underline gray " id="ViewMeter" name="btnOpenView" onclick="ViewMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></center></td>
 
                                     <td>
-                                        <center> <a class=" dib fa fa-pencil-square-o fa-lg no-underline gray " id="Edit" name="btnOpenEdit" onclick="EDITUSER('@cus.SHIP_TO')" data-toggle="modal" data-target="#myModalEdit" aria-hidden="true"></a></center>
+                                        <center> <a class=" dib fa fa-pencil-square-o fa-lg no-underline gray " id="EditMeter" name="btnOpenEdit" onclick="EditMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalEditMeter" aria-hidden="true"></a></center>
                                     </td>
                                     <td><center><i class="fa fa-map-marker" aria-hidden="true"></i></center></td>
 
@@ -56,124 +115,201 @@
                 </div>
             </div>
 
-
-
-        </div>
-
-
-
-
-        <div id="metering" class="tab-pane fade">
-
-
         </div>
 
     </div>
 </div>
-<!--Modal Edit -->
+<!--Modal Edit Customer -->
 
-<div id="myModalEdit" class="modal modalEdit" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div id="ModalEditCust" class="modal modalEdit" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <label class="panel-title">EDIT USER</label>
+                <label class="panel-title h5">EDIT Customer</label>
                 <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
 
             @using (Html.BeginForm("EditCustomer", "Admin", FormMethod.Post))
             {
 
-                <div class="mh3 mv3">
+                <div class="pv2 mv3">
                     <div class="  black-80 center">
-                        <div class="row">
-                            <div class="measure center form-inline col-lg-12">
-                                <label for="name" class="col-lg-5 b">Customer Name :</label>
-                                <div class="col-lg-6">
-                                    @Html.TextBox("txtCustNameEdit", null, new { @class = "form-control input-sm col-lg-12", @readonly = "readonly" })
+
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class=" b pull-right">Customer Name :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtCustNameEdit", null, new { @class = "form-control input-sm ", @readonly = "readonly" })
                                 </div>
                             </div>
                         </div>
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Customer Name English :</label>
-                            @Html.TextBox("txtCustNameENEdit", null, new { @class = "form-control input-sm" })
+
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">Customer Name English :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtCustNameENEdit", null, new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Customer SName :</label>
-                            @Html.TextBox("txtCustSNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">Customer SName :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7">
+                                    @Html.TextBox("txtCustSNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Ship-To :</label>
-                            @Html.TextBox("txtShipToEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">Ship-To :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtShipToEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Ship-To Address</label>
-                            @Html.TextBox("txtShipToAddrEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">Ship-To Address :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtShipToAddrEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
 
-
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Sale District</label>
-                            @Html.TextBox("txtSaleEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">Sale District :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtSaleEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Contract Type</label>
-                            @Html.TextBox("txtContractEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">Contract Type :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtContractEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">IE Name</label>
-                            @Html.TextBox("txtIENameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">IE Name :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtIENameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Region</label>
-                            @Html.TextBox("txtRegionEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">Region :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtRegionEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Udate By</label>
-                            @Html.TextBox("txtUpdateByEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        @* <div class="row pb1">
+                                <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                    <span class="col-lg-5 col-md-5">
+                                        <label for="name" class="b">Udate By</label>
+                                    </span>
+                                    <div class="col-lg-6 col-md-7 ">
+                                        @Html.TextBox("txtUpdateByEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row pb1">
+                                <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                    <span class="col-lg-5 col-md-5">
+                                        <label for="name" class="b">Update Date</label>
+                                    </span>
+                                    <div class="col-lg-6 col-md-7 ">
+                                        @Html.TextBox("txtUpdateDateEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>  *@
+
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">Object ID :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtObjectIDEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Update Date</label>
-                            @Html.TextBox("txtUpdateDateEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">Sold-To :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtSoldToEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Object ID</label>
-                            @Html.TextBox("txtObjectIDEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">Sold-To Name :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtSoldToNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Sold-To</label>
-                            @Html.TextBox("txtSoldToEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">Sold-To Address :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtSoldToAddrEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Flag Shape</label>
-                            @Html.TextBox("txtFlagShapeEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5">
+                                    <label for="name" class="b pull-right">Status :</label>
+                                </span>
+                                <div class="col-lg-6 col-md-7 ">
+                                    @Html.TextBox("txtStatusEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Sold-To Name</label>
-                            @Html.TextBox("txtSoldToNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
-                        </div>
-
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Sold-To Address</label>
-                            @Html.TextBox("txtSoldToAddrEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
-                        </div>
-
-                        <div class="measure center form-inline">
-                            <label for="name" class="b">Status</label>
-                            @Html.TextBox("txtStatusEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
-                        </div>
-
 
                     </div>
                 </div>
@@ -190,70 +326,493 @@
     </div>
 </div>
 
+<!--Modal View Customer -->
+
+<div id="ModalViewCust" class="modal modalView" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="panel-title h5">View Customer</label>
+                <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
 
 
+            <div class="pv2 mv3">
+                <div class="  black-80 center">
+
+                    <div class="row ">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Customer Name :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtCustNameView"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Customer Name English :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtCustNameENView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Customer SName :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtCustSNameView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Ship-To :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtShipToView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Ship-To Address :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtShipToAddrView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Sale District :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtSaleView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Contract Type :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtContractView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">IE Name :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtIENameView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Region :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtRegionView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Object ID :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtObjectIDView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Sold-To :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtSoldToView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Sold-To Name :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtSoldToNameView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Sold-To Address :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtSoldToAddrView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Status :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtStatusView"></p>
+                            </div>
+
+                        </div>
+                    </div>
 
 
+                </div>
+                <br />
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
 
 
+            </div>
+        </div>
+    </div>
+</div>
 
 
+<!--Modal View Meter -->
+
+<div id="ModalViewMeter" class="modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="panel-title h5">View Meter</label>
+                <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
 
 
+            <div class="pv2 mv3">
+                <div class="  black-80 center">
+
+                    <div class="row ">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Metering Name :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtCustNameMView"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Customer Name English :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtLicenseCodeMView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--  <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">Customer SName :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtCustSNameView"></p>
+                              </div>
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">Ship-To :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtShipToView"></p>
+                              </div>
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">Ship-To Address :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtShipToAddrView"></p>
+                              </div>
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">Sale District :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtSaleView"></p>
+                              </div>
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">Contract Type :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtContractView"></p>
+                              </div>
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">IE Name :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtIENameView"></p>
+                              </div>
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">Region :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtRegionView"></p>
+                              </div>
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">Object ID :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtObjectIDView"></p>
+                              </div>
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">Sold-To :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtSoldToView"></p>
+                              </div>
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">Sold-To Name :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtSoldToNameView"></p>
+                              </div>
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">Sold-To Address :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtSoldToAddrView"></p>
+                              </div>
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">Status :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtStatusView"></p>
+                              </div>
+
+                          </div>
+                    </div>-->
 
 
+                </div>
+                <br />
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
 
 
+            </div>
+        </div>
+    </div>
+</div>
 
+    @section scripts{
+        <script src="~/Scripts/DataTables/datatables.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#CustomerTable').dataTable({
+                    responsive: true
+                });
+                $('#MeterTable').dataTable({
+                    responsive: true
+                });
+                
+            });
+            function EditCust(cust) {
+                //modalEdit.style.display = "block";
 
-@section scripts{
-    <script src="~/Scripts/DataTables/datatables.min.js"></script>
-    <script type="text/javascript">
-    $(document).ready(function () {
-        $('#CustomerTable').dataTable();
-    });
-    function EDITUSER(cust) {
-        //modalEdit.style.display = "block";
-
-           @foreach (var cusAll in Model.ListCustAll)
+                @foreach (var cusAll in Model.ListCustAll)
         {
             <text>
-        console.log(cust);
-        if (cust == '@cusAll.SHIP_TO')
-        {
-            $("#txtCustNameEdit").val('@cusAll.CUST_NAME');
-            $("#txtCustSNameEdit").val('@cusAll.CUST_SNAME');
-            $("#txtShipToEdit").val('@cusAll.SHIP_TO');
-            $("#txtCustNameENEdit").val('@cusAll.CUST_NAME_EN');
-            $("#txtShipToAddrEdit").val('@cusAll.SHIP_TO_ADDRESS');
-            $("#txtPlantNameEdit").val('@cusAll.PLANT_NAME');
-            $("#txtSaleEdit").val('@cusAll.SALES_DISTRICT');
-            $("#txtContractEdit").val('@cusAll.CONTRACT_TYPE');
-            $("#txtIENameEdit").val('@cusAll.IE_NAME');
-            $("#txtRegionEdit").val('@cusAll.REGION');
-            $("#txtUpdateByEdit").val('@cusAll.UPDATED_BY');
-            $("#txtUpdateDateEdit").val('@cusAll.UPDATED_DATE');
-            $("#txtObjectIDEdit").val('@cusAll.OBJECTID');
-            $("#txtSoldToEdit").val('@cusAll.SOLD_TO');
-            $("#txtFlagShapeEdit").val('@cusAll.FLAG_SHAPE');
-            $("#txtFlagShapeEdit").val('@cusAll.FLAG_SHAPE');
-            $("#txtSoldToNameEdit").val('@cusAll.SOLD_TO_NAME');
-            $("#txtSoldToAddrEdit").val('@cusAll.SOLD_TO_ADDRESS');
-            $("#txtStatusEdit").val('@cusAll.STATUS');
-
-
-
-
-
-
-
-            console.log('@cusAll.CUST_NAME');
+                console.log(cust);
+                if (cust == '@cusAll.SHIP_TO') {
+                    $("#txtCustNameEdit").val('@cusAll.CUST_NAME');
+                    $("#txtCustSNameEdit").val('@cusAll.CUST_SNAME');
+                    $("#txtShipToEdit").val('@cusAll.SHIP_TO');
+                    $("#txtCustNameENEdit").val('@cusAll.CUST_NAME_EN');
+                    $("#txtShipToAddrEdit").val('@cusAll.SHIP_TO_ADDRESS');
+                    $("#txtPlantNameEdit").val('@cusAll.PLANT_NAME');
+                    $("#txtSaleEdit").val('@cusAll.SALES_DISTRICT');
+                    $("#txtContractEdit").val('@cusAll.CONTRACT_TYPE');
+                    $("#txtIENameEdit").val('@cusAll.IE_NAME');
+                    $("#txtRegionEdit").val('@cusAll.REGION');
+                    $("#txtUpdateByEdit").val('@cusAll.UPDATED_BY');
+                    $("#txtUpdateDateEdit").val('@cusAll.UPDATED_DATE');
+                    $("#txtObjectIDEdit").val('@cusAll.OBJECTID');
+                    $("#txtSoldToEdit").val('@cusAll.SOLD_TO');
+                    $("#txtFlagShapeEdit").val('@cusAll.FLAG_SHAPE');
+                    $("#txtFlagShapeEdit").val('@cusAll.FLAG_SHAPE');
+                    $("#txtSoldToNameEdit").val('@cusAll.SOLD_TO_NAME');
+                    $("#txtSoldToAddrEdit").val('@cusAll.SOLD_TO_ADDRESS');
+                    $("#txtStatusEdit").val('@cusAll.STATUS');
+                    console.log('@cusAll.CUST_NAME');
 
                 }
-            </text>
+                </text>
         }
+            };
 
-    };
+            function ViewCust(cust) {
+                //modalEdit.style.display = "block";
 
-    </script>
-}
+                @foreach (var cusAll in Model.ListCustAll)
+            {
+                <text>
+                console.log(cust);
+                if (cust == '@cusAll.SHIP_TO') {
+                    $("#txtCustNameView").text('@cusAll.CUST_NAME');
+                    $("#txtCustSNameView").text('@cusAll.CUST_SNAME');
+                    $("#txtShipToView").text('@cusAll.SHIP_TO');
+                    $("#txtCustNameENView").text('@cusAll.CUST_NAME_EN');
+                    $("#txtShipToAddrView").text('@cusAll.SHIP_TO_ADDRESS');
+                    $("#txtPlantNameView").text('@cusAll.PLANT_NAME');
+                    $("#txtSaleView").text('@cusAll.SALES_DISTRICT');
+                    $("#txtContractView").text('@cusAll.CONTRACT_TYPE');
+                    $("#txtIENameView").text('@cusAll.IE_NAME');
+                    $("#txtRegionView").text('@cusAll.REGION');
+                    $("#txtUpdateByView").text('@cusAll.UPDATED_BY');
+                    $("#txtUpdateDateView").text('@cusAll.UPDATED_DATE');
+                    $("#txtObjectIDView").text('@cusAll.OBJECTID');
+                    $("#txtSoldToView").text('@cusAll.SOLD_TO');
+                    $("#txtFlagShapeView").text('@cusAll.FLAG_SHAPE');
+                    $("#txtFlagShapeView").text('@cusAll.FLAG_SHAPE');
+                    $("#txtSoldToNameView").text('@cusAll.SOLD_TO_NAME');
+                    $("#txtSoldToAddrView").text('@cusAll.SOLD_TO_ADDRESS');
+                    $("#txtStatusView").text('@cusAll.STATUS');
+                    console.log('@cusAll.CUST_NAME');
+
+                }
+                </text>
+            }
+            };
+
+            
+            function ViewMeter(meter) {
+                //modalEdit.style.display = "block";
+
+                @foreach (var cusMeterV in Model.ListMeter)
+                {
+                    <text>
+               // console.log(meter);
+                if (meter == '@cusMeterV.METER_NUMBER_T') {
+                        $("#txtCustNameMView").text('@cusMeterV.CUST_NAME_T');
+                        $("#txtLicenseCodeMView").text('@cusMeterV.LICENSE_CODE_T');
+                       
+
+                    }
+                    </text>
+                }
+            };
+        </script>
+    }

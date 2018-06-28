@@ -9,6 +9,8 @@ namespace PTT_NGROUR.Models.ViewModel
     {
         public List<DataModel.ModelVIEW_SHIPTO_SOLDTO> ListViewShipToSoldTo { get; set; }
         public List<DataModel.ModelNGR_CUST_ALL> ListCustAll { get; set; }
+        public List<DataModel.ModelVIEW_METER> ListViewMeter { get; set; }
+        public List<DataModel.ModelMETER> ListMeter { get; set; }
 
     }
 }

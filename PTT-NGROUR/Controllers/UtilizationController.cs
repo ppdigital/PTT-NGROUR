@@ -285,13 +285,64 @@ namespace PTT_NGROUR.Controllers
                 };
                 listCusAll.Add(cusAll);
             }
+            var j = 0;
+            var dsmeter = dal.GetDataSet("SELECT * FROM VIEW_METER");
+            var dtmeter = dsmeter.Tables[0];
+            //public List<DataModel.ModelVIEW_METER> ListViewMeter { get; set; }
+            var listMeterV = new List<Models.DataModel.ModelVIEW_METER>();
+            foreach (System.Data.DataRow drmeter in dtmeter.Rows)
+            {
+                j = j + 1;
+                var meter = new Models.DataModel.ModelVIEW_METER()
+                {
+                    countMeter = j,
+                    CUST_NAME = drmeter["CUST_NAME"].ToString(),
+                    LICENSE_CODE = drmeter["LICENSE_CODE"].ToString(),
+                    METER_NAME = drmeter["METER_NAME"].ToString(),
+                    METER_NUMBER = drmeter["METER_NUMBER"].ToString(),
+                    METER_TYPE = drmeter["METER_TYPE"].ToString(),
+                    REGION = drmeter["REGION"].ToString(),
+                    SHIP_TO = drmeter["SHIP_TO"].ToString(),
+                    SOLD_TO = drmeter["SOLD_TO"].ToString(),
+                    SOLD_TO_NAME = drmeter["SOLD_TO_NAME"].ToString(),
+                    STATUS = drmeter["STATUS"].ToString()
+                };
 
+                listMeterV.Add(meter);
+            }
+
+            var dsmeterT = dal.GetDataSet("SELECT A.METER_NUMBER,A.METER_NAME,A.METER_TYPE,STATUS_DETAIL,A.LICENSE_CODE,B.SHIP_TO,B.CUST_NAME,C.SOLD_TO,C.SOLD_TO_NAME, CASE WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = B.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = B.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) ELSE B.REGION END REGION FROM NGR_CUSTOMER_METER A, NGR_CUSTOMER B, NGR_CUSTOMER_OFFICE C, STATUS D WHERE A.SHIP_TO = B.SHIP_TO AND B.SOLD_TO = C.SOLD_TO AND A.STATUS = D.STATUS_ID(+)");
+            var dtmeterT = dsmeterT.Tables[0];
+            //public List<DataModel.ModelVIEW_METER> ListViewMeter { get; set; }
+            var listMeterT = new List<Models.DataModel.ModelMETER>();
+            foreach (System.Data.DataRow drmeterT in dtmeterT.Rows)
+            {
+                
+                var meterT = new Models.DataModel.ModelMETER()
+                {
+
+                    CUST_NAME_T = drmeterT["CUST_NAME"].ToString(),
+                    LICENSE_CODE_T = drmeterT["LICENSE_CODE"].ToString(),
+                    METER_NAME_T = drmeterT["METER_NAME"].ToString(),
+                    METER_NUMBER_T = drmeterT["METER_NUMBER"].ToString(),
+                    METER_TYPE_T = drmeterT["METER_TYPE"].ToString(),
+                    REGION_T = drmeterT["REGION"].ToString(),
+                    SHIP_TO_T = drmeterT["SHIP_TO"].ToString(),
+                    SOLD_TO_T = drmeterT["SOLD_TO"].ToString(),
+                    SOLD_TO_NAME_T = drmeterT["SOLD_TO_NAME"].ToString(),
+                   // STATUS_T = drmeterT["STATUS"].ToString()
+                };
+
+                listMeterT.Add(meterT);
+            }
   
             var model = new Models.ViewModel.Customer()
             {
                 ListViewShipToSoldTo = listCus,
-                ListCustAll = listCusAll
-
+                ListCustAll = listCusAll,
+                ListViewMeter = listMeterV,
+                ListMeter = listMeterT
+               
             };
 
             return View(model);

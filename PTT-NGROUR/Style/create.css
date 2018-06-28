@@ -696,7 +696,8 @@ select .inline{display: inline-block;}
 
 .v-mid{vertical-align:middle}
 .white{color:white;}
-.w-100{width:100%;}
+.w-100{width:100% !important;}
+.w-in{width:inherit !important;}
 .w-20{width:20%;}
 .w-60{width:60%;}
 .w-10{width:10%;}
@@ -830,4 +831,5 @@ input:-webkit-autofill {
 .cr{clear:right;}
 .fl{float:left;}
 .pb2{padding-bottom:2rem;}
+.pb1{padding-bottom:1rem;}
 .border-box-gray{border: 1px solid rgba(0,0,0,.0625);}

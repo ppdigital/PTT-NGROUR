@@ -79,5 +79,37 @@ namespace PTT_NGROUR.Models.DataModel
 
     }
 
+    public class ModelVIEW_METER
+    {
+        public int countMeter { get; set; }
+        public string CUST_NAME { get; set; }
+        public string LICENSE_CODE { get; set; }
+        public string METER_NAME { get; set; }
+        public string METER_NUMBER { get; set; }
+        public string METER_TYPE { get; set; }
+        public string REGION { get; set; }
+        public string SHIP_TO { get; set; }
+        public string SOLD_TO { get; set; }
+        public string SOLD_TO_NAME { get; set; }
+        public string STATUS { get; set; }
+
+    }
+
+    public class ModelMETER
+    {
+
+        public int countMeter_T { get; set; }
+        public string CUST_NAME_T { get; set; }
+        public string LICENSE_CODE_T { get; set; }
+        public string METER_NAME_T { get; set; }
+        public string METER_NUMBER_T { get; set; }
+        public string METER_TYPE_T { get; set; }
+        public string REGION_T { get; set; }
+        public string SHIP_TO_T { get; set; }
+        public string SOLD_TO_T { get; set; }
+        public string SOLD_TO_NAME_T { get; set; }
+        public string STATUS_T { get; set; }
+
+    }
 
 }
