@@ -97,7 +97,7 @@ namespace PTT_NGROUR.Models.DataModel
 
     public class ModelMETER
     {
-
+        public int OBJECT_ID_T { get; set; }
         public int countMeter_T { get; set; }
         public string CUST_NAME_T { get; set; }
         public string LICENSE_CODE_T { get; set; }
@@ -109,6 +109,7 @@ namespace PTT_NGROUR.Models.DataModel
         public string SOLD_TO_T { get; set; }
         public string SOLD_TO_NAME_T { get; set; }
         public string STATUS_T { get; set; }
+        public DateTime? COMMDATE_T { get; set; }
 
     }
 

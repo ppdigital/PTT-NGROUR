@@ -267,7 +267,7 @@ namespace PTT_NGROUR.Controllers
             {
             var dal = new DAL.DAL();
             string username = User.Identity.Name;
-            string strCommand = "UPDATE USERS_AUTH SET ROLE_ID ='" + roleInt + "',EMAIL='" + txtMailEdit + "',UPDATE_DATE=Sysdate,UPDATE_BY='Por' WHERE EMPLOYEE_ID='" + txtEmployeeIDEdit + "'";
+            string strCommand = "UPDATE USERS_AUTH SET ROLE_ID ='" + roleInt + "',EMAIL='" + txtMailEdit + "',UPDATE_DATE=Sysdate,UPDATE_BY='" + username + "' WHERE EMPLOYEE_ID='" + txtEmployeeIDEdit + "'";
             var con = dal.GetConnection();
             con.Open();
             dal.GetCommand(strCommand, con).ExecuteNonQuery();

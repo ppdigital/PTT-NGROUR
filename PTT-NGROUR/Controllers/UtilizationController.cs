@@ -250,7 +250,8 @@ namespace PTT_NGROUR.Controllers
                     SHIP_TO_SNAME = dr["SHIP_TO_SNAME"].ToString(),
                     SHIP_TO = dr["SHIP_TO"].ToString(),
                     SOLD_TO = dr["SOLD_TO"].ToString(),
-                    SOLD_TO_FLAG_SHAPE = Convert.ToInt32(dr["SOLD_TO_FLAG_SHAPE"].ToString())
+                    SOLD_TO_FLAG_SHAPE = Convert.ToInt32(dr["SOLD_TO_FLAG_SHAPE"].ToString()),
+                    SHIP_TO_FLAG_SHAPE = Convert.ToInt32(dr["SHIP_TO_FLAG_SHAPE"].ToString())
                 };
                 
                 listCus.Add(cus);
@@ -311,7 +312,7 @@ namespace PTT_NGROUR.Controllers
                 listMeterV.Add(meter);
             }
 
-            var dsmeterT = dal.GetDataSet("SELECT A.METER_NUMBER,A.METER_NAME,A.METER_TYPE,STATUS_DETAIL,A.LICENSE_CODE,B.SHIP_TO,B.CUST_NAME,C.SOLD_TO,C.SOLD_TO_NAME, CASE WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = B.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = B.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) ELSE B.REGION END REGION FROM NGR_CUSTOMER_METER A, NGR_CUSTOMER B, NGR_CUSTOMER_OFFICE C, STATUS D WHERE A.SHIP_TO = B.SHIP_TO AND B.SOLD_TO = C.SOLD_TO AND A.STATUS = D.STATUS_ID(+)");
+            var dsmeterT = dal.GetDataSet("SELECT A.METER_NUMBER,A.METER_NAME,A.METER_TYPE,STATUS_DETAIL,A.LICENSE_CODE,B.SHIP_TO,B.CUST_NAME,C.SOLD_TO,C.SOLD_TO_NAME,A.STATUS,A.COMMDATE,A.OBJECT_ID, CASE WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = B.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = B.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) ELSE B.REGION END REGION FROM NGR_CUSTOMER_METER A, NGR_CUSTOMER B, NGR_CUSTOMER_OFFICE C, STATUS D WHERE A.SHIP_TO = B.SHIP_TO AND B.SOLD_TO = C.SOLD_TO AND A.STATUS = D.STATUS_ID(+)");
             var dtmeterT = dsmeterT.Tables[0];
             //public List<DataModel.ModelVIEW_METER> ListViewMeter { get; set; }
             var listMeterT = new List<Models.DataModel.ModelMETER>();
@@ -320,7 +321,7 @@ namespace PTT_NGROUR.Controllers
                 
                 var meterT = new Models.DataModel.ModelMETER()
                 {
-
+                    OBJECT_ID_T = Convert.ToInt32(drmeterT["OBJECT_ID"].ToString()),
                     CUST_NAME_T = drmeterT["CUST_NAME"].ToString(),
                     LICENSE_CODE_T = drmeterT["LICENSE_CODE"].ToString(),
                     METER_NAME_T = drmeterT["METER_NAME"].ToString(),
@@ -330,7 +331,8 @@ namespace PTT_NGROUR.Controllers
                     SHIP_TO_T = drmeterT["SHIP_TO"].ToString(),
                     SOLD_TO_T = drmeterT["SOLD_TO"].ToString(),
                     SOLD_TO_NAME_T = drmeterT["SOLD_TO_NAME"].ToString(),
-                   // STATUS_T = drmeterT["STATUS"].ToString()
+                    STATUS_T = drmeterT["STATUS"].ToString(),
+                    COMMDATE_T = drmeterT["COMMDATE"].GetDate(),
                 };
 
                 listMeterT.Add(meterT);
@@ -1050,8 +1052,43 @@ namespace PTT_NGROUR.Controllers
             //Source data returned as JSON  
             return Json(iData, JsonRequestBehavior.AllowGet);
         }
+     
+             [HttpPost]
+        public ActionResult EditCustomer(string txtCustNameENEdit, string txtShipToEdit)
+        {   //string textEdit = "แก้ไข้อมูลเรียบร้อย";
 
-       
+            var dalEditCus = new DAL.DAL();
+            string username = User.Identity.Name;
+            string strCommandEditCus = "UPDATE NGR_CUSTOMER SET CUST_NAME_EN ='" + txtCustNameENEdit + "',UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE SHIP_TO='" + txtShipToEdit + "'";
+            var con = dalEditCus.GetConnection();
+            con.Open();
+            dalEditCus.GetCommand(strCommandEditCus, con).ExecuteNonQuery();
+            con.Close();
+            con.Dispose();
+          
+            //else { textEdit = "โปรดกรอกข้อมูลให้ครบถ้วน"; }
+            //ViewBag.textAlert = textEdit;
+            //TempData["message"] = textEdit;
+            return Redirect("Customer"); 
+        }
+             [HttpPost]
+             public ActionResult EditMeter(string txtMeterNameMEdit, string txtMeterNumMEdit, string txtMeterTypeMEdit, int seStatusMEdit,string datepicCommdateMEdit, int txtObjectIDMEdit)
+             {   //string textEdit = "แก้ไข้อมูลเรียบร้อย";
+                
+                 var dalEditMeter = new DAL.DAL();
+                 string username = User.Identity.Name;
+                 string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET METER_NUMBER = '" + txtMeterNumMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE='" + datepicCommdateMEdit + "',UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE OBJECT_ID='" + txtObjectIDMEdit + "'";
+                 var conMeter = dalEditMeter.GetConnection();
+                 conMeter.Open();
+                 dalEditMeter.GetCommand(strCommandEditMeter, conMeter).ExecuteNonQuery();
+                 conMeter.Close();
+                 conMeter.Dispose();
+
+                 //else { textEdit = "โปรดกรอกข้อมูลให้ครบถ้วน"; }
+                 //ViewBag.textAlert = textEdit;
+                 //TempData["message"] = textEdit;
+                 return Redirect("Customer");
+             }
 
 
 
