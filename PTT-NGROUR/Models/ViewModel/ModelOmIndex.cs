@@ -13,10 +13,10 @@ namespace PTT_NGROUR.Models.ViewModel
             {
                 public string Label { get; set; }
                 public List<int> ListData { get; set; }
-
+                public string HexColor { get; set; }
             }
             public List<string> ListLabel { get; set; }
-            public List<ModelML> ListML { get; set; }
+            public List<ModelML> ListML { get; set; }            
 
             public ModelBarGraph() { }
 
@@ -74,6 +74,8 @@ namespace PTT_NGROUR.Models.ViewModel
 
         }
         public IEnumerable<ModelMeterMaintenance> ListMeterMaintenance { get; set; }
+
+        public IEnumerable<ModelOmColor> ListOmColor { get; set; }
         public ModelBarGraph BarGraph { get; set; }
     }
 }

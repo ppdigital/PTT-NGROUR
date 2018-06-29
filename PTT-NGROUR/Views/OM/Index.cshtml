@@ -2,28 +2,52 @@
 @{
     ViewBag.Title = "Index";
 }
+<div class="row">
+    <div class="col-xs-3"></div>
+    <div class="col-xs-6">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <input type="radio" name="radioMY" id="radioMonth" checked="checked" onclick="javascript:Check();">
+                <label class="" for="radioMonth">Month</label>
+            </span>
+            <span class="input-group-addon">
+                <input type="radio" name="radioMY" id="radioYear" onclick="javascript: Check();">
+                <label class="" for="radioYear">Year</label>
+            </span>
+            <input type="text" placeholder="Month" class="form-control form-control-sm fz-12px" id="Month-filter" />
+            <input type="text" placeholder="Year" class="form-control form-control-sm fz-12px col-xs-3" id="Year-filter" style="display:none" />
+            <span class="input-group-btn">
+                <button class="btn btn-block btn-primary col-xs-3" id="btnSearch">
+                    <span class="glyphicon glyphicon-search"></span> Search
+                </button>
+            </span>
+        </div>
+    </div>
+    
+</div>
+
 <div id="container" style="width: 75%;">
     <canvas id="canvas"></canvas>
 </div>
 <h2>Index</h2>
 
-<h3>@string.Join("," ,Model.BarGraph.ListLabel) </h3>
+<h3>@string.Join(",", Model.BarGraph.ListLabel) </h3>
 <table class="table table-bordered table-hover">
     @*<thead>
-        <tr>
-            <th></th>
-        </tr>
-    </thead>*@
+            <tr>
+                <th></th>
+            </tr>
+        </thead>*@
     <tbody>
 
-        
+
         @foreach (var item in Model.BarGraph.ListML)
         {
             <tr>
                 <td>@item.Label</td>
-                <td>@item.ListData.Select(x=>x.ToString()).Aggregate((x,y) => x + " , " + y)</td>
+                <td>@item.ListData.Select(x => x.ToString()).Aggregate((x, y) => x + " , " + y)</td>
             </tr>
-            
+
         }
 
 
@@ -37,40 +61,95 @@
         }
     </tbody>
 </table>
+@section style{
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+
+    <link href="~/Scripts/DataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+    <style>
+        .head {
+            background-color: #e0e0e0;
+        }
+
+        .ui-datepicker-calendar {
+            display: none;
+        }
+    </style>
+}
+
 @section scripts{
+    @*<script src="http://www.chartjs.org/dist/2.7.2/Chart.bundle.js"></script>*@
     <script src="~/Scripts/Chart/Chart.js"></script>
+    <script src="~/Scripts/Chart/Chart.PieceLabel.min.js"></script>
+    @*<script src="http://www.chartjs.org/samples/latest/utils.js"></script>*@
+    <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
+    <script src="~/Content/bootstrap-datepicker.js"></script>
     <script>
-    var barChartData = {
-        labels:[@Model.BarGraph.ListLabel.Select(x=> new HtmlString( "'" + x + "'")).Aggregate((x,y)=> new HtmlString(x + "," +y))],
-        backgroundColor: "rgba(255, 0, 0, 0.9)",
-        datasets: [
-            @foreach (var item in Model.BarGraph.ListML)
+        var barChartData = {
+            labels: [@Model.BarGraph.ListLabel.Select(x=> new HtmlString( "'" + x + "'")).Aggregate((x,y)=> new HtmlString(x + "," +y))],
+            datasets: [
+                @foreach (var item in Model.BarGraph.ListML)
             {
                 <text>
-                {
-                    label: "@item.Label" ,
-                    data: [ @item.ListData.Select(x => x.ToString()).Aggregate((x, y) => x + " , " + y) ]
-                },
-                </text>
+                    {
+                        label: "@item.Label",
+                        backgroundColor: "@item.HexColor",
+                        borderColor: "#00",
+                        borderWidth: 1,
+                        data: [ @item.ListData.Select(x => x.ToString()).Aggregate((x, y) => x + " , " + y)]
+                    },
+                    </text>
             }
-        ]
-    };
+            ]
+        };
 
-    var ctx = document.getElementById('canvas').getContext('2d');
-    window.myBar = new Chart(ctx, {
-				type: 'bar',
-				data: barChartData,
-				options: {
-					responsive: true,
-					legend: {
-						position: 'top',
-					},
-					title: {
-						display: true,
-						text: 'Chart.js Bar Chart'
-					}
-				}
-			});
+        var ctx = document.getElementById('canvas').getContext('2d');
+        window.myBar = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData,
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Chart.js Bar Chart'
+                }
+            }
+        });
+
+        $('#Month-filter').datepicker({
+            format: "m/yyyy",
+            viewMode: "months",
+            minViewMode: "months",
+            autoclose: true
+        });
+
+        $("#Year-filter").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose: true
+        });
+
+
+        $("#btnSearch").click(function (e) {
+            alert("xxxx");
+        });
+
+        function Check() {
+
+            
+            if (document.getElementById('radioMonth').checked) {
+                document.getElementById('Month-filter').style.display = 'inline-block';
+                document.getElementById('Year-filter').style.display = 'none';
+            }
+            else if (document.getElementById('radioYear').checked) {
+                document.getElementById('Month-filter').style.display = 'none';
+                document.getElementById('Year-filter').style.display = 'inline-block';
+            }
+        }
 
     </script>
 }
