@@ -263,7 +263,7 @@
                             initMapTable(data);
                         },
                         error: function (result) {
-                            alert('Fail ');
+                            alert('Please select the data ');
                         }
                     });
 
@@ -360,6 +360,7 @@
                     }
                 }
                 map_frame.contentWindow.postMessage(JSON.stringify(map_info_json), '*');
+
                 //////////////////////
 
                 //$("#threshold-filter").change(function () {
