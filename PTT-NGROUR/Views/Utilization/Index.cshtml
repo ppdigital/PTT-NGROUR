@@ -213,9 +213,12 @@
             <script type="text/javascript">
                 $(document).ready(function () {
                     document.getElementById('seLicense').style.display = 'none';
+                    $('tr').each(function (a, b) {
 
+                        
+                    });
                 });
-
+               
                 function Check() {
 
                     if (document.getElementById('radioRegion').checked) {
@@ -353,7 +356,7 @@
                             
                         }
 
-                        $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h6 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
+                        $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil pointer" data-color="' + color1 + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h6 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
                         $('#utilTbl > tbody >tr:last-child').data('map_info', data[i]);
                         $('#utilTbl > tbody >tr:last-child').click(utilTblOnclick);
 

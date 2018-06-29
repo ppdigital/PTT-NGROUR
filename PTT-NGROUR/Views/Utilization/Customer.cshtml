@@ -5,14 +5,14 @@
 }
 @section style{
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
-<link href="~/Scripts/DataTables/datatables.min.css" rel="stylesheet" />
-    }
+    <link href="~/Scripts/DataTables/datatables.min.css" rel="stylesheet" />
+}
 <div class="container-fluid ph2">
     <br /><br />
     <ul class="nav nav-tabs" style="border-color: rgba(0,0,0,.0625) !important">
         <li class="active" style="border-color: rgba(0,0,0,.0625) !important; "><a data-toggle="tab" href="#customer">Customer</a></li>
-        
-        <li  style="border-color: rgba(0,0,0,.0625) !important; "><a data-toggle="tab" href="#metering">Metering</a></li>
+
+        <li style="border-color: rgba(0,0,0,.0625) !important; "><a data-toggle="tab" href="#metering">Metering</a></li>
     </ul>
 
     <div class="tab-content bg-white border-box-gray" style="border-top: none !important">
@@ -43,17 +43,19 @@
                                     <td>@cus.SHIP_TO_SNAME</td>
                                     <td>@cus.SHIP_TO</td>
                                     <td>@cus.SOLD_TO</td>
-                                   
+
                                     <td><center> <a class=" dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewCust" name="btnOpenView" onclick="ViewCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalViewCust" aria-hidden="true"></a></center></td>
-                                    
+
                                     <td>
                                         <center> <a class=" dib fa fa-pencil-square-o fa-lg no-underline gray pointer" id="EditCust" name="btnOpenEdit" onclick="EditCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalEditCust" aria-hidden="true"></a></center>
                                     </td>
 
-                                    @if(cus.SHIP_TO_FLAG_SHAPE == 0 || cus.SOLD_TO_FLAG_SHAPE == 0)
-                                   {<td><center><i class="fa fa-map-marker fa-lg red pointer" aria-hidden="true"></i></center></td>} 
+                                    @if (cus.SHIP_TO_FLAG_SHAPE == 0 || cus.SOLD_TO_FLAG_SHAPE == 0)
+                                    {
+                                    <td><center><i class="fa fa-map-marker fa-lg red pointer" aria-hidden="true"></i></center></td>}
                                     else
-                                    {<td><center><i class="fa fa-map-marker fa-lg pointer gray" aria-hidden="true"></i></center></td>}
+                                    {
+                                    <td><center><i class="fa fa-map-marker fa-lg pointer gray" aria-hidden="true"></i></center></td>}
 
                                 </tr>
                             }
@@ -68,6 +70,12 @@
 
         <div id="metering" class="tab-pane fade">
             <div class="ph2 pv2">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-sm" id="btnCreateMeter" onclick="CreateMeter()" data-target="#ModalCreateMeter" style="border-radius:0">
+                        <span class="glyphicon glyphicon-search"></span> Create Meter
+                    </button><span class="cr"></span>
+                    <br />
+                </div>
                 <div class="table-responsive">
                     <table class="table h6 table-striped table-bordered" id="MeterTable">
                         <thead>
@@ -107,7 +115,6 @@
                                     <td>@meter.STATUS</td>
 
                                     <td><center> <a class=" dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewMeter" name="btnOpenView" onclick="ViewMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></center></td>
-
                                     <td>
                                         <center> <a class=" dib fa fa-pencil-square-o fa-lg no-underline gray pointer" id="EditMeter" name="btnOpenEdit" onclick="EditMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalEditMeter" aria-hidden="true"></a></center>
                                     </td>
@@ -131,7 +138,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <label class="panel-title h5">EDIT Customer</label>
+                <label class="panel-title h5">Edit Customer</label>
                 <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
 
@@ -306,16 +313,16 @@
                             </div>
                         </div>
 
-                      <!--  <div class="row pb1">
-                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                                <span class="col-lg-5 col-md-5">
-                                    <label for="name" class="b pull-right">Status :</label>
-                                </span>
-                                <div class="col-lg-6 col-md-7 ">
-                                    @Html.TextBox("txtStatusEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
-                                </div>
-                            </div>
-                        </div>-->
+                        <!--  <div class="row pb1">
+                              <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                  <span class="col-lg-5 col-md-5">
+                                      <label for="name" class="b pull-right">Status :</label>
+                                  </span>
+                                  <div class="col-lg-6 col-md-7 ">
+                                      @Html.TextBox("txtStatusEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+                                  </div>
+                              </div>
+                          </div>-->
 
                     </div>
                 </div>
@@ -497,17 +504,17 @@
                         </div>
                     </div>
 
-                  <!--  <div class="row">
-                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                            <div class="col-lg-5 col-md-5">
-                                <p class=" b pull-right h6">Status :</p>
-                            </div>
-                            <div class="col-lg-6 col-md-7 pl-0">
-                                <p class="h6" id="txtStatusView"></p>
-                            </div>
+                    <!--  <div class="row">
+                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                              <div class="col-lg-5 col-md-5">
+                                  <p class=" b pull-right h6">Status :</p>
+                              </div>
+                              <div class="col-lg-6 col-md-7 pl-0">
+                                  <p class="h6" id="txtStatusView"></p>
+                              </div>
 
-                        </div>
-                    </div>-->
+                          </div>
+                      </div>-->
 
 
                 </div>
@@ -562,90 +569,102 @@
                     </div>
 
                     <div class="row">
-                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                              <div class="col-lg-5 col-md-5">
-                                  <p class=" b pull-right h6">Meter Name :</p>
-                              </div>
-                              <div class="col-lg-6 col-md-7 pl-0">
-                                  <p class="h6" id="txtMeterNameMView"></p>
-                              </div>
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Meter Name :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtMeterNameMView"></p>
+                            </div>
 
-                          </div>
-                      </div>
-
-                      <div class="row">
-                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                              <div class="col-lg-5 col-md-5">
-                                  <p class=" b pull-right h6">Meter Number :</p>
-                              </div>
-                              <div class="col-lg-6 col-md-7 pl-0">
-                                  <p class="h6" id="txtMeterNumMView"></p>
-                              </div>
-
-                          </div>
-                      </div>
-
-                     <div class="row">
-                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                              <div class="col-lg-5 col-md-5">
-                                  <p class=" b pull-right h6">Meter Type :</p>
-                              </div>
-                              <div class="col-lg-6 col-md-7 pl-0">
-                                  <p class="h6" id="txtMeterTypeMView"></p>
-                              </div>
-
-                          </div>
-                      </div>
-
-                     <div class="row">
-                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                              <div class="col-lg-5 col-md-5">
-                                  <p class=" b pull-right h6">Region :</p>
-                              </div>
-                              <div class="col-lg-6 col-md-7 pl-0">
-                                  <p class="h6" id="txtRegionMView"></p>
-                              </div>
-
-                          </div>
-                      </div>
-
-                       <div class="row">
-                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                              <div class="col-lg-5 col-md-5">
-                                  <p class=" b pull-right h6">Ship-To :</p>
-                              </div>
-                              <div class="col-lg-6 col-md-7 pl-0">
-                                  <p class="h6" id="txtShipToMView"></p>
-                              </div>
-
-                          </div>
-                      </div>
-
-                   <div class="row">
-                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                              <div class="col-lg-5 col-md-5">
-                                  <p class=" b pull-right h6">Sold-To :</p>
-                              </div>
-                              <div class="col-lg-6 col-md-7 pl-0">
-                                  <p class="h6" id="txtSoldToMView"></p>
-                              </div>
-
-                          </div>
-                      </div>
+                        </div>
+                    </div>
 
                     <div class="row">
-                          <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                              <div class="col-lg-5 col-md-5">
-                                  <p class=" b pull-right h6">Sold-To Name :</p>
-                              </div>
-                              <div class="col-lg-6 col-md-7 pl-0">
-                                  <p class="h6" id="txtSoldToNameMView"></p>
-                              </div>
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Meter Number :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtMeterNumMView"></p>
+                            </div>
 
-                          </div>
-                      </div>
+                        </div>
+                    </div>
 
-                  
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Meter Type :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtMeterTypeMView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Region :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtRegionMView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Ship-To :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtShipToMView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Sold-To :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtSoldToMView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Sold-To Name :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtSoldToNameMView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5">
+                                <p class=" b pull-right h6">Comm Date :</p>
+                            </div>
+                            <div class="col-lg-6 col-md-7 pl-0">
+                                <p class="h6" id="txtCommDateMView"></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+
                 </div>
                 <br />
                 <div class="modal-footer">
@@ -665,16 +684,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <label class="panel-title h5">EDIT Customer</label>
+                <label class="panel-title h5">Edit Metering</label>
                 <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
 
             @using (Html.BeginForm("EditMeter", "Utilization", FormMethod.Post))
-            { 
+            {
 
                 <div class="pv2 mv3">
                     <div class="  black-80 center">
-                        
+
                         <div class="row pb1" style="display:none">
                             <div class="measure center col-lg-12 col-md-12 col-sm-12">
                                 <span class="col-lg-5 col-md-5">
@@ -707,10 +726,10 @@
                             </div>
                         </div>
 
-                       <div class="row pb1">
+                        <div class="row pb1">
                             <div class="measure center col-lg-12 col-md-12 col-sm-12">
                                 <span class="col-lg-5 col-md-5">
-                                    <label for="name" class="b pull-right">Meter Name :</label>
+                                    <label for="name" class="b pull-right">Station Name :</label>
                                 </span>
                                 <div class="col-lg-6 col-md-7">
                                     @Html.TextBox("txtMeterNameMEdit", null, new { @class = "form-control input-sm" })
@@ -718,7 +737,7 @@
                             </div>
                         </div>
 
-                   <div class="row pb1">
+                        <div class="row pb1">
                             <div class="measure center col-lg-12 col-md-12 col-sm-12">
                                 <span class="col-lg-5 col-md-5">
                                     <label for="name" class="b pull-right">Meter Number :</label>
@@ -729,10 +748,10 @@
                             </div>
                         </div>
 
-                             <div class="row pb1">
+                        <div class="row pb1">
                             <div class="measure center col-lg-12 col-md-12 col-sm-12">
                                 <span class="col-lg-5 col-md-5">
-                                    <label for="name" class="b pull-right">Meter Type :</label>
+                                    <label for="name" class="b pull-right">Station Type :</label>
                                 </span>
                                 <div class="col-lg-6 col-md-7 ">
                                     @Html.TextBox("txtMeterTypeMEdit", null, new { @class = "form-control input-sm" })
@@ -740,7 +759,7 @@
                             </div>
                         </div>
 
-                         <div class="row pb1">
+                        <div class="row pb1">
                             <div class="measure center col-lg-12 col-md-12 col-sm-12">
                                 <span class="col-lg-5 col-md-5">
                                     <label for="name" class="b pull-right">Region :</label>
@@ -762,7 +781,7 @@
                             </div>
                         </div>
 
-                      <div class="row pb1">
+                        <div class="row pb1">
                             <div class="measure center col-lg-12 col-md-12 col-sm-12">
                                 <span class="col-lg-5 col-md-5">
                                     <label for="name" class="b pull-right">Sold-To :</label>
@@ -773,7 +792,7 @@
                             </div>
                         </div>
 
-                         <div class="row pb1">
+                        <div class="row pb1">
                             <div class="measure center col-lg-12 col-md-12 col-sm-12">
                                 <span class="col-lg-5 col-md-5">
                                     <label for="name" class="b pull-right">Sold-TO Name :</label>
@@ -794,25 +813,25 @@
                                         <option value="1" class="drop_role">Active</option>
                                         <option value="0" class="drop_role">Non Active</option>
                                     </select>
-                                    
+
                                 </div>
                             </div>
                         </div>
-                       
+
 
                         <div class="row pb1">
                             <div class="measure center col-lg-12 col-md-12 col-sm-12">
                                 <span class="col-lg-5 col-md-5">
-                                    <label for="name" class="b pull-right">Start Date :</label>
+                                    <label for="name" class="b pull-right">Comm Date :</label>
                                 </span>
                                 <div class="col-lg-6 col-md-7 ">
                                     <input type="text" class="form-control form-control-sm fz-12px" id="datepicCommdateMEdit" name="datepicCommdateMEdit" style="height: 30px !important" />
-                                   
+
                                 </div>
                             </div>
                         </div>
 
-             
+
 
                     </div>
                 </div>
@@ -829,10 +848,10 @@
     </div>
 </div>
 
-    @section scripts{
+@section scripts{
     <script src="~/Content/bootstrap-datepicker.js"></script>
-        <script src="~/Scripts/DataTables/datatables.min.js"></script>
-        <script type="text/javascript">
+    <script src="~/Scripts/DataTables/datatables.min.js"></script>
+    <script type="text/javascript">
             $(document).ready(function () {
                 $('#CustomerTable').dataTable({
                     responsive: true
@@ -841,21 +860,21 @@
                     responsive: true
                 });
 
-               
-                
+
+
             });
 
-           
+
         $(function () {
             $('#datepicCommdateMEdit').datepicker({
-                format: "dd/m/yyyy",
-                
+                format: "dd/mm/yyyy",
+
                 autoclose: true
             });
 
-           
+
         });
-           
+
             function EditCust(cust) {
                 //modalEdit.style.display = "block";
 
@@ -924,7 +943,7 @@
             }
             };
 
-            
+
             function ViewMeter(meter) {
                 //modalEdit.style.display = "block";
 
@@ -942,12 +961,14 @@
                     $("#txtShipToMView").text('@cusMeterV.SHIP_TO_T');
                     $("#txtSoldToMView").text('@cusMeterV.SOLD_TO_T');
                     $("#txtSoldToNameMView").text('@cusMeterV.SOLD_TO_NAME_T');
+                    $("#txtCommDateMView").text('@cusMeterV.COMMDATE_T');
+
                     }
                     </text>
                 }
             };
 
-             
+
             function EditMeter(meterE) {
                 //modalEdit.style.display = "block";
 
@@ -956,7 +977,7 @@
                     <text>
                     // console.log(meter);
                 if (meterE == '@cusMeterE.METER_NUMBER_T') {
-                    $("#txtObjectIDMEdit").val('@cusMeterE.OBJECT_ID_T'); 
+                    $("#txtObjectIDMEdit").val('@cusMeterE.OBJECT_ID_T');
                     $("#txtCustNameMEdit").val('@cusMeterE.CUST_NAME_T');
                     $("#txtLicenseCodeMEdit").val('@cusMeterE.LICENSE_CODE_T');
                     $("#txtMeterNameMEdit").val('@cusMeterE.METER_NAME_T');
@@ -968,10 +989,10 @@
                     $("#txtSoldToNameMEdit").val('@cusMeterE.SOLD_TO_NAME_T');
                     $("#seStatusMEdit").val('@cusMeterE.STATUS_T');
                     $("#datepicCommdateMEdit").val('@cusMeterE.COMMDATE_T');
-                    
+
                 }
                     </text>
                 }
-            };  
-        </script>
-    }
+            };
+    </script>
+}

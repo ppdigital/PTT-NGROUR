@@ -1059,26 +1059,26 @@ namespace PTT_NGROUR.Controllers
 
             var dalEditCus = new DAL.DAL();
             string username = User.Identity.Name;
-            string strCommandEditCus = "UPDATE NGR_CUSTOMER SET CUST_NAME_EN ='" + txtCustNameENEdit + "',UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE SHIP_TO='" + txtShipToEdit + "'";
+            string strCommandEditCus = "UPDATE NGR_CUSTOMER SET CUST_NAME_EN ='" + txtCustNameENEdit + "',UPDATED_DATE=sysdate,UPDATED_BY='" + username + "' WHERE SHIP_TO='" + txtShipToEdit + "'";
             var con = dalEditCus.GetConnection();
             con.Open();
             dalEditCus.GetCommand(strCommandEditCus, con).ExecuteNonQuery();
             con.Close();
             con.Dispose();
-          
+
             //else { textEdit = "โปรดกรอกข้อมูลให้ครบถ้วน"; }
             //ViewBag.textAlert = textEdit;
             //TempData["message"] = textEdit;
-            return Redirect("Customer"); 
+            return Redirect("Customer");
         }
              [HttpPost]
-             public ActionResult EditMeter(string datepicCommdateMEdit, string txtMeterNameMEdit, string txtMeterNumMEdit, string txtMeterTypeMEdit, int seStatusMEdit, int txtObjectIDMEdit)   
+             public ActionResult EditMeter(string datepicCommdateMEdit, string txtMeterNameMEdit, string txtMeterNumMEdit, string txtMeterTypeMEdit, int seStatusMEdit, int txtObjectIDMEdit)
              {   //string textEdit = "แก้ไข้อมูลเรียบร้อย";
                  //String[] date1 = date.split("/");
                  //var mainDate = DateTime.ParseExact(datepicCommdateMEdit, "dd/MM/yyyy HH:mm:ss", null);
                  var dalEditMeter = new DAL.DAL();
                  string username = User.Identity.Name;
-                 string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET METER_NUMBER = '" + txtMeterNumMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE=TO_DATE('" + datepicCommdateMEdit + "', 'd/m/yyyy'),UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE OBJECT_ID='" + txtObjectIDMEdit + "'";
+                 string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET METER_NUMBER = '" + txtMeterNumMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE=to_timestamp( '" + datepicCommdateMEdit + "', 'dd/mm/yyyy' ),UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE OBJECT_ID='" + txtObjectIDMEdit + "'";
                  var conMeter = dalEditMeter.GetConnection();
                  conMeter.Open();
                  dalEditMeter.GetCommand(strCommandEditMeter, conMeter).ExecuteNonQuery();
@@ -1090,6 +1090,7 @@ namespace PTT_NGROUR.Controllers
                  //TempData["message"] = textEdit;
                  return Redirect("Customer");
              }
+
 
 
 
