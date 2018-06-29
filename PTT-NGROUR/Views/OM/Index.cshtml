@@ -8,11 +8,11 @@
         <div class="input-group">
             <span class="input-group-addon">
                 <input type="radio" name="radioMY" id="radioMonth" checked="checked" onclick="javascript:Check();">
-                <label class="" for="radioMonth">Month</label>
+                <label for="radioMonth">Month</label>
             </span>
             <span class="input-group-addon">
                 <input type="radio" name="radioMY" id="radioYear" onclick="javascript: Check();">
-                <label class="" for="radioYear">Year</label>
+                <label for="radioYear">Year</label>
             </span>
             <input type="text" placeholder="Month" class="form-control form-control-sm fz-12px" id="Month-filter" />
             <input type="text" placeholder="Year" class="form-control form-control-sm fz-12px col-xs-3" id="Year-filter" style="display:none" />
@@ -74,6 +74,14 @@
         .ui-datepicker-calendar {
             display: none;
         }
+
+        .vertical-center {
+          min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+          min-height: 100vh; /* These two lines are counted as one :-)       */
+
+          display: flex;
+          align-items: center;
+        }
     </style>
 }
 
@@ -124,6 +132,9 @@
             viewMode: "months",
             minViewMode: "months",
             autoclose: true
+        }).on('dp.change', function (e) {
+            
+            console.log(e);
         });
 
         $("#Year-filter").datepicker({
@@ -131,11 +142,14 @@
             viewMode: "years",
             minViewMode: "years",
             autoclose: true
+        }).on('dp.change', function (e) {
+
+            console.log(e);
         });
 
 
         $("#btnSearch").click(function (e) {
-            alert("xxxx");
+            searchData();
         });
 
         function Check() {
@@ -149,6 +163,60 @@
                 document.getElementById('Month-filter').style.display = 'none';
                 document.getElementById('Year-filter').style.display = 'inline-block';
             }
+        }
+
+        function removeData(chart) {
+            chart.data.labels.pop();
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.pop();
+            });
+            chart.update();
+        }
+
+        function searchData() {
+            
+            var strUrl = "@Url.Action("SearchData")";
+            var param = { pStrYear: "", pStrMonth : "" };
+            if (document.getElementById('radioMonth').checked) {
+                var x = $("#Month-filter").val().split("/");
+                param.pStrMonth = x[0];
+                param.pStrYear = x[1];
+
+            } else {
+                param.pStrYear = $("#Year-filter").val();
+            }
+            $.post(strUrl, param, function (data) {
+                
+                var chart = window.myBar;
+                if (!data || !data.Result) {
+                    var ds2 = {
+                        labels: [],
+                        datasets: []
+                    };
+                    chart.data = ds2;
+                    chart.update();
+                    alert("Not Found Data");
+                    return;
+                }
+                var rs = data.Result;
+                var barChartData = {
+                    labels: rs.ListLabel,
+                    datasets: []
+                };
+                for (var i in rs.ListML) {
+                    var ml = rs.ListML[i];
+                    var dsItem = {
+                        label: ml.Label,
+                        backgroundColor: ml.HexColor,
+                        borderColor: "#ff0000",
+                        data : ml.ListData
+                    }
+                    barChartData.datasets.push(dsItem);
+                }
+                
+                chart.data = barChartData;
+                chart.update();               
+            });
         }
 
     </script>
