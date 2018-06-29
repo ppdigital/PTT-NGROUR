@@ -357,7 +357,7 @@
                         $('#utilTbl > tbody >tr:last-child').click(utilTblOnclick);
                     }
                 }
-               
+                map_frame.contentWindow.postMessage(map_info_json, '*');
                 //////////////////////
 
                 //$("#threshold-filter").change(function () {
