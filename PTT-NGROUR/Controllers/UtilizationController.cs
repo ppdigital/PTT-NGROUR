@@ -207,7 +207,7 @@ namespace PTT_NGROUR.Controllers
                     {
                         NO = dr["NO"].ToString(),
                         NAME = dr["NAME"].ToString(),
-                        COLOR = dr["COLOR"].ToString(),
+                        //COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
@@ -387,6 +387,7 @@ namespace PTT_NGROUR.Controllers
                         LICENSE = dr["LICENSE"].ToString(),
                         MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
+                        STATUS = dr["STATUS"].ToString(),
                         
                     };
                     listRegion.Add(reg);
@@ -426,6 +427,7 @@ namespace PTT_NGROUR.Controllers
                         LICENSE = dr["LICENSE"].ToString(),
                         MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
+                        STATUS = dr["STATUS"].ToString(),
                     };
                     listLicense.Add(reg);
                 }
@@ -1116,7 +1118,7 @@ namespace PTT_NGROUR.Controllers
                              REGION = dr["REGION"].ToString(),
                              LICENSE = dr["LICENSE_NO"].ToString(),
                              VALUE = dr["VALUE"].ToString(),
-                             COLOR = dr["COLOR"].ToString(),
+                             //COLOR = dr["COLOR"].ToString(),
                              MONTH = dr["MONTH"].ToString(),
                              YEAR = dr["YEAR"].ToString(),
                              TYPE = dr["TYPE"].ToString(),
@@ -1152,7 +1154,7 @@ namespace PTT_NGROUR.Controllers
                              REGION = dr["REGION"].ToString(),
                              LICENSE = dr["LICENSE_NO"].ToString(),
                              VALUE = dr["VALUE"].ToString(),
-                             COLOR = dr["COLOR"].ToString(),
+                             //COLOR = dr["COLOR"].ToString(),
                              MONTH = dr["MONTH"].ToString(),
                              YEAR = dr["YEAR"].ToString(),
                              TYPE = dr["TYPE"].ToString(),
@@ -1187,7 +1189,7 @@ namespace PTT_NGROUR.Controllers
                              REGION = dr["REGION"].ToString(),
                              LICENSE = dr["LICENSE"].ToString(),
                              VALUE = dr["VALUE"].ToString(),
-                             COLOR = dr["COLOR"].ToString(),
+                             //COLOR = dr["COLOR"].ToString(),
                              MONTH = dr["MONTH"].ToString(),
                              YEAR = dr["YEAR"].ToString(),
                              TYPE = dr["TYPE"].ToString(),

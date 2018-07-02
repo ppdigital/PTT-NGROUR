@@ -213,7 +213,8 @@ namespace PTT_NGROUR.Controllers
                     {
                         NO = dr["NO"].ToString(),
                         NAME = dr["NAME"].ToString(),
-                        COLOR = dr["COLOR"].ToString(),
+                        //COLOR = dr["COLOR"].ToString(),
+                        THRESHOLD = dr["THRESHOLD"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString()
                     };
@@ -243,7 +244,7 @@ namespace PTT_NGROUR.Controllers
                     {
                         NO = dr["NO"].ToString(),
                         NAME = dr["NAME"].ToString(),
-                        COLOR = dr["COLOR"].ToString(),
+                        //COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
@@ -252,7 +253,7 @@ namespace PTT_NGROUR.Controllers
                         STATUS = dr["STATUS"].ToString(),
                         MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
-                        THRESHOLD = dr["THRESHOLD"].ToString()
+                        THRESHOLD = dr["THRESHOLD"].ToString(),
                     };
                     listRegion.Add(reg);
                 }
@@ -281,7 +282,7 @@ namespace PTT_NGROUR.Controllers
                     {
                         NO = dr["NO"].ToString(),
                         NAME = dr["NAME"].ToString(),
-                        COLOR = dr["COLOR"].ToString(),
+                        //COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
@@ -290,7 +291,7 @@ namespace PTT_NGROUR.Controllers
                         STATUS = dr["STATUS"].ToString(),
                         MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
-                        THRESHOLD = dr["THRESHOLD"].ToString()
+                        THRESHOLD = dr["THRESHOLD"].ToString(),
                     };
                     listLicense.Add(reg);
                 }
