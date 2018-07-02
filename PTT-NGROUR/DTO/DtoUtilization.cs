@@ -569,17 +569,9 @@ WHERE  1=1
                 UPDATED_BY ,
                 COLOR_HEX
             from GATESTATION_THRESHOLD";
+            //order by threshold_id desc , thresholdtype desc";
             var dal = new DAL.DAL();
             var listThreshold = dal.ReadData<Models.ViewModel.ModelThresholdItem>(strQuery, x => new Models.ViewModel.ModelThresholdItem(x));
-            //{
-            //    var th = new Models.ViewModel.ModelThresholdItem();
-            //    th.Color = reader["COLOR"].GetString();
-            //    th.MaxValue = reader["MAXVAL"].GetDecimal();
-            //    th.MinValue = reader["MINVAL"].GetDecimal();
-            //    th.ThresholdId = reader["THRESHOLD_ID"].GetInt();
-            //    th.ThresholdType = reader["ThresholdType"].GetEnum<Models.ViewModel.EnumThresholdType>(Models.ViewModel.EnumThresholdType.None);
-            //    return th;
-            //});
             return listThreshold;
         }
 
