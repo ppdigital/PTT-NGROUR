@@ -207,7 +207,7 @@ namespace PTT_NGROUR.Controllers
                     {
                         NO = dr["NO"].ToString(),
                         NAME = dr["NAME"].ToString(),
-                        COLOR = dr["COLOR"].ToString(),
+                        //COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
@@ -374,7 +374,7 @@ namespace PTT_NGROUR.Controllers
                 {
                     var reg = new Models.DataModel.ModelGetU()
                     {
-                        /*NO = dr["NO"].ToString(),
+                        NO = dr["NO"].ToString(),
                         ID = dr["ID"].ToString(),
                         NAME = dr["NAME"].ToString(),
                         //COLOR = dr["COLOR"].ToString(),
@@ -386,18 +386,9 @@ namespace PTT_NGROUR.Controllers
                         REGION = dr["REGION"].ToString(),
                         LICENSE = dr["LICENSE"].ToString(),
                         MONTH = dr["MONTH"].ToString(),
-                        YEAR = dr["YEAR"].ToString(), */
-                        NO = dr["NO"].ToString(),
-                        NAME = dr["NAME"].ToString(),
-                        COLOR = dr["COLOR"].ToString(),
-                        VALUE = dr["VALUE"].ToString(),
-                        TYPE = dr["TYPE"].ToString(),
-                        FLAG = dr["FLAG"].ToString(),
-                        REGION = dr["REGION"].ToString(),
-                        LICENSE = dr["LICENSE"].ToString(),
-                        STATUS = dr["STATUS"].ToString(),
-                        MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
+                        STATUS = dr["STATUS"].ToString(),
+                        
                     };
                     listRegion.Add(reg);
                 }
@@ -424,16 +415,19 @@ namespace PTT_NGROUR.Controllers
                     var reg = new Models.DataModel.ModelGetU()
                     {
                         NO = dr["NO"].ToString(),
+                        ID = dr["ID"].ToString(),
                         NAME = dr["NAME"].ToString(),
-                        COLOR = dr["COLOR"].ToString(),
+                        //COLOR = dr["COLOR"].ToString(),
+                        THRESHOLD = dr["THRESHOLD"].ToString(),
+                        OBJ_TYPE = dr["OBJ_TYPE"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
                         REGION = dr["REGION"].ToString(),
                         LICENSE = dr["LICENSE"].ToString(),
-                        STATUS = dr["STATUS"].ToString(),
                         MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
+                        STATUS = dr["STATUS"].ToString(),
                     };
                     listLicense.Add(reg);
                 }
@@ -1102,12 +1096,12 @@ namespace PTT_NGROUR.Controllers
                  //TempData["message"] = textEdit;
                  return Redirect("Customer");
              }
+
              [HttpPost]
-             public JsonResult SearchRegionReport(int[] region)
+             public JsonResult RegionAllReport()
              {
                  var dal = new DAL.DAL();
-                 string regionStr = string.Join("','", region);
-                 var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE TYPE NOT LIKE 'METERING' AND REGION IS NOT NULL AND REGION IN ('" + regionStr + "')";
+                 var searchregion = @"select * from VIEW_GATE_PIPE_REPORT_CURRENT WHERE REGION IS NOT NULL";
                  var ds = dal.GetDataSet(searchregion);
 
 
@@ -1120,17 +1114,15 @@ namespace PTT_NGROUR.Controllers
                      {
                          var reg = new Models.DataModel.ModelGetU()
                          {
-                             NO = dr["NO"].ToString(),
                              NAME = dr["NAME"].ToString(),
-                             COLOR = dr["COLOR"].ToString(),
-                             VALUE = dr["VALUE"].ToString(),
-                             TYPE = dr["TYPE"].ToString(),
-                             FLAG = dr["FLAG"].ToString(),
                              REGION = dr["REGION"].ToString(),
-                             LICENSE = dr["LICENSE"].ToString(),
-                             STATUS = dr["STATUS"].ToString(),
+                             LICENSE = dr["LICENSE_NO"].ToString(),
+                             VALUE = dr["VALUE"].ToString(),
+                             //COLOR = dr["COLOR"].ToString(),
                              MONTH = dr["MONTH"].ToString(),
                              YEAR = dr["YEAR"].ToString(),
+                             TYPE = dr["TYPE"].ToString(),
+                            // THRESHOLD = dr["THRESHOLD"].ToString()
                          };
                          listRegion.Add(reg);
                      }
@@ -1139,6 +1131,207 @@ namespace PTT_NGROUR.Controllers
                  return Json(listRegion, JsonRequestBehavior.AllowGet);
              }
 
+             [HttpPost]
+             public JsonResult SearchRegionReport(int[] region)
+             {
+                 var dal = new DAL.DAL();
+                 string regionStr = string.Join("','", region);
+                 var searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "')";
+                 var ds = dal.GetDataSet(searchregion);
+
+
+                 var listRegion = new List<Models.DataModel.ModelGetU>();
+                 if (ds.Tables[0].Rows.Count > 0)
+                 {
+
+
+                     foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+                     {
+                         var reg = new Models.DataModel.ModelGetU()
+                         {
+
+                             NAME = dr["NAME"].ToString(),
+                             REGION = dr["REGION"].ToString(),
+                             LICENSE = dr["LICENSE_NO"].ToString(),
+                             VALUE = dr["VALUE"].ToString(),
+                             //COLOR = dr["COLOR"].ToString(),
+                             MONTH = dr["MONTH"].ToString(),
+                             YEAR = dr["YEAR"].ToString(),
+                             TYPE = dr["TYPE"].ToString(),
+                            // THRESHOLD = dr["THRESHOLD"].ToString()
+                         };
+                         listRegion.Add(reg);
+                     }
+                 }
+
+                 return Json(listRegion, JsonRequestBehavior.AllowGet);
+             }
+
+             [HttpPost]
+             public JsonResult SearchLicenseReport(int[] license)
+             {
+                 var dal = new DAL.DAL();
+                 string licenseStr = string.Join("','", license);
+                 var searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "')";
+                 var ds = dal.GetDataSet(searchlicense);
+
+
+                 var listLicense = new List<Models.DataModel.ModelGetU>();
+                 if (ds.Tables[0].Rows.Count > 0)
+                 {
+
+
+                     foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+                     {
+                         var reg = new Models.DataModel.ModelGetU()
+                         {
+                             NAME = dr["NAME"].ToString(),
+                             REGION = dr["REGION"].ToString(),
+                             LICENSE = dr["LICENSE"].ToString(),
+                             VALUE = dr["VALUE"].ToString(),
+                             //COLOR = dr["COLOR"].ToString(),
+                             MONTH = dr["MONTH"].ToString(),
+                             YEAR = dr["YEAR"].ToString(),
+                             TYPE = dr["TYPE"].ToString(),
+                             //  THRESHOLD = dr["THRESHOLD"].ToString()
+                         };
+                         listLicense.Add(reg);
+                     }
+                 }
+
+                 return Json(listLicense, JsonRequestBehavior.AllowGet);
+             }
+
+             public JsonResult PipelineCurrentReport()
+             {
+                 var dal = new DAL.DAL();
+                 var ds = dal.GetDataSet("SELECT * FROM VIEW_GATE_PIPE_REPORT_CURRENT WHERE TYPE = 'PIPELINE' AND REGION IS NOT NULL");
+                 decimal green = 0;
+                 decimal red = 0;
+                 decimal yellow = 0;
+                 decimal total = 0;
+                 foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+                 {
+                     if (dr["COLOR"].Equals("Green"))
+                     {
+                         green++;
+                     }
+                     else if (dr["COLOR"].Equals("Red"))
+                     {
+                         red++;
+                     }
+                     else if (dr["COLOR"].Equals("Yellow"))
+                     {
+                         yellow++;
+                     }
+
+                 }
+                 total = ds.Tables[0].Rows.Count;
+                 //green = (green / total) * 100;
+                 //red = (red / total) * 100;
+                 //yellow = (yellow / total) * 100;
+               
+                 List<object> iData = new List<object>();
+                 //Creating sample data  
+                 DataTable dt = new DataTable();
+                 dt.Columns.Add("Name", System.Type.GetType("System.String"));
+                 dt.Columns.Add("Color", System.Type.GetType("System.String"));
+
+                 DataRow dr1 = dt.NewRow();
+                 dr1 = dt.NewRow();
+                 dr1["Name"] = "Alert";
+                 dr1["Color"] = red;
+                 dt.Rows.Add(dr1);
+
+                 dr1 = dt.NewRow();
+                 dr1["Name"] = "Warning";
+                 dr1["Color"] = yellow;
+                 dt.Rows.Add(dr1);
+
+                 dr1 = dt.NewRow();
+                 dr1["Name"] = "Pass";
+                 dr1["Color"] = green;
+                 dt.Rows.Add(dr1);
+
+
+
+
+                 //Looping and extracting each DataColumn to List<Object>  
+                 foreach (DataColumn dc in dt.Columns)
+                 {
+                     List<object> x = new List<object>();
+                     x = (from DataRow drr in dt.Rows select drr[dc.ColumnName]).ToList();
+                     iData.Add(x);
+                 }
+                 //Source data returned as JSON  
+                 return Json(iData, JsonRequestBehavior.AllowGet);
+             }
+
+             [HttpPost]
+             public JsonResult GateCurrentReport()
+             {
+                 var dal = new DAL.DAL();
+                 var ds = dal.GetDataSet("SELECT * FROM VIEW_GATE_PIPE_REPORT_CURRENT WHERE TYPE = 'GATESTATION' AND REGION IS NOT NULL");
+                 decimal green = 0;
+                 decimal red = 0;
+                 decimal yellow = 0;
+                 decimal total = 0;
+                 foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+                 {
+                     if (dr["COLOR"].Equals("Green"))
+                     {
+                         green++;
+                     }
+                     else if (dr["COLOR"].Equals("Red"))
+                     {
+                         red++;
+                     }
+                     else if (dr["COLOR"].Equals("Yellow"))
+                     {
+                         yellow++;
+                     }
+
+                 }
+                 total = ds.Tables[0].Rows.Count;
+                 //green = (green / total) * 100;
+                 //red = (red / total) * 100;
+                 //yellow = (yellow / total) * 100;
+
+                 List<object> iData = new List<object>();
+                 //Creating sample data  
+                 DataTable dt = new DataTable();
+                 dt.Columns.Add("Name", System.Type.GetType("System.String"));
+                 dt.Columns.Add("Color", System.Type.GetType("System.String"));
+
+                 DataRow dr1 = dt.NewRow();
+                 dr1 = dt.NewRow();
+                 dr1["Name"] = "Alert";
+                 dr1["Color"] = red;
+                 dt.Rows.Add(dr1);
+
+                 dr1 = dt.NewRow();
+                 dr1["Name"] = "Warning";
+                 dr1["Color"] = yellow;
+                 dt.Rows.Add(dr1);
+
+                 dr1 = dt.NewRow();
+                 dr1["Name"] = "Pass";
+                 dr1["Color"] = green;
+                 dt.Rows.Add(dr1);
+
+
+
+
+                 //Looping and extracting each DataColumn to List<Object>  
+                 foreach (DataColumn dc in dt.Columns)
+                 {
+                     List<object> x = new List<object>();
+                     x = (from DataRow drr in dt.Rows select drr[dc.ColumnName]).ToList();
+                     iData.Add(x);
+                 }
+                 //Source data returned as JSON  
+                 return Json(iData, JsonRequestBehavior.AllowGet);
+             }
        
 
         //[HttpPost]

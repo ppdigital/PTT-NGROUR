@@ -13,7 +13,7 @@ namespace PTT_NGROUR.Models.DataModel
         public string VALUE { get; set; }
         public string OBJ_TYPE { get; set; }
         public string FLAG { get; set; } 
-        public string COLOR { get; set; }
+        //public string COLOR { get; set; }
         public string THRESHOLD { get; set; }
         public string TYPE { get; set; }
         public string REGION { get; set; }

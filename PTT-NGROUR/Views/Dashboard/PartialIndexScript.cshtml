@@ -87,9 +87,8 @@
 
             }
 
+            $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil pointer" data-color="' + color1 + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h6 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
 
-
-            $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h6 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
         }
     }
 
@@ -119,14 +118,14 @@
             if (data.TYPE !== pStrMode) {
                 continue;
             }
-            switch (data.COLOR) {
-            case "Green":
+            switch (data.THRESHOLD) {
+            case "Pass":
                 intPass++;
                 break;
-            case "Red":
+            case "Alert":
                 intAlert++;
                 break;
-            case "Yellow":
+            case "Warning":
                 intWarning++;
                 break;
             }            
