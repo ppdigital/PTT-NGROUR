@@ -372,12 +372,22 @@ namespace PTT_NGROUR.Controllers
                 {
                     var reg = new Models.DataModel.ModelGetU()
                     {
-                        NO = dr["NO"].ToString(),
+                        /*NO = dr["NO"].ToString(),
                         ID = dr["ID"].ToString(),
                         NAME = dr["NAME"].ToString(),
                         //COLOR = dr["COLOR"].ToString(),
                         THRESHOLD = dr["THRESHOLD"].ToString(),
                         OBJ_TYPE = dr["OBJ_TYPE"].ToString(),
+                        VALUE = dr["VALUE"].ToString(),
+                        TYPE = dr["TYPE"].ToString(),
+                        FLAG = dr["FLAG"].ToString(),
+                        REGION = dr["REGION"].ToString(),
+                        LICENSE = dr["LICENSE"].ToString(),
+                        MONTH = dr["MONTH"].ToString(),
+                        YEAR = dr["YEAR"].ToString(), */
+                        NO = dr["NO"].ToString(),
+                        NAME = dr["NAME"].ToString(),
+                        COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
@@ -413,7 +423,7 @@ namespace PTT_NGROUR.Controllers
                     {
                         NO = dr["NO"].ToString(),
                         NAME = dr["NAME"].ToString(),
-                        //COLOR = dr["COLOR"].ToString(),
+                        COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
@@ -1090,9 +1100,44 @@ namespace PTT_NGROUR.Controllers
                  //TempData["message"] = textEdit;
                  return Redirect("Customer");
              }
+             [HttpPost]
+             public JsonResult SearchRegionReport(int[] region)
+             {
+                 var dal = new DAL.DAL();
+                 string regionStr = string.Join("','", region);
+                 var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE TYPE NOT LIKE 'METERING' AND REGION IS NOT NULL AND REGION IN ('" + regionStr + "')";
+                 var ds = dal.GetDataSet(searchregion);
 
 
+                 var listRegion = new List<Models.DataModel.ModelGetU>();
+                 if (ds.Tables[0].Rows.Count > 0)
+                 {
 
+
+                     foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+                     {
+                         var reg = new Models.DataModel.ModelGetU()
+                         {
+                             NO = dr["NO"].ToString(),
+                             NAME = dr["NAME"].ToString(),
+                             COLOR = dr["COLOR"].ToString(),
+                             VALUE = dr["VALUE"].ToString(),
+                             TYPE = dr["TYPE"].ToString(),
+                             FLAG = dr["FLAG"].ToString(),
+                             REGION = dr["REGION"].ToString(),
+                             LICENSE = dr["LICENSE"].ToString(),
+                             STATUS = dr["STATUS"].ToString(),
+                             MONTH = dr["MONTH"].ToString(),
+                             YEAR = dr["YEAR"].ToString(),
+                         };
+                         listRegion.Add(reg);
+                     }
+                 }
+
+                 return Json(listRegion, JsonRequestBehavior.AllowGet);
+             }
+
+       
 
         //[HttpPost]
         //public ActionResult InsertExceldata(string year, string month, string region, string type)

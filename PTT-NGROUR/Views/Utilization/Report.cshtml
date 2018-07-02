@@ -148,9 +148,9 @@
                         <div class="col-lg-2 col-md-2  col-sm-2 col-xs-4" id="chooseYear" style="padding-bottom: 0rem !important; padding-right: 0rem;">
                             <select class="form-control form-control-sm fz-12px" id="threshold-filter" style="height: 30px !important;">
                                 <option id="seAllThres" class="fz-12px drop_role" value="all">All Threshold</option>
-                                <option id="seGree" class="fz-12px drop_role" value="green">Green</option>
-                                <option id="seYello" class="fz-12px drop_role" value="yellow">Yellow</option>
-                                <option id="seRed" class="fz-12px drop_role" value="red">Red</option>
+                                <option id="seGree" class="fz-12px drop_role" value="Green">Green</option>
+                                <option id="seYello" class="fz-12px drop_role" value="Yellow">Yellow</option>
+                                <option id="seRed" class="fz-12px drop_role" value="Red">Red</option>
                             </select>
                         </div>
 
@@ -349,33 +349,33 @@
         });
     </script>
   <script>
-      $(document).ready(function () {
-          document.getElementById('seLicense').style.display = 'none';
-          $('#MultiRegion').selectpicker('selectAll');
-          document.getElementById('chooseYear').style.display = 'none';
+    $(document).ready(function () {
+        document.getElementById('seLicense').style.display = 'none';
+        $('#MultiRegion').selectpicker('selectAll');
+        document.getElementById('chooseYear').style.display = 'none';
 
 
-      });
-     
+    });
 
-      
-      
 
-        var tblOption = {
-            buttons: [
-                {
-                    extend: 'excel',
-                    text: 'Save current page',
-                    exportOptions: {
-                        modifier: {
-                            page: 'current'
-                        }
+
+
+
+    var tblOption = {
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'Save current page',
+                exportOptions: {
+                    modifier: {
+                        page: 'current'
                     }
                 }
-            ]
-        };
+            }
+        ]
+    };
 
-        $('#utilTbl').DataTable(tblOption);
+    $('#utilTbl').DataTable(tblOption);
     var _graphPipeLine = null;
 
     var _graphGate = null;
@@ -386,12 +386,12 @@
         let multidata;
         let strMode = "";
         if (document.getElementById('radioRegion').checked) {
-            url = '@Url.Action("SearchRegion")';
+            url = '@Url.Action("SearchRegionReport")';
             multidata = SeRegion;
             strMode = "region";
         }
         else if (document.getElementById('radioLicense').checked) {
-            url = '@Url.Action("SearchLicense")';
+            url = "/Dashboard/SearchLicense";
             multidata = SeLicense;
             strMode = "license";
         }
@@ -413,19 +413,19 @@
         });
     }
 
-      function showUtilTable(data) {
-          let tblShow = $("#utilTbl").DataTable();
-          tblShow.clear()
+    function showUtilTable(data) {
+        let tblShow = $("#utilTbl").DataTable();
+        tblShow.clear()
         $('#utilTbl').find('tbody tr').each(function () {
             this.remove();
         });
-       
+
         for (let i in data) {
             num = 1 + Number(i);
-            if (document.getElementById('radioMonth').checked)
-            { dataMonthYear =data[i].MONTH  + '/' + data[i].YEAR ; 
+            if (document.getElementById('radioMonth').checked) {
+                dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
             }
-            else if(document.getElementById('radioYear').checked)
+            else if (document.getElementById('radioYear').checked)
             { dataMonthYear = data[i].YEAR; }
 
             var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
@@ -503,285 +503,285 @@
 
 
     <script type="text/javascript">
-            var SeRegion;
-            var SeLicense;
-           
-
-            
-
-            function Check() {
-
-                if (document.getElementById('radioRegion').checked) {
-                    document.getElementById('seRegion').style.display = 'inline-block';
-                    document.getElementById('seLicense').style.display = 'none';
-
-                }
-                else if (document.getElementById('radioLicense').checked) {
-                    document.getElementById('seLicense').style.display = 'inline-block';
-                    document.getElementById('seRegion').style.display = 'none';
-                }
-                if (document.getElementById('radioMonth').checked)
-                {
-                    document.getElementById('chooseMonth').style.display = 'inline-block';
-                    document.getElementById('chooseYear').style.display = 'none';
-                }
-                else if (document.getElementById('radioYear').checked) {
-                    document.getElementById('chooseMonth').style.display = 'none';
-                    document.getElementById('chooseYear').style.display = 'inline-block';
-                }
-            }
+    var SeRegion;
+    var SeLicense;
 
 
-            var region;
-            $('#MultiRegion').change(function () {
-                SeRegion = $(this).val();
-                // console.log(region);
 
-            })
-            $('#MultiLicense').change(function () {
-                SeLicense = $(this).val();
-                // console.log(region);
 
-            })
+    function Check() {
 
-            function Search2() {
+        if (document.getElementById('radioRegion').checked) {
+            document.getElementById('seRegion').style.display = 'inline-block';
+            document.getElementById('seLicense').style.display = 'none';
 
-                let url;
-                let graphurl;
-                let multidata;
-                if (document.getElementById('radioRegion').checked) {
-                    url = '@Url.Action("SearchRegion")';
-                    graphurl = '@Url.Action("SearchGraphRegion")';
+        }
+        else if (document.getElementById('radioLicense').checked) {
+            document.getElementById('seLicense').style.display = 'inline-block';
+            document.getElementById('seRegion').style.display = 'none';
+        }
+        if (document.getElementById('radioMonth').checked)
+        {
+            document.getElementById('chooseMonth').style.display = 'inline-block';
+            document.getElementById('chooseYear').style.display = 'none';
+        }
+        else if (document.getElementById('radioYear').checked) {
+            document.getElementById('chooseMonth').style.display = 'none';
+            document.getElementById('chooseYear').style.display = 'inline-block';
+        }
+    }
+
+
+    var region;
+    $('#MultiRegion').change(function () {
+        SeRegion = $(this).val();
+        console.log(SeRegion);
+
+    })
+    $('#MultiLicense').change(function () {
+        SeLicense = $(this).val();
+        // console.log(region);
+
+    })
+
+    function Search2() {
+
+        let url;
+        let graphurl;
+        let multidata;
+        if (document.getElementById('radioRegion').checked) {
+            url = '@Url.Action("SearchRegion")';
+            graphurl = '@Url.Action("SearchGraphRegion")';
                     multidata = SeRegion;
                 }
                 else if (document.getElementById('radioLicense').checked) {
-                    url = '@Url.Action("SearchLicense")';
+                    url = "/Dashboard/SearchLicense";
                     graphurl = '@Url.Action("SearchGraphLicense")';
-                    multidata = SeLicense;
-                }
-                let tblSearch2 = $("#utilTbl").DataTable();
-                tblSearch2.clear()
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: JSON.stringify(multidata),
-                    contentType: 'application/json; charset=utf-8',
-                    datatype: 'json',
-                    success: function (data) {
-                        $('#utilTbl').find('tbody tr').each(function () {
-                            this.remove();
-                        });
-
-                        
-                        for (let i in data) {
-                            if (data[i].COLOR == 'Green') {
-                               
-                                color1 = "green"
-                                //console.log(color1);
-                            } else if (data[i].COLOR == 'Yellow') {
-                              
-                                color1 = "yellow"
-                                //console.log(color1);
-                            } else if (data[i].COLOR == 'Red') {
-                              
-                                color1 = "red"
-                            } else {
-                                
-                                color1 = "no"
-                            }
-                            //console.log('color1' + color1);
-                            //console.log('data' + data[i].NO);
-
-                            num = 1 + Number(i);
-                            if (document.getElementById('radioMonth').checked) {
-                                dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
-                            }
-                            else if (document.getElementById('radioYear').checked)
-                            { dataMonthYear = data[i].YEAR; }
-                            var rowItemSearch2 = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
-                            tblSearch2.row.add($(rowItemSearch2));
-                        } tblSearch2.draw();
-                    },
-                    error: function (result) {
-                        alert('Please select the data');
-                    }
-                });
-
-                Chart.defaults.global.legend.labels.usePointStyle = true;
-                Chart.defaults.doughnutLabels = Chart.helpers.clone(Chart.defaults.doughnut);
-                var helpers = Chart.helpers;
-                var defaults = Chart.defaults;
-                $.ajax({
-                    type: "POST",
-                    url: graphurl,
-                    data: JSON.stringify(multidata),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (chData) {
-                        var aData = chData;
-                        var aLabels = aData[0];
-                        var aDatasets1 = aData[1];
-                        var dataT = {
-                            labels: aLabels,
-                            datasets: [{
-                                label: "Test Data",
-                                data: aDatasets1,
-                                fill: false,
-                                backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                                hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                                borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                                borderWidth: 1
-                            }]
-                        };
-                        var ctx = $("#pieGate").get(0).getContext("2d");
-                        var myNewChart = new Chart(ctx, {
-                            type: 'doughnut',
-                            data: dataT,
-                            options: {
-                                responsive: true,
-                                pieceLabel: { mode: 'value', fontColor: 'white' },
-                                title: { display: true },
-                                legend: { position: 'bottom' },
-                                scales: {
-                                    xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
-                                    yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
-                                },
-                            }
-                        });
-                    }
-                });
-
-                $.ajax({
-                    type: "POST",
-                    url: graphurl,
-                    data: JSON.stringify(multidata),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (chData) {
-                        var aData = chData;
-                        var aLabels = aData[0];
-                        var aDatasets1 = aData[1];
-                        var dataT = {
-                            labels: aLabels,
-                            datasets: [{
-                                label: "Test Data",
-                                data: aDatasets1,
-                                fill: false,
-                                backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                                hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                                borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                                borderWidth: 1
-                            }]
-                        };
-                        var ctx = $("#piePipeline").get(0).getContext("2d");
-                        var myNewChart = new Chart(ctx, {
-                            type: 'doughnut',
-                            data: dataT,
-                            options: {
-                                responsive: true,
-                                pieceLabel: { mode: 'value', fontColor: 'white' },
-                                title: { display: true },
-                                legend: { position: 'bottom' },
-                                scales: {
-                                    xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
-                                    yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
-                                },
-                            }
-                        });
-                    }
+            multidata = SeLicense;
+        }
+        let tblSearch2 = $("#utilTbl").DataTable();
+        tblSearch2.clear()
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(multidata),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+                $('#utilTbl').find('tbody tr').each(function () {
+                    this.remove();
                 });
 
 
+                for (let i in data) {
+                    if (data[i].COLOR == 'Green') {
+
+                        color1 = "Green"
+                        //console.log(color1);
+                    } else if (data[i].COLOR == 'Yellow') {
+
+                        color1 = "Yellow"
+                        //console.log(color1);
+                    } else if (data[i].COLOR == 'Red') {
+
+                        color1 = "Red"
+                    } else {
+
+                        color1 = "no"
+                    }
+                    //console.log('color1' + color1);
+                    //console.log('data' + data[i].NO);
+
+                    num = 1 + Number(i);
+                    if (document.getElementById('radioMonth').checked) {
+                        dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
+                    }
+                    else if (document.getElementById('radioYear').checked)
+                    { dataMonthYear = data[i].YEAR; }
+                    var rowItemSearch2 = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+                    tblSearch2.row.add($(rowItemSearch2));
+                } tblSearch2.draw();
+            },
+            error: function (result) {
+                alert('Please select the data');
             }
-            //function searcch
-            function myFunction() {
-                var input, filter, table, tr, td, i;
-                input = document.getElementById("txtSearch");
-                filter = input.value.toUpperCase();
-                table = document.getElementById("utilTbl");
-                tr = table.getElementsByTagName("tr");
-                for (i = 0; i < tr.length; i++) {
-                    td = tr[i].getElementsByTagName("td")[1];
-                    if (td) {
-                        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
+        });
+
+        Chart.defaults.global.legend.labels.usePointStyle = true;
+        Chart.defaults.doughnutLabels = Chart.helpers.clone(Chart.defaults.doughnut);
+        var helpers = Chart.helpers;
+        var defaults = Chart.defaults;
+        $.ajax({
+            type: "POST",
+            url: graphurl,
+            data: JSON.stringify(multidata),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (chData) {
+                var aData = chData;
+                var aLabels = aData[0];
+                var aDatasets1 = aData[1];
+                var dataT = {
+                    labels: aLabels,
+                    datasets: [{
+                        label: "Test Data",
+                        data: aDatasets1,
+                        fill: false,
+                        backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                        hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                        borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                        borderWidth: 1
+                    }]
+                };
+                var ctx = $("#pieGate").get(0).getContext("2d");
+                var myNewChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: dataT,
+                    options: {
+                        responsive: true,
+                        pieceLabel: { mode: 'value', fontColor: 'white' },
+                        title: { display: true },
+                        legend: { position: 'bottom' },
+                        scales: {
+                            xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
+                            yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
+                        },
                     }
+                });
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: graphurl,
+            data: JSON.stringify(multidata),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (chData) {
+                var aData = chData;
+                var aLabels = aData[0];
+                var aDatasets1 = aData[1];
+                var dataT = {
+                    labels: aLabels,
+                    datasets: [{
+                        label: "Test Data",
+                        data: aDatasets1,
+                        fill: false,
+                        backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                        hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                        borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                        borderWidth: 1
+                    }]
+                };
+                var ctx = $("#piePipeline").get(0).getContext("2d");
+                var myNewChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: dataT,
+                    options: {
+                        responsive: true,
+                        pieceLabel: { mode: 'value', fontColor: 'white' },
+                        title: { display: true },
+                        legend: { position: 'bottom' },
+                        scales: {
+                            xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
+                            yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
+                        },
+                    }
+                });
+            }
+        });
+
+
+    }
+    //function searcch
+    function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("txtSearch");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("utilTbl");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
                 }
             }
+        }
+    }
 
-            //////////////////////
+    //////////////////////
 
-            //$("#threshold-filter").change(function () {
-            //    console.clear();
-            //    var filterValue = $(this).val();
-            //    var row = $('.rowfil');
+    //$("#threshold-filter").change(function () {
+    //    console.clear();
+    //    var filterValue = $(this).val();
+    //    var row = $('.rowfil');
 
-            //    row.each(function (i, el) {
-            //        if ($(el).attr('data-color') == filterValue) {
-            //            row.hide()
-            //            $(el).show();
-            //        }
-            //    });
-            //    // In Addition to Wlin's Answer (For "All" value)
-            //    if ("all" == filterValue) {
-            //        row.show();
-            //    }
+    //    row.each(function (i, el) {
+    //        if ($(el).attr('data-color') == filterValue) {
+    //            row.hide()
+    //            $(el).show();
+    //        }
+    //    });
+    //    // In Addition to Wlin's Answer (For "All" value)
+    //    if ("all" == filterValue) {
+    //        row.show();
+    //    }
 
-            //});
+    //});
 
+    var
+filters = {
+    color: null,
+};
+
+
+
+    function updateFilters() {
+        $('.rowfil').hide().filter(function () {
             var
-      filters = {
-          color: null,
-      };
-           
-        
+              self = $(this),
+              result = true; // not guilty until proven guilty
 
-            function updateFilters() {
-                $('.rowfil').hide().filter(function () {
-                    var
-                      self = $(this),
-                      result = true; // not guilty until proven guilty
-
-                    Object.keys(filters).forEach(function (filter) {
-                        if (filters[filter] && (filters[filter] != 'all') && (filters[filter] != 'Any')) {
-                            result = result && filters[filter] === self.data(filter);
-                        }
-                    });
-
-                    return result;
-                }).show();
-            }
-
-            function changeFilter(filterName) {
-                filters[filterName] = this.value;
-                updateFilters();
-            }
-
-            // Threshold Dropdown Filter
-            $('#threshold-filter').on('change', function () {
-                changeFilter.call(this, 'color');
-            });
-        // Month Dropdown Filter
-            $('#Month-filter').on('change', function () {
-                changeFilter.call(this, 'month');
+            Object.keys(filters).forEach(function (filter) {
+                if (filters[filter] && (filters[filter] != 'all') && (filters[filter] != 'Any')) {
+                    result = result && filters[filter] === self.data(filter);
+                }
             });
 
-            // Year Dropdown Filter
-            $('#Year-filter').on('change', function () {
-                changeFilter.call(this, 'year');
-            });
+            return result;
+        }).show();
+    }
 
-            // Type Dropdown Filter
-            $('#type-filter').on('change', function () {
-                changeFilter.call(this, 'type');
-            });
+    function changeFilter(filterName) {
+        filters[filterName] = this.value;
+        updateFilters();
+    }
+
+    // Threshold Dropdown Filter
+    $('#threshold-filter').on('change', function () {
+        changeFilter.call(this, 'color');
+    });
+    // Month Dropdown Filter
+    $('#Month-filter').on('change', function () {
+        changeFilter.call(this, 'month');
+    });
+
+    // Year Dropdown Filter
+    $('#Year-filter').on('change', function () {
+        changeFilter.call(this, 'year');
+    });
+
+    // Type Dropdown Filter
+    $('#type-filter').on('change', function () {
+        changeFilter.call(this, 'type');
+    });
 
 
 
-            //////////////////////
+    //////////////////////
 
     </script>
     <script>
@@ -869,6 +869,8 @@
         });
 
         //////////////////////////////////////
+
+        //---------Search Region All--------//
         let tblRegionAll = $("#utilTbl").DataTable();
         tblRegionAll.clear()
         $.ajax({
@@ -884,15 +886,15 @@
                 for (let i in data) {
                     if (data[i].COLOR == 'Green') {
                         
-                        color1 = "green"
+                        color1 = "Green"
                         //console.log(color1);
                     } else if (data[i].COLOR == 'Yellow') {
                      
-                        color1 = "yellow"
+                        color1 = "Yellow"
                         //console.log(color1);
                     } else if (data[i].COLOR == 'Red') {
                       
-                        color1 = "red"
+                        color1 = "Red"
                     } else {
            
                         color1 = "no"
@@ -906,7 +908,7 @@
                     }
                     else if (document.getElementById('radioYear').checked)
                     { dataMonthYear = data[i].YEAR; }
-                    var rowItemRegionAll = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+                    var rowItemRegionAll = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + color1 + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
                     tblRegionAll.row.add($(rowItemRegionAll));
                     //$('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>');
                 }
