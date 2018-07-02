@@ -158,6 +158,24 @@ namespace PTT_NGROUR.DTO
             {
                 return x["Name"].GetString();
             });
+            dal = null;
+            return result;
+            
+        }
+        public IEnumerable<string> GetListStationID()
+        {
+            var dal = new DAL.DAL();
+            string strCommand = "select distinct STATION_ID from GATE_STATION";
+            var result = dal.ReadData<string>(strCommand, x => x[0].GetString());
+            dal = null;
+            return result;
+        }
+        public IEnumerable<Models.DataModel.ModelGateStation> GetListModelGateStation()
+        {
+            var dal = new DAL.DAL();
+            string strCommand = "select * from GATE_STATION";
+            var result = dal.ReadData<Models.DataModel.ModelGateStation>(strCommand, (x) => new Models.DataModel.ModelGateStation(x));
+            dal = null;
             return result;
         }
 
@@ -287,7 +305,7 @@ WHERE 1=1
             }
             string strCommand = @"UPDATE GATESTATION_ARCHIVE SET    
        	GATE_NAME   = '{0}',
-       	FLOW        = {1}
+       	FLOW        = {1},
        	UPLOAD_DATE = sysdate,
        	UPLOAD_BY   = '{2}',
        	REGION      = '{3}',
@@ -300,7 +318,11 @@ WHERE 1=1
                 pModel.GATE_NAME.Trim().Replace("'", "''"),
                 pModel.FLOW, 
                 pModel.UPLOAD_BY.Trim().Replace("'", "''"),
-                pModel.REGION, pModel.GATE_ID);
+                pModel.REGION, 
+                0 ,
+                pModel.GATE_ID , 
+                pModel.MONTH , 
+                pModel.YEAR);
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
             dal = null;
@@ -509,12 +531,9 @@ WHERE  1=1
             strCommand = string.Format(strCommand, model1.YEAR, model1.MONTH, strAllGateName);
             var dal = new DAL.DAL();
             var result = dal.ReadData<Models.DataModel.ModelGateStationArchive>(
-                pStrCommand: strCommand,
-                pFuncReadData: x =>
-                {
-                    var gi = new Models.DataModel.ModelGateStationImport(x);
-                    return new Models.DataModel.ModelGateStationArchive(gi);
-                });
+                pStrCommand:    strCommand,
+                pFuncReadData:  x => new Models.DataModel.ModelGateStationArchive(x)
+            );
             dal = null;
             return result;
         }

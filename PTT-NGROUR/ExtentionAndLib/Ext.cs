@@ -58,5 +58,21 @@ namespace PTT_NGROUR.ExtentionAndLib
             T result;
             return Enum.TryParse<T>(strValue, true, out result) ? result : pDefaultValue;
         }
+
+        public static object GetColumnValue(this System.Data.IDataReader pReader , string pStrColName)
+        {
+            if(pReader == null || string.IsNullOrEmpty(pStrColName))
+            {
+                return null;
+            }
+            for (int i = 0; i < pReader.FieldCount; i++)
+            {
+                if (pReader.GetName(i).Equals(pStrColName, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return pReader[pStrColName];
+                }
+            }
+            return null;
+        }
     }
 }
