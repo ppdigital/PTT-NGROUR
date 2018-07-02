@@ -52,7 +52,9 @@ namespace PTT_NGROUR.Controllers
         public ActionResult ThresholdSetting()
         {
             var dto = new DTO.DtoUtilization();
-            var listThreshold = dto.GetListThreshold().OrderBy(x => x.ThresholdId).ToArray();
+            var listThreshold = dto.GetListThreshold()
+                .OrderByDescending(x => x.ThresholdId)
+                .ThenByDescending(x=> x.ThresholdType).ToArray();
             var modelResult = new Models.ViewModel.ModelThreshold()
             {
                 ThresholdItems = listThreshold
