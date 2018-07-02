@@ -1120,7 +1120,7 @@ namespace PTT_NGROUR.Controllers
                              MONTH = dr["MONTH"].ToString(),
                              YEAR = dr["YEAR"].ToString(),
                              TYPE = dr["TYPE"].ToString(),
-                            // THRESHOLD = dr["THRESHOLD"].ToString()
+                             THRESHOLD = dr["THRESHOLD"].ToString()
                          };
                          listRegion.Add(reg);
                      }
@@ -1156,7 +1156,7 @@ namespace PTT_NGROUR.Controllers
                              MONTH = dr["MONTH"].ToString(),
                              YEAR = dr["YEAR"].ToString(),
                              TYPE = dr["TYPE"].ToString(),
-                            // THRESHOLD = dr["THRESHOLD"].ToString()
+                             THRESHOLD = dr["THRESHOLD"].ToString()
                          };
                          listRegion.Add(reg);
                      }
@@ -1166,8 +1166,11 @@ namespace PTT_NGROUR.Controllers
              }
 
              [HttpPost]
-             public JsonResult SearchLicenseReport(int[] license)
+             public JsonResult SearchLicenseReport()
              {
+                 string inYear = Request["Year"];
+                 string inMonth = Request["Month"];
+                 string license = Request["multidata"];
                  var dal = new DAL.DAL();
                  string licenseStr = string.Join("','", license);
                  var searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "')";
@@ -1185,13 +1188,13 @@ namespace PTT_NGROUR.Controllers
                          {
                              NAME = dr["NAME"].ToString(),
                              REGION = dr["REGION"].ToString(),
-                             LICENSE = dr["LICENSE"].ToString(),
+                             LICENSE = dr["LICENSE_NO"].ToString(),
                              VALUE = dr["VALUE"].ToString(),
                              COLOR = dr["COLOR"].ToString(),
                              MONTH = dr["MONTH"].ToString(),
                              YEAR = dr["YEAR"].ToString(),
                              TYPE = dr["TYPE"].ToString(),
-                             //  THRESHOLD = dr["THRESHOLD"].ToString()
+                             THRESHOLD = dr["THRESHOLD"].ToString()
                          };
                          listLicense.Add(reg);
                      }
