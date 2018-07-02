@@ -1132,11 +1132,17 @@ namespace PTT_NGROUR.Controllers
              }
 
              [HttpPost]
-             public JsonResult SearchRegionReport(int[] region)
+             public JsonResult SearchRegionReport(string month,string year,int[] Multidata)
              {
+                 var searchregion = "";
                  var dal = new DAL.DAL();
-                 string regionStr = string.Join("','", region);
-                 var searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "')";
+                 string regionStr = string.Join("','", Multidata);
+                 if (month != null && year != null)
+                 { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "')"; }
+                 else if (month == null && year != null)
+                 { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND YEAR IN ('" + year + "') "; }
+                 else if (month == null && year == null)
+                 { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "')"; }
                  var ds = dal.GetDataSet(searchregion);
 
 
@@ -1168,14 +1174,19 @@ namespace PTT_NGROUR.Controllers
              }
 
              [HttpPost]
-             public JsonResult SearchLicenseReport()
+             public JsonResult SearchLicenseReport(string month, string year, int[] Multidata)
              {
-                 string inYear = Request["Year"];
-                 string inMonth = Request["Month"];
-                 string license = Request["multidata"];
+                 var searchlicense="";
+                 //string inYear = Request["Year"];
+                 //string inMonth = Request["Month"];
+                 //string license = Request["multidata"];
                  var dal = new DAL.DAL();
-                 string licenseStr = string.Join("','", license);
-                 var searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "')";
+                 string licenseStr = string.Join("','", Multidata);
+                 if (month != null && year != null)
+                 { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "')"; }
+                 else if(month == null && year != null )
+                 { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') "; }
+                 else if (month == null && year == null) { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "')"; }
                  var ds = dal.GetDataSet(searchlicense);
 
 
@@ -1205,7 +1216,7 @@ namespace PTT_NGROUR.Controllers
                  return Json(listLicense, JsonRequestBehavior.AllowGet);
              }
 
-             public JsonResult PipelineCurrentReport()
+             public JsonResult Report_CurrentPipeline()
              {
                  var dal = new DAL.DAL();
                  var ds = dal.GetDataSet("SELECT * FROM VIEW_GATE_PIPE_REPORT_CURRENT WHERE TYPE = 'PIPELINE' AND REGION IS NOT NULL");
@@ -1271,7 +1282,7 @@ namespace PTT_NGROUR.Controllers
              }
 
              [HttpPost]
-             public JsonResult GateCurrentReport()
+             public JsonResult Report_CurrentGate()
              {
                  var dal = new DAL.DAL();
                  var ds = dal.GetDataSet("SELECT * FROM VIEW_GATE_PIPE_REPORT_CURRENT WHERE TYPE = 'GATESTATION' AND REGION IS NOT NULL");
@@ -1335,7 +1346,9 @@ namespace PTT_NGROUR.Controllers
                  //Source data returned as JSON  
                  return Json(iData, JsonRequestBehavior.AllowGet);
              }
-       
+     
+           
+        
 
         //[HttpPost]
         //public ActionResult InsertExceldata(string year, string month, string region, string type)
