@@ -252,6 +252,7 @@ namespace PTT_NGROUR.Controllers
                         STATUS = dr["STATUS"].ToString(),
                         MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
+                        THRESHOLD = dr["THRESHOLD"].ToString()
                     };
                     listRegion.Add(reg);
                 }
@@ -289,6 +290,7 @@ namespace PTT_NGROUR.Controllers
                         STATUS = dr["STATUS"].ToString(),
                         MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
+                        THRESHOLD = dr["THRESHOLD"].ToString()
                     };
                     listLicense.Add(reg);
                 }

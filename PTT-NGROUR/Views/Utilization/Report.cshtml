@@ -148,9 +148,10 @@
                         <div class="col-lg-2 col-md-2  col-sm-2 col-xs-4" id="chooseYear" style="padding-bottom: 0rem !important; padding-right: 0rem;">
                             <select class="form-control form-control-sm fz-12px" id="threshold-filter" style="height: 30px !important;">
                                 <option id="seAllThres" class="fz-12px drop_role" value="all">All Threshold</option>
-                                <option id="seGree" class="fz-12px drop_role" value="Green">Green</option>
-                                <option id="seYello" class="fz-12px drop_role" value="Yellow">Yellow</option>
-                                <option id="seRed" class="fz-12px drop_role" value="Red">Red</option>
+                                <option id="seGree" class="fz-12px drop_role" value="Pass">Pass</option>
+                                <option id="seYello" class="fz-12px drop_role" value="Warning">Warning</option>
+                                <option id="seRed" class="fz-12px drop_role" value="Alert">Alert</option>
+                                
                             </select>
                         </div>
 
@@ -297,7 +298,7 @@
                                                 <th>#</th>
                                                 <th>Name</th>
                                                 <th>Velocity</th>
-                                                <th>Color Status</th>
+                                                <th>Threshold</th>
                                                 <th>Month/Year</th>
                                                 <th>Map</th>
                                             </tr>
@@ -428,7 +429,7 @@
             else if (document.getElementById('radioYear').checked)
             { dataMonthYear = data[i].YEAR; }
 
-            var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+            var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" data-threshold="' + data[i].THRESHOLD + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
             tblShow.row.add($(rowItem));
         } tblShow.draw();
     }
@@ -550,12 +551,12 @@
         let graphurl;
         let multidata;
         if (document.getElementById('radioRegion').checked) {
-            url = '@Url.Action("SearchRegion")';
+            url = '@Url.Action("SearchRegionReport")';
             graphurl = '@Url.Action("SearchGraphRegion")';
                     multidata = SeRegion;
                 }
                 else if (document.getElementById('radioLicense').checked) {
-                    url = "/Dashboard/SearchLicense";
+                    url = '@Url.Action("SearchLicenseReport")';
                     graphurl = '@Url.Action("SearchGraphLicense")';
             multidata = SeLicense;
         }
@@ -598,7 +599,7 @@
                     }
                     else if (document.getElementById('radioYear').checked)
                     { dataMonthYear = data[i].YEAR; }
-                    var rowItemSearch2 = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+                    var rowItemSearch2 = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + data[i].COLOR + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
                     tblSearch2.row.add($(rowItemSearch2));
                 } tblSearch2.draw();
             },
@@ -762,23 +763,24 @@ filters = {
 
     // Threshold Dropdown Filter
     $('#threshold-filter').on('change', function () {
-        changeFilter.call(this, 'color');
+        changeFilter.call(this, 'threshold');
     });
     // Month Dropdown Filter
-    $('#Month-filter').on('change', function () {
-        changeFilter.call(this, 'month');
-    });
+   // $('#Month-filter').on('change', function () {
+      //  changeFilter.call(this, 'month');
+    //});
 
-    // Year Dropdown Filter
-    $('#Year-filter').on('change', function () {
-        changeFilter.call(this, 'year');
-    });
+   // // Year Dropdown Filter
+   // $('#Year-filter').on('change', function () {
+       // changeFilter.call(this, 'year');
+   // });
 
     // Type Dropdown Filter
     $('#type-filter').on('change', function () {
         changeFilter.call(this, 'type');
     });
 
+    threshold
 
 
     //////////////////////
@@ -831,7 +833,7 @@ filters = {
 
         $.ajax({
             type: "POST",
-            url: "/Dashboard/AllPipeline",
+            url: "/Utilization/PipelineCurrentReport",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (chData) {
@@ -874,7 +876,7 @@ filters = {
         let tblRegionAll = $("#utilTbl").DataTable();
         tblRegionAll.clear()
         $.ajax({
-            url: "/Dashboard/SearchRegionAll",
+            url: "/Utilization/RegionAllReport",
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             datatype: 'json',
@@ -908,7 +910,7 @@ filters = {
                     }
                     else if (document.getElementById('radioYear').checked)
                     { dataMonthYear = data[i].YEAR; }
-                    var rowItemRegionAll = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + color1 + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+                    var rowItemRegionAll = '<tr id="' + data[i].NO + '" class="rowfil" data-color="' + data[i].COLOR + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
                     tblRegionAll.row.add($(rowItemRegionAll));
                     //$('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>');
                 }
