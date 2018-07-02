@@ -165,16 +165,19 @@
             }
         }
 
-        function removeData(chart) {
-            chart.data.labels.pop();
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.pop();
-            });
+        function removeBarData(chart) {
+            var ds2 = {
+                labels: [],
+                datasets: []
+            };
+            chart.data = ds2;
             chart.update();
         }
 
         function searchData() {
             
+            var chart = window.myBar;
+            removeBarData(chart);
             var strUrl = "@Url.Action("SearchData")";
             var param = { pStrYear: "", pStrMonth : "" };
             if (document.getElementById('radioMonth').checked) {
@@ -187,15 +190,13 @@
             }
             $.post(strUrl, param, function (data) {
                 
-                var chart = window.myBar;
-                if (!data || !data.Result) {
-                    var ds2 = {
-                        labels: [],
-                        datasets: []
-                    };
-                    chart.data = ds2;
-                    chart.update();
+                if (!data || !data.Result) {                    
                     alert("Not Found Data");
+                    return;
+                }
+                if (data.StatusText !== "OK") {
+                    var strError = "Error : " + data.ErrorMessage + "\r\n" + data.ErrorStackTrace;
+                    alert(strError);
                     return;
                 }
                 var rs = data.Result;
@@ -208,7 +209,8 @@
                     var dsItem = {
                         label: ml.Label,
                         backgroundColor: ml.HexColor,
-                        borderColor: "#ff0000",
+                        borderColor: "#000000",
+                        borderWidth: 1,
                         data : ml.ListData
                     }
                     barChartData.datasets.push(dsItem);
