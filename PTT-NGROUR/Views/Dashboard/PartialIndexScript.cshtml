@@ -28,10 +28,9 @@
             data: JSON.stringify(multidata),
             contentType: 'application/json; charset=utf-8',
             datatype: 'json',
-            success: function (data) {
-                console.log(data);
+            success: function (data) {                
                 showPIE("PIPELINE", data);
-                showPIE("GATE", data);
+                showPIE("GATESTATION", data);
                 showUtilTable(data);
             },
             error: function (result) {
@@ -99,7 +98,7 @@
         if (pStrMode === "PIPELINE") {
             strIdPie = "#piePipeline";
             objGraph = _graphPipeLine;
-        } else if (pStrMode === "GATE") {
+        } else if (pStrMode === "GATESTATION") {
             strIdPie = "#pieGate";
             objGraph = _graphGate
         }
@@ -161,7 +160,7 @@
         });
         if (pStrMode === "PIPELINE") {            
             _graphPipeLine = objGraph;
-        } else if (pStrMode === "GATE") {            
+        } else if (pStrMode === "GATESTATION") {
             _graphGate = objGraph;
         }
         objGraph.update();
