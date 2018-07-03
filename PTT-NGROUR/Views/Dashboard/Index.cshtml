@@ -165,6 +165,34 @@
               
             </div>
     </div>
+
+<!--Modal View Meter -->
+
+<div id="ModalMapDashboard" class="modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="panel-title h5">View Ifame</label>
+                <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+
+
+            <div class="pv2 mv3">
+                <div class="  black-80 center">
+                    <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=dashboard" style="min-height: 430px !important; width: 100% !important;" id="map_frame"></iframe>
+                </div>
+                <br />
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
     @section scripts{
         <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
 
@@ -532,7 +560,7 @@
             //});
 
             //////////////////////////////////////
-
+            /*
             $.ajax({
                 url: "/Dashboard/SearchRegionAll",
                 type: 'POST',
@@ -592,7 +620,7 @@
                 error: function (result) {
                     alert('Please select the data');
                 }
-            });
+            });*/
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     }

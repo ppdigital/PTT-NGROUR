@@ -833,3 +833,5 @@ input:-webkit-autofill {
 .pb2{padding-bottom:2rem;}
 .pb1{padding-bottom:1rem;}
 .border-box-gray{border: 1px solid rgba(0,0,0,.0625);}
+.mt0{margin-top:0rem !important;}
+.pl1{padding-left:1rem;}
