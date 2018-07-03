@@ -5,6 +5,8 @@ using System.Web;
 
 using PTT_NGROUR.Models.DataModel;
 using PTT_NGROUR.Models.ViewModel;
+using System.Collections;
+
 namespace PTT_NGROUR.DTO
 {
     public class DtoOM
@@ -13,7 +15,7 @@ namespace PTT_NGROUR.DTO
         {
             string strCommand = "select * from METER_MAINTENANCE";
             var dal = new DAL.DAL();
-            var result = dal.ReadData<ModelMeterMaintenance>(strCommand,  x => new ModelMeterMaintenance(x));
+            var result = dal.ReadData(strCommand,  x => new ModelMeterMaintenance(x));
             dal = null;
             return result;
         }
@@ -30,7 +32,7 @@ namespace PTT_NGROUR.DTO
                 strCommand += " and YEAR =" + pStrYear;
             }
             var dal = new DAL.DAL();
-            var result = dal.ReadData<ModelMeterMaintenance>(strCommand, x => new ModelMeterMaintenance(x));
+            var result = dal.ReadData(strCommand, x => new ModelMeterMaintenance(x));
             dal = null;
             return result;
         }
@@ -39,7 +41,16 @@ namespace PTT_NGROUR.DTO
         {
             string strCommand = "select * from OM_GATE_COLOR";
             var dal = new DAL.DAL();
-            var result = dal.ReadData<ModelOmColor>(strCommand, x => new ModelOmColor(x));
+            var result = dal.ReadData(strCommand, x => new ModelOmColor(x));
+            dal = null;
+            return result;
+        }
+
+        public IEnumerable<ModelRegion> GetListRegion()
+        {
+            string strCommand = "select * from REGION";
+            var dal = new DAL.DAL();
+            var result = dal.ReadData(strCommand, x => new ModelRegion(x));
             dal = null;
             return result;
         }

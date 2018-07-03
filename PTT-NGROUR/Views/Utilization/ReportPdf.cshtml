@@ -102,15 +102,15 @@
             }
 
             var dataPipeLine = [
-                @Model.Where(x=>x.TYPE == "PIPELINE" && x.COLOR == "Red").Count(),
-                @Model.Where(x=>x.TYPE == "PIPELINE" && x.COLOR == "Yellow").Count(),
-                @Model.Where(x=>x.TYPE == "PIPELINE" && x.COLOR == "Green").Count()
+                @Model.Where(x=>x.TYPE == "PIPELINE" && x.THRESHOLD == "Alert").Count(),
+                @Model.Where(x=>x.TYPE == "PIPELINE" && x.THRESHOLD == "Warning").Count(),
+                @Model.Where(x=>x.TYPE == "PIPELINE" && x.THRESHOLD == "Pass").Count()
             ];
 
             var dataGATE = [
-                @Model.Where(x=>x.TYPE == "GATE" && x.COLOR == "Red").Count(),
-                @Model.Where(x=>x.TYPE == "GATE" && x.COLOR == "Yellow").Count(),
-                @Model.Where(x=>x.TYPE == "GATE" && x.COLOR == "Green").Count()
+                @Model.Where(x=>x.TYPE == "GATE" && x.THRESHOLD == "Alert").Count(),
+                @Model.Where(x=>x.TYPE == "GATE" && x.THRESHOLD == "Warning").Count(),
+                @Model.Where(x=>x.TYPE == "GATE" && x.THRESHOLD == "Pass").Count()
             ];
 
             $(function () {

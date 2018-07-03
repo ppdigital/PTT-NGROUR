@@ -21,6 +21,7 @@ namespace PTT_NGROUR.Controllers
             result.BarGraph = dto.GetModelBarGraph(
                 pListModelMeterMaintenance: result.ListMeterMaintenance, 
                 pListModelOmColor: result.ListOmColor);
+            result.ListRegion = dto.GetListRegion().ToList();
             dto = null;
             GC.Collect();
             return View(result);
