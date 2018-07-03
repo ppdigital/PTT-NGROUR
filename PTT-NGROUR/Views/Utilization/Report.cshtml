@@ -139,7 +139,7 @@
 
                         <div class="col-lg-2 col-md-2  col-sm-2 col-xs-4" id="chooseType" style="padding-bottom: 0rem !important; padding-right: 0rem;">
                             <select class="form-control form-control-sm fz-12px" id="type-filter" style="height: 30px !important;">
-                                <option id="seAll" class="fz-12px drop_role" value="all">All</option>
+                                <option id="seAll" class="fz-12px drop_role" value="All">All</option>
                                 <option id="sePipeline" class="fz-12px drop_role" value="PIPELINE">Pipeline</option>
                                 <option id="seGate" class="fz-12px drop_role" value="GATESTATION">Gate Station</option>
 
@@ -147,7 +147,7 @@
                         </div>
                         <div class="col-lg-2 col-md-2  col-sm-2 col-xs-4" id="chooseThreshold" style="padding-bottom: 0rem !important; padding-right: 0rem;">
                             <select class="form-control form-control-sm fz-12px" id="threshold-filter" style="height: 30px !important;">
-                                <option id="seAllThres" class="fz-12px drop_role" value="all">All Threshold</option>
+                                <option id="seAllThres" class="fz-12px drop_role" value="All">All Threshold</option>
                                 <option id="seGree" class="fz-12px drop_role" value="Pass">Pass</option>
                                 <option id="seYello" class="fz-12px drop_role" value="Warning">Warning</option>
                                 <option id="seRed" class="fz-12px drop_role" value="Alert">Alert</option>
@@ -182,32 +182,32 @@
             <div class="col-lg-3 col-md-6 col-sm-6 pb2">
                 <div class=" p-3 mb-2 col-container col-container-green text-dark">
                     <div class="ph2" style="padding-bottom:1rem;padding-top:1rem">
-                        <div><label class="h6" style="font-size: 14px;">Gate Staton&nbsp;:</label></div>
-                        <div><label class="h6" style="font-size: 14px;">Pipeline&nbsp;:</label></div>
+                        <div><label class="h6" style="font-size: 14px;">Gate Staton&nbsp;:&nbsp;</label><span class="h4" id="GatePass"></span></div>
+                        <div><label class="h6" style="font-size: 14px;">Pipeline&nbsp;:&nbsp;</label><span class="h4" id="PipePass"></span></div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 pb2">
                 <div class=" p-3 mb-2 col-container col-container-yellow text-dark">
                     <div class="ph2" style="padding-bottom:1rem;padding-top:1rem">
-                        <div><label class="h6" style="font-size: 14px;">Gate Staton&nbsp;:</label></div>
-                        <div><label class="h6" style="font-size: 14px;">Pipeline&nbsp;:</label></div>
+                        <div><label class="h6" style="font-size: 14px;">Gate Staton&nbsp;:&nbsp;</label><span class="h4" id="GateWarning"></span></div>
+                        <div><label class="h6" style="font-size: 14px;">Pipeline&nbsp;:&nbsp;</label><span class="h4" id="PipeWarning"></span></div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 pb2">
                 <div class=" p-3 mb-2 col-container col-container-red text-dark">
                     <div class="ph2" style="padding-bottom:1rem;padding-top:1rem">
-                        <div><label class="h6" style="font-size: 14px;">Gate Staton&nbsp;:</label></div>
-                        <div><label class="h6" style="font-size: 14px;">Pipeline&nbsp;:</label></div>
+                        <div><label class="h6" style="font-size: 14px;">Gate Staton&nbsp;:&nbsp;</label><span class="h4" id="GateAlert"></span></div>
+                        <div><label class="h6" style="font-size: 14px;">Pipeline&nbsp;:&nbsp;</label><span class="h4" id="PipeAlert"></span></div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 pb2">
                 <div class=" p-3 mb-2 col-container col-container-orange text-dark">
                     <div class="ph2" style="padding-bottom:1rem;padding-top:1rem">
-                        <div><label class="h6" style="font-size: 14px;">Gate Staton&nbsp;:</label></div>
-                        <div><label class="h6" style="font-size: 14px;">Pipeline&nbsp;:</label></div>
+                        <div><label class="h6" style="font-size: 14px;">Gate Staton&nbsp;:&nbsp;</label><span class="h4" id="GateFlag"></span></div>
+                        <div><label class="h6" style="font-size: 14px;">Pipeline&nbsp;:&nbsp;</label><span class="h4" id="PipeFlag"></span></div>
                     </div>
                 </div>
             </div>
@@ -216,7 +216,7 @@
      
         <div class="row">
             <div class="col-lg-6 pb2">
-                <div class="col-container col-container-white text-dark">
+                <div class="col-container col-container-white text-dark" style="height:263.2px">
                     <div style="padding-bottom:.5rem;padding-top:.5rem">
 
 
@@ -251,11 +251,11 @@
 
 
             <div class="col-lg-6 pb2">
-                <div class="col-container col-container-white text-dark">
+                <div class="col-container col-container-white text-dark" style="height:263.2px">
                     <div style="padding-bottom:.5rem;padding-top:.5rem">
 
 
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 col-md-6 col-sm-6" >
 
                             <div style="font-family: Corbel; font-size: small ;text-align:center " class="row">
                                 <center>
@@ -318,6 +318,33 @@
         </div>
 
 
+    </div>
+</div>
+
+<!--Modal View Meter -->
+
+<div id="ModalIfame" class="modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="panel-title h5">View Ifame</label>
+                <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+
+
+            <div class="pv2 mv3">
+                <div class="  black-80 center">
+
+                </div>
+                <br />
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+
+
+            </div>
+        </div>
     </div>
 </div>
 
@@ -393,13 +420,16 @@
     var _graphPipeLine = null;
 
     var _graphGate = null;
-    var type = type - filter
+  
+   
     //var datamonth = month;
     function Search() {
+        var threshold = document.getElementById('threshold-filter').value;
+        var type = document.getElementById('type-filter').value;
         let url;
         // var datet = $('#Month-filter').val();
 
-        if (document.getElementById('radioMonth').checked) {
+        if (document.getElementById('radioMonth').checked && $('#Month-filter').datepicker('getDate') != null) {
             if (document.getElementById('chooseMonth').value != "") {
                 var date = $('#Month-filter').datepicker('getDate'),
                       month = date.getMonth() + 1,
@@ -407,13 +437,15 @@
             }
 
         }
-        else if (document.getElementById('radioYear').checked) {
+        else if (document.getElementById('radioYear').checked && $('#Year-filter').datepicker('getDate') != null) {
             if (document.getElementById('chooseYear').value != "") {
                 var date = $('#Year-filter').datepicker('getDate'),
                      year = date.getFullYear();
+                var month = "null";
             }
-            document.getElementById('chooseYear').style.display = 'none';
+           // document.getElementById('chooseYear').style.display = 'none';
         }
+        else { var month = "null"; var year = "null";}
         console.log(month);
         console.log(year);
 
@@ -430,6 +462,8 @@
             strMode = "license";
         }
         var multidataAll = {
+            Threshold: threshold,
+            Type: type,
             Month: month,
             Year: year,
             MultiData: multidata
@@ -460,8 +494,35 @@
         $('#utilTbl').find('tbody tr').each(function () {
             this.remove();
         });
-
+        passPipe = 0;
+        passGate = 0;
+        warningPipe = 0;
+        warningGate = 0;
+        alertGate = 0;
+        alertPipe = 0;
+        flagGate = 0;
+        flagPipe = 0;
         for (let i in data) {
+            if (data[i].THRESHOLD == "Pass" && data[i].TYPE == "GATESTATION")
+            { passGate = 1 + passGate; }
+            else if (data[i].THRESHOLD == "Pass" && data[i].TYPE == "PIPELINE")
+            { passPipe = 1 + passPipe; }
+
+            else if (data[i].THRESHOLD == "Warning" && data[i].TYPE == "GATESTATION")
+            { warningGate = 1 + warningGate; }
+            else if (data[i].THRESHOLD == "Warning" && data[i].TYPE == "PIPELINE")
+            { warningPipe = 1 + warningPipe; }
+
+            else if (data[i].THRESHOLD == "Alert" && data[i].TYPE == "GATESTATION")
+            { alertGate = 1 + alertGate; }
+            else if (data[i].THRESHOLD == "Alert" && data[i].TYPE == "PIPELINE")
+            { alertPipe = 1 + alertPipe; }
+
+            else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "GATESTATION")
+            { flagGate = 1 + flagGate; }
+            else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "PIPELINE")
+            { flagPipe = 1 + flagPipe; }
+
             num = 1 + Number(i);
             if (data[i].TYPE == "PIPELINE")
             { unit = "ft/s"; }
@@ -478,9 +539,21 @@
             else if (document.getElementById('radioYear').checked)
             { dataMonthYear = data[i].YEAR; }
 
-            var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
-            tblShow.row.add($(rowItem));
+           var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+           tblShow.row.add($(rowItem));
         } tblShow.draw();
+        $("#GatePass").text(passGate);
+        $("#PipePass").text(passPipe);
+
+        $("#GateWarning").text(warningGate);
+        $("#PipeWarning").text(warningPipe);
+
+        $("#GateAlert").text(alertGate);
+        $("#PipeAlert").text(alertPipe);
+
+        $("#GateFlag").text(flagGate);
+        $("#PipeFlag").text(flagPipe);
+
     }
 
     function showPIE(pStrMode, pListData) {
@@ -645,7 +718,7 @@
                     }
                     else if (document.getElementById('radioYear').checked)
                     { dataMonthYear = data[i].YEAR; }
-                    var rowItemSearch2 = '<tr id="' + data[i].NO + '" class="rowfil" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+                    var rowItemSearch2 = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
                     tblSearch2.row.add($(rowItemSearch2));
                 } tblSearch2.draw();
             },
@@ -808,9 +881,9 @@ filters = {
     }
 
     // Threshold Dropdown Filter
-    $('#threshold-filter').on('change', function () {
-        changeFilter.call(this, 'threshold');
-    });
+   // $('#threshold-filter').on('change', function () {
+       // changeFilter.call(this, 'threshold');
+   // });
     // Month Dropdown Filter
     // $('#Month-filter').on('change', function () {
     //  changeFilter.call(this, 'month');
@@ -822,9 +895,9 @@ filters = {
     // });
 
     // Type Dropdown Filter
-    $('#type-filter').on('change', function () {
-        changeFilter.call(this, 'type');
-    });
+   /// $('#type-filter').on('change', function () {
+       // changeFilter.call(this, 'type');
+   // });
 
 
 
@@ -931,7 +1004,50 @@ filters = {
                 this.remove();
             });
 
+            passPipe = 0;
+            passGate = 0;
+            warningPipe = 0;
+            warningGate = 0;
+            alertGate = 0;
+            alertPipe = 0;
+            flagGate = 0;
+            flagPipe = 0;
             for (let i in data) {
+                if (data[i].THRESHOLD == "Pass" && data[i].TYPE == "GATESTATION")
+                { passGate = 1 + passGate; }
+                else if (data[i].THRESHOLD == "Pass" && data[i].TYPE == "PIPELINE")
+                { passPipe = 1 + passPipe; }
+
+                else if (data[i].THRESHOLD == "Warning" && data[i].TYPE == "GATESTATION")
+                { warningGate = 1 + warningGate; }
+                else if (data[i].THRESHOLD == "Warning" && data[i].TYPE == "PIPELINE")
+                { warningPipe = 1 + warningPipe; }
+
+                else if (data[i].THRESHOLD == "Alert" && data[i].TYPE == "GATESTATION")
+                { alertGate = 1 + alertGate; }
+                else if (data[i].THRESHOLD == "Alert" && data[i].TYPE == "PIPELINE")
+                { alertPipe = 1 + alertPipe; }
+
+                else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "GATESTATION")
+                { flagGate = 1 + flagGate; }
+                else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "PIPELINE")
+                { flagPipe = 1 + flagPipe; }
+
+                num = 1 + Number(i);
+                if (data[i].TYPE == "PIPELINE")
+                { unit = "ft/s"; }
+                else if (data[i].TYPE == "GATESTATION")
+                { unit = "%"; }
+                if (document.getElementById('radioMonth').checked) {
+                    dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
+                }
+                else if (document.getElementById('radioYear').checked)
+                { dataMonthYear = data[i].YEAR; }
+                if (document.getElementById('radioMonth').checked) {
+                    dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
+                }
+                else if (document.getElementById('radioYear').checked)
+                { dataMonthYear = data[i].YEAR; }
                
                 //console.log('color1' + color1);
                 //console.log('data' + data[i].NO);
@@ -947,11 +1063,22 @@ filters = {
                 else if (document.getElementById('radioYear').checked)
                 { dataMonthYear = data[i].YEAR; }
                 
-                var rowItemRegionAll = '<tr id="' + data[i].NO + '" class="rowfil" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+                var rowItemRegionAll = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="Ifame(' + data[i].NAME + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
                 tblRegionAll.row.add($(rowItemRegionAll));
                 //$('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>');
             }
             tblRegionAll.draw();
+            $("#GatePass").text(passGate);
+            $("#PipePass").text(passPipe);
+
+            $("#GateWarning").text(warningGate);
+            $("#PipeWarning").text(warningPipe);
+
+            $("#GateAlert").text(alertGate);
+            $("#PipeAlert").text(alertPipe);
+
+            $("#GateFlag").text(flagGate);
+            $("#PipeFlag").text(flagPipe);
         },
         error: function (result) {
             alert('Please select the data');

@@ -1108,8 +1108,6 @@ namespace PTT_NGROUR.Controllers
                  var listRegion = new List<Models.DataModel.ModelGetU>();
                  if (ds.Tables[0].Rows.Count > 0)
                  {
-
-
                      foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
                      {
                          var reg = new Models.DataModel.ModelGetU()
@@ -1132,17 +1130,37 @@ namespace PTT_NGROUR.Controllers
              }
 
              [HttpPost]
-             public JsonResult SearchRegionReport(string month,string year,int[] Multidata)
+             public JsonResult SearchRegionReport(string threshold,string type,string month,string year,int[] Multidata)
              {
                  var searchregion = "";
                  var dal = new DAL.DAL();
                  string regionStr = string.Join("','", Multidata);
-                 if (month != null && year != null)
+                 if (month != "null" && year != "null" && threshold == "All" && type == "All")
                  { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "')"; }
-                 else if (month == null && year != null)
+                 else if (month != "null" && year != "null" && threshold != "All" && type == "All")
+                 { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "') AND THRESHOLD IN ('" + threshold + "')"; }
+                 else if (month != "null" && year != "null" && threshold == "All" && type != "All")
+                 { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "') "; }
+                 else if (month != "null" && year != "null" && threshold != "All" && type != "All")
+                 { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
+
+                 else if (month == "null" && year != "null" && threshold == "All" && type == "All")
                  { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND YEAR IN ('" + year + "') "; }
-                 else if (month == null && year == null)
+                 else if (month == "null" && year != "null" && threshold != "All" && type == "All")
+                 { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND YEAR IN ('" + year + "') AND THRESHOLD IN ('" + threshold + "')"; }
+                 else if (month == "null" && year != "null" && threshold == "All" && type != "All")
+                 { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "') "; }
+                 else if (month == "null" && year != "null" && threshold != "All" && type != "All")
+                 { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
+
+                 else if (month == "null" && year == "null" && threshold == "All" && type == "All")
                  { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "')"; }
+                 else if (month == "null" && year == "null" && threshold != "All" && type == "All")
+                 { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND THRESHOLD IN ('" + threshold + "')"; }
+                 else if (month == "null" && year == "null" && threshold == "All" && type != "All")
+                 { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "')  AND TYPE IN ('" + type + "')"; }
+                 else if (month == "null" && year == "null" && threshold == "All" && type != "All")
+                 { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "')  AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
                  var ds = dal.GetDataSet(searchregion);
 
 
@@ -1174,19 +1192,33 @@ namespace PTT_NGROUR.Controllers
              }
 
              [HttpPost]
-             public JsonResult SearchLicenseReport(string month, string year, int[] Multidata)
+             public JsonResult SearchLicenseReport(string threshold,string type,string month, string year, int[] Multidata)
              {
                  var searchlicense="";
-                 //string inYear = Request["Year"];
-                 //string inMonth = Request["Month"];
-                 //string license = Request["multidata"];
                  var dal = new DAL.DAL();
                  string licenseStr = string.Join("','", Multidata);
-                 if (month != null && year != null)
+                 if (month != "null" && year != "null" && threshold == "All" && type == "All")
                  { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "')"; }
-                 else if(month == null && year != null )
+                 else if (month != "null" && year != "null" && threshold != "All" && type == "All")
+                 { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "') AND THRESHOLD IN ('" + threshold + "')"; }
+                 else if (month != "null" && year != "null" && threshold == "All" && type != "All")
+                 { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "')"; }
+                 else if (month != "null" && year != "null" && threshold != "All" && type != "All")
+                 { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
+
+                 else if (month == "null" && year != "null" && threshold == "All" && type == "All")
                  { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') "; }
-                 else if (month == null && year == null) { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "')"; }
+                 else if (month == "null" && year != "null" && threshold != "All" && type == "All")
+                 { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') AND THRESHOLD IN ('" + threshold + "')"; }
+                 else if (month == "null" && year != "null" && threshold == "All" && type != "All")
+                 { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "')"; }
+                 else if (month == "null" && year != "null" && threshold != "All" && type != "All")
+                 { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
+
+                 else if (month == "null" && year == "null" && threshold == "All" && type == "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "')"; }
+                 else if (month == "null" && year == "null" && threshold != "All" && type == "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND THRESHOLD IN ('" + threshold + "')"; }
+                 else if (month == "null" && year == "null" && threshold == "All" && type != "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND TYPE IN ('" + type + "')"; }
+                 else if (month == "null" && year == "null" && threshold != "All" && type != "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
                  var ds = dal.GetDataSet(searchlicense);
 
 
