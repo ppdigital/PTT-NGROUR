@@ -47,12 +47,10 @@
         IHtmlString strSlideID = Html.Raw( string.Format("\"#divSlider{0}\"" , i.ToString()));
         IHtmlString strNumMinID = Html.Raw( string.Format("\"#numMin{0}\"", i.ToString()));
         IHtmlString strNumMaxID = Html.Raw(string.Format("\"#numMax{0}\"", i.ToString()));
-        int intMin = i - (i % 2);
-        int intMax = 96 + intMin;
+        
 <text>
     $(@strSlideID).slider({
-        @*max: @intMax,
-        min: @intMin,*@
+        
         max:100,
         min:0,  
         range: true,
@@ -64,20 +62,11 @@
         step: 1000
     }).slider("float");
 
-    @*$(@strNumMinID).on("change", function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-        $(@strSlideID).slider("values", 0, $(this).val());
-
-    });
-    $(@strNumMaxID).on("change", function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-        $(@strSlideID).slider("values", 1, $(this).val());
-
-    });*@
+    
     </text>
     }
+
+    var _decDiff = 0.01;
 
     var _strDivSlide = "#divSlider";
     var _strNumMin = "#numMin";
@@ -195,7 +184,7 @@
 
         var intMinGate2 = getMinGateSlider(2);
         if (intMaxGate1 >= intMinGate2) {
-            intMinGate2 = intMaxGate1 + 1;
+            intMinGate2 = intMaxGate1 + _decDiff;
             console.log({
                 "intMaxGate1" : intMaxGate1,
                 "intMinGate2" : intMinGate2
@@ -203,15 +192,15 @@
             setMinGateSlider(2, intMinGate2);
             var intMaxGate2 = getMaxGateSlider(2);
             if (intMinGate2 >= intMaxGate2) {
-                intMaxGate2 = intMinGate2 + 1;
+                intMaxGate2 = intMinGate2 + _decDiff;
                 setMaxGateSlider(2, intMaxGate2);
                 var intMinGate3 = getMinGateSlider(3);
                 if (intMaxGate2 >= intMinGate3) {
-                    intMinGate3 = intMaxGate2 + 1;
+                    intMinGate3 = intMaxGate2 + _decDiff;
                     setMinGateSlider(3, intMinGate3);
                     var intMaxGate3 = getMaxGateSlider(3);
                     if (intMinGate3 >= intMaxGate3) {
-                        intMaxGate3 = intMinGate3 + 1;
+                        intMaxGate3 = intMinGate3 + _decDiff;
                         setMaxGateSlider(3, intMaxGate3);
                     }
                 }
@@ -241,23 +230,23 @@
 
         var intMaxGate1 = getMaxGateSlider(1)//_divSlideGate1.slider("values", 0);
         if (intMinGate2 <= intMaxGate1) {
-            intMaxGate1 = intMinGate2 - 1;
+            intMaxGate1 = intMinGate2 - _decDiff;
             setMaxGateSlider(1, intMaxGate1);
             var intMinGate1 = getMinGateSlider(1);
             if (intMaxGate1 <= intMinGate1) {
-                intMinGate1 = intMaxGate1 - 1;
+                intMinGate1 = intMaxGate1 - _decDiff;
                 setMinGateSlider(1, intMinGate1);
             }
         }
 
         var intMinGate3 = _divSlideGate3.slider("values", 0);
         if (intMaxGate2 > intMinGate3) {
-            intMinGate3 = intMaxGate2 + 1
+            intMinGate3 = intMaxGate2 + _decDiff
             _divSlideGate3.slider("values", 0, intMinGate3);
             _numGateMin3.val(intMinGate3);
             var intMaxGate3 = _divSlideGate3.slider("values", 1);
             if (intMinGate3 >= intMaxGate3 ) {
-                intMaxGate3 = intMinGate3 + 1;
+                intMaxGate3 = intMinGate3 + _decDiff;
                 _divSlideGate3.slider("values", 1, intMaxGate3);
                 _numGateMax3.val(intMaxGate3);
             }
@@ -280,19 +269,19 @@
         //_numGateMax3.val(u.values[1].toFixed(2));
         var intMaxGate2 = _divSlideGate2.slider("values", 1);
         if (intMinGate3 <= intMaxGate2) {
-            intMaxGate2 = intMinGate3 - 1;
+            intMaxGate2 = intMinGate3 - _decDiff;
             setMaxGateSlider(2, intMaxGate2);
             var intMinGate2 = getMinGateSlider(2);
             if (intMaxGate2 <= intMinGate2) {
-                intMinGate2 = intMaxGate2 - 1;
+                intMinGate2 = intMaxGate2 - _decDiff;
                 setMinGateSlider(2, intMinGate2);
                 var intMaxGate1 = getMaxGateSlider(1);
                 if (intMinGate2 <= intMaxGate1) {
-                    intMaxGate1 = intMinGate2 - 1;
+                    intMaxGate1 = intMinGate2 - _decDiff;
                     setMaxGateSlider(1, intMaxGate1);
                     var intMinGate1 = getMinGateSlider(1);
                     if (intMinGate1 >= intMaxGate1) {
-                        intMinGate1 = intMaxGate1 - 1;
+                        intMinGate1 = intMaxGate1 - _decDiff;
                         setMinGateSlider(1, intMinGate1);
                     }
                 }
@@ -311,19 +300,19 @@
         }
         var intMinPipeLine2 = getMinPipeLineSlider(2);
         if (intMaxPipeLine1 >= intMinPipeLine2) {
-            intMinPipeLine2 = intMaxPipeLine1 + 1;
+            intMinPipeLine2 = intMaxPipeLine1 + _decDiff;
             setMinPipeLineSlider(2, intMinPipeLine2);
             var intMaxPipeLine2 = getMaxPipeLineSlider(2);
             if (intMinPipeLine2 >= intMaxPipeLine2) {
-                intMaxPipeLine2 = intMinPipeLine2 + 1;
+                intMaxPipeLine2 = intMinPipeLine2 + _decDiff;
                 setMaxPipeLineSlider(2, intMaxPipeLine2);
                 var intMinPipeLine3 = getMinPipeLineSlider(3);
                 if (intMaxPipeLine2 >= intMinPipeLine3) {
-                    intMinPipeLine3 = intMaxPipeLine2 + 1;
+                    intMinPipeLine3 = intMaxPipeLine2 + _decDiff;
                     setMinPipeLineSlider(3, intMinPipeLine3);
                     var intMaxPipeLine3 = getMaxPipeLineSlider(3);
                     if (intMinPipeLine3 >= intMaxPipeLine3) {
-                        intMaxPipeLine3 = intMinPipeLine3 + 1;
+                        intMaxPipeLine3 = intMinPipeLine3 + _decDiff;
                         setMaxPipeLineSlider(3, intMaxPipeLine3);
                     }
                 }
@@ -356,23 +345,23 @@
 
         var intMaxPipeLine1 = getMaxPipeLineSlider(1)//_divSlideGate1.slider("values", 0);
         if (intMinPipeLine2 <= intMaxPipeLine1) {
-            intMaxPipeLine1 = intMinPipeLine2 - 1;
+            intMaxPipeLine1 = intMinPipeLine2 - _decDiff;
             setMaxPipeLineSlider(1, intMaxPipeLine1);
             var intMinPipeLine1 = getMinPipeLineSlider(1);
             if (intMaxPipeLine1 <= intMinPipeLine1) {
-                intMinPipeLine1 = intMaxPipeLine1 - 1;
+                intMinPipeLine1 = intMaxPipeLine1 - _decDiff;
                 setMinPipeLineSlider(1, intMinPipeLine1);
             }
         }
 
         var intMinPipeLine3 = _divSlidePipeLine3.slider("values", 0);
         if (intMaxPipeLine2 > intMinPipeLine3) {
-            intMinPipeLine3 = intMaxPipeLine2 + 1
+            intMinPipeLine3 = intMaxPipeLine2 + _decDiff
             _divSlidePipeLine3.slider("values", 0, intMinPipeLine3);
             _numPipeLineMin3.val(intMinPipeLine3);
             var intMaxPipeLine3 = _divSlidePipeLine3.slider("values", 1);
             if (intMinPipeLine3 >= intMaxPipeLine3) {
-                intMaxPipeLine3 = intMinPipeLine3 + 1;
+                intMaxPipeLine3 = intMinPipeLine3 + _decDiff;
                 _divSlidePipeLine3.slider("values", 1, intMaxPipeLine3);
                 _numPipeLineMax3.val(intMaxPipeLine3);
             }
@@ -395,19 +384,19 @@
 
         var intMaxPipeLine2 = _divSlidePipeLine2.slider("values", 1);
         if (intMinPipeLine3 <= intMaxPipeLine2) {
-            intMaxPipeLine2 = intMinPipeLine3 - 1;
+            intMaxPipeLine2 = intMinPipeLine3 - _decDiff;
             setMaxPipeLineSlider(2, intMaxPipeLine2);
             var intMinPipeLine2 = getMinPipeLineSlider(2);
             if (intMaxPipeLine2 <= intMinPipeLine2) {
-                intMinPipeLine2 = intMaxPipeLine2 - 1;
+                intMinPipeLine2 = intMaxPipeLine2 - _decDiff;
                 setMinPipeLineSlider(2, intMinPipeLine2);
                 var intMaxPipeLine1 = getMaxPipeLineSlider(1);
                 if (intMinPipeLine2 <= intMaxPipeLine1) {
-                    intMaxPipeLine1 = intMinPipeLine2 - 1;
+                    intMaxPipeLine1 = intMinPipeLine2 - _decDiff;
                     setMaxPipeLineSlider(1, intMaxPipeLine1);
                     var intMinPipeLine1 = getMinPipeLineSlider(1);
                     if (intMinPipeLine1 >= intMaxPipeLine1) {
-                        intMinPipeLine1 = intMaxPipeLine1 - 1;
+                        intMinPipeLine1 = intMaxPipeLine1 - _decDiff;
                         setMinPipeLineSlider(1, intMinPipeLine1);
                     }
                 }
@@ -430,23 +419,23 @@
         setMinGateSlider(1, intMinGate1);
         var intMaxGate1 = getMaxGateSlider(1);
         if (intMinGate1 >= intMaxGate1) {
-            intMaxGate1 = intMinGate1 + 1;
+            intMaxGate1 = intMinGate1 + _decDiff;
             setMaxGateSlider(1, intMaxGate1);
             var intMinGate2 = getMinGateSlider(2);
             if (intMaxGate1 >= intMinGate2) {
-                intMinGate2 = intMaxGate1 + 1;
+                intMinGate2 = intMaxGate1 + _decDiff;
                 setMinGateSlider(2, intMinGate2);
                 var intMaxGate2 = getMaxGateSlider(2);
                 if (intMinGate2 >= intMaxGate2) {
-                    intMaxGate2 = intMinGate2 + 1;
+                    intMaxGate2 = intMinGate2 + _decDiff;
                     setMaxGateSlider(2, intMaxGate2);
                     var intMinGate3 = getMinGateSlider(3);
                     if (intMaxGate2 >= intMinGate3) {
-                        intMinGate3 = intMaxGate2 + 1;
+                        intMinGate3 = intMaxGate2 + _decDiff;
                         setMinGateSlider(3, intMinGate3);
                         var intMaxGate3 = getMaxGateSlider(3);
                         if (intMinGate3 >= intMaxGate3) {
-                            intMaxGate3 = intMinGate3 + 1;
+                            intMaxGate3 = intMinGate3 + _decDiff;
                             setMaxGateSlider(3, intMaxGate3);
                         }
                     }
@@ -474,25 +463,25 @@
         setMaxGateSlider(1, intMaxGate1);
         var intMinGate1 = getMinGateSlider(1);
         if (intMaxGate1 <= intMinGate1) {
-            intMinGate1 = intMaxGate1 - 1;
+            intMinGate1 = intMaxGate1 - _decDiff;
             setMinGateSlider(1, intMinGate1);
         }
 
         var intMinGate2 = getMinGateSlider(2);
         if (intMaxGate1 >= intMinGate2) {
-            intMinGate2 = intMaxGate1 + 1;
+            intMinGate2 = intMaxGate1 + _decDiff;
             setMinGateSlider(2, intMinGate2);
             var intMaxGate2 = getMaxGateSlider(2);
             if (intMinGate2 >= intMaxGate2) {
-                intMaxGate2 = intMinGate2 + 1;
+                intMaxGate2 = intMinGate2 + _decDiff;
                 setMaxGateSlider(2, intMaxGate2);
                 var intMinGate3 = getMinGateSlider(3);
                 if (intMaxGate2 >= intMinGate3) {
-                    intMinGate3 = intMaxGate2 + 1;
+                    intMinGate3 = intMaxGate2 + _decDiff;
                     setMinGateSlider(3, intMinGate3);
                     var intMaxGate3 = getMaxGateSlider(3);
                     if (intMinGate3 >= intMaxGate3) {
-                        intMaxGate3 = intMinGate3 + 1;
+                        intMaxGate3 = intMinGate3 + _decDiff;
                         setMaxGateSlider(3, intMaxGate3);
                     }
                 }
@@ -519,25 +508,25 @@
 
         var intMaxGate1 = getMaxGateSlider(1);
         if (intMaxGate1 >= intMinGate2) {
-            intMaxGate1 = intMinGate2 - 1;
+            intMaxGate1 = intMinGate2 - _decDiff;
             var intMinGate1 = getMinGateSlider(1);
             if (intMinGate1 >= intMaxGate1) {
-                intMinGate1 = intMaxGate1 - 1;
+                intMinGate1 = intMaxGate1 - _decDiff;
                 setMinGateSlider(1, intMinGate1);
             }
         }
 
         var intMaxGate2 = getMaxGateSlider(2);
         if (intMinGate2 >= intMaxGate2) {
-            intMaxGate2 = intMinGate2 + 1;
+            intMaxGate2 = intMinGate2 + _decDiff;
             setMaxGateSlider(2, intMaxGate2);
             var intMinGate3 = getMinGateSlider(3);
             if (intMaxGate2 >= intMinGate3) {
-                intMinGate3 = intMaxGate2 + 1;
+                intMinGate3 = intMaxGate2 + _decDiff;
                 setMinGateSlider(3, intMinGate3);
                 var intMaxGate3 = getMaxGateSlider(3);
                 if (intMinGate3 >= intMaxGate3) {
-                    intMaxGate3 = intMinGate3 + 1;
+                    intMaxGate3 = intMinGate3 + _decDiff;
                     setMaxGateSlider(3, intMaxGate3);
                 }
             }
@@ -559,15 +548,15 @@
         setMaxGateSlider(2, intMaxGate2);
         var intMinGate2 = getMinGateSlider(2);
         if (intMinGate2 >= intMaxGate2) {
-            intMinGate2 = intMaxGate2 - 1;
+            intMinGate2 = intMaxGate2 - _decDiff;
             setMinGateSlider(2, intMinGate2);
             var intMaxGate1 = getMaxGateSlider(1);
             if (intMaxGate1 >= intMinGate2) {
-                intMaxGate1 = intMinGate2 - 1;
+                intMaxGate1 = intMinGate2 - _decDiff;
                 setMaxGateSlider(1, intMaxGate1);
                 var intMinGate1 = getMinGateSlider(1);
                 if (intMinGate1 >= intMaxGate1) {
-                    intMinGate1 = intMaxGate1 - 1;
+                    intMinGate1 = intMaxGate1 - _decDiff;
                     setMinGateSlider(1, intMinGate1);
                 }
             }
@@ -575,11 +564,11 @@
 
         var intMinGate3 = getMinGateSlider(3);
         if (intMaxGate2 >= intMinGate3) {
-            intMinGate3 = intMaxGate2 + 1;
+            intMinGate3 = intMaxGate2 + _decDiff;
             setMinGateSlider(3, intMinGate3);
             var intMaxGate3 = getMaxGateSlider(3);
             if (intMinGate3 >= intMaxGate3) {
-                intMaxGate3 = intMinGate3 + 1;
+                intMaxGate3 = intMinGate3 + _decDiff;
                 setMaxGateSlider(3, intMaxGate3);
             }
         }
@@ -606,25 +595,25 @@
 
         var intMaxGate3 = getMaxGateSlider(3);
         if (intMaxGate3 <= intMinGate3) {
-            intMaxGate3 = intMinGate3 + 1;
+            intMaxGate3 = intMinGate3 + _decDiff;
             setMaxGateSlider(3, intMaxGate3);
         }
 
         var intMaxGate2 = getMaxGateSlider(2);
         if (intMaxGate2 >= intMinGate3) {
-            intMaxGate2 = intMinGate3 - 1;
+            intMaxGate2 = intMinGate3 - _decDiff;
             setMaxGateSlider(2, intMaxGate2);
             var intMinGate2 = getMinGateSlider(2);
             if (intMinGate2 >= intMaxGate2) {
-                intMinGate2 = intMaxGate2 - 1;
+                intMinGate2 = intMaxGate2 - _decDiff;
                 setMinGateSlider(2, intMinGate2);
                 var intMaxGate1 = getMaxGateSlider(1);
                 if (intMaxGate1 >= intMinGate2) {
-                    intMaxGate1 = intMinGate2 - 1;
+                    intMaxGate1 = intMinGate2 - _decDiff;
                     setMaxGateSlider(1, intMaxGate1);
                     var intMinGate1 = getMinGateSlider(1);
                     if (intMinGate1 >= intMaxGate1) {
-                        intMinGate1 = intMaxGate1 - 1;
+                        intMinGate1 = intMaxGate1 - _decDiff;
                         setMinGateSlider(1, intMinGate1);
                     }
                 }
@@ -650,23 +639,23 @@
         setMaxGateSlider(3, intMaxGate3);
         var intMinGate3 = getMinGateSlider(3);
         if (intMinGate3 >= intMaxGate3) {
-            intMinGate3 = intMaxGate3 - 1;
+            intMinGate3 = intMaxGate3 - _decDiff;
             setMinGateSlider(3, intMinGate3);
             var intMaxGate2 = getMaxGateSlider(2);
             if (intMaxGate2 >= intMinGate3) {
-                intMaxGate2 = intMinGate3 - 1;
+                intMaxGate2 = intMinGate3 - _decDiff;
                 setMaxGateSlider(2, intMaxGate2);
                 var intMinGate2 = getMinGateSlider(2);
                 if (intMinGate2 >= intMaxGate2) {
-                    intMinGate2 = intMaxGate2 - 1;
+                    intMinGate2 = intMaxGate2 - _decDiff;
                     setMinGateSlider(2, intMinGate2);
                     var intMaxGate1 = getMaxGateSlider(1);
                     if (intMaxGate1 >= intMinGate2) {
-                        intMaxGate1 = intMinGate2 - 1;
+                        intMaxGate1 = intMinGate2 - _decDiff;
                         setMaxGateSlider(1, intMaxGate1);
                         var intMinGate1 = getMinGateSlider(1);
                         if (intMinGate1 >= intMaxGate1) {
-                            intMinGate1 = intMaxGate1 - 1;
+                            intMinGate1 = intMaxGate1 - _decDiff;
                             setMinGateSlider(1, intMinGate1);
                         }
                     }
@@ -690,23 +679,23 @@
         setMinPipeLineSlider(1, intMinPipeLine1);
         var intMaxPipeLine1 = getMaxPipeLineSlider(1);
         if (intMinPipeLine1 >= intMaxPipeLine1) {
-            intMaxPipeLine1 = intMinPipeLine1 + 1;
+            intMaxPipeLine1 = intMinPipeLine1 + _decDiff;
             setMaxPipeLineSlider(1, intMaxPipeLine1);
             var intMinPipeLine2 = getMinPipeLineSlider(2);
             if (intMaxPipeLine1 >= intMinPipeLine2) {
-                intMinPipeLine2 = intMaxPipeLine1 + 1;
+                intMinPipeLine2 = intMaxPipeLine1 + _decDiff;
                 setMinPipeLineSlider(2, intMinPipeLine2);
                 var intMaxPipeLine2 = getMaxPipeLineSlider(2);
                 if (intMinPipeLine2 >= intMaxPipeLine2) {
-                    intMaxPipeLine2 = intMinPipeLine2 + 1;
+                    intMaxPipeLine2 = intMinPipeLine2 + _decDiff;
                     setMaxPipeLineSlider(2, intMaxPipeLine2);
                     var intMinPipeLine3 = getMinPipeLineSlider(3);
                     if (intMaxPipeLine2 >= intMinPipeLine3) {
-                        intMinPipeLine3 = intMaxPipeLine2 + 1;
+                        intMinPipeLine3 = intMaxPipeLine2 + _decDiff;
                         setMinPipeLineSlider(3, intMinPipeLine3);
                         var intMaxPipeLine3 = getMaxPipeLineSlider(3);
                         if (intMinPipeLine3 >= intMaxPipeLine3) {
-                            intMaxPipeLine3 = intMinPipeLine3 + 1;
+                            intMaxPipeLine3 = intMinPipeLine3 + _decDiff;
                             setMaxPipeLineSlider(3, intMaxPipeLine3);
                         }
                     }
@@ -734,25 +723,25 @@
         setMaxPipeLineSlider(1, intMaxPipeLine1);
         var intMinPipeLine1 = getMinPipeLineSlider(1);
         if (intMaxPipeLine1 <= intMinPipeLine1) {
-            intMinPipeLine1 = intMaxPipeLine1 - 1;
+            intMinPipeLine1 = intMaxPipeLine1 - _decDiff;
             setMinPipeLineSlider(1, intMinPipeLine1);
         }
 
         var intMinPipeLine2 = getMinPipeLineSlider(2);
         if (intMaxPipeLine1 >= intMinPipeLine2) {
-            intMinPipeLine2 = intMaxPipeLine1 + 1;
+            intMinPipeLine2 = intMaxPipeLine1 + _decDiff;
             setMinPipeLineSlider(2, intMinPipeLine2);
             var intMaxPipeLine2 = getMaxPipeLineSlider(2);
             if (intMinPipeLine2 >= intMaxPipeLine2) {
-                intMaxPipeLine2 = intMinPipeLine2 + 1;
+                intMaxPipeLine2 = intMinPipeLine2 + _decDiff;
                 setMaxPipeLineSlider(2, intMaxPipeLine2);
                 var intMinPipeLine3 = getMinPipeLineSlider(3);
                 if (intMaxPipeLine2 >= intMinPipeLine3) {
-                    intMinPipeLine3 = intMaxPipeLine2 + 1;
+                    intMinPipeLine3 = intMaxPipeLine2 + _decDiff;
                     setMinPipeLineSlider(3, intMinPipeLine3);
                     var intMaxPipeLine3 = getMaxPipeLineSlider(3);
                     if (intMinPipeLine3 >= intMaxPipeLine3) {
-                        intMaxPipeLine3 = intMinPipeLine3 + 1;
+                        intMaxPipeLine3 = intMinPipeLine3 + _decDiff;
                         setMaxPipeLineSlider(3, intMaxPipeLine3);
                     }
                 }
@@ -779,25 +768,25 @@
 
         var intMaxPipeLine1 = getMaxPipeLineSlider(1);
         if (intMaxPipeLine1 >= intMinPipeLine2) {
-            intMaxPipeLine1 = intMinPipeLine2 - 1;
+            intMaxPipeLine1 = intMinPipeLine2 - _decDiff;
             var intMinPipeLine1 = getMinPipeLineSlider(1);
             if (intMinPipeLine1 >= intMaxPipeLine1) {
-                intMinPipeLine1 = intMaxPipeLine1 - 1;
+                intMinPipeLine1 = intMaxPipeLine1 - _decDiff;
                 setMinPipeLineSlider(1, intMinPipeLine1);
             }
         }
 
         var intMaxPipeLine2 = getMaxPipeLineSlider(2);
         if (intMinPipeLine2 >= intMaxPipeLine2) {
-            intMaxPipeLine2 = intMinPipeLine2 + 1;
+            intMaxPipeLine2 = intMinPipeLine2 + _decDiff;
             setMaxPipeLineSlider(2, intMaxPipeLine2);
             var intMinPipeLine3 = getMinPipeLineSlider(3);
             if (intMaxPipeLine2 >= intMinPipeLine3) {
-                intMinPipeLine3 = intMaxPipeLine2 + 1;
+                intMinPipeLine3 = intMaxPipeLine2 + _decDiff;
                 setMinPipeLineSlider(3, intMinPipeLine3);
                 var intMaxPipeLine3 = getMaxPipeLineSlider(3);
                 if (intMinPipeLine3 >= intMaxPipeLine3) {
-                    intMaxPipeLine3 = intMinPipeLine3 + 1;
+                    intMaxPipeLine3 = intMinPipeLine3 + _decDiff;
                     setMaxPipeLineSlider(3, intMaxPipeLine3);
                 }
             }
@@ -819,15 +808,15 @@
         setMaxPipeLineSlider(2, intMaxPipeLine2);
         var intMinPipeLine2 = getMinPipeLineSlider(2);
         if (intMinPipeLine2 >= intMaxPipeLine2) {
-            intMinPipeLine2 = intMaxPipeLine2 - 1;
+            intMinPipeLine2 = intMaxPipeLine2 - _decDiff;
             setMinPipeLineSlider(2, intMinPipeLine2);
             var intMaxPipeLine1 = getMaxPipeLineSlider(1);
             if (intMaxPipeLine1 >= intMinPipeLine2) {
-                intMaxPipeLine1 = intMinPipeLine2 - 1;
+                intMaxPipeLine1 = intMinPipeLine2 - _decDiff;
                 setMaxPipeLineSlider(1, intMaxPipeLine1);
                 var intMinPipeLine1 = getMinPipeLineSlider(1);
                 if (intMinPipeLine1 >= intMaxPipeLine1) {
-                    intMinPipeLine1 = intMaxPipeLine1 - 1;
+                    intMinPipeLine1 = intMaxPipeLine1 - _decDiff;
                     setMinPipeLineSlider(1, intMinPipeLine1);
                 }
             }
@@ -835,11 +824,11 @@
 
         var intMinPipeLine3 = getMinPipeLineSlider(3);
         if (intMaxPipeLine2 >= intMinPipeLine3) {
-            intMinPipeLine3 = intMaxPipeLine2 + 1;
+            intMinPipeLine3 = intMaxPipeLine2 + _decDiff;
             setMinPipeLineSlider(3, intMinPipeLine3);
             var intMaxPipeLine3 = getMaxPipeLineSlider(3);
             if (intMinPipeLine3 >= intMaxPipeLine3) {
-                intMaxPipeLine3 = intMinPipeLine3 + 1;
+                intMaxPipeLine3 = intMinPipeLine3 + _decDiff;
                 setMaxPipeLineSlider(3, intMaxPipeLine3);
             }
         }
@@ -866,25 +855,25 @@
 
         var intMaxPipeLine3 = getMaxPipeLineSlider(3);
         if (intMaxPipeLine3 <= intMinPipeLine3) {
-            intMaxPipeLine3 = intMinPipeLine3 + 1;
+            intMaxPipeLine3 = intMinPipeLine3 + _decDiff;
             setMaxPipeLineSlider(3, intMaxPipeLine3);
         }
 
         var intMaxPipeLine2 = getMaxPipeLineSlider(2);
         if (intMaxPipeLine2 >= intMinPipeLine3) {
-            intMaxPipeLine2 = intMinPipeLine3 - 1;
+            intMaxPipeLine2 = intMinPipeLine3 - _decDiff;
             setMaxPipeLineSlider(2, intMaxPipeLine2);
             var intMinPipeLine2 = getMinPipeLineSlider(2);
             if (intMinPipeLine2 >= intMaxPipeLine2) {
-                intMinPipeLine2 = intMaxPipeLine2 - 1;
+                intMinPipeLine2 = intMaxPipeLine2 - _decDiff;
                 setMinPipeLineSlider(2, intMinPipeLine2);
                 var intMaxPipeLine1 = getMaxPipeLineSlider(1);
                 if (intMaxPipeLine1 >= intMinPipeLine2) {
-                    intMaxPipeLine1 = intMinPipeLine2 - 1;
+                    intMaxPipeLine1 = intMinPipeLine2 - _decDiff;
                     setMaxPipeLineSlider(1, intMaxPipeLine1);
                     var intMinPipeLine1 = getMinPipeLineSlider(1);
                     if (intMinPipeLine1 >= intMaxPipeLine1) {
-                        intMinPipeLine1 = intMaxPipeLine1 - 1;
+                        intMinPipeLine1 = intMaxPipeLine1 - _decDiff;
                         setMinPipeLineSlider(1, intMinPipeLine1);
                     }
                 }
@@ -910,23 +899,23 @@
         setMaxPipeLineSlider(3, intMaxPipeLine3);
         var intMinPipeLine3 = getMinPipeLineSlider(3);
         if (intMinPipeLine3 >= intMaxPipeLine3) {
-            intMinPipeLine3 = intMaxPipeLine3 - 1;
+            intMinPipeLine3 = intMaxPipeLine3 - _decDiff;
             setMinPipeLineSlider(3, intMinPipeLine3);
             var intMaxPipeLine2 = getMaxPipeLineSlider(2);
             if (intMaxPipeLine2 >= intMinPipeLine3) {
-                intMaxPipeLine2 = intMinPipeLine3 - 1;
+                intMaxPipeLine2 = intMinPipeLine3 - _decDiff;
                 setMaxPipeLineSlider(2, intMaxPipeLine2);
                 var intMinPipeLine2 = getMinPipeLineSlider(2);
                 if (intMinPipeLine2 >= intMaxPipeLine2) {
-                    intMinPipeLine2 = intMaxPipeLine2 - 1;
+                    intMinPipeLine2 = intMaxPipeLine2 - _decDiff;
                     setMinPipeLineSlider(2, intMinPipeLine2);
                     var intMaxPipeLine1 = getMaxPipeLineSlider(1);
                     if (intMaxPipeLine1 >= intMinPipeLine2) {
-                        intMaxPipeLine1 = intMinPipeLine2 - 1;
+                        intMaxPipeLine1 = intMinPipeLine2 - _decDiff;
                         setMaxPipeLineSlider(1, intMaxPipeLine1);
                         var intMinPipeLine1 = getMinPipeLineSlider(1);
                         if (intMinPipeLine1 >= intMaxPipeLine1) {
-                            intMinPipeLine1 = intMaxPipeLine1 - 1;
+                            intMinPipeLine1 = intMaxPipeLine1 - _decDiff;
                             setMinPipeLineSlider(1, intMinPipeLine1);
                         }
                     }

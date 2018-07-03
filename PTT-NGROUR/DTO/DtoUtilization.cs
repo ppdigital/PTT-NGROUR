@@ -576,7 +576,8 @@ WHERE  1=1
                 MINVAL , 
                 MAXVAL ,
                 UPDATED_BY ,
-                COLOR_HEX
+                COLOR_HEX ,
+                Pipeline_Threshold_Name ThresholdName
             from PIPELINE_THRESHOLD
             union all
             select 
@@ -586,7 +587,8 @@ WHERE  1=1
                 MINVAL , 
                 MAXVAL ,
                 UPDATED_BY ,
-                COLOR_HEX
+                COLOR_HEX ,
+                Gate_Threshold_Name ThresholdName
             from GATESTATION_THRESHOLD";
             //order by threshold_id desc , thresholdtype desc";
             var dal = new DAL.DAL();
