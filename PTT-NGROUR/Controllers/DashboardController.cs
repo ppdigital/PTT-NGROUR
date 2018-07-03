@@ -213,10 +213,14 @@ namespace PTT_NGROUR.Controllers
                     {
                         NO = dr["NO"].ToString(),
                         NAME = dr["NAME"].ToString(),
-                        //COLOR = dr["COLOR"].ToString(),
-                        THRESHOLD = dr["THRESHOLD"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
-                        TYPE = dr["TYPE"].ToString()
+                        TYPE = dr["TYPE"].ToString(),
+                        FLAG = dr["FLAG"].ToString(),
+                        REGION = dr["REGION"].ToString(),
+                        LICENSE = dr["LICENSE"].ToString(),
+                        MONTH = dr["MONTH"].ToString(),
+                        YEAR = dr["YEAR"].ToString(),
+                        THRESHOLD = dr["THRESHOLD"].ToString(),
                     };
                     listRegion.Add(reg);
                 }
@@ -244,13 +248,11 @@ namespace PTT_NGROUR.Controllers
                     {
                         NO = dr["NO"].ToString(),
                         NAME = dr["NAME"].ToString(),
-                        //COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
                         REGION = dr["REGION"].ToString(),
                         LICENSE = dr["LICENSE"].ToString(),
-                        STATUS = dr["STATUS"].ToString(),
                         MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
                         THRESHOLD = dr["THRESHOLD"].ToString(),
@@ -282,13 +284,11 @@ namespace PTT_NGROUR.Controllers
                     {
                         NO = dr["NO"].ToString(),
                         NAME = dr["NAME"].ToString(),
-                        //COLOR = dr["COLOR"].ToString(),
                         VALUE = dr["VALUE"].ToString(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
                         REGION = dr["REGION"].ToString(),
                         LICENSE = dr["LICENSE"].ToString(),
-                        STATUS = dr["STATUS"].ToString(),
                         MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
                         THRESHOLD = dr["THRESHOLD"].ToString(),

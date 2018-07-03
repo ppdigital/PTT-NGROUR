@@ -1,4 +1,14 @@
 ﻿@model PTT_NGROUR.Models.ViewModel.ModelUtilization
+@{
+    PTT_NGROUR.Models.User users = new PTT_NGROUR.Models.User();
+    @Html.Hidden("username", users.Username);
+    @Html.Hidden("flag", users.Roleid);
+}
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
 
     var _graphPipeLine = null;
@@ -87,8 +97,29 @@
             }
 
             $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil pointer" data-color="' + color1 + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h6 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
-
+            $('#utilTbl > tbody >tr:last-child').data('map_info', data[i]);
+            $('#utilTbl > tbody >tr:last-child').click(utilTblOnclick);
         }
+    }
+
+    function utilTblOnclick() {
+        //$('#ModalMapDashboard').modal('show');
+        let map_info = $(this).data("map_info");
+        map_dashboard_json = {
+            "menu": "dashboard",
+            "type": map_info.TYPE,
+            "command": "view",
+            "flag": $('#flag').val() == 1 ? true : false,
+            "flagby": $('#username').val(),
+            "parameter": {
+                "REGION": map_info.REGION,
+                "LICENSE": map_info.LICENSE,
+                "NAME": map_info.NAME,
+                "MONTH": map_info.MONTH,
+                "YEAR": map_info.YEAR,
+            }
+        }
+        map_frame.contentWindow.postMessage(map_dashboard_json, '*');
     }
 
     function showPIE(pStrMode, pListData) {
