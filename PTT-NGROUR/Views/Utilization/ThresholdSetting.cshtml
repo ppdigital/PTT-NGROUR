@@ -40,7 +40,7 @@
                                                    value="@Model.ThresholdItems[j].MinValue.ToString("n2")" />
                                         </div>
                                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-8" style="padding-left:0rem;padding-right:0rem;">
-                                            <div class="input-group-addon input-sm h7-xs"
+                                            <div class="input-group-addon input-sm h7-xs @Model.ThresholdItems[j].ThresholdName"
                                                  id="@("divSlider" + j.ToString())"
                                                  data-min="@Model.ThresholdItems[j].MinValue"
                                                  data-max="@Model.ThresholdItems[j].MaxValue"
@@ -123,11 +123,22 @@
             background-color: rgba(3, 138, 255, 0.35);
         }
 
+        .Pass > .ui-slider-range {
+            background-color: rgba(22, 160, 133, 0.35);
+        }       
+
+        .Warning > .ui-slider-range {
+            background-color: rgba(241, 196, 15, 0.35);
+        }
+
+        .Alert > .ui-slider-range {
+            background-color: rgba(231, 76, 60, 0.35);
+        }
+
         .ui-slider-pip {
             top: 0 !important;
         }
-
-
+        
         .ui-slider-label {
             top: 40% !important;
             left: 0 !important;

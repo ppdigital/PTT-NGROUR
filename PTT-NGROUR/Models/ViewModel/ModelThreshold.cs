@@ -32,6 +32,7 @@ namespace PTT_NGROUR.Models.ViewModel
             ThresholdType = pReader["ThresholdType"].GetEnum<Models.ViewModel.EnumThresholdType>(Models.ViewModel.EnumThresholdType.None);
             UPDATED_BY = pReader["UPDATED_BY"].GetString();
             COLOR_HEX = pReader["COLOR_HEX"].GetString();
+            ThresholdName = pReader.GetColumnValue("ThresholdName").GetString();
         }
 
         private string _updateBy = string.Empty;
@@ -109,5 +110,6 @@ namespace PTT_NGROUR.Models.ViewModel
                 }
             }
         }
+        public string ThresholdName { get; set; }
     }
 }
