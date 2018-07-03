@@ -64,14 +64,15 @@ namespace PTT_NGROUR.DTO
                 return null;
             }
             var result = new ModelOmIndex.ModelBarGraph();
-            result.ListLabel = pListModelMeterMaintenance
-                    .Select(x => x.REGION)
-                    .Distinct()
-                    .OrderBy(x => x)
+            var listRegion = pListModelMeterMaintenance.Select(x => x.REGION)
+                .Distinct()
+                .OrderBy(x => x.Length)
+                .ThenBy(x => x)
+                .ToList();
+            result.ListLabel = listRegion
                     .Select(x => "Region " + x.ToString())
                     .Union(new string[] { "Over All" })
                     .ToList();
-            var listRegion = pListModelMeterMaintenance.Select(x => x.REGION).Distinct().OrderBy(x => x).ToList();
             result.ListML = new List<ModelOmIndex.ModelBarGraph.ModelML>();
             var listML = pListModelMeterMaintenance.Select(x => x.ML).Distinct().OrderBy(x => x).ToList();
             foreach (var itemML in listML)

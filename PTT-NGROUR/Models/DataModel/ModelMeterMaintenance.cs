@@ -21,7 +21,7 @@ namespace PTT_NGROUR.Models.DataModel
             }
             this.ML = pReader["ML"].GetString();
             this.PM_INTERVAL = pReader["PM_INTERVAL"].GetString();
-            this.REGION = pReader["REGION"].GetInt();
+            this.REGION = pReader.GetColumnValue("REGION").GetString();
             this.PLAN = pReader["PLAN"].GetDecimal();
             this.ACTUAL = pReader["ACTUAL"].GetDecimal();
             this.MONTH = pReader["MONTH"].GetInt();
@@ -32,7 +32,7 @@ namespace PTT_NGROUR.Models.DataModel
 
         public string PM_INTERVAL { get; set; }
 
-        public int REGION { get; set; }
+        public string REGION { get; set; }
 
         public decimal PLAN { get; set; }
 
