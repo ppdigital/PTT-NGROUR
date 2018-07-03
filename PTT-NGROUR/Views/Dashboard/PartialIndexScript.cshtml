@@ -4,11 +4,13 @@
     @Html.Hidden("username", users.Username);
     @Html.Hidden("flag", users.Roleid);
 }
+@*<script src="~/Scripts/jquery-3.3.1.min.js"></script>*@
+<script src="~/Scripts/bootstrap.min.js"></script>
 <!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>*@
 
 <!-- Latest compiled JavaScript -->
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+@*<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
 <script>
 
     var _graphPipeLine = null;
@@ -103,7 +105,7 @@
     }
 
     function utilTblOnclick() {
-        //$('#ModalMapDashboard').modal('show');
+        $('#ModalMapDashboard').modal('show');
         let map_info = $(this).data("map_info");
         map_dashboard_json = {
             "menu": "dashboard",
