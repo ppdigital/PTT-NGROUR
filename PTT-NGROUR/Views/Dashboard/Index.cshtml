@@ -108,7 +108,8 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-15px pb-15px pr-0 pl-0 border-left-md border-left-lg" style="float:none">
                                 <div class="form-inline">
                                     <center>
-                                        <div class="input-group">
+                                        <div class="input-group" style="z-index:0!important">
+                                            
                                             <div class="input-group-btn col-lg-1 col-md-3 col-sm-3 col-xs-3 fn-xs" style="padding-left:0rem;padding-right:0rem;">
 
                                                 <select class="form-control form-control-sm fz-12px" id="type-filter" style="height: 30px !important;">
@@ -194,9 +195,10 @@
 
     @section scripts{
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" type="text/javascript"></script>
+        @*<script src="~/Scripts/Chart/Chart.js"></script>*@
         <script src="~/Scripts/Chart/Chart.PieceLabel.min.js"></script>
         <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
-        <script src="~/Scripts/bootstrap.min.js"></script>
+        @*<script src="~/Scripts/bootstrap.min.js"></script>*@
         @Html.Partial("PartialIndexScript")
 
         <script type="text/javascript">
