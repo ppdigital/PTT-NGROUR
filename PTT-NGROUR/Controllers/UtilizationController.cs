@@ -196,36 +196,36 @@ namespace PTT_NGROUR.Controllers
             var ds = dal.GetDataSet(searchregion);
 
 
-            var listRegion = new List<Models.DataModel.ModelGetU>();
-            if (ds.Tables[0].Rows.Count > 0)
-            {
+            var listRegion = dal.ReadData(searchregion, x => new ModelGetU(x)).ToList(); //new List<Models.DataModel.ModelGetU>();
+            //if (ds.Tables[0].Rows.Count > 0)
+            //{
 
 
-                foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
-                {
-                    var reg = new Models.DataModel.ModelGetU()
-                    {
-                        NO = dr["NO"].ToString(),
-                        NAME = dr["NAME"].ToString(),
-                        //COLOR = dr["COLOR"].ToString(),
-                        VALUE = dr["VALUE"].ToString(),
-                        TYPE = dr["TYPE"].ToString(),
-                        FLAG = dr["FLAG"].ToString(),
-                        REGION = dr["REGION"].ToString(),
-                        LICENSE = dr["LICENSE"].ToString(),
-                        STATUS = dr["STATUS"].ToString(),
-                        MONTH = dr["MONTH"].ToString(),
-                        YEAR = dr["YEAR"].ToString(),
-                    };
-                    listRegion.Add(reg);
-                }
-            }
+            //    foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+            //    {
+            //        var reg = new Models.DataModel.ModelGetU()
+            //        {
+            //            NO = dr["NO"].ToString(),
+            //            NAME = dr["NAME"].ToString(),
+            //            //COLOR = dr["COLOR"].ToString(),
+            //            VALUE = dr["VALUE"].ToString(),
+            //            TYPE = dr["TYPE"].ToString(),
+            //            FLAG = dr["FLAG"].ToString(),
+            //            REGION = dr["REGION"].ToString(),
+            //            LICENSE = dr["LICENSE"].ToString(),
+            //            STATUS = dr["STATUS"].ToString(),
+            //            MONTH = dr["MONTH"].ToString(),
+            //            YEAR = dr["YEAR"].ToString(),
+            //        };
+            //        listRegion.Add(reg);
+            //    }
+            //}
 
-            ds.Tables[0].Clear();
-            ds.Tables[0].Dispose();
-            ds.Clear();
-            ds.Dispose();
-            ds = null;
+            //ds.Tables[0].Clear();
+            //ds.Tables[0].Dispose();
+            //ds.Clear();
+            //ds.Dispose();
+            //ds = null;
             dal = null;
             return new ViewAsPdf(listRegion);
             //return View(listRegion);
