@@ -341,7 +341,7 @@
 
             <div class="pv2 mv3">
                 <div class="  black-80 center">
-                  <!-- <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=report" />-->
+                    <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=report" style="min-height: 430px !important; width: 100% !important;" id="map_iframe_report"></iframe>
                 </div>
                 <br />
                 <div class="modal-footer">
@@ -392,7 +392,7 @@
 
     $(document).ready(function () {
         document.getElementById('seLicense').style.display = 'none';
-        
+
         $('#MultiRegion').selectpicker('selectAll');
         //document.getElementById('chooseYear').style.display = 'none';
         if (document.getElementById('radioMonth').checked) {
@@ -407,31 +407,31 @@
             document.getElementById('chooseMonth').style.display = 'none';
             document.getElementById('chooseYear').style.display = 'none';
         }
-        
+
 
     });
-   
 
- var tblOption = {
-       buttons: [
-          {
-              extend: 'excel',
-              text: 'Save current page',
+
+    var tblOption = {
+        buttons: [
+           {
+               extend: 'excel',
+               text: 'Save current page',
                exportOptions: {
-                    modifier: {
+                   modifier: {
                        page: 'current'
                    }
-             }
+               }
            }
-       ]
+        ]
     };
     $('#utilTbl').DataTable(tblOption);
-    
+
     var _graphPipeLine = null;
 
     var _graphGate = null;
-  
-   
+
+
     //var datamonth = month;
     function Search() {
         var threshold = document.getElementById('threshold-filter').value;
@@ -453,9 +453,9 @@
                      year = date.getFullYear();
                 var month = "null";
             }
-           // document.getElementById('chooseYear').style.display = 'none';
+            // document.getElementById('chooseYear').style.display = 'none';
         }
-        else { var month = "null"; var year = "null";}
+        else { var month = "null"; var year = "null"; }
         console.log(month);
         console.log(year);
 
@@ -478,8 +478,8 @@
             Year: year,
             MultiData: multidata
         }
-       // consol.log(multidataAll);
-       // fileData.append("multidata", valuemultidata);
+        // consol.log(multidataAll);
+        // fileData.append("multidata", valuemultidata);
         $.ajax({
             url: url,
             type: 'POST',
@@ -549,8 +549,8 @@
             else if (document.getElementById('radioYear').checked)
             { dataMonthYear = data[i].YEAR; }
 
-            var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="Ifame(' + data[i].NAME + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
-           tblShow.row.add($(rowItem));
+            var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + data[i].NAME + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
+            tblShow.row.add($(rowItem));
         } tblShow.draw();
         $("#GatePass").text(passGate);
         $("#PipePass").text(passPipe);
@@ -648,8 +648,7 @@
             document.getElementById('seLicense').style.display = 'inline-block';
             document.getElementById('seRegion').style.display = 'none';
         }
-        if (document.getElementById('radioMonth').checked)
-        {
+        if (document.getElementById('radioMonth').checked) {
             document.getElementById('chooseMonth').style.display = 'inline-block';
             document.getElementById('chooseYear').style.display = 'none';
         }
@@ -671,10 +670,30 @@
         // console.log(region);
 
     })
+    var map_info_report_json;
+    function IfameReport() {
+        consol.log(this);
+        let map_info_report = $(this).data("map_info_report");
 
-    function Search2() {
+        map_info_report_json = {
+            "menu": "utilization-report",
+            "type": map_info_report.TYPE,
+            "command": "view",
+            "flag": true,
+            "flagby": "600426",
+            "parameter": {
+                "REGION": "1",
+                "LICENSE": "",
+                "NAME": "G0404R2",
+                "MONTH": "1",
+                "YEAR": "2018"
+            }
+        }
+        map_frame.contentWindow.postMessage(map_info_json, '*');
+    }
+ @* function Search2() {
 
-        
+
         let url;
         let graphurl;
         let multidata;
@@ -817,7 +836,7 @@
         });
 
 
-    }
+   }  *@
     //function searcch
     function myFunction() {
         var input, filter, table, tr, td, i;
@@ -886,9 +905,9 @@ filters = {
     }
 
     // Threshold Dropdown Filter
-   // $('#threshold-filter').on('change', function () {
-       // changeFilter.call(this, 'threshold');
-   // });
+    // $('#threshold-filter').on('change', function () {
+    // changeFilter.call(this, 'threshold');
+    // });
     // Month Dropdown Filter
     // $('#Month-filter').on('change', function () {
     //  changeFilter.call(this, 'month');
@@ -900,9 +919,9 @@ filters = {
     // });
 
     // Type Dropdown Filter
-   /// $('#type-filter').on('change', function () {
-       // changeFilter.call(this, 'type');
-   // });
+    /// $('#type-filter').on('change', function () {
+    // changeFilter.call(this, 'type');
+    // });
 
 
 
@@ -1053,10 +1072,10 @@ filters = {
                 }
                 else if (document.getElementById('radioYear').checked)
                 { dataMonthYear = data[i].YEAR; }
-               
+
                 //console.log('color1' + color1);
                 //console.log('data' + data[i].NO);
-                var unit="";
+                var unit = "";
                 num = 1 + Number(i);
                 if (data[i].TYPE == "PIPELINE")
                 { unit = "ft/s"; }
@@ -1067,9 +1086,12 @@ filters = {
                 }
                 else if (document.getElementById('radioYear').checked)
                 { dataMonthYear = data[i].YEAR; }
-                
-                var rowItemRegionAll = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="Ifame(' + data[i].NAME + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
+
+                var rowItemRegionAll = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="Ifame()" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
                 tblRegionAll.row.add($(rowItemRegionAll));
+                $('#utilTbl > tbody >tr >td >a:last-child').data('map_info_report', data[i]);
+                $('#utilTbl > tbody >tr >td >a:last-child').click(IfameReport);
+
                 //$('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil" data-color="' + color1 + '" data-type="' + data[i].TYPE + '"><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>');
             }
             tblRegionAll.draw();
@@ -1090,24 +1112,6 @@ filters = {
         }
     });
 
-    function Ifame() {
-        let map_info = $(this).data("map_info");
-        map_info_json = {
-            "menu": "utilization-report",
-            "type": "GATE_STATION",
-            "command": "view",
-            "flag": true,
-            "flagby": "600426",
-            "parameter": {
-                "REGION": "1",
-                "LICENSE": "",
-                "NAME": "G0404R2",
-                "MONTH": "1",
-                "YEAR": "2018"
-            }
-        }
-        map_frame.contentWindow.postMessage(map_info_json, '*');
-    }
     </script>
     
 }
