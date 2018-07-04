@@ -73,9 +73,12 @@ namespace PTT_NGROUR.Models.ViewModel
             }
 
         }
+
         public IEnumerable<ModelMeterMaintenance> ListMeterMaintenance { get; set; }
 
         public IEnumerable<ModelOmColor> ListOmColor { get; set; }
         public ModelBarGraph BarGraph { get; set; }
+
+        public IEnumerable<ModelRegion> ListRegion { get; set; }
     }
 }

@@ -871,9 +871,14 @@ namespace PTT_NGROUR.Controllers
 
             var listGate = dto.ReadExcelGateStationImport(pFileStream, pIntMonth, pStrRegionId, pStrUploadBy, pIntYear).ToList();
 
-            //var listGisGateDataName = dto.GetListGisGateStationName().ToList();
-            var listStationId = dto.GetListStationID().ToList();
-            var listGateHaveMasterData = listGate.Where(x => listStationId.Contains(x.GATE_NAME)).ToList();
+            //var listGisGateDataName = dto.GetListGisGateStationName();
+            var listGateStation = dto.GetListModelGateStation();
+            var listAbbr = listGateStation
+                .Select(x => x.ABBREV_NAME)
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Distinct().ToList();
+            //var listStationId = dto.GetListStationID().ToList();
+            var listGateHaveMasterData = listGate.Where(x => listAbbr.Contains(x.GATE_NAME)).ToList();
 
             var listGateImportDuplicate = dto.GetListGateImportDuplicate(listGate).ToList();
 
@@ -900,7 +905,7 @@ namespace PTT_NGROUR.Controllers
                     dto.UpdateGateImport(gateItem);
                 }
 
-                if (!listStationId.Contains(gateItem.GATE_NAME))
+                if (!listAbbr.Contains(gateItem.GATE_NAME))
                 {
                     listGate.RemoveAt(i);
                     listGateUnsuccess.Add(gateItem);

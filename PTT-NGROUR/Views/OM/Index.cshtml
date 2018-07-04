@@ -3,9 +3,21 @@
     ViewBag.Title = "Index";
 }
 <div class="row">
-    <div class="col-xs-3"></div>
+    <div class="col-xs-3">        
+        <select class="selectpicker fz-12px form-control fz-12px" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;">
+            @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
+            {
+                <option value="@ml.REGION_ID" class="text-grey fz-12px" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
+            }
+        </select>
+    </div>
     <div class="col-xs-6">
         <div class="input-group">
+           
+            @*<div class="form-group form-control form-control-sm fz-12px" style="margin-bottom:5px;">
+
+            </div>*@
+
             <span class="input-group-addon">
                 <input type="radio" name="radioMY" id="radioMonth" checked="checked" onclick="javascript:Check();">
                 <label for="radioMonth">Month</label>
@@ -93,6 +105,8 @@
     <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
     <script src="~/Content/bootstrap-datepicker.js"></script>
     <script>
+        jQuery.ajaxSettings.traditional = true;
+
         var barChartData = {
             labels: [@Model.BarGraph.ListLabel.Select(x=> new HtmlString( "'" + x + "'")).Aggregate((x,y)=> new HtmlString(x + "," +y))],
             datasets: [
@@ -105,6 +119,14 @@
                         borderColor: "#00",
                         borderWidth: 1,
                         data: [ @item.ListData.Select(x => x.ToString()).Aggregate((x, y) => x + " , " + y)]
+                    },
+                    {
+                        label: "@item.Label",
+                        @*backgroundColor: "@item.HexColor",*@
+                        borderColor: "@item.HexColor",
+                        borderWidth: 1,
+                        data: [ @item.ListData.Select(x => x.ToString()).Aggregate((x, y) => x + " , " + y)],
+                        type: 'line'
                     },
                     </text>
             }
@@ -133,7 +155,7 @@
             minViewMode: "months",
             autoclose: true
         }).on('dp.change', function (e) {
-            
+
             console.log(e);
         });
 
@@ -154,7 +176,7 @@
 
         function Check() {
 
-            
+
             if (document.getElementById('radioMonth').checked) {
                 document.getElementById('Month-filter').style.display = 'inline-block';
                 document.getElementById('Year-filter').style.display = 'none';
@@ -175,11 +197,12 @@
         }
 
         function searchData() {
-            
+
             var chart = window.myBar;
             removeBarData(chart);
             var strUrl = "@Url.Action("SearchData")";
-            var param = { pStrYear: "", pStrMonth : "" };
+            var param = { pStrYear: "", pStrMonth: "", pArrRegion: $("#MultiRegion").val() };
+            console.log(param);
             if (document.getElementById('radioMonth').checked) {
                 var x = $("#Month-filter").val().split("/");
                 param.pStrMonth = x[0];
@@ -189,8 +212,8 @@
                 param.pStrYear = $("#Year-filter").val();
             }
             $.post(strUrl, param, function (data) {
-                
-                if (!data || !data.Result) {                    
+
+                if (!data || !data.Result) {
                     alert("Not Found Data");
                     return;
                 }
@@ -215,9 +238,9 @@
                     }
                     barChartData.datasets.push(dsItem);
                 }
-                
+
                 chart.data = barChartData;
-                chart.update();               
+                chart.update();
             });
         }
 

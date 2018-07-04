@@ -166,7 +166,7 @@ namespace PTT_NGROUR.DTO
         {
             var dal = new DAL.DAL();
             string strCommand = "select distinct STATION_ID from GATE_STATION";
-            var result = dal.ReadData<string>(strCommand, x => x[0].GetString());
+            var result = dal.ReadData(strCommand, x => x[0].GetString());
             dal = null;
             return result;
         }
@@ -174,7 +174,7 @@ namespace PTT_NGROUR.DTO
         {
             var dal = new DAL.DAL();
             string strCommand = "select * from GATE_STATION";
-            var result = dal.ReadData<Models.DataModel.ModelGateStation>(strCommand, (x) => new Models.DataModel.ModelGateStation(x));
+            var result = dal.ReadData(strCommand, x => new Models.DataModel.ModelGateStation(x));
             dal = null;
             return result;
         }
