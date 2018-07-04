@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    PTT_NGROUR.Models.User users = new PTT_NGROUR.Models.User();
+    @Html.Hidden("username", users.Username);
+    @Html.Hidden("flag", users.Roleid);
 }
 
 
@@ -85,11 +88,11 @@
 
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
+                        <span class="col-lg-2"></span>
                         <span class="col-lg-2 col-md-3 col-sm-3 col-xs-7" style="padding-right:0rem;width:190px">
                             <label class="h5">Period &nbsp;</label>
                             <label class=" ml-5 lato" style="padding-right:6px">
-                                <input type="radio" name="radioMY" id="radioMonth" checked="checked" onclick="javascript:Check();">
+                                <input type="radio" name="radioMY" id="radioMonth" checked="" onclick="javascript:Check();">
                                 <span class="checkmark h6 b">Month</span>
                             </label>
                             <label class="d-none ">
@@ -181,33 +184,39 @@
 
             <div class="col-lg-3 col-md-6 col-sm-6 pb2">
                 <div class=" p-3 mb-2 col-container col-container-green text-dark">
-                    <div class="ph2" style="padding-bottom:1rem;padding-top:1rem">
-                        <div class="col-lg-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h2 mt0" id="GatePass"></div></div>
-                        <div class="col-lg-6 "><label class="h6 pull-right" style="font-size: 14px;">Pipeline</label><div class="cr"></div><div class="h2 pull-right mt0 pl1" id="PipePass"></div><span class="cr"></span></div>
+                    <div class="ph2" style="padding-bottom:1rem">
+                        
+                        <div class="col-lg-5"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="GatePass" style="font-size: 45px !important;"></div></div>
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="PipePass" style="font-size: 45px !important;"></div></div>
+                        
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 pb2">
                 <div class=" p-3 mb-2 col-container col-container-yellow text-dark">
-                    <div class="ph2" style="padding-bottom:1rem;padding-top:1rem">
-                        <div class="col-lg-6"><center><label class="h6" style="font-size: 14px;">Gate Staton</label></center><center><div class="h2 mt0" id="GateWarning"></div></center></div>
-                        <div class="col-lg-6"><center><label class="h6" style="font-size: 14px;">Pipeline</label></center><center><span class="h2 mt0" id="PipeWarning"></span></center></div>
+                    <div class="ph2" style="padding-bottom:1rem">
+                        <div class="col-lg-5"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="GateWarning" style="font-size: 45px !important;"></div></div>
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="PipeWarning" style="font-size: 45px !important;"></div></div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 pb2">
                 <div class=" p-3 mb-2 col-container col-container-red text-dark">
-                    <div class="ph2" style="padding-bottom:1rem;padding-top:1rem">
-                        <div class="col-lg-6"><center><label class="h6" style="font-size: 14px;">Gate Staton</label></center><center><div class="h3 mt0" id="GateAlert"></div></center></div>
-                        <div class="col-lg-6"><center><label class="h6" style="font-size: 14px;">Pipeline</label></center><center><div class="h3 mt0" id="PipeAlert"></div></center></div>
+                    <div class="ph2" style="padding-bottom:1rem">
+                        <div class="col-lg-5"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="GateAlert" style="font-size: 45px !important;"></div></div>
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="PipeAlert" style="font-size: 45px !important;"></div></div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 pb2">
                 <div class=" p-3 mb-2 col-container col-container-orange text-dark">
-                    <div class="ph2" style="padding-bottom:1rem;padding-top:1rem">
-                        <div class="col-lg-6"><center><label class="h6" style="font-size: 14px;">Gate Staton</label></center><center><div class="h3 mt0" id="GateFlag"></div></center></div>
-                        <div class="col-lg-6"><center><label class="h6" style="font-size: 14px;">Pipeline</label></center><center><div class="h3 mt0" id="PipeFlag"></div></center></div>
+                    <div class="ph2" style="padding-bottom:1rem">
+                        <div class="col-lg-5"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="GateFlag" style="font-size: 45px !important;"></div></div>
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="PipeFlag" style="font-size: 45px !important;"></div></div>
                     </div>
                 </div>
             </div>
@@ -291,8 +300,8 @@
                 <div class="col-container col-container-white text-dark">
                     <div style="padding-bottom:.5rem;padding-top:.5rem">
                       
-                                <div class="table-responsive">
-                                    <table class="table h6 table-striped table-bordered" id="utilTbl">
+                                <div class="table-responsive " >
+                                    <table class="table h6 table-striped table-bordered" id="utilTbl" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -306,9 +315,7 @@
                                                 <th>Map</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                           
-                                        </tbody>
+                                        <tbody></tbody>
                                     </table>
                                 </div>
                               
@@ -334,7 +341,7 @@
 
             <div class="pv2 mv3">
                 <div class="  black-80 center">
-
+                  <!-- <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=report" />-->
                 </div>
                 <br />
                 <div class="modal-footer">
@@ -385,6 +392,7 @@
 
     $(document).ready(function () {
         document.getElementById('seLicense').style.display = 'none';
+        
         $('#MultiRegion').selectpicker('selectAll');
         //document.getElementById('chooseYear').style.display = 'none';
         if (document.getElementById('radioMonth').checked) {
@@ -395,28 +403,30 @@
             document.getElementById('chooseMonth').style.display = 'none';
             document.getElementById('chooseYear').style.display = 'inline-block';
         }
+        else {
+            document.getElementById('chooseMonth').style.display = 'none';
+            document.getElementById('chooseYear').style.display = 'none';
+        }
+        
 
     });
+   
 
-
-
-
-
-    var tblOption = {
-        buttons: [
-            {
-                extend: 'excel',
-                text: 'Save current page',
-                exportOptions: {
+ var tblOption = {
+       buttons: [
+          {
+              extend: 'excel',
+              text: 'Save current page',
+               exportOptions: {
                     modifier: {
-                        page: 'current'
-                    }
-                }
-            }
-        ]
+                       page: 'current'
+                   }
+             }
+           }
+       ]
     };
-
     $('#utilTbl').DataTable(tblOption);
+    
     var _graphPipeLine = null;
 
     var _graphGate = null;
@@ -539,7 +549,7 @@
             else if (document.getElementById('radioYear').checked)
             { dataMonthYear = data[i].YEAR; }
 
-           var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+            var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="Ifame(' + data[i].NAME + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
            tblShow.row.add($(rowItem));
         } tblShow.draw();
         $("#GatePass").text(passGate);
@@ -620,11 +630,6 @@
         });
         objGraph.update();
     }
-
-
-
-
-
 
     var SeRegion;
     var SeLicense;
@@ -718,7 +723,7 @@
                     }
                     else if (document.getElementById('radioYear').checked)
                     { dataMonthYear = data[i].YEAR; }
-                    var rowItemSearch2 = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><h6 class="margin-lr0">' + data[i].COLOR + '</h6></td></tr>';
+                    var rowItemSearch2 = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="Ifame(' + data[i].NAME + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
                     tblSearch2.row.add($(rowItemSearch2));
                 } tblSearch2.draw();
             },
@@ -1084,6 +1089,25 @@ filters = {
             alert('Please select the data');
         }
     });
+
+    function Ifame() {
+        let map_info = $(this).data("map_info");
+        map_info_json = {
+            "menu": "utilization-report",
+            "type": "GATE_STATION",
+            "command": "view",
+            "flag": true,
+            "flagby": "600426",
+            "parameter": {
+                "REGION": "1",
+                "LICENSE": "",
+                "NAME": "G0404R2",
+                "MONTH": "1",
+                "YEAR": "2018"
+            }
+        }
+        map_frame.contentWindow.postMessage(map_info_json, '*');
+    }
     </script>
     
 }

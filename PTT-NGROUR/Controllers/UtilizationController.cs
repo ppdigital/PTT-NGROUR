@@ -1101,6 +1101,7 @@ namespace PTT_NGROUR.Controllers
              public JsonResult RegionAllReport()
              {
                  var dal = new DAL.DAL();
+                // var searchregion = @"select * from VIEW_GATE_PIPE_REPORT_CURRENT V LEFT JOIN REGION R ON R.REGION_ID = V.REGION LEFT JOIN LICENSE_MASTER L ON to_number(V.LICENSE_NO) = L.LICENSE_ID WHERE REGION IS NOT NULL";
                  var searchregion = @"select * from VIEW_GATE_PIPE_REPORT_CURRENT WHERE REGION IS NOT NULL";
                  var ds = dal.GetDataSet(searchregion);
 
