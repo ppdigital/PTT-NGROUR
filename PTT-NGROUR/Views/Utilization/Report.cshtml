@@ -378,15 +378,14 @@
             minViewMode: "months",
             autoclose: true,
             inline: true,
-
-        });
+        }).datepicker("setDate", new Date());
 
         $("#Year-filter").datepicker({
             format: "yyyy",
             viewMode: "years",
             minViewMode: "years",
             autoclose: true
-        });
+        }).datepicker("setDate", new Date());
     });
 
 
