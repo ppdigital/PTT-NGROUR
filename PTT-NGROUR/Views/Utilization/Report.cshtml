@@ -424,7 +424,14 @@
            }
         ]
     };
-    $('#utilTbl').DataTable(tblOption);
+
+    var tblOption2 = {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    };
+    $('#utilTbl').DataTable(tblOption2);
 
     var _graphPipeLine = null;
 
