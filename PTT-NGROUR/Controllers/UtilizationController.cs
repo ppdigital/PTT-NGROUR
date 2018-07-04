@@ -191,6 +191,8 @@ namespace PTT_NGROUR.Controllers
 
         public ActionResult ReportPdf()
         {
+
+            
             var dal = new DAL.DAL();
             var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE TYPE NOT LIKE 'METERING' AND REGION IS NOT NULL";
             var ds = dal.GetDataSet(searchregion);
