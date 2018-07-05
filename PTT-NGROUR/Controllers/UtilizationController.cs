@@ -14,6 +14,7 @@ using PTT_NGROUR.DTO;
 
 using PTT_NGROUR.Models.DataModel;
 using PTT_NGROUR.Models.ViewModel;
+using PTT_NGROUR.Models;
 using System.Data;
 using Rotativa;
 
@@ -90,6 +91,7 @@ namespace PTT_NGROUR.Controllers
             return Json(result);
         }
 
+        [PTT_NGROUR.Controllers.AuthorizeController.CustomAuthorize]
         public ActionResult Index()
         {
             var dal = new DAL.DAL();
