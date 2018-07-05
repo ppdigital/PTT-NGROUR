@@ -640,8 +640,8 @@ select .inline{display: inline-block;}
  .pr-0-sm {padding-left: 0px}
  .w-25h-sm{width:250px}
  .pieGraph-sm{
-     width:35%;
-     height:35%
+     width: 320px !important; 
+     height:320px !important
   }
 
 }
@@ -654,8 +654,8 @@ select .inline{display: inline-block;}
 .border-left-md{border-left :.5px solid #ccc}
 .w-3h-md{width:300px}
 .scrollable-height-md{max-height:360px;overflow-y:scroll}
-.pieGraph-md{width:50%;
-             height:50%
+.pieGraph-md{width:300px;
+             height:300px
 }
    }
    .scrollable-height{max-height:350px;overflow-y:scroll}
@@ -667,8 +667,8 @@ select .inline{display: inline-block;}
 .border-left-lg{border-left: 1px solid rgba(0,0,0,.0625);}
 .w-4h-lg{width:400px}
 .scrollable-height-lg{max-height:360px;overflow-y:scroll}
-.pieGraph-lg{width:70%;
-             height:70%
+.pieGraph-lg{width:290px;
+             height:290px
 }
    }
 
@@ -835,3 +835,4 @@ input:-webkit-autofill {
 .border-box-gray{border: 1px solid rgba(0,0,0,.0625);}
 .mt0{margin-top:0rem !important;}
 .pl2{padding-left:2rem;}
+.ph0 {padding-left:0rem !important; padding-right:0rem !important;}

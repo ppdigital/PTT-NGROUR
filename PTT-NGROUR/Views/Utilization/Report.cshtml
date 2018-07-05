@@ -101,20 +101,6 @@
                         <div class="col-lg-2 col-md-2  col-sm-2 col-xs-2" id="chooseMonth" style="padding-bottom: 0rem !important; width: 160px; padding-right: 0rem; ">
                             <div class="form-group" style="margin-bottom:5px; ">
                                 <input type="text" class="form-control form-control-sm fz-12px" id="Month-filter" style="height: 30px !important" />
-                                <!-- <select class="form-control form-control-sm fz-12px" id="Month-filter" style="height: 30px !important;">
-                                     <option value="1" class="f5 f8-m drop_role" selected>January</option>
-                                     <option value="2" class="f5 drop_role">February</option>
-                                     <option value="3" class="f5 drop_role">March</option>
-                                     <option value="4" class="f5  drop_role">April</option>
-                                     <option value="5" class="f5 f8-m drop_role">May</option>
-                                     <option value="6" class="f5 drop_role">June</option>
-                                     <option value="7" class="f5 drop_role">July</option>
-                                     <option value="8" class="f5  drop_role">August</option>
-                                     <option value="9" class="f5 f8-m drop_role">September</option>
-                                     <option value="10" class="f5 drop_role">October</option>
-                                     <option value="11" class="f5 drop_role">November</option>
-                                     <option value="12" class="f5 drop_role">December</option>
-                                 </select>-->
                             </div>
                         </div>
 
@@ -122,19 +108,6 @@
                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2" id="chooseYear" style="padding-bottom: 0rem !important;padding-right:0rem;">
                             <div class="form-group" style="margin-bottom:5px;">
                                 <input type="text" class="form-control form-control-sm fz-12px" id="Year-filter" style="height: 30px !important" />
-
-                                <!-- <select class="form-control form-control-sm fz-12px" id="Year-filter" style="height: 30px !important;width:120px ">
-                                     <option value="2018" class="5 f8-m drop_role" selected>2018</option>
-                                     <option value="2019" class="f5 drop_role">2019</option>
-                                     <option value="2020" class="f5 drop_role">2020</option>
-                                     <option value="2021" class="f5  drop_role">2021</option>
-                                     <option value="2022" class="f5 f8-m drop_role">2022</option>
-                                     <option value="2023" class="f5 drop_role">2023</option>
-                                     <option value="2024" class="f5 drop_role">2024</option>
-                                     <option value="2025" class="f5  drop_role">2025</option>
-                                     <option value="2026" class="f5 f8-m drop_role">2026</option>
-                                     <
-                                 </select>-->
                             </div>
                         </div>
 
@@ -178,52 +151,53 @@
 
 
         <br />
-        
-        <div class="row">
+        <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="row">
+                <!--  Current Threshod-->
+                <div class="col-lg-6 col-md-6 col-sm-6 pb2">
+                    <div class=" p-3 mb-2 col-container col-container-green text-dark">
+                        <div class="ph2" style="padding-bottom:1rem">
 
-            <div class="col-lg-3 col-md-6 col-sm-6 pb2">
-                <div class=" p-3 mb-2 col-container col-container-green text-dark">
-                    <div class="ph2" style="padding-bottom:1rem">
+                            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="Current_GatePass" style="font-size: 45px !important;"></div></div>
+                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="Current_PipePass" style="font-size: 45px !important;"></div></div>
 
-                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="GatePass" style="font-size: 45px !important;"></div></div>
-                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="PipePass" style="font-size: 45px !important;"></div></div>
-
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 pb2">
+                    <div class=" p-3 mb-2 col-container col-container-yellow text-dark">
+                        <div class="ph2" style="padding-bottom:1rem">
+                            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="Current_GateWarning" style="font-size: 45px !important;"></div></div>
+                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="Current_PipeWarning" style="font-size: 45px !important;"></div></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 pb2">
-                <div class=" p-3 mb-2 col-container col-container-yellow text-dark">
-                    <div class="ph2" style="padding-bottom:1rem">
-                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="GateWarning" style="font-size: 45px !important;"></div></div>
-                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="PipeWarning" style="font-size: 45px !important;"></div></div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 pb2">
+                    <div class=" p-3 mb-2 col-container col-container-red text-dark">
+                        <div class="ph2" style="padding-bottom:1rem">
+                            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="Current_GateAlert" style="font-size: 45px !important;"></div></div>
+                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="Current_PipeAlert" style="font-size: 45px !important;"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 pb2">
+                    <div class=" p-3 mb-2 col-container col-container-orange text-dark">
+                        <div class="ph2" style="padding-bottom:1rem">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="Current_GateFlag" style="font-size: 45px !important;"></div></div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="Current_PipeFlag" style="font-size: 45px !important;"></div></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 pb2">
-                <div class=" p-3 mb-2 col-container col-container-red text-dark">
-                    <div class="ph2" style="padding-bottom:1rem">
-                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="GateAlert" style="font-size: 45px !important;"></div></div>
-                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="PipeAlert" style="font-size: 45px !important;"></div></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 pb2">
-                <div class=" p-3 mb-2 col-container col-container-orange text-dark">
-                    <div class="ph2" style="padding-bottom:1rem">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="GateFlag" style="font-size: 45px !important;"></div></div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="PipeFlag" style="font-size: 45px !important;"></div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
 
-        <div class="row">
-            <div class="col-lg-6 pb2">
+            <div class="col-lg-12 pb2 ph0">
                 <div class="col-container col-container-white text-dark" style="height: 338.8px">
                     <div style="padding-bottom:.5rem;padding-top:.5rem">
                         <div class="row">
@@ -233,7 +207,7 @@
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            
+
                             <div style="font-family: Corbel; font-size: small ;text-align:center " class="row">
                                 <center>
                                     <div class="pt5">Gate Station</div>
@@ -260,9 +234,54 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="row">
 
+                <!--Search Threshold-->
+                <div class="col-lg-6 col-md-6 col-sm-6 pb2">
+                    <div class=" p-3 mb-2 col-container col-container-green text-dark">
+                        <div class="ph2" style="padding-bottom:1rem">
 
-            <div class="col-lg-6 pb2">
+                            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="GatePass" style="font-size: 45px !important;"></div></div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="PipePass" style="font-size: 45px !important;"></div></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 pb2">
+                    <div class=" p-3 mb-2 col-container col-container-yellow text-dark">
+                        <div class="ph2" style="padding-bottom:1rem">
+                            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="GateWarning" style="font-size: 45px !important;"></div></div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="PipeWarning" style="font-size: 45px !important;"></div></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 pb2">
+                    <div class=" p-3 mb-2 col-container col-container-red text-dark">
+                        <div class="ph2" style="padding-bottom:1rem">
+                            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="GateAlert" style="font-size: 45px !important;"></div></div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="PipeAlert" style="font-size: 45px !important;"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 pb2">
+                    <div class=" p-3 mb-2 col-container col-container-orange text-dark">
+                        <div class="ph2" style="padding-bottom:1rem">
+                            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6"><label class="h6" style="font-size: 14px;">Gate Staton</label><div class="h1 mt0 pl2" id="GateFlag" style="font-size: 45px !important;"></div></div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><label class="h6" style="font-size: 14px;">Pipeline</label><div class="h1 mt0" id="PipeFlag" style="font-size: 45px !important;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 pb2 ph0">
                 <div class="col-container col-container-white text-dark" style="height:338.8px">
                     <div style="padding-bottom:.5rem;padding-top:.5rem">
                         <div class="row">
@@ -301,7 +320,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
         <div class="row">
             <div class=" pb2 ph2">
                 <div class="col-container col-container-white text-dark">
@@ -1133,6 +1152,18 @@
 
                 $("#GateFlag").text(flagGate);
                 $("#PipeFlag").text(flagPipe);
+
+                $("#Current_GatePass").text(passGate);
+                $("#Current_PipePass").text(passPipe);
+
+                $("#Current_GateWarning").text(warningGate);
+                $("#Current_PipeWarning").text(warningPipe);
+
+                $("#Current_GateAlert").text(alertGate);
+                $("#Current_PipeAlert").text(alertPipe);
+
+                $("#Current_GateFlag").text(flagGate);
+                $("#Current_PipeFlag").text(flagPipe);
             },
             error: function (result) {
                 alert('Please select the data');
