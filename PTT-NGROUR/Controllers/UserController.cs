@@ -16,7 +16,7 @@ namespace PTT_NGROUR.Controllers
         private User userConTR = new User();
         //
         // GET: /User/
-
+        [PTT_NGROUR.Controllers.AuthorizeController.CustomAuthorize]
         public ActionResult Index()
         {
             return View();

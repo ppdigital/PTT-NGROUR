@@ -12,7 +12,7 @@ namespace PTT_NGROUR.Controllers
     {
         //
         // GET: /Threshold/
-
+        [PTT_NGROUR.Controllers.AuthorizeController.CustomAuthorize]
         public ActionResult Index()
         {
 

@@ -28,7 +28,7 @@ namespace PTT_NGROUR.Models.DataModel
             THRESHOLD   = pReader.GetColumnValue("THRESHOLD").GetString();
             TYPE        = pReader.GetColumnValue("TYPE").GetString();
             REGION      = pReader.GetColumnValue("REGION").GetString();
-            LICENSE     = pReader.GetColumnValue("LICENSE").GetString();
+            LICENSE     = pReader.GetColumnValue("LICENSE").GetInt();
             STATUS      = pReader.GetColumnValue("STATUS").GetString();
             MONTH       = pReader.GetColumnValue("MONTH").GetString();
             YEAR        = pReader.GetColumnValue("YEAR").GetString();
@@ -44,7 +44,7 @@ namespace PTT_NGROUR.Models.DataModel
         public string THRESHOLD { get; set; }
         public string TYPE { get; set; }
         public string REGION { get; set; }
-        public string LICENSE { get; set; }
+        public int LICENSE { get; set; }
         public string STATUS { get; set; }
         public string MONTH { get; set; }
         public string YEAR { get; set; } 

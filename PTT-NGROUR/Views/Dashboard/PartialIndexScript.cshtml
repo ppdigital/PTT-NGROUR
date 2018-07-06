@@ -56,7 +56,7 @@
             this.remove();
         });
         for (let i in data) {
-            if (data[i].THRESHOLD == 'Pass') {
+            if (data[i].THRESHOLD == 'OK') {
                 THRESHOLD = '<span class="fa fa-circle " style="color:#16a085"></span>'
                 color1 = "green"
             } else if (data[i].THRESHOLD == 'Warning') {
@@ -82,23 +82,23 @@
 
                 if (data[i].ID == "") {
                     name = "" + data[i].NAME;
-                    value = data[i].OBJ_TYPE;
+                    value = "";
                 } else {
                     name = "" + data[i].NAME + " (" + data[i].ID + ")";
-                    value = data[i].OBJ_TYPE;
+                    value = "";
                 }
 
             } else {
                 name = data[i].NAME;
                 if (data[i].TYPE == 'PIPELINE') {
-                    value = data[i].VALUE + " ft/s";
+                    value = "ft/s";
                 } else if (data[i].TYPE == 'GATESTATION') {
-                    value = data[i].VALUE + " %";
+                    value = "%";
                 }
 
             }
 
-            $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil pointer" data-color="' + color1 + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h6 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
+            $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil pointer" data-color="' + color1 + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h6 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
             $('#utilTbl > tbody >tr:last-child').data('map_info', data[i]);
             $('#utilTbl > tbody >tr:last-child').click(utilTblOnclick);
         }
@@ -151,7 +151,7 @@
                 continue;
             }
             switch (data.THRESHOLD) {
-            case "Pass":
+            case "OK":
                 intPass++;
                 break;
             case "Alert":
@@ -163,7 +163,7 @@
             }            
         }        
         let dataT = {
-            labels: ["Alert", "Warning", "Pass"],
+            labels: ["Alert", "Warning", "OK"],
             datasets: [{
                 label: "Test Data",
                 data: [intAlert, intWarning, intPass],
