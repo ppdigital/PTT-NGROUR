@@ -190,6 +190,7 @@
     <Compile Include="Models\DataModel\ModelPipelineImport.cs" />
     <Compile Include="Models\DataModel\ModelLicenseMaster.cs" />
     <Compile Include="Models\DataModel\ModelUsersAuth.cs" />
+    <Compile Include="Models\DataModel\ModelViewGatePipeReport.cs" />
     <Compile Include="Models\UserManagement.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\ViewModel\ModelOmIndex.cs" />
@@ -657,6 +658,7 @@
     <Content Include="Views\Utilization\ReportPdf.cshtml" />
     <Content Include="Views\Utilization\Customer.cshtml" />
     <Content Include="Views\OM\Index.cshtml" />
+    <Content Include="Views\Utilization\PartialReportScript.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
