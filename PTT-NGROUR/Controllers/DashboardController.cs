@@ -12,7 +12,7 @@ namespace PTT_NGROUR.Controllers
     {
         //
         // GET: /Dashboard/
-
+        [PTT_NGROUR.Controllers.AuthorizeController.CustomAuthorize]
         public ActionResult Index()
         {
             var dal = new DAL.DAL();
@@ -217,7 +217,7 @@ namespace PTT_NGROUR.Controllers
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
                         REGION = dr["REGION"].ToString(),
-                        LICENSE = dr["LICENSE"].ToString(),
+                        LICENSE = Convert.ToInt32(dr["LICENSE"].ToString()),
                         MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
                         THRESHOLD = dr["THRESHOLD"].ToString(),
@@ -252,7 +252,7 @@ namespace PTT_NGROUR.Controllers
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
                         REGION = dr["REGION"].ToString(),
-                        LICENSE = dr["LICENSE"].ToString(),
+                        LICENSE = Convert.ToInt32(dr["LICENSE"].ToString()),
                         MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
                         THRESHOLD = dr["THRESHOLD"].ToString(),
@@ -288,7 +288,7 @@ namespace PTT_NGROUR.Controllers
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = dr["FLAG"].ToString(),
                         REGION = dr["REGION"].ToString(),
-                        LICENSE = dr["LICENSE"].ToString(),
+                        LICENSE = Convert.ToInt32(dr["LICENSE"].ToString()),
                         MONTH = dr["MONTH"].ToString(),
                         YEAR = dr["YEAR"].ToString(),
                         THRESHOLD = dr["THRESHOLD"].ToString(),

@@ -83,7 +83,7 @@ namespace PTT_NGROUR.Models.DataModel
     {
         public int countMeter { get; set; }
         public string CUST_NAME { get; set; }
-        public string LICENSE_CODE { get; set; }
+        public int LICENSE_CODE { get; set; }
         public string METER_NAME { get; set; }
         public string METER_NUMBER { get; set; }
         public string METER_TYPE { get; set; }
@@ -104,7 +104,7 @@ namespace PTT_NGROUR.Models.DataModel
         public string METER_NAME_T { get; set; }
         public string METER_NUMBER_T { get; set; }
         public string METER_TYPE_T { get; set; }
-        public string REGION_T { get; set; }
+        public int REGION_T { get; set; }
         public string SHIP_TO_T { get; set; }
         public string SOLD_TO_T { get; set; }
         public string SOLD_TO_NAME_T { get; set; }
