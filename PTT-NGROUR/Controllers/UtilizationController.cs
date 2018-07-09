@@ -190,46 +190,43 @@ namespace PTT_NGROUR.Controllers
         }
 
 
+        [HttpPost] public ActionResult ReportPdf(ModelReportPDF pModel)
+        {
+            Session["ModelReportPDF"] = pModel;
+            return Json( "OK");
+        }
+
 
         public ActionResult ReportPdf()
         {
 
-            
+            var modelReportPDF = (ModelReportPDF)Session["ModelReportPDF"];
             var dal = new DAL.DAL();
             var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE TYPE NOT LIKE 'METERING' AND REGION IS NOT NULL";
+            if(modelReportPDF != null)
+            {
+                if(!string.IsNullOrEmpty(modelReportPDF.SearchMode) && modelReportPDF.ArrID != null && modelReportPDF.ArrID.Any())
+                {
+                    string strId = string.Join("," , modelReportPDF.ArrID);
+                    switch (modelReportPDF.SearchMode.ToLower())
+                    {
+                        case "region":
+
+                            break;
+                        case "license":
+
+                            break;
+                    }
+
+                    
+                }
+            }
+
             var ds = dal.GetDataSet(searchregion);
 
 
             var listRegion = dal.ReadData(searchregion, x => new ModelGetU(x)).ToList(); //new List<Models.DataModel.ModelGetU>();
-            //if (ds.Tables[0].Rows.Count > 0)
-            //{
-
-
-            //    foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
-            //    {
-            //        var reg = new Models.DataModel.ModelGetU()
-            //        {
-            //            NO = dr["NO"].ToString(),
-            //            NAME = dr["NAME"].ToString(),
-            //            //COLOR = dr["COLOR"].ToString(),
-            //            VALUE = dr["VALUE"].ToString(),
-            //            TYPE = dr["TYPE"].ToString(),
-            //            FLAG = dr["FLAG"].ToString(),
-            //            REGION = dr["REGION"].ToString(),
-            //            LICENSE = dr["LICENSE"].ToString(),
-            //            STATUS = dr["STATUS"].ToString(),
-            //            MONTH = dr["MONTH"].ToString(),
-            //            YEAR = dr["YEAR"].ToString(),
-            //        };
-            //        listRegion.Add(reg);
-            //    }
-            //}
-
-            //ds.Tables[0].Clear();
-            //ds.Tables[0].Dispose();
-            //ds.Clear();
-            //ds.Dispose();
-            //ds = null;
+            
             dal = null;
             return new ViewAsPdf(listRegion);
             //return View(listRegion);

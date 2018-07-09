@@ -805,4 +805,25 @@
     Search();
 
     //VIEW_GATE_PIPE_REPORT_CURRENT("Region", $("#MultiRegion").val());
-</script>
+
+    //----------------[ PDF ]----------------------//
+
+    function OpenReportPDF() {
+        var strMode = document.getElementById('radioRegion').checked ? "region" : "license";
+        var param = {
+            SearchMode: strMode,
+            ArrID: $("#MultiRegion").val(),
+            Period: $("#Year-filter").val(),
+            Threshold: $("#seAllThres").val(),
+            SearchType: $("#type-filter").val()
+            //pModel: {
+            //}
+        };
+        $.post("@Url.Action("ReportPdf")", param, function (data) {
+            if (data === "OK") {
+                alert("OK");
+            }
+        });
+    };
+    
+</script> 
