@@ -1140,6 +1140,24 @@ namespace PTT_NGROUR.Controllers
                  return Json(listRegion, JsonRequestBehavior.AllowGet);
              }
 
+        [HttpPost] JsonResult SearchAllReport(string threshold, string type, string month, string year, int[] Multidata)
+        {
+            string strCommand = "select * from VIEW_GATE_PIPE_REPORT WHERE 1=1";
+            if (!string.IsNullOrEmpty(month)) {
+                strCommand += " and MONTH = " + month;
+            }
+
+            if (!string.IsNullOrEmpty(year))
+            {
+                strCommand += " and YEAR = " + year;
+            }
+
+
+
+
+            return null;
+        }
+
              [HttpPost]
              public JsonResult SearchRegionReport(string threshold,string type,string month,string year,int[] Multidata)
              {
