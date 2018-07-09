@@ -1,20 +1,31 @@
 ﻿<script type="text/javascript">
-        jQuery.ajaxSettings.traditional = true;
-        $(function () {
-            $('#Month-filter').datepicker({
-                format: "m/yyyy",
-                viewMode: "months",
-                minViewMode: "months",
-                autoclose: true,
-                inline: true,
-            }).datepicker("setDate", new Date());
 
-            $("#Year-filter").datepicker({
-                format: "yyyy",
-                viewMode: "years",
-                minViewMode: "years",
-                autoclose: true
-            }).datepicker("setDate", new Date());
+    const _strGate = "GATESTATION";
+    const _strPipe = "PIPELINE";
+    const _strOk = "OK";
+    const _strWarning = "Warning";
+    const _strAlert = "Alert";
+    const _strFlag = "Flag";
+
+    var _isFirstSearch = true;
+
+    jQuery.ajaxSettings.traditional = true;
+
+        $('#Month-filter').datepicker({
+            format: "m/yyyy",
+            viewMode: "months",
+            minViewMode: "months",
+            autoclose: true,
+            inline: true,
+        }).datepicker("setDate", new Date());
+
+        $("#Year-filter").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose: true
+        }).datepicker("setDate", new Date());
+        $(function () {
         });
 
 
@@ -76,9 +87,10 @@
             var strYear = datNow.getFullYear();
             return strMonthName + " " + strYear;
         }
-        $("#lblLeftDate").text(getHeaderDate());
+        $("#lblLeftDate").text("");
         $("#lblRightDate").text("");
-        //var datamonth = month;
+    //var datamonth = month;
+
         function Search() {
             var threshold = document.getElementById('threshold-filter').value;
             var type = document.getElementById('type-filter').value;
@@ -89,7 +101,7 @@
                 if (document.getElementById('chooseMonth').value != "") {
                     var date = $('#Month-filter').datepicker('getDate'),
                           month = date.getMonth() + 1,
-                          year = date.getFullYear();
+                          year = date.getFullYear();                    
                 }
 
             }
@@ -97,7 +109,7 @@
                 if (document.getElementById('chooseYear').value != "") {
                     var date = $('#Year-filter').datepicker('getDate'),
                          year = date.getFullYear();
-                    var month = "null";
+                    var month = "null";                   
                 }
                 // document.getElementById('chooseYear').style.display = 'none';
             }
@@ -109,13 +121,13 @@
            
             if (document.getElementById('radioRegion').checked) {
                 url = '@Url.Action("SearchRegionReport")';
-                multidata = SeRegion;
+                multidata = $('#MultiRegion').val();//SeRegion;
                 strMode = "region";
                 
             }
             else if (document.getElementById('radioLicense').checked) {
                 url = '@Url.Action("SearchLicenseReport")';
-                multidata = SeLicense;
+                multidata = $('#MultiLicense').val();//SeLicense;
                 strMode = "license";
             }
             var multidataAll = {
@@ -133,12 +145,16 @@
                 data: JSON.stringify(multidataAll),
                 contentType: 'application/json; charset=utf-8',
                 datatype: 'json',
-                success: function (data) {
-                    
+                success: function (data) {                    
+                    console.log(data);
                     showPIE("PIPELINE", data);
-                    showPIE("GATE", data);
+                    showPIE("GATESTATION", data);
                     showUtilTable(data);
-                    $("#lblRightDate").text(monthNames[month-1] + " " + year);
+                    var strMonth = monthNames[month - 1];
+                    if (!strMonth) {
+                        strMonth = "";
+                    }
+                    $("#lblRightDate").text(strMonth + " " + year);
                 },
                 error: function (result) {
                     alert('Please select the data');
@@ -146,41 +162,71 @@
             });            
             VIEW_GATE_PIPE_REPORT_CURRENT("Region", multidata);
         }
+        
 
-        function showUtilTable(data) {
+    var _tblData = null;
+    function showUtilTable(data) {
+        _tblData = data;
             let tblShow = $("#utilTbl").DataTable();
             tblShow.clear()
             $('#utilTbl').find('tbody tr').each(function () {
                 this.remove();
             });
-            passPipe = 0;
-            passGate = 0;
-            warningPipe = 0;
-            warningGate = 0;
-            alertGate = 0;
-            alertPipe = 0;
-            flagGate = 0;
-            flagPipe = 0;
+            let passPipe = 0;
+            let passGate = 0;
+            let warningPipe = 0;
+            let warningGate = 0;
+            let alertGate = 0;
+            let alertPipe = 0;
+            let flagGate = 0;
+            let flagPipe = 0;
             for (let i in data) {
-                if (data[i].THRESHOLD == "OK" && data[i].TYPE == "GATESTATION")
-                { passGate = 1 + passGate; }
-                else if (data[i].THRESHOLD == "OK" && data[i].TYPE == "PIPELINE")
-                { passPipe = 1 + passPipe; }
+                var dataItem = data[i];
+                if (!dataItem) continue;
 
-                else if (data[i].THRESHOLD == "Warning" && data[i].TYPE == "GATESTATION")
-                { warningGate = 1 + warningGate; }
-                else if (data[i].THRESHOLD == "Warning" && data[i].TYPE == "PIPELINE")
-                { warningPipe = 1 + warningPipe; }
+                var strThreshold = dataItem.THRESHOLD;
+                var strType = dataItem.TYPE;
 
-                else if (data[i].THRESHOLD == "Alert" && data[i].TYPE == "GATESTATION")
-                { alertGate = 1 + alertGate; }
-                else if (data[i].THRESHOLD == "Alert" && data[i].TYPE == "PIPELINE")
-                { alertPipe = 1 + alertPipe; }
+                if (_strGate === strType) {
+                    if (strThreshold === _strOk) {
+                        passGate++;
+                    } else if (strThreshold === _strWarning) {
+                        warningGate++;
+                    } else if (strThreshold === _strAlert) {
+                        alertGate++;
+                    } else if (strThreshold === _strFlag) {
+                        flagGate++;
+                    }
+                } else if (_strPipe === strType) {
+                    if (strThreshold === _strOk) {
+                        passPipe++;
+                    } else if (strThreshold === _strWarning) {
+                        warningPipe++;
+                    } else if (strThreshold === _strAlert) {
+                        alertPipe++;
+                    } else if (strThreshold === _strFlag) {
+                        flagPipe++;
+                    }
+                }
+                //if (data[i].THRESHOLD == "OK" && data[i].TYPE == "GATESTATION")
+                //{ passGate = 1 + passGate; }
+                //else if (data[i].THRESHOLD == "OK" && data[i].TYPE == "PIPELINE")
+                //{ passPipe = 1 + passPipe; }
 
-                else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "GATESTATION")
-                { flagGate = 1 + flagGate; }
-                else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "PIPELINE")
-                { flagPipe = 1 + flagPipe; }
+                //else if (data[i].THRESHOLD == "Warning" && data[i].TYPE == "GATESTATION")
+                //{ warningGate = 1 + warningGate; }
+                //else if (data[i].THRESHOLD == "Warning" && data[i].TYPE == "PIPELINE")
+                //{ warningPipe = 1 + warningPipe; }
+
+                //else if (data[i].THRESHOLD == "Alert" && data[i].TYPE == "GATESTATION")
+                //{ alertGate = 1 + alertGate; }
+                //else if (data[i].THRESHOLD == "Alert" && data[i].TYPE == "PIPELINE")
+                //{ alertPipe = 1 + alertPipe; }
+
+                //else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "GATESTATION")
+                //{ flagGate = 1 + flagGate; }
+                //else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "PIPELINE")
+                //{ flagPipe = 1 + flagPipe; }
 
                 num = 1 + Number(i);
                 if (data[i].TYPE == "PIPELINE")
@@ -198,10 +244,10 @@
                 else if (document.getElementById('radioYear').checked)
                 { dataMonthYear = data[i].YEAR; }
 
-                var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport("' + data[i].NAME + '")" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
+                var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
                 $(rowItem).data('map_info', data[i]);
                 tblShow.row.add($(rowItem));
-            } tblShow.draw();
+            }
             $("#GatePass").text(passGate);
             $("#PipePass").text(passPipe);
 
@@ -213,6 +259,7 @@
 
             $("#GateFlag").text(flagGate);
             $("#PipeFlag").text(flagPipe);
+            tblShow.draw();
 
         }
 
@@ -227,13 +274,13 @@
                     continue;
                 }
                 switch (data.THRESHOLD) {
-                    case "OK":
+                    case _strOk:
                         intPass++;
                         break;
-                    case "Alert":
+                    case _strAlert:
                         intAlert++;
                         break;
-                    case "Warning":
+                    case _strWarning:
                         intWarning++;
                         break;
                 }
@@ -253,10 +300,10 @@
             
             let strIdPie = "";
             let objGraph = null;
-            if (pStrMode === "PIPELINE") {
+            if (pStrMode === _strPipe) {
                 strIdPie = "#piePipeline";
                 objGraph = _graphPipeLine;
-            } else if (pStrMode === "GATE") {
+            } else if (pStrMode === _strGate) {
                 strIdPie = "#pieGate";
                 objGraph = _graphGate
             }
@@ -321,33 +368,17 @@
 
         })
         var map_info_report_json;
-        function IfameReport() {
-            //consol.log(this);
-            //let map_info_report = $(this).data("map_info_report");
 
-            //map_info_report_json = {
-            //    "menu": "utilization-report",
-            //    "type": map_info_report.TYPE,
-            //    "command": "view",
-            //    "flag": true,
-            //    "flagby": "600426",
-            //    "parameter": {
-            //        "REGION": "1",
-            //        "LICENSE": "",
-            //        "NAME": "G0404R2",
-            //        "MONTH": "1",
-            //        "YEAR": "2018"
-            //    }
-            //}
-
-            //$('#ModalMapDashboard').modal('show');
-            let map_info = $(this).data("map_info");
-            console.log(map_info);
+        function IfameReport(pIntIndex){
+            if ( !_tblData === null || !_tblData[pIntIndex]) {
+                return;
+            }
+            let map_info = _tblData[pIntIndex];            
             map_dashboard_json = {
-                "menu": "dashboard",
+                "menu": "utilization-report",
                 "type": map_info.TYPE,
                 "command": "view",
-                "flag": $('#flag').val() == 1 ? true : false,
+                "flag": $('#flag').val() === 1,
                 "flagby": $('#username').val(),
                 "parameter": {
                     "REGION": map_info.REGION,
@@ -357,8 +388,7 @@
                     "YEAR": map_info.YEAR,
                 }
             }
-            map_frame.contentWindow.postMessage(map_dashboard_json, '*');
-            //map_frame.contentWindow.postMessage(map_info_json, '*');
+            map_iframe_report.contentWindow.postMessage(map_dashboard_json, '*');
         }
 
         //function searcch
@@ -417,13 +447,15 @@
 
         //////////////////////
 
-
+        $.ajaxx = function (x) {
+            console.log(x);
+        }
 
         Chart.defaults.global.legend.labels.usePointStyle = true;
         Chart.defaults.doughnutLabels = Chart.helpers.clone(Chart.defaults.doughnut);
         var helpers = Chart.helpers;
         var defaults = Chart.defaults;
-        $.ajax({
+        $.ajaxx({
             type: "POST",
             url: "/Utilization/Report_CurrentGate",
             contentType: "application/json; charset=utf-8",
@@ -464,7 +496,7 @@
             }
         });
 
-        $.ajax({
+        $.ajaxx({
             type: "POST",
             url: "/Utilization/Report_CurrentPipeline",
             contentType: "application/json; charset=utf-8",
@@ -509,7 +541,7 @@
         //---------Search Region All--------//
         let tblRegionAll = $("#utilTbl").DataTable();
         tblRegionAll.clear()
-        $.ajax({
+        $.ajaxx({
             url: "/Utilization/RegionAllReport",
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
@@ -629,55 +661,58 @@
             var strUrl = "@Url.Action("VIEW_GATE_PIPE_REPORT_CURRENT")";
             $.post(strUrl, param, function (data2) {
                 
-                passPipe = 0;
-                passGate = 0;
-                warningPipe = 0;
-                warningGate = 0;
-                alertGate = 0;
-                alertPipe = 0;
-                flagGate = 0;
-                flagPipe = 0;
-                var data = data2.Result;
-                showAllPIE("PIPELINE", data);
-                showAllPIE("GATESTATION", data);
-                for (let i in data) {
-                    if (data[i].THRESHOLD == "OK" && data[i].TYPE == "GATESTATION")
-                    { passGate = 1 + passGate; }
-                    else if (data[i].THRESHOLD == "OK" && data[i].TYPE == "PIPELINE")
-                    { passPipe = 1 + passPipe; }
+                var passPipe = 0;
+                var passGate = 0;
+                var warningPipe = 0;
+                var warningGate = 0;
+                var alertGate = 0;
+                var alertPipe = 0;
+                var flagGate = 0;
+                var flagPipe = 0;
+                var data = data2.Result;                
 
-                    else if (data[i].THRESHOLD == "Warning" && data[i].TYPE == "GATESTATION")
-                    { warningGate = 1 + warningGate; }
-                    else if (data[i].THRESHOLD == "Warning" && data[i].TYPE == "PIPELINE")
-                    { warningPipe = 1 + warningPipe; }
-
-                    else if (data[i].THRESHOLD == "Alert" && data[i].TYPE == "GATESTATION")
-                    { alertGate = 1 + alertGate; }
-                    else if (data[i].THRESHOLD == "Alert" && data[i].TYPE == "PIPELINE")
-                    { alertPipe = 1 + alertPipe; }
-
-                    else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "GATESTATION")
-                    { flagGate = 1 + flagGate; }
-                    else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "PIPELINE")
-                    { flagPipe = 1 + flagPipe; }
-
-                    num = 1 + Number(i);
-                    
-
-                    }
+                showAllPIE(_strPipe, data);
+                showAllPIE(_strGate, data);
                 
-                $("#GatePass").text(passGate);
-                $("#PipePass").text(passPipe);
+                var intMonth = 0;
+                var intYear = 0;
 
-                $("#GateWarning").text(warningGate);
-                $("#PipeWarning").text(warningPipe);
+                for (let i in data) {
+                    var dataItem = data[i];
+                    if (!dataItem) continue;
+                    
+                    var strThreshold = dataItem.THRESHOLD;
+                    var strType = dataItem.TYPE;
 
-                $("#GateAlert").text(alertGate);
-                $("#PipeAlert").text(alertPipe);
+                    intMonth = dataItem.MONTH;
+                    intYear = dataItem.YEAR;
 
-                $("#GateFlag").text(flagGate);
-                $("#PipeFlag").text(flagPipe);
+                    if (_strGate === strType) {
+                        if (strThreshold === _strOk) {
+                            passGate++;
+                        } else if (strThreshold === _strWarning) {
+                            warningGate++;
+                        } else if (strThreshold === _strAlert) {
+                            alertGate++;
+                        } else if (strThreshold === _strFlag) {
+                            flagGate++;
+                        }
+                    } else if (_strPipe === strType) {
+                        if (strThreshold === _strOk) {
+                            passPipe++;
+                        } else if (strThreshold === _strWarning) {
+                            warningPipe++;
+                        } else if (strThreshold === _strAlert) {
+                            alertPipe++;
+                        } else if (strThreshold === _strFlag) {
+                            flagPipe++;
+                        }
+                    }
 
+                }
+                var strMonthName = monthNames[intMonth-1];
+                $("#lblLeftDate").text(strMonthName + " " + intYear);
+                        
                 $("#Current_GatePass").text(passGate);
                 $("#Current_PipePass").text(passPipe);
 
@@ -706,13 +741,13 @@
                 continue;
             }
             switch (data.THRESHOLD) {
-                case "OK":
+                case _strOk:
                     intPass++;
                     break;
-                case "Alert":
+                case _strAlert:
                     intAlert++;
                     break;
-                case "Warning":
+                case _strWarning:
                     intWarning++;
                     break;
             }
@@ -730,14 +765,13 @@
                 borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                 borderWidth: 1
             }]
-        };
-        console.log(dataT);
+        };        
         let strIdPie = "";
         let objGraph = null;
-        if (pStrMode === "PIPELINE") {
+        if (pStrMode === _strPipe) {
             strIdPie = "#piePipelineAll";
             objGraph = _graphAllPipeLine;
-        } else if (pStrMode === "GATESTATION") {
+        } else if (pStrMode === _strGate) {
             strIdPie = "#pieGateAll";
             objGraph = _graphAllGate
         }
@@ -759,13 +793,16 @@
                 },
             }
         });
-        if (pStrMode === "PIPELINE") {            
+        if (pStrMode === _strPipe) {            
             _graphAllPipeLine = objGraph;
-        } else if (pStrMode === "GATESTATION") {            
+        } else if (pStrMode === _strGate) {            
             _graphAllGate = objGraph;
         }
         objGraph.update();
     }
+
+    //Check();
+    Search();
 
     //VIEW_GATE_PIPE_REPORT_CURRENT("Region", $("#MultiRegion").val());
 </script>
