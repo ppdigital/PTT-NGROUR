@@ -19,35 +19,35 @@ namespace PTT_NGROUR.Models.DataModel
             {
                 return;
             }
-            NO          = pReader.GetColumnValue("NO").GetString();
-            ID          = pReader.GetColumnValue("ID").GetString();
+           // NO          = pReader.GetColumnValue("NO").GetString();
+           // ID          = pReader.GetColumnValue("ID").GetString();
             NAME        = pReader.GetColumnValue("NAME").GetString();
-            VALUE       = pReader.GetColumnValue("VALUE").GetString();
+            VALUE       = pReader.GetColumnValue("VALUE").GetInt();
             OBJ_TYPE    = pReader.GetColumnValue("OBJ_TYPE").GetString();
-            FLAG        = pReader.GetColumnValue("FLAG").GetString();            
+            FLAG        = pReader.GetColumnValue("FLAG").GetInt();            
             THRESHOLD   = pReader.GetColumnValue("THRESHOLD").GetString();
             TYPE        = pReader.GetColumnValue("TYPE").GetString();
-            REGION      = pReader.GetColumnValue("REGION").GetString();
+            REGION      = pReader.GetColumnValue("REGION").GetInt();
             LICENSE     = pReader.GetColumnValue("LICENSE").GetInt();
             STATUS      = pReader.GetColumnValue("STATUS").GetString();
-            MONTH       = pReader.GetColumnValue("MONTH").GetString();
-            YEAR        = pReader.GetColumnValue("YEAR").GetString();
+            MONTH       = pReader.GetColumnValue("MONTH").GetInt();
+            YEAR        = pReader.GetColumnValue("YEAR").GetInt();
         }
 
-        public string NO { get; set; }
-        public string ID { get; set; }
+       // public int NO { get; set; }
+       // public string ID { get; set; }
         public string NAME { get; set; }
-        public string VALUE { get; set; }
+        public int VALUE { get; set; }
         public string OBJ_TYPE { get; set; }
-        public string FLAG { get; set; } 
+        public int FLAG { get; set; } 
         //public string COLOR { get; set; }
         public string THRESHOLD { get; set; }
         public string TYPE { get; set; }
-        public string REGION { get; set; }
+        public int REGION { get; set; }
         public int LICENSE { get; set; }
         public string STATUS { get; set; }
-        public string MONTH { get; set; }
-        public string YEAR { get; set; } 
+        public int MONTH { get; set; }
+        public int YEAR { get; set; } 
 
     }
 

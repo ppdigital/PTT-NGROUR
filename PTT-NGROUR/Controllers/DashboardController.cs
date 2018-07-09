@@ -198,34 +198,10 @@ namespace PTT_NGROUR.Controllers
         {
             var dal = new DAL.DAL();
             string regionStr = string.Join("','", region);
-            var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "') AND TYPE NOT LIKE 'METERING'";
+            var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "') AND TYPE NOT LIKE 'METERING'"; 
             var ds = dal.GetDataSet(searchregion);
-
-
-            var listRegion = new List<Models.DataModel.ModelGetU>();
-            if (ds.Tables[0].Rows.Count > 0)
-            {
-
-
-                foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
-                {
-                    var reg = new Models.DataModel.ModelGetU()
-                    {
-                        NO = dr["NO"].ToString(),
-                        NAME = dr["NAME"].ToString(),
-                        VALUE = dr["VALUE"].ToString(),
-                        TYPE = dr["TYPE"].ToString(),
-                        FLAG = dr["FLAG"].ToString(),
-                        REGION = dr["REGION"].ToString(),
-                        LICENSE = Convert.ToInt32(dr["LICENSE"].ToString()),
-                        MONTH = dr["MONTH"].ToString(),
-                        YEAR = dr["YEAR"].ToString(),
-                        THRESHOLD = dr["THRESHOLD"].ToString(),
-                    };
-                    listRegion.Add(reg);
-                }
-            }
-
+            var listRegion = dal.ReadData(searchregion, x => new Models.DataModel.ModelGetU(x)).ToList();
+            dal = null;
             return Json(listRegion, JsonRequestBehavior.AllowGet);
         }
 
@@ -246,15 +222,15 @@ namespace PTT_NGROUR.Controllers
                 {
                     var reg = new Models.DataModel.ModelGetU()
                     {
-                        NO = dr["NO"].ToString(),
+                        
                         NAME = dr["NAME"].ToString(),
-                        VALUE = dr["VALUE"].ToString(),
+                        VALUE = Convert.ToInt32(dr["VALUE"].ToString()),
                         TYPE = dr["TYPE"].ToString(),
-                        FLAG = dr["FLAG"].ToString(),
-                        REGION = dr["REGION"].ToString(),
+                        FLAG = Convert.ToInt32(dr["FLAG"].ToString()),
+                        REGION = Convert.ToInt32(dr["REGION"].ToString()),
                         LICENSE = Convert.ToInt32(dr["LICENSE"].ToString()),
-                        MONTH = dr["MONTH"].ToString(),
-                        YEAR = dr["YEAR"].ToString(),
+                        MONTH = Convert.ToInt32(dr["MONTH"].ToString()),
+                        YEAR = Convert.ToInt32(dr["YEAR"].ToString()),
                         THRESHOLD = dr["THRESHOLD"].ToString(),
                     };
                     listRegion.Add(reg);
@@ -272,30 +248,11 @@ namespace PTT_NGROUR.Controllers
             var searchlicense = @"select * from VIEW_GATEPIPEMETER_MENU WHERE LICENSE IN ('" + licenseStr + "') AND TYPE NOT LIKE 'METERING'";
             var ds = dal.GetDataSet(searchlicense);
 
+            var listLicense = dal.ReadData(searchlicense, x => new Models.DataModel.ModelGetU(x)).ToList();
+            dal = null;
 
-            var listLicense = new List<Models.DataModel.ModelGetU>();
-            if (ds.Tables[0].Rows.Count > 0)
-            {
-
-
-                foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
-                {
-                    var reg = new Models.DataModel.ModelGetU()
-                    {
-                        NO = dr["NO"].ToString(),
-                        NAME = dr["NAME"].ToString(),
-                        VALUE = dr["VALUE"].ToString(),
-                        TYPE = dr["TYPE"].ToString(),
-                        FLAG = dr["FLAG"].ToString(),
-                        REGION = dr["REGION"].ToString(),
-                        LICENSE = Convert.ToInt32(dr["LICENSE"].ToString()),
-                        MONTH = dr["MONTH"].ToString(),
-                        YEAR = dr["YEAR"].ToString(),
-                        THRESHOLD = dr["THRESHOLD"].ToString(),
-                    };
-                    listLicense.Add(reg);
-                }
-            }
+            
+           
 
             return Json(listLicense, JsonRequestBehavior.AllowGet);
         }

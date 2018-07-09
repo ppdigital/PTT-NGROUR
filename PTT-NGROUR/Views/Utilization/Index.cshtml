@@ -168,9 +168,9 @@
 
                             <select class="form-control form-control-sm fz-12px" id="threshold-filter" style="height: 30px !important;">
                                 <option id="seAllThres" class="fz-12px drop_role" value="all">All Threshold</option>
-                                <option id="seGree" class="fz-12px drop_role" value="green">Green</option>
-                                <option id="seYello" class="fz-12px drop_role" value="yellow">Yellow</option>
-                                <option id="seRed" class="fz-12px drop_role" value="red">Red</option>
+                                <option id="seGree" class="fz-12px drop_role" value="OK">OK</option>
+                                <option id="seYello" class="fz-12px drop_role" value="Warning">Warning</option>
+                                <option id="seRed" class="fz-12px drop_role" value="Alert">Alert</option>
                             </select>
 
                         </div>
@@ -356,7 +356,7 @@
                             
                         }
 
-                        $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NO + '" class="rowfil pointer" data-color="' + color1 + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h6 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
+                        $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NAME + '" class="rowfil pointer" data-color="' + data[i].THRESHOLD + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h6 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
                         $('#utilTbl > tbody >tr:last-child').data('map_info', data[i]);
                         $('#utilTbl > tbody >tr:last-child').click(utilTblOnclick);
                     }
