@@ -19,11 +19,11 @@ namespace PTT_NGROUR.Models.DataModel
             {
                 return;
             }
-           // NO          = pReader.GetColumnValue("NO").GetString();
+              NO          = pReader.GetColumnValue("NO").GetInt();
            // ID          = pReader.GetColumnValue("ID").GetString();
             NAME        = pReader.GetColumnValue("NAME").GetString();
-            VALUE       = pReader.GetColumnValue("VALUE").GetInt();
-            OBJ_TYPE    = pReader.GetColumnValue("OBJ_TYPE").GetString();
+            VALUE       = pReader.GetColumnValue("VALUE").GetDecimal();
+          //  OBJ_TYPE    = pReader.GetColumnValue("OBJ_TYPE").GetString();
             FLAG        = pReader.GetColumnValue("FLAG").GetInt();            
             THRESHOLD   = pReader.GetColumnValue("THRESHOLD").GetString();
             TYPE        = pReader.GetColumnValue("TYPE").GetString();
@@ -34,11 +34,12 @@ namespace PTT_NGROUR.Models.DataModel
             YEAR        = pReader.GetColumnValue("YEAR").GetInt();
         }
 
-       // public int NO { get; set; }
+        public int NO { get; set; }
        // public string ID { get; set; }
         public string NAME { get; set; }
-        public int VALUE { get; set; }
-        public string OBJ_TYPE { get; set; }
+        public decimal VALUE { get; set; }
+        public string CUST_NAME { get; set; }
+       // public string OBJ_TYPE { get; set; }
         public int FLAG { get; set; } 
         //public string COLOR { get; set; }
         public string THRESHOLD { get; set; }
