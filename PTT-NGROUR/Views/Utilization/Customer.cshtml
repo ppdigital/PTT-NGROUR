@@ -71,7 +71,7 @@
         <div id="metering" class="tab-pane fade">
             <div class="ph2 pv2">
                 <div class="pull-right">
-                    <button type="button" class="btn btn-primary btn-sm" id="btnCreateMeter" onclick="CreateMeter()" data-target="#ModalCreateMeter" style="border-radius:0">
+                    <button type="button" class="btn btn-primary btn-sm" id="btnModalCreateMeter" onclick="CreateMeter()" data-toggle="modal" data-target="#ModalCreateMeter" style=" border-radius:0">
                         <span class="glyphicon glyphicon-search"></span> Create Meter
                     </button><span class="cr"></span>
                    
@@ -795,7 +795,7 @@
                         <div class="row pb1">
                             <div class="measure center col-lg-12 col-md-12 col-sm-12">
                                 <span class="col-lg-5 col-md-5">
-                                    <label for="name" class="b pull-right">Sold-TO Name :</label>
+                                    <label for="name" class="b pull-right">Sold-To Name :</label>
                                 </span>
                                 <div class="col-lg-6 col-md-7 ">
                                     @Html.TextBox("txtSoldToNameMEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
@@ -848,6 +848,130 @@
     </div>
 </div>
 
+ <!--Modal Create Meter -->
+
+<div id="ModalCreateMeter" class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="panel-title">Create Metering</label>
+                <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <br />
+
+            <div class="pv2 mv3">
+                <div class="  black-80 center">
+
+                    <div class="row pb1" style="display:none">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <span class="col-lg-5 col-md-5">
+                                <label for="name" class=" b pull-right">Metering Number :</label>
+                            </span>
+                            <div class="col-lg-6 col-md-7 ">
+                                @Html.TextBox("txtMeterNumMCreate", null, new { @class = "form-control input-sm " })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pb1">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <span class="col-lg-5 col-md-5">
+                                <label for="name" class=" b pull-right">Metering Name :</label>
+                            </span>
+                            <div class="col-lg-6 col-md-7 ">
+                                @Html.TextBox("txtMeterNameMCreate", null, new { @class = "form-control input-sm " })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pb1">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <span class="col-lg-5 col-md-5">
+                                <label for="name" class="b pull-right">Metering Type :</label>
+                            </span>
+                            <div class="col-lg-6 col-md-7 ">
+                                @Html.TextBox("txtMeterTypeMCreate", null, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pb1">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <span class="col-lg-5 col-md-5">
+                                <label for="name" class="b pull-right">Ship-To :</label>
+                            </span>
+                            <div class="col-lg-6 col-md-7 ">
+                                <select class="form-control input-sm" id="seStatusMCreate" name="seStatusMCreate">
+                                    <option value="1" class="drop_role">Active</option>
+                                    <option value="0" class="drop_role">Non Active</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pb1">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <span class="col-lg-5 col-md-5">
+                                <label for="name" class="b pull-right">License Code :</label>
+                            </span>
+                            <div class="col-lg-6 col-md-7 ">
+                              @*  <select class="form-control input-sm" id="seLicenseMCreate" name="seLicenseMCreate">
+    @foreach (PTT_NGROUR.Models.DataModel.ModelUsersRole mr in Model.ModelUsersRole)
+          {
+
+         <option value="@mr.ROLE_ID">@mr.ROLE_NAME</option>
+         }
+    </select>*@
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pb1">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <span class="col-lg-5 col-md-5">
+                                <label for="name" class="b pull-right">Status :</label>
+                            </span>
+                            <div class="col-lg-6 col-md-7 ">
+                                <select class="form-control input-sm" id="seStatusMCreate" name="seStatusMCreate">
+                                    <option value="1" class="drop_role">Active</option>
+                                    <option value="0" class="drop_role">Non Active</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row pb1">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                            <span class="col-lg-5 col-md-5">
+                                <label for="name" class="b pull-right">Comm Date :</label>
+                            </span>
+                            <div class="col-lg-6 col-md-7 ">
+                                <input type="text" class="form-control form-control-sm fz-12px" id="datepicCommdateMCreate" name="datepicCommdateMCreate" style="height: 30px !important" />
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <input type="button" class="btn btn-primary" id="btnCreateMeter" value="Save" onclick="CreateMeter()">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <!-- <a type="button" class="btn btn-default cancleCreate" href="#0" id="btnCancle">Cancel</a>-->
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
 @section scripts{
     <script src="~/Content/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/DataTables/datatables.min.js"></script>
@@ -859,7 +983,7 @@
                 $('#MeterTable').dataTable({
                     responsive: true
                 });
-
+                
 
 
             });
@@ -872,7 +996,13 @@
                 autoclose: true
             });
 
+            $('#datepicCommdateMCreate').datepicker({
+                format: "dd/mm/yyyy",
 
+                autoclose: true
+            });
+
+            
         });
 
             function EditCust(cust) {
@@ -954,6 +1084,7 @@
                 if (meter == '@cusMeterV.METER_NUMBER_T') {
                     $("#txtCustNameMView").text('@cusMeterV.CUST_NAME_T');
                     $("#txtLicenseCodeMView").text('@cusMeterV.LICENSE_CODE_T');
+
                     $("#txtMeterNameMView").text('@cusMeterV.METER_NAME_T');
                     $("#txtMeterNumMView").text('@cusMeterV.METER_NUMBER_T');
                     $("#txtMeterTypeMView").text('@cusMeterV.METER_TYPE_T');
@@ -994,5 +1125,31 @@
                     </text>
                 }
             };
+
+        function CreateMeter() {
+           
+         
+            var txtMeterNameMCreate = document.getElementById("txtMeterNameMCreate").value;
+            var txtMeterTypeMCreate = document.getElementById("txtMeterTypeMCreate").value;
+            var seStatusMCreate = document.getElementById("seStatusMCreate").value;
+            var datepicCommdateMCreate = document.getElementById("datepicCommdateMCreate").value;
+
+
+            $.ajax({
+                async: true,
+                cache: false,
+                url: '@Url.Action("CreateUser")',
+
+                type: 'POST',
+                data: { txtEMPID: txtEmployeeIDCreate, txtFNC: txtFirstNameCreate, txtLNC: txtLastNameCreate, PWC: PassWordCreate, IsADCreate: IsADCreate, txtMailCreate: txtMailCreate, selectRoleCreate: selectRoleCreate },
+                success: function (response) {
+                    alert(response);
+                    if (response == "เพิ่มข้อมูลเรียบร้อย") {
+                        //$("#myModalCreate").style.display = "none";
+                        window.location.reload();
+                    }
+                }
+            });
+        }
     </script>
 }
