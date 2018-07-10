@@ -165,6 +165,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LDAPSearch.cs" />
     <Compile Include="Controllers\OMController.cs" />
+    <Compile Include="Controllers\PdfController.cs" />
     <Compile Include="Controllers\SQLServerQuery.cs" />
     <Compile Include="Controllers\ThresholdController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="ExtentionAndLib\Ext.cs" />
     <Compile Include="DI\CommonConventions.cs" />
     <Compile Include="DI\StructureMap\Registries\MvcSiteMapProviderRegistry.cs" />
+    <Compile Include="ExtentionAndLib\SessionManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -195,6 +197,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\ViewModel\ModelOmIndex.cs" />
     <Compile Include="Models\ViewModel\ModelReportPDF.cs" />
+    <Compile Include="Models\ViewModel\ModelUtilizationReportPdfOutput.cs" />
     <Compile Include="Models\ViewModel\ModelViewCustomer.cs" />
     <Compile Include="Models\ViewModel\ModelJsonResult.cs" />
     <Compile Include="Models\ViewModel\ModelUtilization.cs" />
@@ -660,6 +663,7 @@
     <Content Include="Views\Utilization\Customer.cshtml" />
     <Content Include="Views\OM\Index.cshtml" />
     <Content Include="Views\Utilization\PartialReportScript.cshtml" />
+    <Content Include="Views\Pdf\UtilizationReportPdf.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

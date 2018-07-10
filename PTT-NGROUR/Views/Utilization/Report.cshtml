@@ -122,9 +122,10 @@
                         <div class="col-lg-2 col-md-2  col-sm-2 col-xs-4" id="chooseThreshold" style="padding-bottom: 0rem !important; padding-right: 0rem;">
                             <select class="form-control form-control-sm fz-12px" id="threshold-filter" style="height: 30px !important;">
                                 <option id="seAllThres" class="fz-12px drop_role" value="All">All Threshold</option>
-                                <option id="seGree" class="fz-12px drop_role" value="Pass">Pass</option>
+                                <option id="seGree" class="fz-12px drop_role" value="OK">OK</option>
                                 <option id="seYello" class="fz-12px drop_role" value="Warning">Warning</option>
                                 <option id="seRed" class="fz-12px drop_role" value="Alert">Alert</option>
+                                <option id="seRed" class="fz-12px drop_role" value="Flag">Flag</option>
 
                             </select>
                         </div>
@@ -380,6 +381,7 @@
         </div>
     </div>
 </div>
+<form id="frmReportPDF" method="get" target="_blank" action="@Url.Action("UtilizationReportPdf", "Pdf")" ></form>
 
 @section scripts{
     <script src="~/Content/bootstrap-datepicker.js"></script>

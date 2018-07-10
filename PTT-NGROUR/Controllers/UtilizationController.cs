@@ -190,7 +190,7 @@ namespace PTT_NGROUR.Controllers
         }
 
 
-        [HttpPost] public ActionResult ReportPdf(ModelReportPDF pModel)
+        [HttpPost] public ActionResult ReportPdf(ModelUtilizationReportPdfInput pModel)
         {
             Session["ModelReportPDF"] = pModel;
             return Json( "OK");
@@ -201,7 +201,7 @@ namespace PTT_NGROUR.Controllers
         {
 
 
-            var modelReportPDF = (ModelReportPDF)Session["ModelReportPDF"];
+            var modelReportPDF = (ModelUtilizationReportPdfInput)Session["ModelReportPDF"];
 
 
 
@@ -220,9 +220,7 @@ namespace PTT_NGROUR.Controllers
                         case "license":
 
                             break;
-                    }
-
-                    
+                    }                    
                 }
             }
 
@@ -387,7 +385,7 @@ namespace PTT_NGROUR.Controllers
                         NAME = dr["NAME"].ToString(),
                         //COLOR = dr["COLOR"].ToString(),
                         THRESHOLD = dr["THRESHOLD"].ToString(),
-                        OBJ_TYPE = dr["OBJ_TYPE"].ToString(),
+                        //OBJ_TYPE = dr["OBJ_TYPE"].ToString(),
                         VALUE =  dr["VALUE"].GetInt(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = Convert.ToInt32(dr["FLAG"].ToString()),

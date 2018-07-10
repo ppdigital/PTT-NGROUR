@@ -5,12 +5,12 @@ using System.Web;
 
 namespace PTT_NGROUR.Models.ViewModel
 {
-    public class ModelReportPDF
+    public class ModelUtilizationReportPdfInput
     {
-        public string SearchMode { get; set; }
+        public string SearchMode { get; set; } //"region" : "license"
         public string[] ArrID { get; set; }
-        public string Period { get; set; }
-        public string Threshold { get; set; }
-        public string SearchType { get; set; }
+        public string Period { get; set; } // 6/2018
+        public string Threshold { get; set; } // Pass , Warning , Alert 
+        public string SearchType { get; set; } // Pipeline , GateStation
     }
 }

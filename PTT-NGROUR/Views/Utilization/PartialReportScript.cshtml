@@ -101,7 +101,7 @@
                 if (document.getElementById('chooseMonth').value != "") {
                     var date = $('#Month-filter').datepicker('getDate'),
                           month = date.getMonth() + 1,
-                          year = date.getFullYear();                    
+                          year = date.getFullYear();
                 }
 
             }
@@ -109,21 +109,21 @@
                 if (document.getElementById('chooseYear').value != "") {
                     var date = $('#Year-filter').datepicker('getDate'),
                          year = date.getFullYear();
-                    var month = "null";                   
+                    var month = "null";
                 }
                 // document.getElementById('chooseYear').style.display = 'none';
             }
             else { var month = "null"; var year = "null"; }
-            
+
 
             let multidata;
             let strMode = "";
-           
+
             if (document.getElementById('radioRegion').checked) {
                 url = '@Url.Action("SearchRegionReport")';
                 multidata = $('#MultiRegion').val();//SeRegion;
                 strMode = "region";
-                
+
             }
             else if (document.getElementById('radioLicense').checked) {
                 url = '@Url.Action("SearchLicenseReport")';
@@ -145,7 +145,7 @@
                 data: JSON.stringify(multidataAll),
                 contentType: 'application/json; charset=utf-8',
                 datatype: 'json',
-                success: function (data) {                    
+                success: function (data) {
                     console.log(data);
                     showPIE("PIPELINE", data);
                     showPIE("GATESTATION", data);
@@ -159,10 +159,10 @@
                 error: function (result) {
                     alert('Please select the data');
                 }
-            });            
+            });
             VIEW_GATE_PIPE_REPORT_CURRENT("Region", multidata);
         }
-        
+
 
     var _tblData = null;
     function showUtilTable(data) {
@@ -297,7 +297,7 @@
                     borderWidth: 1
                 }]
             };
-            
+
             let strIdPie = "";
             let objGraph = null;
             if (pStrMode === _strPipe) {
@@ -373,7 +373,7 @@
             if ( !_tblData === null || !_tblData[pIntIndex]) {
                 return;
             }
-            let map_info = _tblData[pIntIndex];            
+            let map_info = _tblData[pIntIndex];
             map_dashboard_json = {
                 "menu": "utilization-report",
                 "type": map_info.TYPE,
@@ -440,7 +440,7 @@
             updateFilters();
         }
 
-        
+
 
 
 
@@ -657,10 +657,10 @@
                 pType: pType,
                 pArrId: pArrId
             };
-            
+
             var strUrl = "@Url.Action("VIEW_GATE_PIPE_REPORT_CURRENT")";
             $.post(strUrl, param, function (data2) {
-                
+
                 var passPipe = 0;
                 var passGate = 0;
                 var warningPipe = 0;
@@ -669,18 +669,18 @@
                 var alertPipe = 0;
                 var flagGate = 0;
                 var flagPipe = 0;
-                var data = data2.Result;                
+                var data = data2.Result;
 
                 showAllPIE(_strPipe, data);
                 showAllPIE(_strGate, data);
-                
+
                 var intMonth = 0;
                 var intYear = 0;
 
                 for (let i in data) {
                     var dataItem = data[i];
                     if (!dataItem) continue;
-                    
+
                     var strThreshold = dataItem.THRESHOLD;
                     var strType = dataItem.TYPE;
 
@@ -712,7 +712,7 @@
                 }
                 var strMonthName = monthNames[intMonth-1];
                 $("#lblLeftDate").text(strMonthName + " " + intYear);
-                        
+
                 $("#Current_GatePass").text(passGate);
                 $("#Current_PipePass").text(passPipe);
 
@@ -765,7 +765,7 @@
                 borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                 borderWidth: 1
             }]
-        };        
+        };
         let strIdPie = "";
         let objGraph = null;
         if (pStrMode === _strPipe) {
@@ -775,7 +775,7 @@
             strIdPie = "#pieGateAll";
             objGraph = _graphAllGate
         }
-        if (objGraph != null) {            
+        if (objGraph != null) {
             objGraph.destroy();
         }
         let ctx = $(strIdPie).get(0).getContext("2d");
@@ -793,9 +793,9 @@
                 },
             }
         });
-        if (pStrMode === _strPipe) {            
+        if (pStrMode === _strPipe) {
             _graphAllPipeLine = objGraph;
-        } else if (pStrMode === _strGate) {            
+        } else if (pStrMode === _strGate) {
             _graphAllGate = objGraph;
         }
         objGraph.update();
@@ -819,11 +819,17 @@
             //pModel: {
             //}
         };
-        $.post("@Url.Action("ReportPdf")", param, function (data) {
-            if (data === "OK") {
-                alert("OK");
+        var strUrl = "@Url.Action("UtilizationReportPdf" , "Pdf")";
+        $.post(strUrl, param, function (data) {
+            if (data.Result === "OK") {
+                $("#frmReportPDF").submit();
+            } else {
+                alert("Error");
             }
+        }).fail(function (e) {
+            console.log(e);
+            alert("Error");
         });
     };
-    
+
 </script> 

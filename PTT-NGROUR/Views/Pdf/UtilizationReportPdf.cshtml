@@ -1,0 +1,116 @@
+﻿@{
+    Layout = null;
+    
+}
+@model PTT_NGROUR.Models.ViewModel.ModelUtilizationReportPdfOutput
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UtilizationReportPdf</title>
+    @*<link rel="stylesheet" href="~/Content/bootstrap-3.3.7-dist/css/bootstrap.min.css" />*@
+    @*<link rel="stylesheet" href="~/Style/create.css" />*@
+    
+    <style>
+        table {
+            background-color: white;
+            font-family : Tahoma;
+            border-color: gray;
+            border-collapse:collapse;
+        }
+
+        /*tr {
+            page-break-inside: initial;
+            page-break-after: avoid;
+        }*/
+
+        tr, th {
+            page-break-inside: avoid !important;
+        }
+    </style>
+    
+</head>
+<body>
+    
+    <table width="100%" cellpadding="10" style="color:white">
+        <tr>
+            <td style="background-color:#16a085">Gate Station</td>
+            <td style="background-color:#16a085">Pipeline</td>
+            <td style="width:15px" rowspan="2"></td>
+            <td style="background-color:#f1c40f">Gate Station</td>
+            <td style="background-color:#f1c40f">Pipeline</td>
+            <td style="width:15px" rowspan="2"></td>
+            <td style="background-color:#e74c3c">Gate Station</td>
+            <td style="background-color:#e74c3c">Pipeline</td>
+            <td style="width:15px" rowspan="2"></td>
+            <td style="background-color:#e67e22">Gate Station</td>
+            <td style="background-color:#e67e22">Pipeline</td>
+        </tr>
+        <tr>
+            <td style="background-color:#16a085"><h1>@Model.CurrentGate.OK</h1></td>
+            <td style="background-color:#16a085"><h1>@Model.CurrentPipeline.OK</h1></td>
+            <td style="background-color:#f1c40f"><h1>@Model.CurrentGate.Warning</h1></td>
+            <td style="background-color:#f1c40f"><h1>@Model.CurrentPipeline.Warning</h1></td>
+            <td style="background-color:#e74c3c"><h1>@Model.CurrentGate.Alert</h1></td>
+            <td style="background-color:#e74c3c"><h1>@Model.CurrentPipeline.Alert</h1></td>
+            <td style="background-color:#e67e22"><h1>@Model.CurrentGate.Flag</h1></td>
+            <td style="background-color:#e67e22"><h1>@Model.CurrentPipeline.Flag</h1></td>
+        </tr>
+    </table>
+    <br />
+    <table width="100%" cellpadding="10" style="color:white">
+        <tr>
+            <td style="background-color:#16a085">Gate Station</td>
+            <td style="background-color:#16a085">Pipeline</td>
+            <td style="width:15px" rowspan="2"></td>
+            <td style="background-color:#f1c40f">Gate Station</td>
+            <td style="background-color:#f1c40f">Pipeline</td>
+            <td style="width:15px" rowspan="2"></td>
+            <td style="background-color:#e74c3c">Gate Station</td>
+            <td style="background-color:#e74c3c">Pipeline</td>
+            <td style="width:15px" rowspan="2"></td>
+            <td style="background-color:#e67e22">Gate Station</td>
+            <td style="background-color:#e67e22">Pipeline</td>
+        </tr>
+        <tr>
+            <td style="background-color:#16a085"><h1>@Model.Gate.OK</h1></td>
+            <td style="background-color:#16a085"><h1>@Model.Pipeline.OK</h1></td>
+            <td style="background-color:#f1c40f"><h1>@Model.Gate.Warning</h1></td>
+            <td style="background-color:#f1c40f"><h1>@Model.Pipeline.Warning</h1></td>
+            <td style="background-color:#e74c3c"><h1>@Model.Gate.Alert</h1></td>
+            <td style="background-color:#e74c3c"><h1>@Model.Pipeline.Alert</h1></td>
+            <td style="background-color:#e67e22"><h1>@Model.Gate.Flag</h1></td>
+            <td style="background-color:#e67e22"><h1>@Model.Pipeline.Flag</h1></td>
+        </tr>
+    </table>
+    <br/>
+    <table border="1" cellpadding="10" width="100%" >
+        <thead>
+            <tr>
+                <th >#</th>
+                <th>Name</th>
+                <th>Velocity</th>
+                <th>Color Status</th>
+                <th>Month/Year</th>
+                <th>Map</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in Model.ListSearchData)
+            {                
+            <tr>
+                <td>@m.NO</td>
+                <td>@m.NAME</td>
+                <td>@m.VALUE</td>
+                <td>@m.THRESHOLD</td>
+                <td>@m.MONTH / @m.YEAR</td>
+                <td>@m.THRESHOLD</td>
+            </tr>                
+            }
+        </tbody>
+    </table>
+
+</body>
+</html>
