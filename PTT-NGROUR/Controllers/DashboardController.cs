@@ -222,9 +222,10 @@ namespace PTT_NGROUR.Controllers
                 {
                     var reg = new Models.DataModel.ModelGetU()
                     {
-                        
+                        CUST_NAME = dr["CUST_NAME"].ToString(),
+                        NO = Convert.ToInt32(dr["NO"].ToString()),
                         NAME = dr["NAME"].ToString(),
-                        VALUE = Convert.ToInt32(dr["VALUE"].ToString()),
+                        VALUE = Convert.ToDecimal(dr["VALUE"].ToString()),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = Convert.ToInt32(dr["FLAG"].ToString()),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),
