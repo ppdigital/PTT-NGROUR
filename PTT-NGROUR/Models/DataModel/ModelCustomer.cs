@@ -115,4 +115,20 @@ namespace PTT_NGROUR.Models.DataModel
 
     }
 
+    public class ModeVIEW_CUSTOMER
+    {
+        public string SHIP_TO_VC { get; set; }
+        public string CUST_NAME_VC { get; set; }
+    }
+
+    public class ModeLICENSE_MASTER
+    {
+        public string LICENSE_CODE { get; set; }
+        
+    }
+    public class ModelMETER_TYPE
+    {
+        public int ID_M { get; set; }
+        public string METER_TYPE_M { get; set; } 
+    }
 }

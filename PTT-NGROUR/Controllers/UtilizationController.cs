@@ -348,14 +348,62 @@ namespace PTT_NGROUR.Controllers
 
                 listMeterT.Add(meterT);
             }
-
+            var shipTo = @"select SHIP_TO, CUST_NAME from VIEW_CUSTOMER WHERE SHIP_TO IS NOT NULL ORDER BY SHIP_TO";
+            var ds_shipto = dal.GetDataSet(shipTo);
+            var listshipto = new List<Models.DataModel.ModeVIEW_CUSTOMER>();
+            if (ds_shipto.Tables[0].Rows.Count > 0)
+            {
+                foreach (System.Data.DataRow drshipto in ds_shipto.Tables[0].Rows)
+                {
+                    var shipto_Add = new Models.DataModel.ModeVIEW_CUSTOMER()
+                    {
+                        SHIP_TO_VC = drshipto["SHIP_TO"].ToString(),
+                        CUST_NAME_VC = drshipto["CUST_NAME"].ToString()
+                    };
+                    listshipto.Add(shipto_Add);
+                }
+            }  
+            //List<DataModel.ModeLICENSE_MASTER> ListLicenseMaster
+            var license = @"select LICENSE_CODE from LICENSE_MASTER WHERE LICENSE_CODE IS NOT NULL";
+            var ds_license = dal.GetDataSet(license);
+            var listlicense = new List<Models.DataModel.ModeLICENSE_MASTER>();
+            if (ds_license.Tables[0].Rows.Count > 0)
+            {
+                foreach (System.Data.DataRow drlicense in ds_license.Tables[0].Rows)
+                {
+                    var license_Add = new Models.DataModel.ModeLICENSE_MASTER()
+                    {
+                        LICENSE_CODE = drlicense["LICENSE_CODE"].ToString()
+                        
+                    };
+                    listlicense.Add(license_Add);
+                }
+            }
+            //public List<DataModel.ModelMETER_TYPE> ListMeterType { get; set; }
+            var metertype = @"select ID,METER_TYPE from METER_TYPE WHERE METER_TYPE IS NOT NULL ORDER BY METER_TYPE";
+            var ds_Mtype = dal.GetDataSet(metertype);
+            var listMtype = new List<Models.DataModel.ModelMETER_TYPE>();
+            if (ds_Mtype.Tables[0].Rows.Count > 0)
+            {
+                foreach (System.Data.DataRow drMtype in ds_Mtype.Tables[0].Rows)
+                {
+                    var Mtype_Add = new Models.DataModel.ModelMETER_TYPE()
+                    {
+                        ID_M = Convert.ToInt32(drMtype["ID"].ToString()),
+                        METER_TYPE_M = drMtype["METER_TYPE"].ToString()
+                    };
+                    listMtype.Add(Mtype_Add);
+                }
+            }
             var model = new Models.ViewModel.Customer()
             {
                 ListViewShipToSoldTo = listCus,
                 ListCustAll = listCusAll,
                 ListViewMeter = listMeterV,
-                ListMeter = listMeterT
-
+                ListMeter = listMeterT,
+                ListViewCustomer = listshipto,
+                ListLicenseMaster = listlicense,
+                ListMeterType = listMtype
             };
 
             return View(model);
@@ -383,12 +431,13 @@ namespace PTT_NGROUR.Controllers
                 {
                     var reg = new Models.DataModel.ModelGetU()
                     {
-                       
+                        CUST_NAME = dr["CUST_NAME"].ToString(),
+                        NO = Convert.ToInt32(dr["NO"].ToString()),
                         NAME = dr["NAME"].ToString(),
                         //COLOR = dr["COLOR"].ToString(),
                         THRESHOLD = dr["THRESHOLD"].ToString(),
-                        OBJ_TYPE = dr["OBJ_TYPE"].ToString(),
-                        VALUE =  dr["VALUE"].GetInt(),
+                        //OBJ_TYPE = dr["OBJ_TYPE"].ToString(),
+                        VALUE =  dr["VALUE"].GetDecimal(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = Convert.ToInt32(dr["FLAG"].ToString()),
                        REGION = dr["REGION"].GetInt(),
@@ -1082,6 +1131,34 @@ namespace PTT_NGROUR.Controllers
             //TempData["message"] = textEdit;
             return Redirect("Customer");
         }
+        [HttpPost]
+        public ActionResult CreateMeter(string txtMeterNum, string txtMeterName, string seMeterType, string seShipTo, string seLicense, int seStatus, string datepicCommdate)
+        {
+            var dal = new DAL.DAL();
+            string LabelText = "เพิ่มข้อมูลเรียบร้อย";
+            
+            
+            string username = User.Identity.Name;
+
+            string insertLog = "'" + txtMeterNum.Trim() + "','" + txtMeterName + "','" + seMeterType + "','" + seShipTo + "','" + username + "',Sysdate,'" + seLicense + "','" + seStatus + "',to_timestamp( '" + datepicCommdate + "', 'dd/mm/yyyy' )";
+                    string strCommand = "INSERT into NGR_CUSTOMER_METER (METER_NUMBER,METER_NAME,METER_TYPE,SHIP_TO,CREATED_BY,CREATED_DATE,LICENSE_CODE,STATUS,COMMDATE) VALUES (" + insertLog + ")";
+                    var con = dal.GetConnection();
+                    con.Open();
+                    dal.GetCommand(strCommand, con).ExecuteNonQuery();
+                    con.Close();
+                    con.Dispose();
+                    //  return Content(LabelText, Redirect("UserManagement"));
+
+                    // return RedirectToAction("UserManagement");
+                
+            
+           // else
+            //{
+            //    LabelText = "กรุณากรอกข้อมูลให้ครบถ้วน";
+           // }
+            return Content(LabelText);
+          
+        }
 
 
         [HttpPost]
@@ -1103,7 +1180,7 @@ namespace PTT_NGROUR.Controllers
                         NAME = dr["NAME"].ToString(),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),
                         LICENSE = dr["LICENSE_NO"].GetInt(),
-                        VALUE = Convert.ToInt32(dr["VALUE"].ToString()),
+                        VALUE = dr["VALUE"].GetDecimal(),
                         //COLOR = dr["COLOR"].ToString(),
                         MONTH = Convert.ToInt32(dr["MONTH"].ToString()),
                         YEAR = Convert.ToInt32(dr["YEAR"].ToString()),
@@ -1200,7 +1277,7 @@ namespace PTT_NGROUR.Controllers
                         NAME = dr["NAME"].ToString(),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),
                         LICENSE = dr["LICENSE_NO"].GetInt(),
-                        VALUE = Convert.ToInt32(dr["VALUE"].ToString()),
+                        VALUE = dr["VALUE"].GetDecimal(),
                         //COLOR = dr["COLOR"].ToString(),
                         MONTH = Convert.ToInt32(dr["MONTH"].ToString()),
                         YEAR = Convert.ToInt32(dr["YEAR"].ToString()),
@@ -1257,7 +1334,7 @@ namespace PTT_NGROUR.Controllers
                         NAME = dr["NAME"].ToString(),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),
                         LICENSE = dr["LICENSE_NO"].GetInt(),
-                        VALUE = Convert.ToInt32(dr["VALUE"].ToString()),
+                        VALUE = dr["VALUE"].GetDecimal(),
                         //COLOR = dr["COLOR"].ToString(),
                         MONTH = Convert.ToInt32(dr["MONTH"].ToString()),
                         YEAR = Convert.ToInt32(dr["YEAR"].ToString()),
