@@ -54,10 +54,10 @@
 
                                     @if (cus.SHIP_TO_FLAG_SHAPE == 0 || cus.SOLD_TO_FLAG_SHAPE == 0)
                                     {
-                                        <td><center><i class="fa fa-map-marker fa-lg red pointer" aria-hidden="true"></i></center></td>}
+                                        <td class="pointer" onclick="IfameReport( '@cus.SHIP_TO' , '@cus.SOLD_TO')"><center><i class="fa fa-map-marker fa-lg red pointer" aria-hidden="true"></i></center></td>}
                                     else
                                     {
-                                        <td><center><i class="fa fa-map-marker fa-lg pointer gray" aria-hidden="true"></i></center></td>}
+                                        <td class="pointer"  onclick="IfameReport( '@cus.SHIP_TO' , '@cus.SOLD_TO')"><center><i class="fa fa-map-marker fa-lg pointer gray" aria-hidden="true"></i></center></td>}
 
                                 </tr>
                             }
@@ -851,7 +851,7 @@
                             <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12" id="mapEdit">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                     <div class="  black-80 center" style="border: 1px solid #808080;">
-                                        <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=dashboard" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
+                                        <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=customer" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
                                     </div>
 
                                 </div>
@@ -1011,7 +1011,7 @@
                         <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12" id="mapCreate">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                 <div class="  black-80 center" style="border: 1px solid #808080;">
-                                    <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=dashboard" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
+                                    <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=dashboard" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame2"></iframe>
                                 </div>
 
                             </div>
@@ -1035,7 +1035,30 @@
         </div>
     </div>
 </div>
+<div id="ModalIfame" class="modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="panel-title h5">View Ifame</label>
+                <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
 
+
+            <div class="pv2 mv3">
+                <div class=" black-80 center">
+                    <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=customer" style="min-height: 430px !important; width: 100% !important;" id="map_iframe_report"></iframe>
+                </div>
+                <br />
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts{
 
     <script src="~/Content/bootstrap-datepicker.js"></script>
@@ -1255,6 +1278,22 @@
                     }
                 }
             });
+        }
+
+        function IfameReport(SHIP_TO, SOLD_TO) {
+            map_dashboard_json = {
+                "menu": "utilization-customer",
+                "type": "CUSTOMER",
+                "command": "view",
+                "parameter": {
+                    "SHIP_TO": SHIP_TO,
+                    "SOLD_TO": SOLD_TO                    
+                }
+            }
+            console.log("test Map");
+            console.log(map_dashboard_json);
+            map_iframe_report.contentWindow.postMessage(map_dashboard_json, '*');
+            $("#ModalIfame").modal("show");            
         }
     </script>
 }
