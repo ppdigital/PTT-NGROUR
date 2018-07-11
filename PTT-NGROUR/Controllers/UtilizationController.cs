@@ -190,10 +190,11 @@ namespace PTT_NGROUR.Controllers
         }
 
 
-        [HttpPost] public ActionResult ReportPdf(ModelUtilizationReportPdfInput pModel)
+        [HttpPost]
+        public ActionResult ReportPdf(ModelUtilizationReportPdfInput pModel)
         {
             Session["ModelReportPDF"] = pModel;
-            return Json( "OK");
+            return Json("OK");
         }
 
 
@@ -207,11 +208,11 @@ namespace PTT_NGROUR.Controllers
 
             var dal = new DAL.DAL();
             var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE TYPE NOT LIKE 'METERING' AND REGION IS NOT NULL";
-            if(modelReportPDF != null)
+            if (modelReportPDF != null)
             {
-                if(!string.IsNullOrEmpty(modelReportPDF.SearchMode) && modelReportPDF.ArrID != null && modelReportPDF.ArrID.Any())
+                if (!string.IsNullOrEmpty(modelReportPDF.SearchMode) && modelReportPDF.ArrID != null && modelReportPDF.ArrID.Any())
                 {
-                    string strId = string.Join("," , modelReportPDF.ArrID);
+                    string strId = string.Join(",", modelReportPDF.ArrID);
                     switch (modelReportPDF.SearchMode.ToLower())
                     {
                         case "region":
@@ -220,7 +221,7 @@ namespace PTT_NGROUR.Controllers
                         case "license":
 
                             break;
-                    }                    
+                    }
                 }
             }
 
@@ -228,7 +229,7 @@ namespace PTT_NGROUR.Controllers
 
 
             var listRegion = dal.ReadData(searchregion, x => new ModelGetU(x)).ToList(); //new List<Models.DataModel.ModelGetU>();
-            
+
             dal = null;
             return new ViewAsPdf(listRegion);
             //return View(listRegion);
@@ -242,6 +243,7 @@ namespace PTT_NGROUR.Controllers
 
         public ActionResult Customer()
         {
+
             var dal = new DAL.DAL();
             var i = 0;
             var ds = dal.GetDataSet("SELECT * FROM VIEW_SHIPTO_SOLDTO");
@@ -305,8 +307,9 @@ namespace PTT_NGROUR.Controllers
                 {
                     countMeter = j,
                     CUST_NAME = drmeter["CUST_NAME"].ToString(),
-                    LICENSE_CODE = drmeter["LICENSE_CODE"].GetInt(),
-
+                    LICENSE_CODE = drmeter["LICENSE_CODE"].ToString(),
+                    LICENSE_ID = drmeter["LICENSE_CODE"].GetInt(),
+                    METER_TYPE_NAME = drmeter["METER_TYPE_NAME"].ToString(),
                     METER_NAME = drmeter["METER_NAME"].ToString(),
                     METER_NUMBER = drmeter["METER_NUMBER"].ToString(),
                     METER_TYPE = drmeter["METER_TYPE"].ToString(),
@@ -320,7 +323,7 @@ namespace PTT_NGROUR.Controllers
                 listMeterV.Add(meter);
             }
 
-            var dsmeterT = dal.GetDataSet("SELECT A.METER_NUMBER,A.METER_NAME,A.METER_TYPE,STATUS_DETAIL,L.LICENSE_ID ,B.SHIP_TO,B.CUST_NAME,C.SOLD_TO,C.SOLD_TO_NAME,A.STATUS,A.COMMDATE,A.OBJECT_ID,L.LICENSE, CASE WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = B.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = B.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) ELSE TO_NUMBER(B.REGION) END REGION FROM NGR_CUSTOMER_METER A, NGR_CUSTOMER B, NGR_CUSTOMER_OFFICE C, STATUS D,LICENSE_MASTER L WHERE A.SHIP_TO = B.SHIP_TO AND B.SOLD_TO = C.SOLD_TO AND A.LICENSE_CODE = L.LICENSE_CODE(+) AND A.STATUS = D.STATUS_ID(+)");
+            var dsmeterT = dal.GetDataSet("SELECT A.METER_NUMBER,A.METER_NAME,M.ID,M.METER_TYPE,STATUS_DETAIL,A.LICENSE_ID,L.LICENSE_CODE,B.SHIP_TO,B.CUST_NAME,C.SOLD_TO,C.SOLD_TO_NAME,A.STATUS,A.COMMDATE,A.OBJECT_ID,L.LICENSE, CASE WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = B.REGION) IS NOT NULL THEN (SELECT REGION_ID  FROM REGION WHERE REGION_NAME = B.REGION) WHEN (SELECT REGION_ID FROM REGION  WHERE REGION_NAME_TH = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = B.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) ELSE TO_NUMBER(B.REGION) END REGION FROM NGR_CUSTOMER_METER A, NGR_CUSTOMER B, NGR_CUSTOMER_OFFICE C, STATUS D,LICENSE_MASTER L , METER_TYPE M WHERE A.SHIP_TO = B.SHIP_TO AND B.SOLD_TO = C.SOLD_TO AND A.LICENSE_ID = L.LICENSE_ID(+) AND A.STATUS = D.STATUS_ID(+)  AND A.METER_TYPE = M.ID");
             var dtmeterT = dsmeterT.Tables[0];
             //public List<DataModel.ModelVIEW_METER> ListViewMeter { get; set; }
             var listMeterT = new List<Models.DataModel.ModelMETER>();
@@ -331,11 +334,12 @@ namespace PTT_NGROUR.Controllers
                 {
                     OBJECT_ID_T = Convert.ToInt32(drmeterT["OBJECT_ID"].ToString()),
                     CUST_NAME_T = drmeterT["CUST_NAME"].ToString(),
-                    LICENSE_CODE_T = drmeterT["LICENSE_ID"].ToString(),
+                    LICENSE_CODE_T = drmeterT["LICENSE_CODE"].ToString(),
                     LICENSE_NAME_T = drmeterT["LICENSE"].ToString(),
                     METER_NAME_T = drmeterT["METER_NAME"].ToString(),
                     METER_NUMBER_T = drmeterT["METER_NUMBER"].ToString(),
                     METER_TYPE_T = drmeterT["METER_TYPE"].ToString(),
+                    METER_TYPE_ID_T = Convert.ToInt32(drmeterT["ID"].ToString()),
                     REGION_T = Convert.ToInt32(drmeterT["REGION"].ToString()),
                     SHIP_TO_T = drmeterT["SHIP_TO"].ToString(),
                     SOLD_TO_T = drmeterT["SOLD_TO"].ToString(),
@@ -360,9 +364,9 @@ namespace PTT_NGROUR.Controllers
                     };
                     listshipto.Add(shipto_Add);
                 }
-            }  
+            }
             //List<DataModel.ModeLICENSE_MASTER> ListLicenseMaster
-            var license = @"select LICENSE_CODE from LICENSE_MASTER WHERE LICENSE_CODE IS NOT NULL";
+            var license = @"select LICENSE_CODE,LICENSE_ID from LICENSE_MASTER WHERE LICENSE_CODE IS NOT NULL";
             var ds_license = dal.GetDataSet(license);
             var listlicense = new List<Models.DataModel.ModeLICENSE_MASTER>();
             if (ds_license.Tables[0].Rows.Count > 0)
@@ -371,8 +375,9 @@ namespace PTT_NGROUR.Controllers
                 {
                     var license_Add = new Models.DataModel.ModeLICENSE_MASTER()
                     {
-                        LICENSE_CODE = drlicense["LICENSE_CODE"].ToString()
-                        
+                        LICENSE_CODE = drlicense["LICENSE_CODE"].ToString(),
+                        LICENSE_ID = drlicense["LICENSE_ID"].GetInt()
+
                     };
                     listlicense.Add(license_Add);
                 }
@@ -387,7 +392,7 @@ namespace PTT_NGROUR.Controllers
                 {
                     var Mtype_Add = new Models.DataModel.ModelMETER_TYPE()
                     {
-                        ID_M = Convert.ToInt32(drMtype["ID"].ToString()),
+                        ID_M = drMtype["ID"].GetInt(),
                         METER_TYPE_M = drMtype["METER_TYPE"].ToString()
                     };
                     listMtype.Add(Mtype_Add);
@@ -435,14 +440,14 @@ namespace PTT_NGROUR.Controllers
                         //COLOR = dr["COLOR"].ToString(),
                         THRESHOLD = dr["THRESHOLD"].ToString(),
                         //OBJ_TYPE = dr["OBJ_TYPE"].ToString(),
-                        VALUE =  dr["VALUE"].GetDecimal(),
+                        VALUE = dr["VALUE"].GetDecimal(),
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = Convert.ToInt32(dr["FLAG"].ToString()),
-                       REGION = dr["REGION"].GetInt(),
+                        REGION = dr["REGION"].GetInt(),
                         LICENSE = dr["LICENSE"].GetInt(),
-                       MONTH = dr["MONTH"].GetInt(),
+                        MONTH = dr["MONTH"].GetInt(),
                         YEAR = dr["YEAR"].GetInt(),
-                       STATUS = dr["STATUS"].ToString(),
+                        STATUS = dr["STATUS"].ToString(),
 
                     };
                     listRegion.Add(reg);
@@ -1111,13 +1116,13 @@ namespace PTT_NGROUR.Controllers
             return Redirect("Customer");
         }
         [HttpPost]
-        public ActionResult EditMeter(string datepicCommdateMEdit, string txtMeterNameMEdit, string txtMeterNumMEdit, string txtMeterTypeMEdit, int seStatusMEdit, int txtObjectIDMEdit)
+        public ActionResult EditMeter(string datepicCommdateMEdit, string txtMeterNameMEdit, string txtMeterNumMEdit, int txtMeterTypeMEdit, int seStatusMEdit, int txtObjectIDMEdit)
         {   //string textEdit = "แก้ไข้อมูลเรียบร้อย";
             //String[] date1 = date.split("/");
             //var mainDate = DateTime.ParseExact(datepicCommdateMEdit, "dd/MM/yyyy HH:mm:ss", null);
             var dalEditMeter = new DAL.DAL();
             string username = User.Identity.Name;
-            string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET METER_NUMBER = '" + txtMeterNumMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE=to_timestamp( '" + datepicCommdateMEdit + "', 'dd/mm/yyyy' ),UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE OBJECT_ID='" + txtObjectIDMEdit + "'";
+            string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET METER_NUMBER = '" + txtMeterNumMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',METER_TYPE='" + txtMeterTypeMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE=to_timestamp( '" + datepicCommdateMEdit + "', 'dd/mm/yyyy' ),UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE OBJECT_ID='" + txtObjectIDMEdit + "'";
             var conMeter = dalEditMeter.GetConnection();
             conMeter.Open();
             dalEditMeter.GetCommand(strCommandEditMeter, conMeter).ExecuteNonQuery();
@@ -1130,32 +1135,32 @@ namespace PTT_NGROUR.Controllers
             return Redirect("Customer");
         }
         [HttpPost]
-        public ActionResult CreateMeter(string txtMeterNum, string txtMeterName, string seMeterType, string seShipTo, string seLicense, int seStatus, string datepicCommdate)
+        public ActionResult CreateMeter(string txtMeterNum, string txtMeterName, int seMeterType, string seShipTo, int seLicense, int seStatus, string datepicCommdate)
         {
             var dal = new DAL.DAL();
             string LabelText = "เพิ่มข้อมูลเรียบร้อย";
-            
-            
+
+
             string username = User.Identity.Name;
 
-            string insertLog = "'" + txtMeterNum.Trim() + "','" + txtMeterName + "','" + seMeterType + "','" + seShipTo + "','" + username + "',Sysdate,'" + seLicense + "','" + seStatus + "',to_timestamp( '" + datepicCommdate + "', 'dd/mm/yyyy' )";
-                    string strCommand = "INSERT into NGR_CUSTOMER_METER (METER_NUMBER,METER_NAME,METER_TYPE,SHIP_TO,CREATED_BY,CREATED_DATE,LICENSE_CODE,STATUS,COMMDATE) VALUES (" + insertLog + ")";
-                    var con = dal.GetConnection();
-                    con.Open();
-                    dal.GetCommand(strCommand, con).ExecuteNonQuery();
-                    con.Close();
-                    con.Dispose();
-                    //  return Content(LabelText, Redirect("UserManagement"));
+            string insertLog = "'" + txtMeterNum.Trim() + "','" + txtMeterName + "','" + seMeterType + "','" + seShipTo + "','" + username + "',Sysdate,'" + seLicense + "','" + seStatus + "',to_timestamp( '" + datepicCommdate + "', 'dd/mm/yyyy' ),0";
+            string strCommand = "INSERT into NGR_CUSTOMER_METER (METER_NUMBER,METER_NAME,METER_TYPE,SHIP_TO,CREATED_BY,CREATED_DATE,LICENSE_ID,STATUS,COMMDATE,FLAG_SHAPE) VALUES (" + insertLog + ")";
+            var con = dal.GetConnection();
+            con.Open();
+            dal.GetCommand(strCommand, con).ExecuteNonQuery();
+            con.Close();
+            con.Dispose();
+            //  return Content(LabelText, Redirect("UserManagement"));
 
-                    // return RedirectToAction("UserManagement");
-                
-            
-           // else
+            // return RedirectToAction("UserManagement");
+
+
+            // else
             //{
             //    LabelText = "กรุณากรอกข้อมูลให้ครบถ้วน";
-           // }
+            // }
             return Content(LabelText);
-          
+
         }
 
 
@@ -1198,12 +1203,12 @@ namespace PTT_NGROUR.Controllers
             string searchregion = "select * from VIEW_GATE_PIPE_REPORT WHERE 1=1";
             string regionStr = string.Empty;
 
-            if(Multidata != null && Multidata.Any())
+            if (Multidata != null && Multidata.Any())
             {
                 regionStr = string.Join("','", Multidata);
                 searchregion += " and REGION IN ('" + regionStr + "')";
             }
-            if(!string.IsNullOrEmpty(year) && !"null".Equals( year.ToLower()))
+            if (!string.IsNullOrEmpty(year) && !"null".Equals(year.ToLower()))
             {
                 searchregion += " AND YEAR =" + year;
             }
@@ -1213,7 +1218,7 @@ namespace PTT_NGROUR.Controllers
             }
             if (!string.IsNullOrEmpty(type) && !"all".Equals(type.ToLower()))
             {
-                searchregion += " AND type = '" + type.Trim().Replace("'","''") + "'";
+                searchregion += " AND type = '" + type.Trim().Replace("'", "''") + "'";
             }
             if (!string.IsNullOrEmpty(threshold) && !"all".Equals(threshold.ToLower()))
             {
@@ -1221,7 +1226,7 @@ namespace PTT_NGROUR.Controllers
             }
             var dal = new DAL.DAL();
 
-            var listRegion = dal.ReadData(searchregion, x => new ModelViewGatePipeReport(x)).ToList();            
+            var listRegion = dal.ReadData(searchregion, x => new ModelViewGatePipeReport(x)).ToList();
 
             return Json(listRegion, JsonRequestBehavior.AllowGet);
         }
