@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PTT_NGROUR.ExtentionAndLib
 {
-    public class SessionManager
+    public class SessionManager : System.Web.SessionState.IRequiresSessionState
     {
         private enum enumSessionName
         {
@@ -37,6 +37,20 @@ namespace PTT_NGROUR.ExtentionAndLib
             set
             {
                 setSession(enumSessionName.UtilizationReportPdfInput, value);
+            }
+        }
+
+        public Models.ViewModel.ModelUtilizationReportPdfOutput UtilizationReportPdfOutput
+        {
+            get
+            {
+                var objResult = getSession(enumSessionName.UtilizationReportPdfOutput);
+                var result = objResult as Models.ViewModel.ModelUtilizationReportPdfOutput;
+                return result;
+            }
+            set
+            {
+                setSession(enumSessionName.UtilizationReportPdfOutput, value);
             }
         }
     }
