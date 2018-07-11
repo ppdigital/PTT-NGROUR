@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "MenuWeb";
     Layout = "~/Views/Shared/_WelcomeLayout.cshtml";
+    PTT_NGROUR.Models.User userrole = new PTT_NGROUR.Models.User();
 }
 
 
@@ -101,7 +102,7 @@
             <div class="hidden dib b--black-10 bg-white shadow-2 br3 mt3 pv2 ph3">
 
                 <a class="dib tl pl3  c-gray mv0 pr3  f5  no-underline">
-                    Welcome : xxxxxx
+                    Welcome : @Html.Encode(User.Identity.Name)
                 </a>|
 
                 <a class="dib tr pl3   mv0 pr3 f5  no-underline c-gray" href="#">
@@ -210,7 +211,7 @@
             <a class="dt fl hidden  dib vh-5 no-underline  bg-white ph0 bt b-gray1 pv2" id="footer">
                 <div class="dtc v-mid tc w-50">
                     <i class="fa fa-user-circle-o fa-lg gray7" aria-hidden="true"></i>
-                    <div class="gray7 f6 pt2">User Name</div>
+                    <div class="gray7 f6 pt2">@Html.Encode(User.Identity.Name)</div>
                 </div>
                 <div class="dtc v-mid tc w-50">
                     <div class="dib">

@@ -71,7 +71,7 @@
         <div id="metering" class="tab-pane fade">
             <div class="ph2 pv2">
                 <div class="pull-right">
-                    <button type="button" class="btn btn-primary btn-sm" id="btnModalCreateMeter" onclick="CreateMeter()" data-toggle="modal" data-target="#ModalCreateMeter" style=" border-radius:0">
+                    <button type="button" class="btn btn-primary btn-sm" id="btnModalCreateMeter"  data-toggle="modal" data-target="#ModalCreateMeter" style=" border-radius:0">
                         <span class="glyphicon glyphicon-search"></span> Create Meter
                     </button><span class="cr"></span>
                    
@@ -85,7 +85,7 @@
                                 <th>License Code</th>
                                 <th>Meter Name</th>
                                 <th>Meter Number</th>
-                                <th>Meter Type</th>
+                                <th>Station Type</th>
                                 <th>Region</th>
                                 <th>Ship-To</th>
                                 <th>Sold-To</th>
@@ -595,7 +595,7 @@
                     <div class="row">
                         <div class="measure center col-lg-12 col-md-12 col-sm-12">
                             <div class="col-lg-5 col-md-5">
-                                <p class=" b pull-right h6">Meter Type :</p>
+                                <p class=" b pull-right h6">Station Type :</p>
                             </div>
                             <div class="col-lg-6 col-md-7 pl-0">
                                 <p class="h6" id="txtMeterTypeMView"></p>
@@ -754,7 +754,14 @@
                                     <label for="name" class="b pull-right">Station Type :</label>
                                 </span>
                                 <div class="col-lg-6 col-md-7 ">
-                                    @Html.TextBox("txtMeterTypeMEdit", null, new { @class = "form-control input-sm" })
+                                    <select class="form-control input-sm" id="seMeterTypeMEdit" name="seMeterTypeMEdit">
+                                        @foreach (PTT_NGROUR.Models.DataModel.ModelMETER_TYPE typeM in Model.ListMeterType)
+                                        {
+
+                                            <option value="@typeM.ID_M">@typeM.METER_TYPE_M</option>
+                                        }
+                                    </select>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -831,6 +838,27 @@
                             </div>
                         </div>
 
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                    <span class="checkbox">
+                                        <label><input type="checkbox" value="" id="checkGisMapEdit" onclick="javascript: CheckGisMapEdit();">Gis Map</label>
+                                    </span>
+                                </span>
+                                <div class="col-lg-6 col-md-7 "></div>
+                            </div>
+                        </div>
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12" id="mapEdit">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                    <div class="  black-80 center" style="border: 1px solid #808080;">
+                                        <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=dashboard" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
 
 
                     </div>
@@ -862,47 +890,59 @@
             <div class="pv2 mv3">
                 <div class="  black-80 center">
 
-                    <div class="row pb1" style="display:none">
-                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                            <span class="col-lg-5 col-md-5">
+                    <div class="row pb1">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <span class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <label for="name" class=" b pull-right">Metering Number :</label>
                             </span>
-                            <div class="col-lg-6 col-md-7 ">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
                                 @Html.TextBox("txtMeterNumMCreate", null, new { @class = "form-control input-sm " })
                             </div>
                         </div>
                     </div>
                     <div class="row pb1">
-                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                            <span class="col-lg-5 col-md-5">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <span class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <label for="name" class=" b pull-right">Metering Name :</label>
                             </span>
-                            <div class="col-lg-6 col-md-7 ">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
                                 @Html.TextBox("txtMeterNameMCreate", null, new { @class = "form-control input-sm " })
                             </div>
                         </div>
                     </div>
 
                     <div class="row pb1">
-                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                            <span class="col-lg-5 col-md-5">
+                        <!--public List<datamodel.modelmeter_type>
+                ListMeterType { get; set; }-->
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <span class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <label for="name" class="b pull-right">Metering Type :</label>
                             </span>
-                            <div class="col-lg-6 col-md-7 ">
-                                @Html.TextBox("txtMeterTypeMCreate", null, new { @class = "form-control input-sm" })
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                <select class="form-control input-sm" id="seMeterTypeMCreate" name="seMeterTypeMCreate">
+                                    @foreach (PTT_NGROUR.Models.DataModel.ModelMETER_TYPE typeM in Model.ListMeterType)
+                                    {
+
+                                        <option value="@typeM.ID_M">@typeM.METER_TYPE_M</option>
+                                    }
+                                </select>
+
                             </div>
                         </div>
                     </div>
 
                     <div class="row pb1">
-                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                            <span class="col-lg-5 col-md-5">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <span class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <label for="name" class="b pull-right">Ship-To :</label>
                             </span>
-                            <div class="col-lg-6 col-md-7 ">
-                                <select class="form-control input-sm" id="seStatusMCreate" name="seStatusMCreate">
-                                    <option value="1" class="drop_role">Active</option>
-                                    <option value="0" class="drop_role">Non Active</option>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                <select class="form-control input-sm" id="seShipToMCreate" name="seShipToMCreate">
+                                    @foreach (PTT_NGROUR.Models.DataModel.ModeVIEW_CUSTOMER shipto in Model.ListViewCustomer)
+                                    {
+
+                                        <option value="@shipto.SHIP_TO_VC">@shipto.SHIP_TO_VC - @shipto.CUST_NAME_VC</option>
+                                    }
                                 </select>
 
                             </div>
@@ -910,29 +950,29 @@
                     </div>
 
                     <div class="row pb1">
-                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                            <span class="col-lg-5 col-md-5">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <span class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <label for="name" class="b pull-right">License Code :</label>
                             </span>
-                            <div class="col-lg-6 col-md-7 ">
-                              @*  <select class="form-control input-sm" id="seLicenseMCreate" name="seLicenseMCreate">
-    @foreach (PTT_NGROUR.Models.DataModel.ModelUsersRole mr in Model.ModelUsersRole)
-          {
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
 
-         <option value="@mr.ROLE_ID">@mr.ROLE_NAME</option>
-         }
-    </select>*@
+                                <select class="form-control input-sm" id="seLicenseMCreate" name="seLicenseMCreate">
+                                    @foreach (PTT_NGROUR.Models.DataModel.ModeLICENSE_MASTER license in Model.ListLicenseMaster)
+                                    {
+                                        <option value="@license.LICENSE_CODE">@license.LICENSE_CODE</option>
+                                    }
+                                </select>
 
                             </div>
                         </div>
                     </div>
 
                     <div class="row pb1">
-                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                            <span class="col-lg-5 col-md-5">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <span class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <label for="name" class="b pull-right">Status :</label>
                             </span>
-                            <div class="col-lg-6 col-md-7 ">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <select class="form-control input-sm" id="seStatusMCreate" name="seStatusMCreate">
                                     <option value="1" class="drop_role">Active</option>
                                     <option value="0" class="drop_role">Non Active</option>
@@ -945,16 +985,41 @@
 
 
                     <div class="row pb1">
-                        <div class="measure center col-lg-12 col-md-12 col-sm-12">
-                            <span class="col-lg-5 col-md-5">
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <span class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <label for="name" class="b pull-right">Comm Date :</label>
                             </span>
-                            <div class="col-lg-6 col-md-7 ">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <input type="text" class="form-control form-control-sm fz-12px" id="datepicCommdateMCreate" name="datepicCommdateMCreate" style="height: 30px !important" />
 
                             </div>
                         </div>
                     </div>
+
+
+
+                    <div class="row pb1">
+                    <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                        <span class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <span class="checkbox">
+                                <label><input type="checkbox" value="" id="checkGisMapCreate" onclick="javascript:CheckGisMapCreate();">Gis Map</label>
+                            </span>
+                        </span>
+                        <div class="col-lg-6 col-md-7 "></div>
+                    </div>
+                </div>
+                    <div class="row pb1" >
+                        <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12" id="mapCreate">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="  black-80 center" style="border: 1px solid #808080;">
+                                    <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=dashboard" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                   
 
 
 
@@ -983,24 +1048,52 @@
                 $('#MeterTable').dataTable({
                     responsive: true
                 });
+
+                document.getElementById('mapCreate').style.display = 'none';
+                document.getElementById('mapEdit').style.display = 'none';
+  
+            });
+           
+            //console.log(new Date().getFullYear());
+            
+            function CheckGisMapCreate() {
+
+                if (document.getElementById('checkGisMapCreate').checked == true) {
+                    document.getElementById('mapCreate').style.display = 'inline-block';
+
+                }
+                else{
+                    document.getElementById('mapCreate').style.display = 'none';
+                }
                 
+            }
 
+            function CheckGisMapEdit() {
 
-            });
+                if (document.getElementById('checkGisMapEdit').checked == true) {
+                    document.getElementById('mapEdit').style.display = 'inline-block';
 
+                }
+                else {
+                    document.getElementById('mapEdit').style.display = 'none';
+                }
 
-        $(function () {
+            }
+            $(function () {
+                
             $('#datepicCommdateMEdit').datepicker({
+                endDate: new Date(),
                 format: "dd/mm/yyyy",
-
                 autoclose: true
             });
-
+           // var datenow = new Date(new Date().getDate() , new Date().getMonth() , new Date().getFullYear());
+           // console.log(datenow);
             $('#datepicCommdateMCreate').datepicker({
+                endDate: new Date(),
                 format: "dd/mm/yyyy",
-
+                minViewMode: "days",
                 autoclose: true
-            });
+            })
 
             
         });
@@ -1113,7 +1206,7 @@
                     $("#txtLicenseCodeMEdit").val('@cusMeterE.LICENSE_CODE_T');
                     $("#txtMeterNameMEdit").val('@cusMeterE.METER_NAME_T');
                     $("#txtMeterNumMEdit").val('@cusMeterE.METER_NUMBER_T');
-                    $("#txtMeterTypeMEdit").val('@cusMeterE.METER_TYPE_T');
+                    $("#seMeterTypeMEdit").val('@cusMeterE.METER_TYPE_T');
                     $("#txtRegionMEdit").val('@cusMeterE.REGION_T');
                     $("#txtShipToMEdit").val('@cusMeterE.SHIP_TO_T');
                     $("#txtSoldToMEdit").val('@cusMeterE.SOLD_TO_T');
@@ -1127,21 +1220,27 @@
             };
 
         function CreateMeter() {
-           
-         
+            // console.log("Hello Worldaaaa");
+            $("#datepicCommdateMCreate").datepicker({ format: "dd/mm/yyyy" });
+           var txtMeterNumMCreate = document.getElementById("txtMeterNumMCreate").value;
             var txtMeterNameMCreate = document.getElementById("txtMeterNameMCreate").value;
-            var txtMeterTypeMCreate = document.getElementById("txtMeterTypeMCreate").value;
-            var seStatusMCreate = document.getElementById("seStatusMCreate").value;
-            var datepicCommdateMCreate = document.getElementById("datepicCommdateMCreate").value;
-
+            var seMeterTypeMCreate = document.getElementById("seMeterTypeMCreate").value;
+            var seShipToMCreate = document.getElementById("seShipToMCreate").value;
+            var seLicenseMCreate = document.getElementById("seLicenseMCreate").value;
+            var seStatusMCreate = Number(document.getElementById("seStatusMCreate").value);
+            var datepicCommdateMCreate = $('#datepicCommdateMCreate').val();
+            console.log(txtMeterNumMCreate);
+            console.log(txtMeterNameMCreate);
+            console.log(seMeterTypeMCreate);
+            console.log(seShipToMCreate);
+            console.log(seLicenseMCreate);
+            console.log(seStatusMCreate);
+            console.log(datepicCommdateMCreate);
 
             $.ajax({
-                async: true,
-                cache: false,
-                url: '@Url.Action("CreateUser")',
-
+                url: '@Url.Action("CreateMeter")',
                 type: 'POST',
-                data: { txtEMPID: txtEmployeeIDCreate, txtFNC: txtFirstNameCreate, txtLNC: txtLastNameCreate, PWC: PassWordCreate, IsADCreate: IsADCreate, txtMailCreate: txtMailCreate, selectRoleCreate: selectRoleCreate },
+                data: { txtMeterNum: txtMeterNumMCreate, txtMeterName: txtMeterNameMCreate, seMeterType: seMeterTypeMCreate, seShipTo: seShipToMCreate, seLicense: seLicenseMCreate, seStatus: seStatusMCreate, datepicCommdate: datepicCommdateMCreate },
                 success: function (response) {
                     alert(response);
                     if (response == "เพิ่มข้อมูลเรียบร้อย") {

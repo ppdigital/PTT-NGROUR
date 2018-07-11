@@ -32,6 +32,7 @@ namespace PTT_NGROUR.Models.DataModel
             STATUS      = pReader.GetColumnValue("STATUS").GetString();
             MONTH       = pReader.GetColumnValue("MONTH").GetInt();
             YEAR        = pReader.GetColumnValue("YEAR").GetInt();
+            CUST_NAME   = pReader.GetColumnValue("CUST_NAME").GetString();
         }
 
         public int NO { get; set; }

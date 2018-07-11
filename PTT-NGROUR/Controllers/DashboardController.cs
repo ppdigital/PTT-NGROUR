@@ -222,7 +222,7 @@ namespace PTT_NGROUR.Controllers
                 {
                     var reg = new Models.DataModel.ModelGetU()
                     {
-                        CUST_NAME = dr["CUST_NAME"].ToString(),
+                        //CUST_NAME = dr["CUST_NAME"].ToString(),
                         NO = Convert.ToInt32(dr["NO"].ToString()),
                         NAME = dr["NAME"].ToString(),
                         VALUE = Convert.ToDecimal(dr["VALUE"].ToString()),
