@@ -64,9 +64,9 @@ namespace PTT_NGROUR.Controllers
 
         [HttpPost]
         public JsonResult AllGate()
-        {
+        {   
             var dal = new DAL.DAL();
-            var ds = dal.GetDataSet("SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE TYPE = 'GATESTATION' AND REGION IS NOT NULL");
+            var ds = dal.GetDataSet("SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE TYPE = 'GATESTATION' AND REGION IS NOT NULL AND ");
             decimal green = 0;
             decimal red = 0;
             decimal yellow = 0;
@@ -110,7 +110,7 @@ namespace PTT_NGROUR.Controllers
             dt.Rows.Add(dr1);
 
             dr1 = dt.NewRow();
-            dr1["Name"] = "Pass";
+            dr1["Name"] = "OK";
             dr1["Color"] = green;
             dt.Rows.Add(dr1);
 
@@ -176,7 +176,7 @@ namespace PTT_NGROUR.Controllers
             dt.Rows.Add(dr1);
 
             dr1 = dt.NewRow();
-            dr1["Name"] = "Pass";
+            dr1["Name"] = "OK";
             dr1["Color"] = green;
             dt.Rows.Add(dr1);
 

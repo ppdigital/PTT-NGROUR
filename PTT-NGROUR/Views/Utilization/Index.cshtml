@@ -8,19 +8,6 @@
 
 
 <style>
-    #scollbar::-webkit-scrollbar-track {
-        border: 1px solid #f5f5f5;
-        background-color: white;
-    }
-
-    #scollbar::-webkit-scrollbar {
-        width: 8px;
-        background-color: #808080;
-    }
-
-    #scollbar::-webkit-scrollbar-thumb {
-        background-color: #ddd;
-    }
     /* .dotg {
         height: 15px;
         width: 15px;
@@ -28,15 +15,24 @@
         border-radius: 50%;
         display: inline-block;
     }*/
+    .tableFixHead {
+        overflow-y: auto;
+        height: 380px;
+    }
 
-  
-    
-    
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        background: white;
+    }
 </style>
 @{
     PTT_NGROUR.Models.User users = new PTT_NGROUR.Models.User();
-    @Html.Hidden("username",users.Username);
-    @Html.Hidden("flag",users.Roleid);
+    @Html.Hidden("username", users.Username);
+    @Html.Hidden("flag", users.Roleid);
 }
 
 <br />
@@ -134,15 +130,15 @@
                     <div class="input-group" style="width: 100% ">
                         <div class="input-group-btn" style="width: 20% !important">
                             <!--<button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" id="type-filter">
-                            <li><a id="seAll"  class="fz-12px drop_role">All</a></li>
-                            <li><a id="sePipeline" class="fz-12px drop_role" href="#">Pipeline</a></li>
-                            <li><a id="seGate" class="fz-12px drop_role" href="#">Gate Station</a></li>
-                            <li><a id="seMetering" class="fz-12px  drop_role" href="#">Metering Station</a></li>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" id="type-filter">
+                                <li><a id="seAll"  class="fz-12px drop_role">All</a></li>
+                                <li><a id="sePipeline" class="fz-12px drop_role" href="#">Pipeline</a></li>
+                                <li><a id="seGate" class="fz-12px drop_role" href="#">Gate Station</a></li>
+                                <li><a id="seMetering" class="fz-12px  drop_role" href="#">Metering Station</a></li>
 
-                        </ul>-->
+                            </ul>-->
                             <select class="form-control form-control-sm fz-12px" id="type-filter" style="height: 30px !important;">
                                 <option id="seAll" class="fz-12px drop_role" value="all">All</option>
                                 <option id="sePipeline" class="fz-12px drop_role" value="PIPELINE">Pipeline</option>
@@ -157,20 +153,21 @@
 
                         <div class="input-group-btn" style="width:30%">
                             <!--   <button class="btn btn-default btn-sm btn-block" data-toggle="dropdown">
-                              Threshold <span class="caret"></span>
-                          </button>
-                          <ul class="dropdown-menu">
-                              <li><a id="seAllThres" class="fz-12px drop_role" href="#">All Threshold</a></li>
-                              <li><a id="seGree" class="fz-12px drop_role" href="#">Green</a></li>
-                              <li><a id="seYello" class="fz-12px drop_role" href="#">Yellow</a></li>
-                              <li><a id="seRed" class="fz-12px drop_role" href="#">Red</a></li>
-                          </ul>-->
+                                Threshold <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a id="seAllThres" class="fz-12px drop_role" href="#">All Threshold</a></li>
+                                <li><a id="seGree" class="fz-12px drop_role" href="#">Green</a></li>
+                                <li><a id="seYello" class="fz-12px drop_role" href="#">Yellow</a></li>
+                                <li><a id="seRed" class="fz-12px drop_role" href="#">Red</a></li>
+                            </ul>-->
 
                             <select class="form-control form-control-sm fz-12px" id="threshold-filter" style="height: 30px !important;">
                                 <option id="seAllThres" class="fz-12px drop_role" value="all">All Threshold</option>
                                 <option id="seGree" class="fz-12px drop_role" value="OK">OK</option>
                                 <option id="seYello" class="fz-12px drop_role" value="Warning">Warning</option>
                                 <option id="seRed" class="fz-12px drop_role" value="Alert">Alert</option>
+                                <option id="seRed" class="fz-12px drop_role" value="Alert">Flag</option>
                             </select>
 
                         </div>
@@ -178,254 +175,292 @@
 
 
                         <!--  <a type="button" class="btn btn-primary btn-xs" href="#">
-                        <span class="fa fa-search dib gray6 white" aria-hidden="true"></span>
-                    </a>-->
+                            <span class="fa fa-search dib gray6 white" aria-hidden="true"></span>
+                        </a>-->
 
                         <div class="cr"></div>
                     </div>
                 </div>
                 <br />
-                <div class="table-responsive scrollable-height scrollable-height-lg" id="TableValue">
-                    <table class="table table-striped table-hover" id="utilTbl">
-                        <thead>
-
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="table-responsive " id="TableValue">
+                    <div class="tableFixHead">
+                        <table class="table table-striped table-hover" id="utilTbl">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <th class="pointer " id="headValueU"><span class="glyphicon glyphicon-sort " style="font-size: 6px;"></span>&nbsp;Value</th>
+                                    <th>Unit</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
-
-
-
-
-
-        @section scripts{
-            <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
-
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    document.getElementById('seLicense').style.display = 'none';
-                    $('tr').each(function (a, b) {
-
-                        
-                    });
-                });
-               
-                function Check() {
-
-                    if (document.getElementById('radioRegion').checked) {
-                        document.getElementById('seRegion').style.display = 'inline-block';
-                        document.getElementById('seLicense').style.display = 'none';
-
-                    }
-                    else if (document.getElementById('radioLicense').checked) {
-                        document.getElementById('seLicense').style.display = 'inline-block';
-                        document.getElementById('seRegion').style.display = 'none';
-                    }
-                }
-
-                var map_info_json;
-                var region;
-                $('#MultiRegion').change(function () {
-                    SeRegion = $(this).val();
-                    // console.log(region);
-
-                })
-                $('#MultiLicense').change(function () {
-                    SeLicense = $(this).val();
-                    // console.log(region);
-
-                })
-
-                function Search() {
-                    let url;
-                    let multidata;
-                    if (document.getElementById('radioRegion').checked) {
-                        url = '@Url.Action("SearchRegion")';
-                        multidata = SeRegion;
-                    }
-                    else if (document.getElementById('radioLicense').checked) {
-                        url = '@Url.Action("SearchLicense")';
-                        multidata = SeLicense;
-                    }
-                    $.ajax({
-                        url: url,
-                        type: 'POST',
-                        data: JSON.stringify(multidata),
-                        contentType: 'application/json; charset=utf-8',
-                        datatype: 'json',
-                        success: function (data) {
-                            initMapTable(data);
-                        },
-                        error: function (result) {
-                            alert('Please select the data ');
-                        }
-                    });
-
-
-                }//function searcch
-                function myFunction() {
-                    var input, filter, table, tr, td, i;
-                    input = document.getElementById("txtSearch");
-                    filter = input.value.toUpperCase();
-                    table = document.getElementById("utilTbl");
-                    tr = table.getElementsByTagName("tr");
-                    for (i = 0; i < tr.length; i++) {
-                        td = tr[i].getElementsByTagName("td")[1];
-                        if (td) {
-                            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                                tr[i].style.display = "";
-                            } else {
-                                tr[i].style.display = "none";
-                            }
-                        }
-                    }
-                }
-                
-                function utilTblOnclick() {
-                    let map_info = $(this).data("map_info");
-                    map_info_json = {
-                        "menu": "utilization-search",
-                        "type": map_info.TYPE,
-                        "command": "view",
-                        "flag": $('#flag').val() == 1? true:false,
-                        "flagby": $('#username').val(),
-                        "parameter": {
-                            "REGION": map_info.REGION,
-                            "LICENSE": map_info.LICENSE,
-                            "NAME": map_info.NAME,
-                            "MONTH": map_info.MONTH,
-                            "YEAR": map_info.YEAR,
-                        }
-                    }
-                    map_frame.contentWindow.postMessage(map_info_json, '*');
-                }
-                function initMapTable(data) {
-                    console.log(data)
-                    $('#utilTbl').find('tbody tr').each(function () {
-                        this.remove();
-                    });
-                    for (let i in data) {
-                        if (data[i].THRESHOLD == 'OK') {
-                            THRESHOLD = '<span class="fa fa-circle " style="color:#16a085"></span>'
-                            color1 = "green"
-                        } else if (data[i].THRESHOLD == 'Warning') {
-                            THRESHOLD = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
-                            color1 = "yellow"
-                        } else if (data[i].THRESHOLD == 'Alert') {
-                            THRESHOLD = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
-                            color1 = "red"
-                        } else if(data[i].FLAG == '1'){
-                            THRESHOLD = '<span class="fa fa-flag " style="color:#e67e22"></span>'
-                            color1 = "flag"
-                        } else {
-                            THRESHOLD = "";
-                            color1 = "no"
-                        }
-                        if (data[i].STATUS == 'INACTIVE' && data[i].TYPE == 'METERING') {
-                            status = 'style="color:red"';
-                        } else {
-                            status = "";
-                        }
-
-                        if (data[i].TYPE == 'METERING') {
-                            
-                            if (data[i].ID == "") {
-                                name = "" + data[i].NAME;
-                                value = data[i].OBJ_TYPE;
-                            } else {
-                                name = "" + data[i].NAME + " (" + data[i].ID + ")";
-                                value = data[i].OBJ_TYPE;
-                            }
-                      
-                        } else {
-                            name = data[i].NAME;
-                            if (data[i].TYPE == 'PIPELINE') {
-                                value = data[i].VALUE + " ft/s";
-                            } else if (data[i].TYPE == 'GATESTATION') {
-                                value = data[i].VALUE + " %";
-                            }     
-                            
-                        }
-
-                        $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NAME + '" class="rowfil pointer" data-color="' + data[i].THRESHOLD + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h6 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
-                        $('#utilTbl > tbody >tr:last-child').data('map_info', data[i]);
-                        $('#utilTbl > tbody >tr:last-child').click(utilTblOnclick);
-                    }
-                }
-                //map_frame.contentWindow.postMessage(map_info_json, '*');
-                //////////////////////
-
-                //$("#threshold-filter").change(function () {
-                //    console.clear();
-                //    var filterValue = $(this).val();
-                //    var row = $('.rowfil');
-
-                //    row.each(function (i, el) {
-                //        if ($(el).attr('data-color') == filterValue) {
-                //            row.hide()
-                //            $(el).show();
-                //        }
-                //    });
-                //    // In Addition to Wlin's Answer (For "All" value)
-                //    if ("all" == filterValue) {
-                //        row.show();
-                //    }
-
-                //});
-
-                var
-          filters = {
-              color: null,
-          };
-
-                function updateFilters() {
-                    $('.rowfil').hide().filter(function () {
-                        var
-                          self = $(this),
-                          result = true; // not guilty until proven guilty
-
-                        Object.keys(filters).forEach(function (filter) {
-                            if (filters[filter] && (filters[filter] != 'all') && (filters[filter] != 'Any')) {
-                                result = result && filters[filter] === self.data(filter);
-                            }
-                        });
-
-                        return result;
-                    }).show();
-                }
-
-                function changeFilter(filterName) {
-                    filters[filterName] = this.value;
-                    updateFilters();
-                }
-
-                // Threshold Dropdown Filter
-                $('#threshold-filter').on('change', function () {
-                    changeFilter.call(this, 'color');
-                });
-
-                // Type Dropdown Filter
-                $('#type-filter').on('change', function () {
-                    changeFilter.call(this, 'type');
-                });
-
-                map_frame.contentWindow.postMessage(map_info_json, '*');
-
-                //////////////////////
-
-            </script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        }
     </div>
+
+
+
+
+
+    @section scripts{
+        <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                document.getElementById('seLicense').style.display = 'none';
+                $('tr').each(function (a, b) {
+
+
+                });
+            });
+            $('.tableFixHead').on('scroll', function () {
+                $('thead', this).css('transform', 'translateY(' + this.scrollTop + 'px)');
+            });
+            function Check() {
+
+                if (document.getElementById('radioRegion').checked) {
+                    document.getElementById('seRegion').style.display = 'inline-block';
+                    document.getElementById('seLicense').style.display = 'none';
+
+                }
+                else if (document.getElementById('radioLicense').checked) {
+                    document.getElementById('seLicense').style.display = 'inline-block';
+                    document.getElementById('seRegion').style.display = 'none';
+                }
+            }
+            //Sort Table Value//
+            $('#headValueU').click(function () {
+                var table = $(this).parents('table').eq(0)
+                var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+                this.asc = !this.asc
+                if (!this.asc) {
+
+                    rows = rows.reverse()
+
+
+                }
+
+
+                // console.log(rows.length);
+                for (var i = 0; i < rows.length; i++) { table.append(rows[i]) }
+            })
+            function comparer(index) {
+                return function (a, b) {
+                    var valA = getCellValue(a, index), valB = getCellValue(b, index)
+                    return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+
+                }
+            }
+            function getCellValue(row, index) { return $(row).children('td').eq(index).text() }
+
+            var map_info_json;
+            var region;
+            $('#MultiRegion').change(function () {
+                SeRegion = $(this).val();
+                // console.log(region);
+
+            })
+            $('#MultiLicense').change(function () {
+                SeLicense = $(this).val();
+                // console.log(region);
+
+            })
+
+            function Search() {
+                let url;
+                let multidata;
+                if (document.getElementById('radioRegion').checked) {
+                    url = '@Url.Action("SearchRegion")';
+                    multidata = SeRegion;
+                }
+                else if (document.getElementById('radioLicense').checked) {
+                    url = '@Url.Action("SearchLicense")';
+                    multidata = SeLicense;
+                }
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: JSON.stringify(multidata),
+                    contentType: 'application/json; charset=utf-8',
+                    datatype: 'json',
+                    success: function (data) {
+                        initMapTable(data);
+                    },
+                    error: function (result) {
+                        alert('Please select the data ');
+                    }
+                });
+
+
+            }//function searcch
+            function myFunction() {
+                var input, filter, table, tr, td, i;
+                input = document.getElementById("txtSearch");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("utilTbl");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+
+            function utilTblOnclick() {
+                let map_info = $(this).data("map_info");
+                map_info_json = {
+                    "menu": "utilization-search",
+                    "type": map_info.TYPE,
+                    "command": "view",
+                    "flag": $('#flag').val() == 1 ? true : false,
+                    "flagby": $('#username').val(),
+                    "parameter": {
+                        "REGION": map_info.REGION,
+                        "LICENSE": map_info.LICENSE,
+                        "NAME": map_info.NAME,
+                        "MONTH": map_info.MONTH,
+                        "YEAR": map_info.YEAR,
+                    }
+                }
+                map_frame.contentWindow.postMessage(map_info_json, '*');
+            }
+            function initMapTable(data) {
+                console.log(data)
+                $('#utilTbl').find('tbody tr').each(function () {
+                    this.remove();
+                });
+                for (let i in data) {
+                    if (data[i].THRESHOLD == 'OK') {
+                        THRESHOLD = '<span class="fa fa-circle " style="color:#16a085"></span>'
+                        color1 = "green"
+                    } else if (data[i].THRESHOLD == 'Warning') {
+                        THRESHOLD = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
+                        color1 = "yellow"
+                    } else if (data[i].THRESHOLD == 'Alert') {
+                        THRESHOLD = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
+                        color1 = "red"
+                    } else if (data[i].FLAG == '1') {
+                        THRESHOLD = '<span class="fa fa-flag " style="color:#e67e22"></span>'
+                        color1 = "flag"
+                    } else {
+                        THRESHOLD = "";
+                        color1 = "no"
+                    }
+                    if (data[i].STATUS == 'INACTIVE' && data[i].TYPE == 'METERING') {
+                        status = 'style="color:red"';
+                    } else {
+                        status = "";
+                    }
+
+                    if (data[i].TYPE == 'METERING') {
+                        value = "";
+                        unit = ' ';
+                        if (data[i].NAME == "") {
+                            name = "" + data[i].CUST_NAME;
+
+                        } else {
+                            name = "" + data[i].CUST_NAME + " (" + data[i].NAME + ")";
+
+
+                        }
+
+                    } else {
+                        name = data[i].NAME;
+                        if (data[i].TYPE == 'PIPELINE') {
+                            value = data[i].VALUE;
+                            unit = "ft/s"
+                        } else if (data[i].TYPE == 'GATESTATION') {
+                            value = data[i].VALUE;
+                            unit = "%"
+                        }
+
+                    }
+
+                    $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NAME + '" class="rowfil pointer" data-color="' + data[i].THRESHOLD + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h4 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
+                    $('#utilTbl > tbody >tr:last-child').data('map_info', data[i]);
+                    $('#utilTbl > tbody >tr:last-child').click(utilTblOnclick);
+                }
+            }
+            //map_frame.contentWindow.postMessage(map_info_json, '*');
+            //////////////////////
+
+            //$("#threshold-filter").change(function () {
+            //    console.clear();
+            //    var filterValue = $(this).val();
+            //    var row = $('.rowfil');
+
+            //    row.each(function (i, el) {
+            //        if ($(el).attr('data-color') == filterValue) {
+            //            row.hide()
+            //            $(el).show();
+            //        }
+            //    });
+            //    // In Addition to Wlin's Answer (For "All" value)
+            //    if ("all" == filterValue) {
+            //        row.show();
+            //    }
+
+            //});
+
+            var
+      filters = {
+          color: null,
+      };
+
+            function updateFilters() {
+                $('.rowfil').hide().filter(function () {
+                    var
+                      self = $(this),
+                      result = true; // not guilty until proven guilty
+
+                    Object.keys(filters).forEach(function (filter) {
+                        if (filters[filter] && (filters[filter] != 'all') && (filters[filter] != 'Any')) {
+                            result = result && filters[filter] === self.data(filter);
+                        }
+                    });
+
+                    return result;
+                }).show();
+            }
+
+            function changeFilter(filterName) {
+                filters[filterName] = this.value;
+                updateFilters();
+            }
+
+            // Threshold Dropdown Filter
+            $('#threshold-filter').on('change', function () {
+                changeFilter.call(this, 'color');
+            });
+
+            // Type Dropdown Filter
+            $('#type-filter').on('change', function () {
+                changeFilter.call(this, 'type');
+            });
+
+            map_frame.contentWindow.postMessage(map_info_json, '*');
+
+            //////////////////////
+
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    }
+</div>
 
 
 

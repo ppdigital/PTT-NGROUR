@@ -1,6 +1,6 @@
 ﻿<div id="ModalImportGate" class="modal modalImportGate" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" style="width: 50% !important">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content" style="height:80%"> 
 
             <label class="panel-title">Import Gate Station success</label>
             <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -10,42 +10,50 @@
                 <li role="presentation"><a href="#divGateError" aria-controls="divGateError" role="tab" data-toggle="tab">Error</a></li>
             </ul>
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="divGateSuccess">
-                    <table class="table table-striped table-hover table-bordered" id="utilTbl">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Pressure</th>
-                                <th>Flow(mmscfd)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tblGateSuccess">
-                            <tr>
-                                <td>y1</td>
-                                <td>y2</td>
-                                <td>y3</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <div role="tabpanel" class="tab-pane active" id="divGateSuccess" >
+                    <div style="padding-top: 2rem; height: 70%; padding-left: 2rem">
+                        <div class="table-responsive scrollable-height scrollable-height-lg">
+                            <table class="table table-striped table-hover table-bordered" id="utilTbl">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Pressure</th>
+                                        <th>Flow(mmscfd)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblGateSuccess">
+                                    <tr>
+                                        <td>y1</td>
+                                        <td>y2</td>
+                                        <td>y3</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
                 <div role="tabpanel" class="tab-pane" id="divGateError">
-                    <table class="table table-striped table-hover table-bordered" id="utilTbl">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Pressure</th>
-                                <th>Flow(mmscfd)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tblGateError">
-                            <tr>
-                                <td>x1</td>
-                                <td>x2</td>
-                                <td>x3</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    <div style="padding-top: 2rem;height:70%;padding-left:2rem">
+                        <div class="table-responsive scrollable-height scrollable-height-lg">
+                            <table class="table table-striped table-hover table-bordered" id="utilTbl">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Pressure</th>
+                                        <th>Flow(mmscfd)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblGateError">
+                                    <tr>
+                                        <td>x1</td>
+                                        <td>x2</td>
+                                        <td>x3</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -55,7 +63,7 @@
 
 <div id="ModalImportPipe" class="modal modalImportPipe" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg full-screen">
-        <div class="modal-content">
+        <div class="modal-content" style="height: 80%; width: 97%">
 
             <label class="panel-title">Import Pipeline success</label>
             <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -67,74 +75,82 @@
 
             <div class="tab-content">
                 <div id="divPipelineSuccess" class="tab-pane active">
-                    <table class="table table-striped table-hover table-bordered" id="utilTbl">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Flow(mmscfd)</th>
-                                <th>Diameter(in)</th>
-                                <th>Length(m)</th>
-                                <th>Efficiency</th>
-                                <th>Roughness(in)</th>
-                                <th>Load(mmscfd)</th>
-                                <th>Result Downstream Velocity(ft/s)</th>
-                                <th>Outside Diameter(in)</th>
-                                <th>Wall Thickness(in)</th>
-                                <th>Service State</th>
+                    <div style="padding-top: 2rem;height:70%;padding-left:2rem">
+                        <div class="table-responsive scrollable-height scrollable-height-lg">
+                            <table class="table table-striped table-hover table-bordered" id="utilTbl">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Flow(mmscfd)</th>
+                                        <th>Diameter(in)</th>
+                                        <th>Length(m)</th>
+                                        <th>Efficiency</th>
+                                        <th>Roughness(in)</th>
+                                        <th>Load(mmscfd)</th>
+                                        <th>Result Downstream Velocity(ft/s)</th>
+                                        <th>Outside Diameter(in)</th>
+                                        <th>Wall Thickness(in)</th>
+                                        <th>Service State</th>
 
-                            </tr>
-                        </thead>
-                        <tbody id="tblPipelineSuccess">
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                                <td>3</td>
-                                <td>3</td>
-                                <td>3</td>
-                                <td>3</td>
-                                <td>3</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblPipelineSuccess">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div id="divPipelineError" class="tab-pane">
-                    <table class="table table-striped table-hover table-bordered" id="utilTbl">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Flow(mmscfd)</th>
-                                <th>Diameter(in)</th>
-                                <th>Length(m)</th>
-                                <th>Efficiency</th>
-                                <th>Roughness(in)</th>
-                                <th>Load(mmscfd)</th>
-                                <th>Result Downstream Velocity(ft/s)</th>
-                                <th>Outside Diameter(in)</th>
-                                <th>Wall Thickness(in)</th>
-                                <th>Service State</th>
+                <div id="divPipelineError" class="tab-pane ">
+                    <div style="padding-top: 2rem; height: 70%; padding-left: 2rem">
+                        <div class="table-responsive scrollable-height scrollable-height-lg">
+                            <table class="table table-striped table-hover table-bordered" id="utilTbl">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Flow(mmscfd)</th>
+                                        <th>Diameter(in)</th>
+                                        <th>Length(m)</th>
+                                        <th>Efficiency</th>
+                                        <th>Roughness(in)</th>
+                                        <th>Load(mmscfd)</th>
+                                        <th>Result Downstream Velocity(ft/s)</th>
+                                        <th>Outside Diameter(in)</th>
+                                        <th>Wall Thickness(in)</th>
+                                        <th>Service State</th>
 
-                            </tr>
-                        </thead>
-                        <tbody id="tblPipelineError">
-                            <tr>
-                                <td>x1</td>
-                                <td>x2</td>
-                                <td>x3</td>
-                                <td>x3</td>
-                                <td>x3</td>
-                                <td>x3</td>
-                                <td>x3</td>
-                                <td>x3</td>
-                                <td>x3</td>
-                                <td>x3</td>
-                                <td>x3</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblPipelineError">
+                                    <tr>
+                                        <td>x1</td>
+                                        <td>x2</td>
+                                        <td>x3</td>
+                                        <td>x3</td>
+                                        <td>x3</td>
+                                        <td>x3</td>
+                                        <td>x3</td>
+                                        <td>x3</td>
+                                        <td>x3</td>
+                                        <td>x3</td>
+                                        <td>x3</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 

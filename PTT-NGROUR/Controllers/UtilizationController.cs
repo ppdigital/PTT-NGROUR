@@ -1262,8 +1262,7 @@ namespace PTT_NGROUR.Controllers
             { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND THRESHOLD IN ('" + threshold + "')"; }
             else if (month == "null" && year == "null" && threshold == "All" && type != "All")
             { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "')  AND TYPE IN ('" + type + "')"; }
-            else if (month == "null" && year == "null" && threshold == "All" && type != "All")
-            { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "')  AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
+            
             var ds = dal.GetDataSet(searchregion);
 
 
