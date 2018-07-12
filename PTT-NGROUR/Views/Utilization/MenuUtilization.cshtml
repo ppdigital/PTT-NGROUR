@@ -3,7 +3,9 @@
     Layout = "~/Views/Shared/_WelcomeLayout.cshtml";
 }
 
-
+@{
+    PTT_NGROUR.Models.User userrole = new PTT_NGROUR.Models.User();
+}
 
 
 
@@ -16,22 +18,20 @@
     <div class="cover bg-left bg-center-l bg-img h-100 hidden-sm hidden-md " id="container" style="background-image: url(http://localhost:3207/Content/Images/wall.png);">
         <!--   <div class="cover bg-left bg-center-l bg-img h-100 hidden-sm hidden-md bg-gray3" id="container">-->
         <div id="header">
-            <div class="bg-blue5 hidden-sm hidden-md pv1">
+            <div class="bg-blue5 hidden-sm hidden-md pv-5">
                 <div class="topnav" id="myTopnav">
                     <div class="black-70">
                         <a href="@Url.Action("Index", "Home")">
                             <!--  <img id="logo" width="80" src="http://localhost:11445/Content/Images/Logo_PTT.png" />-->
-                            <img id="logo" width="130" src="~/Content/logo/OURlogo1w.png" />
+                            <img id="logo" width="80" src="~/Content/logo/ngrwhite.png" />
                         </a>
                     </div>
                 </div>
             </div>
         </div>
 
-
-        <div class="v-mid ph3-l ph3-m ph5-ns pv6  hidden-sm border-box mt3">
-
-            <center>
+        <center>
+            <div class=" ph3-l ph3-m ph5-ns pv6  hidden-sm border-box mt3">
 
                 <a class=" db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box" href="@Url.Action("Index", "Utilization")">
                     <div class=" aspect-ratio aspect-ratio--4x3  bg-white shadow-3">
@@ -61,7 +61,7 @@
                     </div>
                 </a>
 
-                <a class=" db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box" href="@Url.Action("ImportExcel", "Utilization")">
+                <a class=" db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box" href="@Url.Action("ImportExcel", "Utilization")" style="display:@ViewData["UImport_page"]">
                     <div class=" aspect-ratio aspect-ratio--4x3  bg-white shadow-3">
                         <div class="aspect-ratio--object lazyload" style="background-repeat: no-repeat; background-position: center center; background-size: cover;">
                             <div class="dt aspect-ratio--object lazyload">
@@ -75,7 +75,7 @@
                     </div>
                 </a>
 
-                <a class=" db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box" href="@Url.Action("ThresholdSetting", "Utilization")">
+                <a class=" db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box" href="@Url.Action("ThresholdSetting", "Utilization")" style="display:@ViewData["Threshold_page"]">
                     <div class=" aspect-ratio aspect-ratio--4x3 bg-white shadow-3">
                         <div class="aspect-ratio--object lazyload" style="background-repeat: no-repeat; background-position: center center; background-size: cover;">
                             <div class="dt aspect-ratio--object lazyload">
@@ -89,7 +89,7 @@
                 </a>
 
                 <a class=" db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box" href="@Url.Action("Report", "Utilization")">
-       
+
                     <div class=" aspect-ratio aspect-ratio--4x3 bg-white shadow-3">
                         <div class="aspect-ratio--object lazyload" style="background-repeat: no-repeat; background-position: center center; background-size: cover;">
                             <div class="dt aspect-ratio--object lazyload">
@@ -102,21 +102,23 @@
                     </div>
                 </a>
 
-            </center>
-        </div>
 
-
+            </div>
+        </center>
+      
+    <div class="cl"></div>
+        <br /><br />
         <center>
-            <div class="hidden dib b--black-10 bg-white shadow-2 br3 mt3 pv2 ph3">
+            <span class="hidden dib b--black-10 bg-white shadow-2 br3 mt3 pv1 ph3">
 
                 <a class="dib tl pl3  c-gray mv0 pr3  f5  no-underline">
-                    Welcome : xxxxxx
+                    Welcome : @Html.Encode(User.Identity.Name)
                 </a>|
 
-                <a class="dib tr pl3   mv0 pr3 f5  no-underline c-gray" href="#">
-                    Sign Out
+                <a class="dib tr pl3 mv0 pr3 f5 no-underline c-gray " href="#">
+                    <i class="fa fa-sign-out fa-lg c-gray"></i>  Sign Out
                 </a>
-            </div>
+            </span>
         </center>
 
         <div class="f7  white t-shadow1 " id="footer">
@@ -146,7 +148,7 @@
                             UserName
                         </a>-->
 
-                        <div class="dtc v-mid"> <img id="logo" width="180" src="http://localhost:11445/Content/logo/OURlogo1w.png" /></div>
+                        <div class="dtc v-mid"> <img id="logo" width="150" src="~/Content/logo/ngrwhite.png" /></div>
 
 
 
@@ -173,7 +175,7 @@
             </a>
 
 
-            <a class="dt fr hidden  dib w-50 vh-25 no-underline  bg-white bb b-gray1 menu_hover" href="#">
+            <a class="dt fr hidden  dib w-50 vh-25 no-underline  bg-white bb b-gray1 menu_hover" href="@Url.Action("Customer", "Utilization")">
                 <br />
                 <div class="dtc v-mid tc">
                     <i class="fa fa-user fa-2x blue5" aria-hidden="true"></i>
@@ -182,30 +184,33 @@
             </a>
 
 
-            <center>
-                <div class="cb">
-                    <a class="dt fl hidden  dib w-50 vh-25 no-underline  bg-white br bb b-gray1 menu_hover " href="#">
-                        <div class="dtc v-mid tc">
-                            <i class="fa fa-cogs fa-2x blue5" aria-hidden="true"></i>
-                            <div class="silver f6 pt3">Threshold Setting</div>
-                        </div>
-                    </a>
-
-                    <div class=" hidden  dib w-50 vh-25 no-underline  bg-white bb b-gray1 ">
-
-                    </div>
+            <a class="dt fl hidden  dib w-50 vh-25 no-underline  bg-white br bb b-gray1 menu_hover" href="@Url.Action("ThresholdSetting", "Utilization")" style="display:@ViewData["Threshold_page"];">
+                <div class="dtc v-mid tc">
+                    <i class="fa fa-cogs fa-2x blue5" aria-hidden="true"></i>
+                    <div class="silver f6 pt3">Threshold Setting</div>
                 </div>
-            </center>
-            <center>
+            </a>
 
-            </center>
+
+
+
+            <a class="dt fl hidden  dib w-50 vh-25 no-underline  bg-white br bb b-gray1 menu_hover " href="@Url.Action("Report", "Utilization")">
+                <div class="dtc v-mid tc">
+                    <i class="fa fa-file-text fa-2x blue5" aria-hidden="true"></i>
+                    <div class="silver f6 pt3">Report</div>
+                </div>
+            </a>
+
+
+
         </div>
 
+
         <div class="f7 hidden-lg ">
-            <a class="dt fl hidden  dib vh-5 no-underline  bg-white ph0 bt b-gray1 pv2" id="footer">
+            <a class="dt fl hidden  dib vh-5 no-underline  bg-white ph0 bt b-gray1 pv1" id="footer">
                 <div class="dtc v-mid tc w-50">
                     <i class="fa fa-user-circle-o fa-lg gray7" aria-hidden="true"></i>
-                    <div class="gray7 f6 pt2">User Name</div>
+                    <div class="gray7 f6 pt2">@Html.Encode(User.Identity.Name)</div>
                 </div>
                 <div class="dtc v-mid tc w-50">
                     <div class="dib">
@@ -217,8 +222,8 @@
 
 
         </div>
-    </div>
 
+    </div>
 
 
     <!-- <div class="f7 black mt3 hidden-lg" id="footer">

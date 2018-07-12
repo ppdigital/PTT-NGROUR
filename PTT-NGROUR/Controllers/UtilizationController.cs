@@ -17,11 +17,13 @@ using PTT_NGROUR.Models.ViewModel;
 using PTT_NGROUR.Models;
 using System.Data;
 using Rotativa;
+using PTT_NGROUR.Models;
 
 namespace PTT_NGROUR.Controllers
 {
     public class UtilizationController : Controller
     {
+        private User UserU = new User();
         //
         // GET: /Utilization/
 
@@ -414,7 +416,16 @@ namespace PTT_NGROUR.Controllers
 
 
         public ActionResult MenuUtilization()
-        { return View(); }
+        {   
+            if (UserU.Roleid == 2)
+            {
+                ViewData["UImport_page"] = "none";
+                ViewData["Threshold_page"] = "none";
+              
+
+            }
+            return PartialView("MenuUtilization");
+        }
 
         [HttpPost]
         public JsonResult SearchRegion(int[] region)

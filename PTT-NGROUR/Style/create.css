@@ -816,6 +816,8 @@ html, body{height:100%; margin:0;padding:0}
 }
 .ph2{padding-left:2rem; padding-right:2rem;}
 .pv2{padding-top:2rem; padding-bottom:2rem;}
+.pv3{padding-top:3rem; padding-bottom:3rem;}
+.pv1{padding-top:1rem; padding-bottom:1rem;}
 .pv5{padding-top:.5rem; padding-bottom:.5rem;}
 .pt5{padding-top:.5rem; }
 
@@ -836,3 +838,4 @@ input:-webkit-autofill {
 .mt0{margin-top:0rem !important;}
 .pl2{padding-left:2rem;}
 .ph0 {padding-left:0rem !important; padding-right:0rem !important;}
+.pv-5 {padding-top:.5rem; padding-bottom:.5rem;}

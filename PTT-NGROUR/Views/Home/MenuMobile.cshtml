@@ -2,6 +2,9 @@
     ViewBag.Title = "MenuMobile";
     Layout = null;
 }
+@{
+    PTT_NGROUR.Models.User userrole = new PTT_NGROUR.Models.User();
+}
 
 <html>
 <head>
@@ -26,11 +29,11 @@
 
         <div class="pl4 pr3">
            
-            <img id="logo" width="90" src="~/Content/logo/OURlogo1w.png" />
+            <center>  <img width="140" class="pv3" src="~/Content/logo/ngr1.png" /></center>
                 <div class="dtc v-mid ">
                     <span class="dtc v-mid pl3">
-                        <a class=" f5 pl2 mt1 black gray6">User ID</a><br /><br />
-                        <a class=" f5 pl2 mt1 black gray6">User Name</a>
+                        <span class=" f5 pl2 mt1 black gray6">User ID : &nbsp; @Html.Encode(User.Identity.Name)</span><br /><br />
+                        <span class=" f5 pl2 mt1 black gray6">User Name :</span>
                     </span>
                 </div>
             
@@ -50,17 +53,18 @@
                         </a>
                         <ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1">
                             <li style="width:100%"><a href="@Url.Action("Index", "Utilization")"><span style="padding-left: 50px">Utilization</span></a></li>
-                            <li style="width:100%"><a href="@Url.Action("CustManage", "Utilization")"><span style="padding-left:50px">Customer</span></a></li>
-                            <li style="width:100%"><a href="@Url.Action("ImportExcel", "Utilization")"><span style="padding-left:50px">Import Excel</span></a></li>
-                            <li style="width:100%"><a href="@Url.Action("ThresholdSetting", "Utilization")"><span style="padding-left:50px">Threshold Setting</span></a></li>
-                            <li style="width:100%"><a href="@Url.Action("UReport", "Utilization")"><span style="padding-left:60px">Report</span></a></li>
+                            <li style="width:100%"><a href="@Url.Action("Customer", "Utilization")"><span style="padding-left:50px">Customer</span></a></li>
+                           
+                            <li style="display:@ViewData["Threshold_page"];width:100%;"><a href="@Url.Action("ThresholdSetting", "Utilization")"><span style="padding-left:50px">Threshold Setting</span></a></li>
+                            <li style="width: 100%;"><a href="@Url.Action("Report", "Utilization")"><span style="padding-left:50px">Report</span></a></li>
                         </ul>
                     </li>
                     <li style="width:100%"><a href="#"><i class="fa fa-cogs fa-lg gray7" aria-hidden="true" style="width:9%"> </i>O & M</a></li>
                     <li style="width:100%"><a href="#"><i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Risk Management</a></li>
                     <li style="width:100%">
-                        <a href="#" id="btn-1" data-toggle="collapse" data-target="#Admin" aria-expanded="false" >
-                            <i class="fa fa-user fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Admin<i class="glyphicon glyphicon-menu-down pull-right"></i></a>
+                        <a href="#" id="btn-1" data-toggle="collapse" data-target="#Admin" aria-expanded="false" style="display:@ViewData["Admin_page"]">
+                            <i class="fa fa-user fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Admin<i class="glyphicon glyphicon-menu-down pull-right"></i>
+                        </a>
                         <ul class="nav collapse" id="Admin" role="menu" aria-labelledby="btn-1">
                             <li><a href="@Url.Action("Index", "Utilization")"><span style="padding-left:50px">UserManagement</span></a></li>
 

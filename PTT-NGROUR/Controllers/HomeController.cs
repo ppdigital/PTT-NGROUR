@@ -1,13 +1,15 @@
-﻿using System;
+﻿using PTT_NGROUR.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace PTT_NGROUR.Controllers
-{
+{  
     public class HomeController : Controller
     {
+        private User UserH = new User();
 
         //
         // GET: /Home/
@@ -41,7 +43,16 @@ namespace PTT_NGROUR.Controllers
             return RedirectToAction("Login", "User");
         }
         public ActionResult MenuMobile()
-        { return View(); }
+        {
+            if (UserH.Roleid == 2)
+            {
+                ViewData["UImport_page"] = "none";
+                ViewData["Threshold_page"] = "none";
+                ViewData["Admin_page"] = "none";
+
+            }
+            return PartialView("MenuMobile");
+        }
 
         public ActionResult MenuWeb()
         { return View(); }

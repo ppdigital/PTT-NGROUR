@@ -227,6 +227,8 @@
     <Content Include="Content\Images\wall.png" />
     <Content Include="Content\jasny-bootstrap.min.css" />
     <Content Include="Content\jquery-ui-slider-pips.css" />
+    <Content Include="Content\Logo\ngr1.png" />
+    <Content Include="Content\Logo\ngrwhite.png" />
     <Content Include="Content\Logo\OURlogo1.png" />
     <Content Include="Content\Logo\OURlogo1w.png" />
     <Content Include="Content\Logo\OURlogo2.png" />
