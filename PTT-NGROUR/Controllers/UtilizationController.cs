@@ -316,16 +316,18 @@ namespace PTT_NGROUR.Controllers
                     METER_NUMBER = drmeter["METER_NUMBER"].ToString(),
                     METER_TYPE = drmeter["METER_TYPE"].ToString(),
                     REGION = drmeter["REGION"].ToString(),
+                    REGION_D = drmeter["REGION_D"].ToString(),
                     SHIP_TO = drmeter["SHIP_TO"].ToString(),
                     SOLD_TO = drmeter["SOLD_TO"].ToString(),
                     SOLD_TO_NAME = drmeter["SOLD_TO_NAME"].ToString(),
-                    STATUS = drmeter["STATUS"].ToString()
+                    STATUS = drmeter["STATUS"].ToString(),
+                    STATUS_DETAIL = drmeter["STATUS_DETAIL"].ToString()
                 };
 
                 listMeterV.Add(meter);
             }
 
-            var dsmeterT = dal.GetDataSet("SELECT A.METER_NUMBER,A.METER_NAME,M.ID,M.METER_TYPE,STATUS_DETAIL,A.LICENSE_ID,L.LICENSE_CODE,B.SHIP_TO,B.CUST_NAME,C.SOLD_TO,C.SOLD_TO_NAME,A.STATUS,A.COMMDATE,A.OBJECT_ID,L.LICENSE, CASE WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = B.REGION) IS NOT NULL THEN (SELECT REGION_ID  FROM REGION WHERE REGION_NAME = B.REGION) WHEN (SELECT REGION_ID FROM REGION  WHERE REGION_NAME_TH = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = B.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) ELSE TO_NUMBER(B.REGION) END REGION FROM NGR_CUSTOMER_METER A, NGR_CUSTOMER B, NGR_CUSTOMER_OFFICE C, STATUS D,LICENSE_MASTER L , METER_TYPE M WHERE A.SHIP_TO = B.SHIP_TO AND B.SOLD_TO = C.SOLD_TO AND A.LICENSE_ID = L.LICENSE_ID(+) AND A.STATUS = D.STATUS_ID(+)  AND A.METER_TYPE = M.ID");
+            var dsmeterT = dal.GetDataSet("SELECT A.METER_NUMBER,A.METER_NAME,M.ID,M.METER_TYPE,STATUS_DETAIL,A.LICENSE_ID,L.LICENSE_CODE,B.SHIP_TO,B.CUST_NAME,C.SOLD_TO,C.SOLD_TO_NAME,A.STATUS,A.COMMDATE,A.OBJECT_ID,L.LICENSE,B.REGION, CASE WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = B.REGION) IS NOT NULL THEN (SELECT REGION_ID  FROM REGION WHERE REGION_NAME = B.REGION) WHEN (SELECT REGION_ID FROM REGION  WHERE REGION_NAME_TH = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = B.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = B.REGION) ELSE TO_NUMBER(B.REGION) END REGION FROM NGR_CUSTOMER_METER A, NGR_CUSTOMER B, NGR_CUSTOMER_OFFICE C, STATUS D,LICENSE_MASTER L , METER_TYPE M WHERE A.SHIP_TO = B.SHIP_TO AND B.SOLD_TO = C.SOLD_TO AND A.LICENSE_ID = L.LICENSE_ID(+) AND A.STATUS = D.STATUS_ID(+)  AND A.METER_TYPE = M.ID");
             var dtmeterT = dsmeterT.Tables[0];
             //public List<DataModel.ModelVIEW_METER> ListViewMeter { get; set; }
             var listMeterT = new List<Models.DataModel.ModelMETER>();
@@ -337,17 +339,20 @@ namespace PTT_NGROUR.Controllers
                     OBJECT_ID_T = Convert.ToInt32(drmeterT["OBJECT_ID"].ToString()),
                     CUST_NAME_T = drmeterT["CUST_NAME"].ToString(),
                     LICENSE_CODE_T = drmeterT["LICENSE_CODE"].ToString(),
+                    LICENSE_ID_T = drmeterT["LICENSE_ID"].GetInt(),
                     LICENSE_NAME_T = drmeterT["LICENSE"].ToString(),
                     METER_NAME_T = drmeterT["METER_NAME"].ToString(),
                     METER_NUMBER_T = drmeterT["METER_NUMBER"].ToString(),
                     METER_TYPE_T = drmeterT["METER_TYPE"].ToString(),
-                    METER_TYPE_ID_T = Convert.ToInt32(drmeterT["ID"].ToString()),
-                    REGION_T = Convert.ToInt32(drmeterT["REGION"].ToString()),
+                    METER_TYPE_ID_T = drmeterT["ID"].GetInt(),
+                   // REGION_T = Convert.ToInt32(drmeterT["REGION"].ToString()),
+                    REGION_NAME_T = drmeterT["REGION"].ToString(),
                     SHIP_TO_T = drmeterT["SHIP_TO"].ToString(),
                     SOLD_TO_T = drmeterT["SOLD_TO"].ToString(),
                     SOLD_TO_NAME_T = drmeterT["SOLD_TO_NAME"].ToString(),
                     STATUS_T = drmeterT["STATUS"].ToString(),
-                    COMMDATE_T = drmeterT["COMMDATE"].GetDate(),
+                    STATUS_DETAIL_T = drmeterT["STATUS_DETAIL"].ToString(),
+                    COMMDATE_T = drmeterT["COMMDATE"].GetTimeStamp(),
                 };
 
                 listMeterT.Add(meterT);
@@ -367,7 +372,7 @@ namespace PTT_NGROUR.Controllers
                     listshipto.Add(shipto_Add);
                 }
             }
-            //List<DataModel.ModeLICENSE_MASTER> ListLicenseMaster
+            
             var license = @"select LICENSE_CODE,LICENSE_ID from LICENSE_MASTER WHERE LICENSE_CODE IS NOT NULL";
             var ds_license = dal.GetDataSet(license);
             var listlicense = new List<Models.DataModel.ModeLICENSE_MASTER>();
@@ -384,7 +389,7 @@ namespace PTT_NGROUR.Controllers
                     listlicense.Add(license_Add);
                 }
             }
-            //public List<DataModel.ModelMETER_TYPE> ListMeterType { get; set; }
+            
             var metertype = @"select ID,METER_TYPE from METER_TYPE WHERE METER_TYPE IS NOT NULL ORDER BY METER_TYPE";
             var ds_Mtype = dal.GetDataSet(metertype);
             var listMtype = new List<Models.DataModel.ModelMETER_TYPE>();
@@ -400,6 +405,23 @@ namespace PTT_NGROUR.Controllers
                     listMtype.Add(Mtype_Add);
                 }
             }
+
+            var status = @"select STATUS_ID, STATUS_DETAIL from STATUS";
+            var ds_status = dal.GetDataSet(status);
+            var liststatus = new List<Models.DataModel.ModelSTATUS>();
+            if (ds_status.Tables[0].Rows.Count > 0)
+            {
+                foreach (System.Data.DataRow drstatus in ds_status.Tables[0].Rows)
+                {
+                    var status_Add = new Models.DataModel.ModelSTATUS()
+                    {
+                        STATUS_ID = drstatus["STATUS_ID"].GetInt(),
+                        STATUS_DETAIL = drstatus["STATUS_DETAIL"].ToString()
+                    };
+                    liststatus.Add(status_Add);
+                }
+            }
+
             var model = new Models.ViewModel.Customer()
             {
                 ListViewShipToSoldTo = listCus,
@@ -408,7 +430,8 @@ namespace PTT_NGROUR.Controllers
                 ListMeter = listMeterT,
                 ListViewCustomer = listshipto,
                 ListLicenseMaster = listlicense,
-                ListMeterType = listMtype
+                ListMeterType = listMtype,
+                ListStatus = liststatus
             };
 
             return View(model);
@@ -1127,13 +1150,13 @@ namespace PTT_NGROUR.Controllers
             return Redirect("Customer");
         }
         [HttpPost]
-        public ActionResult EditMeter(string datepicCommdateMEdit, string txtMeterNameMEdit, string txtMeterNumMEdit, int txtMeterTypeMEdit, int seStatusMEdit, int txtObjectIDMEdit)
+        public ActionResult EditMeter(string datepicCommdateMEdit, string txtMeterNameMEdit, string txtMeterNumMEdit, int seMeterTypeMEdit, int seStatusMEdit, int txtObjectIDMEdit)
         {   //string textEdit = "แก้ไข้อมูลเรียบร้อย";
             //String[] date1 = date.split("/");
             //var mainDate = DateTime.ParseExact(datepicCommdateMEdit, "dd/MM/yyyy HH:mm:ss", null);
             var dalEditMeter = new DAL.DAL();
             string username = User.Identity.Name;
-            string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET METER_NUMBER = '" + txtMeterNumMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',METER_TYPE='" + txtMeterTypeMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE=to_timestamp( '" + datepicCommdateMEdit + "', 'dd/mm/yyyy' ),UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE OBJECT_ID='" + txtObjectIDMEdit + "'";
+            string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET METER_NUMBER = '" + txtMeterNumMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',METER_TYPE='" + seMeterTypeMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE=to_timestamp( '" + datepicCommdateMEdit + "', 'dd/mm/yyyy' ),UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE OBJECT_ID='" + txtObjectIDMEdit + "'";
             var conMeter = dalEditMeter.GetConnection();
             conMeter.Open();
             dalEditMeter.GetCommand(strCommandEditMeter, conMeter).ExecuteNonQuery();

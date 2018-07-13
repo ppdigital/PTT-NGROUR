@@ -14,5 +14,6 @@ namespace PTT_NGROUR.Models.ViewModel
         public List<DataModel.ModeVIEW_CUSTOMER> ListViewCustomer { get; set; }
         public List<DataModel.ModeLICENSE_MASTER> ListLicenseMaster { get; set; }
         public List<DataModel.ModelMETER_TYPE> ListMeterType { get; set; }
+        public List<DataModel.ModelSTATUS> ListStatus { get; set; }
     }
 }

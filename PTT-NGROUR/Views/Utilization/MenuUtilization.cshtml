@@ -115,7 +115,7 @@
                     Welcome : @Html.Encode(User.Identity.Name)
                 </a>|
 
-                <a class="dib tr pl3 mv0 pr3 f5 no-underline c-gray " href="#">
+                <a class="dib tr pl3 mv0 pr3 f5 no-underline c-gray " href="@Url.Action("Logout", "User")">
                     <i class="fa fa-sign-out fa-lg c-gray"></i>  Sign Out
                 </a>
             </span>
@@ -207,18 +207,20 @@
 
 
         <div class="f7 hidden-lg ">
-            <a class="dt fl hidden  dib vh-5 no-underline  bg-white ph0 bt b-gray1 pv1" id="footer">
+            <div class="dt fl hidden  dib vh-5 no-underline  bg-white ph0 bt b-gray1 pv1" id="footer">
                 <div class="dtc v-mid tc w-50">
                     <i class="fa fa-user-circle-o fa-lg gray7" aria-hidden="true"></i>
                     <div class="gray7 f6 pt2">@Html.Encode(User.Identity.Name)</div>
                 </div>
                 <div class="dtc v-mid tc w-50">
-                    <div class="dib">
-                        <i class="fa fa-sign-out fa-lg gray7" aria-hidden="true"></i>
-                        <div class="gray7 f6 pt2">Sing out</div>
-                    </div>
+                    <a href="@Url.Action("Logout", "User")">
+                        <div class="dib">
+                            <i class="fa fa-sign-out fa-lg gray7" aria-hidden="true"><span class="gray7 f6 pt2">Sing out</span></i>
+
+                        </div>
+                    </a>
                 </div>
-            </a>
+            </div>
 
 
         </div>

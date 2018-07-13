@@ -47,6 +47,22 @@ namespace PTT_NGROUR.ExtentionAndLib
             decimal result;
             return decimal.TryParse(strValue, out result)?result : pDecDefaultValue;   
         }
+        public static Oracle.ManagedDataAccess.Types.OracleTimeStamp? GetTimeStamp(this object pObject)
+        {
+            try
+            {
+                if (pObject == null || Convert.IsDBNull(pObject))
+                {
+                    return null;
+                }
+                var result = (Oracle.ManagedDataAccess.Types.OracleTimeStamp)pObject;
+                return result;
+            }
+            catch 
+            {
+                return null;                
+            }        
+        }
 
         public static T GetEnum<T>(this object pObject, T pDefaultValue) where T : struct
         {           

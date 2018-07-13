@@ -90,10 +90,12 @@ namespace PTT_NGROUR.Models.DataModel
         public string METER_NUMBER { get; set; }
         public string METER_TYPE { get; set; }
         public string REGION { get; set; }
+        public string REGION_D { get; set; }
         public string SHIP_TO { get; set; }
         public string SOLD_TO { get; set; }
         public string SOLD_TO_NAME { get; set; }
         public string STATUS { get; set; }
+        public string STATUS_DETAIL { get; set; }
 
     }
 
@@ -103,17 +105,21 @@ namespace PTT_NGROUR.Models.DataModel
         public int countMeter_T { get; set; }
         public string CUST_NAME_T { get; set; }
         public string LICENSE_CODE_T { get; set; }
+        public int LICENSE_ID_T { get; set; }
         public string LICENSE_NAME_T { get; set; }
         public string METER_NAME_T { get; set; }
         public string METER_NUMBER_T { get; set; }
         public string METER_TYPE_T { get; set; }
         public int METER_TYPE_ID_T { get; set; }
         public int REGION_T { get; set; }
+        public string REGION_NAME_T { get; set; }
         public string SHIP_TO_T { get; set; }
         public string SOLD_TO_T { get; set; }
         public string SOLD_TO_NAME_T { get; set; }
         public string STATUS_T { get; set; }
-        public DateTime? COMMDATE_T { get; set; }
+        public string STATUS_DETAIL_T { get; set; }
+        public Oracle.ManagedDataAccess.Types.OracleTimeStamp? COMMDATE_T { get; set; }
+       
 
     }
 
