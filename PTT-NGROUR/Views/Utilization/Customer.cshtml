@@ -727,7 +727,7 @@
                 <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
 
-            @using (Html.BeginForm("EditMeter", "Utilization", FormMethod.Post))
+            @using (Html.BeginForm("EditMeter", "Utilization", FormMethod.Post , new { id = "frmEditMeter" }))
             {
 
                 <div class="pv2 mv3">
@@ -911,7 +911,7 @@
                 </div>
                 <br />
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-sm">Edit Metering</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="SaveEditMeter()">Edit Metering</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
 
@@ -1126,6 +1126,21 @@
 
             //console.log(new Date().getFullYear());
 
+            function SaveEditMeter() {
+                var param = {
+                    "menu": "utilization-customer",
+                    "type": "METERING",
+                    "command": "Save",
+                    "parameter": {
+                        "METER_NUMBER": $("#txtMeterNumMEdit").val(),
+                        "SHIP_TO": $("#txtShipToMEdit").val()
+                    }
+                };
+                map_frame.contentWindow.postMessage(param, '*');
+                
+                $("#frmEditMeter").submit();
+            }
+
             function CheckGisMapCreate() {
                
                 if (document.getElementById('checkGisMapCreate').checked == true && document.getElementById("txtMeterNumMCreate").value !="") {
@@ -1298,7 +1313,18 @@
                     $("#txtSoldToNameMEdit").val('@cusMeterE.SOLD_TO_NAME_T');
                     $("#seStatusMEdit").val('@cusMeterE.STATUS_T');
                     $("#datepicCommdateMEdit").val('@cusMeterE.COMMDATE_T');
-               
+
+                    var map_customer_json = {
+                        "menu": "utilization-customer",
+                        "type": "METERING",
+                        "command": "view",
+                        "parameter": {
+                            "METER_NUMBER": "@cusMeterE.METER_NUMBER_T",
+                            "SHIP_TO": "@cusMeterE.SHIP_TO_T"
+                        }
+                    }
+
+                    map_frame.contentWindow.postMessage(map_customer_json, '*');                    
                 }  
                     </text>
                 }
@@ -1333,6 +1359,16 @@
                 success: function (response) {
                     alert(response);
                     if (response == "เพิ่มข้อมูลเรียบร้อย") {
+                        var js = {
+                            "menu": "utilization-customer",
+                            "type": "METERING",
+                            "command": "Save",
+                            "parameter": {
+                                "METER_NUMBER": txtMeterNumMCreate,
+                                "SHIP_TO": seShipToMCreate
+                            }
+                        }
+                        map_frame.contentWindow.postMessage(map_customer_json, '*');
                         //$("#myModalCreate").style.display = "none";
                         window.location.reload();
                     }
