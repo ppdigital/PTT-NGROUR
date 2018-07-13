@@ -55,7 +55,7 @@
                     </div>
                 </a>
 
-                <a class="db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box " href="@Url.Action("MenuUtilization","Utilization")">
+                <a class="db pointer no-underline grow black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box " href="@Url.Action("Index","Utilization")">
                     <div class=" aspect-ratio aspect-ratio--4x3 bg-white shadow-3">
                         <div class="dt aspect-ratio--object lazyload">
 
@@ -241,32 +241,6 @@
 
 </body>
 <script type="text/javascript">
-
-
-    $(document).ready(function () {
-        $("#dashboardpage").click(function () {
-            window.location.href = serverpath + '/Home';
-        });
-        $("#trackingpage").click(function () {
-            window.location.href = serverpath + '/Realtime';
-        });
-        $("#cctvpage").click(function () {
-            window.location.href = serverpath + '/CCTVMonitor/Livestream';
-        });
-        $("#alarmpage").click(function () {
-            window.location.href = serverpath + '/Alarm';
-        });
-        $("#reportpage").click(function () {
-            window.location.href = serverpath + '/Report';
-        });
-        $("#helppage").click(function () {
-            window.location.href = serverpath + '/Help';
-        });
-        $("#UPage").click(function () {
-            window.location.href = serverpath + '/Utilization';
-        });
-
-    });
 
     $(document).ready(function () {
         $(".btn1").hide();

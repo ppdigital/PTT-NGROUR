@@ -15,7 +15,7 @@
 <body>
 
     <!--     Web Version      -->
-    <div class="cover bg-left bg-center-l bg-img h-100 hidden-sm hidden-md " id="container" style="background-image: url(http://localhost:3207/Content/Images/wall.png);">
+    <div class="cover bg-left bg-center-l bg-img h-100 hidden-sm hidden-md " id="container" style="background-image: url(http://localhost:3207/Content/Images/wall.png);display:none">
         <!--   <div class="cover bg-left bg-center-l bg-img h-100 hidden-sm hidden-md bg-gray3" id="container">-->
         <div id="header">
             <div class="bg-blue5 hidden-sm hidden-md pv-5">
@@ -126,13 +126,15 @@
         </div>
     </div>
 
-
+   
 
     <!--Mobile Version-->
+   
 
+    
 
     <div class="hidden-lg bg-gray2" id="container">
-
+       
         <center>
             <div id="header ">
 
@@ -165,7 +167,7 @@
 
         <div class=" hidden-lg bg-gray2" id="body">
 
-            <a class="dt fl hidden dib   w-50 vh-25 no-underline bg-white br bb b-gray1 menu_hover" href="@Url.Action("Index", "Dashboard")">
+            <a class="dt fl hidden dib  w-50 vh-25 no-underline bg-white br bb b-gray1 menu_hover" href="@Url.Action("Index", "Utilization")">
 
                 <div class="dtc v-mid tc">
 
@@ -237,57 +239,7 @@
 
 
 </body>
-<script type="text/javascript">
 
-
-    $(document).ready(function () {
-        $("#dashboardpage").click(function () {
-            window.location.href = serverpath + '/Home';
-        });
-        $("#trackingpage").click(function () {
-            window.location.href = serverpath + '/Realtime';
-        });
-        $("#cctvpage").click(function () {
-            window.location.href = serverpath + '/CCTVMonitor/Livestream';
-        });
-        $("#alarmpage").click(function () {
-            window.location.href = serverpath + '/Alarm';
-        });
-        $("#reportpage").click(function () {
-            window.location.href = serverpath + '/Report';
-        });
-        $("#CPage").click(function () {
-            window.location.href = serverpath + '/Help';
-        });
-        $("#UPage").click(function () {
-            window.location.href = serverpath + '/Utilization';
-        });
-
-        href="@Url.Action("CustManage", "Utilization")"
-
-    });
-
-    $(document).ready(function () {
-        $(".btn1").hide();
-        $(".btn2").hide();
-        $(".btn3").hide();
-        $("#btn1").click(function () {
-            $(".btn1").toggle();
-        });
-
-        $("#btn2").click(function () {
-            $(".btn2").toggle();
-        });
-
-        $("#btn3").click(function () {
-            $(".btn3").toggle();
-        });
-    });
-
-
-
-
-</script>
 
 
 

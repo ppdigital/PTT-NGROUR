@@ -9,28 +9,23 @@
     <div class="ph2 ph0-xs">
         <div class=" p-3 mb-2 col-container col-container-white text-dark">
             <div class="ph0-xs" style="padding-bottom:1rem;padding-top:1rem;padding-left:1rem;padding-right:1rem;">
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th class="h7-xs">Color</th>
-                            <th class="h7-xs">Type</th>
-                            <th class="h7-xs">Min<span class="pull-right">Max</span><span class="cr"></span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                          @*  <span class="h7-xs">Color</span>*@
+                           @*<span class="h7-xs">Type</span>*@ 
+                           @* <span class="h7-xs">Min<span class="pull-right">Max</span><span class="cr"></span></span>*@
+
                         @for (int j = 0; j < Model.ThresholdItems.Length; ++j)
                         {
-                            <tr>
-                                <td><div class="circleBase" style="background-color: @Model.ThresholdItems[j].COLOR_HEX"></div> </td>
-                               @if (@Model.ThresholdItems[j].ThresholdType.ToString() == "GateStation")
-                                {
-                                    <td class="h7-xs">Gate Station (%)</td>
-                               }
-                               else if (@Model.ThresholdItems[j].ThresholdType.ToString() == "PipeLine")
-                               {
-                                    <td class="h7-xs">Pipeline (ft/s)</td>
-                               } 
-                                <td class="col-xs-12">
+                            
+                           @*  <div class="circleBase" style="background-color: @Model.ThresholdItems[j].COLOR_HEX"></div> *@
+                            if (@Model.ThresholdItems[j].ThresholdType.ToString() == "GateStation")
+                            {
+                                <span class=" col-xs-12 pv1 ph1"><span class="fa fa-circle fa-lg pv1 pv1 ph0" style="color: @Model.ThresholdItems[j].COLOR_HEX"></span> &nbsp;Gate Station (%)</span>
+                            }
+                            else if (@Model.ThresholdItems[j].ThresholdType.ToString() == "PipeLine")
+                            {
+                                 <span class=" col-xs-12 pv1 ph1"><span class="fa fa-circle fa-lg pv1 pv1 ph0" style="color: @Model.ThresholdItems[j].COLOR_HEX"></span> &nbsp;Pipeline (ft/s)</span>
+                            }
+                                <div class="col-xs-12" style="padding-left:5px;padding-right:5px">
 
                                     <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2" style="padding-left:0rem;padding-right:0rem;">
@@ -56,20 +51,22 @@
 
                                         </div>
                                     </div>
-                                </td>
-                            </tr>
+                                </div>
+                         
                         }
 
+                <span class="cr cl"></span>
+                   
 
-                    </tbody>
 
-                </table>
               <!--  <div id="flat-slider"></div>-->
-               
+                <div class="col-xs-12">
+                    <br /><br />
                     <button id="btnSave" class="btn btn-success pull-right" type="button">
                         <i class="glyphicon glyphicon-save"></i>&nbsp;SAVE
-                    </button><span class="cr"></span>
-                <br /><br />
+                    </button><span class="cr"></span><br /><br />
+                </div>
+                
 
             </div>
         </div>
@@ -83,9 +80,10 @@
     <link rel="stylesheet" href="~/Content/jquery-ui-slider-pips.css" />
     <style>
         .circleBase {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
+            width: 1px;
+            height: 20px;
+            border-radius: 100%;
+            margin-top: 1rem !important;
         }
 
         .ui-slider {
@@ -155,7 +153,7 @@
         .btn-success {
             background-image: none !important;
             border-radius: 0px;
-            text-shadow: 0 0px 0 rgba(0,0,0,0);
+            text-shadow: 0 0 px 0 rgba(0,0,0,0);
             border-color: transparent;
             
         }

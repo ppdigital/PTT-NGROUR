@@ -816,6 +816,7 @@ html, body{height:100%; margin:0;padding:0}
 }
 .ph2{padding-left:2rem; padding-right:2rem;}
 .pv2{padding-top:2rem; padding-bottom:2rem;}
+.mv2{margin-top:2rem; margin-bottom:2rem;}
 .pv3{padding-top:3rem; padding-bottom:3rem;}
 .pv1{padding-top:1rem; padding-bottom:1rem;}
 .pv5{padding-top:.5rem; padding-bottom:.5rem;}
@@ -831,11 +832,15 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 .cr{clear:right;}
+.cl{clear:left;}
 .fl{float:left;}
 .pb2{padding-bottom:2rem;}
 .pb1{padding-bottom:1rem;}
 .border-box-gray{border: 1px solid rgba(0,0,0,.0625);}
 .mt0{margin-top:0rem !important;}
+
 .pl2{padding-left:2rem;}
 .ph0 {padding-left:0rem !important; padding-right:0rem !important;}
 .pv-5 {padding-top:.5rem; padding-bottom:.5rem;}
+.pv0 {padding-top:.0rem; padding-bottom:.0rem;}
+.pr0 {padding-right:0rem !important;}
