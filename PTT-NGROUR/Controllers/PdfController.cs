@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Helpers;
-
+using PTT_NGROUR.ExtentionAndLib;
 
 namespace PTT_NGROUR.Controllers
 {
@@ -13,6 +13,21 @@ namespace PTT_NGROUR.Controllers
         //
         // GET: /Pdf/
         private static Models.ViewModel.ModelUtilizationReportPdfOutput _utilizationReportPdfOutput = null;
+
+        string[] monthNames = new[] { "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        };
+        private string getMonthName(int pIntMonth)
+        {
+            if(pIntMonth >=0 && pIntMonth < monthNames.Length)
+            {
+                return monthNames[pIntMonth];
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
 
         public ActionResult Index()
         {
@@ -81,10 +96,12 @@ namespace PTT_NGROUR.Controllers
                     if (arrPeriod != null && 2.Equals(arrPeriod.Length))
                     {
                         strCommand += " and month =" + arrPeriod[0] + " and year =" + arrPeriod[1];
+                        result.DateCaption = getMonthName( arrPeriod[0].GetInt()) + " " + arrPeriod[1];
                     }
                     else
                     {
                         strCommand += " and year =" + searchCondition.Period;
+                        result.DateCaption = searchCondition.Period;
                     }
                 }
             }
@@ -99,6 +116,17 @@ namespace PTT_NGROUR.Controllers
             ).ToList();
             dal = null;
             result.SetListGatePipeCurrent(listGatePipeCurrent);
+
+            var firstData = listGatePipeCurrent.FirstOrDefault();
+            if(firstData == null)
+            {
+                result.CurrentDateCaption = string.Empty;
+            }
+            else
+            {
+                result.CurrentDateCaption = getMonthName( firstData.MONTH) + " " + firstData.YEAR.ToString();
+            }
+
             result.SetListGatePipe(listGatePipe);
             //return View(result);
             _utilizationReportPdfOutput = result;
@@ -122,7 +150,7 @@ namespace PTT_NGROUR.Controllers
                 BackGradientStyle=""DiagonalLeft""
                 BackColor=""Transparent"" 
                 ShadowColor=""Transparent"">                    
-                <Area3DStyle Enable3D=""True"" Inclination=""45"" Rotation=""45""/>
+                <Area3DStyle Enable3D=""false"" Inclination=""45"" Rotation=""45""/>
             </ChartArea>
         </ChartAreas>         
         <Legends>
@@ -161,25 +189,62 @@ namespace PTT_NGROUR.Controllers
             if (thStatus == null)
             {
                 return null;
+            }else if (thStatus.IsAllZero())
+            {
+                var bmp = new System.Drawing.Bitmap(400, 400);
+                var g = System.Drawing.Graphics.FromImage(bmp);
+                g.DrawString(
+                    s: "No Data Available", 
+                    font: new System.Drawing.Font("Tahoma" , 18.0f), 
+                    brush: System.Drawing.Brushes.Black, 
+                    point: new System.Drawing.PointF(20.0f, 180.0f));
+
+                var ms = new System.IO.MemoryStream();
+
+                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                var arrChartByte = ms.ToArray();
+                return File(arrChartByte, "image/png");
+                //bmp.Save()
+            }
+            else
+            {
+                var strAlert = string.Empty;
+                var strFlag =  string.Empty;
+                var strOK =  string.Empty;
+                var strWarning =  string.Empty;
+
+                if(thStatus.Alert > 0)
+                {
+                    strAlert = "Alert " + thStatus.Alert.GetString();
+                    
+                }
+                if(thStatus.OK > 0)
+                {
+                    strOK = "OK " + thStatus.OK.GetString();
+                }
+                if(thStatus.Flag > 0)
+                {
+                    strFlag = "Flag " + thStatus.Flag.GetString();
+                }
+                if(thStatus.Warning > 0)
+                {
+                    strWarning = "Warning " + thStatus.Warning.GetString();
+                }
+                var tc = new Chart(width: 400, height: 400, theme: getMyCustomTheme())
+                    .AddTitle(pStrChartName)
+                    .AddSeries(
+                        name: string.Empty,
+                        chartType: "Doughnut",
+                        xValue: new[] { strOK, strWarning, strAlert, strFlag },
+                        yValues: new[] { thStatus.OK, thStatus.Warning, thStatus.Alert, thStatus.Flag }
+                    );
+           
+                var arrChartByte = tc.GetBytes();
+                tc = null;
+                return File(arrChartByte, "image/png");
             }
 
-            var strAlert = thStatus.Alert > 0 ? "Alert" : string.Empty;
-            var strFlag = thStatus.Flag > 0 ? "Flag" : string.Empty;
-            var strOK = thStatus.OK > 0 ? "OK" : string.Empty;
-            var strWarning = thStatus.Warning > 0 ? "Wasrning" : string.Empty;
 
-            var tc = new Chart(width: 400, height: 400, theme: getMyCustomTheme())
-                .AddTitle(pStrChartName)
-                .AddSeries(
-                    name: string.Empty,
-                    chartType: "Doughnut",
-                    xValue: new[] { strOK, strWarning, strAlert, strFlag },
-                    yValues: new[] { thStatus.OK, thStatus.Warning, thStatus.Alert, thStatus.Flag }
-                );
-           
-            var arrChartByte = tc.GetBytes();
-            tc = null;
-            return File(arrChartByte, "image/png");
         }
     }
 }

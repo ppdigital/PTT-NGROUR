@@ -208,25 +208,7 @@
                         flagPipe++;
                     }
                 }
-                //if (data[i].THRESHOLD == "OK" && data[i].TYPE == "GATESTATION")
-                //{ passGate = 1 + passGate; }
-                //else if (data[i].THRESHOLD == "OK" && data[i].TYPE == "PIPELINE")
-                //{ passPipe = 1 + passPipe; }
 
-                //else if (data[i].THRESHOLD == "Warning" && data[i].TYPE == "GATESTATION")
-                //{ warningGate = 1 + warningGate; }
-                //else if (data[i].THRESHOLD == "Warning" && data[i].TYPE == "PIPELINE")
-                //{ warningPipe = 1 + warningPipe; }
-
-                //else if (data[i].THRESHOLD == "Alert" && data[i].TYPE == "GATESTATION")
-                //{ alertGate = 1 + alertGate; }
-                //else if (data[i].THRESHOLD == "Alert" && data[i].TYPE == "PIPELINE")
-                //{ alertPipe = 1 + alertPipe; }
-
-                //else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "GATESTATION")
-                //{ flagGate = 1 + flagGate; }
-                //else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "PIPELINE")
-                //{ flagPipe = 1 + flagPipe; }
 
                 num = 1 + Number(i);
                 if (data[i].TYPE == "PIPELINE")
@@ -730,6 +712,29 @@
     var _graphAllPipeLine = null;
     var _graphAllGate = null;
 
+
+    Chart.plugins.register({
+        afterDraw: function (chart) {
+            if (chart.data.datasets.length === 0) {
+                // No data is present
+                var ctx = chart.chart.ctx;
+                var width = chart.chart.width;
+                var height = chart.chart.height
+                chart.clear();
+
+                ctx.save();
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.font = "20px Tahoma";
+                ctx.fillText('No Data Available', width / 2, height / 2);
+                ctx.restore();
+            }
+        }
+    });
+
+
+
+
     function showAllPIE(pStrMode, pListData) {
         let intAlert = 0;
         let intWarning = 0;
@@ -753,10 +758,9 @@
             }
         }
         var arrData = [intAlert, intWarning, intPass];
-        console.log(arrData);
-        let dataT = {
-            labels: ["Alert", "Warning", "OK"],
-            datasets: [{
+        var dsx = [];
+        if (!arrData.every(function(x){return x===0})) {
+            dsx = [{
                 label: "Test Data",
                 data: arrData,
                 fill: false,
@@ -764,7 +768,11 @@
                 hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                 borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                 borderWidth: 1
-            }]
+            }];
+        }
+        let dataT = {
+            labels: ["Alert", "Warning", "OK"],
+            datasets: dsx
         };
         let strIdPie = "";
         let objGraph = null;

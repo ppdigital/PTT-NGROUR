@@ -267,7 +267,7 @@
             var region;
             $('#MultiRegion').change(function () {
                 SeRegion = $(this).val();
-                // console.log(region);
+                
 
             })
             $('#MultiLicense').change(function () {
@@ -301,6 +301,13 @@
                     }
                 });
 
+                map_info_json_byregion = {
+                    "menu":  "utilization-search-byregion",
+                    "parameter": {
+                        "REGION": SeRegion,
+                    }
+                }
+                map_frame.contentWindow.postMessage(map_info_json_byregion, '*');
 
             }//function searcch
             function myFunction() {
