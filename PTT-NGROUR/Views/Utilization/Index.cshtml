@@ -4,9 +4,9 @@
     ViewBag.Title = "Utilization";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@section style{
 <link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
-
-
 <style>
     /* .dotg {
         height: 15px;
@@ -29,6 +29,8 @@
         background: white;
     }
 </style>
+
+}
 @{
     PTT_NGROUR.Models.User users = new PTT_NGROUR.Models.User();
     @Html.Hidden("username", users.Username);
@@ -216,13 +218,14 @@
         <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
 
         <script type="text/javascript">
-            $(document).ready(function () {
-                document.getElementById('seLicense').style.display = 'none';
-                $('tr').each(function (a, b) {
+            $('#MultiRegion').selectpicker();
+            document.getElementById('seLicense').style.display = 'none';
+            //$(document).ready(function () {
+            //    $('tr').each(function (a, b) {
 
 
-                });
-            });
+            //    });
+            //});
             $('.tableFixHead').on('scroll', function () {
                 $('thead', this).css('transform', 'translateY(' + this.scrollTop + 'px)');
             });
