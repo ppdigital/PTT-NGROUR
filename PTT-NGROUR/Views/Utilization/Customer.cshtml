@@ -1116,9 +1116,19 @@
                
                 if (document.getElementById('checkGisMapCreate').checked == true && document.getElementById("txtMeterNumMCreate").value !="") {
                  
+                    map_customer_json = {
+                        "menu": "utilization-customer",
+                        "type": "METERING",
+                        "command": "view",
+                        "parameter": {
+                            "SHIP_TO": $("#seShipToMCreate").val(),
+                            "METER_NUMBER": $("#txtMeterNumMCreate").val()
+                        }
+                    };
+                    console.log("save map");
+                    console.log(map_customer_json);
+                    map_frame2.contentWindow.postMessage(map_customer_json, '*');
                     document.getElementById('mapCreate').style.display = 'inline-block';
-                   
-                    
                 }
                 else if (document.getElementById('checkGisMapCreate').checked == true && document.getElementById("txtMeterNumMCreate").value == "") {
                     alert("โปรดกรอกช่อง Station Number");
@@ -1321,7 +1331,7 @@
             map_customer_json = {
                 "menu": "utilization-customer",
                 "type": "CUSTOMER",
-                "command": "edit",
+                "command": "view",
                 "parameter": {
                     "SHIP_TO": SHIP_TO,
                     "SOLD_TO": SOLD_TO                    

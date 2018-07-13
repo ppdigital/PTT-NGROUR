@@ -20,6 +20,11 @@ namespace PTT_NGROUR.Models.ViewModel
                 this.Flag = _intZero;
                 this.Warning = _intZero;
             }
+            public bool IsAllZero()
+            {
+                var result = new[] { OK, Alert, Flag, Warning }.All(x => _intZero.Equals(x));
+                return result;
+            }
         }
 
         private const string _strOK = "OK";
@@ -42,12 +47,15 @@ namespace PTT_NGROUR.Models.ViewModel
         public void SetListGatePipeCurrent(IEnumerable<DataModel.ModelViewGatePipeReport> pListData)
         {
             this.CurrentGate.ResetValue();
-            this.CurrentPipeline.ResetValue();
+            this.CurrentPipeline.ResetValue();            
             if(pListData == null || !pListData.Any())
             {
                 return;
             }
-            foreach(var itemData in pListData)
+
+            
+
+            foreach (var itemData in pListData)
             {
                 if (itemData == null) continue;
                 switch (itemData.TYPE)
@@ -144,5 +152,9 @@ namespace PTT_NGROUR.Models.ViewModel
         public ThresholdStatus Gate { get; set; }
         public ThresholdStatus Pipeline { get; set; }
         public IEnumerable<DataModel.ModelViewGatePipeReport> ListSearchData { get; set; }
+
+        public string CurrentDateCaption { get; set; }
+
+        public string DateCaption { get; set; }
     }
 }
