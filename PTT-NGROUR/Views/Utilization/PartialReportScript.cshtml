@@ -92,6 +92,7 @@
     //var datamonth = month;
 
         function Search() {
+            
             var threshold = document.getElementById('threshold-filter').value;
             var type = document.getElementById('type-filter').value;
             let url;
@@ -145,8 +146,7 @@
                 data: JSON.stringify(multidataAll),
                 contentType: 'application/json; charset=utf-8',
                 datatype: 'json',
-                success: function (data) {
-                    console.log(data);
+                success: function (data) {                    
                     showPIE("PIPELINE", data);
                     showPIE("GATESTATION", data);
                     showUtilTable(data);
@@ -248,7 +248,7 @@
         function showPIE(pStrMode, pListData ) {
             let intAlert = 0;
             let intWarning = 0;
-            let intPass = 0;
+            let intPass = 0;            
             for (let i in pListData) {
                 let data = pListData[i];
 
@@ -267,17 +267,23 @@
                         break;
                 }
             }
-            let dataT = {
-                labels: ["Alert", "Warning", "OK"],
-                datasets: [{
+            var arrData = [intAlert, intWarning, intPass];
+            var dsx = [];
+            if (!arrData.every(function (x) { return x === 0 })) {
+                dsx = [{
                     label: "Test Data",
-                    data: [intAlert, intWarning, intPass],
+                    data: arrData,
                     fill: false,
                     backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                     hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                     borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                     borderWidth: 1
-                }]
+                }];
+            }
+
+            let dataT = {
+                labels: ["Alert", "Warning", "OK"],
+                datasets: dsx
             };
 
             let strIdPie = "";
@@ -308,6 +314,11 @@
                 }
             });
             objGraph.update();
+            if (pStrMode === _strPipe) {                
+                _graphPipeLine = objGraph;
+            } else if (pStrMode === _strGate) {               
+                _graphGate = objGraph;
+            }
         }
 
         var SeRegion;
@@ -340,13 +351,10 @@
 
         var region;
         $('#MultiRegion').change(function () {
-            SeRegion = $(this).val();
-            console.log(SeRegion);
-
+            SeRegion = $(this).val();        
         })
         $('#MultiLicense').change(function () {
-            SeLicense = $(this).val();
-            // console.log(region);
+            SeLicense = $(this).val();            
 
         })
         var map_info_report_json;
@@ -443,8 +451,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (chData) {
-                //return;
-                //console.log(chData);
+                //return;                
                 var aData = chData;
                 var aLabels = aData[0];
                 var aDatasets1 = aData[1];
@@ -580,8 +587,7 @@
                     else if (document.getElementById('radioYear').checked)
                     { dataMonthYear = data[i].YEAR; }
 
-                    //console.log('color1' + color1);
-                    //console.log('data' + data[i].NO);
+                    
                     var unit = "";
                     num = 1 + Number(i);
                     if (data[i].TYPE == "PIPELINE")
@@ -834,8 +840,7 @@
             } else {
                 alert("Error");
             }
-        }).fail(function (e) {
-            console.log(e);
+        }).fail(function (e) {            
             alert("Error");
         });
     };
