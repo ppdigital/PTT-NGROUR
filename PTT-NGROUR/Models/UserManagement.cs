@@ -9,5 +9,6 @@ namespace PTT_NGROUR.Models
     {
         public List<DataModel.ModelUsersAuth> ModelUsersAuth { get; set; }
         public List<DataModel.ModelUsersRole> ModelUsersRole { get; set; }
+        public List<DataModel.ModelUsersAuth> ListUser { get; set; }
     }
 }

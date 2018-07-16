@@ -10,7 +10,7 @@
 
 @section style{
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/af-2.3.0/b-1.5.2/b-colvis-1.5.1/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fc-3.2.5/fh-3.1.4/kt-2.4.0/r-2.2.2/rg-1.0.3/rr-1.2.4/sc-1.5.0/sl-1.2.6/datatables.min.css" />
  <link href="~/Scripts/DataTables/DataTables-1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
     <style>
@@ -359,25 +359,18 @@
 
 <div id="ModalIfame" class="modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <label class="panel-title h5">View Ifame</label>
+        <div class="modal-content" style="padding: 10px">
+            <div class="modal-header" style="border-bottom:0px;padding:0px">
                 <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
 
 
-            <div class="pv2 mv3">
-                <div class=" black-80 center">
-                    <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=report" style="min-height: 430px !important; width: 100% !important;" id="map_iframe_report"></iframe>
+           
+                <div class=" black-80 center" style="border: 1px solid #808080;">
+                    <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=report" style="min-height: 430px !important; width: 100% !important; border-width: 0px" id="map_iframe_report"></iframe>
                 </div>
                 <br />
-                <div class="modal-footer">
 
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-
-
-            </div>
         </div>
     </div>
 </div>
@@ -394,7 +387,7 @@
     <script src="~/Scripts/Chart/Chart.PieceLabel.min.js"></script>
     <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/af-2.3.0/b-1.5.2/b-colvis-1.5.1/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fc-3.2.5/fh-3.1.4/kt-2.4.0/r-2.2.2/rg-1.0.3/rr-1.2.4/sc-1.5.0/sl-1.2.6/datatables.min.css" />
+    
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>

@@ -30,21 +30,24 @@
         <div class="pl4 pr3">
            
             <center>  <img width="140" class="pv3" src="~/Content/logo/ngr1.png" /></center>
-                <div class="dtc v-mid ">
-                    <span class="dtc v-mid pl3">
-                        <span class=" f5 pl2 mt1 black gray6">User ID : &nbsp; @Html.Encode(User.Identity.Name)</span><br /><br />
-                        <span class=" f5 pl2 mt1 black gray6">User Name :</span>
-                    </span>
-                </div>
+               
+                    <center>
+                      
+
+                            <div class=" f5 mt1 black gray6">Employee ID : @Html.Encode(User.Identity.Name) &nbsp;&nbsp; Name : @userrole.FirstName  &nbsp;  @userrole.LastName</div>
+                           
+
+                            
+                      
+                    </center><br /><br />
+               
             
             <br /><hr class="style" />
             <!--<div class="b--solid b--gray3 bw-menu w-100 bg-gray5 "> </div>--><br />
 
-
-
             <nav>
                 <ul class="nav">
-                    <li style="width:100%"><a href="@Url.Action("Index", "Home")"><i class="fa fa-home fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Home</a></li>
+                    <li style="width:100%"><a href="@Url.Action("MenuWeb", "Home")"><i class="fa fa-home fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Home</a></li>
                     <li style="width:100%"><a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-tachometer fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Dashboard</a></li>
                     <li style="width:100%">
                         <a href="#" id="btn-1" data-toggle="collapse" data-target="#submenu1" aria-expanded="false">
@@ -70,6 +73,7 @@
 
                         </ul>
                     </li>
+                    <li style="width:100%"><a href="@Url.Action("Logout", "User")"><i class="fa fa-tachometer fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Sign Out</a></li>
 
                 </ul>
             </nav>
@@ -145,3 +149,17 @@
 
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+        var empNo = '@Html.Encode(User.Identity.Name)';
+        console.log(empNo);
+        $.ajax({
+            url: '@Url.Action("UserProfile")',
+            type: 'POST',
+            data: { UserNo: empNo},
+      
+            
+        
+        });
+    });
+</script>

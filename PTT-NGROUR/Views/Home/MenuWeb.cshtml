@@ -8,13 +8,13 @@
 <body>
 
     <!--     Web Version      -->
-    <div class="cover bg-left bg-center-l bg-img h-100 hidden-sm hidden-md" id="container" style="background-image: url(http://localhost:3207/Content/Images/wall.png); ">
+    <div class="cover bg-left bg-center-l bg-img h-100 hidden-sm hidden-md" id="container" style="background-image: url(../../Content/Images/wall.png); ">
         <!--   <div class="cover bg-left bg-center-l bg-img h-100 hidden-sm hidden-md bg-gray3" id="container">-->
         <div id="header">
             <div class="bg-blue5 hidden-sm hidden-md pv-5">
                 <div class="topnav" id="myTopnav">
                     <div class="black-70">
-                        <a href="@Url.Action("Index", "Home")">
+                        <a href="@Url.Action("MenuWeb", "Home")">
 
                             <img id="logo" width="80" src="~/Content/logo/ngrwhite.png" />
                         </a>
@@ -81,7 +81,7 @@
                     </div>
                 </a>
 
-                <a class="db pointer no-underline grow  black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box " href="@Url.Action("UserManage", "Admin")">
+                <a class="db pointer no-underline grow  black-70 fl w-50 w-20-m w-20-l pb2 pr3 border-box " href="@Url.Action("UserManageMent", "Admin")" style="display:@ViewData["UserManage_page"];">
                     <div class=" aspect-ratio aspect-ratio--4x3 bg-white shadow-3">
 
                         <div class="dt aspect-ratio--object lazyload">
@@ -105,7 +105,7 @@
                     Welcome : @Html.Encode(User.Identity.Name)
                 </a>|
 
-                <a class="dib tr pl3   mv0 pr3 f5  no-underline c-gray" href="#">
+                <a class="dib tr pl3   mv0 pr3 f5  no-underline c-gray" href="@Url.Action("Logout", "User")">
                     Sign Out
                 </a>
             </div>
@@ -194,7 +194,7 @@
             </center>
             <center>
                 <div class="cb">
-                    <a class="dt fl hidden  dib w-50 vh-25 no-underline  bg-white ph0 br bb b-gray1 menu_hover" href="@Url.Action("UserManage", "Admin")">
+                    <a class="dt fl hidden  dib w-50 vh-25 no-underline  bg-white ph0 br bb b-gray1 menu_hover" href="@Url.Action("UserManagement", "Admin")">
                         <div class="dtc v-mid tc">
                             <i class="fa fa-user fa-2x blue5" aria-hidden="true"></i>
                             <div class="silver f6 pt3">User Management</div>

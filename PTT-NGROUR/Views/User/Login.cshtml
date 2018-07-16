@@ -12,12 +12,12 @@
     <link href="~/Style/create.css" rel="stylesheet" />
     @Styles.Render("~/Content/bootstrap.css")
     @Styles.Render("~/Content/bootstrap.min.css")
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    
     <link href='https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.css' rel='stylesheet'>
     <title>@ViewBag.Title</title>
 </head>
 
-<div class="cover bg-center h-100 w-100 lato" style="background-image: url(http://localhost:3207/Content/Images/wall.png);">
+<div class="cover bg-center h-100 w-100 " style="background-image: url(../../Content/Images/wall.png);">
     <div class=" h-100 container-login100">
 
         <!--<center><br /><h3 class="roboto f3 mt2 mb2">Name</h3></center>-->
@@ -41,22 +41,22 @@
                             <div class="col-sm-4"></div>
                             <div class="col-sm-4">
                                 <div class="pt4 pt5-l ">
-                                    <div class="wrap-input100 validate-input lato " data-validate="Enter username">
+                                    <div class="wrap-input100 validate-input  " data-validate="Enter username">
                                         @Html.TextBoxFor(u => u.Username, new { @class = "input100  ", @placeholder = "Username" })
-                                        <span class="focus-input100 lato" data-placeholder="&#xf207;"></span>
+                                        <span class="focus-input100 " data-placeholder="&#xf207;"></span>
                                     </div>
 
-                                    <div class="wrap-input100 validate-input lato" data-validate="Enter password">
+                                    <div class="wrap-input100 validate-input " data-validate="Enter password">
                                         @Html.PasswordFor(u => u.Password, new { @class = "input100 ", @placeholder = "Password" })
-                                        <span class="focus-input100 lato" data-placeholder="&#xf191;"></span>
+                                        <span class="focus-input100 " data-placeholder="&#xf191;"></span>
                                     </div>
                                 </div>
-
-                                <div class="contact100-form-checkbox">
-                                    @Html.CheckBoxFor(u => u.RememberMe, new { @class = "input-checkbox100 lato", @id = "ckb1" })
-                                    <label class="label-checkbox100 " for="ckb1">
-                                        <a class="black" id="check_remenber lato">Remember me</a>
-                                    </label>
+                                <!--   @Html.CheckBoxFor(u => u.RememberMe, new {@id = "ckb1" } )--> 
+                            <div class="contact100-form-checkbox">
+                                   @Html.CheckBoxFor(u => u.RememberMe, new {@id = "ckb1" })
+                                  
+                                        <a class="black" id="check_remenber">Remember me</a>
+                           
                                 </div>
                             </div>
                            
@@ -67,7 +67,7 @@
                             <div class="col-sm-12">
                                 <div class="col-sm-4"></div>
                                 <div class="col-sm-4">
-                                    <input type="submit" class="b input-reset btn btn-primary grow pointer lato " style="width:100%" value="Log In" id="btnSignIn" />
+                                    <input type="submit" class="b input-reset btn btn-primary grow pointer  " style="width:100%" value="Log In" id="btnSignIn" />
                                 @Html.ValidationSummary(true, "Login failed. Check your login details.")
                                 </div>
                                 <div class="col-sm-4"></div>

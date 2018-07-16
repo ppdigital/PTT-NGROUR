@@ -43,7 +43,8 @@ namespace PTT_NGROUR.Models
             }
             set { HttpContext.Current.Session["Username"] = value; }
         }//username
-
+      
+     
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -85,7 +86,27 @@ namespace PTT_NGROUR.Models
             }
             set { HttpContext.Current.Session["IS_AD"] = value; }
         }//IsAD
-
+         public string FirstName{
+           get
+           {
+               if (HttpContext.Current.Session["FirstName"] != null)
+                   return (string)HttpContext.Current.Session["FirstName"];
+               else
+                   return "";
+           }
+           set { HttpContext.Current.Session["FirstName"] = value; }
+       }
+         public string LastName
+         {
+             get
+             {
+                 if (HttpContext.Current.Session["LastName"] != null)
+                     return (string)HttpContext.Current.Session["LastName"];
+                 else
+                     return "";
+             }
+             set { HttpContext.Current.Session["LastName"] = value; }
+         }
         public bool IsExpired(string _employeeID)
         {
             var expire = @"select * from VIEW_AUTH_STATUS
@@ -145,6 +166,8 @@ namespace PTT_NGROUR.Models
                         foreach (System.Data.DataRow dr in dt.Rows) {
                             Username = dr["EMPLOYEE_ID"].ToString();
                             Password = dr["PASSWORD"].ToString();
+                            FirstName = dr["FIRSTNAME"].ToString();
+                            LastName = dr["LASTNAME"].ToString();
                             Roleid = Convert.ToInt32(dr["ROLE_ID"]);
                             IS_AD = dr["IS_AD"].ToString();
                         }

@@ -43,7 +43,7 @@ namespace PTT_NGROUR.Controllers
             return RedirectToAction("Login", "User");
         }
         public ActionResult MenuMobile()
-        {
+        { 
             if (UserH.Roleid == 2)
             {
                 ViewData["UImport_page"] = "none";
@@ -55,7 +55,42 @@ namespace PTT_NGROUR.Controllers
         }
 
         public ActionResult MenuWeb()
-        { return View(); }
+        {
+            if (UserH.Roleid == 2)
+            {
+                ViewData["UserManage_page"] = "none";
+                
 
+            }
+            return PartialView("MenuWeb");
+        }
+
+        public ActionResult UserProfile(string UserNo)
+        {
+            var dal = new DAL.DAL();
+            var user = @"select * from Users_Auth where EMPLOYEE_ID ='" + UserNo + "'";
+            var ds_user = dal.GetDataSet(user);
+            var listUser = new List<Models.DataModel.ModelUsersAuth>();
+            if (ds_user.Tables[0].Rows.Count > 0)
+            {
+                foreach (System.Data.DataRow druser in ds_user.Tables[0].Rows)
+                {
+                    var status_Adduser = new Models.DataModel.ModelUsersAuth()
+                    {
+                        FIRSTNAME = druser["FIRSTNAME"].ToString(),
+                        LASTNAME = druser["LASTNAME"].ToString()
+                    };
+                    listUser.Add(status_Adduser);
+                }
+            }
+
+            var model = new Models.UserManagement()
+            {
+                ListUser = listUser
+
+            };
+
+            return View(model);
+        }
     }
 }
