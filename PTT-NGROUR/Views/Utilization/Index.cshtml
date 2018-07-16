@@ -184,8 +184,8 @@
                     </div>
                 </div>
                 <br />
-                <div class="table-responsive " id="TableValue">
-                    <div class="tableFixHead">
+                <div class="table-responsive " >
+                    <div class="tableFixHead" id="utbt">
                         <table class="table table-striped table-hover" id="utilTbl">
                             <thead>
                                 <tr>
@@ -353,6 +353,7 @@
                 console.log(data)
                 $('#utilTbl').find('tbody tr').each(function () {
                     this.remove();
+                    utbt.scrollTo(0, 0);
                 });
                 for (let i in data) {
                     if (data[i].THRESHOLD == 'OK') {

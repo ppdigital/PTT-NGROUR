@@ -109,19 +109,23 @@ namespace PTT_NGROUR.Models
          }
         public bool IsExpired(string _employeeID)
         {
-            var expire = @"select * from VIEW_AUTH_STATUS
+            var expire = @"select 1 from VIEW_AUTH_STATUS
                           where EMPLOYEE_ID ='"+ _employeeID +"' and COUNT_PASS = 'F'";
-            var ds = dal.GetDataSet(expire);
-            return ds.Tables[0].Rows.Count > 0;
+            var result = dal.ReadData(expire, (red) => {
+                return 1;
+            }).Any();
+            return result;
+            //var ds = dal.GetDataSet(expire);
+            //return ds.Tables[0].Rows.Count > 0;
 
-            //if (expire.Count() > 0)
-            //{
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
+           // if (expire.Count() > 0)
+           // {
+           //     return true;
+           // }
+           //else
+           // {
+           //     return false;
+           // }
         }
 
         public bool Isvalid(string _username, string _password, string domain, string LdapPath)

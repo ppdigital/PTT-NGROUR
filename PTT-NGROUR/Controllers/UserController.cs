@@ -151,19 +151,22 @@ namespace PTT_NGROUR.Controllers
                             md5_.Clear();
                         }
                         var dal = new DAL.DAL();
-                        var dal2 = new DAL.DAL();
+                        //var dal2 = new DAL.DAL();
                         string CommandAuth = "UPDATE USERS_AUTH SET PASSWORD = '"+encryptedChangePassword+"', UPDATE_DATE = Sysdate, UPDATE_BY = '"+username+"' WHERE EMPLOYEE_ID ='"+userConTR.Username+"'";
                         string CommandStatus = "UPDATE USERS_AUTH_STATUS SET PASSDATE = Sysdate WHERE EMPLOYEE_ID ='" + userConTR.Username + "'";
-                        var con = dal.GetConnection();
-                        var con2 = dal2.GetConnection();
-                        con.Open();
-                        con2.Open();
-                        dal.GetCommand(CommandAuth, con).ExecuteNonQuery();
-                        dal.GetCommand(CommandStatus, con2).ExecuteNonQuery();
-                        con.Close();
-                        con2.Close();
-                        con.Dispose();
-                        con2.Dispose();
+                        dal.ExecuteNonQuery(CommandAuth);
+                        dal.ExecuteNonQuery(CommandStatus);
+                        //var con = dal.GetConnection();
+                        //var con2 = dal2.GetConnection();
+                        //con.Open();
+                        //con2.Open();
+                        
+                        //dal.GetCommand(CommandAuth, con).ExecuteNonQuery();
+                        //dal.GetCommand(CommandStatus, con2).ExecuteNonQuery();
+                        //con.Close();
+                        //con2.Close();
+                        //con.Dispose();
+                        //con2.Dispose();
                     }
                     else
                     {
