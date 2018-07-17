@@ -169,7 +169,7 @@
                                 <option id="seGree" class="fz-12px drop_role" value="OK">OK</option>
                                 <option id="seYello" class="fz-12px drop_role" value="Warning">Warning</option>
                                 <option id="seRed" class="fz-12px drop_role" value="Alert">Alert</option>
-                                <option id="seRed" class="fz-12px drop_role" value="Alert">Flag</option>
+                                <option id="seFlag" class="fz-12px drop_role" value="Flag">Flag</option>
                             </select>
 
                         </div>
@@ -356,18 +356,18 @@
                     utbt.scrollTo(0, 0);
                 });
                 for (let i in data) {
-                    if (data[i].THRESHOLD == 'OK') {
+                    if (data[i].THRESHOLD == 'OK' && data[i].FLAG == '0') {
                         THRESHOLD = '<span class="fa fa-circle " style="color:#16a085"></span>'
-                        color1 = "green"
-                    } else if (data[i].THRESHOLD == 'Warning') {
+                        color1 = "OK"
+                    } else if (data[i].THRESHOLD == 'Warning' && data[i].FLAG == '0') {
                         THRESHOLD = '<span class="fa fa-circle " style="color:#f1c40f"></span>'
-                        color1 = "yellow"
-                    } else if (data[i].THRESHOLD == 'Alert') {
+                        color1 = "Warning"
+                    } else if (data[i].THRESHOLD == 'Alert' && data[i].FLAG == '0') {
                         THRESHOLD = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
-                        color1 = "red"
+                        color1 = "Alert"
                     } else if (data[i].FLAG == '1') {
                         THRESHOLD = '<span class="fa fa-flag " style="color:#e67e22"></span>'
-                        color1 = "flag"
+                        color1 = "Flag"
                     } else {
                         THRESHOLD = "";
                         color1 = "no"
@@ -402,7 +402,7 @@
 
                     }
 
-                    $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NAME + '" class="rowfil pointer" data-color="' + data[i].THRESHOLD + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h4 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
+                    $('#utilTbl > tbody:last-child').append('<tr id="' + data[i].NAME + '" class="rowfil pointer" data-color="' + color1 + '" data-type="' + data[i].TYPE + '" ' + status + '><td><h4 class="margin-lr0">' + THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + name + '</h6></td><td><h6 class="margin-lr0">' + value + '</h6></td><td><h6 class="margin-lr0">' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td></tr>');
                     $('#utilTbl > tbody >tr:last-child').data('map_info', data[i]);
                     $('#utilTbl > tbody >tr:last-child').click(utilTblOnclick);
                 }

@@ -1216,7 +1216,7 @@ namespace PTT_NGROUR.Controllers
                     {
                         NAME = dr["NAME"].ToString(),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),
-                        LICENSE = dr["LICENSE_NO"].GetInt(),
+                        LICENSE = dr["LICENSE"].GetInt(),
                         VALUE = dr["VALUE"].GetDecimal(),
                         //COLOR = dr["COLOR"].ToString(),
                         MONTH = Convert.ToInt32(dr["MONTH"].ToString()),
@@ -1466,7 +1466,7 @@ namespace PTT_NGROUR.Controllers
                             listData = listData.Where(x => pArrId.Contains(x.REGION));
                             break;
                         case "license":
-                            listData = listData.Where(x => pArrId.Contains(x.LICENSE_NO));
+                            listData = listData.Where(x => pArrId.Contains(x.LICENSE));
                             break;
                     }
                 }
