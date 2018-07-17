@@ -78,10 +78,10 @@
                                   else { }
                     @if ((users.Roleid).Equals(1)) { 
                                     if (cus.SHIP_TO_FLAG_SHAPE == 0 || cus.SOLD_TO_FLAG_SHAPE == 0)
-                                      {<td class="pointer" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')"><center><i class="fa fa-map-marker fa-lg red pointer" aria-hidden="true"></i></center></td>}
+                                      {<td class="pointer" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')"><center><i class="fa fa-globe fa-lg red pointer" aria-hidden="true"></i></center></td>}
                                     else
                                     {
-                                        <td class="pointer" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')"><center><i class="fa fa-map-marker fa-lg pointer gray" aria-hidden="true"></i></center></td>}
+                                        <td class="pointer" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')"><center><i class="fa fa-globe fa-lg pointer gray" aria-hidden="true"></i></center></td>}
                                     }
                                 </tr> 
                             
@@ -750,7 +750,7 @@
                         <div class="row pb1">
                             <div class="measure center col-lg-12 col-md-12 col-sm-12">
                                 <span class="col-lg-5 col-md-5">
-                                    <label for="name" class="b pull-right">Station No :</label>
+                                    <label for="name" class="b pull-right">Station Number :</label>
                                 </span>
                                 <div class="col-lg-6 col-md-7 ">
                                     @Html.TextBox("txtMeterNumMEdit", null, new { @class = "form-control input-sm", @readonly = "readonly"})
@@ -892,7 +892,7 @@
                             <div class="measure center col-lg-12 col-md-12 col-sm-12">
                                 <span class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                     <span class="checkbox">
-                                        <label><input type="checkbox" value="" id="checkGisMapEdit" onclick="javascript: CheckGisMapEdit();">Gis Map</label>
+                                        <label><input type="checkbox" value="" id="checkGisMapEdit" onclick="javascript: CheckGisMapEdit();">GIS Map</label>
                                     </span>
                                 </span>
                                 <div class="col-lg-6 col-md-7 "></div>
@@ -1024,8 +1024,10 @@
                             </span>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <select class="form-control input-sm" id="seStatusMCreate" name="seStatusMCreate">
-                                    <option value="1" class="drop_role">Active</option>
-                                    <option value="0" class="drop_role">Non Active</option>
+                                   @foreach (PTT_NGROUR.Models.DataModel.ModelSTATUS status in Model.ListStatus)
+                                     {
+                                <option value="@status.STATUS_ID">@status.STATUS_DETAIL</option>
+                                     }
                                 </select>
 
                             </div>
@@ -1052,7 +1054,7 @@
                         <div class="measure center col-lg-12 col-md-12 col-sm-12">
                             <span class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <span class="checkbox">
-                                    <label><input type="checkbox" value="" id="checkGisMapCreate" onclick="javascript:CheckGisMapCreate();">Gis Map</label>
+                                    <label><input type="checkbox" value="" id="checkGisMapCreate" onclick="javascript:CheckGisMapCreate();">GIS Map</label>
                                 </span>
                             </span>
                             <div class="col-lg-6 col-md-7 "></div>
@@ -1120,7 +1122,7 @@
                 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                     $($.fn.dataTable.tables(true)).DataTable()
                        .columns.adjust()
-                       .responsive.recalc();
+                       
                 });
                 document.getElementById('mapCreate').style.display = 'none';
                 document.getElementById('mapEdit').style.display = 'none';
@@ -1243,8 +1245,8 @@
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
                 ]
-            }; */
-            $('#CustomerTable').DataTable(tblCustomerOption2);
+            }; 
+            $('#CustomerTable').DataTable(tblCustomerOption2);*/
             //console.log(new Date().getFullYear());
 
             function SaveEditMeter() {
@@ -1406,7 +1408,7 @@
                     $("#txtSoldToMView").text('@cusMeterV.SOLD_TO_T');
                     $("#txtSoldToNameMView").text('@cusMeterV.SOLD_TO_NAME_T');
                     $("#txtStatusMView").text('@cusMeterV.STATUS_DETAIL_T');
-                    $("#txtCommDateMView").text('@cusMeterV.COMMDATE_T');
+                    $("#txtCommDateMView").text('@cusMeterV.COMMDATE_T_S');
                    
                     }
                     </text>
@@ -1433,7 +1435,7 @@
                     $("#txtSoldToMEdit").val('@cusMeterE.SOLD_TO_T');
                     $("#txtSoldToNameMEdit").val('@cusMeterE.SOLD_TO_NAME_T');
                     $("#seStatusMEdit").val('@cusMeterE.STATUS_T');
-                    $("#datepicCommdateMEdit").val('@cusMeterE.COMMDATE_T');
+                    $("#datepicCommdateMEdit").val('@cusMeterE.COMMDATE_T_S');
 
                     var map_customer_json = {
                         "menu": "utilization-customer",

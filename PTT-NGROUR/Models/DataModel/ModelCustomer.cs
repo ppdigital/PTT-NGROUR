@@ -119,6 +119,7 @@ namespace PTT_NGROUR.Models.DataModel
         public string STATUS_T { get; set; }
         public string STATUS_DETAIL_T { get; set; }
         public Oracle.ManagedDataAccess.Types.OracleTimeStamp? COMMDATE_T { get; set; }
+        public string COMMDATE_T_S { get; set; }
        
 
     }
