@@ -17,7 +17,7 @@
     <title>@ViewBag.Title</title>
 </head>
 
-<div class="cover bg-center h-100 w-100 " style="background-image: url(~/Content/Images/wall.png);">
+<div class="cover bg-center h-100 w-100 " style="background-image: url('@Url.Content("~/Images/wall.png")');">
     <div class=" h-100 container-login100">
 
         <!--<center><br /><h3 class="roboto f3 mt2 mb2">Name</h3></center>-->
@@ -26,7 +26,7 @@
             <center>
                 <div class="dib gray3 v-mid mb2">
                     <!--   <img width="100" src="~/Content/Images/logo1.png" /><br />
-                   <div class="pt1"><label class="dib b white f3 t-shadow1">NGR - OUR</label> </div>-->
+                    <div class="pt1"><label class="dib b white f3 t-shadow1">NGR - OUR</label> </div>-->
                     <!--<label class="dib b white f5 t-shadow1"> System</label>-->
                     <img class="w-3h-md w-25h-xs w-25h-sm w-4h-lg" src="~/Content/Logo/ngr1.png" /><br />
                 </div>
@@ -51,15 +51,15 @@
                                         <span class="focus-input100 " data-placeholder="&#xf191;"></span>
                                     </div>
                                 </div>
-                                <!--   @Html.CheckBoxFor(u => u.RememberMe, new {@id = "ckb1" } )--> 
-                            <div class="contact100-form-checkbox">
-                                   @Html.CheckBoxFor(u => u.RememberMe, new {@id = "ckb1" })
-                                  
-                                        <a class="black" id="check_remenber">Remember me</a>
-                           
+                                <!--   @Html.CheckBoxFor(u => u.RememberMe, new {@id = "ckb1" } )-->
+                                <div class="contact100-form-checkbox">
+                                    @Html.CheckBoxFor(u => u.RememberMe, new { @id = "ckb1" })
+
+                                    <a class="black" id="check_remenber">Remember me</a>
+
                                 </div>
                             </div>
-                           
+
                         </fieldset>
 
                         <br />
@@ -68,7 +68,7 @@
                                 <div class="col-sm-4"></div>
                                 <div class="col-sm-4">
                                     <input type="submit" class="b input-reset btn btn-primary grow pointer  " style="width:100%" value="Log In" id="btnSignIn" />
-                                @Html.ValidationSummary(true, "Login failed. Check your login details.")
+                                    @Html.ValidationSummary(true, "Login failed. Check your login details.")
                                 </div>
                                 <div class="col-sm-4"></div>
                             </div>
