@@ -1127,32 +1127,47 @@
 
                 var tblOptionCus = $('#CustomerTable').DataTable({
                     dom: 'lBfrtip',
-                responsive: true,
+                    responsive: true,
+                    dom:
+			"<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
+			"<'row'<'col-sm-12'tr>>" +
+			"<'row'<'col-sm-5'i><'col-sm-7'p>>",
                 buttons: [
-                    'copy', 'csv', 'excel', { // กำหนดพิเศษเฉพาะปุ่ม pdf
-                        "extend": 'pdf', // ปุ่มสร้าง pdf ไฟล์
-                        "text": 'PDF', // ข้อความที่แสดง
-                        "pageSize": 'A4',   // ขนาดหน้ากระดาษเป็น A4            
-                        "customize": function (doc) { // ส่วนกำหนดเพิ่มเติม ส่วนนี้จะใช้จัดการกับ pdfmake
-                            // กำหนด style หลัก
+                    {
+                        "extend": 'copy',
+                        "exportOptions": { columns: [0, 1, 2, 3] }
+                    },
+                    {
+                        "extend": 'csv',
+                        "exportOptions": { columns: [0, 1, 2, 3] }
+                    },
+                    {
+                        "extend": 'excel',
+                        "exportOptions": { columns: [0, 1, 2, 3] }
+                    },
+                   {
+                        "extend": 'pdfHtml5',
+                        "exportOptions": { columns: [0, 1, 2, 3] },
+                        "text": 'PDF', 
+                        "pageSize": 'A4',   
+                        "customize": function (doc) {   
                             doc.defaultStyle = {
                                 font: 'THSarabun',
-                                fontSize: 16
+                                fontSize: 16,
                             };
-                            exportOptions: {
-                                    columns: [0, 1, 2, 3]
-                            }
-
                         }
-                    }, // สิ้นสุดกำหนดพิเศษปุ่ม pdf
-                    , 'print'
-                ],
-              
-                
-              
+                   },
+
+                   {
+                       "extend": 'print',
+                       "exportOptions": { columns: [0, 1, 2, 3] }
+                   }
+                ]
+             
+                   
                 });
         tblOptionCus.buttons().container()
-              .appendTo('#CustomerTable_wrapper .col-sm-6:eq(0)');
+              .appendTo('#example_wrapper .col-sm-6:eq(0)');
 
                 var tblOptionMeter = {
                     dom: 'lBfrtip',
