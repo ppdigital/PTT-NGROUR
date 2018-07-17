@@ -160,9 +160,9 @@
         for (var k = 0; k < files.length; k++) {
             fileData.append(files.name, files[k]);
         }
-
-        var Year = $('#seYear').val();
-        var Month = $('#seMonth').val();
+        var currentDate = $("#MonthYear-filter").datepicker("getDate");
+        var Year = currentDate.getFullYear(); //$('#seYear').val();
+        var Month = currentDate.getMonth() + 1;
         var Region = $('#seRegion').val();
         var Type = $('#seType').val();
         fileData.append("year", Year);

@@ -20,7 +20,7 @@ namespace PTT_NGROUR.DTO
             return result;
         }
 
-        public IEnumerable<ModelMeterMaintenance> GetListMeterMaintenance(string pStrMonth , string pStrYear)
+        public IEnumerable<ModelMeterMaintenance> GetListMeterMaintenance(string pStrMonth , string pStrYear , string[] pArrRegion)
         {
             string strCommand = "select * from METER_MAINTENANCE where 1=1 ";
             if (!string.IsNullOrEmpty(pStrMonth))
@@ -30,6 +30,11 @@ namespace PTT_NGROUR.DTO
             if (!string.IsNullOrEmpty(pStrYear))
             {
                 strCommand += " and YEAR =" + pStrYear;
+            }
+            if(pArrRegion != null && pArrRegion.Any())
+            {
+                string strAllRegion = string.Join(",", pArrRegion);
+                strCommand += " and region in (" + strAllRegion + ")";
             }
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelMeterMaintenance(x));
@@ -134,5 +139,18 @@ namespace PTT_NGROUR.DTO
             GC.Collect();
             return result;
         }
+
+        public ModelOmIndex.ModelAccGraph[] GetModelAccGraph(IEnumerable<ModelMeterMaintenance> pListModelMeterMaintenance)
+        {
+            if(pListModelMeterMaintenance == null || !pListModelMeterMaintenance.Any())
+            {
+                return null;
+            }
+
+            var result = pListModelMeterMaintenance.GroupBy(x => x.ML).Select(x => new ModelOmIndex.ModelAccGraph(x.Key, pListModelMeterMaintenance)).ToArray(); 
+
+            return result;
+        }
+
     }
 }

@@ -1,0 +1,236 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelOmIndex
+
+<script src="~/Scripts/Chart/Chart.js"></script>
+<script src="~/Scripts/Chart/Chart.PieceLabel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
+<script src="~/Content/bootstrap-datepicker.js"></script>
+<script>
+        jQuery.ajaxSettings.traditional = true;
+
+        var _divGraph = $("#divGraph");
+        var barChartData = {
+            labels: [@Model.BarGraph.ListLabel.Select(x=> new HtmlString( "'" + x + "'")).Aggregate((x,y)=> new HtmlString(x + "," +y))],
+            datasets: [
+                @foreach (var item in Model.BarGraph.ListML)
+            {
+                <text>
+                    {
+                        label: "@item.Label",
+                        backgroundColor: "@item.HexColor",
+                        borderColor: "#00",
+                        borderWidth: 1,
+                        data: [ @item.ListData.Select(x => x.ToString()).Aggregate((x, y) => x + " , " + y)]
+                    },
+                </text>
+            }
+            ]
+        };
+
+        var ctx = document.getElementById('canvas').getContext('2d');
+        window.myBar = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData,
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Chart.js Bar Chart'
+                }
+            }
+
+            
+        });
+
+        $('#Month-filter').datepicker({
+            format: "m/yyyy",
+            viewMode: "months",
+            minViewMode: "months",
+            autoclose: true
+        }).on('dp.change', function (e) {
+
+            console.log(e);
+        });
+
+        $("#Year-filter").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose: true
+        }).on('dp.change', function (e) {
+
+            console.log(e);
+        });
+
+        $("#btnSearch").click(function (e) {
+            searchData();
+        });
+
+        function Check() {
+
+            if (document.getElementById('radioMonth').checked) {
+                document.getElementById('Month-filter').style.display = 'inline-block';
+                document.getElementById('Year-filter').style.display = 'none';
+            }
+            else if (document.getElementById('radioYear').checked) {
+                document.getElementById('Month-filter').style.display = 'none';
+                document.getElementById('Year-filter').style.display = 'inline-block';
+            }
+        }
+
+        function removeBarData(chart) {
+            var ds2 = {
+                labels: [],
+                datasets: []
+            };
+            chart.data = ds2;
+            chart.update();
+        }
+
+        function searchData() {
+
+            var chart = window.myBar;
+            removeBarData(chart);
+            var strUrl = "@Url.Action("SearchData")";
+            var param = { pStrYear: "", pStrMonth: "", pArrRegion: $("#MultiRegion").val() };
+            console.log(param);
+            if (document.getElementById('radioMonth').checked) {
+                var x = $("#Month-filter").val().split("/");
+                param.pStrMonth = x[0];
+                param.pStrYear = x[1];
+
+            } else {
+                param.pStrYear = $("#Year-filter").val();
+            }
+            _divGraph.html("");
+            $.post(strUrl, param, function (data) {
+
+                if (!data || !data.Result) {
+                    alert("Not Found Data");
+                    return;
+                }
+                if (data.StatusText !== "OK") {
+                    var strError = "Error : " + data.ErrorMessage + "\r\n" + data.ErrorStackTrace;
+                    alert(strError);
+                    return;
+                }
+                var rs = data.Result.BarGraph;
+                var barChartData = {
+                    labels: rs.ListLabel,
+                    datasets: []
+                };
+                for (var i in rs.ListML) {
+                    var ml = rs.ListML[i];
+                    var dsItem = {
+                        label: ml.Label,
+                        backgroundColor: ml.HexColor,
+                        borderColor: "#000000",
+                        borderWidth: 1,
+                        data : ml.ListData
+                    }
+                    barChartData.datasets.push(dsItem);
+                }
+
+                chart.data = barChartData;
+                chart.update();
+                renderAccGraph(data.Result.ListAccGraph);
+            });
+        }
+
+
+        function renderAccGraph(pData) {
+
+            if (!pData || pData.length == 0) {
+                return;
+            }
+
+            for (var i in pData) {
+                var d = pData[i];
+
+                var dsActual = {
+                    label: "Actual",
+                    backgroundColor: "#DBFF33",
+                    data: d.Actual
+                };
+                var dsPlan = {
+                    label: "Plan",
+                    backgroundColor: "#FFBD33",
+                    data: d.Plan
+                };
+                var dsAccActual = {
+                    type: "line",
+                    fill: false,
+                    label: "AcumulatePlan",
+                    backgroundColor: "#75FF33",
+                    borderColor: "#75FF33",
+                    datalabels: {
+                        align: 'end',
+                        anchor: 'end'
+                    },
+                    data: d.AccActual
+                };
+                var dsAccPlan = {
+                    type: "line",
+                    fill: false,
+                    label: "AcumulateActual",
+                    backgroundColor: "#FF5733",
+                    borderColor: "#FF5733",
+                    data: d.AccPlan,
+                    datalabels: {
+                        align: 'end',
+                        anchor: 'end'
+                    }
+                };
+                var barChartData = {
+                    labels: d.MonthName,
+                    datasets: [dsAccActual, dsAccPlan, dsActual, dsPlan]
+                };
+
+                var cv = $("<canvas/>");
+                cv.appendTo(_divGraph);
+                var ctx = cv[0].getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: barChartData,
+                    options: {
+                        responsive: true,
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        scales: {
+                            xAxes: [{
+                                stacked: true,
+                            }],
+                            yAxes: [{
+                                stacked: true
+                            }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                color: 'black',
+                                font: {
+                                    weight: 'bold'
+                                },
+                                formatter: function (value) {
+                                    return value ;
+                                },
+
+                                title: true
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: d.ML
+                        }
+                    }
+                });                
+            }           
+        }
+</script>

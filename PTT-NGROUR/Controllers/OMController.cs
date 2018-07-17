@@ -11,7 +11,7 @@ namespace PTT_NGROUR.Controllers
     {
         //
         // GET: /OM/
-        [PTT_NGROUR.Controllers.AuthorizeController.CustomAuthorize]
+        //S[PTT_NGROUR.Controllers.AuthorizeController.CustomAuthorize]
         public ActionResult Index()
         {
             var dto = new DtoOM();
@@ -31,23 +31,44 @@ namespace PTT_NGROUR.Controllers
         }
 
         [HttpPost]
-        public ActionResult SearchData(string pStrYear , string pStrMonth , string[] pArrRegion)
+        public ActionResult SearchData(string pStrYear, string pStrMonth, string[] pArrRegion)
+        {
+            var result = new ModelJsonResult<ModelOmIndex>();
+            try
+            {
+                var modelOm = new ModelOmIndex();
+                var dto = new DtoOM();
+                var listMM = dto.GetListMeterMaintenance(pStrMonth, pStrYear, pArrRegion).ToList();
+                var listColor = dto.GetListOmColor().ToList();
+                modelOm.BarGraph = dto.GetModelBarGraph(listMM, listColor);
+                modelOm.ListAccGraph = dto.GetModelAccGraph(listMM);
+                result.SetResultValue(modelOm);
+                listMM.Clear();
+                listMM = null;
+                listColor.Clear();
+                listColor = null;
+                dto = null;
+                GC.Collect();
+            }
+            catch (Exception ex)
+            {
+                result.SetException(ex);
+            }
+            return Json(result);
+        }
+
+        [HttpPost]
+        public ActionResult SearchData2(string pStrYear , string pStrMonth , string[] pArrRegion)
         {
             var result = new ModelJsonResult<ModelOmIndex.ModelBarGraph>();
             try
             {
                 var dto = new DtoOM();                
-                var listMM = dto.GetListMeterMaintenance(pStrMonth , pStrYear) ;
-                if(pArrRegion != null && pArrRegion.Any())
-                {
-                    
-                    listMM = listMM.Where(x => pArrRegion.Contains(x.REGION));
-                }
-                listMM = listMM.ToList();
+                var listMM = dto.GetListMeterMaintenance(pStrMonth , pStrYear , pArrRegion).ToList() ;                
                 var listColor = dto.GetListOmColor().ToList();
                 var modelBarGraph = dto.GetModelBarGraph(listMM, listColor);
                 result.SetResultValue(modelBarGraph);
-                //listMM.Clear();
+                listMM.Clear();
                 listMM = null;
                 listColor.Clear();
                 listColor = null;

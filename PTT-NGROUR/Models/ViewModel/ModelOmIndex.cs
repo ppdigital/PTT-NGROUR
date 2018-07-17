@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using PTT_NGROUR.Models.DataModel;
+using PTT_NGROUR.ExtentionAndLib;
+
 namespace PTT_NGROUR.Models.ViewModel
 {
     public class ModelOmIndex
@@ -73,6 +75,38 @@ namespace PTT_NGROUR.Models.ViewModel
             }
 
         }
+        
+        public class ModelAccGraph
+        {
+            private string[] arrMonthName = new[] { string.Empty, "Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" };
+            public string ML { get; set; }
+            public int[] Actual { get; set; }
+            public int[] Plan { get; set; }
+            public int[] AccActual { get; set; }
+            public int[] AccPlan { get; set; }
+            public string[] MonthName { get; set; }
+
+            public ModelAccGraph()
+            {
+
+            }
+
+            public ModelAccGraph(string pStrML , IEnumerable<ModelMeterMaintenance> pListModelMeterMaintenance)
+            {
+                if(string.IsNullOrEmpty(pStrML) || pListModelMeterMaintenance == null || !pListModelMeterMaintenance.Any())
+                {
+                    return;
+                }
+                this.ML = pStrML;
+                var listByMl = pListModelMeterMaintenance.Where(x => x.ML == pStrML).ToList();
+                var listMonth = listByMl.Select(x => x.MONTH).Distinct().OrderBy(x => x).ToList();
+                this.MonthName = listMonth.Select(x => arrMonthName[x]).ToArray();
+                this.Actual = listByMl.GroupBy(x => x.MONTH).OrderBy(x => x.Key).Select(x => x.Sum(y => y.ACTUAL).GetInt()).ToArray();
+                this.Plan = listByMl.GroupBy(x => x.MONTH).OrderBy(x => x.Key).Select(x => x.Sum(y => y.PLAN).GetInt()).ToArray();
+                this.AccActual = listMonth.Select(x => listByMl.Where(y => y.MONTH <= x).Sum(z => z.ACTUAL).GetInt()).ToArray();
+                this.AccPlan = listMonth.Select(x => listByMl.Where(y => y.MONTH <= x).Sum(z => z.ACTUAL + z.PLAN).GetInt()).ToArray();
+            }
+        }
 
         public IEnumerable<ModelMeterMaintenance> ListMeterMaintenance { get; set; }
 
@@ -80,5 +114,7 @@ namespace PTT_NGROUR.Models.ViewModel
         public ModelBarGraph BarGraph { get; set; }
 
         public IEnumerable<ModelRegion> ListRegion { get; set; }
+
+        public IEnumerable<ModelAccGraph> ListAccGraph { get; set; }
     }
 }

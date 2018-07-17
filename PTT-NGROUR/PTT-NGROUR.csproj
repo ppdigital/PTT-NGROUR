@@ -704,6 +704,7 @@
     <Content Include="Views\OM\Index.cshtml" />
     <Content Include="Views\Utilization\PartialReportScript.cshtml" />
     <Content Include="Views\Pdf\UtilizationReportPdf.cshtml" />
+    <Content Include="Views\OM\PartialIndexScript.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

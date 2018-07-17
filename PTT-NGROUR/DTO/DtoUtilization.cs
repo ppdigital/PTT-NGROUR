@@ -309,7 +309,7 @@ WHERE 1=1
        	UPLOAD_DATE = sysdate,
        	UPLOAD_BY   = '{2}',
        	REGION      = '{3}',
-       	FLAG_ID     = {4}
+        PRESSURE    = {4}
 WHERE 1=1 
 	AND GATE_ID     = {5}
 	AND MONTH       = {6}
@@ -319,7 +319,7 @@ WHERE 1=1
                 pModel.FLOW, 
                 pModel.UPLOAD_BY.Trim().Replace("'", "''"),
                 pModel.REGION, 
-                0 ,
+                pModel.PRESSURE ,
                 pModel.GATE_ID , 
                 pModel.MONTH , 
                 pModel.YEAR);
@@ -334,8 +334,8 @@ WHERE 1=1
             {
                 return;
             }
-            string strCommand = @"INSERT INTO PTTOUR.PIPELINE_ARCHIVE (RC_NAME, MONTH, YEAR, UPLOAD_DATE, UPLOAD_BY, REGION,FLAG_ID, VELOCITY) 
-            VALUES ( '{0}',{1} , {2} , sysdate , '{3}' , {4} , {5} , {6})";
+            string strCommand = @"INSERT INTO PTTOUR.PIPELINE_ARCHIVE (RC_NAME, MONTH, YEAR, UPLOAD_DATE, UPLOAD_BY, REGION,FLAG_ID, VELOCITY ,FLOW, DIAMETER, LENGTH,EFFICIENCY, ROUGHNESS, LOAD,OUTSIDE_DIAMETER, WALL_THICKNESS, SERVICE_STATE) 
+            VALUES ( '{0}',{1} , {2} , sysdate , '{3}' , {4} , {5} , {6} , {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, '{15}')";
 
             strCommand = string.Format(strCommand,
                 pModel.RC_NAME.Trim().Replace("'", "''"),
@@ -344,7 +344,16 @@ WHERE 1=1
                 pModel.UPLOAD_BY.Trim().Replace("'", "''"),
                 pModel.REGION.Trim().Replace("'", "''"),
                 pModel.FLAG_ID,
-                pModel.VELOCITY);
+                pModel.VELOCITY , 
+                pModel.FLOW , 
+                pModel.DIAMETER , 
+                pModel.LENGTH , 
+                pModel.EFFICIENCY,
+                pModel.ROUGHNESS,
+                pModel.LOAD,
+                pModel.OUTSIDE_DIAMETER,
+                pModel.WALL_THICKNESS,
+                pModel.SERVICE_STATE.Replace("'", "''"));
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
             dal = null;
@@ -360,8 +369,16 @@ WHERE 1=1
        UPLOAD_DATE = sysdate,
        UPLOAD_BY   = '{1}',
        REGION      = '{2}',
-       FLAG_ID     = {3},
-       VELOCITY    = {4}
+       FLOW     = {3},
+       VELOCITY    = {4},
+        DIAMETER = {8},
+        LENGTH = {9},
+        EFFICIENCY = {10},
+        ROUGHNESS = {11},
+        LOAD = {12},
+        OUTSIDE_DIAMETER = {13},
+        WALL_THICKNESS = {14},
+        SERVICE_STATE = '{15}'
 WHERE  1=1
 	AND PIPELINE_ID = {5}	
 	AND    MONTH       = {6}
@@ -372,7 +389,19 @@ WHERE  1=1
                  
                 pModel.UPLOAD_BY.Trim().Replace("'" , "''") , 
                 pModel.REGION.Trim().Replace("'" , "''"), 
-                pModel.FLAG_ID , pModel.VELOCITY , pModel.PIPELINE_ID , pModel.MONTH, pModel.YEAR );
+                pModel.FLOW , 
+                pModel.VELOCITY , 
+                pModel.PIPELINE_ID , 
+                pModel.MONTH, 
+                pModel.YEAR , 
+                pModel.DIAMETER, 
+                pModel.LENGTH, 
+                pModel.EFFICIENCY, 
+                pModel.ROUGHNESS, 
+                pModel.LOAD, 
+                pModel.OUTSIDE_DIAMETER, 
+                pModel.WALL_THICKNESS, 
+                pModel.SERVICE_STATE.Replace("'","''"));
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
             dal = null;
@@ -383,8 +412,8 @@ WHERE  1=1
             {
                 return;
             }
-            string strCommand = @"INSERT INTO PTTOUR.GATESTATION_ARCHIVE (GATE_NAME, FLOW,MONTH,YEAR, UPLOAD_DATE,UPLOAD_BY, REGION, FLAG_ID) 
-                VALUES ('{0}',{1},{2},{3},sysdate,'{4}','{5}',{6} )";
+            string strCommand = @"INSERT INTO PTTOUR.GATESTATION_ARCHIVE (GATE_NAME, FLOW,MONTH,YEAR, UPLOAD_DATE,UPLOAD_BY, REGION, FLAG_ID , PRESSURE) 
+                VALUES ('{0}',{1},{2},{3},sysdate,'{4}','{5}',{6} , {7} )";
 
             strCommand = string.Format(strCommand,
                 pModel.GATE_NAME.Trim().Replace("'", "''"),
@@ -393,7 +422,8 @@ WHERE  1=1
                 pModel.YEAR,
                 pModel.UPLOAD_BY.Trim().Replace("'", "''"),
                 pModel.REGION.Trim().Replace("'", "''"),
-                pModel.FLAG_ID);
+                pModel.FLAG_ID , 
+                pModel.PRESSURE);
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
             dal = null;

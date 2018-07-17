@@ -16,14 +16,15 @@ namespace PTT_NGROUR.Models.DataModel
 
         public ModelGateStationArchive(ModelGateStationImport pModelGateImport)
         {
-            this.FLOW = pModelGateImport.FLOW;
-            this.GATE_NAME = pModelGateImport.GATE_NAME;
-            this.MONTH = pModelGateImport.MONTH;
-            this.REGION = pModelGateImport.REGION;
-            this.UPLOAD_BY = pModelGateImport.UPLOAD_BY;
-            this.YEAR = pModelGateImport.YEAR;
-            this.GATE_ID = pModelGateImport.GATE_ID;
-            this.UPLOAD_DATE = pModelGateImport.UPLOAD_DATE;            
+            this.FLOW           = pModelGateImport.FLOW;
+            this.GATE_NAME      = pModelGateImport.GATE_NAME;
+            this.MONTH          = pModelGateImport.MONTH;
+            this.REGION         = pModelGateImport.REGION;
+            this.UPLOAD_BY      = pModelGateImport.UPLOAD_BY;
+            this.YEAR           = pModelGateImport.YEAR;
+            this.GATE_ID        = pModelGateImport.GATE_ID;
+            this.UPLOAD_DATE    = pModelGateImport.UPLOAD_DATE;
+            this.PRESSURE       = pModelGateImport.PRESSURE;           
         }
 
         public ModelGateStationArchive(IDataReader pReader)
@@ -36,6 +37,7 @@ namespace PTT_NGROUR.Models.DataModel
             this.YEAR           = pReader.GetColumnValue("YEAR").GetInt();
             this.GATE_ID        = pReader.GetColumnValue("GATE_ID").GetInt();
             this.UPLOAD_DATE    = pReader.GetColumnValue("UPLOAD_DATE").GetDate();
+            this.PRESSURE       = pReader.GetColumnValue("PRESSURE").GetDecimal();
         }
 
         public int GATE_ID { get; set; }
@@ -48,5 +50,6 @@ namespace PTT_NGROUR.Models.DataModel
         public string UPLOAD_BY { get; set; }
         public string REGION { get; set; }
         public int FLAG_ID { get; set; }
+        public decimal PRESSURE { get; set; }
     }
 }
