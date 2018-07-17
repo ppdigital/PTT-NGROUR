@@ -145,6 +145,7 @@
         let intAlert = 0;
         let intWarning = 0;
         let intPass = 0;
+        let intFlag = 0;
         for (let i in pListData) {
             let data = pListData[i];
 
@@ -161,13 +162,16 @@
             case "Warning":
                 intWarning++;
                 break;
+            case "Flag":
+                    intFlag++;
+                    break;
             }            
         }        
         let dataT = {
-            labels: ["Alert", "Warning", "OK"],
+            labels: ["Alert", "Warning", "OK", "Flag"],
             datasets: [{
                 label: "Test Data",
-                data: [intAlert, intWarning, intPass],
+                data: [intAlert, intWarning, intPass, intFlag],
                 fill: false,
                 backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                 hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
