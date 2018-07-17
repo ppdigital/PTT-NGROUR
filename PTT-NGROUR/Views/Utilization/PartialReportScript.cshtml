@@ -131,7 +131,10 @@
             return strMonthName + " " + strYear;
         }
         $("#lblLeftDate").text("");
+        $("#LeftDate").text("");
         $("#lblRightDate").text("");
+        $("#RightDate").text("");
+
     //var datamonth = month;
 
         function Search() {
@@ -183,6 +186,7 @@
             }
 
             $("#lblRightDate").text("");
+            $("#RightDate").text("");
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -198,6 +202,7 @@
                         strMonth = "";
                     }
                     $("#lblRightDate").text(strMonth + " " + year);
+                    $("#RightDate").text(strMonth + " " + year);
                 },
                 error: function (result) {
                     alert('Please select the data');
@@ -269,7 +274,7 @@
                 else if (document.getElementById('radioYear').checked)
                 { dataMonthYear = data[i].YEAR; }
 
-                var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE_NO + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
+                var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
                 $(rowItem).data('map_info', data[i]);
                 tblShow.row.add($(rowItem));
             }
@@ -743,6 +748,8 @@
                 }
                 var strMonthName = monthNames[intMonth-1];
                 $("#lblLeftDate").text(strMonthName + " " + intYear);
+                $("#LeftDate").text(strMonthName + " " + intYear);
+
 
                 $("#Current_GatePass").text(passGate);
                 $("#Current_PipePass").text(passPipe);

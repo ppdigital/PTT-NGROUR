@@ -1312,7 +1312,7 @@ namespace PTT_NGROUR.Controllers
 
                         NAME = dr["NAME"].ToString(),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),
-                        LICENSE = dr["LICENSE_NO"].GetInt(),
+                        LICENSE = dr["LICENSE"].GetInt(),
                         VALUE = dr["VALUE"].GetDecimal(),
                         //COLOR = dr["COLOR"].ToString(),
                         MONTH = Convert.ToInt32(dr["MONTH"].ToString()),
@@ -1334,27 +1334,27 @@ namespace PTT_NGROUR.Controllers
             var dal = new DAL.DAL();
             string licenseStr = string.Join("','", Multidata);
             if (month != "null" && year != "null" && threshold == "All" && type == "All")
-            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "')"; }
+            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "')"; }
             else if (month != "null" && year != "null" && threshold != "All" && type == "All")
-            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "') AND THRESHOLD IN ('" + threshold + "')"; }
+            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "') AND THRESHOLD IN ('" + threshold + "')"; }
             else if (month != "null" && year != "null" && threshold == "All" && type != "All")
-            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "')"; }
+            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "')"; }
             else if (month != "null" && year != "null" && threshold != "All" && type != "All")
-            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
+            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
 
             else if (month == "null" && year != "null" && threshold == "All" && type == "All")
-            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') "; }
+            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') "; }
             else if (month == "null" && year != "null" && threshold != "All" && type == "All")
-            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') AND THRESHOLD IN ('" + threshold + "')"; }
+            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') AND THRESHOLD IN ('" + threshold + "')"; }
             else if (month == "null" && year != "null" && threshold == "All" && type != "All")
-            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "')"; }
+            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "')"; }
             else if (month == "null" && year != "null" && threshold != "All" && type != "All")
-            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
+            { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND YEAR IN ('" + year + "') AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
 
-            else if (month == "null" && year == "null" && threshold == "All" && type == "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "')"; }
-            else if (month == "null" && year == "null" && threshold != "All" && type == "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND THRESHOLD IN ('" + threshold + "')"; }
-            else if (month == "null" && year == "null" && threshold == "All" && type != "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND TYPE IN ('" + type + "')"; }
-            else if (month == "null" && year == "null" && threshold != "All" && type != "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE_NO IN ('" + licenseStr + "') AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
+            else if (month == "null" && year == "null" && threshold == "All" && type == "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "')"; }
+            else if (month == "null" && year == "null" && threshold != "All" && type == "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND THRESHOLD IN ('" + threshold + "')"; }
+            else if (month == "null" && year == "null" && threshold == "All" && type != "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND TYPE IN ('" + type + "')"; }
+            else if (month == "null" && year == "null" && threshold != "All" && type != "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
             var ds = dal.GetDataSet(searchlicense);
 
 
@@ -1369,7 +1369,7 @@ namespace PTT_NGROUR.Controllers
                     {
                         NAME = dr["NAME"].ToString(),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),
-                        LICENSE = dr["LICENSE_NO"].GetInt(),
+                        LICENSE = dr["LICENSE"].GetInt(),
                         VALUE = dr["VALUE"].GetDecimal(),
                         //COLOR = dr["COLOR"].ToString(),
                         MONTH = Convert.ToInt32(dr["MONTH"].ToString()),
