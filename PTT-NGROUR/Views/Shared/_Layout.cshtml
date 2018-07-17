@@ -64,7 +64,7 @@
                             <li class="dropdown">
 @if (Request.IsAuthenticated)
                                 {
-                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white">@Html.Encode(User.Identity.Name)</span></a>
+                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white">@Html.Encode(User.Identity.Name) <i class="fa fa-sort-desc" aria-hidden="true"></i></span></a>
                                 <ul class="dropdown-menu ">
                                     <li><a href="@Url.Action("ResetPassword", "User", new { id = userrole.Username , IsExpired = false  }, null)">
                                             <i class="fa fa-user text-grey" aria-hidden="true"></i>

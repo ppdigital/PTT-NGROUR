@@ -65,13 +65,56 @@
             ]
         }; */
 
-        var tblOption2 = {
+     
+        var tblOptionReport = $('#utilTbl').DataTable({
             dom: 'lBfrtip',
+            responsive: true,
+            dom:
+    "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
+                {
+                    "extend": 'copy',
+                    "exportOptions": { columns: [ 1, 2, 3, 4, 5, 6, 7] }
+                },
+                {
+                    "extend": 'csv',
+                    "exportOptions": { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
+                },
+                {
+                    "extend": 'excel',
+                    "exportOptions": { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
+                },
+               {
+                   "extend": 'pdfHtml5',
+                   "exportOptions": { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
+                   "text": 'PDF',
+                   "pageSize": 'A4',
+                   "customize": function (doc) {
+                       doc.defaultStyle = {
+                           font: 'THSarabun',
+                           fontSize: 16,
+                       };
+                   }
+               },
+
+               {
+                   "extend": 'print',
+                   "exportOptions": { columns: [0, 1, 2, 3] }
+               }
             ]
-        };
-        $('#utilTbl').DataTable(tblOption2);
+
+
+        });
+        pdfMake.fonts = {
+            THSarabun: {
+                normal: 'THSarabun.ttf',
+                bold: 'THSarabun-Bold.ttf',
+                italics: 'THSarabun-Italic.ttf',
+                bolditalics: 'THSarabun-BoldItalic.ttf'
+            }
+        }
 
         var _graphPipeLine = null;
 
@@ -226,7 +269,7 @@
                 else if (document.getElementById('radioYear').checked)
                 { dataMonthYear = data[i].YEAR; }
 
-                var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
+                var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE_NO + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
                 $(rowItem).data('map_info', data[i]);
                 tblShow.row.add($(rowItem));
             }
