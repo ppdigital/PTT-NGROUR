@@ -1,11 +1,11 @@
 ﻿@model PTT_NGROUR.Models.ViewModel.ModelOmIndex
 
-<script src="~/Scripts/Chart/Chart.js"></script>
-<script src="~/Scripts/Chart/Chart.PieceLabel.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-<script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
-<script src="~/Content/bootstrap-datepicker.js"></script>
-<script>
+    <script src="~/Scripts/Chart/Chart.js"></script>
+    <script src="~/Scripts/Chart/Chart.PieceLabel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
+    <script src="~/Content/bootstrap-datepicker.js"></script>
+    <script>
         jQuery.ajaxSettings.traditional = true;
 
         var _divGraph = $("#divGraph");
@@ -39,10 +39,16 @@
                 title: {
                     display: true,
                     text: 'Chart.js Bar Chart'
+                },
+                plugins: {
+                    datalabels: {
+                        display: false
+                    }
                 }
+
             }
 
-            
+
         });
 
         $('#Month-filter').datepicker({
@@ -129,7 +135,7 @@
                         backgroundColor: ml.HexColor,
                         borderColor: "#000000",
                         borderWidth: 1,
-                        data : ml.ListData
+                        data: ml.ListData
                     }
                     barChartData.datasets.push(dsItem);
                 }
@@ -199,6 +205,13 @@
                         responsive: true,
                         legend: {
                             position: 'top',
+                            onClick: function (e, l) {
+                                var index = l.datasetIndex;
+                                var ci = this.chart;
+                                var meta = ci.getDatasetMeta(index);
+                                meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+                                ci.update();
+                            }
                         },
                         tooltips: {
                             mode: 'index',
@@ -214,14 +227,28 @@
                         },
                         plugins: {
                             datalabels: {
-                                color: 'black',
+                                color: function (context) {
+                                    var index = context.datasetIndex;
+                                    var result = "black";
+                                    if (index === 0) {
+                                        result = "#75FF33";
+                                    } else if (index === 1) {
+                                        result = "#FF5733";
+                                    }
+                                    return result;
+                                },
                                 font: {
                                     weight: 'bold'
                                 },
                                 formatter: function (value) {
-                                    return value ;
+                                    return value;
                                 },
-
+                                display: function (context) {
+                                    var index = context.datasetIndex;
+                                    var ci = context.chart;
+                                    var meta = ci.getDatasetMeta(index);
+                                    return meta.hidden === null;
+                                },
                                 title: true
                             }
                         },
@@ -230,7 +257,7 @@
                             text: d.ML
                         }
                     }
-                });                
-            }           
+                });
+            }
         }
-</script>
+    </script>
