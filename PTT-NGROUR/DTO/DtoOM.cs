@@ -5,6 +5,7 @@ using System.Web;
 
 using PTT_NGROUR.Models.DataModel;
 using PTT_NGROUR.Models.ViewModel;
+using PTT_NGROUR.ExtentionAndLib;
 using System.Collections;
 
 namespace PTT_NGROUR.DTO
@@ -148,6 +149,65 @@ namespace PTT_NGROUR.DTO
             }
 
             var result = pListModelMeterMaintenance.GroupBy(x => x.ML).Select(x => new ModelOmIndex.ModelAccGraph(x.Key, pListModelMeterMaintenance)).ToArray(); 
+
+            return result;
+        }
+
+        public List< ModelOmIndex.ModelMeterMaintenanceLevel> GetModelML(IEnumerable<ModelMeterMaintenance> pListModelMeterMaintenance)
+        {
+            if (pListModelMeterMaintenance == null || !pListModelMeterMaintenance.Any())
+            {
+                return null;
+            }
+            var result = new List<ModelOmIndex.ModelMeterMaintenanceLevel>();
+            //var xs = pListModelMeterMaintenance
+            //    .OrderBy(x => x.REGION)
+            //    .GroupBy(x => new { x.ML, x.PM_INTERVAL })
+            //    .GroupBy(x => x.Key.ML);
+            //    //.Select(x=> x.Key.fi)
+            //    //xs.Select(x=> new { x.Key , x.Select(x2=> x2.Select() )
+            //foreach( var x2 in xs)
+            //{
+            //    foreach(var x3 in x2)
+            //    {
+            //        foreach(var x4 in x3)
+            //        {
+
+            //        }
+            //    }
+            //}
+            var listMlName = pListModelMeterMaintenance.Select(x => x.ML).Distinct().ToList();
+            var listRegion = pListModelMeterMaintenance.Select(x => x.REGION).Distinct().OrderBy(x=>x).ToList();
+            foreach( var strMl in listMlName)
+            {
+                var ml = new ModelOmIndex.ModelMeterMaintenanceLevel();
+                result.Add(ml);
+                ml.Name = strMl;
+                var listFilter = pListModelMeterMaintenance.Where(x => x.ML == strMl).ToList();
+                var listPmName = listFilter.Select(x => x.PM_INTERVAL).Distinct();
+                foreach (var strPm in listPmName)
+                {
+                    var pmi = new ModelOmIndex.ModelMeterMaintenanceLevel.ModelPmInterval();
+                    ml.ListPmIntervals.Add(pmi);
+                    pmi.Name = strPm;
+                    var listFilterPm = listFilter.Where(x => x.PM_INTERVAL == strPm).ToList();
+                    foreach(var strRg in listRegion)
+                    {
+                        var strPlan = string.Empty;
+                        var strActual = string.Empty;
+                        var listFilterRegion = listFilterPm.Where(x => x.REGION == strRg).ToList();
+                        if (listFilterRegion.Any())
+                        {
+                            strPlan = listFilterRegion.Sum(x => x.PLAN).GetString();
+                            strActual = listFilterRegion.Sum(x => x.ACTUAL).GetString();
+                        }
+                        pmi.ListPlan.Add(strPlan);
+                        pmi.ListActual.Add(strActual);
+                        //pmi.Plan = listFilterPm.Where(x => x.REGION == strRg).Sum(x => x.PLAN).GetString();
+                    }
+                }
+                //listFilter[0].
+            }
 
             return result;
         }

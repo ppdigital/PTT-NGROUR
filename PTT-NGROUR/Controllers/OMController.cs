@@ -81,5 +81,15 @@ namespace PTT_NGROUR.Controllers
             }
             return Json(result);
         }
+
+        public ActionResult Test()
+        {
+            var modelOm = new ModelOmIndex();
+            var dto = new DtoOM();
+            var listMM = dto.GetListMeterMaintenance().ToList();
+            dto.GetModelML(listMM);
+            return Content("TestTest");
+        }
+
     }
 }

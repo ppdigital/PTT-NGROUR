@@ -108,6 +108,29 @@ namespace PTT_NGROUR.Models.ViewModel
             }
         }
 
+        public class ModelMeterMaintenanceLevel
+        {
+            public class ModelPmInterval
+            {
+                public ModelPmInterval()
+                {
+                    ListPlan = new List<string>();
+                    ListActual = new List<string>();
+                }
+
+                public string Name { get; set; }
+                public List<string> ListPlan { get; set; }
+                public List<string> ListActual { get; set; }
+            }
+            public string Name { get; set; }
+            public List<ModelPmInterval>  ListPmIntervals { get; set; }
+
+            public ModelMeterMaintenanceLevel()
+            {
+                ListPmIntervals = new List<ModelPmInterval>();
+            }
+        }
+
         public IEnumerable<ModelMeterMaintenance> ListMeterMaintenance { get; set; }
 
         public IEnumerable<ModelOmColor> ListOmColor { get; set; }
