@@ -63,8 +63,10 @@
     <br />
     <h2>@Model.CurrentDateCaption</h2>
     <br/>
-    <img src="@Url.Action("GetChartImage" , new { pStrChartName = "CurrentGate" })" />
-    <img src="@Url.Action("GetChartImage" , new { pStrChartName = "CurrentPipeline" })" />
+    <center>
+        <img src="@Url.Action("GetChartImage" , new { pStrChartName = "CurrentGate" })" />
+        <img src="@Url.Action("GetChartImage" , new { pStrChartName = "CurrentPipeline" })" />
+    </center> <br />
     <table width="100%" cellpadding="10" style="color:white">
         <tr>
             <td style="background-color:#16a085">Gate Station</td>
@@ -92,9 +94,10 @@
     </table>
     <br />
     <h2>@Model.DateCaption</h2>
-    <br />
+    <br /><center>
     <img src="@Url.Action("GetChartImage" , new { pStrChartName = "Gate" })" />
     <img src="@Url.Action("GetChartImage" , new { pStrChartName = "Pipeline" })" />
+</center>
     <br/>
     <table border="1" cellpadding="10" width="100%" >
         <thead>
@@ -115,7 +118,7 @@
                 <td>@m.NO</td>
                 <td>@m.NAME</td>
                 <td>@m.REGION</td>
-                <td>@m.LICENSE_NO</td>
+                <td>@m.LICENSE</td>
                 <td>@m.VALUE</td>
                 <td>@m.THRESHOLD</td>
                 <td>@m.MONTH / @m.YEAR</td>                

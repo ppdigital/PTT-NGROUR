@@ -665,7 +665,7 @@ select .inline{display: inline-block;}
  .w-70p-lg{width:70%}
   .w-29p-lg{width:29%}
 .border-left-lg{border-left: 1px solid rgba(0,0,0,.0625);}
-.w-4h-lg{width:400px}
+.w-logo-lg{width:330px}
 .scrollable-height-lg{max-height:360px;overflow-y:scroll}
 .pieGraph-lg{width:290px;
              height:290px
@@ -844,3 +844,4 @@ input:-webkit-autofill {
 .pv-5 {padding-top:.5rem; padding-bottom:.5rem;}
 .pv0 {padding-top:.0rem; padding-bottom:.0rem;}
 .pr0 {padding-right:0rem !important;}
+

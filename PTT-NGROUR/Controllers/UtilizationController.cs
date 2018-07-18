@@ -1392,6 +1392,7 @@ namespace PTT_NGROUR.Controllers
             decimal green = 0;
             decimal red = 0;
             decimal yellow = 0;
+            decimal orange = 0;
             decimal total = 0;
             foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
             {
@@ -1406,6 +1407,10 @@ namespace PTT_NGROUR.Controllers
                 else if (dr["COLOR"].Equals("Yellow"))
                 {
                     yellow++;
+                }
+                else if (dr["COLOR"].Equals("Orange"))
+                {
+                    orange++;
                 }
 
             }
@@ -1434,6 +1439,11 @@ namespace PTT_NGROUR.Controllers
             dr1 = dt.NewRow();
             dr1["Name"] = "Pass";
             dr1["Color"] = green;
+            dt.Rows.Add(dr1);
+
+            dr1 = dt.NewRow();
+            dr1["Name"] = "Flag";
+            dr1["Color"] = orange;
             dt.Rows.Add(dr1);
 
 
@@ -1491,7 +1501,9 @@ namespace PTT_NGROUR.Controllers
             decimal green = 0;
             decimal red = 0;
             decimal yellow = 0;
+            decimal orange = 0;
             decimal total = 0;
+
             foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
             {
                 if (dr["COLOR"].Equals("Green"))
@@ -1505,6 +1517,10 @@ namespace PTT_NGROUR.Controllers
                 else if (dr["COLOR"].Equals("Yellow"))
                 {
                     yellow++;
+                }
+                else if (dr["COLOR"].Equals("Orange"))
+                {
+                    orange++;
                 }
 
             }
@@ -1533,6 +1549,11 @@ namespace PTT_NGROUR.Controllers
             dr1 = dt.NewRow();
             dr1["Name"] = "Pass";
             dr1["Color"] = green;
+            dt.Rows.Add(dr1);
+
+            dr1 = dt.NewRow();
+            dr1["Name"] = "Flag";
+            dr1["Color"] = orange;
             dt.Rows.Add(dr1);
 
 

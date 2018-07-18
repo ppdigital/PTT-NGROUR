@@ -16,7 +16,73 @@
     <link href='https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.css' rel='stylesheet'>
     <title>@ViewBag.Title</title>
 </head>
+<style>
+    /* The container checkbox*/
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        color:#808080;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
 
+        /* Hide the browser's default checkbox */
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: white;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+</style>
 <div class="cover bg-center h-100 w-100 " style="background-image: url(../Content/Images/wall.png); ">
     <div class=" h-100 container-login100">
 
@@ -28,7 +94,7 @@
                     <!--   <img width="100" src="~/Content/Images/logo1.png" /><br />
                     <div class="pt1"><label class="dib b white f3 t-shadow1">NGR - OUR</label> </div>-->
                     <!--<label class="dib b white f5 t-shadow1"> System</label>-->
-                    <img class="w-3h-md w-25h-xs w-25h-sm w-4h-lg" src="~/Content/Logo/ngr1.png" /><br />
+                    <img class="w-3h-md w-25h-xs w-25h-sm w-logo-lg" src="~/Content/Logo/ngr1.png" /><br />
                 </div>
             </center>
             <br /><br /><br />
@@ -51,12 +117,14 @@
                                         <span class="focus-input100 " data-placeholder="&#xf191;"></span>
                                     </div>
                                 </div>
-                                <!--   @Html.CheckBoxFor(u => u.RememberMe, new {@id = "ckb1" } )-->
+                                
                                 <div class="contact100-form-checkbox">
-                                    @Html.CheckBoxFor(u => u.RememberMe, new { @id = "ckb1" })
-
-                                    <a class="black" id="check_remenber">Remember me</a>
-
+                                   @* @Html.CheckBoxFor(u => u.RememberMe, new { @id = "ckb1" ,@style="width:20px; height:20px;" })
+                                   <a class="black" id="check_remenber">Remember me</a>*@
+                                    <label class="container">Remember me
+                                        @Html.CheckBoxFor(u => u.RememberMe, new { @id = "ckb1" })
+                                        <span class="checkmark"></span>
+                                    </label>
                                 </div>
                             </div>
 
