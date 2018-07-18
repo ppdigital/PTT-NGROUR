@@ -1250,16 +1250,16 @@
             //console.log(new Date().getFullYear());
 
             function SaveEditMeter() {
-                var param = {
-                    "menu": "utilization-customer",
-                    "type": "METERING",
-                    "command": "Save",
-                    "parameter": {
-                        "METER_NUMBER": $("#txtMeterNumMEdit").val(),
-                        "SHIP_TO": $("#txtShipToMEdit").val()
-                    }
-                };
-                map_frame.contentWindow.postMessage(param, '*');
+                //var param = {
+                //    "menu": "utilization-customer",
+                //    "type": "METERING",
+                //    "command": "Save",
+                //    "parameter": {
+                //        "METER_NUMBER": $("#txtMeterNumMEdit").val(),
+                //        "SHIP_TO": $("#txtShipToMEdit").val()
+                //    }
+                //};
+                //map_frame.contentWindow.postMessage(param, '*');
                 
                 $("#frmEditMeter").submit();
             }
@@ -1481,20 +1481,20 @@
                 data: { txtMeterNum: txtMeterNumMCreate, txtMeterName: txtMeterNameMCreate, seMeterType: seMeterTypeMCreate, seShipTo: seShipToMCreate, seLicense: seLicenseMCreate, seStatus: seStatusMCreate, datepicCommdate: datepicCommdateMCreate },
                 success: function (response) {
                     alert(response);
-                    if (response == "เพิ่มข้อมูลเรียบร้อย") {
-                        var js = {
-                            "menu": "utilization-customer",
-                            "type": "METERING",
-                            "command": "Save",
-                            "parameter": {
-                                "METER_NUMBER": txtMeterNumMCreate,
-                                "SHIP_TO": seShipToMCreate
-                            }
-                        }
-                        map_frame.contentWindow.postMessage(map_customer_json, '*');
-                        //$("#myModalCreate").style.display = "none";
-                        window.location.reload();
-                    }
+                    //if (response == "เพิ่มข้อมูลเรียบร้อย") {
+                    //    var js = {
+                    //        "menu": "utilization-customer",
+                    //        "type": "METERING",
+                    //        "command": "Save",
+                    //        "parameter": {
+                    //            "METER_NUMBER": txtMeterNumMCreate,
+                    //            "SHIP_TO": seShipToMCreate
+                    //        }
+                    //    }
+                    //    map_frame.contentWindow.postMessage(map_customer_json, '*');
+                    //    //$("#myModalCreate").style.display = "none";
+                    //    window.location.reload();
+                    //}
                 }
             });
             }
