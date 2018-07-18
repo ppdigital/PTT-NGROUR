@@ -881,11 +881,17 @@
     //----------------[ PDF ]----------------------//
 
     function OpenReportPDF() {
+        //alert($("#Year-filter").val());
         var strMode = document.getElementById('radioRegion').checked ? "region" : "license";
+        var FliterVal ;
+        if (document.getElementById('radioYear').checked)
+        { FliterVal = $("#Year-filter").val(); }
+        else if (document.getElementById('radioMonth').checked) { FliterVal = $("#Month-filter").val(); }
+
         var param = {
             SearchMode: strMode,
             ArrID: $("#MultiRegion").val(),
-            Period: $("#Year-filter").val(),
+            Period: FliterVal,
             Threshold: $("#seAllThres").val(),
             SearchType: $("#type-filter").val()
             //pModel: {

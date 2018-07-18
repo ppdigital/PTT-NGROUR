@@ -8,12 +8,16 @@
 
 <html>
 <head>
+
     <meta name="viewport" content="width=device-width" />
     <title>UtilizationReportPdf</title>
     @*<link rel="stylesheet" href="~/Content/bootstrap-3.3.7-dist/css/bootstrap.min.css" />*@
     @*<link rel="stylesheet" href="~/Style/create.css" />*@
     
     <style>
+        body, div, a, p, span, head, input, label, il {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
         table {
             background-color: white;
             font-family : Tahoma;
@@ -34,30 +38,30 @@
 </head>
 <body>
     <right>@DateTime.Now.ToString("dd/MM/yyyy")</right>
-    <center><h1>Utilizztion Report</h1></center>
+    <center><h1>Utilization Report</h1></center>
     <table width="100%" cellpadding="10" style="color:white">
         <tr>
-            <td style="background-color:#16a085">Gate Station</td>
-            <td style="background-color:#16a085">Pipeline</td>
+            <td style="background-color:#16a085"><center>Gate Station</center></td>
+            <td style="background-color:#16a085"><center>Pipeline</center></td>
             <td style="width:15px" rowspan="2"></td>
-            <td style="background-color:#f1c40f">Gate Station</td>
-            <td style="background-color:#f1c40f">Pipeline</td>
+            <td style="background-color:#f1c40f"><center>Gate Station</center></td>
+            <td style="background-color:#f1c40f"><center>Pipeline</center></td>
             <td style="width:15px" rowspan="2"></td>
-            <td style="background-color:#e74c3c">Gate Station</td>
-            <td style="background-color:#e74c3c">Pipeline</td>
+            <td style="background-color:#e74c3c"><center>Gate Station</center></td>
+            <td style="background-color:#e74c3c"><center>Pipeline</center></td>
             <td style="width:15px" rowspan="2"></td>
-            <td style="background-color:#e67e22">Gate Station</td>
-            <td style="background-color:#e67e22">Pipeline</td>
+            <td style="background-color:#e67e22"><center>Gate Station</center></td>
+            <td style="background-color:#e67e22"><center>Pipeline</center></td>
         </tr>
         <tr>
-            <td style="background-color:#16a085"><h1>@Model.CurrentGate.OK</h1></td>
-            <td style="background-color:#16a085"><h1>@Model.CurrentPipeline.OK</h1></td>
-            <td style="background-color:#f1c40f"><h1>@Model.CurrentGate.Warning</h1></td>
-            <td style="background-color:#f1c40f"><h1>@Model.CurrentPipeline.Warning</h1></td>
-            <td style="background-color:#e74c3c"><h1>@Model.CurrentGate.Alert</h1></td>
-            <td style="background-color:#e74c3c"><h1>@Model.CurrentPipeline.Alert</h1></td>
-            <td style="background-color:#e67e22"><h1>@Model.CurrentGate.Flag</h1></td>
-            <td style="background-color:#e67e22"><h1>@Model.CurrentPipeline.Flag</h1></td>
+            <td style="background-color:#16a085"><center><h1>@Model.CurrentGate.OK</h1></center></td>
+            <td style="background-color:#16a085"><center><h1>@Model.CurrentPipeline.OK</h1></center></td>
+            <td style="background-color:#f1c40f"><center><h1>@Model.CurrentGate.Warning</h1></center></td>
+            <td style="background-color:#f1c40f"><center><h1>@Model.CurrentPipeline.Warning</h1></center></td>
+            <td style="background-color:#e74c3c"><center><h1>@Model.CurrentGate.Alert</h1></center></td>
+            <td style="background-color:#e74c3c"><center><h1>@Model.CurrentPipeline.Alert</h1></center></td>
+            <td style="background-color:#e67e22"><center><h1>@Model.CurrentGate.Flag</h1></center></td>
+            <td style="background-color:#e67e22"><center><h1>@Model.CurrentPipeline.Flag</h1></center></td>
         </tr>
     </table>
     <br />
@@ -69,27 +73,27 @@
     </center> <br />
     <table width="100%" cellpadding="10" style="color:white">
         <tr>
-            <td style="background-color:#16a085">Gate Station</td>
-            <td style="background-color:#16a085">Pipeline</td>
+            <td style="background-color:#16a085"><center>Gate Station</center></td>
+            <td style="background-color:#16a085"><center>Pipeline</center></td>
             <td style="width:15px" rowspan="2"></td>
-            <td style="background-color:#f1c40f">Gate Station</td>
-            <td style="background-color:#f1c40f">Pipeline</td>
+            <td style="background-color:#f1c40f"><center>Gate Station</center></td>
+            <td style="background-color:#f1c40f"><center>Pipeline</center></td>
             <td style="width:15px" rowspan="2"></td>
-            <td style="background-color:#e74c3c">Gate Station</td>
-            <td style="background-color:#e74c3c">Pipeline</td>
+            <td style="background-color:#e74c3c"><center>Gate Station</center></td>
+            <td style="background-color:#e74c3c"><center>Pipeline</center></td>
             <td style="width:15px" rowspan="2"></td>
-            <td style="background-color:#e67e22">Gate Station</td>
-            <td style="background-color:#e67e22">Pipeline</td>
+            <td style="background-color:#e67e22"><center>Gate Station</center></td>
+            <td style="background-color:#e67e22"><center>Pipeline</center></td>
         </tr>
         <tr>
-            <td style="background-color:#16a085"><h1>@Model.Gate.OK</h1></td>
-            <td style="background-color:#16a085"><h1>@Model.Pipeline.OK</h1></td>
-            <td style="background-color:#f1c40f"><h1>@Model.Gate.Warning</h1></td>
-            <td style="background-color:#f1c40f"><h1>@Model.Pipeline.Warning</h1></td>
-            <td style="background-color:#e74c3c"><h1>@Model.Gate.Alert</h1></td>
-            <td style="background-color:#e74c3c"><h1>@Model.Pipeline.Alert</h1></td>
-            <td style="background-color:#e67e22"><h1>@Model.Gate.Flag</h1></td>
-            <td style="background-color:#e67e22"><h1>@Model.Pipeline.Flag</h1></td>
+            <td style="background-color:#16a085"><center><h1>@Model.Gate.OK</h1></center></td>
+            <td style="background-color:#16a085"><center><h1>@Model.Pipeline.OK</h1></center></td>
+            <td style="background-color:#f1c40f"><center><h1>@Model.Gate.Warning</h1></center></td>
+            <td style="background-color:#f1c40f"><center><h1>@Model.Pipeline.Warning</h1></center></td>
+            <td style="background-color:#e74c3c"><center><h1>@Model.Gate.Alert</h1></center></td>
+            <td style="background-color:#e74c3c"><center><h1>@Model.Pipeline.Alert</h1></center></td>
+            <td style="background-color:#e67e22"><center><h1>@Model.Gate.Flag</h1></center></td>
+            <td style="background-color:#e67e22"><center><h1>@Model.Pipeline.Flag</h1></center></td>
         </tr>
     </table>
     <br />

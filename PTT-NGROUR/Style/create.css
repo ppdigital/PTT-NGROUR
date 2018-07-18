@@ -626,7 +626,9 @@ select .inline{display: inline-block;}
         font-size: 8px !important;
     }
     .fn-xs{float:none !important;}
+     .clear-right-xs{float:none !important;}
  } 
+
 
 
  /* size sm*/

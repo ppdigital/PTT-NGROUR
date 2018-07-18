@@ -4,10 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section style{
-
+    
 
     <link href="~/Scripts/DataTables/Responsive-2.2.2/css/responsive.bootstrap.min.css" rel="stylesheet" />
     <link href="~/Scripts/DataTables/DataTables-1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <style>
+    .pagination > .active > a {
+        z-index: 0 !important;
+    }
+</style>
 }
 
     <div class="container-fluid">
