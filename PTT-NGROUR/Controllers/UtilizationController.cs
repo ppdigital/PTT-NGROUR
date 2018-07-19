@@ -1337,7 +1337,15 @@ namespace PTT_NGROUR.Controllers
         {
             var searchlicense = "";
             var dal = new DAL.DAL();
-            string licenseStr = string.Join("','", Multidata);
+     
+            string licenseStr = string.Empty;
+            if (Multidata != null && Multidata.Any())
+            {
+                licenseStr = string.Join("','", Multidata);
+            }
+
+
+
             if (month != "null" && year != "null" && threshold == "All" && type == "All")
             { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "')"; }
             else if (month != "null" && year != "null" && threshold != "All" && type == "All")
