@@ -208,7 +208,7 @@
                     alert('Please select the data');
                 }
             });
-            VIEW_GATE_PIPE_REPORT_CURRENT("Region", multidata);
+            VIEW_GATE_PIPE_REPORT_CURRENT(strMode, multidata);
         }
 
 
@@ -697,10 +697,10 @@
                 pType: pType,
                 pArrId: pArrId
             };
-
+            
             var strUrl = "@Url.Action("VIEW_GATE_PIPE_REPORT_CURRENT")";
             $.post(strUrl, param, function (data2) {
-
+                
                 var passPipe = 0;
                 var passGate = 0;
                 var warningPipe = 0;
