@@ -1272,7 +1272,7 @@ namespace PTT_NGROUR.Controllers
         {
             var searchregion = "";
             var dal = new DAL.DAL();
-            var regionStr = "";
+            string regionStr = string.Empty;
             if (Multidata != null && Multidata.Any())
             {
                 regionStr = string.Join("','", Multidata);
