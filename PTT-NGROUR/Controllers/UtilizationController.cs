@@ -1272,7 +1272,11 @@ namespace PTT_NGROUR.Controllers
         {
             var searchregion = "";
             var dal = new DAL.DAL();
-            string regionStr = string.Join("','", Multidata);
+            var regionStr = "";
+            if (Multidata != null && Multidata.Any())
+            {
+                regionStr = string.Join("','", Multidata);
+            }
             if (month != "null" && year != "null" && threshold == "All" && type == "All")
             { searchregion = @"select * from VIEW_GATE_PIPE_REPORT WHERE REGION IN ('" + regionStr + "') AND MONTH IN ('" + month + "') AND YEAR IN ('" + year + "')"; }
             else if (month != "null" && year != "null" && threshold != "All" && type == "All")
