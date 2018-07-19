@@ -13,11 +13,6 @@
     </div>
     <div class="col-xs-6">
         <div class="input-group">
-           
-            @*<div class="form-group form-control form-control-sm fz-12px" style="margin-bottom:5px;">
-
-            </div>*@
-
             <span class="input-group-addon">
                 <input type="radio" name="radioMY" id="radioMonth" checked="checked" onclick="javascript:Check();">
                 <label for="radioMonth">Month</label>
@@ -37,43 +32,16 @@
     </div>
     
 </div>
-
+<br/>
+<table id="tblMeter" class="table table-bordered"></table>
 <div id="container" style="width: 75%;">
     <canvas id="canvas"></canvas>
 </div>
+
+<!-- section Meter Graph -->
 <div id="divGraph"></div>
-<h2>Index</h2>
+<!-- End Meter Graph -->
 
-<h3>@string.Join(",", Model.BarGraph.ListLabel) </h3>
-<table class="table table-bordered table-hover">
-    @*<thead>
-            <tr>
-                <th></th>
-            </tr>
-        </thead>*@
-    <tbody>
-
-
-        @foreach (var item in Model.BarGraph.ListML)
-        {
-            <tr>
-                <td>@item.Label</td>
-                <td>@item.ListData.Select(x => x.ToString()).Aggregate((x, y) => x + " , " + y)</td>
-            </tr>
-
-        }
-
-
-        @foreach (var item in Model.ListMeterMaintenance)
-        {
-            <tr>
-                <td>@item.ACTUAL</td>
-                <td>@item.ML</td>
-                <td>@item.PM_INTERVAL</td>
-            </tr>
-        }
-    </tbody>
-</table>
 @section style{
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
 
@@ -94,6 +62,29 @@
 
           display: flex;
           align-items: center;
+         
+        }
+
+        #tblMeter {
+            background-color:white;
+        }
+
+        .cellDisable {
+            background-color: #ddd;
+        }
+
+        .cellDanger{
+            color:red;
+        }
+        td{
+            text-align:right;
+        }
+        th{
+            text-align:center;
+            vertical-align:middle;
+            line-height:normal;
+            display:table-cell;
+            min-height: 10em;
         }
     </style>
 }
