@@ -153,7 +153,25 @@ namespace PTT_NGROUR.DTO
             return result;
         }
 
-        public List< ModelOmIndex.ModelMeterMaintenanceLevel> GetModelML(IEnumerable<ModelMeterMaintenance> pListModelMeterMaintenance)
+        public List<string> GetListRegionForTableHeader(IEnumerable<ModelMeterMaintenance> pListModelMeterMaintenance)
+        {
+            if (pListModelMeterMaintenance == null || !pListModelMeterMaintenance.Any())
+            {
+                return null;
+            }
+            var result = pListModelMeterMaintenance
+                .Select(x => x.REGION)
+                .Distinct()
+                .OrderBy(x => x.Length)
+                .ThenBy(x=>x)
+                .ToList();
+            return result;
+        }
+
+        public List< ModelOmIndex.ModelMeterMaintenanceLevel> 
+        GetModelModelMeterMaintenanceLevel(
+        IEnumerable<ModelMeterMaintenance> pListModelMeterMaintenance , 
+        IEnumerable<string> pListRegion)
         {
             if (pListModelMeterMaintenance == null || !pListModelMeterMaintenance.Any())
             {
@@ -177,7 +195,7 @@ namespace PTT_NGROUR.DTO
             //    }
             //}
             var listMlName = pListModelMeterMaintenance.Select(x => x.ML).Distinct().ToList();
-            var listRegion = pListModelMeterMaintenance.Select(x => x.REGION).Distinct().OrderBy(x=>x).ToList();
+            //var listRegion = pListModelMeterMaintenance.Select(x => x.REGION).Distinct().OrderBy(x=>x).ToList();
             foreach( var strMl in listMlName)
             {
                 var ml = new ModelOmIndex.ModelMeterMaintenanceLevel();
@@ -191,7 +209,7 @@ namespace PTT_NGROUR.DTO
                     ml.ListPmIntervals.Add(pmi);
                     pmi.Name = strPm;
                     var listFilterPm = listFilter.Where(x => x.PM_INTERVAL == strPm).ToList();
-                    foreach(var strRg in listRegion)
+                    foreach(var strRg in pListRegion)
                     {
                         var strPlan = string.Empty;
                         var strActual = string.Empty;
@@ -200,15 +218,12 @@ namespace PTT_NGROUR.DTO
                         {
                             strPlan = listFilterRegion.Sum(x => x.PLAN).GetString();
                             strActual = listFilterRegion.Sum(x => x.ACTUAL).GetString();
-                        }
+                        }                        
                         pmi.ListPlan.Add(strPlan);
-                        pmi.ListActual.Add(strActual);
-                        //pmi.Plan = listFilterPm.Where(x => x.REGION == strRg).Sum(x => x.PLAN).GetString();
+                        pmi.ListActual.Add(strActual);                        
                     }
                 }
-                //listFilter[0].
             }
-
             return result;
         }
 

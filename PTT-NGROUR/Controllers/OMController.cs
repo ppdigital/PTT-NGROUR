@@ -42,6 +42,8 @@ namespace PTT_NGROUR.Controllers
                 var listColor = dto.GetListOmColor().ToList();
                 modelOm.BarGraph = dto.GetModelBarGraph(listMM, listColor);
                 modelOm.ListAccGraph = dto.GetModelAccGraph(listMM);
+                modelOm.ListRegionForTableHeader = dto.GetListRegionForTableHeader(listMM);
+                modelOm.ListMeterMaintenanceLevelForTable = dto.GetModelModelMeterMaintenanceLevel(listMM, modelOm.ListRegionForTableHeader);
                 result.SetResultValue(modelOm);
                 listMM.Clear();
                 listMM = null;
@@ -82,13 +84,14 @@ namespace PTT_NGROUR.Controllers
             return Json(result);
         }
 
-        public ActionResult Test()
+        public JsonResult Test()
         {
             var modelOm = new ModelOmIndex();
             var dto = new DtoOM();
             var listMM = dto.GetListMeterMaintenance().ToList();
-            dto.GetModelML(listMM);
-            return Content("TestTest");
+            var listRegionHeader = dto.GetListRegionForTableHeader(listMM);
+            var result =  dto.GetModelModelMeterMaintenanceLevel(listMM , listRegionHeader);
+            return Json(result ,  JsonRequestBehavior.AllowGet);
         }
 
     }

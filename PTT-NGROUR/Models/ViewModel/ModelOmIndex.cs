@@ -74,8 +74,7 @@ namespace PTT_NGROUR.Models.ViewModel
                 }
             }
 
-        }
-        
+        }        
         public class ModelAccGraph
         {
             private string[] arrMonthName = new[] { string.Empty, "Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" };
@@ -107,7 +106,6 @@ namespace PTT_NGROUR.Models.ViewModel
                 this.AccPlan = listMonth.Select(x => listByMl.Where(y => y.MONTH <= x).Sum(z => z.ACTUAL + z.PLAN).GetInt()).ToArray();
             }
         }
-
         public class ModelMeterMaintenanceLevel
         {
             public class ModelPmInterval
@@ -130,14 +128,12 @@ namespace PTT_NGROUR.Models.ViewModel
                 ListPmIntervals = new List<ModelPmInterval>();
             }
         }
-
         public IEnumerable<ModelMeterMaintenance> ListMeterMaintenance { get; set; }
-
         public IEnumerable<ModelOmColor> ListOmColor { get; set; }
         public ModelBarGraph BarGraph { get; set; }
-
         public IEnumerable<ModelRegion> ListRegion { get; set; }
-
+        public List<string> ListRegionForTableHeader { get; set; }
+        public List<ModelMeterMaintenanceLevel> ListMeterMaintenanceLevelForTable { get; set; }
         public IEnumerable<ModelAccGraph> ListAccGraph { get; set; }
     }
 }

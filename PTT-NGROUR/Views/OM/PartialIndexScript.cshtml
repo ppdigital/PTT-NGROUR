@@ -9,6 +9,8 @@
         jQuery.ajaxSettings.traditional = true;
 
         var _divGraph = $("#divGraph");
+        var _tblMeter = $("#tblMeter");
+
         var barChartData = {
             labels: [@Model.BarGraph.ListLabel.Select(x=> new HtmlString( "'" + x + "'")).Aggregate((x,y)=> new HtmlString(x + "," +y))],
             datasets: [
@@ -112,6 +114,7 @@
                 param.pStrYear = $("#Year-filter").val();
             }
             _divGraph.html("");
+            _tblMeter.html("");
             $.post(strUrl, param, function (data) {
 
                 if (!data || !data.Result) {
@@ -143,6 +146,9 @@
                 chart.data = barChartData;
                 chart.update();
                 renderAccGraph(data.Result.ListAccGraph);
+                renderTable(
+                    data.Result.ListMeterMaintenanceLevelForTable,
+                    data.Result.ListRegionForTableHeader);
             });
         }
 
@@ -260,4 +266,46 @@
                 });
             }
         }
+
+        function renderTable(pData , pHeader) {
+            console.log(pData);
+            console.log(pHeader);
+            var strAll = "";
+            var strTh = "<th rowspan=2>Maintenamce Level (ML)</th><th rowspan=2>PM Intervals</th>";
+            var strTh2 = "";
+            var strBody = "";
+            for (var i in pHeader) {
+                strTh += "<th colspan=2>Region " + pHeader[i] + "</th>";
+                strTh2 += "<th>Plan</th><th>Actual</th>"
+            }
+            for (var i in pData) {
+                var meter = pData[i];                
+                for (var j in meter.ListPmIntervals) {
+                    strBody += "<tr>";                    
+                    if (j == 0) {
+                        strBody += "<th rowspan=" + (meter.ListPmIntervals.length) + ">" + meter.Name + "</th>"
+                    }
+                    var pmi = meter.ListPmIntervals[j];
+                    strBody += "<th>" + pmi.Name + "</th>";
+                    for (var k in pmi.ListActual) {
+                        var strActual = pmi.ListActual[k];
+                        var strPlan = pmi.ListPlan[k];
+                        if (strPlan === "" && strActual === "") {
+                            strBody += "<td class='active'></td><td  class='active'></td>";
+                        } else if (strPlan !== "0" && strActual === "0") {
+                            strBody += "<td >" + strPlan + "</td><td class='cellDanger'>" + strActual + "</td>";
+                        } else {
+                            strBody += "<td >" + strPlan + "</td><td>" + strActual + "</td>";
+                        }
+                    }
+
+                    strBody += "</tr>";
+                }
+            }
+            strAll = "<thead><tr>" + strTh + "</tr><tr>" + strTh2 + "</tr></thead>";
+            strAll += "<tbody>" + strBody + "</tbody>"
+            _tblMeter.html(strAll);
+            console.log(strBody);
+        }
+        searchData();
     </script>
