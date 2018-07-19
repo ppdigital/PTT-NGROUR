@@ -33,17 +33,18 @@
 
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <span class="col-lg-2 col-md-2 col-sm-2"></span>
+                        <span class="col-lg-2 col-md-2 col-sm-1" ></span>
                         <span class="col-lg-2 col-md-2 col-sm-3 col-xs-7" style="padding-top:7px;padding-right:0rem">
-                            <label class=" ml-5 lato" style="padding-right:6px">
-                                <input type="radio" name="radio" id="radioRegion" checked="checked" onclick="javascript:Check();">
-                                <span class="checkmark h6 b">Region</span>
-                            </label>
-                            <label class="d-none ">
-                                <input type="radio" name="radio" id="radioLicense" onclick="javascript:Check();">
-                                <span class="checkmark h6 b"> License</span>
-                            </label>
-                        </span>
+                           
+                                <label class=" ml-5 lato" style="padding-right:6px">
+                                    <input type="radio" name="radio" id="radioRegion" checked="checked" onclick="javascript:Check();">
+                                    <span class="checkmark h6 b">Region</span>
+                                </label>
+                                <label class="d-none ">
+                                    <input type="radio" name="radio" id="radioLicense" onclick="javascript:Check();">
+                                    <span class="checkmark h6 b"> License</span>
+                                </label>
+</span>
                         <div class="col-lg-5 col-md-5  col-sm-5 col-xs-7" id="seRegion" style="padding-bottom: 0rem !important">
                             <div class="form-group" style="margin-bottom:5px;">
 
@@ -68,13 +69,18 @@
                                 </select>
                             </div>
                         </div>
-                        
-                        <span class="col-lg-1 col-md-1 col-sm-1 col-xs-3 ">
-                            <input type="checkbox" name="vehicle" id="checkCompare">Compare<br>
-                           </span>
+                        <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 " id="CurrentSearch" style="padding-top:4px;padding-right:0rem">
 
+                            <button type="button" class="btn btn-primary btn-sm" id="btnCurrentSearch" onclick="Search()" style="border-radius:0">
+                                <span class="glyphicon glyphicon-search"></span> Search
+                            </button>
 
-                            <span class="col-lg-3 col-md-3 col-sm-3 col-xs-1"></span>
+                        </div>
+                      <span class="col-sm-1"></span>
+                        <span class="col-lg-1 col-md-2 col-sm-11 col-xs-12 " style="padding-top:7px;padding-right:0rem" >
+                            <input type="checkbox" name="vehicle" id="checkCompare" onclick="CheckCompare()">Compare<br>
+                        </span>
+             
 </div>
                 </div>
 
@@ -82,7 +88,7 @@
         </div>
 
         <!--Search month Year -->
-        <div class=" p-3 mb-2 col-container col-container-white text-dark ">
+        <div class=" p-3 mb-2 col-container col-container-white text-dark " id="seMY">
             <div style="padding-bottom:.5rem;padding-top:.5rem">
 
                 <div class="row">
@@ -153,28 +159,31 @@
 
 
         <br />
+      
         <div class="col-lg-12 ph0" style="margin-bottom:2rem;" >
-            <div class="col-lg-6 col-container-white text-dark" style="background-color:inherit ;">
+            <!--  Graph Left  -->
+            <div id="layoutLeft" class="col-lg-12 col-container-white text-dark" style="background-color:inherit ;">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 pb2" style="text-align:center;">
                         <h3 id="LeftDate"></h3>
                     </div>
                 </div>
              
-                <div class="row">
+                
                     <!--  Current Threshod-->
-                    <div class="col-lg-6 col-md-6 col-sm-6 pb2">
+                <div id="thresGY" class="">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12  pb2 changecolThres">
                         <div class=" p-3 mb-2 col-container col-container-green text-dark">
                             <div class="ph2" style="padding-bottom:1rem">
 
-                                <div class="col-lg-5 col-md-5 col-sm-3 col-xs-5 ph0" ><center><label class="h6" style="font-size: 14px;">Gate Staton</label></center><center><div class="h1 mt0" id="Current_GatePass" style="font-size: 45px !important;"></div></center></div>
+                                <div class="col-lg-5 col-md-5 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Gate Staton</label></center><center><div class="h1 mt0" id="Current_GatePass" style="font-size: 45px !important;"></div></center></div>
                                 <div class="col-lg-2 col-md-1 col-sm-4 col-xs-2"></div>
                                 <div class="col-lg-5 col-md-4 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Pipeline</label></center><center><div class="h1 mt0" id="Current_PipePass" style="font-size: 45px !important;"></div></center></div>
 
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 pb2">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 pb2 changecolThres">
                         <div class=" p-3 mb-2 col-container col-container-yellow text-dark">
                             <div class="ph2" style="padding-bottom:1rem">
                                 <div class="col-lg-5 col-md-5 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Gate Staton</label></center><center><div class="h1 mt0 " id="Current_GateWarning" style="font-size: 45px !important;"></div></center></div>
@@ -184,67 +193,69 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 pb2">
-                        <div class=" p-3 mb-2 col-container col-container-red text-dark">
-                            <div class="ph2" style="padding-bottom:1rem">
-                                <div class="col-lg-5 col-md-5 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Gate Staton</label></center><center><div class="h1 mt0 " id="Current_GateAlert" style="font-size: 45px !important;"></div></center></div>
-                                <div class="col-lg-2 col-md-1 col-sm-4 col-xs-2"></div>
-                                <div class="col-lg-5 col-md-4 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Pipeline</label></center><center><div class="h1 mt0" id="Current_PipeAlert" style="font-size: 45px !important;"></div></center></div>
+             
+                    <div id="thresRO" class="">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 pb2 changecolThres">
+                            <div class=" p-3 mb-2 col-container col-container-red text-dark">
+                                <div class="ph2" style="padding-bottom:1rem">
+                                    <div class="col-lg-5 col-md-5 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Gate Staton</label></center><center><div class="h1 mt0 " id="Current_GateAlert" style="font-size: 45px !important;"></div></center></div>
+                                    <div class="col-lg-2 col-md-1 col-sm-4 col-xs-2"></div>
+                                    <div class="col-lg-5 col-md-4 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Pipeline</label></center><center><div class="h1 mt0" id="Current_PipeAlert" style="font-size: 45px !important;"></div></center></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 pb2 changecolThres">
+                            <div class=" p-3 mb-2 col-container col-container-orange text-dark">
+                                <div class="ph2" style="padding-bottom:1rem">
+                                    <div class="col-lg-5 col-md-5 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Gate Staton</label></center><center><div class="h1 mt0 " id="Current_GateFlag" style="font-size: 45px !important;"></div></center></div>
+                                    <div class="col-lg-2 col-md-1 col-sm-4 col-xs-2"></div>
+                                    <div class="col-lg-5 col-md-4 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Pipeline</label></center><center><div class="h1 mt0" id="Current_PipeFlag" style="font-size: 45px !important;"></div></center></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 pb2">
-                        <div class=" p-3 mb-2 col-container col-container-orange text-dark">
-                            <div class="ph2" style="padding-bottom:1rem">
-                                <div class="col-lg-5 col-md-5 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Gate Staton</label></center><center><div class="h1 mt0 " id="Current_GateFlag" style="font-size: 45px !important;"></div></center></div>
-                                <div class="col-lg-2 col-md-1 col-sm-4 col-xs-2"></div>
-                                <div class="col-lg-5 col-md-4 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Pipeline</label></center><center><div class="h1 mt0" id="Current_PipeFlag" style="font-size: 45px !important;"></div></center></div>
+
+                    <div class="col-lg-12 pb2 ph0">
+                        <div class="col-container col-container-white text-dark" style="height: 338.8px">
+                            <div style="padding-bottom:.5rem;padding-top:.5rem">
+                                <!--  <div class="row">
+                          <div class="col-lg-12 col-md-12 col-sm-12 pb2" style="text-align:center;">
+                              <h3 id="lblLeftDate"></h3>
+                          </div>
+                      </div>-->
+
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                    <div style="font-family: Corbel; font-size: small ;text-align:center " class="row">
+                                        <center>
+                                            <div class="pt5">Gate Station</div>
+                                            <div class="pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
+                                                <canvas id="pieGateAll" style="padding: 0;margin: auto;display: block; "> </canvas>
+
+                                            </div>
+                                        </center>
+                                    </div>
+                                </div>
+                                <!--PieLine Donut Graph -->
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div style="font-family: Corbel; font-size: small ;text-align:center " class="row">
+                                        <center>
+                                            <div class="pt5 ">Pipeline</div>
+                                            <div class="pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
+                                                <canvas id="piePipelineAll" style="padding: 0;margin: auto;display: block; "> </canvas>
+                                            </div>
+                                        </center>
+
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-12 pb2 ph0">
-                    <div class="col-container col-container-white text-dark" style="height: 338.8px">
-                        <div style="padding-bottom:.5rem;padding-top:.5rem">
-                          <!--  <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 pb2" style="text-align:center;">
-                                    <h3 id="lblLeftDate"></h3>
-                                </div>
-                            </div>-->
-
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-
-                                <div style="font-family: Corbel; font-size: small ;text-align:center " class="row">
-                                    <center>
-                                        <div class="pt5">Gate Station</div>
-                                        <div class="pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
-                                            <canvas id="pieGateAll" style="padding: 0;margin: auto;display: block; "> </canvas>
-
-                                        </div>
-                                    </center>
-                                </div>
-                            </div>
-                            <!--PieLine Donut Graph -->
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div style="font-family: Corbel; font-size: small ;text-align:center " class="row">
-                                    <center>
-                                        <div class="pt5 ">Pipeline</div>
-                                        <div class="pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
-                                            <canvas id="piePipelineAll" style="padding: 0;margin: auto;display: block; "> </canvas>
-                                        </div>
-                                    </center>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6 col-container-white text-dark" style="background-color:inherit ;">
+               
+            <!--  Graph Right -->
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12  col-container-white text-dark" id="pieRight" style="background-color:inherit ;">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 pb2" style="text-align:center;">
                         <h3 id="RightDate"></h3>
@@ -335,40 +346,56 @@
             </div>
         </div>
     </div>
-       
-        <div class="row">
-            <div class=" pb2 ph2" >
 
-                <div class="col-container col-container-white text-dark">
-                    <div style="padding-bottom:.5rem;padding-top:.5rem">
+        <div class="col-lg-12 ph0" style="margin-bottom:2rem;">
+            <div class="row">
+                <div class=" pb2 ph2">
 
-                        <div class="table-responsive ph2" style="width:100%">
-                            <table class="table h6 table-striped table-bordered table-responsive" id="utilTbl" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Region</th>
-                                        <th>License</th>
-                                        <th>Velocity</th>
-                                        <th>Threshold</th>
-                                        <th>Month/Year</th>
-                                        <th>Type</th>
-                                        <th>Map</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                    <div class="col-container col-container-white text-dark">
+                        <div style="padding-bottom:.5rem;padding-top:.5rem">
 
-                        </div>
-
+                            <div class="table-responsive ph2" id="tblCurrent" style="width: 100%; border:none;">
+                                <table class="table h6 table-striped table-bordered table-responsive" id="currentTbl" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Region</th>
+                                            <th>License</th>
+                                            <th>Velocity</th>
+                                            <th>Threshold</th>
+                                            <th>Month/Year</th>
+                                            <th>Type</th>
+                                            <th>Map</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            <div class="table-responsive ph2" id="tblSearch" style="width: 100%; border:none;">
+                                <table class="table h6 table-striped table-bordered table-responsive" id="utilTbl" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Region</th>
+                                            <th>License</th>
+                                            <th>Velocity</th>
+                                            <th>Threshold</th>
+                                            <th>Month/Year</th>
+                                            <th>Type</th>
+                                            <th>Map</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-    </div>
+        </div>
 </div>
 
 <!--Modal View Meter -->

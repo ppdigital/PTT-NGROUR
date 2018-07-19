@@ -1360,6 +1360,7 @@ namespace PTT_NGROUR.Controllers
             else if (month == "null" && year == "null" && threshold != "All" && type == "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND THRESHOLD IN ('" + threshold + "')"; }
             else if (month == "null" && year == "null" && threshold == "All" && type != "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND TYPE IN ('" + type + "')"; }
             else if (month == "null" && year == "null" && threshold != "All" && type != "All") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "') AND TYPE IN ('" + type + "') AND THRESHOLD IN ('" + threshold + "')"; }
+            else if (month == "null" && year == "null" && threshold == "null" && type == "null") { searchlicense = @"select * from VIEW_GATE_PIPE_REPORT WHERE LICENSE IN ('" + licenseStr + "')"; }
             var ds = dal.GetDataSet(searchlicense);
 
 
