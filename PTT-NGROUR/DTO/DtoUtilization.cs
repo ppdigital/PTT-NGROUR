@@ -142,11 +142,13 @@ namespace PTT_NGROUR.DTO
         public IEnumerable<string> GetListRcProject()
         {
             var dal = new DAL.DAL();
-            string strCommand = "select distinct RC_Project from GIS_NGR_PL";
-            var result = dal.ReadData<string>(strCommand, x =>
-            {
-                return x["RC_Project"].GetString();
-            });
+            string strCommand = "select distinct RC_Project from NGR_PL";
+            //var result = dal.ReadData<string>(strCommand, x =>
+            //{
+            //    return x["RC_Project"].GetString();
+            //});
+            var result = dal.ReadData(strCommand, x => x.GetColumnValue("RC_Project").GetString());
+            dal = null;
             return result;
         }
 
