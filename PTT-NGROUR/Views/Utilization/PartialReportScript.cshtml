@@ -289,6 +289,7 @@
 
 
     var _tblData = null;
+    
     function showUtilTable(data) {
         _tblData = data;
         let tblShow;
@@ -364,49 +365,49 @@
             tblShow.draw();
 
     }
-   
+    var _tblDataCurrent = null;
     function showUtilTableCurrent(data) {
-        _tblData = data;
-        let tblShow;
-            tblShow = $("#currentTbl").DataTable();
-            tblShow.clear()
+        _tblDataCurrent = data;
+        let tblShowCurrent;
+            tblShowCurrent = $("#currentTbl").DataTable();
+            tblShowCurrent.clear()
             $('#currentTbl').find('tbody tr').each(function () {
                 this.remove();
             });
-        let passPipe = 0;
-        let passGate = 0;
-        let warningPipe = 0;
-        let warningGate = 0;
-        let alertGate = 0;
-        let alertPipe = 0;
-        let flagGate = 0;
-        let flagPipe = 0;
+        let current_passPipe = 0;
+        let current_passGate = 0;
+        let current_warningPipe = 0;
+        let current_warningGate = 0;
+        let current_alertGate = 0;
+        let current_alertPipe = 0;
+        let current_flagGate = 0;
+        let current_flagPipe = 0;
         for (let i in data) {
-            var dataItem = data[i];
-            if (!dataItem) continue;
+            var dataItemCurrent = data[i];
+            if (!dataItemCurrent) continue;
 
-            var strThreshold = dataItem.THRESHOLD;
-            var strType = dataItem.TYPE;
+            var strThresholdCurrent = dataItemCurrent.THRESHOLD;
+            var strTypeCurrent = dataItemCurrent.TYPE;
 
-            if (_strGate === strType) {
-                if (strThreshold === _strOk) {
-                    passGate++;
-                } else if (strThreshold === _strWarning) {
-                    warningGate++;
-                } else if (strThreshold === _strAlert) {
-                    alertGate++;
-                } else if (strThreshold === _strFlag) {
-                    flagGate++;
+            if (_strGate === strTypeCurrent) {
+                if (strThresholdCurrent === _strOk) {
+                    current_passGate++;
+                } else if (strThresholdCurrent === _strWarning) {
+                    current_warningGate++;
+                } else if (strThresholdCurrent === _strAlert) {
+                    current_alertGate++;
+                } else if (strThresholdCurrent === _strFlag) {
+                    current_flagGate++;
                 }
-            } else if (_strPipe === strType) {
-                if (strThreshold === _strOk) {
-                    passPipe++;
-                } else if (strThreshold === _strWarning) {
-                    warningPipe++;
-                } else if (strThreshold === _strAlert) {
-                    alertPipe++;
-                } else if (strThreshold === _strFlag) {
-                    flagPipe++;
+            } else if (_strPipe === strTypeCurrent) {
+                if (strThresholdCurrent === _strOk) {
+                    current_passPipe++;
+                } else if (strThresholdCurrent === _strWarning) {
+                    current_warningPipe++;
+                } else if (strThresholdCurrent === _strAlert) {
+                    current_alertPipe++;
+                } else if (strThresholdCurrent === _strFlag) {
+                    current_flagPipe++;
                 }
             }
 
@@ -417,22 +418,22 @@
             else if (data[i].TYPE == "GATESTATION")
             { unit = "%"; }
                 dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
-            var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
-            $(rowItem).data('map_info', data[i]);
-            tblShow.row.add($(rowItem));
+            var rowItemCurrent = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
+            $(rowItemCurrent).data('map_info', data[i]);
+            tblShowCurrent.row.add($(rowItemCurrent));
         }
-        $("#GatePass").text(passGate);
-        $("#PipePass").text(passPipe);
+        $("#Current_GatePass").text(current_passGate);
+        $("#Current_PipePass").text(current_passPipe);
 
-        $("#GateWarning").text(warningGate);
-        $("#PipeWarning").text(warningPipe);
+        $("#Current_GateWarning").text(current_warningGate);
+        $("#Current_PipeWarning").text(current_warningPipe);
 
-        $("#GateAlert").text(alertGate);
-        $("#PipeAlert").text(alertPipe);
+        $("#Current_GateAlert").text(current_alertGate);
+        $("#Current_PipeAlert").text(current_alertPipe);
 
-        $("#GateFlag").text(flagGate);
-        $("#PipeFlag").text(flagPipe);
-        tblShow.draw();
+        $("#Current_GateFlag").text(current_flagGate);
+        $("#Current_PipeFlag").text(current_flagPipe);
+        tblShowCurrent.draw();
 
     }
 
