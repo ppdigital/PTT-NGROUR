@@ -19,18 +19,18 @@ namespace PTT_NGROUR.Models.DataModel
             {
                 return;
             }
-            this.ML = pReader["ML"].GetString();
-            this.PM_INTERVAL = pReader["PM_INTERVAL"].GetString();
+            this.ML = pReader.GetColumnValue("ML").GetString();
+            this.PM_ID = pReader.GetColumnValue("PM_ID").GetInt();
             this.REGION = pReader.GetColumnValue("REGION").GetString();
-            this.PLAN = pReader["PLAN"].GetDecimal();
-            this.ACTUAL = pReader["ACTUAL"].GetDecimal();
-            this.MONTH = pReader["MONTH"].GetInt();
-            this.YEAR = pReader["YEAR"].GetInt();
+            this.PLAN = pReader.GetColumnValue("PLAN").GetDecimal();
+            this.ACTUAL = pReader.GetColumnValue("ACTUAL").GetDecimal();
+            this.MONTH = pReader.GetColumnValue("MONTH").GetInt();
+            this.YEAR = pReader.GetColumnValue("YEAR").GetInt();
         }
 
         public string ML { get; set; }
 
-        public string PM_INTERVAL { get; set; }
+        public int PM_ID { get; set; }
 
         public string REGION { get; set; }
 

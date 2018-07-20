@@ -11,6 +11,52 @@
         var _divGraph = $("#divGraph");
         var _tblMeter = $("#tblMeter");
 
+        var horizonalLinePlugin = {
+            afterDraw: function (chartInstance) {
+                var yScale = chartInstance.scales["y-axis-0"];
+                var canvas = chartInstance.chart;
+                var ctx = canvas.ctx;
+                var index;
+                var line;
+                var style;
+
+                if (chartInstance.options.horizontalLine) {
+                    for (index = 0; index < chartInstance.options.horizontalLine.length; index++) {
+                        line = chartInstance.options.horizontalLine[index];
+
+                        if (!line.style) {
+                            style = "rgba(169,169,169, .6)";
+                        } else {
+                            style = line.style;
+                        }
+
+                        if (line.y) {
+                            yValue = yScale.getPixelForValue(line.y);
+                        } else {
+                            yValue = 0;
+                        }
+
+                        ctx.lineWidth = 3;
+
+                        if (yValue) {
+                            ctx.beginPath();
+                            ctx.moveTo(0, yValue);
+                            ctx.lineTo(canvas.width, yValue);
+                            ctx.strokeStyle = style;
+                            ctx.stroke();
+                        }
+
+                        if (line.text) {
+                            ctx.fillStyle = style;
+                            ctx.fillText(line.text, 0, yValue + ctx.lineWidth);
+                        }
+                    }
+                    return;
+                };
+            }
+        };
+        Chart.pluginService.register(horizonalLinePlugin);
+
         var barChartData = {
             labels: [@Model.BarGraph.ListLabel.Select(x=> new HtmlString( "'" + x + "'")).Aggregate((x,y)=> new HtmlString(x + "," +y))],
             datasets: [
@@ -30,23 +76,55 @@
         };
 
         var ctx = document.getElementById('canvas').getContext('2d');
+        var hl = [{
+            y: 100,
+            style: "rgba(255, 0, 0, 1)",
+            text: "max"
+        }];
+
         window.myBar = new Chart(ctx, {
             type: 'bar',
             data: barChartData,
             options: {
                 responsive: true,
                 legend: {
-                    position: 'top',
+                    position: 'bottom',
                 },
                 title: {
                     display: true,
-                    text: 'Chart.js Bar Chart'
+                    text: ' '
                 },
                 plugins: {
                     datalabels: {
-                        display: false
+                        formatter: function (value) {
+                            return value;
+                        },
+                        anchor: "end",
+                        align: 'end',
+                        font: {
+                            weight: 'bold'
+                        },
                     }
-                }
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: true
+                        },
+                        barThickness: 40,
+                        stacked: false
+
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: true
+                        },
+                        stacked: false
+
+                    }]
+
+                },
+                horizontalLine: hl
 
             }
 
@@ -126,13 +204,23 @@
                     alert(strError);
                     return;
                 }
+                window.myBar.options.horizontalLine = null;
                 var rs = data.Result.BarGraph;
                 var barChartData = {
                     labels: rs.ListLabel,
                     datasets: []
                 };
+                
                 for (var i in rs.ListML) {
                     var ml = rs.ListML[i];
+                    //debugger;
+                    if (window.myBar.options.horizontalLine == null) {
+                        if ( !ml.ListData.every(function (x) { return x < 101 })) {
+                            window.myBar.options.horizontalLine = hl;
+                        //    window.myBar.options.horizontalLine = [];
+                        //} else {
+                        }
+                    }
                     var dsItem = {
                         label: ml.Label,
                         backgroundColor: ml.HexColor,
@@ -152,16 +240,17 @@
             });
         }
 
-
-        function renderAccGraph(pData) {
-
+        var _arrCurrentActual = [];
+        function renderAccGraph(pData) {            
             if (!pData || pData.length == 0) {
                 return;
             }
+            _arrCurrentActual = [];
 
             for (var i in pData) {
                 var d = pData[i];
-
+                
+                _arrCurrentActual = d.Actual;
                 var dsActual = {
                     label: "Actual",
                     backgroundColor: "#DBFF33",
@@ -225,10 +314,10 @@
                         },
                         scales: {
                             xAxes: [{
-                                stacked: true,
+                                stacked: false,
                             }],
                             yAxes: [{
-                                stacked: true
+                                stacked: false
                             }]
                         },
                         plugins: {
@@ -246,8 +335,18 @@
                                 font: {
                                     weight: 'bold'
                                 },
-                                formatter: function (value) {
+                                formatter: function (value, context) {
                                     return value;
+                                    //var index = context.datasetIndex;
+                                    //if (index == 3) {
+                                    //    var index2 = context.dataIndex;
+                                    //    var vl = _arrCurrentActual[index2];
+                                    //    console.log(_arrCurrentActual);
+                                    //    console.log(vl);
+                                    //    return vl; //(value - vl);
+                                    //} else {
+                                    //    return value;
+                                    //}
                                 },
                                 display: function (context) {
                                     var index = context.datasetIndex;

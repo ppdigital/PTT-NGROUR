@@ -181,6 +181,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataModel\ModelPmInterval.cs" />
     <Compile Include="Models\DataModel\ModelStatus.cs" />
     <Compile Include="Models\DataModel\ModelGateStation.cs" />
     <Compile Include="Models\DataModel\ModelGateStationArchive.cs" />
@@ -704,7 +705,7 @@
     <Content Include="Views\OM\Index.cshtml" />
     <Content Include="Views\Utilization\PartialReportScript.cshtml" />
     <Content Include="Views\Pdf\UtilizationReportPdf.cshtml" />
-    <Content Include="Views\OM\PartialIndexScript.cshtml" />
+    <Content Include="Views\OM\PartialMeteringScript.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
