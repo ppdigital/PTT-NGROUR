@@ -90,70 +90,99 @@
                     <div style="max-height:200px;overflow:auto; padding-left:30px; padding-right:30px" id="SearchAD">
                         <center>  @{Html.RenderAction("SearchbyAD", "Admin");} </center>
                     </div>
+                    <span class="cr"></span>
 
-                    <div class="modal-body">
-                        <div class="container">
+                    <div class="pv2 mv3">
+                        <label for="name" class="f6 b db mb3 ">User Detail</label>
+                        <div class="  black-80 center">
+                            
+                            <div class="row pb1">
+                                <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                    <span class="col-lg-4 col-md-4 col-sm-4">
+                                        <label for="name" class=" pull-right clear-right-xs">EMPLOYEE ID :</label>
+                                    </span>
+                                    <div class="col-lg-6 col-md-7 col-sm-7">
+                                        <input id="txtEmployeeIDCreate" class=" form-control " type="text" aria-describedby="name-desc" />
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="row pb1">
+                                <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                    <span class="col-lg-4 col-md-4 col-sm-4">
+                                        <label for="name" class=" pull-right clear-right-xs">FIRSTNAME : </label>
+                                    </span>
+                                    <div class="col-lg-6 col-md-7 col-sm-7">
+                                        <input id="txtFirstNameCreate" class="  form-control " type="text" aria-describedby="name-desc" />
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="row pb1">
+                                <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                    <span class="col-lg-4 col-md-4 col-sm-4">
+                                        <label for="name" class=" pull-right clear-right-xs">LASTNAME : </label>
+                                    </span>
+                                    <div class="col-lg-6 col-md-7 col-sm-7">
+                                        <input id="txtLastNameCreate" class=" form-control " type="text" aria-describedby="name-desc" />
+                                    </div>
+                                </div>
+                            </div>
 
-                            <label for="name" class="f6 b db mb3 ">User Detail</label>
-                            <table id="CreateUserTable">
-                                <tr>
-                                    <td class="">EMPLOYEE ID : &nbsp;</td>
-                                    <td class="">
-                                        <input id="txtEmployeeIDCreate" class=" form-control " type="text" aria-describedby="name-desc"><br />
-                                    </td>
-                                </tr>
+                            <div class="row pb1">
+                                <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                    <span class="col-lg-4 col-md-4 col-sm-4">
+                                        <label for="name" class=" pull-right clear-right-xs">PASSWORD : </label>
+                                    </span>
+                                    <div class="col-lg-6 col-md-7 col-sm-7">
+                                        <input id="PassWordCreate" class=" form-control " type="text" aria-describedby="name-desc" />
+                                    </div>
+                                </div>
+                            </div>
 
-                                <tr>
-                                    <td>FIRSTNAME : &nbsp;</td>
-                                    <td>
-                                        <input id="txtFirstNameCreate" class="  form-control " type="text" aria-describedby="name-desc" /><br />
-                                    </td>
-                                </tr>
+                            <div class="row pb1">
+                                <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                    <span class="col-lg-4 col-md-4 col-sm-4">
+                                        <label for="name" class=" pull-right clear-right-xs">E-MAIL : </label>
+                                    </span>
+                                    <div class="col-lg-6 col-md-7 col-sm-7">
+                                        <input id="txtMailCreate" class=" form-control" type="text" aria-describedby="name-desc">
+                                    </div>
+                                </div>
+                            </div>
 
-                                <tr>
-                                    <td>LASTNAME : &nbsp;</td>
-                                    <td>
-                                        <input id="txtLastNameCreate" class=" form-control " type="text" aria-describedby="name-desc" /><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>PASSWORD : &nbsp;</td>
-                                    <td>
-                                        <input id="PassWordCreate" class=" form-control " type="text" aria-describedby="name-desc"><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>E-MAIL : &nbsp;</td>
-                                    <td>
-                                        <input id="txtMailCreate" class=" form-control" type="text" aria-describedby="name-desc"><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>ROLE : &nbsp;</td>
-                                    <td>
+                            <div class="row pb1">
+                                <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                    <span class="col-lg-4 col-md-4 col-sm-4">
+                                        <label for="name" class=" pull-right clear-right-xs">ROLE : </label>
+                                    </span>
+                                    <div class="col-lg-6 col-md-7 col-sm-7">
                                         <select class=" form-control" id="selectRoleCreate">
                                             <option value="2" class="drop_role " selected>Viewer</option>
                                             <option value="1" class="drop_role ">Admin</option>
-                                        </select><br />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Group : &nbsp;</td>
-                                    <td>
-                                        <input id="IsADCreate" class=" form-control" type="text" disabled value="Non PTT" aria-describedby="name-desc"><br />
-                                    </td>
-                                </tr>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 
-                            </table>
+                            <div class="row pb1">
+                                <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                    <span class="col-lg-4 col-md-4 col-sm-4">
+                                        <label for="name" class=" pull-right clear-right-xs">Group : </label>
+                                    </span>
+                                    <div class="col-lg-6 col-md-7 col-sm-7">
+                                        <input id="IsADCreate" class=" form-control" type="text" disabled value="Non PTT" aria-describedby="name-desc">
 
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <span class="cr"></span>
                         </div>
                     </div>
                 </div>
+                      
 
                 <div class="modal-footer">
                     <input type="button" class="btn btn-primary" id="btnCreateUser" value="Save" onclick="myFunction()">
@@ -174,64 +203,89 @@
                     <label class="panel-title">EDIT USER</label>
                     <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 </div>
-
+                <br />
                 @using (Html.BeginForm("EditUser", "Admin", FormMethod.Post))
-                {
+                {      <div class="pv2 mv3">
+                    <div class="  black-80 center">
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-4 col-md-4 col-sm-4">
+                                    <label for="name" class=" pull-right clear-right-xs">Employee ID :</label>
+                                </span>
+                                <div class="col-lg-5 col-md-8 col-sm-8">
+                                    @Html.TextBox("txtEmployeeIDEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
 
-                    <div class="mh3 mv3">
-                        <div class="  black-80 center">
-                            <div class="measure center">
-                                <label for="name" class="b">EMPLOYEE ID</label>
-                                @Html.TextBox("txtEmployeeIDEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
-                                <!--  <input id="txtEmployeeIDEdit" class=" ba b--black-20 pa1 mb2 db w-100 f7 form-control" type="text" disabled aria-describedby="name-desc">-->
-
-                            </div>
-                            <div class="measure center w-100">
-                                <div class="dib w-50">
-                                    <label for="name" class="f7 b db mb2 ">FIRST NAME</label>
-                                    @Html.TextBox("txtFirstNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
-                                    <!-- <input id="txt_NameEdite" class="input-reset ba b--black-20 pa2 mb2 db f6 w-90" type="text" aria-describedby="name-desc" />-->
                                 </div>
-                                <div class="dib fr w-50 pl3">
-                                    <label for="name" class="f7 b db mb2">LAST NAME</label>
-                                    @Html.TextBox("txtLastNameEdit", null, new { @class = "form-control  input-sm", @readonly = "readonly" })
-                                    <!-- <input id="txt_LastNamEdite" class="input-reset ba b--black-20 pa2 mb2 db  f6 w-100" type="text" aria-describedby="name-desc" />-->
-                                </div><div class="cr"></div>
-                            </div>
-
-                            <div class="measure center">
-                                <label for="name" class="f7 b db mb2">E-Mail</label>
-                                @Html.TextBox("txtMailEdit", null, new { @class = "form-control ba b--black-20 pa2 mb2 db w-100 f6" })
-                                <!-- <input id="txt_editEmail" class="input-reset ba b--black-20 pa2 mb2 db w-100 f6" type="text" aria-describedby="name-desc"> -->
-                            </div>
-
-                            <div class=" center">
-                                <label for="name" class="f7 b db mb2 ">ROLE</label>
-
-                                <select class="form-control input" style="height: 30px" id="seRoleEdit" name="seRoleEdit">
-                                    @foreach (PTT_NGROUR.Models.DataModel.ModelUsersRole mr in Model.ModelUsersRole)
-                                    {
-
-                                        <option value="@mr.ROLE_ID" >@mr.ROLE_NAME</option>
-                                    }
-                                </select>
-                                <!--  <select class="form-control" id="seRoleEdit">
-                                    <option value="2" selected>Viewer</option>
-                                    <option value="1">Admin</option>
-                                </select>-->
-
-                            </div>
-
-                            <div class="measure center">
-                                <label for="name" class="f7 b db mb2">GROUP</label>
-                                <!--<select class="ba b--black-20 pa2 mb2 db w-100" id="seGroupEdit">
-                                    <option value="1" class="drop_role"  id="edit_roleUser">PTT</option>
-                                    <option value="2" class="drop_role" id="edit_roleAdmin">Non PTT</option>
-                                </select>-->
-                                @Html.TextBox("seGroupEdit", null, new { @class = "form-control ba b--black-20 pa2 mb2 db f6 w-100 no-drop", @readonly = "readonly",@name="seGroupEdit"})
                             </div>
                         </div>
-                    </div>
+
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-4 col-md-4 col-sm-4">
+                                    <label for="name" class=" pull-right clear-right-xs">Firstname :</label>
+                                </span>
+                                <div class="col-lg-5 col-md-8 col-sm-8">
+                                    @Html.TextBox("txtFirstNameEdit", null, new { @class = "form-control input-sm", @readonly = "readonly" })
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-4 col-md-4 col-sm-4">
+                                    <label for="name" class=" pull-right clear-right-xs">Lastname :</label>
+                                </span>
+                                <div class="col-lg-5 col-md-8 col-sm-8">
+                                    @Html.TextBox("txtLastNameEdit", null, new { @class = "form-control  input-sm", @readonly = "readonly" })
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-4 col-md-4 col-sm-4">
+                                    <label for="name" class="pull-right clear-right-xs">E-Mail :</label>
+                                </span>
+                                <div class="col-lg-5 col-md-8 col-sm-8">
+                                    @Html.TextBox("txtMailEdit", null, new { @class = "form-control ba b--black-20 pa2 mb2 db w-100 f6" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-4 col-md-4 col-sm-4">
+                                    <label for="name" class="pull-right clear-right-xs">Role :</label>
+                                </span>
+                                <div class="col-lg-5 col-md-8 col-sm-8">
+                                    <select class="form-control input" style="height: 30px" id="seRoleEdit" name="seRoleEdit">
+                                        @foreach (PTT_NGROUR.Models.DataModel.ModelUsersRole mr in Model.ModelUsersRole)
+                                        {
+
+                                        <option value="@mr.ROLE_ID">@mr.ROLE_NAME</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row pb1">
+                            <div class="measure center col-lg-12 col-md-12 col-sm-12">
+                                <span class="col-lg-4 col-md-4 col-sm-4">
+                                    <label for="name" class="pull-right clear-right-xs">Group :</label>
+                                </span>
+                                <div class="col-lg-5 col-md-8 col-sm-8">
+                                    @Html.TextBox("seGroupEdit", null, new { @class = "form-control ba b--black-20 pa2 mb2 db f6 w-100 no-drop", @readonly = "readonly", @name = "seGroupEdit" })
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                </div>
+
+                    
                     <br />
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary btn-sm">Edit User</button>
@@ -275,7 +329,7 @@
                 //modalEdit.style.display = "block";
 
                 @foreach (var user in Model.ModelUsersAuth)
-        {
+                {
 
             <text>
 
@@ -292,7 +346,7 @@
 
                 }
                 </text>
-        }
+                }
 
             };
 

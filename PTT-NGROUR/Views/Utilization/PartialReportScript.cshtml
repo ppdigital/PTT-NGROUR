@@ -55,7 +55,7 @@
     //------Check Compare ---//
         function CheckCompare() {
             if (document.getElementById('checkCompare').checked == true) {
-                document.getElementById('CurrentSearch').style.display = 'none';
+                document.getElementById('btnCurrentSearch').style.display = 'none';
                 document.getElementById('seMY').style.display = 'inline-block';
                 document.getElementById('pieRight').style.display = 'inline-block';
                 $("#layoutLeft").removeClass("col-lg-12").addClass("col-lg-6");
@@ -68,7 +68,7 @@
 
             }
             else if (document.getElementById('checkCompare').checked == false) {
-                document.getElementById('CurrentSearch').style.display = 'inline-block'
+                document.getElementById('btnCurrentSearch').style.display = 'inline-block'
                 document.getElementById('seMY').style.display = 'none';
                 document.getElementById('pieRight').style.display = 'none';
                 $("#layoutLeft").removeClass("col-lg-6").addClass("col-lg-12");
