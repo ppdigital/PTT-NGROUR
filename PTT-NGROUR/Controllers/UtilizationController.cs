@@ -459,8 +459,12 @@ namespace PTT_NGROUR.Controllers
             var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "')";
             var ds = dal.GetDataSet(searchregion);
 
+            var listRegion = dal.ReadData(searchregion, x => new Models.DataModel.ModelGetU(x)).ToList();
+            dal = null;
 
-            var listRegion = new List<Models.DataModel.ModelGetU>();
+            return Json(listRegion, JsonRequestBehavior.AllowGet);
+
+          /*  var listRegion = new List<Models.DataModel.ModelGetU>();
             if (ds.Tables[0].Rows.Count > 0)
             {
 
@@ -479,7 +483,7 @@ namespace PTT_NGROUR.Controllers
                         TYPE = dr["TYPE"].ToString(),
                         FLAG = Convert.ToInt32(dr["FLAG"].ToString()),
                         REGION = dr["REGION"].GetInt(),
-                        LICENSE = dr["LICENSE"].GetInt(),
+                        LICENSE = Convert.ToInt32(dr["LICENSE"].ToString()),
                         MONTH = dr["MONTH"].GetInt(),
                         YEAR = dr["YEAR"].GetInt(),
                         STATUS = dr["STATUS"].ToString(),
@@ -489,7 +493,7 @@ namespace PTT_NGROUR.Controllers
                 }
             }
 
-            return Json(listRegion, JsonRequestBehavior.AllowGet);
+            return Json(listRegion, JsonRequestBehavior.AllowGet);*/
         }
         [HttpPost]
         public JsonResult SearchLicense(int[] license)

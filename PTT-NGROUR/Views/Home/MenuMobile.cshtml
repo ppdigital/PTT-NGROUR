@@ -71,7 +71,7 @@
 
                         </ul>
                     </li>
-                    <li style="width:100%"><a href="@Url.Action("ResetPassword", "User")"><i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Change PassWord</a></li>
+                    <li style="width:100%"><a href="@Url.Action("ResetPassword", "User", new { id = userrole.Username , IsExpired = false  }, null)"><i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Change PassWord</a></li>
                     <li style="width:100%"><a href="@Url.Action("Logout", "User")"><i class="fa fa-tachometer fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Sign Out</a></li>
 
                 </ul>

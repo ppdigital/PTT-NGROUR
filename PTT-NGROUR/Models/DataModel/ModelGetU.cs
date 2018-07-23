@@ -46,6 +46,7 @@ namespace PTT_NGROUR.Models.DataModel
         public string THRESHOLD { get; set; }
         public string TYPE { get; set; }
         public int REGION { get; set; }
+        //public string LICENSES { get; set; }
         public int LICENSE { get; set; }
         public string STATUS { get; set; }
         public int MONTH { get; set; }
