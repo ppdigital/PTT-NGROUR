@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using PTT_NGROUR.DTO;
 using PTT_NGROUR.Models.ViewModel;
+using PTT_NGROUR.ExtentionAndLib;
 namespace PTT_NGROUR.Controllers
 {
     public class OMController : Controller
@@ -38,12 +39,23 @@ namespace PTT_NGROUR.Controllers
             {
                 var modelOm = new ModelOmIndex();
                 var dto = new DtoOM();
-                var listMM = dto.GetListMeterMaintenance(pStrMonth, pStrYear, pArrRegion).ToList();
+                var listAllMM = dto.GetListMeterMaintenance(string.Empty, pStrYear, pArrRegion).ToList();
+                List<Models.DataModel.ModelMeterMaintenance> listMM = null;
+                int intMonth = pStrMonth.GetInt();
+                if (intMonth > 0)
+                {
+                    listMM = listAllMM.Where(x => intMonth.Equals(x.MONTH)).ToList();
+                }
+                else
+                {
+                    listMM = listAllMM;
+                }
+                //var listMM = dto.GetListMeterMaintenance(pStrMonth, pStrYear, pArrRegion).ToList();
                 var listColor = dto.GetListOmColor().ToList();
                 modelOm.BarGraph = dto.GetModelBarGraph(listMM, listColor);
-                modelOm.ListAccGraph = dto.GetModelAccGraph(listMM);
                 modelOm.ListRegionForTableHeader = dto.GetListRegionForTableHeader(listMM);
                 modelOm.ListMeterMaintenanceLevelForTable = dto.GetModelModelMeterMaintenanceLevel(listMM, modelOm.ListRegionForTableHeader);
+                modelOm.ListAccGraph = dto.GetModelAccGraph(listAllMM);
                 result.SetResultValue(modelOm);
                 listMM.Clear();
                 listMM = null;

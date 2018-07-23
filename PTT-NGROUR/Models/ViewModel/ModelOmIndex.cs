@@ -103,7 +103,13 @@ namespace PTT_NGROUR.Models.ViewModel
                 this.Actual = listByMl.GroupBy(x => x.MONTH).OrderBy(x => x.Key).Select(x => x.Sum(y => y.ACTUAL).GetInt()).ToArray();
                 this.Plan = listByMl.GroupBy(x => x.MONTH).OrderBy(x => x.Key).Select(x => x.Sum(y => y.PLAN).GetInt()).ToArray();
                 this.AccActual = listMonth.Select(x => listByMl.Where(y => y.MONTH <= x).Sum(z => z.ACTUAL).GetInt()).ToArray();
-                this.AccPlan = listMonth.Select(x => listByMl.Where(y => y.MONTH <= x).Sum(z => z.ACTUAL + z.PLAN).GetInt()).ToArray();
+                this.AccPlan = listMonth.Select(x => listByMl.Where(y => y.MONTH <= x).Sum(z => z.PLAN).GetInt()).ToArray();
+                
+                //one graph
+                //for (int i = 0; i < Actual.Length; i++)
+                //{
+                //    Actual[i] -= Plan[i];
+                //}
             }
         }
         public class ModelMeterMaintenanceLevel
