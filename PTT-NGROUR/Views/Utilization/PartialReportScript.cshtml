@@ -56,26 +56,27 @@
         function CheckCompare() {
             if (document.getElementById('checkCompare').checked == true) {
                 document.getElementById('btnCurrentSearch').style.display = 'none';
-                document.getElementById('seMY').style.display = 'inline-block';
-                document.getElementById('pieRight').style.display = 'inline-block';
+                document.getElementById('seMY').style.display = 'block';
+                document.getElementById('pieRight').style.display = 'block';
                 $("#layoutLeft").removeClass("col-lg-12").addClass("col-lg-6");
+              
                 $("#thresGY").addClass("row");
                 $("#thresRO").addClass("row");
                 $(".changecolThres").removeClass("col-lg-3 ").addClass("col-lg-6 col-md-6");
                 document.getElementById('tblCurrent').style.display = 'none';
-                document.getElementById('tblSearch').style.display = 'inline-block';
+                document.getElementById('tblSearch').style.display = 'block';
                 
 
             }
             else if (document.getElementById('checkCompare').checked == false) {
-                document.getElementById('btnCurrentSearch').style.display = 'inline-block'
+                document.getElementById('btnCurrentSearch').style.display = 'block'
                 document.getElementById('seMY').style.display = 'none';
                 document.getElementById('pieRight').style.display = 'none';
                 $("#layoutLeft").removeClass("col-lg-6").addClass("col-lg-12");
                 $("#thresGY").removeClass("row");
                 $("#thresRO").removeClass("row");
-                $(".changecolThres").removeClass("col-lg-6").addClass("col-lg-3 ");
-                document.getElementById('tblCurrent').style.display = 'inline-block';
+                $(".changecolThres").removeClass("col-lg-6 col-md-6").addClass("col-lg-3 ");
+                document.getElementById('tblCurrent').style.display = 'block';
                 document.getElementById('tblSearch').style.display = 'none';
 
             }
@@ -96,9 +97,10 @@
             ]
         }; */
 
-     
+        
         var tblOptionReport = $('#utilTbl').DataTable({
-            responsive: true,
+            
+          
             dom: 'lBfrtip',
             dom:
     "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
@@ -138,8 +140,10 @@
 
 
         });
+       
         var tblOptionReportCurrent = $('#currentTbl').DataTable({
-            responsive: true,
+           
+           
             dom: 'lBfrtip',
             dom:
     "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
@@ -187,7 +191,7 @@
                 bolditalics: 'THSarabun-BoldItalic.ttf'
             }
         }
-
+        $('.dataTables_length').addClass('bs-select');
         var _graphPipeLine = null;
 
         var _graphGate = null;
