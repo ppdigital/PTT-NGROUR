@@ -365,7 +365,7 @@ html,body
 }
 
 
-/*        Color     */
+/*     Style Color     */
    .gray2{color:#4d4d4d;}
      .gray3{color:#E8E8E8;}
      .gray4{color:#E0E0E0;}
@@ -619,6 +619,7 @@ select .inline{display: inline-block;}
   .pr-0-xs {padding-left: 0px}
   .w-25h-xs{width:250px}
   .ph0-xs{padding-left:0rem !important; padding-right:0rem !important;}
+   .ph1-xs{padding-left:1rem !important; padding-right:1rem !important;}
  .pieGraph-xs{width:300px;
              height:300px
 }
@@ -819,6 +820,7 @@ html, body{height:100%; margin:0;padding:0}
 .ph2{padding-left:2rem; padding-right:2rem;}
 .pv2{padding-top:2rem; padding-bottom:2rem;}
 .mv2{margin-top:2rem; margin-bottom:2rem;}
+.mb-2rem{margin-bottom:2rem;}
 .pv3{padding-top:3rem; padding-bottom:3rem;}
 .pv1{padding-top:1rem; padding-bottom:1rem;}
 .pv5{padding-top:.5rem; padding-bottom:.5rem;}

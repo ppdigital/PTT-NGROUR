@@ -60,18 +60,18 @@
                             <li style="width: 100%;"><a href="@Url.Action("Report", "Utilization")"><span style="padding-left:50px">Report</span></a></li>
                         </ul>
                     </li>
-                    <li style="width:100%"><a href="#"><i class="fa fa-cogs fa-lg gray7" aria-hidden="true" style="width:9%"> </i>O & M</a></li>
-                    <li style="width:100%"><a href="#"><i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Risk Management</a></li>
+                    <li style="width:100%"><a href="#"><i class="fa fa-cogs fa-lg gray7" aria-hidden="true" style="width:9%"> </i><span class="gray7">O & M</span></a></li>
+                    <li style="width:100%"><a href="#"><i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" style="width:9%"> </i><span class="gray7">Risk Management</span></a></li>
                     <li style="width:100%">
                         <a href="#" id="btn-1" data-toggle="collapse" data-target="#Admin" aria-expanded="false" style="display:@ViewData["Admin_page"]">
                             <i class="fa fa-user fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Admin<i class="glyphicon glyphicon-menu-down pull-right"></i>
                         </a>
                         <ul class="nav collapse" id="Admin" role="menu" aria-labelledby="btn-1">
-                            <li><a href="@Url.Action("UserManagement", "Admin")"><span style="padding-left:50px">UserManagement</span></a></li>
+                            <li><a href="@Url.Action("UserManagement", "Admin")"><span style="padding-left:50px">User Management</span></a></li>
 
                         </ul>
                     </li>
-                    <li style="width:100%"><a href="@Url.Action("ResetPassword", "User", new { id = userrole.Username , IsExpired = false  }, null)"><i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Change PassWord</a></li>
+                    <li style="width:100%"><a href="@Url.Action("ResetPassword", "User", new { id = userrole.Username , IsExpired = false  }, null)"><i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Change Password</a></li>
                     <li style="width:100%"><a href="@Url.Action("Logout", "User")"><i class="fa fa-tachometer fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Sign Out</a></li>
 
                 </ul>
@@ -104,7 +104,7 @@
                                     <div class="dtc v-mid tc w-20 menu_hover no-underline" style="float:left;">
 
                                         <i class="fa fa-cogs fa-lg gray7" aria-hidden="true" id="o_and_m"></i>
-                                        <div class="gray6 f-menu-footer pt1" id="text_o_and_m">O & M</div>
+                                        <div class="gray6 f-menu-footer pt1 " id="text_o_and_m">O & M</div>
 
                                     </div>
                                 </center>

@@ -290,7 +290,7 @@
                     datasets: [dsAccActual, dsAccPlan, dsActual, dsPlan]
                 };
 
-                var cv = $("<canvas/>");
+                var cv = $("<canvas class='mb-2rem'/>");
                 cv.appendTo(_divGraph);
                 var ctx = cv[0].getContext('2d');
                 var chart = new Chart(ctx, {
@@ -380,9 +380,9 @@
             for (var i in pData) {
                 var meter = pData[i];                
                 for (var j in meter.ListPmIntervals) {
-                    strBody += "<tr>";                    
+                    strBody += "<tr>";
                     if (j == 0) {
-                        strBody += "<th rowspan=" + (meter.ListPmIntervals.length) + ">" + meter.Name + "</th>"
+                        strBody += "<th rowspan=" + (meter.ListPmIntervals.length) + " style='padding-top:auto;padding-bottom:auto'>" + meter.Name + "</th>"
                     }
                     var pmi = meter.ListPmIntervals[j];
                     strBody += "<th>" + pmi.Name + "</th>";

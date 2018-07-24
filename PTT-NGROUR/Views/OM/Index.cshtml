@@ -2,46 +2,64 @@
 @{
     ViewBag.Title = "Index";
 }
-<div class="row">
-    <div class="col-xs-3">        
-        <select class="selectpicker fz-12px form-control fz-12px" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;">
-            @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
-            {
-                <option value="@ml.REGION_ID" class="text-grey fz-12px" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
-            }
-        </select>
+<style>
+    .table > tbody > tr > th {
+        vertical-align: middle !important;
+    }
+    .table > thead > tr > th {
+        vertical-align: middle !important;
+    }
+</style>
+<div class="ph2 ph1-xs pt-15px">
+    <div class="row">
+        <div class="col-lg-1 col-md-1 col-sm-1"></div>
+        <div class="col-sm-3 pb1">
+            <select class="selectpicker fz-12px form-control fz-12px" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;">
+                @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
+                {
+                    <option value="@ml.REGION_ID" class="text-grey fz-12px" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
+                }
+            </select>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-7 pb1">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <input type="radio" name="radioMY" id="radioMonth" checked="checked" onclick="javascript:Check();">
+                    <label for="radioMonth">Month</label>
+                </span>
+                <span class="input-group-addon">
+                    <input type="radio" name="radioMY" id="radioYear" onclick="javascript: Check();">
+                    <label for="radioYear">Year</label>
+                </span>
+                <input type="text" placeholder="Month" class="form-control form-control-sm fz-12px" id="Month-filter" />
+                <input type="text" placeholder="Year" class="form-control form-control-sm fz-12px col-xs-3" id="Year-filter" style="display:none" />
+                <span class="input-group-btn">
+                    <button class="btn btn-block btn-primary col-xs-3" id="btnSearch">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
+                </span>
+            </div>
+        </div>
+
     </div>
-    <div class="col-xs-6">
-        <div class="input-group">
-            <span class="input-group-addon">
-                <input type="radio" name="radioMY" id="radioMonth" checked="checked" onclick="javascript:Check();">
-                <label for="radioMonth">Month</label>
-            </span>
-            <span class="input-group-addon">
-                <input type="radio" name="radioMY" id="radioYear" onclick="javascript: Check();">
-                <label for="radioYear">Year</label>
-            </span>
-            <input type="text" placeholder="Month" class="form-control form-control-sm fz-12px" id="Month-filter" />
-            <input type="text" placeholder="Year" class="form-control form-control-sm fz-12px col-xs-3" id="Year-filter" style="display:none" />
-            <span class="input-group-btn">
-                <button class="btn btn-block btn-primary col-xs-3" id="btnSearch">
-                    <span class="glyphicon glyphicon-search"></span> Search
-                </button>
-            </span>
+    <br />
+    <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
+        <div class="table-responsive">
+            <table id="tblMeter" class="table table-bordered"></table>
         </div>
     </div>
-    
-</div>
-<br/>
-<table id="tblMeter" class="table table-bordered"></table>
-<div id="container" >
-    <canvas id="canvas"></canvas>
-</div>
 
-<!-- section Meter Graph -->
-<div id="divGraph"></div>
-<!-- End Meter Graph -->
-
+    <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
+        <div id="container">
+            <canvas id="canvas"></canvas>
+        </div>
+    </div>
+    <!-- section Meter Graph -->
+    <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
+        <div id="divGraph"></div>
+    </div>
+    <!-- End Meter Graph -->
+</div>
 @section style{
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
 
