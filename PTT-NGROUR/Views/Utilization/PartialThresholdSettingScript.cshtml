@@ -1,6 +1,12 @@
-﻿@model PTT_NGROUR.Models.ViewModel.ModelThreshold
+﻿
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+@model PTT_NGROUR.Models.ViewModel.ModelThreshold
+
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 <script src="~/Scripts/jquery-ui-slider-pips.js"></script>
+<!--<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>-->
+<script src="~/Scripts/jquery.ui.touch-punch.min.js"></script>
+
 <script>
 
     $("#btnSave").click(function () {
@@ -11,7 +17,7 @@
 
                 <text>
                 {
-                    ThresholdId: @Model.ThresholdItems[i].ThresholdId ,
+                    ThresholdId: "@Model.ThresholdItems[i].ThresholdId" ,
                     ThresholdType : "@Model.ThresholdItems[i].ThresholdType.ToString()" ,
                     MinValue : getSliderMinValue(@i) ,
                     MaxValue : getSliderMaxValue(@i)
@@ -49,8 +55,8 @@
         IHtmlString strNumMaxID = Html.Raw(string.Format("\"#numMax{0}\"", i.ToString()));
         
 <text>
+   
     $(@strSlideID).slider({
-        
         max:100,
         min:0,  
         range: true,
