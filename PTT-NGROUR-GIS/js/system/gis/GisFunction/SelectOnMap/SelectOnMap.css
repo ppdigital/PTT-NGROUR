@@ -1,0 +1,9 @@
+﻿.select-on-map {
+    position: absolute;
+    top: 20px;
+    left: 70px;
+}
+
+    .select-on-map .btn {
+        width: 150px;
+    }

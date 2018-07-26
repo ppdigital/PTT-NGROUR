@@ -1,0 +1,92 @@
+﻿
+.CustomerManagementBar .controlBox {
+    position: absolute;
+    top: 20px;
+    left: 80px;
+}
+
+.CustomerManagementBar .legend {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: white;
+    padding: 10px 30px 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+    border: 0.1px solid lightgray;
+    border-radius: 5px;
+}
+
+    .CustomerManagementBar .legend .legend-icon {
+        width: 24px;
+        height: 38px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+        .CustomerManagementBar .legend .legend-icon.metering {
+            background-image: url(../../../gis/resources/images/Metering.png);
+        }
+
+        .CustomerManagementBar .legend .legend-icon.office {
+            background-image: url(../../../gis/resources/images/Office.png);
+        }
+
+        .CustomerManagementBar .legend .legend-icon.entrance {
+            background-image: url(../../../gis/resources/images/Entrance.png);
+        }
+
+    .CustomerManagementBar .legend .legend-label {
+        display: inline-block;
+        padding-left: 10px;
+    }
+
+.CustomerManagementBar .button-panel {
+    padding: 1px 0 0 10px;
+}
+
+/*.CustomerManagementBar .detailBox {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 0;
+    -moz-transition: all ease-out 200ms;
+    -o-transition: all ease-out 200ms;
+    -webkit-transition: all ease-out 200ms;
+    transition: all ease-out 200ms;
+}
+
+    .CustomerManagementBar .detailBox.visible {
+        height: 235px;
+    }
+
+
+@media only screen and (min-width: 769px) {
+
+    .CustomerManagementBar .detailBox {
+        position: absolute;
+        top: 68px;
+        right: 55px;
+        bottom: auto;
+        left: auto;
+        width: 340px;
+        height: 235px;
+        border-radius: 2px;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        -moz-transform: scale(0.4);
+        -ms-transform: scale(0.4);
+        -o-transform: scale(0.4);
+        -webkit-transform: scale(0.4);
+        transform: scale(0.4);
+    }
+
+        .CustomerManagementBar .detailBox.visible {
+            opacity: 1;
+            -moz-transform: scale(1);
+            -ms-transform: scale(1);
+            -o-transform: scale(1);
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+}*/

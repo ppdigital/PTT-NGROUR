@@ -1,32 +1,35 @@
 ﻿<div>
     <div class="verticle">
-        <label data-dojo-attach-point="axle1Label" class="valign-mid">Lat : </label>
-        <div data-dojo-type="esrith/amos/form/NumberTextBox" data-dojo-attach-point="axle1"
-             data-dojo-props="width:'7rem', 
-             format: '#,###.####',
-             disabled: true 
-             "></div>
+        <label data-dojo-attach-point="axle1Label" class="valign-mid coordinate-label">Lat : </label>
+        <span data-dojo-attach-point="axle1" class="valign-mid coordinate-value"></span>
+        <!--<div data-dojo-type="esrith/amos/form/NumberTextBox" data-dojo-attach-point="axle1"
+             data-dojo-props="format: '#,###.########',
+             disabled: true
+             "></div>-->
+    </div>
+    <div class="verticle">
+        <label class="valign-mid coordinate-split">|</label>
     </div>
     <div class="horizontal">
-        <label data-dojo-attach-point="axle2Label" class="valign-mid">| Lon : </label>
-        <div data-dojo-type="esrith/amos/form/NumberTextBox" data-dojo-attach-point="axle2"
-             data-dojo-props="width:'7rem',
-             format: '#,###.####',
-             disabled: true 
-             " ></div>
+        <label data-dojo-attach-point="axle2Label" class="valign-mid coordinate-label">Lon : </label>
+        <span data-dojo-attach-point="axle2" class="valign-mid coordinate-value"></span>
+        <!--<div data-dojo-type="esrith/amos/form/NumberTextBox" data-dojo-attach-point="axle2"
+             data-dojo-props="format: '#,###.########',
+             disabled: true
+             "></div>-->
     </div>
     <!--<button data-dojo-attach-point="switchGeometryTypeButton"
             data-dojo-type="esrith/amos/form/Button" class="switchGeometry">Lat/Lon</button>-->
-    <div class="switchGeometry" data-dojo-type="esrith/amos/form/Select" 
+    <div class="switchGeometry" data-dojo-type="esrith/amos/form/Select"
          data-dojo-attach-point="switchGeometryTypeButton"
          data-dojo-props="displayField:'label',
             style:'width: 100px; height: auto; ',
-            value:'Lat/Lon',
+            value:'Lat/Long',
             valueField:'label',
             dataStore:[{
-                'label':'Lat/Lon'
+                'label':'Lat/Long'
             },{
-                'label':'X/Y'
+                'label':'UTM'
             }]">
     </div>
 </div>

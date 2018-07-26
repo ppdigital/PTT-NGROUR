@@ -43,11 +43,11 @@
         },
         postCreate: function () {
             this.inherited(arguments);
-            //console.log('it\'s CoordinateBar', this.map);
-            
+            //console.log("it\"s CoordinateBar", this.map);
+
             this.own(
-                 on(this.map, "mouse-move", lang.hitch(this, 'cursorLocation')),
-                 on(this.switchGeometryTypeButton, "click", lang.hitch(this, 'switchGeometryType'))
+                 on(this.map, "mouse-move", lang.hitch(this, "cursorLocation")),
+                 on(this.switchGeometryTypeButton, "change", lang.hitch(this, "switchGeometryType"))
             );
 
         },
@@ -61,21 +61,28 @@
                 position.x = e.mapPoint.x;
                 position.y = e.mapPoint.y;
             }
-            this.axle1.set('value', position.x.toFixed(4));
-            this.axle2.set('value', position.y.toFixed(4));
-            //console.log(position);
+
+            //this.axle1.set("value", position.x.toFixed(8));
+            //this.axle2.set("value", position.y.toFixed(8));
+
+            this.axle1.innerHTML = this.addComma(position.x.toFixed(8));
+            this.axle2.innerHTML = this.addComma(position.y.toFixed(8));
         },
         switchGeometryType: function (e) {
             this.isLatLon = !this.isLatLon;
-            this.switchGeometryTypeButton.innerHTML = (this.isLatLon) ? 'Lat/Lon' : 'X/Y';
-            this.axle1.reset();
-            this.axle2.reset();
+            this.switchGeometryTypeButton.innerHTML = (this.isLatLon) ? "Lat/Long" : "UTM";
+            //this.axle1.reset();
+            //this.axle2.reset();
+
+            this.axle1.innerHTML = "";
+            this.axle2.innerHTML = "";
+
             if (this.isLatLon) {
-                this.axle1Label.innerHTML = 'Lat : ';
-                this.axle2Label.innerHTML = '| Lon : ';
+                this.axle1Label.innerHTML = "Lat : ";
+                this.axle2Label.innerHTML = "Long : ";
             } else {
-                this.axle1Label.innerHTML = 'X : ';
-                this.axle2Label.innerHTML = '| Y : ';
+                this.axle1Label.innerHTML = "X : ";
+                this.axle2Label.innerHTML = "Y : ";
             }
         }
 

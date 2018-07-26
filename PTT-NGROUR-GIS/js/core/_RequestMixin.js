@@ -8,9 +8,11 @@ define([
 
     "config/app",
 
+    "dojo/on",
     "dojo/cookie",
     "dojo/json",
     "dojo/aspect",
+    "dojo/query",
     "dojo/_base/lang",
     "dojo/_base/declare",
     "require"
@@ -19,9 +21,11 @@ define([
 
     appConfig,
 
+    on,
     cookie,
     JSON,
     aspect,
+    query,
     lang,
     declare,
     require
@@ -43,14 +47,14 @@ define([
         * @param {String} url 
         * @param {Object} [param]
         */
-        reqUrl: function (url, param, useProxy)
-        {
+        reqUrl: function (url, param, useProxy) {
             try {
+                //this.displayLoader(true);
                 param = param || {};
                 param.CSRF_TOKEN = cookie("CSRF_TOKEN");
 
                 if (useProxy == null)
-                	useProxy = url.toLowerCase().indexOf("proxy.ashx") == -1;
+                    useProxy = url.toLowerCase().indexOf("proxy.ashx") == -1;
 
                 if (url.indexOf("http") != 0) {
                     url = lang.replace("{0}/{1}", [appConfig.host, url]);
@@ -59,8 +63,27 @@ define([
                 //url.toLowerCase().indexOf(lang.replace("{protocol}//{host}", window.location).toLowerCase()) == 0;
                 dataStore.useProxy = useProxy;
                 dataStore.preventCache = dataStore.useProxy;
+
+                var showLoaderOnQuery = aspect.before(dataStore, "query", lang.hitch(this, function () {
+                    this.displayLoader(true);
+                    showLoaderOnQuery.remove();
+                }));
+
+                var hideLoaderAfterComplete = on(dataStore, "query-completed", lang.hitch(this, function () {
+                    this.displayLoader(false);
+                    hideLoaderAfterComplete.remove();
+                    hideLoaderAfterError.remove();
+                }));
+                
+                var hideLoaderAfterError = on(dataStore, "query-error", lang.hitch(this, function () {
+                    this.displayLoader(false);
+                    hideLoaderAfterComplete.remove();
+                    hideLoaderAfterError.remove();
+                }));
+
                 return dataStore;
             } catch (err) {
+                this.displayLoader(false);
                 console.error(err);
             }
         },
@@ -160,6 +183,20 @@ define([
                 return this.reqDS(this._defaultDSName, this._defaultMethodName, param);
             } catch (err) {
                 console.error(err);
+            }
+        },
+
+        displayLoader: function (show) {
+            if (show) {
+                //query(".bg-loader").removeClass("amos-hide");
+                //setTimeout(lang.hitch(this, function () {
+                query(".bg-loader").addClass("show-loader");
+                //}), 1);
+            } else {
+                query(".bg-loader").removeClass("show-loader");
+                //setTimeout(lang.hitch(this, function () {
+                //    query(".bg-loader").addClass("amos-hide");
+                //}), 1100);
             }
         }
     });

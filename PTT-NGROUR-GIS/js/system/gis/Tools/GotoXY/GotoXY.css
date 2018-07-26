@@ -3,39 +3,39 @@
     color: darkgray;*/
 }
 
-    /*.gotoXYComponent > div {
+/*.gotoXYComponent > div {
         padding-bottom: 10px;
     }*/
 
-    /*.gotoXYComponent > div:last-child {
+/*.gotoXYComponent > div:last-child {
         padding-top: 10px;
     }*/
-    .marginR3px{
-        margin-right: 3px;
-    }
+.marginR3px {
+    margin-right: 3px;
+}
 
-    .gotoXYComponent .label {
-        width: 100px;
-        padding: 4px 8px;
-    }
+.gotoXYComponent .label {
+    width: 100px;
+    padding: 4px 8px;
+}
 
-    .gotoXYComponent .d-flex {
-        display: flex;
-    }
+.gotoXYComponent .d-flex {
+    display: flex;
+}
 
-    .gotoXYComponent .flex {
-        flex: 1;
-    }
+.gotoXYComponent .flex {
+    flex: 1;
+}
 
-    .gotoXYComponent .input,
-    .gotoXYComponent .select {
-        /*border-width: 1px;
+.gotoXYComponent .input,
+.gotoXYComponent .select {
+    /*border-width: 1px;
         border-radius: 4px;
         padding: 5px 3px;*/
-    }
+}
 
 
-    .gotoXYComponent .btn-default {
+/* .gotoXYComponent .btn-default {
         
         background-color: #BABFC5;
     }
@@ -57,22 +57,22 @@
         color: white;
         border-width: 0px;
     }
+*/
 
 
+.gotoXYComponent .margin {
+    margin-right: 10px;
+}
 
-    .gotoXYComponent .margin {
-        margin-right: 10px;
-    }
+/*overide*/
+.gotoXYComponent .amos-textbox-input {
+    border-radius: 5px;
+}
 
-    /*overide*/
-    .gotoXYComponent .amos-textbox-input {
-        border-radius: 5px;
-    }
-
-    .gotoXYComponent .amos-dropdown {
-        top: inherit !important;
-        right: inherit !important;
-    }
+.gotoXYComponent .amos-dropdown {
+    top: inherit !important;
+    right: inherit !important;
+}
 
 .gotoXY.awesome-panel {
     background-color: rgba(255, 255, 255, 0) !important;

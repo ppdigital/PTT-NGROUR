@@ -5,27 +5,45 @@
     background-color: white;
     padding-left: 20px;
     display: none;
-    box-shadow: 0 0px 1px rgba(0, 0, 0, 0.6);
+    /*box-shadow: 0 0px 1px rgba(0, 0, 0, 0.6);*/
+    border: 0.1px solid lightgray;
+    border-radius: 5px;
 }
 
     .coordinateBar .valign-mid {
         vertical-align: middle;
+        display: inline-block;
     }
 
     .coordinateBar .verticle,
     .coordinateBar .horizontal {
         display: inline-block;
-        color: #3A83D5;
         /*width: 7.5rem;*/
+    }
+
+    .coordinateBar .coordinate-label {
+        color: #3A83D5;
+    }
+
+    .coordinateBar .coordinate-split {
+        padding: 0 10px 0 0;
+        color: #3A83D5;
+    }
+
+    .coordinateBar .coordinate-value {
+        color: gray;
+        padding-right: 10px;
     }
 
     .coordinateBar .switchGeometry .amos-textbox-textnode > input {
         color: white;
+        text-align: center !important;
     }
 
     .coordinateBar .switchGeometry .amos-textbox-input {
         background-color: #468BD5;
-        border-radius: 0px;
+        border-radius: 0 5px 5px 0;
+        width: 90px !important;
     }
 
     .coordinateBar .switchGeometry .amos-icon-down-arrow {
@@ -37,7 +55,7 @@
         border-bottom-color: #ffc000;
         border-right-color: #ffc000;
     }
-/*.coordinateBar .switchGeometry {
+    /*.coordinateBar .switchGeometry {
         height: 30px;
         width: 90px;
         padding: 0;
@@ -48,33 +66,33 @@
         padding: 5px 15px;
     }*/
 
-/*   . coordinateBar .switchGeometry:hover {
+    /*   . coordinateBar .switchGeometry:hover {
             background-color: darkgray;
             color: white;
 }*/
 
-/*overide*/
-{
+    /*overide*/
+    /*{
     background-color: #478CD7;
-}
+}*/
 
-.coordinateBar .amos-textbox {
-    vertical-align: middle;
-    margin-bottom: 0px;
-}
+    .coordinateBar .amos-textbox {
+        vertical-align: middle;
+        margin-bottom: 0px;
+    }
 
-.coordinateBar .amos-form-disabled * {
-    color: #393939 !important;
-}
+    .coordinateBar .amos-form-disabled * {
+        color: #393939 !important;
+    }
 
-.coordinateBar .amos-textbox.amos-form-disabled .amos-textbox-input {
-    border: 0;
-    background-color: white;
-}
+    .coordinateBar .amos-textbox.amos-form-disabled .amos-textbox-input {
+        border: 0;
+        background-color: white;
+    }
 
-.coordinateBar .amos-textbox-input:hover {
-    box-shadow: 0 0 0 0px;
-}
+    .coordinateBar .amos-textbox-input:hover {
+        box-shadow: 0 0 0 0px;
+    }
 
 @media only screen and (min-width: 769px) {
     .coordinateBar {

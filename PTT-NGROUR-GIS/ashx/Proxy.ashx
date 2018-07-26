@@ -277,8 +277,8 @@ public class Proxy : IHttpHandler,
             {
                 queryParam = new Connector.QueryParameter();
 
-                foreach(string key in context.Request.Params.AllKeys)
-                    queryParam.Add(key,context.Request.Params[key]);
+                foreach (string key in context.Request.Params.AllKeys)
+                    queryParam.Add(key, context.Request.Params[key]);
 
                 postBody = readRequestPostBody(context);
             }
@@ -437,8 +437,8 @@ public class Proxy : IHttpHandler,
     }
 
     /**
-	* Private
-	*/
+    * Private
+    */
 
     private byte[] getSession(HttpContext context, out Connector.QueryParameter queryParam)
     {
@@ -585,6 +585,7 @@ public class Proxy : IHttpHandler,
 
     private System.Net.WebResponse doHTTPRequest(string uri, byte[] bytes, string method, string referer, string contentType)
     {
+        System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
         System.Net.HttpWebRequest req = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
         req.ServicePoint.Expect100Continue = false;
         req.Referer = referer;
@@ -773,8 +774,8 @@ public class Proxy : IHttpHandler,
     }
 
     /**
-	* Static
-	*/
+    * Static
+    */
     private static ProxyConfig getConfig()
     {
         ProxyConfig config = ProxyConfig.GetCurrentConfig();

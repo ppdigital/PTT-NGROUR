@@ -15,13 +15,16 @@
     "dojo/dom-geometry",
 
     "manager/MapManager",
+    "esri/geometry/Extent",
 
     "system/gis/Manager/Manager",
 
     "widgets/AwesomePanel/AwesomePanel",
     "widgets/AwesomeButton/AwesomeButton",
 
-    "system/gis/Tools/CoordinateBar/CoordinateBar"
+    "system/gis/Tools/CoordinateBar/CoordinateBar",
+    "system/gis/GisFunction/SelectOnMap/SelectOnMap",
+    "system/gis/GisFunction/FunctionSelector/FunctionSelector",
 ], function (
     _WidgetBase,
 
@@ -39,13 +42,16 @@
     domGeom,
 
     MapManager,
+    Extent,
 
     Manager,
 
     AwesomePanel,
     AwesomeButton,
 
-    CoordinateBar
+    CoordinateBar,
+    SelectOnMap,
+    FunctionSelector
     ) {
     return declare([
         _WidgetBase
@@ -66,13 +72,12 @@
 
             this._createBottomPanel();
             this._createRightPanel();
-            this._createMeasurementPanel();
+            //this._createMeasurementPanel();
 
             new Manager({
                 viewport: this
             });
 
-            this.TEST();
         },
 
         _initGlobal: function () {
@@ -86,11 +91,6 @@
             SIZE_SMALL = 768;
             //SIZE_MEDIUM = 1280;
             SIZE_MEDIUM = 1100;
-        },
-
-        TEST: function () {
-            this.own(
-                );
         },
 
         _windowResize: function () {
@@ -195,7 +195,6 @@
         },
 
         createOnMapItem: function (itemConfig) {
-            console.log(itemConfig);
             array.forEach(itemConfig, lang.hitch(this, function (item) {
                 this._appendOnMapItem(item);
             }));
@@ -223,20 +222,96 @@
         },
 
         _coordinateBarPanel: null,
+        //_customerManagementBarpanel: null,
         createMap: function (mapConfig) {
             var map = new MapManager(mapConfig, this.mapNode);
-            this.own(on(map, "load", lang.hitch(this, function (obj) {
-                //console.log("obj: ", obj);
+            this.own(
+                on(map, "load", lang.hitch(this, function (obj) {
+                    //console.log("obj: ", obj);
 
-                _coordinateBarPanel = new CoordinateBar();
-                domConstruct.place(_coordinateBarPanel.domNode, this.coordinateBarNode);
+                    _coordinateBarPanel = new CoordinateBar();
+                    domConstruct.place(_coordinateBarPanel.domNode, this.coordinateBarNode);
 
-                this.emit("map-ready", {
-                    target: this
-                });
+                    //console.log("this.getMenu()", this.getMenu());
+                    if (this.getMenu() == "utilization") {
+                        new SelectOnMap().placeAt(this.selectOnMap);
+                    }
+                    //domConstruct.place(_customerManagementBarpanel.domNode, this.customerManageBarNode);
 
+                    this.emit("map-ready", {
+                        target: this
+                    });
+
+                })),
+           //## Nannie add (18-7-2018) : zoom extent when map load completed
+            on(map, "load-completed", lang.hitch(this, function (_map) {
+                this.zoomDefaultExtent();
+
+                //## Nann add (19-9-2018) : customer must show entrance and office
+                if (this.getMenu().toLowerCase() == "customer") {
+                    var layerCustomer = _map.getLayer("PTTOUR_DATA");
+                    if (layerCustomer) {
+                        var currentVisibleLayer = layerCustomer.visibleLayers;
+                        var lyrConfig = array.filter(mapConfig.layers, lang.hitch(this, function (lyr) {
+                            return lyr.option.id == "PTTOUR_DATA";
+                        }));
+
+                        if (lyrConfig.length > 0) {
+                            var idxEntrance = lyrConfig[0].option.layerIndex["ENTRANCE"];
+                            var idxOffice = lyrConfig[0].option.layerIndex["OFFICE"];
+
+                            if (currentVisibleLayer.indexOf(idxEntrance) < 0) {
+                                currentVisibleLayer.push(idxEntrance)
+                            }
+                            if (currentVisibleLayer.indexOf(idxOffice) < 0) {
+                                currentVisibleLayer.push(idxOffice)
+                            }
+
+                            layerCustomer.setVisibleLayers(currentVisibleLayer);
+                        }
+                    }
+                }
+                //##
+
+                this._getMISData();
 
             })));
+            //##
+        },
+
+        functionSelector: null,
+        _getMISData: function () {
+            console.log("window.preloadMisData", window.preloadMisData);
+            if (window.preloadMisData != null) {
+                if (this.functionSelector == null) {
+                    this.functionSelector = new FunctionSelector()
+                }
+                this.functionSelector.select(window.preloadMisData);
+
+            }
+            window.addEventListener('message', lang.hitch(this, function (event) {
+                console.log("receive mis data@veiwport :", event.data);
+
+                var misData = event.data;
+
+                if (this.functionSelector == null) {
+                    this.functionSelector = new FunctionSelector()
+                }
+                this.functionSelector.select(misData);
+            }));
+        },
+
+        zoomDefaultExtent: function () {
+            var layer = _map.getLayer("PTTOUR_POLYGON");
+            if (layer) {
+
+                var extentJson = layer.fullExtent;
+                var extent = new Extent(extentJson);
+
+                _map.resize(true);
+                _map.reposition();
+                _map.setExtent(extent);
+            }
         },
 
         bottomPanel: null,

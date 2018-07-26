@@ -1,0 +1,116 @@
+﻿.switchbasemap {
+}
+
+    .switchbasemap .basemap-panel {
+        background-color: #ffffff;
+        width: 130px;
+        height: 32px;
+        -moz-transition: all ease-out 250ms;
+        -o-transition: all ease-out 250ms;
+        -webkit-transition: all ease-out 250ms;
+        transition: all ease-out 250ms;
+    }
+
+        .switchbasemap .basemap-panel:hover {
+            background-color: rgb(0, 135, 185);
+            color: #ffffff;
+        }
+
+        .switchbasemap .basemap-panel.expand {
+            background-color: rgb(0, 135, 185);
+            width: 240px;
+            height: 252px;
+            color: #ffffff;
+        }
+
+        .switchbasemap .basemap-panel > .label {
+            position: absolute;
+            top: 0;
+            right: 32px;
+            left: 32px;
+            height: 32px;
+            line-height: 32px;
+        }
+
+        .switchbasemap .basemap-panel > .esriBasemapGallery {
+            background-color: #ffffff;
+            position: absolute;
+            top: 32px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            color: #000000;
+        }
+
+            .switchbasemap .basemap-panel > .esriBasemapGallery .esriBasemapGalleryLabelContainer {
+                font-size: 12px;
+                cursor: pointer;
+            }
+
+            .switchbasemap .basemap-panel > .esriBasemapGallery .esriBasemapGallerySelectedNode .esriBasemapGalleryThumbnail {
+                margin: 1px;
+            }
+
+        .switchbasemap .basemap-panel:before {
+            content: '';
+            background-image: url(images/icn_basemap_panel.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 32px;
+            height: 32px;
+        }
+
+        .switchbasemap .basemap-panel.expand:before,
+        .switchbasemap .basemap-panel:hover:before {
+            background-image: url(images/icn_basemap_panel_hover.png);
+        }
+
+        .switchbasemap .basemap-panel:after {
+            content: '';
+            background-image: url(images/icn_basemap_panel_expand.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 8px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 32px;
+            height: 32px;
+        }
+
+        .switchbasemap .basemap-panel:hover:after {
+            background-image: url(images/icn_basemap_panel_expand_hover.png);
+        }
+
+        .switchbasemap .basemap-panel.expand:after {
+            background-image: url(images/icn_basemap_panel_collapse.png);
+        }
+
+    .switchbasemap .esriBasemapGalleryNode {
+        width: 100%;
+        margin: 0;
+        padding: 0px 10px;
+        padding-top: 10px;
+    }
+
+        .switchbasemap .esriBasemapGalleryNode .esriBasemapGalleryThumbnail {
+            width: 80px;
+            height: 50px;
+        }
+
+        .switchbasemap .esriBasemapGalleryNode .esriBasemapGalleryLabelContainer {
+            display: inline-block;
+            width: auto;
+            margin: 12px;
+            margin-right: 0;
+        }
+
+    .switchbasemap .esriBasemapGallerySelectedNode .esriBasemapGalleryThumbnail {
+        border-color: lightskyblue;
+    }

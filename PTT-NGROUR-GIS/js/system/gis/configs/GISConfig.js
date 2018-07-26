@@ -136,13 +136,29 @@
             //    ]
             //},
             {
+                title: "Basemap",
+                iconClassName: "basemap",
+                buttonClassName: "normal",
+                style: {
+                    position: "absolute",
+                    top: "80px",
+                    right: "25px"
+                },
+                events: [
+                    {
+                        action: "click",
+                        name: "open-basemap"
+                    }
+                ]
+            },
+            {
                 title: "TOC",
                 iconClassName: "toc",
                 buttonClassName: "normal",
                 style: {
                     position: "absolute",
-                    top: "80px",
-                    right: "12px"
+                    top: "113px",
+                    right: "25px"
                 },
                 events: [
                     {
@@ -156,8 +172,8 @@
                 buttonClassName: "normal",
                 style: {
                     position: "absolute",
-                    top: "113px",
-                    right: "12px"
+                    top: "146px",
+                    right: "25px"
                 },
                 events: [
                     {
@@ -171,8 +187,8 @@
                 buttonClassName: "normal",
                 style: {
                     position: "absolute",
-                    top: "146px",
-                    right: "12px"
+                    top: "179px",
+                    right: "25px"
                 },
                 events: [
                     {
@@ -186,28 +202,13 @@
                 buttonClassName: "normal",
                 style: {
                     position: "absolute",
-                    top: "179px",
-                    right: "12px"
+                    top: "212px",
+                    right: "25px"
                 },
                 events: [
                     {
                         action: "click",
                         name: "open-printmap"
-                    }
-                ]
-            }, {
-                title: "Basemap",
-                iconClassName: "basemap",
-                buttonClassName: "normal",
-                style: {
-                    position: "absolute",
-                    top: "212px",
-                    right: "12px"
-                },
-                events: [
-                    {
-                        action: "click",
-                        name: "open-basemap"
                     }
                 ]
             }/*, {
@@ -244,6 +245,16 @@
                             }
                         ]
                     },*/
+                    {
+                        title: "Basemap",
+                        iconClassName: "basemap",
+                        events: [
+                            {
+                                action: "click",
+                                name: "open-basemap"
+                            }
+                        ]
+                    },
                     {
                         title: "TOC",
                         iconClassName: "toc",
@@ -283,17 +294,8 @@
                                 name: "open-printmap"
                             }
                         ]
-                    },
-                    {
-                        title: "Basemap",
-                        iconClassName: "basemap",
-                        events: [
-                            {
-                                action: "click",
-                                name: "open-basemap"
-                            }
-                        ]
                     }
+                    
                 ]
             }
         ],
