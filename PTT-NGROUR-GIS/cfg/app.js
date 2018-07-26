@@ -30,9 +30,14 @@ function (
         "dataService": function (arg1, arg2) {
             var svcName = arg2 ? arg1 : "DataService.svc";
             var spName = arg2 || arg1 || "DS_TRANSIT";
-            var url = lang.replace("{0}/{1}/{2}/{3}", [host, "services", svcName, spName]);
+            
+            //fix สำหรับเครื่องตัวเองมีปัญหาเรียก sp ที่ใช้ ST_GEOMETRY แล้ว error //== POK ==//
+            //var url = lang.replace("{0}/{1}/{2}/{3}", [host, "services", svcName, spName]);
+            var url = lang.replace("{0}/{1}/{2}/{3}", ['http://nonngr-our.pttplc.com/GIS', "services", svcName, spName]);
+
             return url;
-        }
+        }//,
+        //"menu": window.location.search == "" || window.location.search == null ? null : ""
     });
 
     return appConfig;

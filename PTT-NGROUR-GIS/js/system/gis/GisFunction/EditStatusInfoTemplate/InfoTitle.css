@@ -1,0 +1,45 @@
+﻿.info-title {
+}
+
+.inline-container {
+    display: inline-block;
+}
+
+    .inline-container.type-label {
+    }
+
+    .inline-container.value-label {
+    }
+
+    .inline-container.left-panel {
+        width: 64%;
+    }
+
+    .inline-container.right-panel {
+    }
+
+    .inline-container.object-middle {
+        vertical-align: middle;
+    }
+
+.previous-btn {
+    background-image: url(../../../gis/resources/images/btn_previous_normal.png);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+    .previous-btn:hover {
+        background-image: url(../../../gis/resources/images/btn_previous_hover.png);
+    }
+
+.next-btn {
+    background-image: url(../../../gis/resources/images/btn_next_normal.png);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+    .next-btn:hover {
+        background-image: url(../../../gis/resources/images/btn_next_hover.png);
+    }

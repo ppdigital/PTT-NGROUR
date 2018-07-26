@@ -310,7 +310,8 @@
                     }
 
                         .viewport-gis > .main-container > .wrapper > .content-panel > .wrapper > .map > .cell {
-                            position: relative;
+                            /*position: relative;*/
+                            position: inherit;
                             display: table-cell;
                         }
 
@@ -458,6 +459,7 @@
         .viewport-gis.show-menu-panel > .main-container > .header > .logo-container > .logo {
             right: 44px;
         }
+
 /* SHOW MENU */
 
 @media only screen and (min-width: 769px) {
@@ -585,4 +587,3 @@
         margin-left: 300px;
     }
 }
-

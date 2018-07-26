@@ -16,10 +16,12 @@ define([
 
     "dojo/on",
     "dojo/dom",
+    "dojo/query",
     "dojo/dom-class",
     "dojo/dom-construct",
     "dojo/_base/lang",
     "dojo/_base/declare",
+    "dojo/_base/array",
 
     "dojo/Deferred",
     "dojo/promise/all",
@@ -34,10 +36,12 @@ define([
 
     on,
     dom,
+    query,
     domClass,
     domConstruct,
     lang,
     declare,
+    array,
 
     Deferred,
     all,
@@ -67,6 +71,7 @@ define([
         * @public
         */
         map: null,
+        _urlParam: null,
 
         constructor: function (params, srcNodeRef) {
             params = params || {};
@@ -149,8 +154,60 @@ define([
             while (dom.firstChild) {
                 dom.removeChild(dom.firstChild);
             }
-        }
+        },
         //End Add
+
+        addComma: function (nStr) {
+            nStr += '';
+            var x = nStr.split('.');
+            var x1 = x[0];
+            var x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
+        },
+
+        getUrlParam: function () {
+            //_urlParam
+        },
+
+        getMenu: function () {
+            var s = window.location.search;
+            var menu = null;
+            if (s != null && s.length > 0) {
+                var arrParam = s.substring(1).split("&");
+                if (arrParam != null && arrParam.length > 0) {
+                    array.forEach(arrParam, lang.hitch(this,
+                        function (p) {
+                            var pair = p.split("=");
+                            if (pair.length == 2) {
+                                if (pair[0] == "m") {
+                                    menu = pair[1];
+                                }
+                            }
+                        }))
+                }
+            }
+
+            return menu;
+        }, 
+
+        displayLoader: function (show) {
+            if (show) {
+                //query(".bg-loader").removeClass("amos-hide");
+                //setTimeout(lang.hitch(this, function () {
+                query(".bg-loader").addClass("show-loader");
+                //}), 1);
+            } else {
+                query(".bg-loader").removeClass("show-loader");
+                //setTimeout(lang.hitch(this, function () {
+                //    query(".bg-loader").addClass("amos-hide");
+                //}), 1100);
+            }
+        }
+
     });
 
     lang.mixin(wgDeclare, wgConstant);

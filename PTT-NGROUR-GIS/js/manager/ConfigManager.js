@@ -57,9 +57,63 @@
             var data = response.data;
             return { generalConfig: data[0] };
         },
+        _getMenu: function () {
+            var s = window.location.search;
+            var menu = null;
+            if (s != null && s.length > 0) {
+                s = s.substring(1);
+                var arrParam = s.split("&");
+                if (arrParam != null && arrParam.length > 0) {
+                    array.forEach(arrParam, lang.hitch(this,
+                        function (p) {
+                            var pair = p.split("=");
+                            if (pair.length == 2) {
+                                if (pair[0] == "m") {
+                                    menu = pair[1];
+                                }
+                            }
+                        }))
+                }
+            }
+
+            return menu;
+        },
         _getMapConfig: function (response) {
             //var data = response.data2;
             try {
+                //nannie add (3-7-2018) : change mapconfig to get from database
+                //query map config from database
+                this.reqSP("GIS_Q_CONFIG", { MENU: this._getMenu() }).query(lang.hitch(this, function (response) {
+
+                    var mapLayers = array.map(response.data, lang.hitch(this, function (d) {
+                        var lyrConfig = {};
+                        var lyrProps = array.filter(response.data2, lang.hitch(this, function (lyr) { return lyr.SERVICE_ID == d["SERVICE_ID"].toString(); }));
+                        array.forEach(lyrProps, lang.hitch(this, function (d) {
+                            lyrConfig[d["LAYER_ID"]] = d["LAYER_INDEX"];
+                        }));
+
+                        return {
+                            url: (d["SERVICE_URL"].indexOf("http") == 0 ? d["SERVICE_URL"] : (window.location.protocol + d["SERVICE_URL"])),
+                            option: {
+                                id: d["SERVICE_ID"].toString(),
+                                name: d["SERVICE_NAME"],
+                                type: d["SERVICE_TYPE"].toLowerCase(),
+                                visible: d["SERVICE_VISIBLE"] === 0 ? false : true,
+                                addTOC: d["ADD_TOC"] ? true : false,
+                                addMap: d["ADD_MAP"] ? true : false,
+                                systemId: d["SYSTEM_ID"],
+                                index: d["INDEX_NO"],
+                                toggle: d["TOGGLE"] ? true : false,
+                                opacity: d["OPACITY"],
+                                // ## Nannie add (19-7-2018) : เพิ่ม layer index ในแต่ละ map service
+                                layerIndex: lyrConfig
+                            }
+                        };
+                    }));
+
+                    mapConfig.layers = mapLayers;
+                }));
+
                 //var mapLayers = array.map(data, lang.hitch(this, function (d) {
                 //    return {
                 //        url: (d["SERVICE_URL"].indexOf("http") == 0 ? d["SERVICE_URL"] : (window.location.protocol + d["SERVICE_URL"])),
@@ -75,8 +129,9 @@
                 //        }
                 //    };
                 //}));
-                //mapConfig.layers = mapLayers;
-                mapConfig.layers = mapConfig.layers;
+
+                //nannie comment (3-7-2018) : change mapconfig to get from database
+                //mapConfig.layers = mapConfig.layers;
             } catch (err) {
                 console.error(err);
             }
@@ -141,7 +196,6 @@
             });
             return configures;
         }
-
     });
 
     wgConstant.getInstance = function (loginResult) {

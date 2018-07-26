@@ -13,19 +13,27 @@
 
         iframe {
             width: calc(100vw - 2px);
-            height: calc(50vh - 2px);
+            min-height: 430px;
             border: 1px solid black;
         }
 
         .div-main {
             transform: translate(0,0);
             display: inline-block;
+            width: 100%;
+        }
+
+        .div-param {
+            width: 250px;
+            height: 100%;
+            float: left;
         }
 
         @media only screen and (min-width: 769px) {
             iframe {
-                width: 1000px;
-                height: 800px;
+                width: 1200px;
+                min-height: 430px;
+                transform: translate(50px,0px);
             }
 
             .div-main {
@@ -34,20 +42,54 @@
         }
     </style>
     <script>
-        var misJSON = null;
+        var map_info_json;
         function sendInput() {
             console.log(document.getElementById("inputData"));
-            misJSON = eval("(" + document.getElementById("inputData").value + ")");
+            map_info_json = eval("(" + document.getElementById("inputData").value + ")");
+            var ifrm = document.getElementById("ifrm");
+            ifrm.contentWindow.postMessage(map_info_json, '*');
+        }
+
+        function mapParam(p) {
+            var ifrm = document.getElementById("ifrm");
+            ifrm.src = "Page.aspx?m=" + p;
+        }
+
+        function setMapAndPost(p) {
+            var ifrm = document.getElementById("ifrm");
+            ifrm.src = "Page.aspx?m=" + p;
+            sendInput();
+        }
+
+        function initMapTable(json) {
+            console.log("initMapTable", json);
+        }
+
+        function ready() {
+
         }
     </script>
 </head>
-<body>
+<body onload="ready()">
     <div class="div-main">
-        input <textarea id="inputData"></textarea>
-        <input type="button" value="send" id="buttonSend" onclick="sendInput()" />
-
+        <div class="div-param">
+            input <textarea id="inputData" style="width:100%;height:300px"></textarea>
+            <input type="button" value="send" id="buttonSend" onclick="sendInput()" />
+            <br />
+            <br />
+            <input type="button" value="dashboard" onclick="mapParam('dashboard')" />
+            <br />
+            <input type="button" value="report" onclick="mapParam('report')" />
+            <br />
+            <input type="button" value="utilization" onclick="mapParam('utilization')" />
+            <br />
+            <input type="button" value="customer" onclick="mapParam('customer')" />
+            <br />
+            <br />
+            <input type="button" value="customer(Post)" onclick="setMapAndPost('customer')" />
+        </div>
         <br />
-        <iframe src="Page.aspx" width="1000" height="800"></iframe>
+        <iframe id="ifrm" src="Page.aspx"></iframe>
     </div>
 </body>
 </html>

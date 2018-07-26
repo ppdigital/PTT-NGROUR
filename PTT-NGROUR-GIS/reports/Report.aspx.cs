@@ -13,11 +13,41 @@ public partial class reports_Report : System.Web.UI.Page
         {
             try
             {
-                Initialize();
+                QueryParameter rptData = new QueryParameter(Request);
+                Initialize(rptData);
                 //=====================================
                 //============ Code Here ============
 
+                string renderType = "PDF";            // Word || PDF || Image
+                string fileExtention = ".pdf";         // doc || pdf || .png
 
+
+                Dictionary<string, object> rptConfig = null;
+                if (rptData.Parameter.ContainsKey("rptConfig"))
+                {
+                    rptConfig = rptData.Parameter["rptConfig"] as Dictionary<string, object>;
+                    fileExtention = rptConfig["EXTENSION"] as string;
+                    if (fileExtention == ".doc") renderType = "Word";
+                    else if (fileExtention == ".pdf") renderType = "PDF";
+                    else if (fileExtention == ".png") renderType = "Image";
+                }
+
+                Warning[] warnings;
+                string[] streamIds;
+                string mimeType = string.Empty;
+                string encoding = string.Empty;
+                string extension = string.Empty;
+                string deviceInf = string.Empty;
+                byte[] bytes = ReportViewer1.LocalReport.Render(renderType, deviceInf, out mimeType, out encoding, out extension, out streamIds, out warnings);
+                string fileName = String.IsNullOrEmpty(ReportViewer1.LocalReport.DisplayName) ? "untitled" : ReportViewer1.LocalReport.DisplayName;
+
+                // Now that you have all the bytes representing the PDF report, buffer it and send it to the client.
+                Response.Buffer = true;
+                Response.Clear();
+                Response.ContentType = mimeType;
+                Response.AddHeader("content-disposition", "attachment; filename=" + fileName.Trim() + fileExtention);
+                Response.BinaryWrite(bytes); // create the file
+                Response.Flush(); // send it to the client to download
 
 
                 //=====================================
@@ -31,9 +61,9 @@ public partial class reports_Report : System.Web.UI.Page
 
     #region Initialize
     private List<string> DisableExport = new List<string>();
-    private void Initialize()
+    private void Initialize(QueryParameter rptData)
     {
-        QueryParameter rptData = new QueryParameter(Request);
+
         Dictionary<string, object> rptParams = null;
         Dictionary<string, object> rptDatasets = null;
         Dictionary<string, object> rptConfig = null;
@@ -46,6 +76,14 @@ public partial class reports_Report : System.Web.UI.Page
             if (rptConfig.ContainsKey("RDLC_PATH"))
             {
                 rdlcPath = rptConfig["RDLC_PATH"] as string;
+                var paperSize = int.Parse(rptConfig["PAPER_SIZE"].ToString());
+                var paperType = int.Parse(rptConfig["FILE_TYPE"].ToString());
+
+                if (paperSize == 1 && paperType == 1) rdlcPath = rdlcPath + "A3Portrait.rdlc";
+                else if (paperSize == 1 && paperType == 2) rdlcPath = rdlcPath + "A3Landscape.rdlc";
+                else if (paperSize == 2 && paperType == 1) rdlcPath = rdlcPath + "A4Portrait.rdlc";
+                else if (paperSize == 2 && paperType == 2) rdlcPath = rdlcPath + "A4Landscape.rdlc";
+
                 if (string.IsNullOrEmpty(rdlcPath))
                 {
                     throw new Exception("RDLC_PATH is null or empty.");

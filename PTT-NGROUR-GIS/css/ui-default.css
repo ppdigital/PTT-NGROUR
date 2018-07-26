@@ -40,13 +40,15 @@ body, html, .ui-body {
 
 .container-footer {
     padding: 15px 20px;
+    background-color: rgba(255, 255, 255, .7);
 }
 
 .btn {
-    width: 70px;
+    /*width: 70px;*/
+    min-width: 70px;
     border-radius: 4px;
-    padding-left: 0px;
-    border-width: 1px;
+    padding: 3px;
+    /*border-width: 1px;*/
     color: white;
     border-width: 0px;
 }
@@ -59,15 +61,82 @@ body, html, .ui-body {
     background-color: #BABFC5;
 }
 
-.btn-default:hover,
-.btn-primary:hover {
-    background-color: #e9e9e9;
-}
+    .btn-default:hover,
+    .btn-primary:hover {
+        background-color: #e9e9e9;
+    }
 
 
 .text-right {
     text-align: right;
 }
+
+.text-left {
+    text-align: left;
+}
+
+.d-inline-block {
+    display: inline-block;
+}
+
+/* ======= Loader ======= */
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 1.5s linear infinite;
+    position: absolute;
+    top: calc(50% - 60px);
+    left: calc(50% - 60px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s;
+}
+
+.bg-loader {
+    background-color: rgba(0,0,0,0.8);
+    z-index: 998;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s;
+}
+
+    .bg-loader.show-loader {
+        background-color: rgba(0,0,0,0.8);
+        opacity: 1;
+        visibility: visible;
+        /*display: none;*/
+        /*transition: opacity 0.5s ease-in;*/
+    }
+
+        .bg-loader.show-loader .loader {
+            opacity: 1;
+            visibility: visible;
+            /*transition: opacity 0.5s ease-in;*/
+        }
+
+
+
+
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+/* ======= Loader ======= */
 
 @media only screen and (max-width: 768px) {
 

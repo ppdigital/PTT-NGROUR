@@ -1,0 +1,20 @@
+﻿.print-map {
+    /*padding: 0 20px;*/
+}
+
+    .print-map .container-body {
+        padding-bottom: 15px;
+    }
+
+    .print-map .amos-radio-list .amos-textbox-label {
+        min-width: 100px;
+    }
+
+
+    .print-map .text-right {
+        /*margin-top: 20px;*/
+    }
+
+.basemap.print.awesome-panel.visible > .container {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+}

@@ -36,11 +36,12 @@
             font-size: 12px;
         }
 
-        .amos-textbox > .amos-textbox-container > .amos-textbox-input {
+        .amos-textbox.amos-form-readonly > .amos-textbox-container > .amos-textbox-input {
             display: block !important;
             border-radius: 4px;
             -webkit-backface-visibility: hidden;
-            background-color: #EAF4FF;
+            /*background-color: #EAF4FF;*/
+            /*background-color: #eeeeee;*/
         }
 
     .amos-textbox input {
@@ -68,6 +69,48 @@
 
 *::-moz-placeholder {
     font-style: normal;
+}
+
+.amos-alert-indicator .amos-button:hover {
+    background-color: #e9e9e9;
+}
+
+.amos-alert-indicator .amos-button {
+    background-color: #337FD4;
+    width: 70px;
+    border-radius: 4px;
+    padding-left: 0px;
+    border-width: 1px;
+    color: white;
+    border-width: 0px;
+    margin-right: 10px;
+}
+
+.amos-dialog-title-text {
+    color: #337FD4;
+}
+
+.amos-dialog-icon-close:hover {
+}
+
+.amos-dialog-icon-close {
+    top: 6px;
+    background: url('../js/system/gis/resources/images/icn_close1_normal.png') no-repeat;
+    background-color: rgba(0, 0, 0, 0);
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-image: url("../js/system/gis/resources/images/icn_close1_normal.png");
+    background-size: auto auto;
+    background-origin: padding-box;
+    background-clip: border-box;
+    background-position-x: 0%;
+    background-position-y: 0%;
+}
+
+.amos-alert-button-container {
+    text-align: center;
 }
 
 .amos-dropdown {
@@ -101,8 +144,14 @@
     text-align: left;
 }
 /*End Add By nattawit.kr 2018/06/15*/
+
+.amos-button:active {
+    box-shadow: 0 0 0 2px #337FD4;
+    border-color: #337FD4;
+}
+
 .esriPopup {
-    font-family: Kanit;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
     .esriPopup .titlePane {
@@ -111,18 +160,57 @@
         color: #337FD4;
         line-height: 30px;
         border-bottom: 1px solid #E2E2E1;
+        padding-left: 15px;
+        font-weight: bold;
     }
 
     .esriPopup .titleButton {
         top: 6px;
+        background: url('../js/system/gis/resources/images/icn_close1_normal.png') no-repeat;
     }
+
+        .esriPopup .titleButton:hover {
+            background: url('../js/system/gis/resources/images/icn_close1_hover.png') no-repeat;
+        }
 
         .esriPopup .titleButton.maximize {
             display: none;
         }
 
+        .esriPopup .titleButton.close {
+            width: 20px;
+            height: 17px;
+        }
+
     .esriPopup .actionsPane,
     .esriPopup .contentPane {
-        /*background-color: white;*/
-        background-color: rgba(255, 255, 255, 0.5) !important;
+        background-color: white;
+        /*background-color: rgba(255, 255, 255, 0.5) !important;*/
     }
+
+
+.esriLayerList .esriToggleButton {
+    width: auto;
+}
+
+.esriToggleButton.esri-icon-down {
+    background: url('../js/system/gis/resources/images/arrow_dropdown1_selected.png') no-repeat;
+    margin: 15px 0 0;
+}
+
+.esri-icon-down:before {
+    content: "";
+}
+
+.esriToggleButton.esri-icon-right {
+    background: url('../js/system/gis/resources/images/arrow_dropdown1_normal.png') no-repeat;
+    margin: 15px 15px 0;
+}
+
+.esri-icon-right:before {
+    content: "";
+}
+
+.esriLayerList .esriHasTabContent .esriLabel, .esriLayerList .esriHasButton .esriLabel {
+    font-size: 12px;
+}

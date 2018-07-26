@@ -1,0 +1,25 @@
+﻿<div>
+    <div class="container-body">
+        <div data-dojo-attach-point="divForm" data-dojo-type="esrith/amos/form/FormValidator">
+            <div data-dojo-attach-point="divTitle" data-dojo-type="esrith/amos/form/TextBox" data-dojo-props="label:'ชื่อแผนที่'"></div>
+            <div data-dojo-attach-point="radioListSize"
+                 data-dojo-type="esrith/amos/form/RadioButtonList"
+                 data-dojo-props="name:'PAPER_SIZE',valueField:'CODE', displayField: 'DESCR',columns:2,label:'ขนาดกระดาษ'"></div>
+            <div data-dojo-attach-point="radioListType"
+                 data-dojo-type="esrith/amos/form/RadioButtonList"
+                 data-dojo-props="name:'FILE_TYPE',valueField:'CODE', displayField: 'DESCR',columns:2,label:'แนวกระดาษ'"></div>
+            <div data-dojo-attach-point="radioListExport"
+                 data-dojo-type="esrith/amos/form/RadioButtonList"
+                 data-dojo-props="name:'FILE_EXTENSION',valueField:'CODE', displayField: 'DESCR',columns:2,label:'รูปแบบผลลัพธ์'"></div>
+        </div>
+    </div>
+    <div class="container-footer">
+        <div class="text-right">
+            <div data-dojo-attach-point="btnPrint"
+                 data-dojo-type="esrith/amos/form/Button"
+                 data-dojo-props="label:'ตกลง'"
+                 class="btn btn-primary">
+            </div>
+        </div>
+    </div>
+</div>

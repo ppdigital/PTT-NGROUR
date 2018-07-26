@@ -107,18 +107,21 @@ define([
         constructor: function (param, divId) {
             param = param || {};
             //param.configures = param.configures || {};
-            //console.log("map param=", param);
             this._mapConfig = param;
-            console.log("this._mapConfig", this._mapConfig);
             this.mapId = param.mapId;
+
+            // ## Nannie add(20-7-2018) :
+            bundle.toolbars.draw.addPoint = "คลิกเพื่อกำหนดตำแหน่ง";
 
             if (this._mapConfig.option.extent != null) {
                 this._mapConfig.option.extent = gJsonUtils.fromJson(this._mapConfig.option.extent);
             }
+
             var deferredList = [];
             var deferred = null;
             this._map = new Map(divId, this._mapConfig.option);
             this._layers = new Array();
+
 
             array.forEach(this._mapConfig.layers, lang.hitch(this, function (layerConfig) {
                 if (layerConfig.option.addMap) {
@@ -183,7 +186,9 @@ define([
                         console.error("layers-add-result", layer.error);
                     }
                 }));
+
                 this.emit("load-completed", _map);
+
             }, map));
         },
         _disableFunction: function (map) {

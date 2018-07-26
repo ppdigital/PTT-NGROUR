@@ -19,26 +19,27 @@ function (
     lang.mixin(mapConfig, {
         "option": {
             "logo": false,
-            "slider": false,
+            "slider": true,
             "sliderPosition": "top-left",
             "sliderStyle": "small",
             "showAttribution": false,
-            "fadeOnZoom": true,
+            "isZoomSlider": true,
             "scale": 244648.868618,
             "center": [100.626, 13.608]
         },
-        "layers":   [
+        "layers": [
             {
-                "url": "https://pttarcgisserver.pttplc.com/arcgis/rest/services/NOSTRA_CACHE/MapServer",
+                "url": "https://pttarcgisserver.pttplc.com/arcgis/rest/services/NOSTRA_CACHE_DoubleLine/MapServer",
                 "option": {
                     "id": "NOSTRA_CACHE",
-                    "name": "NOSTRA_CACHE",
+                    "name": "แผนที่ฐาน",
                     "type": "tiled",
                     "visible": true,
                     "addTOC": true,
                     "addMap": true,
                     "systemId": "GIS",
-                    "index": 0
+                    "index": 0,
+                    "toggle": true          //ใช้สำหรับฟังก์ชันเปลี่ยน Basemap
                 }
             },
             {
@@ -51,20 +52,22 @@ function (
                     "addTOC": true,
                     "addMap": true,
                     "systemId": "GIS",
-                    "index": 1
+                    "index": 1,
+                    "toggle": false         //ใช้สำหรับฟังก์ชันเปลี่ยน Basemap
                 }
             },
             {
                 "url": "https://nonpttarcgisserver.pttplc.com/arcgis/rest/services/ORTHO_CACHE/MapServer",
                 "option": {
                     "id": "ORTHO_CACHE",
-                    "name": "ORTHO_CACHE",
+                    "name": "ภาพถ่ายดาวเทียม",
                     "type": "tiled",
                     "visible": false,
                     "addTOC": true,
                     "addMap": true,
                     "systemId": "GIS",
-                    "index": 2
+                    "index": 2,
+                    "toggle": true
                 }
             },
             {
@@ -73,13 +76,28 @@ function (
                     "id": "PTTOUR_DATA",
                     "name": "PTTOUR_DATA",
                     "type": "dynamic",
-                    "visible": true,
+                    "visible": false,
                     "addTOC": true,
                     "addMap": true,
                     "systemId": "GIS",
                     "index": 3
                 }
             },
+            {
+                "url": "https://nonpttarcgisserver.pttplc.com/arcgis/rest/services/PTT_OUR/PTTOUR_DATA_SYMBOL/MapServer",
+                "option": {
+                    "id": "PTTOUR_DATA_SYMBOL",
+                    "name": "PTTOUR_DATA_SYMBOL",
+                    "type": "dynamic",
+                    "visible": true,
+                    "addTOC": true,
+                    "addMap": true,
+                    "systemId": "GIS",
+                    "index": 3,
+                    "toggle": false
+                }
+            },
+
             {
                 "url": "https://nonpttarcgisserver.pttplc.com/arcgis/rest/services/PTT_OUR/PTTOUR_PL/MapServer",
                 "option": {
@@ -90,7 +108,8 @@ function (
                     "addTOC": true,
                     "addMap": true,
                     "systemId": "GIS",
-                    "index": 4
+                    "index": 4,
+                    "toggle": false
                 }
             },
             {
@@ -103,10 +122,11 @@ function (
                     "addTOC": true,
                     "addMap": true,
                     "systemId": "GIS",
-                    "index": 5
+                    "index": 5,
+                    "toggle": false
                 }
             }
-            
+
         ],
         "features": [{
             "featureCollectionObject": {
@@ -214,7 +234,9 @@ function (
             }
         }],
 
-        "services": {},
+        "services": { //เดี๋ยวย้าย
+            "REGION_QUERY": "https://nonpttarcgisserver.pttplc.com/arcgis/rest/services/PTT_OUR/PTTOUR_POLYGON/MapServer/0"
+        },
 
 
         "defaultSymbol": {
