@@ -7,15 +7,65 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <link href="~/style/create_login.css" rel="stylesheet" />
     <link href="~/Style/create.css" rel="stylesheet" />
     @Styles.Render("~/Content/bootstrap.css")
     @Styles.Render("~/Content/bootstrap.min.css")
     
     <link href='https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.css' rel='stylesheet'>
+
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="~/Content/Logo/login_logo57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/Content/Logo/login_logo72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/Content/Logo/login_logo114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/Content/Logo/login_logo144.png" />
+
     <title>@ViewBag.Title</title>
+    <script type="text/javascript">
+        (function (document, navigator, standalone) {
+            // prevents links from apps from oppening in mobile safari
+            // this javascript must be the first script in your <head>
+            if ((standalone in navigator) && navigator[standalone]) {
+                var curnode, location = document.location, stop = /^(a|html)$/i;
+                document.addEventListener('click', function (e) {
+                    curnode = e.target;
+                    while (!(stop).test(curnode.nodeName)) {
+                        curnode = curnode.parentNode;
+                    }
+                    // Condidions to do this only on links to your own app
+                    // if you want all links, use if('href' in curnode) instead.
+                    if ('href' in curnode && (curnode.href.indexOf('http') || ~curnode.href.indexOf(location.host))) {
+                        e.preventDefault();
+                        location.href = curnode.href;
+                    }
+                }, false);
+            }
+        })(document, window.navigator, 'standalone');
+    </script>
 </head>
+<script type="text/javascript">
+    (function (document, navigator, standalone) {
+        // prevents links from apps from oppening in mobile safari
+        // this javascript must be the first script in your <head>
+        if ((standalone in navigator) && navigator[standalone]) {
+            var curnode, location = document.location, stop = /^(a|html)$/i;
+            document.addEventListener('click', function (e) {
+                curnode = e.target;
+                while (!(stop).test(curnode.nodeName)) {
+                    curnode = curnode.parentNode;
+                }
+                // Condidions to do this only on links to your own app
+                // if you want all links, use if('href' in curnode) instead.
+                if ('href' in curnode && (curnode.href.indexOf('http') || ~curnode.href.indexOf(location.host))) {
+                    e.preventDefault();
+                    location.href = curnode.href;
+                }
+            }, false);
+        }
+    })(document, window.navigator, 'standalone');
+</script>
+
 <style>
     /* The container checkbox*/
     .container {
@@ -118,7 +168,7 @@
                                     </div>
                                 </div>
                               
-                             <div class="contact100-form-checkbox">
+                             <div class="contact100-form-checkbox" style="display:none">
                                  <label class="container">
                                      @Html.LabelFor(u => u.RememberMe, new { @class = "fontwhite" })
                                      @Html.CheckBoxFor(u => u.RememberMe, new { @class = "container" })<span class="checkmark"></span>

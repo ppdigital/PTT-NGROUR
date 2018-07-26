@@ -229,6 +229,10 @@
     <Content Include="Content\Images\wall.png" />
     <Content Include="Content\jasny-bootstrap.min.css" />
     <Content Include="Content\jquery-ui-slider-pips.css" />
+    <Content Include="Content\Logo\login_logo114.png" />
+    <Content Include="Content\Logo\login_logo144.png" />
+    <Content Include="Content\Logo\login_logo57.png" />
+    <Content Include="Content\Logo\login_logo72.png" />
     <Content Include="Content\Logo\ngr1.png" />
     <Content Include="Content\Logo\ngrwhite.png" />
     <Content Include="Content\Logo\OURlogo1.png" />
@@ -509,6 +513,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\Logo\IconsLandVistaSVGTransportMultiviewIconsDemo.zip" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>

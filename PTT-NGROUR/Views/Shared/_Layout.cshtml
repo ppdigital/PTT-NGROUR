@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+
     <title>@ViewBag.Title - NGROUR</title>
     @*  <script src="~/Scripts/chart.js"></script>*@
     
@@ -36,6 +39,27 @@
         }
         
     </style>
+    <script type="text/javascript">
+        (function (document, navigator, standalone) {
+            // prevents links from apps from oppening in mobile safari
+            // this javascript must be the first script in your <head>
+            if ((standalone in navigator) && navigator[standalone]) {
+                var curnode, location = document.location, stop = /^(a|html)$/i;
+                document.addEventListener('click', function (e) {
+                    curnode = e.target;
+                    while (!(stop).test(curnode.nodeName)) {
+                        curnode = curnode.parentNode;
+                    }
+                    // Condidions to do this only on links to your own app
+                    // if you want all links, use if('href' in curnode) instead.
+                    if ('href' in curnode && (curnode.href.indexOf('http') || ~curnode.href.indexOf(location.host))) {
+                        e.preventDefault();
+                        location.href = curnode.href;
+                    }
+                }, false);
+            }
+        })(document, window.navigator, 'standalone');
+    </script>
 </head>
 <body>
     <link rel="shortcut icon" href="#" />
@@ -93,7 +117,7 @@
             <div class="bg-blue5 shadow-2 hidden-lg hidden-md" style="padding: 1rem 1rem; display: table;width:100%">
                 
                     <div class=" w-nav-menu col-sm-4" style=" float: left; margin-top: 0.8rem; padding-left: 0rem">
-                        <a class="white no-underline form-inline" onclick="history.back(-1)" style=" float: left; line-height: 3px;" href="#">
+                        <a class="white no-underline form-inline" href="javascript:void(0);" onclick="javascript:history.go(-1);" style=" float: left; line-height: 3px;" href="#">
 
                             <i class="fa fa-angle-left fa-lg v-mid cl" aria-hidden="true"></i>
                             <span class=" h5  "> Back</span>

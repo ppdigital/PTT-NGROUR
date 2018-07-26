@@ -8,6 +8,7 @@
 
 
 }
+
 @section style{
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
     <link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
@@ -29,9 +30,11 @@
         .btn {
             font-size: 11px !important;
         }
+        .clickable{ cursor:pointer;}
     </style>
 }
-<iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=customer" style="visibility: hidden; width:0px;height:0px; "></iframe>
+<iframe src=" http://nonngr-our.pttplc.com/gis/page.aspx?m=customer" style="visibility: hidden; width:0px;height:0px; "></iframe>
+
 <div class="container-fluid ph2">
     <br />
     <ul class="nav nav-tabs" style="border-color: rgba(0,0,0,.0625) !important">
@@ -43,7 +46,7 @@
     <div class="tab-content bg-white border-box-gray" style="border-top: none !important">
         <div id="customer" class="tab-pane fade in active">
             <div class="ph2 pv2 w-100">
-                <div class="table-responsive" style="border:0px">
+                <div  style="border:0px">
                     <table class="table table-striped table-bordered nowrap h6" style="width: 100%;z-index: 0 !important;" id="CustomerTable">
                         <thead>
                             <tr>
@@ -72,11 +75,11 @@
                                     <td>@cus.SHIP_TO</td>
                                     <td>@cus.SOLD_TO</td>
 
-                                    <td><center> <a class=" dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewCust" name="btnOpenView" onclick="ViewCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalViewCust" aria-hidden="true"></a></center></td>
+                                    <td><center> <i><a href="#" class="clickable dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewCust" name="btnOpenView" onclick="ViewCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalViewCust" aria-hidden="true"></a></i></center></td>
                                     @if ((users.Roleid).Equals(1))
                                     {
                                         <td>
-                                            <center> <a class=" dib fa fa-pencil-square-o fa-lg no-underline gray pointer" id="EditCust" name="btnOpenEdit" onclick="EditCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalEditCust" aria-hidden="true"></a></center>
+                                            <center> <i><a href="#" class="clickable dib fa fa-pencil-square-o fa-lg no-underline gray pointer" id="EditCust" name="btnOpenEdit" onclick="EditCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalEditCust" aria-hidden="true"></a></i></center>
                                         </td>}
                                     else { }
                                     @if ((users.Roleid).Equals(1))
@@ -112,7 +115,7 @@
                 else
                 { <span></span>}
 
-                <div class="table-responsive" style="border:0px">
+                <div class="" style="border:0px">
                     <table class="table table-striped table-bordered nowrap h6" style="width:100%" id="MeterTable">
                         <thead>
                             <tr>
@@ -153,11 +156,11 @@
                                     <td>@meter.SOLD_TO_NAME</td>
                                     <td>@meter.STATUS_DETAIL</td>
 
-                                    <td><center> <a class=" dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewMeter" name="btnOpenView" onclick="ViewMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></center></td>
+                                    <td><center><i><a href="#" class="clickable dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewMeter" name="btnOpenView" onclick="ViewMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></i></center></td>
                                     @if ((users.Roleid).Equals(1))
                                     {
                                         <td>
-                                            <center> <a class=" dib fa fa-pencil-square-o fa-lg no-underline gray pointer" id="EditMeter" name="btnOpenEdit" onclick="EditMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalEditMeter" aria-hidden="true"></a></center>
+                                            <center><i><a href="#" class="clickable dib fa fa-pencil-square-o fa-lg no-underline gray pointer" id="EditMeter" name="btnOpenEdit" onclick="EditMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalEditMeter" aria-hidden="true"></a></i></center>
                                         </td>}
 
                                 </tr>
@@ -902,7 +905,7 @@
                             <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12" id="mapEdit">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                     <div class="  black-80 center" style="border: 1px solid #808080;">
-                                        <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=customer" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
+                                        <iframe src="http://nonngr-our.pttplc.com/gis/page.aspx?m=customer" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
                                     </div>
 
                                 </div>
@@ -1064,7 +1067,7 @@
                         <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12" id="mapCreate">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                 <div class="  black-80 center" style="border: 1px solid #808080;">
-                                    <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=customer" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame2"></iframe>
+                                    <iframe src="http://nonngr-our.pttplc.com/gis/page.aspx?m=customer" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id=" 2"></iframe>
                                 </div>
 
                             </div>
@@ -1094,7 +1097,7 @@
 
 
             <div class=" black-80 center">
-                <iframe src="http://ptt-gis5non-p01.ptt.corp/PTT-NGROUR-GIS/page.aspx?m=customer" style="min-height: 450px !important; width: 100% !important;" id="map_iframe_report"></iframe>
+                <iframe src=" http://nonngr-our.pttplc.com/gis/page.aspx?m=customer" style="min-height: 450px !important; width: 100% !important;" id="map_iframe_report"></iframe>
 
                 <br />
 
@@ -1118,14 +1121,28 @@
     <script src="~/Scripts/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.1/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/datatables.min.js"></script>
     <script type="text/javascript">
+      var  map_customer_json_show = {
+            "menu": "utilization-customer",
+            "type": "METERING",
+            "command": "view",
+            "parameter": {
+                "SHIP_TO": "",
+                "METER_NUMBER": ""
+            }
+        };
+    
+       // console.log(map_customer_json);
+        map_frame2.contentWindow.postMessage(map_customer_json_show, '*');
+        map_frame.contentWindow.postMessage(map_customer_json_show, '*');
+        
 
                 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                     $($.fn.dataTable.tables(true)).DataTable()
                        .columns.adjust()
 
                 });
-                document.getElementById('mapCreate').style.display = 'none';
-                document.getElementById('mapEdit').style.display = 'none';
+                document.getElementById('mapCreate').style.visibility = 'hidden';
+                document.getElementById('mapEdit').style.visibility = 'hidden';
 
                 var tblOptionCus = $('#CustomerTable').DataTable({
                     dom: 'lBfrtip',
@@ -1265,7 +1282,7 @@
             }
 
             function CheckGisMapCreate() {
-
+               
                 if (document.getElementById('checkGisMapCreate').checked == true && document.getElementById("txtMeterNumMCreate").value !="") {
 
                     map_customer_json = {
@@ -1277,28 +1294,51 @@
                             "METER_NUMBER": $("#txtMeterNumMCreate").val()
                         }
                     };
-                    console.log("save map");
-                    console.log(map_customer_json);
+                    //console.log("save map");
+                   // console.log(map_customer_json);
                     map_frame2.contentWindow.postMessage(map_customer_json, '*');
-                    document.getElementById('mapCreate').style.display = 'inline-block';
+                    document.getElementById('mapCreate').style.visibility = 'visible';
+                    document.getElementById('txtMeterNumMCreate').readOnly = true;
+                    document.getElementById('txtMeterNameMCreate').readOnly = true;
+                    document.getElementById('seMeterTypeMCreate').disabled = true;
+                    //document.getElementById('seShipToMCreate').selectpicker.disabled = true; 
+                    
+                    document.getElementById('seLicenseMCreate').disabled = true;
+                    document.getElementById('seStatusMCreate').disabled = true;
+                    document.getElementById('datepicCommdateMCreate').disabled = true;
+                    $('#seShipToMCreate').prop('disabled', true);
+                    $('#seShipToMCreate').selectpicker('refresh');
+                 
                 }
                 else if (document.getElementById('checkGisMapCreate').checked == true && document.getElementById("txtMeterNumMCreate").value == "") {
                     alert("Please enter the Station number");
-                    document.getElementById('mapCreate').style.display = 'none';
+                    document.getElementById('mapCreate').style.visibility = 'hidden';
                     document.getElementById('checkGisMapCreate').checked = false;
                 }
-                else { document.getElementById('mapCreate').style.display = 'none'; }
+                else {
+                    document.getElementById('mapCreate').style.visibility = 'hidden'; document.getElementById('txtMeterNumMCreate').readonly = 'readonly';
+                    document.getElementById('txtMeterNumMCreate').readOnly = false;
+                    document.getElementById('txtMeterNameMCreate').readOnly = false;
+                    document.getElementById('seMeterTypeMCreate').disabled = false;
+                   
+                    document.getElementById('seLicenseMCreate').disabled = false;
+                    document.getElementById('seStatusMCreate').disabled = false;
+                    document.getElementById('datepicCommdateMCreate').disabled = false;
+                   // document.getElementById('datepicCommdateMCreate').disabled = false;
+                    $('#seShipToMCreate').prop('disabled', false);
+                    $('#seShipToMCreate').selectpicker('refresh');
+                }
 
             }
 
             function CheckGisMapEdit() {
 
                 if (document.getElementById('checkGisMapEdit').checked == true) {
-                    document.getElementById('mapEdit').style.display = 'inline-block';
+                    document.getElementById('mapEdit').style.visibility = 'visible';
 
                 }
                 else {
-                    document.getElementById('mapEdit').style.display = 'none';
+                    document.getElementById('mapEdit').style.visibility = 'hidden';
                 }
 
             }
@@ -1463,13 +1503,7 @@
             var seLicenseMCreate = document.getElementById("seLicenseMCreate").value;
             var seStatusMCreate = Number(document.getElementById("seStatusMCreate").value);
             var datepicCommdateMCreate = $('#datepicCommdateMCreate').val();
-           // console.log(txtMeterNumMCreate);
-            //console.log(txtMeterNameMCreate);
-           // console.log(seMeterTypeMCreate);
-           // console.log(seShipToMCreate);
-           // console.log(seLicenseMCreate);
-           // console.log(seStatusMCreate);
-           // console.log(datepicCommdateMCreate);
+           
             if (txtMeterNumMCreate == "" ) {
                 alert("โปรดกรอกช่อง Station Number");
             }
