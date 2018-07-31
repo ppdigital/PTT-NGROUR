@@ -75,21 +75,24 @@
                                     <td>@cus.SHIP_TO</td>
                                     <td>@cus.SOLD_TO</td>
 
-                                    <td><center> <i><a href="#" class="clickable dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewCust" name="btnOpenView" onclick="ViewCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalViewCust" aria-hidden="true"></a></i></center></td>
+                                    <td><center> <i><a href="#" class="dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer no-underline" id="ViewCust" name="btnOpenView" onclick="ViewCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalViewCust" aria-hidden="true"></a></i></center></td>
                                     @if ((users.Roleid).Equals(1))
                                     {
                                         <td>
-                                            <center> <i><a href="#" class="clickable dib fa fa-pencil-square-o fa-lg no-underline gray pointer" id="EditCust" name="btnOpenEdit" onclick="EditCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalEditCust" aria-hidden="true"></a></i></center>
+                                            <center> 
+                                            <i>
+                                                <a href="#" class="dib fa fa-pencil-square-o fa-lg no-underline gray pointer no-underline" id="EditCust" name="btnOpenEdit" onclick="EditCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalEditCust" aria-hidden="true">
+                                                </a></i></center>
                                         </td>}
                                     else { }
                                     @if ((users.Roleid).Equals(1))
                                     {
                                         if (cus.SHIP_TO_FLAG_SHAPE == 0 || cus.SOLD_TO_FLAG_SHAPE == 0)
                                         {
-                                        <td class="pointer"><center><i><a class="fa fa-globe fa-lg red pointer" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')" aria-hidden="true"></a></i></center></td>}
+                                        <td ><center><i><a href="#" class="fa fa-globe fa-lg red pointer no-underline" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')" data-toggle="modal" aria-hidden="true" data-target="#ModalIfameCustomer"></a></i></center></td>}
                                         else
                                         {
-                                            <td class="pointer" ><center><i ><a class="fa fa-globe fa-lg pointer gray" aria-hidden="true" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')"></a></i></center></td>}
+                                            <td ><center><i ><a href="#" class="fa fa-globe fa-lg pointer gray no-underline" aria-hidden="true" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')" data-toggle="modal" data-target="#ModalIfameCustomer"></a></i></center></td>}
                                     }
                                 </tr>
 
@@ -905,7 +908,7 @@
                             <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12" id="mapEdit">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                     <div class="  black-80 center" style="border: 1px solid #808080;">
-                                        <iframe src="http://nonngr-our.pttplc.com/gis/post.aspx?m=customer" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
+                                        <iframe src="https://nonngr-our.pttplc.com/gis/post.aspx?m=customer" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
                                     </div>
 
                                 </div>
@@ -1067,7 +1070,7 @@
                         <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12" id="mapCreate">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                 <div class="  black-80 center" style="border: 1px solid #808080;">
-                                    <iframe src="http://nonngr-our.pttplc.com/gis/post.aspx?m=customer" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame2"></iframe>
+                                    <iframe src="https://nonngr-our.pttplc.com/gis/post.aspx?m=customer" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="map_frame2"></iframe>
                                 </div>
 
                             </div>
@@ -1097,7 +1100,7 @@
 
 
             <div class=" black-80 center">
-                <iframe src=" http://nonngr-our.pttplc.com/gis/post.aspx?m=customer" style="min-height: 450px !important; width: 100% !important;" id="map_iframe_report"></iframe>
+                <iframe src=" https://nonngr-our.pttplc.com/gis/post.aspx?m=customer" style="min-height: 450px !important; width: 100% !important;" id="map_iframe_report"></iframe>
 
                 <br />
 
@@ -1548,10 +1551,10 @@
                     "SOLD_TO": SOLD_TO
                 }
             }
-            console.log("test Map");
-            console.log(map_customer_json);
+           // console.log("test Map");
+           // console.log(map_customer_json);
             map_iframe_report.contentWindow.postMessage(map_customer_json, '*');
-            $("#ModalIfameCustomer").modal("show");
+           // $("#ModalIfameCustomer").modal("show");
         }
     </script>
 }
