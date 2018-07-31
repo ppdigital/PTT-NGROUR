@@ -57,8 +57,8 @@
                     <center>
                       
 
-                            <div class=" f5 mt1 black gray6">Employee ID : @Html.Encode(User.Identity.Name)</div>
-                        <div class=" f5 mt1 black gray6"> Name : @userrole.FirstName  &nbsp;  @userrole.LastName</div>
+                            <div class=" f5 mt1 black gray6"> @Html.Encode(User.Identity.Name)</div>
+                        <div class=" f5 mt1 black gray6">  @userrole.FirstName&nbsp; @userrole.LastName</div>
 
                     </center>
                
@@ -77,11 +77,10 @@
                         </a>
                         <ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1">
                             <li style="width:100%"><a href="@Url.Action("Index", "Utilization")"><span style="padding-left: 50px">Utilization</span></a></li>
-                            <li style="width:100%"><a href="@Url.Action("Customer", "Utilization")"><span style="padding-left:50px">Customer</span></a></li>
-                           
                             <li style="display:@ViewData["Threshold_page"];width:100%;"><a href="@Url.Action("ThresholdSetting", "Utilization")"><span style="padding-left:50px">Threshold Setting</span></a></li>
-                            <li style="width: 100%;"><a href="@Url.Action("Report", "Utilization")"><span style="padding-left:50px">Report</span></a></li>
-                        </ul>
+                           <li style="width: 100%;"><a href="@Url.Action("Report", "Utilization")"><span style="padding-left:50px">Report</span></a></li>
+                            <li style="width:100%"><a href="@Url.Action("Customer", "Utilization")"><span style="padding-left:50px">Customer Management</span></a></li>
+                         </ul>
                     </li>
                     <li style="width:100%"><a href="#"><i class="fa fa-cogs fa-lg gray7" aria-hidden="true" style="width:9%"> </i><span class="gray7">O & M</span></a></li>
                     <li style="width:100%"><a href="#"><i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" style="width:9%"> </i><span class="gray7">Risk Management</span></a></li>
@@ -94,7 +93,9 @@
 
                         </ul>
                     </li>
-                    <li style="width:100%"><a href="@Url.Action("ResetPassword", "User", new { id = userrole.Username , IsExpired = false  }, null)"><i class="fa fa-cog fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Change Password</a></li>
+@if ((userrole.IS_AD).Equals("0"))
+                                    {
+                    <li style="width:100%"><a href="@Url.Action("ResetPassword", "User", new { id = userrole.Username , IsExpired = false  }, null)"><i class="fa fa-cog fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Change Password</a></li>}
                     <li style="width:100%"><a href="@Url.Action("Logout", "User")"><i class="fa fa-sign-out fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Sign Out</a></li>
 
                 </ul>
@@ -112,14 +113,14 @@
                                     <a href="@Url.Action("Index", "Dashboard")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
 
                                         <i class="fa fa-tachometer fa-lg gray7" aria-hidden="true" id="dashboard"></i>
-                                        <div class="gray6 f-menu-footer pt1" id="t_dashboard">Dashboard</div>
+                                        <div class="gray6 f-menu-footer pt1" id="t_dashboard" style="padding-top: .25rem;">Dashboard</div>
                                     </a>
                                 </center>
                                 <center>
-                                    <a href="@Url.Action("Index", "Utilization")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
+                                    <a href="@Url.Action("MenuUtilization", "Utilization")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
 
                                         <i class="fa fa-map-marker fa-lg gray7" aria-hidden="true" id="utilization"></i>
-                                        <div class="gray6 f-menu-footer pt1" id="t_utilization">Utilization</div>
+                                        <div class="gray6 f-menu-footer pt1" id="t_utilization" style="padding-top: .25rem;">Utilization</div>
 
                                     </a>
                                 </center>
@@ -127,7 +128,7 @@
                                     <div class="dtc v-mid tc w-20 menu_hover no-underline" style="float:left;">
 
                                         <i class="fa fa-cogs fa-lg gray7" aria-hidden="true" id="o_and_m"></i>
-                                        <div class="gray6 f-menu-footer pt1 " id="text_o_and_m">O & M</div>
+                                        <div class="gray6 f-menu-footer pt1 " id="text_o_and_m" style="padding-top: .25rem;">O & M</div>
 
                                     </div>
                                 </center>
@@ -136,17 +137,17 @@
 
                                         <div class="dib ">
                                             <i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" id="risk_manage"></i>
-                                            <div class="gray6 f-menu-footer pt1" id="t_risk_manage">Risk Management</div>
+                                            <div class="gray6 f-menu-footer pt1" id="t_risk_manage" style="padding-top: .25rem;">Risk Management</div>
                                         </div>
 
                                     </div>
                                 </center>
                                 <center>
-                                    <div class="dtc v-mid tc w-20 menu_hover no-underline" style="float:left;">
+                                    <div class="dtc v-mid tc w-20 menu_hover " style="float:left;">
 
-                                        <a class="tc" href="@Url.Action("MenuMobile", "Home")">
+                                        <a class="tc no-underline" href="@Url.Action("MenuMobile", "Home")">
                                             <i class="fa fa-bars fa-lg gray7" aria-hidden="true" id="user"></i>
-                                            <div class="gray6 f-menu-footer pt1">Menu</div>
+                                            <div class="gray6 f-menu-footer pt1" style="padding-top: .25rem;">Menu</div>
                                         </a>
 
                                     </div>

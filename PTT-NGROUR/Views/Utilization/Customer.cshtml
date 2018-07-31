@@ -1,4 +1,5 @@
-﻿@model PTT_NGROUR.Models.ViewModel.Customer
+﻿<!DOCTYPE html>
+@model PTT_NGROUR.Models.ViewModel.Customer
 @{
     ViewBag.Title = "Customer Management";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -1150,6 +1151,7 @@
                 document.getElementById('mapEdit').style.display = 'none';
 
                 var tblOptionCus = $('#CustomerTable').DataTable({
+                   
                     dom: 'lBfrtip',
                     responsive: true,
                     dom:
@@ -1190,9 +1192,9 @@
 
 
                 });
+                
 
-
-                var tblOptionMeter =  $('#MeterTable').DataTable({
+                var tblOptionMeter = $('#MeterTable').DataTable({
                     dom: 'lBfrtip',
                     responsive: true,
                     dom:
@@ -1237,7 +1239,7 @@
 
 
                 });
-
+               
 
                 pdfMake.fonts = {
                     THSarabun: {

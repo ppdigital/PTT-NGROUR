@@ -103,7 +103,7 @@
     <img src="@Url.Action("GetChartImage" , new { pStrChartName = "Pipeline" })" />
 </center>
     <br/>
-    <table border="1" cellpadding="10" width="100%" >
+ @*   <table border="1" cellpadding="10" width="100%" >
         <thead>
             <tr>
                 <th >#</th>
@@ -112,12 +112,12 @@
                 <th>License</th>
                 <th>Velocity</th>
                 <th>Color Status</th>
-                <th>Month/Year</th>                
+                <th>Month/Year</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var m in Model.ListSearchData)
-            {                
+            {
             <tr>
                 <td>@m.NO</td>
                 <td>@m.NAME</td>
@@ -125,11 +125,11 @@
                 <td>@m.LICENSE</td>
                 <td>@m.VALUE</td>
                 <td>@m.THRESHOLD</td>
-                <td>@m.MONTH / @m.YEAR</td>                
-            </tr>                
+                <td>@m.MONTH / @m.YEAR</td>
+            </tr>
             }
         </tbody>
-    </table>
+    </table>*@
 
 </body>
 </html>

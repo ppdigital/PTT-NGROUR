@@ -90,9 +90,12 @@
                                 {<li class="dropdown">
                                 <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white">@Html.Encode(User.Identity.Name) <span class="caret"></span></span></a>
                                 <ul class="dropdown-menu ">
-                                    <li><a href="@Url.Action("ResetPassword", "User", new { id = userrole.Username , IsExpired = false  }, null)">
+                                 @if ((userrole.IS_AD).Equals("0"))
+                                    {
+                               <li><a href="@Url.Action("ResetPassword", "User", new { id = userrole.Username , IsExpired = false  }, null)">
                                             <i class="fa fa-user text-grey" aria-hidden="true"></i>
-                                            <span class="text-grey txt-normal h6">&nbsp;Change Password</span></a></li>
+                                            <span class="text-grey txt-normal h6">&nbsp;Change Password</span></a></li>}
+
                                  <li><a href="@Url.Action("Logout", "User")">
                                          <i class=" fa fa-power-off text-grey" aria-hidden="true">
     </i>
@@ -120,7 +123,7 @@
                         <a class="white no-underline form-inline " href="javascript:void(0);" onclick="javascript:history.go(-1);" style=" float: left; line-height: 3px;" >
 
                             <i class="fa fa-angle-left fa-lg v-mid cl" aria-hidden="true"></i>
-                            <span class=" h5  "> Back</span>
+                            <span class=" h5"> Back</span>
                         </a>
                     </div>
                 
@@ -224,7 +227,7 @@
                             </a>
                         </center>
                         <center>
-                            <a href="@Url.Action("Index", "Utilization")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
+                            <a href="@Url.Action("MenuUtilization", "Utilization")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
 
                                 <i class="fa fa-map-marker fa-lg gray7" aria-hidden="true" id="utilization"></i>
                                 <div class="gray6 f-menu-footer pt1" id="t_utilization">Utilization</div>
@@ -280,10 +283,10 @@
 
         }
 
-        if (viewbag == "Utilization") {
+     /*  if (viewbag == "Utilization") {
             document.getElementById("utilization").style.color = "#258fe5";
             document.getElementById("t_utilization").style.color = "#258fe5";
-        }
+        } */
 
         if (viewbag == "OAndM") {
             document.getElementById("o_and_m").style.color = "#258fe5";
@@ -301,7 +304,13 @@
                 document.getElementById("mySidenav").style.width = "0";
             } */
 
-
+       /* var a = document.getElementsByTagName("a");
+        for (var i = 0; i < a.length; i++) {
+            a[i].onclick = function () {
+                window.location = this.getAttribute("href");
+                return false
+            }
+        } */
 
 
     </script>

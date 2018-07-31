@@ -118,33 +118,33 @@
                 showPIE("GATE", dataGATE);
             });
         </script>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Velocity</th>
-                    <th>Color Status</th>
-                    <th>Month/Year</th>
-                    <th>Map</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var m in Model)
-                {
-                    <text>
-                        <tr>
-                            <td>@m.NO</td>
-                            <td>@m.NAME</td>
-                            <td>@m.VALUE</td>
-                            <td>@m.THRESHOLD</td>
-                            <td>@m.MONTH / @m.YEAR</td>
-                            <td>@m.THRESHOLD</td>
-                        </tr>
-                    </text>
-                }
-            </tbody>
-        </table>
+     @*  <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Velocity</th>
+                <th>Color Status</th>
+                <th>Month/Year</th>
+                <th>Map</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in Model)
+            {
+                <text>
+                    <tr>
+                        <td>@m.NO</td>
+                        <td>@m.NAME</td>
+                        <td>@m.VALUE</td>
+                        <td>@m.THRESHOLD</td>
+                        <td>@m.MONTH / @m.YEAR</td>
+                        <td>@m.THRESHOLD</td>
+                    </tr>
+                </text>
+            }
+        </tbody>
+    </table>*@ 
         
        
     </body>
