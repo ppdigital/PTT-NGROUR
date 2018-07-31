@@ -86,10 +86,10 @@
                                     {
                                         if (cus.SHIP_TO_FLAG_SHAPE == 0 || cus.SOLD_TO_FLAG_SHAPE == 0)
                                         {
-                                        <td class="pointer"><center><i class="fa fa-globe fa-lg red pointer" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')" aria-hidden="true"></i></center></td>}
+                                        <td class="pointer"><center><i><a class="fa fa-globe fa-lg red pointer" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')" aria-hidden="true"></a></i></center></td>}
                                         else
                                         {
-                                            <td class="pointer" ><center><i class="fa fa-globe fa-lg pointer gray" aria-hidden="true" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')"></i></center></td>}
+                                            <td class="pointer" ><center><i ><a class="fa fa-globe fa-lg pointer gray" aria-hidden="true" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')"></a></i></center></td>}
                                     }
                                 </tr>
 
@@ -1143,8 +1143,8 @@
                        .columns.adjust()
 
                 });
-                document.getElementById('mapCreate').style.visibility = 'hidden';
-                document.getElementById('mapEdit').style.visibility = 'hidden';
+                document.getElementById('mapCreate').style.display = 'none';
+                document.getElementById('mapEdit').style.display = 'none';
 
                 var tblOptionCus = $('#CustomerTable').DataTable({
                     dom: 'lBfrtip',
@@ -1299,7 +1299,7 @@
                     //console.log("save map");
                    // console.log(map_customer_json);
                     map_frame2.contentWindow.postMessage(map_customer_json, '*');
-                    document.getElementById('mapCreate').style.visibility = 'visible';
+                    document.getElementById('mapCreate').style.display = 'block';
                     document.getElementById('txtMeterNumMCreate').readOnly = true;
                     document.getElementById('txtMeterNameMCreate').readOnly = true;
                     document.getElementById('seMeterTypeMCreate').disabled = true;
@@ -1314,11 +1314,12 @@
                 }
                 else if (document.getElementById('checkGisMapCreate').checked == true && document.getElementById("txtMeterNumMCreate").value == "") {
                     alert("Please enter the Station number");
-                    document.getElementById('mapCreate').style.visibility = 'hidden';
+                    document.getElementById('mapCreate').style.display = 'none';
                     document.getElementById('checkGisMapCreate').checked = false;
                 }
                 else {
-                    document.getElementById('mapCreate').style.visibility = 'hidden'; document.getElementById('txtMeterNumMCreate').readonly = 'readonly';
+                    document.getElementById('mapCreate').style.display = 'none';
+                    document.getElementById('txtMeterNumMCreate').readonly = 'readonly';
                     document.getElementById('txtMeterNumMCreate').readOnly = false;
                     document.getElementById('txtMeterNameMCreate').readOnly = false;
                     document.getElementById('seMeterTypeMCreate').disabled = false;
@@ -1336,11 +1337,11 @@
             function CheckGisMapEdit() {
 
                 if (document.getElementById('checkGisMapEdit').checked == true) {
-                    document.getElementById('mapEdit').style.visibility = 'visible';
+                    document.getElementById('mapEdit').style.display = 'block';
 
                 }
                 else {
-                    document.getElementById('mapEdit').style.visibility = 'hidden';
+                    document.getElementById('mapEdit').style.display = 'none';
                 }
 
             }
