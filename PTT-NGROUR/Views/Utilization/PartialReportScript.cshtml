@@ -33,10 +33,11 @@
             document.getElementById('seLicense').style.display = 'none';
             document.getElementById('seMY').style.display = 'none';
             document.getElementById('pieRight').style.display = 'none';
-            document.getElementById('tblSearch').style.display = 'none';
+            document.getElementById('tblSearchGate').style.display = 'none';
+            document.getElementById('tblSearchPipe').style.display = 'none';
             $('#MultiRegion').selectpicker('selectAll');
             //document.getElementById('chooseYear').style.display = 'none';
-            if (document.getElementById('radioMonth').checked) {
+            /*if (document.getElementById('radioMonth').checked) {
                 document.getElementById('chooseMonth').style.display = 'inline-block';
                 document.getElementById('chooseYear').style.display = 'none';
             }
@@ -47,7 +48,7 @@
             else {
                 document.getElementById('chooseMonth').style.display = 'none';
                 document.getElementById('chooseYear').style.display = 'none';
-            }
+            } */
            
 
         });
@@ -63,9 +64,10 @@
                 $("#thresGY").addClass("row");
                 $("#thresRO").addClass("row");
                 $(".changecolThres").removeClass("col-lg-3 ").addClass("col-lg-6 col-md-6");
-                document.getElementById('tblCurrent').style.display = 'none';
-                document.getElementById('tblSearch').style.display = 'block';
-                
+                document.getElementById('tblCurrentGate').style.display = 'none';
+                document.getElementById('tblCurrentPipe').style.display = 'none';
+                document.getElementById('tblSearchGate').style.display = 'block';
+                document.getElementById('tblSearchPipe').style.display = 'block';
 
             }
             else if (document.getElementById('checkCompare').checked == false) {
@@ -76,8 +78,10 @@
                 $("#thresGY").removeClass("row");
                 $("#thresRO").removeClass("row");
                 $(".changecolThres").removeClass("col-lg-6 col-md-6").addClass("col-lg-3 ");
-                document.getElementById('tblCurrent').style.display = 'block';
-                document.getElementById('tblSearch').style.display = 'none';
+                document.getElementById('tblCurrentGate').style.display = 'block';
+                document.getElementById('tblCurrentPipe').style.display = 'block';
+                document.getElementById('tblSearchGate').style.display = 'none';
+                document.getElementById('tblSearchPipe').style.display = 'none';
 
             }
            
@@ -98,7 +102,7 @@
         }; */
 
         
-        var tblOptionReport = $('#utilTbl').DataTable({
+        var tblOptionReport = $('#searchTblGate').DataTable({
             
           
             dom: 'lBfrtip',
@@ -140,10 +144,94 @@
 
 
         });
+        var tblOptionReport = $('#searchTblPipe').DataTable({
+
+
+            dom: 'lBfrtip',
+            dom:
+    "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            buttons: [
+                {
+                    "extend": 'copy',
+                    "exportOptions": { columns: [1, 2, 3, 4, 5, 6, 7] }
+                },
+                {
+                    "extend": 'csv',
+                    "exportOptions": { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
+                },
+                {
+                    "extend": 'excel',
+                    "exportOptions": { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
+                },
+               {
+                   "extend": 'pdfHtml5',
+                   "exportOptions": { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
+                   "text": 'PDF',
+                   "pageSize": 'A4',
+                   "customize": function (doc) {
+                       doc.defaultStyle = {
+                           font: 'THSarabun',
+                           fontSize: 16,
+                       };
+                   }
+               },
+
+               {
+                   "extend": 'print',
+                   "exportOptions": { columns: [0, 1, 2, 3] }
+               }
+            ]
+
+
+        });
        
-        var tblOptionReportCurrent = $('#currentTbl').DataTable({
+        var tblOptionReportCurrentGate = $('#currentTblGate').DataTable({
            
            
+            dom: 'lBfrtip',
+            dom:
+    "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            buttons: [
+                {
+                    "extend": 'copy',
+                    "exportOptions": { columns: [1, 2, 3, 4, 5, 6, 7] }
+                },
+                {
+                    "extend": 'csv',
+                    "exportOptions": { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
+                },
+                {
+                    "extend": 'excel',
+                    "exportOptions": { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
+                },
+               {
+                   "extend": 'pdfHtml5',
+                   "exportOptions": { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
+                   "text": 'PDF',
+                   "pageSize": 'A4',
+                   "customize": function (doc) {
+                       doc.defaultStyle = {
+                           font: 'THSarabun',
+                           fontSize: 16,
+                       };
+                   }
+               },
+
+               {
+                   "extend": 'print',
+                   "exportOptions": { columns: [0, 1, 2, 3] }
+               }
+            ]
+
+
+        });
+        var tblOptionReportCurrentPipe = $('#currentTblPipe').DataTable({
+
+
             dom: 'lBfrtip',
             dom:
     "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
@@ -222,22 +310,22 @@
            
             // var datet = $('#Month-filter').val();
            
-            if (document.getElementById('radioMonth').checked && $('#Month-filter').datepicker('getDate') != null) {
+            //if (document.getElementById('radioMonth').checked && $('#Month-filter').datepicker('getDate') != null) {
                 if (document.getElementById('chooseMonth').value != "") {
                     var date = $('#Month-filter').datepicker('getDate'),
                           month = date.getMonth() + 1,
                           year = date.getFullYear();
                 }
 
-            }
-            else if (document.getElementById('radioYear').checked && $('#Year-filter').datepicker('getDate') != null) {
+           // }
+          /*  else if (document.getElementById('radioYear').checked && $('#Year-filter').datepicker('getDate') != null) {
                 if (document.getElementById('chooseYear').value != "") {
                     var date = $('#Year-filter').datepicker('getDate'),
                          year = date.getFullYear();
                     var month = "null";
                 }
-                // document.getElementById('chooseYear').style.display = 'none';
-            }
+               
+            } */
             else { var month = "null"; var year = "null"; }
 
           
@@ -296,10 +384,17 @@
     
     function showUtilTable(data) {
         _tblData = data;
-        let tblShow;
-             tblShow = $("#utilTbl").DataTable();
-            tblShow.clear()
-            $('#utilTbl').find('tbody tr').each(function () {
+        
+        let tblShowGate;
+        let tblShowPipe;
+             tblShowGate = $("#searchTblGate").DataTable();
+             tblShowGate.clear()
+            $('#searchTblGate').find('tbody tr').each(function () {
+                this.remove();
+            });
+            tblShowPipe = $("#searchTblPipe").DataTable();
+            tblShowPipe.clear()
+            $('#searchTblPipe').find('tbody tr').each(function () {
                 this.remove();
             });
             let passPipe = 0;
@@ -310,6 +405,8 @@
             let alertPipe = 0;
             let flagGate = 0;
             let flagPipe = 0;
+            numSearchGate = 0;
+            numSearchPipe = 0;
             for (let i in data) {
                 var dataItem = data[i];
                 if (!dataItem) continue;
@@ -338,22 +435,33 @@
                         flagPipe++;
                     }
                 }
-
-                num = 1 + Number(i);
+                dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
+                
                 if (data[i].TYPE == "PIPELINE")
-                { unit = "ft/s"; }
+                {
+                    numSearchGate++;
+                    unit = "ft/s";
+                    var rowItemPipe = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + numSearchGate + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a href="#" class="clickable fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
+                    $(rowItemPipe).data('map_info', data[i]);
+                    tblShowPipe.row.add($(rowItemPipe));
+                    
+                }
                 else if (data[i].TYPE == "GATESTATION")
-                { unit = "%"; }
+                {
+                    numSearchPipe++;
+                    unit = "%";
+                    var rowItemGate = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + numSearchPipe + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a href="#" class="clickable fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
+                    $(rowItemGate).data('map_info', data[i]);
+                    tblShowGate.row.add($(rowItemGate));
+                }
           
-                    if (document.getElementById('radioMonth').checked) {
-                        dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
-                    }
-                    else if (document.getElementById('radioYear').checked)
-                    { dataMonthYear = data[i].YEAR; }
+                    //if (document.getElementById('radioMonth').checked) {
+                       
+                    //}
+                   // else if (document.getElementById('radioYear').checked)
+                    //{ dataMonthYear = data[i].YEAR; }
 
-                    var rowItem = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a href="#" class="clickable fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
-                $(rowItem).data('map_info', data[i]);
-                tblShow.row.add($(rowItem));
+                   
             }
             $("#GatePass").text(passGate);
             $("#PipePass").text(passPipe);
@@ -366,18 +474,28 @@
 
             $("#GateFlag").text(flagGate);
             $("#PipeFlag").text(flagPipe);
-            tblShow.draw();
+            tblShowGate.draw();
+            tblShowPipe.draw();
 
     }
     var _tblDataCurrent = null;
+   
     function showUtilTableCurrent(data) {
         _tblDataCurrent = data;
-        let tblShowCurrent;
-            tblShowCurrent = $("#currentTbl").DataTable();
-            tblShowCurrent.clear()
-            $('#currentTbl').find('tbody tr').each(function () {
+        _tblData = _tblDataCurrent;
+        let tblShowCurrentGate;
+        let tblShowCurrentPipe;
+
+        tblShowCurrentGate = $("#currentTblGate").DataTable();
+        tblShowCurrentPipe = $("#currentTblPipe").DataTable();
+        tblShowCurrentGate.clear()
+        tblShowCurrentPipe.clear()
+        $('#currentTblGate').find('tbody tr').each(function () {
                 this.remove();
-            });
+        });
+        $('#currentTblPipe').find('tbody tr').each(function () {
+            this.remove();
+        });
         let current_passPipe = 0;
         let current_passGate = 0;
         let current_warningPipe = 0;
@@ -386,6 +504,8 @@
         let current_alertPipe = 0;
         let current_flagGate = 0;
         let current_flagPipe = 0;
+         numGate = 0;
+         numPipe = 0;
         for (let i in data) {
             var dataItemCurrent = data[i];
             if (!dataItemCurrent) continue;
@@ -415,16 +535,37 @@
                 }
             }
 
-
-            num = 1 + Number(i);
+            dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
+            
             if (data[i].TYPE == "PIPELINE")
-            { unit = "ft/s"; }
+            {
+                
+                numPipe++;
+
+                var rowItemCurrentPipe = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + numPipe + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ft/s</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a href="#" class="clickable fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
+                //console.log(i);
+                //console.log(data[i]);
+                $(rowItemCurrentPipe).data('map_info', data[i]);
+                tblShowCurrentPipe.row.add($(rowItemCurrentPipe));
+            }
             else if (data[i].TYPE == "GATESTATION")
-            { unit = "%"; }
-                dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
-                var rowItemCurrent = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a href="#" class="clickable fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
-            $(rowItemCurrent).data('map_info', data[i]);
-            tblShowCurrent.row.add($(rowItemCurrent));
+            {
+                //console.log(data[i]);
+                numGate++;
+                var rowItemCurrentGate = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + numGate + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' %</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a href="#" class="clickable fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
+                $(rowItemCurrentGate).data('map_info', data[i]);
+                //console.log(i);
+               // console.log(data[i]);
+                tblShowCurrentGate.row.add($(rowItemCurrentGate));
+            }
+            else {
+                rowItemCurrentPipe = '';
+                rowItemCurrentGate = '';
+            }
+            
+            
+             
+          
         }
         $("#Current_GatePass").text(current_passGate);
         $("#Current_PipePass").text(current_passPipe);
@@ -437,7 +578,8 @@
 
         $("#Current_GateFlag").text(current_flagGate);
         $("#Current_PipeFlag").text(current_flagPipe);
-        tblShowCurrent.draw();
+        tblShowCurrentGate.draw();
+        tblShowCurrentPipe.draw();
 
     }
 
@@ -538,14 +680,14 @@
                 document.getElementById('seLicense').style.display = 'inline-block';
                 document.getElementById('seRegion').style.display = 'none';
             }
-            if (document.getElementById('radioMonth').checked) {
+          /*  if (document.getElementById('radioMonth').checked) {
                 document.getElementById('chooseMonth').style.display = 'inline-block';
                 document.getElementById('chooseYear').style.display = 'none';
             }
             else if (document.getElementById('radioYear').checked) {
                 document.getElementById('chooseMonth').style.display = 'none';
                 document.getElementById('chooseYear').style.display = 'inline-block';
-            }
+            } */
         }
 
 
@@ -558,13 +700,19 @@
 
         })
         var map_info_report_json;
-
-        function IfameReport(pIntIndex){
-            if ( !_tblData === null || !_tblData[pIntIndex]) {
+        
+        function IfameReport(pIntIndex) {
+            //console.log(pIntIndex);
+           // console.log(_tblData);
+           
+            if (!_tblData === null || !_tblData[pIntIndex]) {
+                console.log("ไม่เข้า")
                 return;
             }
             let map_info = _tblData[pIntIndex];
-            map_dashboard_json = {
+            //console.log(map_info)
+            
+            map_info_report_json = {
                 "menu": "utilization-report",
                 "type": map_info.TYPE,
                 "command": "view",
@@ -578,9 +726,10 @@
                     "YEAR": map_info.YEAR,
                 }
             }
-            map_iframe_report.contentWindow.postMessage(map_dashboard_json, '*');
+            console.log(map_info_report_json);
+            map_iframe_report.contentWindow.postMessage(map_info_report_json, '*');
         }
-
+    
         //function searcch
         function myFunction() {
             var input, filter, table, tr, td, i;
@@ -767,21 +916,8 @@
                     else if (data[i].THRESHOLD == "Flag" && data[i].TYPE == "PIPELINE")
                     { flagPipe = 1 + flagPipe; }
 
-                    num = 1 + Number(i);
-                    if (data[i].TYPE == "PIPELINE")
-                    { unit = "ft/s"; }
-                    else if (data[i].TYPE == "GATESTATION")
-                    { unit = "%"; }
-                    if (document.getElementById('radioMonth').checked) {
-                        dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
-                    }
-                    else if (document.getElementById('radioYear').checked)
-                    { dataMonthYear = data[i].YEAR; }
-                    if (document.getElementById('radioMonth').checked) {
-                        dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
-                    }
-                    else if (document.getElementById('radioYear').checked)
-                    { dataMonthYear = data[i].YEAR; }
+                    
+                 
 
                     
                     var unit = "";
@@ -790,11 +926,11 @@
                     { unit = "ft/s"; }
                     else if (data[i].TYPE == "GATESTATION")
                     { unit = "%"; }
-                    if (document.getElementById('radioMonth').checked) {
+                    //if (document.getElementById('radioMonth').checked) {
                         dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
-                    }
-                    else if (document.getElementById('radioYear').checked)
-                    { dataMonthYear = data[i].YEAR; }
+                    //}
+                   // else if (document.getElementById('radioYear').checked)
+                    //{ dataMonthYear = data[i].YEAR; }
 
                     //var rowItemRegionAll = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
                     //tblRegionAll.row.add($(rowItemRegionAll));
@@ -835,9 +971,9 @@
 
         //---------Search Region All Current--------//
         
-        let tblCurrentRegionAll = $("#currentTbl").DataTable();
+        let tblCurrentRegionAll = $("#currentTblGate").DataTable();
         tblCurrentRegionAll.clear()
-        $.ajaxx({
+        $.ajaxx( {
             url: "/Utilization/RegionAllReport",
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
@@ -894,11 +1030,11 @@
                     { unit = "ft/s"; }
                     else if (data[i].TYPE == "GATESTATION")
                     { unit = "%"; }
-                    if (document.getElementById('radioMonth').checked) {
+                   // if (document.getElementById('radioMonth').checked) {
                         dataMonthYear = data[i].MONTH + '/' + data[i].YEAR;
-                    }
-                    else if (document.getElementById('radioYear').checked)
-                    { dataMonthYear = data[i].YEAR; }
+                  //  }
+                   // else if (document.getElementById('radioYear').checked)
+                   // { dataMonthYear = data[i].YEAR; }
 
                     //var rowItemRegionAll = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + num + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + ' ' + unit + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a class="fa fa-globe fa-2x no-underline pointer" aria-hidden="true" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
                     //tblRegionAll.row.add($(rowItemRegionAll));
@@ -1133,9 +1269,11 @@
         //alert($("#Year-filter").val());
         var strMode = document.getElementById('radioRegion').checked ? "region" : "license";
         var FliterVal ;
-        if (document.getElementById('radioYear').checked)
-        { FliterVal = $("#Year-filter").val(); }
-        else if (document.getElementById('radioMonth').checked) { FliterVal = $("#Month-filter").val(); }
+        //if (document.getElementById('radioYear').checked)
+        //{ FliterVal = $("#Year-filter").val(); }
+    //else if (document.getElementById('radioMonth').checked) {
+        FliterVal = $("#Month-filter").val(); 
+    //}
 
         var param = {
             SearchMode: strMode,

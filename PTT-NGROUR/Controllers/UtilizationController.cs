@@ -1221,7 +1221,9 @@ namespace PTT_NGROUR.Controllers
                     {
                         NAME = dr["NAME"].ToString(),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),
+                        REGION_NAME = dr["REGION_NAME"].ToString(),
                         LICENSE = dr["LICENSE"].GetInt(),
+                        LICENSE_NAME = dr["LICENSE_NAME"].ToString(),
                         VALUE = dr["VALUE"].GetDecimal(),
                         //COLOR = dr["COLOR"].ToString(),
                         MONTH = Convert.ToInt32(dr["MONTH"].ToString()),
@@ -1324,6 +1326,7 @@ namespace PTT_NGROUR.Controllers
                         LICENSE = dr["LICENSE"].GetInt(),
                         VALUE = dr["VALUE"].GetDecimal(),
                         //COLOR = dr["COLOR"].ToString(),
+                        LICENSE_NAME = dr["LICENSE_NAME"].ToString(),
                         MONTH = Convert.ToInt32(dr["MONTH"].ToString()),
                         YEAR = Convert.ToInt32(dr["YEAR"].ToString()),
                         TYPE = dr["TYPE"].ToString(),
@@ -1387,7 +1390,9 @@ namespace PTT_NGROUR.Controllers
                     {
                         NAME = dr["NAME"].ToString(),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),
+                        REGION_NAME = dr["REGION_NAME"].ToString(),
                         LICENSE = dr["LICENSE"].GetInt(),
+                        LICENSE_NAME = dr["LICENSE_NAME"].ToString(),
                         VALUE = dr["VALUE"].GetDecimal(),
                         //COLOR = dr["COLOR"].ToString(),
                         MONTH = Convert.ToInt32(dr["MONTH"].ToString()),

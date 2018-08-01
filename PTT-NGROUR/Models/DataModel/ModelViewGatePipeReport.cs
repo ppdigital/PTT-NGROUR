@@ -26,7 +26,9 @@ namespace PTT_NGROUR.Models.DataModel
             NO = pReader.GetColumnValue("NO").GetInt();
             NAME = pReader.GetColumnValue("NAME").GetString();
             REGION = pReader.GetColumnValue("REGION").GetInt();
+            REGION_NAME = pReader.GetColumnValue("REGION_NAME").GetString();
             LICENSE = pReader.GetColumnValue("LICENSE").GetInt();
+            LICENSE_NAME = pReader.GetColumnValue("LICENSE_NAME").GetString();
             VALUE = pReader.GetColumnValue("VALUE").GetDecimal();
             COLOR = pReader.GetColumnValue("COLOR").GetString();
             THRESHOLD = pReader.GetColumnValue("THRESHOLD").GetString();
@@ -38,7 +40,9 @@ namespace PTT_NGROUR.Models.DataModel
         public int NO { get; set; }
         public string NAME { get; set; }
         public int REGION { get; set; }
+        public string REGION_NAME { get; set; }
         public int LICENSE { get; set; }
+        public string LICENSE_NAME { get; set; }
         public decimal VALUE { get; set; }
         public string COLOR { get; set; }
         public string THRESHOLD { get; set; }
