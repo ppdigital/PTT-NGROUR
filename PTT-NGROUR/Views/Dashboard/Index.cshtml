@@ -326,10 +326,10 @@
                         var
                           self = $(this),
                           result = true; // not guilty until proven guilty
-
                         Object.keys(filters).forEach(function (filter) {
                             if (filters[filter] && (filters[filter] != 'all') && (filters[filter] != 'Any')) {
                                 result = result && filters[filter] === self.data(filter);
+                                console.log(filter)
                             }
                         });
 

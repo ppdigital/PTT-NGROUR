@@ -227,8 +227,93 @@
             _graphGate = objGraph;
         }
         objGraph.update();
+
+        var canvas = document.getElementById("pieGate");
+  
+        canvas.onclick = function (evt) {
+            var activePoints = objGraph.getElementsAtEvent(evt);
+            if (activePoints[0]) {
+                var chartData = activePoints[0]['_chart'].config.data;
+                var idx = activePoints[0]['_index'];
+
+                var label = chartData.labels[idx];
+                var value = chartData.datasets[0].data[idx];
+
+
+                Graphfilter(label, "GATESTATION");          
+                
+            }
+        };
+
+
+        var canvas1 = document.getElementById("piePipeline");
+
+        canvas1.onclick = function (evt) {
+            var activePoints = objGraph.getElementsAtEvent(evt);
+            if (activePoints[0]) {
+                var chartData = activePoints[0]['_chart'].config.data;
+                var idx = activePoints[0]['_index'];
+
+                var label = chartData.labels[idx];
+                var value = chartData.datasets[0].data[idx];
+
+
+                Graphfilter(label, "PIPELINE");
+
+            }
+        };
+
+
     }
 
     Search();
+
+    function Graphfilter(label, type) {
+        console.log(label);
+        if (label == 'OK') {
+            color = 'green'
+        } else if (label == 'Flag') {
+            color = 'flag'
+        } else if (label == 'Alert') {
+            color = 'red'
+        } else if (label == 'Warning') {
+            color = 'yellow'
+        }
+        
+
+
+        var filters = {
+            "color": color,
+            "type": type,
+
+        }
+
+
+        $('.rowfil').hide().filter(function () {
+            var
+              self = $(this),
+              result = true; // not guilty until proven guilty
+            console.log(filters);
+            Object.keys(filters).forEach(function (filter) {
+                if (filters[filter] && (filters[filter] != 'all') && (filters[filter] != 'Any')) {
+                    result = result && filters[filter] === self.data(filter);
+                }
+            });
+
+            return result;
+        }).show();
+
+        if (type == 'PIPELINE') {
+            $('#type-filter').val('PIPELINE');
+            $('#threshold-filter').val(color);
+        } else if (type = 'GATESTATION') {
+            $('#type-filter').val('GATESTATION');
+            $('#threshold-filter').val(color);
+        }
+    }
+
+
+
+
 
 </script>
