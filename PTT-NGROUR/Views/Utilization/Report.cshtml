@@ -91,7 +91,7 @@
                         </div>
                         <span class="col-sm-1"></span>
                         <span class="col-lg-1 col-md-2 col-sm-11 col-xs-12 " style="padding-top:7px;padding-right:0rem">
-                            <input type="checkbox" name="vehicle" id="checkCompare" onclick="CheckCompare()">Compare<br>
+                            <input type="checkbox" name="vehicle" id="checkCompare" onclick="CheckCompare()"> Compare<br>
                         </span>
 
                     </div>
@@ -106,7 +106,7 @@
 
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                        <span class="col-lg-2"></span>
+                        <span class="col-lg-3 col-md-3"></span>
 
                         <span class="col-lg-1 col-md-2 col-sm-2 col-xs-6" style="padding-right:0rem;width:105px">
 
@@ -284,7 +284,6 @@
                     <div class="col-lg-6 col-md-6 col-sm-6 pb2">
                         <div class=" p-3 mb-2 col-container col-container-green text-dark">
                             <div class="ph2" style="padding-bottom:1rem">
-
                                 <div class="col-lg-5 col-md-5 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Gate Staton</label></center><center><div class="h1 mt0 " id="GatePass" style="font-size: 45px !important;"></div></center></div>
                                 <div class="col-lg-2 col-md-1 col-sm-4 col-xs-2"></div>
                                 <div class="col-lg-5 col-md-4 col-sm-3 col-xs-5 ph0"><center><label class="h6" style="font-size: 14px;">Pipeline</label></center><center><div class="h1 mt0" id="PipePass" style="font-size: 45px !important;"></div></center></div>
@@ -365,12 +364,15 @@
 
             <!-- Threshold -->
             <div class="col-lg-12 pb1 ph0">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-container-white text-dark">
-                    <span class="col-lg-4 col-md-5 col-sm-12 col-xs-12 ph0"><span class="fa fa-circle" style="color:#16a085"></span> OK <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i> Gate Station(<span id="GMinOK"></span>% - <span id="GMaxOK"></span>%) , Pipeline(<span id="PMinOK"></span>ft/s - <span id="PMaxOK"></span>ft/s)</span>
-                    <span class="col-lg-4 col-md-7 col-sm-12 col-xs-12 ph0"><span class="fa fa-circle" style="color:#f1c40f"></span> Warning <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i> Gate Station(<span id="GMinWarning"></span>% - <span id="GMaxWarning"></span>%) , Pipeline(<span id="PMinWarning"></span>ft/s - <span id="PMaxWarning"></span>ft/s)</span>
-                    <span class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ph0"><span class="fa fa-circle " style="color:#e74c3c"></span> Alert <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i> Gate Station(<span id="GMinAlert"></span>% - <span id="GMaxAlert"></span>%) , Pipeline(<span id="PMinAlert"></span>ft/s - <span id="PMaxAlert"></span>ft/s)</span>
-                </div>
-            </div>
+                <center>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-container-white text-dark">
+                        <span class="col-lg-4 col-md-4 col-sm-6 col-xs-12 ph0 h6"><span class="fa fa-circle" style="color:#16a085"></span> OK <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i> Gate Station (<span id="GMinOK"></span>% - <span id="GMaxOK"></span>%) , <br />&emsp;&emsp;&nbsp;Pipeline (<span id="PMinOK"></span>ft/s - <span id="PMaxOK"></span>ft/s)</span>
+                        <span class="col-lg-4 col-md-4 col-sm-6 col-xs-12 ph0 h6"><span class="fa fa-circle" style="color:#f1c40f"></span> Warning <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i> Gate Station (<span id="GMinWarning"></span>% - <span id="GMaxWarning"></span>%) , <br />&emsp;&emsp;&emsp;&emsp;Pipeline (<span id="PMinWarning"></span>ft/s - <span id="PMaxWarning"></span>ft/s)</span>
+                        <span class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ph0 h6"><span class="fa fa-circle " style="color:#e74c3c"></span> Alert <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i> Gate Station (<span id="GMinAlert"></span>% - <span id="GMaxAlert"></span>%) , <br />&emsp;&emsp;&emsp;Pipeline (<span id="PMinAlert"></span>ft/s - <span id="PMaxAlert"></span>ft/s)</span>
+                    </div>
+                </center>
+             </div>
+            
         </div>
 
         
@@ -384,7 +386,7 @@
             <div id="gate" class="tab-pane fade in active">
                 <div class="col-lg-12 ph0 col-container-white text-dark" style="margin-bottom: 2rem; border-top: none !important">
                     <div class="row">
-                        <div class=" pv2 ph2">
+                        <div class=" pb2 ph2">
 
                             <div class="">
                                 <div style="padding-bottom:.5rem;padding-top:.5rem">
