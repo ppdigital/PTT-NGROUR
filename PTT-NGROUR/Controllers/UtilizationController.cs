@@ -179,12 +179,49 @@ namespace PTT_NGROUR.Controllers
                 listRegion.Add(new Models.DataModel.ModelRegion { REGION_NAME = region.REGION_NAME, REGION_ID = region.REGION_ID });
             }
 
-            //  ViewBag.seLicense = listLicense;
+            var dsThresholdG = dal.GetDataSet("SELECT MINVAL ,MAXVAL ,GATE_THRESHOLD_NAME FROM GATESTATION_THRESHOLD");
+            var dtThresholdG = dsThresholdG.Tables[0];
+            var listThresholdG = new List<Models.DataModel.ModelThresholdTable>();
+
+            foreach (System.Data.DataRow drThresholdG in dtThresholdG.Rows)
+            {
+                var thresholdG = new Models.DataModel.ModelThresholdTable()
+                {   
+                    MINVAL = drThresholdG["MINVAL"].GetDecimal(),
+                    MAXVAL = drThresholdG["MAXVAL"].GetDecimal(),
+                    THRESHOLD_NAME = drThresholdG["GATE_THRESHOLD_NAME"].ToString()
+                };
+
+
+                listThresholdG.Add(thresholdG);
+            }
+
+            var dsThresholdP = dal.GetDataSet("SELECT MINVAL ,MAXVAL ,PIPELINE_THRESHOLD_NAME FROM PIPELINE_THRESHOLD");
+            var dtThresholdP = dsThresholdP.Tables[0];
+            var listThresholdP = new List<Models.DataModel.ModelThresholdTable>();
+
+            foreach (System.Data.DataRow drThresholdP in dtThresholdP.Rows)
+            {
+                var thresholdP = new Models.DataModel.ModelThresholdTable()
+                {
+                    MINVAL = drThresholdP["MINVAL"].GetDecimal(),
+                    MAXVAL = drThresholdP["MAXVAL"].GetDecimal(),
+                    THRESHOLD_NAME = drThresholdP["PIPELINE_THRESHOLD_NAME"].ToString()
+                };
+
+
+                listThresholdP.Add(thresholdP);
+            }
+
+           
 
             var model = new Models.ViewModel.ModelUtilization()
             {
                 ListLicense = listLicense,
-                ListRegion = listRegion
+                ListRegion = listRegion,
+                ListThresholdGate = listThresholdG,
+                ListThresholdPipe = listThresholdP
+
 
             };
 

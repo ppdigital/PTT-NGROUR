@@ -1,5 +1,45 @@
 ﻿<script type="text/javascript">
 
+    @foreach (var thresholdG in Model.ListThresholdGate)
+    {
+        <text>
+       
+    if ('Alert' == '@thresholdG.THRESHOLD_NAME') {
+        $("#GMinAlert").text(@thresholdG.MINVAL);
+        $("#GMaxAlert").text(@thresholdG.MAXVAL);
+    }
+    else if ('Warning'== '@thresholdG.THRESHOLD_NAME') {
+        $("#GMinWarning").text(@thresholdG.MINVAL);
+        $("#GMaxWarning").text(@thresholdG.MAXVAL);
+    }
+    else if ('OK'== '@thresholdG.THRESHOLD_NAME') {
+        $("#GMinOK").text(@thresholdG.MINVAL);
+        $("#GMaxOK").text(@thresholdG.MAXVAL);
+    }
+    else { }
+    </text>
+    }
+
+    @foreach (var thresholdP in Model.ListThresholdPipe)
+    {
+        <text>
+       
+    if ('Alert' == '@thresholdP.THRESHOLD_NAME') {
+        $("#PMinAlert").text(@thresholdP.MINVAL);
+        $("#PMaxAlert").text(@thresholdP.MAXVAL);
+    }
+    else if ('Warning'== '@thresholdP.THRESHOLD_NAME') {
+        $("#PMinWarning").text(@thresholdP.MINVAL);
+        $("#PMaxWarning").text(@thresholdP.MAXVAL);
+    }
+    else if ('OK'== '@thresholdP.THRESHOLD_NAME') {
+        $("#PMinOK").text(@thresholdP.MINVAL);
+        $("#PMaxOK").text(@thresholdP.MAXVAL);
+    }
+    else{}
+    </text>
+    }
+
     const _strGate = "GATESTATION";
     const _strPipe = "PIPELINE";
     const _strOk = "OK";

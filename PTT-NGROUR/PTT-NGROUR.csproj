@@ -181,6 +181,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataModel\ModelThresholdTable.cs" />
     <Compile Include="Models\DataModel\ModelPmInterval.cs" />
     <Compile Include="Models\DataModel\ModelStatus.cs" />
     <Compile Include="Models\DataModel\ModelGateStation.cs" />
