@@ -411,7 +411,7 @@ namespace PTT_NGROUR.Controllers
                 }
             }
             
-            var license = @"select LICENSE_CODE,LICENSE_ID from LICENSE_MASTER WHERE LICENSE_CODE IS NOT NULL";
+            var license = @"select * from LICENSE_MASTER WHERE LICENSE_CODE IS NOT NULL";
             var ds_license = dal.GetDataSet(license);
             var listlicense = new List<Models.DataModel.ModeLICENSE_MASTER>();
             if (ds_license.Tables[0].Rows.Count > 0)
@@ -421,8 +421,8 @@ namespace PTT_NGROUR.Controllers
                     var license_Add = new Models.DataModel.ModeLICENSE_MASTER()
                     {
                         LICENSE_CODE = drlicense["LICENSE_CODE"].ToString(),
-                        LICENSE_ID = drlicense["LICENSE_ID"].GetInt()
-
+                        LICENSE_ID = drlicense["LICENSE_ID"].GetInt(),
+                        LICENSE_NAME = drlicense["LICENSE"].ToString(),
                     };
                     listlicense.Add(license_Add);
                 }

@@ -996,10 +996,9 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                                 <select class="form-control input-sm selectpicker" data-live-search="true" id="seShipToMCreate" name="seShipToMCreate" style="font-size: 12px !important">
                                     @foreach (PTT_NGROUR.Models.DataModel.ModeVIEW_CUSTOMER shipto in Model.ListViewCustomer)
-                                    {
-
-                                        <option value="@shipto.SHIP_TO_VC">@shipto.SHIP_TO_VC - @shipto.CUST_NAME_VC</option>
-                                    }
+                                       {
+                                   <option value="@shipto.SHIP_TO_VC" style="word-wrap: break-word; white-space: normal">@shipto.SHIP_TO_VC - @shipto.CUST_NAME_VC</option>
+                                       }
                                 </select>
 
                             </div>
@@ -1009,15 +1008,15 @@
                     <div class="row pb1">
                         <div class="measure center col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <span class="col-lg-5 col-md-5 col-sm-5">
-                                <label for="name" class="b pull-right clear-right-xs">License Code :</label>
+                                <label for="name" class="b pull-right clear-right-xs">License Name :</label>
                             </span>
                             <div class="col-lg-6 col-md-6 col-sm-6">
 
-                                <select class="form-control input-sm" id="seLicenseMCreate" name="seLicenseMCreate">
+                                <select class="form-control input-sm selectpicker" data-live-search="true" id="seLicenseMCreate" name="seLicenseMCreate">
                                     @foreach (PTT_NGROUR.Models.DataModel.ModeLICENSE_MASTER license in Model.ListLicenseMaster)
-                                    {
-                                        <option value="@license.LICENSE_ID">@license.LICENSE_CODE</option>
-                                    }
+                                        {
+                                            <option value="@license.LICENSE_ID" style="word-wrap: break-word; white-space: normal">@license.LICENSE_CODE - @license.LICENSE_NAME</option>
+                                          }
                                 </select>
 
                             </div>
@@ -1310,11 +1309,13 @@
                     document.getElementById('seMeterTypeMCreate').disabled = true;
                     //document.getElementById('seShipToMCreate').selectpicker.disabled = true; 
                     
-                    document.getElementById('seLicenseMCreate').disabled = true;
+                    //document.getElementById('seLicenseMCreate').disabled = true;
                     document.getElementById('seStatusMCreate').disabled = true;
                     document.getElementById('datepicCommdateMCreate').disabled = true;
                     $('#seShipToMCreate').prop('disabled', true);
                     $('#seShipToMCreate').selectpicker('refresh');
+                    $('#seLicenseMCreate').prop('disabled', true);
+                    $('#seLicenseMCreate').selectpicker('refresh');
                  
                 }
                 else if (document.getElementById('checkGisMapCreate').checked == true && document.getElementById("txtMeterNumMCreate").value == "") {
@@ -1329,12 +1330,14 @@
                     document.getElementById('txtMeterNameMCreate').readOnly = false;
                     document.getElementById('seMeterTypeMCreate').disabled = false;
                    
-                    document.getElementById('seLicenseMCreate').disabled = false;
+                    //document.getElementById('seLicenseMCreate').disabled = false;
                     document.getElementById('seStatusMCreate').disabled = false;
                     document.getElementById('datepicCommdateMCreate').disabled = false;
                    // document.getElementById('datepicCommdateMCreate').disabled = false;
                     $('#seShipToMCreate').prop('disabled', false);
                     $('#seShipToMCreate').selectpicker('refresh');
+                    $('#seLicenseMCreate').prop('disabled', false);
+                    $('#seLicenseMCreate').selectpicker('refresh');
                 }
 
             }

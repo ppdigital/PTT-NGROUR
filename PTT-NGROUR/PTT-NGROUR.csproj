@@ -163,6 +163,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthorizeController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LDAPSearch.cs" />
     <Compile Include="Controllers\OMController.cs" />
@@ -713,6 +714,7 @@
     <Content Include="Views\Utilization\PartialReportScript.cshtml" />
     <Content Include="Views\Pdf\UtilizationReportPdf.cshtml" />
     <Content Include="Views\OM\PartialMeteringScript.cshtml" />
+    <Content Include="Views\Help\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

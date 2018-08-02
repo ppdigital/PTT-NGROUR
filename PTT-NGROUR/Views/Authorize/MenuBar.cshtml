@@ -23,10 +23,12 @@
                                 </ul>
                             </li>
                             <li><a  class="white"><span class="white ">Risk Management</span></a></li>
-     <li class="dropdown" style="display:@ViewData["Admin_page"]">
-         <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white">Admin</span><span class="caret"></span></a>
-         <ul class="dropdown-menu">
-             <li><a href="@Url.Action("UserManagement", "Admin")"><span class="text-grey txt-normal ">User Management</span></a></li>
-         </ul>
-     </li>
+                            <li class="dropdown" style="display:@ViewData["Admin_page"]">
+                            <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white">Admin</span><span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("UserManagement", "Admin")"><span class="text-grey txt-normal ">User Management</span></a></li>
+                            </ul>
+                            </li>
+                            <li><a href="@Url.Action("index", "Help")" class="white" ><span class="white ">Help</span></a></li>
+
                         </ul>

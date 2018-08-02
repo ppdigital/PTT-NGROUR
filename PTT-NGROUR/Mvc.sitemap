@@ -6,15 +6,17 @@
   <mvcSiteMapNode title="Home" controller="Home" action="MenuWeb">
     <mvcSiteMapNode title="Dashboard" controller="Dashboard" action="Index"/>
     <mvcSiteMapNode title="Utilization" controller="Utilization" action="MenuUtilization">
-      <mvcSiteMapNode title="Utilization" controller="Utilization" action="Index"/>
-      <mvcSiteMapNode title="Customer Management" controller="Utilization" action="Customer"/>
-      <mvcSiteMapNode title="Threshold Setting" controller="Utilization" action="ThresholdSetting"/>
-      <mvcSiteMapNode title="Import Excel" controller="Utilization" action="ImportExcel"/>
-    <mvcSiteMapNode title="Report" controller="Utilization" action="Report"/>
+        <mvcSiteMapNode title="Utilization" controller="Utilization" action="Index"/>
+        <mvcSiteMapNode title="Customer Management" controller="Utilization" action="Customer"/>
+        <mvcSiteMapNode title="Threshold Setting" controller="Utilization" action="ThresholdSetting"/>
+        <mvcSiteMapNode title="Import Excel" controller="Utilization" action="ImportExcel"/>
+        <mvcSiteMapNode title="Report" controller="Utilization" action="Report"/>
     </mvcSiteMapNode>
+    
     <mvcSiteMapNode title="Admin" controller="Admin" action="Index">
-      <mvcSiteMapNode title="User Management" controller="Admin" action="UserManagement"/>
+         <mvcSiteMapNode title="User Management" controller="Admin" action="UserManagement"/>
     </mvcSiteMapNode>
+  <mvcSiteMapNode title="Help" controller="Help" action="Index"/>
   </mvcSiteMapNode>
 
 </mvcSiteMap>

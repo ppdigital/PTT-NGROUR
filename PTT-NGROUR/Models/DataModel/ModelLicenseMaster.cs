@@ -12,5 +12,7 @@ namespace PTT_NGROUR.Models.DataModel
 
         public string LICENSE { get; set; }
 
+
+
     }
 }

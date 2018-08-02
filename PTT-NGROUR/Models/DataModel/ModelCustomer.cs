@@ -134,6 +134,8 @@ namespace PTT_NGROUR.Models.DataModel
     {
         public string LICENSE_CODE { get; set; }
         public int LICENSE_ID { get; set; }
+        public string LICENSE_NAME { get; set; }
+
 
     }
     public class ModelMETER_TYPE
