@@ -1,9 +1,11 @@
 ﻿<!DOCTYPE html>
 @model PTT_NGROUR.Models.ViewModel.ModelUtilization
 
+
 @{
     ViewBag.Title = "Utilization";
     Layout = "~/Views/Shared/_Layout.cshtml";
+ 
 }
 
 @section style{
@@ -100,11 +102,13 @@
                         </span>
                         <span class="col-lg-1 col-md-1 col-sm-1 col-xs-2"></span>
 
-                        <span class="col-lg-2 col-md-2 col-sm-2 col-xs-1">
+                       @if ((users.Roleid).Equals(1))
+                                    {
+                         <span class="col-lg-2 col-md-2 col-sm-2 col-xs-1" >
                             <span class="pull-right" style="padding-top:0.3rem">
                                 <a class="link h5 blue5 form-inline hidden-sm hidden-xs" href="@Url.Action("importexcel", "Utilization")" id="btnImExcel">Import&nbsp;Excel</a><span class="h5 hidden-sm hidden-xs">&nbsp;|&nbsp;</span><a class=" link  blue5 h5" href="@Url.Action("ThresholdSetting", "Utilization")" id="btn_imExcel">Threshold&nbsp;Setting</a>
                             </span>
-                        </span> <span style="float:none"></span>
+                        </span> <span style="float:none"></span>}
                         <span class="col-lg-4 col-md-4 col-sm-1 col-xs-2"></span>
                     </div>
                 </div>
@@ -123,7 +127,7 @@
 
     <div class="ph2 ph0-xs">
         <div class="col-container col-container-white col-sm-12 col-xs-12">
-            <div class=" col-sm-8 pt-15px pb-15px  pl-0 " style="min-height:100% !important">
+            <div class=" col-sm-8 pt-15px pb-15px  pl-0 pr-0-xs pr-0-sm" style="min-height:100% !important">
                 <iframe src=" https://nonngr-our.pttplc.com/gis/page.aspx?m=utilization" style="min-height: 430px !important; width: 100% !important;" id="map_frame"></iframe>
             </div>
             <!-- <div class="pl2 pr2 border-left"></div>-->

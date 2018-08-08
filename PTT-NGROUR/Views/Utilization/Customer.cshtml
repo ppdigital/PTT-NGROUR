@@ -1147,7 +1147,7 @@
 
                 });
                 document.getElementById('mapCreate').style.display = 'none';
-                document.getElementById('mapEdit').style.display = 'none';
+               document.getElementById('mapEdit').style.display = 'none';
 
                 var tblOptionCus = $('#CustomerTable').DataTable({
                    
@@ -1345,7 +1345,7 @@
             function CheckGisMapEdit() {
 
                 if (document.getElementById('checkGisMapEdit').checked == true) {
-                    document.getElementById('mapEdit').style.display = 'block';
+                   document.getElementById('mapEdit').style.display = 'block';
 
                 }
                 else {
@@ -1469,13 +1469,14 @@
 
             function EditMeter(meterE) {
                 //modalEdit.style.display = "block";
-
+               
+                //console.log(meterE);
                 @foreach (var cusMeterE in Model.ListMeter)
                 {
                     <text>
-                    // console.log(meter);
+                   
                 if (meterE == '@cusMeterE.METER_NUMBER_T') {
-                    $("#txtObjectIDMEdit").val('@cusMeterE.OBJECT_ID_T');
+                    $("#txtObjectIDMEdit").val('@cusMeterE.METER_NUMBER');
                     $("#txtCustNameMEdit").val('@cusMeterE.CUST_NAME_T');
                     $("#seLicenseIDMEdit").val('@cusMeterE.LICENSE_ID_T');
                     $("#txtMeterNameMEdit").val('@cusMeterE.METER_NAME_T');
@@ -1488,7 +1489,7 @@
                     $("#seStatusMEdit").val('@cusMeterE.STATUS_T');
                     $("#datepicCommdateMEdit").val('@cusMeterE.COMMDATE_T_S');
 
-                    var map_customer_json = {
+                    var map_meter_json = {
                         "menu": "utilization-customer",
                         "type": "METERING",
                         "command": "view",
@@ -1498,7 +1499,7 @@
                         }
                     }
 
-                    map_frame.contentWindow.postMessage(map_customer_json, '*');
+                    map_frame.contentWindow.postMessage(map_meter_json, '*');
                 }
                     </text>
                 }

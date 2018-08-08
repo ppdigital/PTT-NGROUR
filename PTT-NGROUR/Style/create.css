@@ -616,7 +616,7 @@ select .inline{display: inline-block;}
  .col { display: block; width: 100%;}
  .border-left-xs{border-left :.5px solid #ccc}
  .pl-0-xs {padding-left: 0px}
-  .pr-0-xs {padding-left: 0px}
+  .pr-0-xs {padding-right: 0px}
   .w-25h-xs{width:250px}
   .ph0-xs{padding-left:0rem !important; padding-right:0rem !important;}
    .ph1-xs{padding-left:1rem !important; padding-right:1rem !important;}

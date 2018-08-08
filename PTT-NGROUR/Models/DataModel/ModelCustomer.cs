@@ -101,6 +101,7 @@ namespace PTT_NGROUR.Models.DataModel
 
     public class ModelMETER
     {
+        public string METER_NUMBER { get; set; }
         public int OBJECT_ID_T { get; set; }
         public int countMeter_T { get; set; }
         public string CUST_NAME_T { get; set; }
