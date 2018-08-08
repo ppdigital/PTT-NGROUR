@@ -187,8 +187,10 @@
                     break;
             }            
         }
+  
         var ds = [];
         var dsData = [intAlert, intWarning, intPass, intFlag];
+        //var dsData = [intPass, intWarning, intAlert, intFlag];
         if (!dsData.every(function (x) { return x === 0 })) {
             ds = [{
                 label: "Test Data",
@@ -196,8 +198,8 @@
                 fill: false,
                 backgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
                 hoverBackgroundColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                borderWidth: 1
+                //borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                borderWidth: 0
             }];
         };
         let dataT = {
