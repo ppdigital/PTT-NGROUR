@@ -87,7 +87,7 @@
             data: barChartData,
             options: {
                 //responsive: true,
-                //maintainAspectRatio: false,
+                maintainAspectRatio: false,
                 barValueSpacing: 2,
                 legend: {
                     position: 'bottom',
@@ -101,6 +101,7 @@
                         formatter: function (value) {
                             return value;
                         },
+
                         
                         anchor: "end",
                         align: 'end',
@@ -114,6 +115,7 @@
                         gridLines: {
                             display: true
                         },
+
                         //barThickness: 40,
                         stacked: false
 
@@ -296,16 +298,18 @@
                
                 var cv = $("<canvas class='mb-2rem' ></canvas>");
                 // var cv1 = "<div><canvas class='mb-2rem'></canvas></div>";
-                _divGraph.append($("<div class='col-lg-4 ph0'></div>").append(cv));
+                _divGraph.append($("<div class='col-lg-4 ph0' style='height:400px'></div>").append(cv));
                // cv.appendTo(_divGraph);
               
                 var ctx = cv[0].getContext('2d');
                 var chart = new Chart(ctx, {
+                    
                     type: 'bar',
                     data: barChartData,
+                  
                     options: {
                         responsive: true,
-
+                        maintainAspectRatio: false,
                         legend: {
                             position: 'top',
                             onClick: function (e, l) {
@@ -323,6 +327,12 @@
                         scales: {
                             xAxes: [{
                                 stacked: false,
+                                ticks: {
+                                    autoSkip: true,
+                                    maxRotation: 90,
+                                    minRotation: 90
+                                }
+                              
                             }],
                             yAxes: [{
                                 stacked: false
