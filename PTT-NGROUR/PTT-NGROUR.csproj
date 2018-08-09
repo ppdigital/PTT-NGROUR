@@ -169,6 +169,7 @@
     <Compile Include="Controllers\OMController.cs" />
     <Compile Include="Controllers\PdfController.cs" />
     <Compile Include="Controllers\SQLServerQuery.cs" />
+    <Compile Include="Controllers\TestD3GraphController.cs" />
     <Compile Include="Controllers\ThresholdController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UtilizationController.cs" />
@@ -715,6 +716,8 @@
     <Content Include="Views\Pdf\UtilizationReportPdf.cshtml" />
     <Content Include="Views\OM\PartialMeteringScript.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />
+    <Content Include="Views\TestD3Graph\Index.cshtml" />
+    <Content Include="Views\TestD3Graph\BarChart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
