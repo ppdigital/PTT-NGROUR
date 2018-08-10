@@ -281,14 +281,20 @@
                 _arrCurrentActual = d.Actual;
                 var dsActual = {
                     label: "Actual",
-                    backgroundColor: "#DBFF33",
-                    data: d.Actual
+                    backgroundColor: "#4dd0e1",
+                    data: d.Actual,
+                    datalabels: {
+                        color: "#64b5f6"
+                    }
                    
                 };
                 var dsPlan = {
                     label: "Plan",
-                    backgroundColor: "#FFBD33",
-                    data: d.Plan
+                    backgroundColor: "#ffd54f",
+                    data: d.Plan,
+                    datalabels: {
+                        color: "#ffb74d"
+                    }
                 };
                 var dsAccActual = {
                     type: "line",
@@ -297,6 +303,7 @@
                     backgroundColor: "#75FF33",
                     borderColor: "#75FF33",
                     datalabels: {
+                        
                         align: 'end',
                         anchor: 'end'
                     },
