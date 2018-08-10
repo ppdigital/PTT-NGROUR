@@ -1199,7 +1199,7 @@ namespace PTT_NGROUR.Controllers
             //var mainDate = DateTime.ParseExact(datepicCommdateMEdit, "dd/MM/yyyy HH:mm:ss", null);
             var dalEditMeter = new DAL.DAL();
             string username = User.Identity.Name;
-            string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET METER_NUMBER = '" + txtMeterNumMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',METER_TYPE='" + seMeterTypeMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE=to_timestamp( '" + datepicCommdateMEdit + "', 'dd/mm/yyyy' ),UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE OBJECT_ID='" + txtObjectIDMEdit + "'";
+            string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET METER_NUMBER = '" + txtMeterNumMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',METER_TYPE='" + seMeterTypeMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE=to_timestamp( '" + datepicCommdateMEdit + "', 'dd/mm/yyyy' ),UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE METER_NUMBER='" + txtObjectIDMEdit + "'";
             var conMeter = dalEditMeter.GetConnection();
             conMeter.Open();
             dalEditMeter.GetCommand(strCommandEditMeter, conMeter).ExecuteNonQuery();

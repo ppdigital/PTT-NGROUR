@@ -147,8 +147,10 @@
                         <tbody>
                             @foreach (PTT_NGROUR.Models.DataModel.ModelVIEW_METER meter in Model.ListViewMeter)
                             {
-                                <tr>
-
+                                if (meter.STATUS_DETAIL == "INACTIVE")
+                                { 
+                                <tr style="color:red">
+                         
                                     <td>@meter.CUST_NAME</td>
                                     <td>@meter.LICENSE_CODE</td>
                                     <td>@meter.METER_NAME</td>
@@ -168,6 +170,32 @@
                                         </td>}
 
                                 </tr>
+                                }
+                                else 
+                                 
+                                { 
+                                <tr>
+                         
+                                    <td>@meter.CUST_NAME</td>
+                                    <td>@meter.LICENSE_CODE</td>
+                                    <td>@meter.METER_NAME</td>
+                                    <td>@meter.METER_NUMBER</td>
+                                    <td>@meter.METER_TYPE_NAME</td>
+                                    <td>@meter.REGION_D</td>
+                                    <td>@meter.SHIP_TO</td>
+                                    <td>@meter.SOLD_TO</td>
+                                    <td>@meter.SOLD_TO_NAME</td>
+                                    <td>@meter.STATUS_DETAIL</td>
+
+                                    <td><center><i><a href="#" class="clickable dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewMeter" name="btnOpenView" onclick="ViewMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></i></center></td>
+                                    @if ((users.Roleid).Equals(1))
+                                    {
+                                        <td>
+                                            <center><i><a href="#" class="clickable dib fa fa-pencil-square-o fa-lg no-underline gray pointer" id="EditMeter" name="btnOpenEdit" onclick="EditMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalEditMeter" aria-hidden="true"></a></i></center>
+                                        </td>}
+
+                                </tr>
+                                }
                             }
                         </tbody>
                     </table>
