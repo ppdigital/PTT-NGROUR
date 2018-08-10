@@ -5,9 +5,20 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
     <script src="~/Content/bootstrap-datepicker.js"></script>
-    <script>
-        jQuery.ajaxSettings.traditional = true;
 
+    <script>
+        document.getElementById('btnZoomOut').style.display = 'none';
+        jQuery.ajaxSettings.traditional = true;
+        $("#btnZoomIn").click(function () {
+            $(".divcv").removeClass("col-lg-4").addClass("col-lg-12");
+            document.getElementById('btnZoomIn').style.display = 'none';
+            document.getElementById('btnZoomOut').style.display = 'block';
+        });
+        $("#btnZoomOut").click(function () {
+            $(".divcv").removeClass("col-lg-12").addClass("col-lg-4");
+            document.getElementById('btnZoomIn').style.display = 'block';
+            document.getElementById('btnZoomOut').style.display = 'none';
+        });
         var _divGraph = $("#divGraph");
         var _tblMeter = $("#tblMeter");
 
@@ -98,13 +109,18 @@
                 },
                 plugins: {
                     datalabels: {
+
                         formatter: function (value) {
                             return value;
                         },
-
+                       
+                           
                         
                         anchor: "end",
                         align: 'end',
+                        offset: 4,//make vertical
+                        padding: 0,//make vertical
+                        rotation: -90,//make vertical
                         font: {
                              weight: 'bold'
                         },
@@ -244,7 +260,7 @@
                     data.Result.ListRegionForTableHeader);
             });
         }
-
+        Chart.defaults.global.legend.labels.usePointStyle = true;
         var _arrCurrentActual = [];
         function renderAccGraph(pData) {            
             if (!pData || pData.length == 0) {
@@ -253,14 +269,21 @@
             _arrCurrentActual = [];
 
             for (var i in pData) {
-                
+               
                 var d = pData[i];
-                
+                if (d.ML == "ML1")
+                { textML = "Visual Inspection" }
+                else if (d.ML == "ML2")
+                { textML = "Calibration, Testing" }
+                else if (d.ML == "ML3")
+                { textML = "Overhaul, Replacement" }
+                else { textML = "Error" }
                 _arrCurrentActual = d.Actual;
                 var dsActual = {
                     label: "Actual",
                     backgroundColor: "#DBFF33",
                     data: d.Actual
+                   
                 };
                 var dsPlan = {
                     label: "Plan",
@@ -298,7 +321,7 @@
                
                 var cv = $("<canvas class='mb-2rem' ></canvas>");
                 // var cv1 = "<div><canvas class='mb-2rem'></canvas></div>";
-                _divGraph.append($("<div class='col-lg-4 ph0' style='height:400px'></div>").append(cv));
+                _divGraph.append($("<div class='col-lg-4 ph0 divcv' style='height:400px'></div>").append(cv));
                // cv.appendTo(_divGraph);
               
                 var ctx = cv[0].getContext('2d');
@@ -308,6 +331,7 @@
                     data: barChartData,
                   
                     options: {
+                        
                         responsive: true,
                         maintainAspectRatio: false,
                         legend: {
@@ -327,6 +351,9 @@
                         scales: {
                             xAxes: [{
                                 stacked: false,
+                                gridLines : {
+                                    display : false
+                                },
                                 ticks: {
                                     autoSkip: true,
                                     maxRotation: 90,
@@ -348,10 +375,12 @@
                                     } else if (index === 1) {
                                         result = "#FF5733";
                                     }
+
                                     return result;
                                 },
                                 font: {
-                                    weight: 'bold'
+                                    weight: 'bold',
+                                    
                                 },
                                 formatter: function (value, context) {
                                     return value;
@@ -376,8 +405,9 @@
                             }
                         },
                         title: {
+                            position: 'bottom',
                             display: true,
-                            text: d.ML
+                            text: [d.ML,textML]
                         }
                     }
                 });
