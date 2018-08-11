@@ -255,6 +255,7 @@
                 chart.data = barChartData;
                 chart.update();
                 renderAccGraph(data.Result.ListAccGraph);
+                
                 renderTable(
                     data.Result.ListMeterMaintenanceLevelForTable,
                     data.Result.ListRegionForTableHeader);
@@ -262,14 +263,17 @@
         }
         Chart.defaults.global.legend.labels.usePointStyle = true;
         var _arrCurrentActual = [];
-        function renderAccGraph(pData) {            
+        var customLabel = [];
+        var accCustomLabel = [];
+        function renderAccGraph(pData) {   
             if (!pData || pData.length == 0) {
                 return;
             }
+            customLabel = [];
+            accCustomLabel = [];
             _arrCurrentActual = [];
-
             for (var i in pData) {
-               
+                console.log(pData.length)
                 var d = pData[i];
                 if (d.ML == "ML1")
                 { textML = "Visual Inspection" }
@@ -279,11 +283,30 @@
                 { textML = "Overhaul, Replacement" }
                 else { textML = "Error" }
                 _arrCurrentActual = d.Actual;
+                
+                
+                let arrTmp = [];
+                let arrAccTmp = [];
+                for (var ivalue in d.Actual) {
+                    
+                    let val = d.Actual[ivalue] / d.Plan[ivalue] * 100;
+                    val = val.toFixed(0);
+                    arrTmp.push('(' + val.toString() + '%)\n' + d.Plan[ivalue]);
+                    val = d.AccActual[ivalue] / d.AccPlan[ivalue] * 100;
+                    val = val.toFixed(0);
+                    arrAccTmp.push('(' + val.toString() + '%)\n' + d.AccPlan[ivalue]);
+                }
+                
+                customLabel.push(arrTmp);
+                accCustomLabel.push(arrAccTmp);
+                
                 var dsActual = {
                     label: "Actual",
                     backgroundColor: "#4dd0e1",
                     data: d.Actual,
                     datalabels: {
+                        align: 'end',
+                        anchor: 'end',
                         color: "#64b5f6"
                     }
                    
@@ -293,17 +316,18 @@
                     backgroundColor: "#ffd54f",
                     data: d.Plan,
                     datalabels: {
+                        align: 'end',
+                        anchor: 'end',
                         color: "#ffb74d"
                     }
                 };
                 var dsAccActual = {
                     type: "line",
                     fill: false,
-                    label: "AcumulatePlan",
+                    label: "AcumulateActual",
                     backgroundColor: "#75FF33",
                     borderColor: "#75FF33",
                     datalabels: {
-                        
                         align: 'end',
                         anchor: 'end'
                     },
@@ -312,7 +336,7 @@
                 var dsAccPlan = {
                     type: "line",
                     fill: false,
-                    label: "AcumulateActual",
+                    label: "AcumulatePlan",
                     backgroundColor: "#FF5733",
                     borderColor: "#FF5733",
                     data: d.AccPlan,
@@ -390,7 +414,17 @@
                                     
                                 },
                                 formatter: function (value, context) {
-                                    return value;
+                                    let index = context.chart.id-1;
+                                    index = index % 3;
+                                    if (context.dataset.label == "Plan") {
+                                        return customLabel[index][context.dataIndex];
+                                    }
+                                    else if (context.dataset.label == "AcumulatePlan") {
+                                        return accCustomLabel[index][context.dataIndex];
+                                    }
+                                    else {
+                                        return value;
+                                    }
                                     //var index = context.datasetIndex;
                                     //if (index == 3) {
                                     //    var index2 = context.dataIndex;
@@ -423,8 +457,6 @@
         }
 
         function renderTable(pData , pHeader) {
-            console.log(pData);
-            console.log(pHeader);
             var strAll = "";
             var strTh = "<th rowspan=2>Maintenamce Level (ML)</th><th rowspan=2>PM Intervals</th>";
             var strTh2 = "";
@@ -460,7 +492,6 @@
             strAll = "<thead><tr>" + strTh + "</tr><tr>" + strTh2 + "</tr></thead>";
             strAll += "<tbody>" + strBody + "</tbody>"
             _tblMeter.html(strAll);
-            console.log(strBody);
         }
         searchData();
     </script>
