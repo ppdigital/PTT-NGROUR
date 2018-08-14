@@ -7,7 +7,7 @@
     <script src="~/Content/bootstrap-datepicker.js"></script>
 
     <script>
-      
+        $('#MultiRegion').selectpicker('selectAll');
         document.getElementById('btnZoomIn').style.display = 'none';
         jQuery.ajaxSettings.traditional = true;
         $("#btnZoomIn").click(function () {
@@ -211,8 +211,10 @@
                 TextMYTable = param.pStrYear;
             }
             var monthHalfAll = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            if (param.pStrMonth == 1) { TextMYChart = param.pStrYear + " " + "(Jan)" }
-            else { TextMYChart = param.pStrYear + " " + "(Jan - " + monthHalfAll[param.pStrMonth - 1] + ")" }
+            var dateNow = new Date();
+            var monthNow = dateNow.getMonth();
+            if (monthNow == 0) { TextMYChart = param.pStrYear + " " + "(Jan)" }
+            else { TextMYChart = param.pStrYear + " " + "(Jan - " + monthHalfAll[monthNow] + ")" }
             $("#TextMYTable").text(TextMYTable);
             $("#TextMYChart").text(TextMYChart);
             _divGraph.html("");
