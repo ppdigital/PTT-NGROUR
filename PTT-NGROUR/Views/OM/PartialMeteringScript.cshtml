@@ -307,31 +307,31 @@
                 
                 var dsActual = {
                     label: "Actual",
-                    backgroundColor: "#4dd0e1",
+                    backgroundColor: "#75adff",
                     data: d.Actual,
                     datalabels: {
                         align: 'end',
                         anchor: 'end',
-                        color: "#64b5f6"
+                        color: "#75adff"
                     }
                    
                 };
                 var dsPlan = {
                     label: "Plan",
-                    backgroundColor: "#ffd54f",
+                    backgroundColor: "#ffc775",
                     data: d.Plan,
                     datalabels: {
                         align: 'end',
                         anchor: 'end',
-                        color: "#ffb74d"
+                        color: "#ffc775"
                     }
                 };
                 var dsAccActual = {
                     type: "line",
                     fill: false,
-                    label: "AcumulateActual",
-                    backgroundColor: "#75FF33",
-                    borderColor: "#75FF33",
+                    label: "Actual (Accumulate)",
+                    backgroundColor: "#002f75",
+                    borderColor: "#002f75",
                     datalabels: {
                         align: 'end',
                         anchor: 'end'
@@ -341,9 +341,9 @@
                 var dsAccPlan = {
                     type: "line",
                     fill: false,
-                    label: "AcumulatePlan",
-                    backgroundColor: "#FF5733",
-                    borderColor: "#FF5733",
+                    label: "Plan (Accumulate)",
+                    backgroundColor: "#ff9700",
+                    borderColor: "#ff9700",
                     data: d.AccPlan,
                     datalabels: {
                         align: 'end',
@@ -352,7 +352,8 @@
                 };
                 var barChartData = {
                     labels: d.MonthName,
-                    datasets: [dsAccActual, dsAccPlan, dsActual, dsPlan]
+                    //datasets: [dsAccActual, dsAccPlan, dsActual, dsPlan]
+                    datasets: [dsPlan, dsActual, dsAccPlan, dsAccActual]
                 };
                
                 var cv = $("<canvas class='mb-2rem' ></canvas>");
@@ -420,10 +421,10 @@
                                 color: function (context) {
                                     var index = context.datasetIndex;
                                     var result = "black";
-                                    if (index === 0) {
-                                        result = "#75FF33";
-                                    } else if (index === 1) {
-                                        result = "#FF5733";
+                                    if (index === 3) {
+                                        result = "#002f75";
+                                    } else if (index === 2) {
+                                        result = "#ff9700";
                                     }
 
                                     return result;
@@ -438,7 +439,7 @@
                                     if (context.dataset.label == "Plan") {
                                         return customLabel[index][context.dataIndex];
                                     }
-                                    else if (context.dataset.label == "AcumulatePlan") {
+                                    else if (context.dataset.label == "Plan (Accumulate)") {
                                         return accCustomLabel[index][context.dataIndex];
                                     }
                                     else {
