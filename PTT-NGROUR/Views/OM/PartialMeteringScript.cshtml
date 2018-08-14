@@ -48,7 +48,8 @@
                             yValue = 0;
                         }
 
-                        ctx.lineWidth = 3;
+                        ctx.lineWidth = 1;
+
 
                         if (yValue) {
                             ctx.beginPath();
@@ -60,8 +61,9 @@
 
                         if (line.text) {
                             ctx.fillStyle = style;
-                            ctx.fillText(line.text, 0, yValue + ctx.lineWidth);
+                            ctx.fillText(line.text, 0, yValue-12 + ctx.lineWidth);
                         }
+
                     }
                     return;
                 };
@@ -90,8 +92,8 @@
         var ctx = document.getElementById('canvas').getContext('2d');
         var hl = [{
             y: 100,
-            style: "rgba(255, 0, 0, 1)",
-            text: "max"
+            style: "rgba(0, 0, 0, 0.8)",
+            text: "100 % Level"
         }];
 
         window.myBar = new Chart(ctx, {
@@ -120,7 +122,7 @@
                         // padding: 0,make vertical
                         //rotation: -90,make vertical
                         font: {
-                             weight: 'bold'
+                             //weight: 'bold'
                         },
                     }
                 },
@@ -250,8 +252,8 @@
                     var dsItem = {
                         label: ml.Label,
                         backgroundColor: ml.HexColor,
-                        borderColor: "#000000",
-                        borderWidth: 1,
+                        //borderColor: "#000000",
+                        borderWidth: 0,
                         data: ml.ListData
                     }
                     barChartData.datasets.push(dsItem);
@@ -397,7 +399,7 @@
                         },
                         tooltips: {
                             mode: 'index',
-                            intersect: false
+                            intersect: true
                         },
                         scales: {
                             xAxes: [{
@@ -430,7 +432,7 @@
                                     return result;
                                 },
                                 font: {
-                                    weight: 'bold',
+                                    //weight: 'bold',  
                                     
                                 },
                                 formatter: function (value, context) {
