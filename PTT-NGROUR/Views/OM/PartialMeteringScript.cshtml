@@ -7,7 +7,8 @@
     <script src="~/Content/bootstrap-datepicker.js"></script>
 
     <script>
-        document.getElementById('btnZoomOut').style.display = 'none';
+      
+        document.getElementById('btnZoomIn').style.display = 'none';
         jQuery.ajaxSettings.traditional = true;
         $("#btnZoomIn").click(function () {
             $(".divcv").removeClass("col-lg-4").addClass("col-lg-12");
@@ -113,14 +114,11 @@
                         formatter: function (value) {
                             return value;
                         },
-                       
-                           
-                        
                         anchor: "end",
                         align: 'end',
-                        offset: 4,//make vertical
-                        padding: 0,//make vertical
-                        rotation: -90,//make vertical
+                        // offset: 4,make vertical
+                        // padding: 0,make vertical
+                        //rotation: -90,make vertical
                         font: {
                              weight: 'bold'
                         },
@@ -157,19 +155,15 @@
             viewMode: "months",
             minViewMode: "months",
             autoclose: true
-        }).on('dp.change', function (e) {
-
-            console.log(e);
-        });
-
+        }).datepicker("setDate", new Date());
+       
         $("#Year-filter").datepicker({
             format: "yyyy",
             viewMode: "years",
             minViewMode: "years",
             autoclose: true
-        }).on('dp.change', function (e) {
-
-            console.log(e);
+        }).click(function (e) {
+            searchData();
         });
 
         $("#btnSearch").click(function (e) {
@@ -198,20 +192,29 @@
         }
 
         function searchData() {
-
+            var TextMYTable;
+            var TextMYChart;
             var chart = window.myBar;
             removeBarData(chart);
             var strUrl = "@Url.Action("SearchData")";
             var param = { pStrYear: "", pStrMonth: "", pArrRegion: $("#MultiRegion").val() };
             console.log(param);
             if (document.getElementById('radioMonth').checked) {
+                if ($("#Month-filter").val() == null) { TextMYTable = ""; }
                 var x = $("#Month-filter").val().split("/");
                 param.pStrMonth = x[0];
                 param.pStrYear = x[1];
-
+                var monthFullAll = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                TextMYTable = monthFullAll[param.pStrMonth - 1] + " " + param.pStrYear;
             } else {
                 param.pStrYear = $("#Year-filter").val();
+                TextMYTable = param.pStrYear;
             }
+            var monthHalfAll = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            if (param.pStrMonth == 1) { TextMYChart = param.pStrYear + " " + "(Jan)" }
+            else { TextMYChart = param.pStrYear + " " + "(Jan - " + monthHalfAll[param.pStrMonth - 1] + ")" }
+            $("#TextMYTable").text(TextMYTable);
+            $("#TextMYChart").text(TextMYChart);
             _divGraph.html("");
             _tblMeter.html("");
             $.post(strUrl, param, function (data) {
@@ -352,7 +355,7 @@
                
                 var cv = $("<canvas class='mb-2rem' ></canvas>");
                 // var cv1 = "<div><canvas class='mb-2rem'></canvas></div>";
-                _divGraph.append($("<div class='col-lg-4 ph0 divcv' style='height:400px'></div>").append(cv));
+                _divGraph.append($("<div class='col-lg-12 ph0 divcv' style='height:400px'></div>").append(cv));
                // cv.appendTo(_divGraph);
               
                 var ctx = cv[0].getContext('2d');
@@ -360,19 +363,33 @@
                     
                     type: 'bar',
                     data: barChartData,
-                  
+                    
                     options: {
                         
                         responsive: true,
                         maintainAspectRatio: false,
+                       
+                        title: {
+                            position: 'bottom',
+                            display: true,
+                            text: [d.ML, textML]
+                        },
                         legend: {
-                            position: 'top',
+                            position: 'bottom',
                             onClick: function (e, l) {
                                 var index = l.datasetIndex;
                                 var ci = this.chart;
                                 var meta = ci.getDatasetMeta(index);
                                 meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
                                 ci.update();
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                left: 0,
+                                right: 0,
+                                top: 60,
+                                bottom: 0
                             }
                         },
                         tooltips: {
@@ -444,12 +461,8 @@
                                 },
                                 title: true
                             }
-                        },
-                        title: {
-                            position: 'bottom',
-                            display: true,
-                            text: [d.ML,textML]
                         }
+                       
                     }
                 });
               
