@@ -315,7 +315,8 @@
                         align: 'end',
                         anchor: 'end',
                         color: "#75adff"
-                    }
+                    },
+                    pointStyle: 'rect'
                    
                 };
                 var dsPlan = {
@@ -326,7 +327,8 @@
                         align: 'end',
                         anchor: 'end',
                         color: "#ffc775"
-                    }
+                    },
+                    pointStyle: 'rect'
                 };
                 var dsAccActual = {
                     type: "line",
@@ -338,7 +340,8 @@
                         align: 'end',
                         anchor: 'end'
                     },
-                    data: d.AccActual
+                    data: d.AccActual,
+                    pointStyle: 'line'
                 };
                 var dsAccPlan = {
                     type: "line",
@@ -350,7 +353,8 @@
                     datalabels: {
                         align: 'end',
                         anchor: 'end'
-                    }
+                    },
+                    pointStyle: 'line'
                 };
                 var barChartData = {
                     labels: d.MonthName,
@@ -380,6 +384,7 @@
                             text: [d.ML, textML]
                         },
                         legend: {
+                            labels: {usePointStyle: true},
                             position: 'bottom',
                             onClick: function (e, l) {
                                 var index = l.datasetIndex;
