@@ -762,7 +762,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <label class="panel-title h5">Edit Station</label>
-                <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close close_create" data-dismiss="modal" onclick="CloseEditMeter()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
 
             @using (Html.BeginForm("EditMeter", "Utilization", FormMethod.Post, new { id = "frmEditMeter" }))
@@ -951,7 +951,7 @@
                 <br />
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-sm" onclick="SaveEditMeter()">Edit Metering</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="CloseEditMeter()">Cancel</button>
                 </div>
 
 
@@ -1314,6 +1314,10 @@
 
                 $("#frmEditMeter").submit();
             }
+            function CloseEditMeter() {
+                document.getElementById('checkGisMapEdit').checked = false;
+                document.getElementById('mapEdit').style.display = 'none';
+            }
 
             function CheckGisMapCreate() {
                
@@ -1373,7 +1377,21 @@
             function CheckGisMapEdit() {
 
                 if (document.getElementById('checkGisMapEdit').checked == true) {
-                   document.getElementById('mapEdit').style.display = 'block';
+                    console.log($("#txtMeterNumMEdit").val());
+                    console.log($("#txtShipToMEdit").val());
+                    var map_meter_json = {
+                        "menu": "utilization-customer",
+                        "type": "METERING",
+                        "command": "view",
+                        "parameter": {
+                            "METER_NUMBER": $("#txtMeterNumMEdit").val(),
+                            "SHIP_TO": $("#txtShipToMEdit").val()
+                        }
+                    }
+
+                    map_frame.contentWindow.postMessage(map_meter_json, '*');
+                    //  console.log(map_meter_json);
+                    document.getElementById('mapEdit').style.display = 'block';
 
                 }
                 else {
@@ -1517,18 +1535,7 @@
                     $("#seStatusMEdit").val('@cusMeterE.STATUS_T');
                     $("#datepicCommdateMEdit").val('@cusMeterE.COMMDATE_T_S');
 
-                    var map_meter_json = {
-                        "menu": "utilization-customer",
-                        "type": "METERING",
-                        "command": "view",
-                        "parameter": {
-                            "METER_NUMBER": "@cusMeterE.METER_NUMBER_T",
-                            "SHIP_TO": "@cusMeterE.SHIP_TO_T"
-                        }
-                    }
-
-                    map_frame.contentWindow.postMessage(map_meter_json, '*');
-                  //  console.log(map_meter_json);
+                   
                 }
                     </text>
                 }
