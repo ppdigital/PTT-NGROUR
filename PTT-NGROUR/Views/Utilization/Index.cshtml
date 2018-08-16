@@ -356,11 +356,14 @@
                 map_frame.contentWindow.postMessage(map_info_json, '*');
             }
             function initMapTable(data) {
-                console.log(data)
+                //console.log(data)
+                $('#type-filter').val('all');
+                $('#threshold-filter').val('all');
                 $('#utilTbl').find('tbody tr').each(function () {
                     this.remove();
                     utbt.scrollTo(0, 0);
                 });
+                
                 for (let i in data) {
                     if (data[i].THRESHOLD == 'OK' && data[i].FLAG == '0') {
                         THRESHOLD = '<span class="fa fa-circle " style="color:#16a085"></span>'
