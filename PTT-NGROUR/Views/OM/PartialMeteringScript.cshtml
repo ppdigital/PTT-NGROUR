@@ -11,12 +11,12 @@
         document.getElementById('btnZoomIn').style.display = 'none';
         jQuery.ajaxSettings.traditional = true;
         $("#btnZoomIn").click(function () {
-            $(".divcv").removeClass("col-lg-4").addClass("col-lg-12");
+            $(".divcv").removeClass("col-lg-4 col-md-4 col-sm-4").addClass("col-lg-12 col-md-12 col-sm-12");
             document.getElementById('btnZoomIn').style.display = 'none';
             document.getElementById('btnZoomOut').style.display = 'block';
         });
         $("#btnZoomOut").click(function () {
-            $(".divcv").removeClass("col-lg-12").addClass("col-lg-4");
+            $(".divcv").removeClass("col-lg-12 col-md-12 col-sm-12").addClass("col-lg-4 col-md-4 col-sm-4");
             document.getElementById('btnZoomIn').style.display = 'block';
             document.getElementById('btnZoomOut').style.display = 'none';
         });
