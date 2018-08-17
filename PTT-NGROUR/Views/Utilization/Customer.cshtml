@@ -1,4 +1,6 @@
 ﻿<!DOCTYPE html>
+
+
 @model PTT_NGROUR.Models.ViewModel.Customer
 @{
     ViewBag.Title = "Customer Management";
@@ -16,7 +18,7 @@
     <link href="~/Scripts/DataTables/Responsive-2.2.2/css/responsive.bootstrap.min.css" rel="stylesheet" />
     <link href="~/Scripts/DataTables/DataTables-1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.1/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/datatables.min.css" />
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 
     <style>
@@ -34,171 +36,186 @@
         .clickable{ cursor:pointer;}
     </style>
 }
-<!--<iframe src=" http://nonngr-our.pttplc.com/gis/page.aspx?m=customer" style="visibility: hidden; width:0px;height:0px; "></iframe>-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+            console.log(e.target);
+        });
+        var activeTab = localStorage.getItem('activeTab');
+        if (activeTab) {
+            $('#tabsAll a[href="' + activeTab + '"]').tab('show');
+        }
+    });
+</script>
 
 <div class="container-fluid ph2">
     <br />
-    <ul class="nav nav-tabs" style="border-color: rgba(0,0,0,.0625) !important">
-        <li class="active" style="border-color: rgba(0,0,0,.0625) !important; "><a data-toggle="tab" href="#customer">Customer</a></li>
+    <div >
+        <ul id="tabsAll" class="nav nav-tabs" style="border-color: rgba(0,0,0,.0625) !important">
+            <li class="active" style="border-color: rgba(0,0,0,.0625) !important; "><a data-toggle="tab" href="#customer">Customer</a></li>
 
-        <li style="border-color: rgba(0,0,0,.0625) !important; "><a data-toggle="tab" href="#metering">Metering</a></li>
-    </ul>
+            <li style="border-color: rgba(0,0,0,.0625) !important; "><a data-toggle="tab" href="#metering">Metering</a></li>
+        </ul>
 
-    <div class="tab-content bg-white border-box-gray" style="border-top: none !important">
-        <div id="customer" class="tab-pane fade in active">
-            <div class="ph2 pv2 w-100">
-                <div class="" style="border:0px">
-                    <table class="table table-striped table-bordered nowrap h6" style="width: 100%;z-index: 0 !important;" id="CustomerTable">
-                        <thead>
-                            <tr>
-
-                                <th>Customer Name</th>
-                                <th>Customer SName</th>
-                                <th>Ship To</th>
-                                <th>Sold To</th>
-                                <th>View</th>
-                                @if ((users.Roleid).Equals(1))
-                                {
-                                <th>Edit</th>
-
-                                    <th>Map</th>}
-                                else { }
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (PTT_NGROUR.Models.DataModel.ModelVIEW_SHIPTO_SOLDTO cus in Model.ListViewShipToSoldTo)
-                            {
+        <div class="tab-content bg-white border-box-gray" style="border-top: none !important">
+            <div id="customer" class="tab-pane fade in active">
+                <div class="ph2 pv2 w-100">
+                    <div class="" style="border:0px">
+                        <table class="table table-striped table-bordered nowrap h6" style="width: 100%;z-index: 0 !important;" id="CustomerTable">
+                            <thead>
                                 <tr>
 
-                                    <td>@cus.SHIP_TO_NAME</td>
-                                    <td>@cus.SHIP_TO_SNAME</td>
-                                    <td>@cus.SHIP_TO</td>
-                                    <td>@cus.SOLD_TO</td>
-
-                                    <td><center> <i><a href="#" class="dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer no-underline" id="ViewCust" name="btnOpenView" onclick="ViewCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalViewCust" aria-hidden="true"></a></i></center></td>
+                                    <th>Customer Name</th>
+                                    <th>Customer SName</th>
+                                    <th>Ship To</th>
+                                    <th>Sold To</th>
+                                    <th>View</th>
                                     @if ((users.Roleid).Equals(1))
                                     {
-                                        <td>
-                                            <center> 
-                                            <i>
-                                                <a href="#" class="dib fa fa-pencil-square-o fa-lg no-underline gray pointer no-underline" id="EditCust" name="btnOpenEdit" onclick="EditCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalEditCust" aria-hidden="true">
-                                                </a></i></center>
-                                        </td>}
+                                        <th>Edit</th>
+
+                                        <th>Map</th>}
                                     else { }
-                                    @if ((users.Roleid).Equals(1))
-                                    {
-                                        if (cus.SHIP_TO_FLAG_SHAPE == 0 || cus.SOLD_TO_FLAG_SHAPE == 0)
-                                        {
-                                        <td ><center><i><a href="#" class="fa fa-globe fa-lg red pointer no-underline" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')" data-toggle="modal" aria-hidden="true" data-target="#ModalIfameCustomer"></a></i></center></td>}
-                                        else
-                                        {
-                                            <td ><center><i ><a href="#" class="fa fa-globe fa-lg pointer gray no-underline" aria-hidden="true" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')" data-toggle="modal" data-target="#ModalIfameCustomer"></a></i></center></td>}
-                                    }
-                                </tr>
 
-                            }
-                        </tbody>
-                    </table>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (PTT_NGROUR.Models.DataModel.ModelVIEW_SHIPTO_SOLDTO cus in Model.ListViewShipToSoldTo)
+                                {
+                                    <tr>
+
+                                        <td>@cus.SHIP_TO_NAME</td>
+                                        <td>@cus.SHIP_TO_SNAME</td>
+                                        <td>@cus.SHIP_TO</td>
+                                        <td>@cus.SOLD_TO</td>
+
+                                        <td><center> <i><a href="#" class="dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer no-underline" id="ViewCust" name="btnOpenView" onclick="ViewCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalViewCust" aria-hidden="true"></a></i></center></td>
+                                        @if ((users.Roleid).Equals(1))
+                                        {
+                                            <td>
+                                                <center>
+                                                    <i>
+                                                        <a href="#" class="dib fa fa-pencil-square-o fa-lg no-underline gray pointer no-underline" id="EditCust" name="btnOpenEdit" onclick="EditCust('@cus.SHIP_TO')" data-toggle="modal" data-target="#ModalEditCust" aria-hidden="true">
+                                                        </a>
+                                                    </i>
+                                                </center>
+                                            </td>}
+                                        else { }
+                                        @if ((users.Roleid).Equals(1))
+                                        {
+                                            if (cus.SHIP_TO_FLAG_SHAPE == 0 || cus.SOLD_TO_FLAG_SHAPE == 0)
+                                            {
+                                                <td><center><i><a href="#" class="fa fa-globe fa-lg red pointer no-underline" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')" data-toggle="modal" aria-hidden="true" data-target="#ModalIfameCustomer"></a></i></center></td>}
+                                            else
+                                            {
+                                                <td><center><i><a href="#" class="fa fa-globe fa-lg pointer gray no-underline" aria-hidden="true" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')" data-toggle="modal" data-target="#ModalIfameCustomer"></a></i></center></td>}
+                                        }
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
 
-        </div>
 
 
+            <div id="metering" class="tab-pane fade">
+                <div class="ph2 pv2">
+                    @if ((users.Roleid).Equals(1))
+                    {   <div class="pull-right">
+                        <button type="button" class="btn btn-primary btn-sm" id="btnModalCreateMeter" data-toggle="modal" data-target="#ModalCreateMeter" style=" border-radius:0">
+                            <span class="glyphicon glyphicon-search"></span> Create Meter
+                        </button><span class="cr"></span>
 
-        <div id="metering" class="tab-pane fade">
-            <div class="ph2 pv2">
-                @if ((users.Roleid).Equals(1))
-                {   <div class="pull-right">
-                    <button type="button" class="btn btn-primary btn-sm" id="btnModalCreateMeter" data-toggle="modal" data-target="#ModalCreateMeter" style=" border-radius:0">
-                        <span class="glyphicon glyphicon-search"></span> Create Meter
-                    </button><span class="cr"></span>
+                    </div><br /><br />}
+                    else
+                    { <span></span>}
 
-                </div><br /><br />}
-                else
-                { <span></span>}
-
-                <div class="" style="border:0px">
-                    <table class="table table-striped table-bordered nowrap h6" style="width:100%" id="MeterTable">
-                        <thead>
-                            <tr>
-
-                                <th>Customer Name</th>
-                                <th>License Code</th>
-                                <th>Station Name</th>
-                                <th>Station Number</th>
-                                <th>Station Type</th>
-                                <th>Region</th>
-                                <th>Ship-To</th>
-                                <th>Sold-To</th>
-                                <th>Sold-To Name</th>
-                                <th>Status</th>
-                                <th>View</th>
-                                @if ((users.Roleid).Equals(1))
-                                {
-                                    <th>Edit</th>}
-                                else { }
-
-
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (PTT_NGROUR.Models.DataModel.ModelVIEW_METER meter in Model.ListViewMeter)
-                            {
-                                if (meter.STATUS_DETAIL == "INACTIVE")
-                                { 
-                                <tr style="color:red">
-                         
-                                    <td>@meter.CUST_NAME</td>
-                                    <td>@meter.LICENSE_CODE</td>
-                                    <td>@meter.METER_NAME</td>
-                                    <td>@meter.METER_NUMBER</td>
-                                    <td>@meter.METER_TYPE_NAME</td>
-                                    <td>@meter.REGION_D</td>
-                                    <td>@meter.SHIP_TO</td>
-                                    <td>@meter.SOLD_TO</td>
-                                    <td>@meter.SOLD_TO_NAME</td>
-                                    <td>@meter.STATUS_DETAIL</td>
-
-                                    <td><center><i><a href="#" class="clickable dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewMeter" name="btnOpenView" onclick="ViewMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></i></center></td>
-                                    @if ((users.Roleid).Equals(1))
-                                    {
-                                        <td>
-                                            <center><i><a href="#" class="clickable dib fa fa-pencil-square-o fa-lg no-underline gray pointer" id="EditMeter" name="btnOpenEdit" onclick="EditMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalEditMeter" aria-hidden="true"></a></i></center>
-                                        </td>}
-
-                                </tr>
-                                }
-                                else 
-                                 
-                                { 
+                    <div id="divMeterTable" style="border:0px">
+                        <table class="table table-striped table-bordered nowrap h6" style="width:100%" id="MeterTable">
+                            <thead>
                                 <tr>
-                         
-                                    <td>@meter.CUST_NAME</td>
-                                    <td>@meter.LICENSE_CODE</td>
-                                    <td>@meter.METER_NAME</td>
-                                    <td>@meter.METER_NUMBER</td>
-                                    <td>@meter.METER_TYPE_NAME</td>
-                                    <td>@meter.REGION_D</td>
-                                    <td>@meter.SHIP_TO</td>
-                                    <td>@meter.SOLD_TO</td>
-                                    <td>@meter.SOLD_TO_NAME</td>
-                                    <td>@meter.STATUS_DETAIL</td>
 
-                                    <td><center><i><a href="#" class="clickable dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewMeter" name="btnOpenView" onclick="ViewMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></i></center></td>
+                                    <th>Customer Name</th>
+                                    <th>License Code</th>
+                                    <th>Station Name</th>
+                                    <th>Station Number</th>
+                                    <th>Station Type</th>
+                                    <th>Region</th>
+                                    <th>Ship-To</th>
+                                    <th>Sold-To</th>
+                                    <th>Sold-To Name</th>
+                                    <th>Status</th>
+                                    <th>View</th>
                                     @if ((users.Roleid).Equals(1))
                                     {
-                                        <td>
-                                            <center><i><a href="#" class="clickable dib fa fa-pencil-square-o fa-lg no-underline gray pointer" id="EditMeter" name="btnOpenEdit" onclick="EditMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalEditMeter" aria-hidden="true"></a></i></center>
-                                        </td>}
+                                        <th>Edit</th>}
+                                    else { }
+
+
 
                                 </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (PTT_NGROUR.Models.DataModel.ModelVIEW_METER meter in Model.ListViewMeter)
+                                {
+                                    if (meter.STATUS_DETAIL == "INACTIVE")
+                                    {
+                                        <tr style="color:red">
+
+                                            <td>@meter.CUST_NAME</td>
+                                            <td>@meter.LICENSE_CODE</td>
+                                            <td>@meter.METER_NAME</td>
+                                            <td>@meter.METER_NUMBER</td>
+                                            <td>@meter.METER_TYPE_NAME</td>
+                                            <td>@meter.REGION_D</td>
+                                            <td>@meter.SHIP_TO</td>
+                                            <td>@meter.SOLD_TO</td>
+                                            <td>@meter.SOLD_TO_NAME</td>
+                                            <td>@meter.STATUS_DETAIL</td>
+
+                                            <td><center><i><a href="#" class="clickable dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewMeter" name="btnOpenView" onclick="ViewMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></i></center></td>
+                                            @if ((users.Roleid).Equals(1))
+                                            {
+                                                <td>
+                                                    <center><i><a href="#" class="clickable dib fa fa-pencil-square-o fa-lg no-underline gray pointer" id="EditMeter" name="btnOpenEdit" onclick="EditMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalEditMeter" aria-hidden="true"></a></i></center>
+                                                </td>}
+
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+
+                                            <td>@meter.CUST_NAME</td>
+                                            <td>@meter.LICENSE_CODE</td>
+                                            <td>@meter.METER_NAME</td>
+                                            <td>@meter.METER_NUMBER</td>
+                                            <td>@meter.METER_TYPE_NAME</td>
+                                            <td>@meter.REGION_D</td>
+                                            <td>@meter.SHIP_TO</td>
+                                            <td>@meter.SOLD_TO</td>
+                                            <td>@meter.SOLD_TO_NAME</td>
+                                            <td>@meter.STATUS_DETAIL</td>
+
+                                            <td><center><i><a href="#" class="clickable dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewMeter" name="btnOpenView" onclick="ViewMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></i></center></td>
+                                            @if ((users.Roleid).Equals(1))
+                                            {
+                                                <td>
+                                                    <center><i><a href="#" class="clickable dib fa fa-pencil-square-o fa-lg no-underline gray pointer" id="EditMeter" name="btnOpenEdit" onclick="EditMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalEditMeter" aria-hidden="true"></a></i></center>
+                                                </td>}
+
+                                        </tr>
+                                    }
                                 }
-                            }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -765,8 +782,7 @@
                 <button type="button" class="close close_create" data-dismiss="modal" onclick="CloseEditMeter()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
 
-            @using (Html.BeginForm("EditMeter", "Utilization", FormMethod.Post, new { id = "frmEditMeter" }))
-            {
+            
 
                 <div class="pv2 mv3">
                     <div class="  black-80 center">
@@ -950,12 +966,13 @@
                 </div>
                 <br />
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-sm" onclick="SaveEditMeter()">Edit Metering</button>
+                    <input type="button" class="btn btn-primary btn-sm" id="btnCreateMeter" value="Edit Metering" onclick="SaveEditMeter()">
+                  <!--  <button type="button" class="btn btn-primary btn-sm" onclick="SaveEditMeter()">Edit Metering</button>-->
                     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="CloseEditMeter()">Cancel</button>
                 </div>
 
 
-            }
+          
 
         </div>
     </div>
@@ -1165,15 +1182,13 @@
       
       map_frame2.contentWindow.postMessage(map_customer_json_show, '*');
         map_frame.contentWindow.postMessage(map_customer_json_show, '*'); */
-        
+     
 
-        
+           // $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                  // $($.fn.dataTable.tables(true)).DataTable()
+                  // .columns.adjust()
 
-                $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                    $($.fn.dataTable.tables(true)).DataTable()
-                       .columns.adjust()
-
-                });
+            // });
                 document.getElementById('mapCreate').style.display = 'none';
                document.getElementById('mapEdit').style.display = 'none';
 
@@ -1222,6 +1237,7 @@
                 
 
                 var tblOptionMeter = $('#MeterTable').DataTable({
+                    
                     dom: 'lBfrtip',
                     responsive: true,
                     dom:
@@ -1275,6 +1291,7 @@
                         italics: 'THSarabun-Italic.ttf',
                         bolditalics: 'THSarabun-BoldItalic.ttf'
                     }
+                  
                 }
         // File
       /*      var tblCustomerOption = {
@@ -1300,20 +1317,38 @@
             $('#CustomerTable').DataTable(tblCustomerOption2);*/
             //console.log(new Date().getFullYear());
 
-            function SaveEditMeter() {
-                //var param = {
-                //    "menu": "utilization-customer",
-                //    "type": "METERING",
-                //    "command": "Save",
-                //    "parameter": {
-                //        "METER_NUMBER": $("#txtMeterNumMEdit").val(),
-                //        "SHIP_TO": $("#txtShipToMEdit").val()
-                //    }
-                //};
-                //map_frame.contentWindow.postMessage(param, '*');
-
-                $("#frmEditMeter").submit();
+                function SaveEditMeter() {
+                   
+                    var meterNum = document.getElementById("txtMeterNumMEdit").value;
+                    var meterName = $('#txtMeterNameMEdit').val();
+                    var meterType =  Number(document.getElementById("seMeterTypeMEdit").value);
+                    var meterLicenseID = $('#seLicenseIDMEdit').val();
+                    var meterStatus = Number(document.getElementById("seStatusMEdit").value);
+                    var meterCommdate = $('#datepicCommdateMEdit').val();
+                    
+                    
+                    console.log(meterNum);
+                    console.log(meterName);
+                    console.log(meterType);
+                    console.log(meterLicenseID);
+                    console.log(meterStatus);
+                    console.log(meterCommdate);
+                    $.ajax({
+                        url: '@Url.Action("EditMeter")',
+                        type: 'POST',
+                        data: { datepicCommdateMEdit: meterCommdate, txtMeterNameMEdit: meterName, txtMeterNumMEdit: meterNum, seMeterTypeMEdit: meterType, seStatusMEdit: meterStatus, seLicenseCodeMEdit: meterLicenseID},
+                        success: function (response) {
+                          window.location.reload();
+                          
+                        }
+                    });
+                
+               // $('#frmEditMeter').submit();
+      
+               
+               // $("#metering").load(window.location.href + " #metering");
             }
+
             function CloseEditMeter() {
                 document.getElementById('checkGisMapEdit').checked = false;
                 document.getElementById('mapEdit').style.display = 'none';

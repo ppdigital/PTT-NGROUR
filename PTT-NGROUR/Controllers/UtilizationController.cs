@@ -364,7 +364,7 @@ namespace PTT_NGROUR.Controllers
                 listMeterV.Add(meter);
             }
 
-            var dsmeterT = dal.GetDataSet("SELECT N.METER_NUMBER,N.METER_NAME,N.METER_TYPE,A.METER_TYPE METER_TYPE_NAME,N.STATUS,S.STATUS_DETAIL,L.LICENSE_ID,N.LICENSE_ID LICENSE_CODE,C.SHIP_TO,C.CUST_NAME,CO.SOLD_TO,CO.SOLD_TO_NAME,REGION AS REGION_D,TO_CHAR(N.COMMDATE,'dd/mm/yyyy') as COMMDATE, CASE WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = C.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = C.REGION) WHEN (SELECT REGION_ID  FROM REGION  WHERE REGION_NAME_TH = C.REGION) IS NOT NULL THEN (SELECT REGION_ID  FROM REGION WHERE REGION_NAME_TH = C.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = C.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = C.REGION) ELSE TO_NUMBER(C.REGION) END REGION FROM NGR_CUSTOMER_METER N, METER_TYPE A, STATUS S, LICENSE_MASTER L, NGR_CUSTOMER C, NGR_CUSTOMER_OFFICE CO WHERE N.METER_TYPE = A.ID AND N.STATUS = S.STATUS_ID(+) AND N.LICENSE_ID = L.LICENSE_CODE(+) AND N.SHIP_TO = SUBSTR(C.SHIP_TO,3) AND C.SOLD_TO = CO.SOLD_TO(+)");
+            var dsmeterT = dal.GetDataSet("SELECT N.METER_NUMBER,N.METER_NAME,N.METER_TYPE,A.METER_TYPE METER_TYPE_NAME,N.STATUS,S.STATUS_DETAIL,N.LICENSE_ID LICENSE_CODE,TO_CHAR(N.COMMDATE,'dd/mm/yyyy') as COMMDATE,CASE WHEN LENGTH(N.LICENSE_ID) > 1 AND (SELECT LICENSE_CODE FROM LICENSE_MASTER WHERE LICENSE_CODE = N.LICENSE_ID) IS NOT NULL THEN (SELECT LICENSE_ID FROM LICENSE_MASTER WHERE LICENSE_CODE = N.LICENSE_ID) ELSE TO_NUMBER(N.LICENSE_ID) END LICENSE_ID, CASE WHEN LENGTH(N.LICENSE_ID) = 1 AND (SELECT LICENSE_ID FROM LICENSE_MASTER WHERE LICENSE_ID = TO_NUMBER(N.LICENSE_ID)) IS NOT NULL THEN (SELECT LICENSE_CODE FROM LICENSE_MASTER WHERE LICENSE_ID = TO_NUMBER(N.LICENSE_ID)) ELSE N.LICENSE_ID END LICENSE_CODE,C.SHIP_TO,C.CUST_NAME,CO.SOLD_TO,CO.SOLD_TO_NAME,REGION AS REGION_D, CASE WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = C.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = C.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = C.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = C.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = C.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = C.REGION) ELSE TO_NUMBER(C.REGION) END REGION FROM NGR_CUSTOMER_METER N, METER_TYPE A, STATUS S, NGR_CUSTOMER C, NGR_CUSTOMER_OFFICE CO WHERE N.METER_TYPE = A.ID AND N.STATUS = S.STATUS_ID(+)  AND (N.SHIP_TO = SUBSTR(C.SHIP_TO,3) OR N.SHIP_TO = C.SHIP_TO) AND C.SOLD_TO = CO.SOLD_TO(+)");
             var dtmeterT = dsmeterT.Tables[0];
             //public List<DataModel.ModelVIEW_METER> ListViewMeter { get; set; }
             var listMeterT = new List<Models.DataModel.ModelMETER>();
@@ -1193,23 +1193,27 @@ namespace PTT_NGROUR.Controllers
             return Redirect("Customer");
         }
         [HttpPost]
-        public ActionResult EditMeter(string datepicCommdateMEdit, string txtMeterNameMEdit, string txtMeterNumMEdit, int seMeterTypeMEdit, int seStatusMEdit, int txtObjectIDMEdit)
+        public ActionResult EditMeter(string datepicCommdateMEdit, string txtMeterNameMEdit, string txtMeterNumMEdit, int seMeterTypeMEdit, int seStatusMEdit, string seLicenseCodeMEdit)
         {   //string textEdit = "แก้ไข้อมูลเรียบร้อย";
             //String[] date1 = date.split("/");
             //var mainDate = DateTime.ParseExact(datepicCommdateMEdit, "dd/MM/yyyy HH:mm:ss", null);
             var dalEditMeter = new DAL.DAL();
             string username = User.Identity.Name;
-            string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET METER_NUMBER = '" + txtMeterNumMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',METER_TYPE='" + seMeterTypeMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE=to_timestamp( '" + datepicCommdateMEdit + "', 'dd/mm/yyyy' ),UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE METER_NUMBER='" + txtObjectIDMEdit + "'";
+            string strCommandEditMeter = "UPDATE NGR_CUSTOMER_METER SET LICENSE_ID = '" + seLicenseCodeMEdit + "',METER_NAME ='" + txtMeterNameMEdit + "',METER_TYPE='" + seMeterTypeMEdit + "',STATUS='" + seStatusMEdit + "',COMMDATE=to_timestamp( '" + datepicCommdateMEdit + "', 'dd/mm/yyyy' ),UPDATED_DATE=Sysdate,UPDATED_BY='" + username + "' WHERE METER_NUMBER='" + txtMeterNumMEdit + "'";
             var conMeter = dalEditMeter.GetConnection();
             conMeter.Open();
             dalEditMeter.GetCommand(strCommandEditMeter, conMeter).ExecuteNonQuery();
             conMeter.Close();
             conMeter.Dispose();
-
+            string text = "success";
             //else { textEdit = "โปรดกรอกข้อมูลให้ครบถ้วน"; }
             //ViewBag.textAlert = textEdit;
             //TempData["message"] = textEdit;
-            return Redirect("Customer");
+            //return Redirect("Customer");
+          // return PartialView("Customer");
+            //return View("Customer");
+
+            return Content(text);
         }
         [HttpPost]
         public ActionResult CreateMeter(string txtMeterNum, string txtMeterName, int seMeterType, string seShipTo, int seLicense, int seStatus, string datepicCommdate)
