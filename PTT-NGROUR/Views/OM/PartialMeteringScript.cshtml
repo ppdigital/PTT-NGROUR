@@ -488,14 +488,24 @@
                 strTh2 += "<th>Plan</th><th>Actual</th>"
             }
             for (var i in pData) {
-                var meter = pData[i];                
+                var meter = pData[i];
+                if (meter.Name == "ML1") {
+                    bgcolor = "#A0D7D1";
+                    meternames = "ML1: Visual Inspection";
+                } else if (meter.Name == "ML2") {
+                    bgcolor = "#A3BDD5";
+                    meternames = "ML2: Calibration, Testing";
+                } else if (meter.Name == "ML3") {
+                    bgcolor = "#F07C82";
+                    meternames = "ML3: Overhaul, Replacement (include RTU Inspection: Calibration, Testing)";
+                }
                 for (var j in meter.ListPmIntervals) {
                     strBody += "<tr>";
                     if (j == 0) {
-                        strBody += "<th rowspan=" + (meter.ListPmIntervals.length) + " style='padding-top:auto;padding-bottom:auto'>" + meter.Name + "</th>"
+                        strBody += "<th rowspan=" + (meter.ListPmIntervals.length) + " style='padding-top:auto;padding-bottom:auto;background-color:" + bgcolor + "'>" + meternames + "</th>"
                     }
                     var pmi = meter.ListPmIntervals[j];
-                    strBody += "<th>" + pmi.Name + "</th>";
+                    strBody += "<th style='background-color:" + bgcolor + "'>" + pmi.Name + "</th>";
                     for (var k in pmi.ListActual) {
                         var strActual = pmi.ListActual[k];
                         var strPlan = pmi.ListPlan[k];
