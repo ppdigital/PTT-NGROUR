@@ -34,6 +34,11 @@
             font-size: 11px !important;
         }
         .clickable{ cursor:pointer;}
+
+        .btn_pointer:hover {
+            cursor: pointer;
+            color:red;
+        }
     </style>
 }
 <script type="text/javascript">
@@ -107,7 +112,7 @@
                                         {
                                             if (cus.SHIP_TO_FLAG_SHAPE == 0 || cus.SOLD_TO_FLAG_SHAPE == 0)
                                             {
-                                                <td><center><i><a href="#" class="fa fa-globe fa-lg red pointer no-underline" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')" data-toggle="modal" aria-hidden="true" data-target="#ModalIfameCustomer"></a></i></center></td>}
+                                                <td><center><i><a href="#" class="fa fa-globe fa-lg red btn_pointer no-underline" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')" data-toggle="modal" aria-hidden="true" data-target="#ModalIfameCustomer"></a></i></center></td>}
                                             else
                                             {
                                                 <td><center><i><a href="#" class="fa fa-globe fa-lg pointer gray no-underline" aria-hidden="true" onclick="IfameCustomer( '@cus.SHIP_TO' , '@cus.SOLD_TO')" data-toggle="modal" data-target="#ModalIfameCustomer"></a></i></center></td>}
