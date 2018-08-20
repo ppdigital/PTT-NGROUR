@@ -25,7 +25,7 @@
         background-color: #d9edf7;
         color: #31708f;
         cursor: pointer;
-        padding: 18px;
+        padding: 10px;
         width: 100%;
         border: none;
         text-align: left;
@@ -62,7 +62,7 @@
 <link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
 <div class="container-fluid ph0-xs pb2">
     <br />
-    <button class="accordion b">Utilization</button>
+    <button class="accordion b" id="uAcc">Utilization</button>
     <div class="panel">
         <div class="ph0-xs">
             <div class=" p-3 mb-2 text-dark " style="border: none !important">
@@ -280,13 +280,26 @@
     @Html.Partial("PartialIndexScript")
 
     <script type="text/javascript">
+        
+            document.getElementById("uAcc").classList.toggle("active");
+            var panelOpen = document.getElementById("uAcc").nextElementSibling;
+            console.log(panelOpen);
+            if (panelOpen.style.maxHeight) {
+                panelOpen.style.maxHeight = null;
+            } else {
+                panelOpen.style.maxHeight = panelOpen.scrollHeight + "px";
+            }
+        
+
         var acc = document.getElementsByClassName("accordion");
         var i;
 
         for (i = 0; i < acc.length; i++) {
             acc[i].addEventListener("click", function () {
                 this.classList.toggle("active");
+
                 var panel = this.nextElementSibling;
+                console.log(panel);
                 if (panel.style.maxHeight) {
                     panel.style.maxHeight = null;
                 } else {
@@ -294,6 +307,7 @@
                 }
             });
         }
+
         $('.tableFixHead').on('scroll', function () {
             $('thead', this).css('transform', 'translateY(' + this.scrollTop + 'px)');
         });
@@ -317,12 +331,10 @@
             }
         }
 
-
         var region;
         $('#MultiRegion').change(function () {
             SeRegion = $(this).val();
             // console.log(region);
-
         })
         $('#MultiLicense').change(function () {
             SeLicense = $(this).val();
