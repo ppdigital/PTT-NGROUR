@@ -363,7 +363,7 @@
                     this.remove();
                     utbt.scrollTo(0, 0);
                 });
-                
+                $('#txtSearch').val("");
                 for (let i in data) {
                     if (data[i].THRESHOLD == 'OK' && data[i].FLAG == '0') {
                         THRESHOLD = '<span class="fa fa-circle " style="color:#16a085"></span>'
