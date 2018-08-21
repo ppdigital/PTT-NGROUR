@@ -517,6 +517,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\Logo\IconsLandVistaSVGTransportMultiviewIconsDemo.zip" />
+    <Content Include="App_Data\คู่มือการใช้งานระบบ NGROUR เพิ่มเติม.pdf" />
+    <Content Include="App_Data\คู่มือการใช้งานระบบ NGROUR.pdf" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -720,9 +722,7 @@
     <Content Include="Views\TestD3Graph\BarChart.cshtml" />
     <Content Include="Views\Utilization\PartialMeterTable.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
