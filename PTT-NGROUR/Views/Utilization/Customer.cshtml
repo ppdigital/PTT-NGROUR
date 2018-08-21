@@ -1147,7 +1147,7 @@
         <div class="modal-content" style="padding: 10px;">
             <div class="modal-header" style="padding: 0px !important; border-bottom: none !important; ">
 
-                <button type="button" class="close close_create" data-dismiss="modal" id="closeMapCusModal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close close_create" data-dismiss="modal" id="closeMapCusModal" onclick="CloseMapCusModal()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
 
 
@@ -1357,6 +1357,9 @@
                // $("#metering").load(window.location.href + " #metering");
             }
         
+        function CloseMapCusModal() {
+            window.location.reload();
+        }
             function CloseEditMeter() {
                 document.getElementById('checkGisMapEdit').checked = false;
                 document.getElementById('mapEdit').style.display = 'none';
