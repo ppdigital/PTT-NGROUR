@@ -7,6 +7,38 @@
     <script src="~/Content/bootstrap-datepicker.js"></script>
 
     <script>
+        /*  active accordion */
+      /*  document.getElementById("d").classList.toggle("active");
+        var panelOpen = document.getElementById("d").nextElementSibling;
+        console.log(panelOpen); 
+        if (panelOpen.style.maxHeight) {
+            panelOpen.style.maxHeight = null;
+        } else {
+            panelOpen.style.maxHeight = panelOpen.scrollHeight + "px";
+        }  */
+
+
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+
+                var panel = this.nextElementSibling;
+                console.log(panel);
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+
+        $('.tableFixHead').on('scroll', function () {
+            $('thead', this).css('transform', 'translateY(' + this.scrollTop + 'px)');
+        });
+
         $('#MultiRegion').selectpicker('selectAll');
         document.getElementById('btnZoomIn').style.display = 'none';
         jQuery.ajaxSettings.traditional = true;

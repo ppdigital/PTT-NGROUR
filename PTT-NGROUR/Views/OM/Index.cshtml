@@ -7,18 +7,68 @@
     .table > tbody > tr > th {
         vertical-align: middle !important;
     }
+
     .table > thead > tr > th {
         vertical-align: middle !important;
     }
+
     .chart-container {
         position: relative;
         margin: auto;
         height: 80vh;
         width: 80vw;
     }
-  
-    
+
+    .accordion {
+        background-color: #d9edf7;
+        color: #31708f;
+        cursor: pointer;
+        padding: 10px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+    }
+
+        .active, .accordion:hover {
+            background-color: #bce8f1;
+        }
+
+        .accordion:after {
+            content: '\002B';
+            color: #777;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+    .active:after {
+        content: "\2212";
+    }
+
+    .panel {
+        
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+        margin-bottom: 5px !important;
+        border: .5px solid #d3eefc;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 7px;
+     
+    }
 </style>
+
+
+
+
+
+
 <div class="ph2 ph1-xs pt-15px">
     <div class="row">
         <div class="col-lg-1 col-md-1 col-sm-1"></div>
@@ -40,7 +90,7 @@
                     <input type="radio" name="radioMY" id="radioYear" onclick="javascript: Check();">
                     <label for="radioYear">Year</label>
                 </span>
-                <input type="text" placeholder="Month" class="form-control form-control-sm fz-12px" id="Month-filter"  />
+                <input type="text" placeholder="Month" class="form-control form-control-sm fz-12px" id="Month-filter" />
                 <input type="text" placeholder="Year" class="form-control form-control-sm fz-12px col-xs-3" id="Year-filter" style="display:none" />
                 <span class="input-group-btn">
                     <button class="btn btn-block btn-primary col-xs-3" id="btnSearch">
@@ -52,40 +102,65 @@
 
     </div>
     <br />
-    <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
-        <center> <span class="h2">PM IA Monitoring Results Summary &#64; </span><span class="h2" id="TextMYTable"></span></center>
-        <br />
-        <div class="table-responsive">
-            <table id="tblMeter" class="table table-bordered"></table>
+    <div class="container-fluid ph0-xs ">
+        
+        <button class="accordion b" id="uAcc">Summary</button>
+        <div class="panel bg-grey-100">
+            <div class=" ph2 ph1-xs pv2 ol-container-white">
+            </div>
+        </div>
+        <button class="accordion b" >Pipeline</button>
+        <div class="panel bg-grey-100 ">
+            <div class=" ph2 ph1-xs pv2 col-container-white">
+                </div>
+            </div>
+
+        <button class="accordion b">Equipment (Gate & BV & Reducing St.)</button>
+        <div class="panel bg-grey-100 ">
+            <div class=" ph2 ph1-xs pv2 col-container-white">
+            </div>
+        </div>
+        <button class="accordion b">Equipment (M/R St.)</button>
+        <div class="panel bg-grey-100">
+     
+            <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
+                <center> <span class="h2">PM IA Monitoring Results Summary &#64; </span><span class="h2" id="TextMYTable"></span></center>
+     
+                <div class="table-responsive">
+                    <table id="tblMeter" class="table table-bordered"></table>
+                </div>
+            </div>
+
+            <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
+                <center> <span class="h2">M/R St. PM% Completion (Ref. Master Plan)</span></center>
+                <div id="chart-container" style="height:500px">
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+            <!-- section Meter Graph -->
+            <div class=" ph2 ph1-xs pv2 col-container-white ">
+                <div class="row ">
+                    <div class="   hidden-xs  fr" style="padding-right: 15px;padding-bottom:15px">
+                        <button class="btn btn-block btn-primary btn-sm" id="btnZoomIn">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn btn-block btn-primary btn-sm" id="btnZoomOut">
+                            <i class="fa fa-minus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <center> <span class="h2">M/R St. PM IA Monitoring Accumulated Results </span><span class="h2" id="TextMYChart"></span></center>
+                </div>
+                <div class="row ">
+                    <div class="col-lg-12" id="divGraph"></div>
+                </div>
+            </div>
+            <!-- End Meter Graph -->
+
         </div>
     </div>
 
-    <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
-        <center> <span class="h2">M/R St. PM% Completion (Ref. Master Plan)</span></center>
-        <div id="chart-container" style="height:500px">
-            <canvas id="canvas" ></canvas>
-        </div>
-    </div>
-    <!-- section Meter Graph -->
-    <div class=" ph2 ph1-xs pv2 mb-2p col-container-white ">
-        <div class="row ">
-            <div class="   hidden-xs  fr" style="padding-right: 15px;padding-bottom:15px">
-                <button class="btn btn-block btn-primary btn-sm" id="btnZoomIn">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
-                <button class="btn btn-block btn-primary btn-sm" id="btnZoomOut">
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
-        <div class="row">
-            <center> <span class="h2">M/R St. PM IA Monitoring Accumulated Results </span><span class="h2" id="TextMYChart"></span></center>
-        </div>
-        <div class="row ">
-            <div class="col-lg-12" id="divGraph"></div>
-        </div>
-    </div>
-    <!-- End Meter Graph -->
 </div>
 @section style{
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
@@ -102,40 +177,40 @@
         }
 
         .vertical-center {
-          min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
-          min-height: 100vh; /* These two lines are counted as one :-)       */
-
-          display: flex;
-          align-items: center;
-         
+            min-height: 100%; /* Fallback for browsers do NOT support vh unit */
+            min-height: 100vh; /* These two lines are counted as one :-)       */
+            display: flex;
+            align-items: center;
         }
 
         #tblMeter {
-            background-color:white;
+            background-color: white;
         }
 
         .cellDisable {
             background-color: #ddd;
         }
 
-        .cellDanger{
-            color:red;
+        .cellDanger {
+            color: red;
         }
-        td{
-            text-align:right;
+
+        td {
+            text-align: right;
         }
-        th{
-            text-align:center;
-            vertical-align:middle;
-            line-height:normal;
-            display:table-cell;
+
+        th {
+            text-align: center;
+            vertical-align: middle;
+            line-height: normal;
+            display: table-cell;
             min-height: 10em;
         }
     </style>
 }
 
-@section scripts{   
+@section scripts{
     @Html.Partial("PartialMeteringScript")
-     
-    
+
+
 }
