@@ -196,9 +196,7 @@
             viewMode: "years",
             minViewMode: "years",
             autoclose: true
-        }).click(function (e) {
-            searchData();
-        });
+        }).datepicker("setDate", new Date());
 
         $("#btnSearch").click(function (e) {
             searchData();
