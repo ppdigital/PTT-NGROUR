@@ -355,8 +355,11 @@
                 }
                 map_frame.contentWindow.postMessage(map_info_json, '*');
             }
+            var x;
             function initMapTable(data) {
-                //console.log(data)
+                //GetdatafromMap(data);
+                console.log(data);
+                x = data;
                 $('#type-filter').val('all');
                 $('#threshold-filter').val('all');
                 $('#utilTbl').find('tbody tr').each(function () {
@@ -374,7 +377,7 @@
                     } else if (data[i].THRESHOLD == 'Alert' && data[i].FLAG == '0') {
                         THRESHOLD = '<span class="fa fa-circle " style="color:#e74c3c"></span>'
                         color1 = "Alert"
-                    } else if (data[i].FLAG == '1') {
+                    } else if (data[i].FLAG == '1' || data[i].THRESHOLD == 'Flag') {
                         THRESHOLD = '<span class="fa fa-flag " style="color:#e67e22"></span>'
                         color1 = "Flag"
                     } else {
@@ -415,7 +418,21 @@
                     $('#utilTbl > tbody >tr:last-child').data('map_info', data[i]);
                     $('#utilTbl > tbody >tr:last-child').click(utilTblOnclick);
                 }
+            }//int map
+            function getDataFromMap(newData) {
+                console.log(x);
+                if (x.length > 1) {
+                    for (let i in x) {
+                        if (newData.NAME == x[i].NAME) {
+                            x[i].THRESHOLD = newData.THRESHOLD;
+                            break;
+                        }
+                    }
+                    
+                    initMapTable(x);
+                }
             }
+            
             //map_frame.contentWindow.postMessage(map_info_json, '*');
             //////////////////////
 
