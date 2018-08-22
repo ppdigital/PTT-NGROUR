@@ -144,7 +144,13 @@
                 },
                 plugins: {
                     datalabels: {
-
+                        display: true,
+                        color: function (context) {
+                            var index = context.dataIndex;
+                            var value = context.dataset.data[index];
+                            return value > 0 ? 'gray' :  // draw negative values in red
+                                'red';
+                        },
                         formatter: function (value) {
                             return value;
                         },
