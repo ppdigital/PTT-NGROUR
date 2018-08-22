@@ -44,7 +44,7 @@
             margin-left: 5px;
         }
 
-    .active:after {
+    .activeZoomOut:after {
         content: "\2212";
     }
 
@@ -62,6 +62,27 @@
         padding: 7px;
      
     }
+
+    .textAlignVer {
+        display: block;
+        filter: flipv fliph;
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+        position: relative;
+        white-space: nowrap;
+      
+    }
+
+
+    .tableSum > tbody > tr:nth-child(even) > td,
+    .table > thead:nth-last-child(-n+2) > tr:nth-last-child(-n+2) > th {
+        background-color: #d9edf7;
+    }
+    .tableSum > thead:first-child > tr:first-child > th {
+        background-color: #52a0db;
+    }
+    .textheadSumT {color:#fbdb1b}
 </style>
 
 
@@ -107,121 +128,235 @@
         <button class="accordion b" id="uAcc">Summary</button>
         <div class="panel bg-grey-100">
             <div class=" ph2 ph1-xs pv2 ol-container-white">
+                <!-- Summary Pipeline Table-->
+                 <div class="table-responsive">
+                     <table class="tableSum table table-bordered ">
+                         <thead>
+                             <tr>
+                                 <th rowspan="2" colspan="2" class="textheadSumT h4 b">Pipeline</th>
+                                 <th colspan="5" >Month</th>
+                                 <th colspan="5" >Month - Month Year (Accumulate)</th>
+                             </tr>
+                             <tr>
+
+                                 <th>Plan</th>
+                                 <th>Actual</th>
+                                 <th>% completion</th>
+                                 <th>% Major<br />% Minor</th>
+                                 <th>% Overall</th>
+                                 <th>Plan</th>
+                                 <th>Actual</th>
+                                 <th>% completion</th>
+                                 <th>% Major<br />% Minor</th>
+                                 <th>% Overall</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td rowspan="5" style="text-align: center; vertical-align: middle;"><span class="textAlignVer">Major</span></td>
+                                 <td class="text-left">Vehicle Patrolling (จำนวน Route Code)</td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td rowspan="5"><span></span></td>
+                                 <td rowspan="7"><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td rowspan="5"><span></span></td>
+                                 <td rowspan="7"><span></span></td>
+
+                             </tr>
+                             <tr>
+                                 <td class="text-left"><span>Ground Leakage Survey (จำนวน Route Code)</span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+
+                             </tr>
+                             <tr>
+                                 <td class="text-left">DC De-coupler (จำนวนสถานีฯ)</td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+
+                             </tr>
+                             <tr>
+                                 <td class="text-left">Insulation Flange/Joint (จำนวนสถานีฯ)</td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+
+                             </tr>
+                             <tr>
+                                 <td class="text-left">Wall Thickness Inspection (จำนวนสถานีฯ)</td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+
+                             </tr>
+                             <tr>
+                                 <td rowspan="2" style="text-align: center; vertical-align: middle;"><span class="textAlignVer">Minor</span></td>
+                                 <td class="text-left">Soil to Air Inspection (จำนวนสถานีฯ)</td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td rowspan="2"></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td rowspan="2"></td>
+
+                             </tr>
+                             <tr>
+                                 <td class="text-left">Corrosion under Pipe Support Inspection (จำนวนสถานีฯ)</td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+                                 <td><span></span></td>
+
+
+                             </tr>
+
+
+                         </tbody>
+                     </table>
+                </div>
+                <br />
+
+                <!-- Summary Gatestation Table-->
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="tableSum table table-bordered">
                         <thead>
                             <tr>
-                                <th rowspan="2" colspan="2">Pipeline</th>
-                                <th colspan="5">Month</th>
-                                <th colspan="5">Month - Month Year (Accumulate)</th>
+                                <th rowspan="2" class="textheadSumT">Equipment<br />(Gate & BV & Reducing St.)</th>
+                                <th colspan="4">Month</th>
+                                <th colspan="4">Month - Month Year (Accumulate)</th>
                             </tr>
                             <tr>
-                               
+
                                 <th>Plan</th>
                                 <th>Actual</th>
                                 <th>% completion</th>
-                                <th>% Major/Minor</th>
                                 <th>% Overall</th>
                                 <th>Plan</th>
                                 <th>Actual</th>
                                 <th>% completion</th>
-                                <th>% Major/Minor</th>
                                 <th>% Overall</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td rowspan="5">major</td>
-                                <td>Vehicle Patrolling (จำนวน Route Code)</td>
+
+                                <td class="text-left">ML 1 : (Visual Inspection) (จำนวนสถานีฯ)</td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
-                                <td><span></span></td>
-                                <td rowspan="5"><span></span></td>
-                                <td><span></span></td>
+                                <td rowspan="3"><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
-                                <td><span></span></td>
-                                
+                                <td rowspan="3"><span></span></td>
+
+
                             </tr>
                             <tr>
-                                <td><span>Ground Leakage Survey (จำนวน Route Code)</span></td>
+                                <td class="text-left"><span>ML 2 : (Calibration, Testing) (จำนวนสถานีฯ)</span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
+
                             </tr>
                             <tr>
+                                <td class="text-left"><span>ML 3 : (Overhual, Replacement) (จำนวนสถานีฯ)</span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+
+                <!-- Summary Metering Table-->
+                <div class="table-responsive">
+                    <table class="tableSum table table-bordered">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="textheadSumT">Equipment<br />(M/R St.)</th>
+                                <th colspan="4">Month</th>
+                                <th colspan="4">Month - Month Year (Accumulate)</th>
                             </tr>
                             <tr>
+
+                                <th>Plan</th>
+                                <th>Actual</th>
+                                <th>% completion</th>
+                                <th>% Overall</th>
+                                <th>Plan</th>
+                                <th>Actual</th>
+                                <th>% completion</th>
+                                <th>% Overall</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                                <td class="text-left">ML 1 : (Visual Inspection) (จำนวนสถานีฯ)</td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
+                                <td rowspan="3"><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
+                                <td rowspan="3"><span></span></td>
+
+
                             </tr>
                             <tr>
+                                <td class="text-left"><span>ML 2 : (Calibration, Testing) (จำนวนสถานีฯ)</span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
+
                             </tr>
                             <tr>
-                                <td rowspan="2">Minor</td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td rowspan="2"></td>
+                                <td class="text-left"><span>ML 3 : (Overhual, Replacement) (จำนวนสถานีฯ)</span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
                                 <td><span></span></td>
+
                             </tr>
-                            <tr>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                            </tr>
-                           
-                           
+
                         </tbody>
                     </table>
                 </div>

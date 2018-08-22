@@ -23,7 +23,7 @@
 
         for (i = 0; i < acc.length; i++) {
             acc[i].addEventListener("click", function () {
-                this.classList.toggle("active");
+                this.classList.toggle("activeZoomOut");
 
                 var panel = this.nextElementSibling;
                 console.log(panel);
@@ -161,7 +161,7 @@
                 scales: {
                     xAxes: [{
                         gridLines: {
-                            display: true
+                            display: false
                         },
 
                         //barThickness: 40,
