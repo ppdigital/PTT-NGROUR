@@ -56,11 +56,11 @@
                                         <td>@user.CREATE_BY</td>
 
                                         <td>
-                                            <center> <button class="btn btn-link  no-underline gray " id="Edit" name="btnOpenEdit" onclick="EDITUSER(@user.EMPLOYEE_ID)" data-toggle="modal" data-target="#myModalEdit" aria-hidden="true"><span class="fa fa-pencil-square-o fa-lg gray"></span></button></center>
+                                            <center> <button class="btn btn-link  no-underline gray " id="Edit" name="btnOpenEdit" onclick="EDITUSER('@user.EMPLOYEE_ID')" data-toggle="modal" data-target="#myModalEdit" aria-hidden="true"><span class="fa fa-pencil-square-o fa-lg gray"></span></button></center>
                                         </td>
 
                                         <td>
-                                            <center> <button class="btn btn-link" onclick="ConfirmDel(@user.EMPLOYEE_ID)"><span class="fa fa-trash-o fa-lg" aria-hidden="true"></span></button></center>
+                                            <center> <button class="btn btn-link" onclick="ConfirmDel('@user.EMPLOYEE_ID')"><span class="fa fa-trash-o fa-lg" aria-hidden="true"></span></button></center>
                                         </td>
 
                                     </tr>
@@ -328,7 +328,7 @@
 
             function EDITUSER(id) {
                 //modalEdit.style.display = "block";
-
+                console.log(id);
                 @foreach (var user in Model.ModelUsersAuth)
                 {
 
@@ -380,10 +380,10 @@
 
                     if (IsADCreate != "1") {
                         var IsADInsert = "Non PTT";
-                        if (isNaN(txtEmployeeIDCreate)) {
-                            alert("ID ต้องเป็นตัวเลขเท่านั้น");
-                        }
-                        else {
+                      // if (isNaN(txtEmployeeIDCreate)) {
+                           // alert("ID ต้องเป็นตัวเลขเท่านั้น");
+                       //}
+                       // else {
                             if (txtEmployeeIDCreate.length > 10) {
                                 alert("ID ต้องมีจำนวนไม่เกิน 10 ตัว");
                             } else {
@@ -437,7 +437,7 @@
                                     }
                                 }
                             }
-                        }
+                      //  }
                     }
                     else {
                         var IsADInsert = "PTT";

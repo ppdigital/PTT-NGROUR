@@ -343,8 +343,8 @@
        
 
         function Search() {
-            let url;
             
+            let url;
             var threshold = document.getElementById('threshold-filter').value;
             var type = document.getElementById('type-filter').value;
            
@@ -374,12 +374,20 @@
             let strMode = "";
 
             if (document.getElementById('radioRegion').checked) {
+                if (document.getElementById('MultiRegion').value == "") {
+                    alert('Please select the data');
+                    return false;
+                }
                 url = '@Url.Action("SearchRegionReport")';
                 multidata = $('#MultiRegion').val();//SeRegion;
                 strMode = "region";
 
             }
             else if (document.getElementById('radioLicense').checked) {
+                if (document.getElementById('MultiLicense').value == "") {
+                    alert('Please select the data');
+                    return false;
+                }
                 url = '@Url.Action("SearchLicenseReport")';
                 multidata = $('#MultiLicense').val();//SeLicense;
                 strMode = "license";
