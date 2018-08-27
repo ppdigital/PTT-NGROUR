@@ -46,15 +46,20 @@
 }
 <script type="text/javascript">
     $(document).ready(function () {
-        
+       
         $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+           
             localStorage.setItem('activeTab', $(e.target).attr('href'));
             console.log(e.target);
+           
+
         });
         var activeTab = localStorage.getItem('activeTab');
         if (activeTab) {
-            $('#tabsAll a[href="' + activeTab + '"]').tab('show');
+           
+            $('#tabsAll a[href="' + activeTab + '"]').tab('show');  
         }
+
     });
 </script>
 
@@ -1147,7 +1152,7 @@
         <div class="modal-content" style="padding: 10px;">
             <div class="modal-header" style="padding: 0px !important; border-bottom: none !important; ">
 
-                <button type="button" class="close close_create" data-dismiss="modal" id="closeMapCusModal" onclick="CloseMapCusModal()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close close_create" data-dismiss="modal" id="closeMapCusModal" onfocus="CloseMapCusModal()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
 
 
@@ -1192,11 +1197,11 @@
         map_frame.contentWindow.postMessage(map_customer_json_show, '*'); */
      
 
-           // $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                  // $($.fn.dataTable.tables(true)).DataTable()
-                  // .columns.adjust()
+           $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                   $($.fn.dataTable.tables(true)).DataTable()
+                   .columns.adjust()
 
-            // });
+            });
                 document.getElementById('mapCreate').style.display = 'none';
                document.getElementById('mapEdit').style.display = 'none';
 

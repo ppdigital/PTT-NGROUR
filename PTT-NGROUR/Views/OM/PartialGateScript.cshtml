@@ -1,0 +1,554 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelOmIndexGate
+
+    <script>
+
+        var _divGraph = $("#divGraph");
+        var _tblMeter = $("#tblMeter");
+
+        var horizonalLinePlugin = {
+            afterDraw: function (chartInstance) {
+                var yScale = chartInstance.scales["y-axis-0"];
+                var canvas = chartInstance.chart;
+                var ctx = canvas.ctx;
+                var index;
+                var line;
+                var style;
+
+                if (chartInstance.options.horizontalLine) {
+                    for (index = 0; index < chartInstance.options.horizontalLine.length; index++) {
+                        line = chartInstance.options.horizontalLine[index];
+
+                        if (!line.style) {
+                            style = "rgba(169,169,169, .6)";
+                        } else {
+                            style = line.style;
+                        }
+
+                        if (line.y) {
+                            yValue = yScale.getPixelForValue(line.y);
+                        } else {
+                            yValue = 0;
+                        }
+
+                        ctx.lineWidth = 1;
+                        ctx.setLineDash([10, 5]);
+
+                        if (yValue) {
+                            ctx.beginPath();
+                            ctx.moveTo(0, yValue);
+                            ctx.lineTo(canvas.width, yValue);
+                            ctx.strokeStyle = style;
+                            ctx.stroke();
+                        }
+
+                        if (line.text) {
+                            ctx.fillStyle = style;
+                            ctx.fillText(line.text, 0, yValue-12 + ctx.lineWidth);
+                        }
+
+                    }
+                    return;
+                };
+            }
+        };
+        Chart.pluginService.register(horizonalLinePlugin);
+
+        var barChartData = {
+            labels: [@Model.BarGraph.ListLabel.Select(x=> new HtmlString( "'" + x + "'")).Aggregate((x,y)=> new HtmlString(x + "," +y))],
+            datasets: [
+                @foreach (var item in Model.BarGraph.ListML)
+            {
+                <text>
+                    {
+                        label: "@item.Label",
+                        backgroundColor: "@item.HexColor",
+                        borderColor: "#00",
+                        borderWidth: 1,
+                        data: [ @item.ListData.Select(x => x.ToString()).Aggregate((x, y) => x + " , " + y)]
+                    },
+                </text>
+            }
+            ]
+        };
+
+        var ctx = document.getElementById('canvas').getContext('2d');
+        var hl = [{
+            y: 100,
+            style: "rgba(0, 0, 0, 0.8)",
+            text: "100 % Level"
+        }];
+
+        window.myBar = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData,
+            options: {
+                //responsive: true,
+                maintainAspectRatio: false,
+                barValueSpacing: 2,
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    text: ' '
+                },
+                plugins: {
+                    datalabels: {
+                        display: true,
+                        color: function (context) {
+                            var index = context.dataIndex;
+                            var value = context.dataset.data[index];
+                            return value > 0 ? 'gray' :  // draw negative values in red
+                                'red';
+                        },
+                        formatter: function (value) {
+                            return value;
+                        },
+                        anchor: "end",
+                        align: 'end',
+                        // offset: 4,make vertical
+                        // padding: 0,make vertical
+                        //rotation: -90,make vertical
+                        font: {
+                             //weight: 'bold'
+                        },
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+
+                        //barThickness: 40,
+                        stacked: false
+
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: true
+                        },
+                        stacked: false,
+                        scaleLabel:{display:true, labelString: '% Completion'}
+                    }]
+
+                },
+                horizontalLine: hl
+
+            }
+
+
+        });
+
+        $('#Month-filter').datepicker({
+            format: "m/yyyy",
+            viewMode: "months",
+            minViewMode: "months",
+            autoclose: true
+        }).datepicker("setDate", new Date());
+       
+        $("#Year-filter").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose: true
+        }).datepicker("setDate", new Date());
+
+        $("#btnSearch").click(function (e) {
+            searchData();
+        });
+
+        function Check() {
+
+            if (document.getElementById('radioMonth').checked) {
+                document.getElementById('Month-filter').style.display = 'inline-block';
+                document.getElementById('Year-filter').style.display = 'none';
+            }
+            else if (document.getElementById('radioYear').checked) {
+                document.getElementById('Month-filter').style.display = 'none';
+                document.getElementById('Year-filter').style.display = 'inline-block';
+            }
+        }
+
+        function removeBarData(chart) {
+            var ds2 = {
+                labels: [],
+                datasets: []
+            };
+            chart.data = ds2;
+            chart.update();
+        }
+
+        function searchData() {
+            var TextMYTable;
+            var TextMYChart;
+            var chart = window.myBar;
+            removeBarData(chart);
+            var strUrl = "@Url.Action("SearchData")";
+            var param = { pStrYear: "", pStrMonth: "", pArrRegion: $("#MultiRegion").val() };
+            console.log(param);
+            if (document.getElementById('radioMonth').checked) {
+                if ($("#Month-filter").val() == null) { TextMYTable = ""; }
+                var x = $("#Month-filter").val().split("/");
+                param.pStrMonth = x[0];
+                param.pStrYear = x[1];
+                var monthFullAll = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                TextMYTable = monthFullAll[param.pStrMonth - 1] + " " + param.pStrYear;
+            } else {
+                param.pStrYear = $("#Year-filter").val();
+                TextMYTable = param.pStrYear;
+            }
+            var monthHalfAll = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var dateNow = new Date();
+            var monthNow = dateNow.getMonth();
+            if (monthNow == 0) { TextMYChart = param.pStrYear + " " + "(Jan)" }
+            else { TextMYChart = param.pStrYear + " " + "(Jan - " + monthHalfAll[monthNow] + ")" }
+            $("#TextMYTable").text(TextMYTable);
+            $("#TextMYChart").text(TextMYChart);
+            _divGraph.html("");
+            _tblMeter.html("");
+            $.post(strUrl, param, function (data) {
+
+                if (!data || !data.Result) {
+                    alert("Not Found Data");
+                    return;
+                }
+                if (data.StatusText !== "OK") {
+                    var strError = "Error : " + data.ErrorMessage + "\r\n" + data.ErrorStackTrace;
+                    alert(strError);
+                    return;
+                }
+                window.myBar.options.horizontalLine = null;
+                var rs = data.Result.BarGraph;
+                if (rs) {
+                    var barChartData = {
+                        labels: rs.ListLabel,
+                        datasets: []
+                    };
+
+                    for (var i in rs.ListML) {
+                        var ml = rs.ListML[i];
+                        //debugger;
+                        if (window.myBar.options.horizontalLine == null) {
+                            if (!ml.ListData.every(function (x) { return x < 101 })) {
+                                window.myBar.options.horizontalLine = hl;
+                                //    window.myBar.options.horizontalLine = [];
+                                //} else {
+                            }
+                        }
+                        var dsItem = {
+                            label: ml.Label,
+                            backgroundColor: ml.HexColor,
+                            //borderColor: "#000000",
+                            borderWidth: 0,
+                            data: ml.ListData
+                        }
+                        barChartData.datasets.push(dsItem);
+                    }
+
+                    chart.data = barChartData;
+                    chart.update();
+                }
+              
+                renderAccGraph(data.Result.ListAccGraph);
+                
+                renderTable(
+                    data.Result.ListMeterMaintenanceLevelForTable,
+                    data.Result.ListRegionForTableHeader);
+            });
+        }
+        Chart.defaults.global.legend.labels.usePointStyle = true;
+        var _arrCurrentActual = [];
+        var customLabel = [];
+        var accCustomLabel = [];
+        var chartIdx = 0;
+        function renderAccGraph(pData) {   
+            if (!pData || pData.length == 0) {
+                return;
+            }
+            customLabel = [];
+            accCustomLabel = [];
+            _arrCurrentActual = [];
+            chartIdx = 0;
+            for (var i in pData) {
+                var d = pData[i];
+                if (document.getElementById('radioMonth').checked) {
+                    monthYear = $('#Month-filter').val();
+                    month = parseInt(monthYear.split()[0]);
+                    d.Actual = d.Actual.slice(0, month );
+                    d.Plan = d.Plan.slice(0, month );
+                    d.AccActual = d.AccActual.slice(0, month);
+                    d.AccPlan = d.AccPlan.slice(0, month);
+                    d.MonthName = d.MonthName.slice(0, month);
+                }
+                if (d.ML == "ML1")
+                { textML = "Visual Inspection" }
+                else if (d.ML == "ML2")
+                { textML = "Calibration, Testing" }
+                else if (d.ML == "ML3")
+                { textML = "Overhaul, Replacement" }
+                else { textML = "Error" }
+                _arrCurrentActual = d.Actual;
+                
+                
+                let arrTmp = [];
+                let arrAccTmp = [];
+                for (var ivalue in d.Actual) {
+                    
+                    let val
+                    if (d.Plan[ivalue] != 0) {
+                        val = d.Actual[ivalue] / d.Plan[ivalue] * 100;
+                        val = val.toFixed(0);
+                    }
+                    else {
+                        val = '0';
+                    }
+                    
+                    arrTmp.push('(' + val.toString() + '%)\n' + d.Plan[ivalue]);
+                    if (d.AccPlan[ivalue] != 0) {
+                        val = d.AccActual[ivalue] / d.AccPlan[ivalue] * 100;
+                        val = val.toFixed(0);
+                    }
+                    else {
+                        val = '0';
+                    }
+                   
+                    arrAccTmp.push('(' + val.toString() + '%)\n' + d.AccPlan[ivalue]);
+                }
+                customLabel.push(arrTmp);
+                accCustomLabel.push(arrAccTmp);
+                
+                var dsActual = {
+                    label: "Actual",
+                    backgroundColor: "#75adff",
+                    data: d.Actual,
+                    datalabels: {
+                        align: 'end',
+                        anchor: 'end',
+                        color: "#75adff"
+                    },
+                    pointStyle: 'rect'
+                   
+                };
+                var dsPlan = {
+                    label: "Plan",
+                    backgroundColor: "#ffc775",
+                    data: d.Plan,
+                    datalabels: {
+                        align: 'end',
+                        anchor: 'end',
+                        color: "#ffc775"
+                    },
+                    pointStyle: 'rect'
+                };
+                var dsAccActual = {
+                    type: "line",
+                    fill: false,
+                    label: "Actual (Accumulate)",
+                    backgroundColor: "#002f75",
+                    borderColor: "#002f75",
+                    datalabels: {
+                        align: 'end',
+                        anchor: 'end'
+                    },
+                    data: d.AccActual
+                };
+                var dsAccPlan = {
+                    type: "line",
+                    fill: false,
+                    label: "Plan (Accumulate)",
+                    backgroundColor: "#ff9700",
+                    borderColor: "#ff9700",
+                    data: d.AccPlan,
+                    datalabels: {
+                        align: 'end',
+                        anchor: 'end'
+                    }
+                    //,pointStyle: 'line'
+                };
+                var barChartData = {
+                    labels: d.MonthName,
+                    //datasets: [dsAccActual, dsAccPlan, dsActual, dsPlan]
+                    datasets: [dsPlan, dsActual, dsAccPlan, dsAccActual]
+                };
+               
+                var cv = $("<canvas class='mb-2rem' ></canvas>");
+                // var cv1 = "<div><canvas class='mb-2rem'></canvas></div>";
+                _divGraph.append($("<div class='col-lg-12 ph0 divcv' style='height:400px'></div>").append(cv));
+               // cv.appendTo(_divGraph);
+              
+                var ctx = cv[0].getContext('2d');
+                var chart = new Chart(ctx, {
+                    
+                    type: 'bar',
+                    data: barChartData,
+                    
+                    options: {
+                        
+                        responsive: true,
+                        maintainAspectRatio: false,
+                       
+                        title: {
+                            position: 'bottom',
+                            display: true,
+                            text: [d.ML, textML]
+                        },
+                        legend: {
+                            labels: {usePointStyle: true, fontSize: 10},
+                            position: 'bottom',
+                            onClick: function (e, l) {
+                                var index = l.datasetIndex;
+                                var ci = this.chart;
+                                var meta = ci.getDatasetMeta(index);
+                                meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+                                ci.update();
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                left: 0,
+                                right: 0,
+                                top: 60,
+                                bottom: 0
+                            }
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: true
+                        },
+                        scales: {
+                            xAxes: [{
+                                stacked: false,
+                                gridLines : {
+                                    display : false
+                                },
+                                ticks: {
+                                    autoSkip: true,
+                                    maxRotation: 90,
+                                    minRotation: 90
+                                }
+                              
+                            }],
+                            yAxes: [{
+                                stacked: false
+                            }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                color: function (context) {
+                                    var index = context.datasetIndex;
+                                    var result = "black";
+                                    if (index === 3) {
+                                        result = "#002f75";
+                                    } else if (index === 2) {
+                                        result = "#ff9700";
+                                    }
+
+                                    return result;
+                                },
+                                font: {
+                                    //weight: 'bold',  
+                                    
+                                },
+                                formatter: function (value, context) {
+                                    let index;
+                                    if (chartIdx == 0) {
+                                        index = 0;
+                                        chartIdx = context.chart.id;
+                                    } else  {
+                                        index = context.chart.id - chartIdx;
+                                    }
+                                    console.log(customLabel[index])
+                                    if (context.dataset.label == "Plan") {
+                                        if (customLabel[index]) {
+                                            return customLabel[index][context.dataIndex];
+                                        } else {
+                                            return value;
+                                        }
+                                        
+                                    }
+                                    else if (context.dataset.label == "Plan (Accumulate)" && customLabel[index]) {
+                                        return accCustomLabel[index][context.dataIndex];
+                                    }
+                                    else {
+                                        return value;
+                                    }
+                                    //var index = context.datasetIndex;
+                                    //if (index == 3) {
+                                    //    var index2 = context.dataIndex;
+                                    //    var vl = _arrCurrentActual[index2];
+                                    //    console.log(_arrCurrentActual);
+                                    //    console.log(vl);
+                                    //    return vl; //(value - vl);
+                                    //} else {
+                                    //    return value;
+                                    //}
+                                },
+                                display: function (context) {
+                                    var index = context.datasetIndex;
+                                    var ci = context.chart;
+                                    var meta = ci.getDatasetMeta(index);
+                                    return meta.hidden === null;
+                                },
+                                title: true
+                            }
+                        }
+                       
+                    }
+                });
+            }
+        }
+
+        function renderTable(pData , pHeader) {
+            var strAll = "";
+            var strTh = "<th rowspan=2>Maintenamce Level (ML)</th><th rowspan=2>PM Intervals</th>";
+            var strTh2 = "";
+            var strBody = "";
+            for (var i in pHeader) {
+                strTh += "<th colspan=2>Region " + pHeader[i] + "</th>";
+                strTh2 += "<th>Plan</th><th>Actual</th>"
+            }
+            for (var i in pData) {
+                var meter = pData[i];
+                if (meter.Name == "ML1") {
+                    bgcolor = "#A0D7D1";
+                    meternames = "ML1: Visual Inspection";
+                } else if (meter.Name == "ML2") {
+                    bgcolor = "#A3BDD5";
+                    meternames = "ML2: Calibration, Testing";
+                } else if (meter.Name == "ML3") {
+                    bgcolor = "#F07C82";
+                    meternames = "ML3: Overhaul, Replacement (include RTU Inspection: Calibration, Testing)";
+                }
+                for (var j in meter.ListPmIntervals) {
+                    strBody += "<tr>";
+                    if (j == 0) {
+                        strBody += "<th rowspan=" + (meter.ListPmIntervals.length) + " style='padding-top:auto;padding-bottom:auto;background-color:" + bgcolor + "'>" + meternames + "</th>"
+                    }
+                    var pmi = meter.ListPmIntervals[j];
+                    strBody += "<th style='background-color:" + bgcolor + "'>" + pmi.Name + "</th>";
+                    for (var k in pmi.ListActual) {
+                        var strActual = pmi.ListActual[k];
+                        var strPlan = pmi.ListPlan[k];
+                        if (strPlan === "" && strActual === "") {
+                            strBody += "<td class='active'></td><td  class='active'></td>";
+                        } else if (strPlan !== "0" && strActual === "0") {
+                            strBody += "<td >" + strPlan + "</td><td class='cellDanger'>" + strActual + "</td>";
+                        } else {
+                            strBody += "<td >" + strPlan + "</td><td>" + strActual + "</td>";
+                        }
+                    }
+
+                    strBody += "</tr>";
+                }
+                
+            }
+            if (strBody == "") {
+                strBody = "<tr><td colspan=2 style='text-align:  center;'>No Data Available</td></tr>";
+            }
+            strAll = "<thead><tr>" + strTh + "</tr><tr>" + strTh2 + "</tr></thead>";
+            strAll += "<tbody>" + strBody + "</tbody>"
+            _tblMeter.html(strAll);
+        }
+        searchData();
+    </script>
