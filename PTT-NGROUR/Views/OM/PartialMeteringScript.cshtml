@@ -81,7 +81,7 @@
                         }
 
                         ctx.lineWidth = 1;
-
+                        ctx.setLineDash([10, 5]);
 
                         if (yValue) {
                             ctx.beginPath();
@@ -270,33 +270,36 @@
                 }
                 window.myBar.options.horizontalLine = null;
                 var rs = data.Result.BarGraph;
-                var barChartData = {
-                    labels: rs.ListLabel,
-                    datasets: []
-                };
-                
-                for (var i in rs.ListML) {
-                    var ml = rs.ListML[i];
-                    //debugger;
-                    if (window.myBar.options.horizontalLine == null) {
-                        if ( !ml.ListData.every(function (x) { return x < 101 })) {
-                            window.myBar.options.horizontalLine = hl;
-                        //    window.myBar.options.horizontalLine = [];
-                        //} else {
-                        }
-                    }
-                    var dsItem = {
-                        label: ml.Label,
-                        backgroundColor: ml.HexColor,
-                        //borderColor: "#000000",
-                        borderWidth: 0,
-                        data: ml.ListData
-                    }
-                    barChartData.datasets.push(dsItem);
-                }
+                if (rs) {
+                    var barChartData = {
+                        labels: rs.ListLabel,
+                        datasets: []
+                    };
 
-                chart.data = barChartData;
-                chart.update();
+                    for (var i in rs.ListML) {
+                        var ml = rs.ListML[i];
+                        //debugger;
+                        if (window.myBar.options.horizontalLine == null) {
+                            if (!ml.ListData.every(function (x) { return x < 101 })) {
+                                window.myBar.options.horizontalLine = hl;
+                                //    window.myBar.options.horizontalLine = [];
+                                //} else {
+                            }
+                        }
+                        var dsItem = {
+                            label: ml.Label,
+                            backgroundColor: ml.HexColor,
+                            //borderColor: "#000000",
+                            borderWidth: 0,
+                            data: ml.ListData
+                        }
+                        barChartData.datasets.push(dsItem);
+                    }
+
+                    chart.data = barChartData;
+                    chart.update();
+                }
+              
                 renderAccGraph(data.Result.ListAccGraph);
                 
                 renderTable(
@@ -308,6 +311,7 @@
         var _arrCurrentActual = [];
         var customLabel = [];
         var accCustomLabel = [];
+        var chartIdx = 0;
         function renderAccGraph(pData) {   
             if (!pData || pData.length == 0) {
                 return;
@@ -315,9 +319,18 @@
             customLabel = [];
             accCustomLabel = [];
             _arrCurrentActual = [];
+            chartIdx = 0;
             for (var i in pData) {
-                console.log(pData.length)
                 var d = pData[i];
+                if (document.getElementById('radioMonth').checked) {
+                    monthYear = $('#Month-filter').val();
+                    month = parseInt(monthYear.split()[0]);
+                    d.Actual = d.Actual.slice(0, month );
+                    d.Plan = d.Plan.slice(0, month );
+                    d.AccActual = d.AccActual.slice(0, month);
+                    d.AccPlan = d.AccPlan.slice(0, month);
+                    d.MonthName = d.MonthName.slice(0, month);
+                }
                 if (d.ML == "ML1")
                 { textML = "Visual Inspection" }
                 else if (d.ML == "ML2")
@@ -332,14 +345,26 @@
                 let arrAccTmp = [];
                 for (var ivalue in d.Actual) {
                     
-                    let val = d.Actual[ivalue] / d.Plan[ivalue] * 100;
-                    val = val.toFixed(0);
+                    let val
+                    if (d.Plan[ivalue] != 0) {
+                        val = d.Actual[ivalue] / d.Plan[ivalue] * 100;
+                        val = val.toFixed(0);
+                    }
+                    else {
+                        val = '0';
+                    }
+                    
                     arrTmp.push('(' + val.toString() + '%)\n' + d.Plan[ivalue]);
-                    val = d.AccActual[ivalue] / d.AccPlan[ivalue] * 100;
-                    val = val.toFixed(0);
+                    if (d.AccPlan[ivalue] != 0) {
+                        val = d.AccActual[ivalue] / d.AccPlan[ivalue] * 100;
+                        val = val.toFixed(0);
+                    }
+                    else {
+                        val = '0';
+                    }
+                   
                     arrAccTmp.push('(' + val.toString() + '%)\n' + d.AccPlan[ivalue]);
                 }
-                
                 customLabel.push(arrTmp);
                 accCustomLabel.push(arrAccTmp);
                 
@@ -476,12 +501,23 @@
                                     
                                 },
                                 formatter: function (value, context) {
-                                    let index = context.chart.id-1;
-                                    index = index % 3;
-                                    if (context.dataset.label == "Plan") {
-                                        return customLabel[index][context.dataIndex];
+                                    let index;
+                                    if (chartIdx == 0) {
+                                        index = 0;
+                                        chartIdx = context.chart.id;
+                                    } else  {
+                                        index = context.chart.id - chartIdx;
                                     }
-                                    else if (context.dataset.label == "Plan (Accumulate)") {
+                                    console.log(customLabel[index])
+                                    if (context.dataset.label == "Plan") {
+                                        if (customLabel[index]) {
+                                            return customLabel[index][context.dataIndex];
+                                        } else {
+                                            return value;
+                                        }
+                                        
+                                    }
+                                    else if (context.dataset.label == "Plan (Accumulate)" && customLabel[index]) {
                                         return accCustomLabel[index][context.dataIndex];
                                     }
                                     else {
@@ -510,7 +546,6 @@
                        
                     }
                 });
-              
             }
         }
 
@@ -556,6 +591,10 @@
 
                     strBody += "</tr>";
                 }
+                
+            }
+            if (strBody == "") {
+                strBody = "<tr><td colspan=2 style='text-align:  center;'>No Data Available</td></tr>";
             }
             strAll = "<thead><tr>" + strTh + "</tr><tr>" + strTh2 + "</tr></thead>";
             strAll += "<tbody>" + strBody + "</tbody>"

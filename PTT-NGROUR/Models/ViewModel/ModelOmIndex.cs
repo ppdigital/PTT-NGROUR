@@ -77,7 +77,7 @@ namespace PTT_NGROUR.Models.ViewModel
         }        
         public class ModelAccGraph
         {
-            private string[] arrMonthName = new[] { string.Empty, "Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" };
+            private string[] arrMonthName = new[] { string.Empty, "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
             public string ML { get; set; }
             public int[] Actual { get; set; }
             public int[] Plan { get; set; }
