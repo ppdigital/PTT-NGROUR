@@ -315,6 +315,7 @@
                         "REGION": SeRegion,
                     }
                 }
+                map_frame = document.getElementById('map_frame');
                 map_frame.contentWindow.postMessage(map_info_json_byregion, '*');
 
             }//function searcch
@@ -353,6 +354,7 @@
                         "YEAR": map_info.YEAR,
                     }
                 }
+                map_frame = document.getElementById('map_frame');
                 map_frame.contentWindow.postMessage(map_info_json, '*');
             }
             var x;
@@ -490,7 +492,7 @@
             $('#type-filter').on('change', function () {
                 changeFilter.call(this, 'type');
             });
-
+            map_frame = document.getElementById('map_frame');
             map_frame.contentWindow.postMessage(map_info_json, '*');
 
             //////////////////////
