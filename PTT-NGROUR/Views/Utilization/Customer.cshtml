@@ -1427,7 +1427,7 @@
             }
 
             function CheckGisMapEdit() {
-
+                alert("Infunction");
                 if (document.getElementById('checkGisMapEdit').checked == true) {
                     console.log($("#txtMeterNumMEdit").val());
                     console.log($("#txtShipToMEdit").val());
@@ -1443,11 +1443,14 @@
                     map_frame = document.getElementById('map_frame');
                     map_frame.contentWindow.postMessage(map_meter_json, '*');
                     //  console.log(map_meter_json);
-                    document.getElementById('mapEdit').style.display = 'block';
+                    alert("Before Display Block");
+                    document.getElementById("mapEdit").style.display = 'block';
+                    
 
                 }
                 else {
-                    document.getElementById('mapEdit').style.display = 'none';
+                    alert("Before Display None");
+                    document.getElementById("mapEdit").style.display = 'none';
                 }
 
             }
