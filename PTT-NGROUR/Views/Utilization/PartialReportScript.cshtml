@@ -530,7 +530,7 @@
    
     function showUtilTableCurrent(data) {
         _tblDataCurrent = data;
-        _tblData = _tblDataCurrent;
+        //_tblData = _tblDataCurrent;
         let tblShowCurrentGate;
         let tblShowCurrentPipe;
 
@@ -590,7 +590,7 @@
                 
                 numPipe++;
 
-                var rowItemCurrentPipe = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + numPipe + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a href="#" class="clickable fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onfocus="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
+                var rowItemCurrentPipe = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + numPipe + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a href="#" class="clickable fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReportCurrent(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
                 //console.log(i);
                 //console.log(data[i]);
                 $(rowItemCurrentPipe).data('map_info', data[i]);
@@ -600,7 +600,7 @@
             {
                 //console.log(data[i]);
                 numGate++;
-                var rowItemCurrentGate = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + numGate + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a href="#" class="clickable fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onfocus="IfameReport(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
+                var rowItemCurrentGate = '<tr id="' + data[i].NO + '" class="rowfil" ><td><h6 class="margin-lr0">' + numGate + '</h6></td><td><h6 class="margin-lr0">' + data[i].NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].REGION_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].LICENSE_NAME + '</h6></td><td><h6 class="margin-lr0">' + data[i].VALUE + '</h6></td><td><h6 class="margin-lr0">' + data[i].THRESHOLD + '</h6></td><td><h6 class="margin-lr0">' + dataMonthYear + '</h6></td><td><h6 class="margin-lr0">' + data[i].TYPE + '</h6></td><td><center><a href="#" class="clickable fa fa-globe fa-2x no-underline pointer" aria-hidden="true" onclick="IfameReportCurrent(' + i + ')" data-toggle="modal" data-target="#ModalIfame" ><a></center></td></tr>';
                 $(rowItemCurrentGate).data('map_info', data[i]);
                 //console.log(i);
                // console.log(data[i]);
@@ -754,9 +754,10 @@
            // console.log(_tblData);
            
             if (!_tblData === null || !_tblData[pIntIndex]) {
-                console.log("ไม่เข้า")
+                console.log("ไม่เข้า");
                 return;
             }
+            console.log("เข้า");
             let map_info = _tblData[pIntIndex];
             //console.log(map_info)
             
@@ -775,6 +776,37 @@
                 }
             }
            // console.log(map_info_report_json);
+            map_iframe_report = document.getElementById('map_iframe_report');
+            map_iframe_report.contentWindow.postMessage(map_info_report_json, '*');
+        }
+
+        function IfameReportCurrent(pIntIndex) {
+            //console.log(pIntIndex);
+            // console.log(_tblData);
+
+            if (!_tblDataCurrent === null || !_tblDataCurrent[pIntIndex]) {
+                console.log("ไม่เข้า Current");
+                return;
+            }
+            console.log("เข้า Current");
+            let map_info = _tblDataCurrent[pIntIndex];
+            //console.log(map_info)
+
+            map_info_report_json = {
+                "menu": "utilization-report",
+                "type": map_info.TYPE,
+                "command": "view",
+                "flag": $('#flag').val() === 1,
+                "flagby": $('#username').val(),
+                "parameter": {
+                    "REGION": map_info.REGION,
+                    "LICENSE": map_info.LICENSE,
+                    "NAME": map_info.NAME,
+                    "MONTH": map_info.MONTH,
+                    "YEAR": map_info.YEAR,
+                }
+            }
+            // console.log(map_info_report_json);
             map_iframe_report = document.getElementById('map_iframe_report');
             map_iframe_report.contentWindow.postMessage(map_info_report_json, '*');
         }
