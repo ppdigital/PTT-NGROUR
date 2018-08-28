@@ -228,6 +228,7 @@
                     xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
                     yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
                 },
+                onClick: chartClcikEvent
             }
         });
         if (pStrMode === "PIPELINE") {            
@@ -236,43 +237,58 @@
             _graphGate = objGraph;
         }
         objGraph.update();
+        function chartClcikEvent(evt) {
+            var activePoints = objGraph.getElementsAtEvent(evt);
+            if (activePoints[0]) {
+                var chartData = activePoints[0]['_chart'].config.data;
+                var idx = activePoints[0]['_index'];
 
-        var canvas = document.getElementById("pieGate");
+                var label = chartData.labels[idx];
+                var value = chartData.datasets[0].data[idx];
+
+
+                Graphfilter(label, pStrMode);
+
+            }
+            dashtbt.scrollTo(0, 0);
+        }
+
+        //var canvas = document.getElementById("pieGate");
   
-        canvas.onclick = function (evt) {
-            var activePoints = objGraph.getElementsAtEvent(evt);
-            if (activePoints[0]) {
-                var chartData = activePoints[0]['_chart'].config.data;
-                var idx = activePoints[0]['_index'];
+        //canvas.onclick = function (evt) {
+        //    var activePoints = objGraph.getElementsAtEvent(evt);
+        //    if (activePoints[0]) {
+        //        var chartData = activePoints[0]['_chart'].config.data;
+        //        var idx = activePoints[0]['_index'];
 
-                var label = chartData.labels[idx];
-                var value = chartData.datasets[0].data[idx];
+        //        var label = chartData.labels[idx];
+        //        var value = chartData.datasets[0].data[idx];
 
 
-                Graphfilter(label, "GATESTATION");          
+        //        Graphfilter(label, "GATESTATION");          
                 
-            }
-            dashtbt.scrollTo(0, 0);
-        };
+        //    }
+        //    dashtbt.scrollTo(0, 0);
+        //};
 
 
-        var canvas1 = document.getElementById("piePipeline");
+        //var canvas1 = document.getElementById("piePipeline");
 
-        canvas1.onclick = function (evt) {
-            var activePoints = objGraph.getElementsAtEvent(evt);
-            if (activePoints[0]) {
-                var chartData = activePoints[0]['_chart'].config.data;
-                var idx = activePoints[0]['_index'];
+        //canvas1.onclick = function (evt) {
+        //    var activePoints = objGraph.getElementsAtEvent(evt);
+        //    if (activePoints[0]) {
+        //        var chartData = activePoints[0]['_chart'].config.data;
+        //        var idx = activePoints[0]['_index'];
 
-                var label = chartData.labels[idx];
-                var value = chartData.datasets[0].data[idx];
+        //        var label = chartData.labels[idx];
+        //        var value = chartData.datasets[0].data[idx];
 
 
-                Graphfilter(label, "PIPELINE");
+        //        Graphfilter(label, "PIPELINE");
 
-            }
-            dashtbt.scrollTo(0, 0);
-        };
+        //    }
+        //    dashtbt.scrollTo(0, 0);
+        //};
 
 
     }
