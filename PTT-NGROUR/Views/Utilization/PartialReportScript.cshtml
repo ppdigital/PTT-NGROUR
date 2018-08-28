@@ -775,6 +775,7 @@
                 }
             }
             console.log(map_info_report_json);
+            map_iframe_report = document.getElementById('map_iframe_report');
             map_iframe_report.contentWindow.postMessage(map_info_report_json, '*');
         }
     

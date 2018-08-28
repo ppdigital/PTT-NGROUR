@@ -956,7 +956,7 @@
                             <div class="measure center col-lg-12 col-md-12 col-sm-12">
                                 <span class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                     <span class="checkbox">
-                                        <label><input type="checkbox" value="" id="checkGisMapEdit" onclick="CheckGisMapEdit();">GIS Map</label>
+                                        <label><input type="checkbox" value="" id="checkGisMapEdit" onfocus="CheckGisMapEdit();">GIS Map</label>
                                     </span>
                                 </span>
                                 <div class="col-lg-6 col-md-7 col-sm-7"></div>
@@ -1118,7 +1118,7 @@
                         <div class="measure center col-lg-12 col-md-12 col-sm-12">
                             <span class="col-lg-5 col-md-5 col-sm-5">
                                 <span class="checkbox">
-                                    <label><input type="checkbox" value="" id="checkGisMapCreate" onclick="javascript:CheckGisMapCreate();">GIS Map</label>
+                                    <label><input type="checkbox" value="" id="checkGisMapCreate" onfocus="javascript:CheckGisMapCreate();">GIS Map</label>
                                 </span>
                             </span>
                             <div class="col-lg-6 col-md-7 "></div>
@@ -1384,7 +1384,8 @@
                         }
                     };
                     //console.log("save map");
-                   // console.log(map_customer_json);
+                    // console.log(map_customer_json);
+                    map_frame2 = document.getElementById('map_frame2');
                     map_frame2.contentWindow.postMessage(map_customer_json, '*');
                     document.getElementById('mapCreate').style.display = 'block';
                     document.getElementById('txtMeterNumMCreate').readOnly = true;
@@ -1439,7 +1440,7 @@
                             "SHIP_TO": $("#txtShipToMEdit").val()
                         }
                     }
-
+                    map_frame = document.getElementById('map_frame');
                     map_frame.contentWindow.postMessage(map_meter_json, '*');
                     //  console.log(map_meter_json);
                     document.getElementById('mapEdit').style.display = 'block';
@@ -1645,7 +1646,8 @@
                 }
             }
            // console.log("test Map");
-           // console.log(map_customer_json);
+            // console.log(map_customer_json);
+            map_iframe_report = document.getElementById('map_iframe_report');
             map_iframe_report.contentWindow.postMessage(map_customer_json, '*');
            // $("#ModalIfameCustomer").modal("show");
         }
