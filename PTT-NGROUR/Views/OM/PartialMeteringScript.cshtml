@@ -16,28 +16,21 @@
         } else {
             panelOpen.style.maxHeight = panelOpen.scrollHeight + "px";
         }  */
-
-
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-
-        for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function () {
-                this.classList.toggle("activeZoomOut");
-
-                var panel = this.nextElementSibling;
-                console.log(panel);
-                if (panel.style.maxHeight) {
-                    panel.style.maxHeight = null;
-                } else {
-                    panel.style.maxHeight = panel.scrollHeight + "px";
-                }
-            });
-        }
-
-        $('.tableFixHead').on('scroll', function () {
-            $('thead', this).css('transform', 'translateY(' + this.scrollTop + 'px)');
+        // Add minus icon for collapse element which is open by default
+        $(".collapse.in").each(function () {
+            $(this).siblings(".panel-heading").find(".glyphicon").addClass("glyphicon-minus").removeClass("glyphicon-plus");
         });
+
+        // Toggle plus minus icon on show hide of collapse element
+        $(".collapse").on('show.bs.collapse', function () {
+            $(this).parent().find(".glyphicon").removeClass("glyphicon-plus").addClass("glyphicon-minus");
+        }).on('hide.bs.collapse', function () {
+            $(this).parent().find(".glyphicon").removeClass("glyphicon-minus").addClass("glyphicon-plus");
+        });
+
+      
+
+      
 
         $('#MultiRegion').selectpicker('selectAll');
         document.getElementById('btnZoomIn').style.display = 'none';
@@ -230,13 +223,15 @@
         }
 
         function searchData() {
+         
+           
             var TextMYTable;
             var TextMYChart;
             var chart = window.myBar;
             removeBarData(chart);
             var strUrl = "@Url.Action("SearchData")";
             var param = { pStrYear: "", pStrMonth: "", pArrRegion: $("#MultiRegion").val() };
-            console.log(param);
+           // console.log(param);
             if (document.getElementById('radioMonth').checked) {
                 if ($("#Month-filter").val() == null) { TextMYTable = ""; }
                 var x = $("#Month-filter").val().split("/");
@@ -305,7 +300,13 @@
                 renderTable(
                     data.Result.ListMeterMaintenanceLevelForTable,
                     data.Result.ListRegionForTableHeader);
+               
             });
+           // $('#btnSearch').click(function () {
+               
+           // });
+           
+         
         }
         Chart.defaults.global.legend.labels.usePointStyle = true;
         var _arrCurrentActual = [];
@@ -508,7 +509,7 @@
                                     } else  {
                                         index = context.chart.id - chartIdx;
                                     }
-                                    console.log(customLabel[index])
+                                  //  console.log(customLabel[index])
                                     if (context.dataset.label == "Plan") {
                                         if (customLabel[index]) {
                                             return customLabel[index][context.dataIndex];

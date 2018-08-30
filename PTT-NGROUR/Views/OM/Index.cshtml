@@ -19,45 +19,6 @@
         width: 80vw;
     }
 
-    .accordion {
-        background-color: #d9edf7;
-        color: #31708f;
-        cursor: pointer;
-        padding: 10px;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        font-size: 15px;
-        transition: 0.4s;
-    }
-
-        .active, .accordion:hover {
-            background-color: #bce8f1;
-        }
-
-        .accordion:after {
-            content: '\002B';
-            color: #777;
-            font-weight: bold;
-            float: right;
-            margin-left: 5px;
-        }
-
-    .activeZoomOut:after {
-        content: "\2212";
-    }
-
-    .panel {
-        
-        background-color: white;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.2s ease-out;
-        margin-bottom: 5px !important;
-        border: .5px solid #d3eefc;
-    }
-
     .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
         padding: 7px;
      
@@ -73,9 +34,35 @@
         white-space: nowrap;
       
     }
+    .panel-heading {
+        cursor: pointer;
+    }
+    .panel-default > .panel-heading {
+        background-image: none;
+        background-color: #d9edf7;
+        border: .5px solid #d3eefc;
+    }
+        .panel-default > .panel-heading:hover {
+            background-color: #bce8f1;
+        }
+         .panel-default {
+            border-top: none;
+        }
+    .panel-title > a {
+        color: #31708f !important;
+    }
+    .panel-group .panel {
+        border-radius: 0px;
+    }
 
+    .bs-example {
+        margin: 20px;
+    }
 
-    /* .tableSum > tbody > tr:nth-child(even) > td,
+    .panel-title .glyphicon {
+        font-size: 11px;
+    }
+        /* .tableSum > tbody > tr:nth-child(even) > td,
     .tableSum > thead:nth-last-child(-n+2) > tr:nth-last-child(-n+2) > th {
         background-color: #d9edf7;
     }
@@ -124,334 +111,364 @@
     </div>
     <br />
     <div class="container-fluid ph0-xs ">
-        
-        <button class="accordion b" id="uAcc">Summary</button>
-        <div class="panel bg-grey-100">
-            <div class=" ph2 ph1-xs pv2 ol-container-white">
-                <!-- Summary Pipeline Table-->
-                 <div class="table-responsive">
-                     <table class="tableSum table table-bordered ">
-                         <thead>
-                             <tr>
-                                 <th rowspan="2" colspan="2" class="textheadSumT h4 b">Pipeline</th>
-                                 <th colspan="5" >Month</th>
-                                 <th colspan="5" >Month - Month Year (Accumulate)</th>
-                             </tr>
-                             <tr>
 
-                                 <th>Plan</th>
-                                 <th>Actual</th>
-                                 <th>% completion</th>
-                                 <th>% Major<br />% Minor</th>
-                                 <th>% Overall</th>
-                                 <th>Plan</th>
-                                 <th>Actual</th>
-                                 <th>% completion</th>
-                                 <th>% Major<br />% Minor</th>
-                                 <th>% Overall</th>
-                             </tr>
-                         </thead>
-                         <tbody>
-                             <tr>
-                                 <td rowspan="5" style="text-align: center; vertical-align: middle;"><span class="textAlignVer">Major</span></td>
-                                 <td class="text-left">Vehicle Patrolling (จำนวน Route Code)</td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td rowspan="5"><span></span></td>
-                                 <td rowspan="7"><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td rowspan="5"><span></span></td>
-                                 <td rowspan="7"><span></span></td>
+        <div class="bs-example">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading" data-toggle="collapse" data-target="#Summary">
+                        <h4 class="panel-title">
+                            <a class="no-underline" style="color: #31708f;">Summary<span class="glyphicon glyphicon-plus fr"></span></a>
+                        </h4>
+                    </div>
+                    <div id="Summary" class="panel-collapse collapse in">
+                        <div class="panel-body bg-grey-100">
+                            <div class=" ph2 ph1-xs pv2 col-container-white">
+                                <!-- Summary Pipeline Table-->
+                                <div class="table-responsive">
+                                    <table class="tableSum table table-bordered ">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2" colspan="2" class="textheadSumT h4 b">Pipeline</th>
+                                                <th colspan="5">Month</th>
+                                                <th colspan="5">Month - Month Year (Accumulate)</th>
+                                            </tr>
+                                            <tr>
 
-                             </tr>
-                             <tr>
-                                 <td class="text-left"><span>Ground Leakage Survey (จำนวน Route Code)</span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
+                                                <th>Plan</th>
+                                                <th>Actual</th>
+                                                <th>% completion</th>
+                                                <th>% Major<br />% Minor</th>
+                                                <th>% Overall</th>
+                                                <th>Plan</th>
+                                                <th>Actual</th>
+                                                <th>% completion</th>
+                                                <th>% Major<br />% Minor</th>
+                                                <th>% Overall</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="5" style="text-align: center; vertical-align: middle;"><span class="textAlignVer">Major</span></td>
+                                                <td class="text-left">Vehicle Patrolling (จำนวน Route Code)</td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td rowspan="5"><span></span></td>
+                                                <td rowspan="7"><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td rowspan="5"><span></span></td>
+                                                <td rowspan="7"><span></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left"><span>Ground Leakage Survey (จำนวน Route Code)</span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
 
-                             </tr>
-                             <tr>
-                                 <td class="text-left">DC De-coupler (จำนวนสถานีฯ)</td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">DC De-coupler (จำนวนสถานีฯ)</td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
 
-                             </tr>
-                             <tr>
-                                 <td class="text-left">Insulation Flange/Joint (จำนวนสถานีฯ)</td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">Insulation Flange/Joint (จำนวนสถานีฯ)</td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
 
-                             </tr>
-                             <tr>
-                                 <td class="text-left">Wall Thickness Inspection (จำนวนสถานีฯ)</td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">Wall Thickness Inspection (จำนวนสถานีฯ)</td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
 
-                             </tr>
-                             <tr>
-                                 <td rowspan="2" style="text-align: center; vertical-align: middle;"><span class="textAlignVer">Minor</span></td>
-                                 <td class="text-left">Soil to Air Inspection (จำนวนสถานีฯ)</td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td rowspan="2"></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td rowspan="2"></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="2" style="text-align: center; vertical-align: middle;"><span class="textAlignVer">Minor</span></td>
+                                                <td class="text-left">Soil to Air Inspection (จำนวนสถานีฯ)</td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td rowspan="2"></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td rowspan="2"></td>
 
-                             </tr>
-                             <tr>
-                                 <td class="text-left">Corrosion under Pipe Support Inspection (จำนวนสถานีฯ)</td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-                                 <td><span></span></td>
-
-
-                             </tr>
-
-
-                         </tbody>
-                     </table>
-                </div>
-                <br />
-
-                <!-- Summary Gatestation Table-->
-                <div class="table-responsive">
-                    <table class="tableSum table table-bordered">
-                        <thead>
-                            <tr>
-                                <th rowspan="2" class="textheadSumT">Equipment<br />(Gate & BV & Reducing St.)</th>
-                                <th colspan="4">Month</th>
-                                <th colspan="4">Month - Month Year (Accumulate)</th>
-                            </tr>
-                            <tr>
-
-                                <th>Plan</th>
-                                <th>Actual</th>
-                                <th>% completion</th>
-                                <th>% Overall</th>
-                                <th>Plan</th>
-                                <th>Actual</th>
-                                <th>% completion</th>
-                                <th>% Overall</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                                <td class="text-left">ML 1 : (Visual Inspection) (จำนวนสถานีฯ)</td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td rowspan="3"><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td rowspan="3"><span></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">Corrosion under Pipe Support Inspection (จำนวนสถานีฯ)</td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
 
 
-                            </tr>
-                            <tr>
-                                <td class="text-left"><span>ML 2 : (Calibration, Testing) (จำนวนสถานีฯ)</span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-
-                            </tr>
-                            <tr>
-                                <td class="text-left"><span>ML 3 : (Overhual, Replacement) (จำนวนสถานีฯ)</span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-                <br />
-
-                <!-- Summary Metering Table-->
-                <div class="table-responsive">
-                    <table class="tableSum table table-bordered">
-                        <thead>
-                            <tr>
-                                <th rowspan="2" class="textheadSumT">Equipment<br />(M/R St.)</th>
-                                <th colspan="4">Month</th>
-                                <th colspan="4">Month - Month Year (Accumulate)</th>
-                            </tr>
-                            <tr>
-
-                                <th>Plan</th>
-                                <th>Actual</th>
-                                <th>% completion</th>
-                                <th>% Overall</th>
-                                <th>Plan</th>
-                                <th>Actual</th>
-                                <th>% completion</th>
-                                <th>% Overall</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                                <td class="text-left">ML 1 : (Visual Inspection) (จำนวนสถานีฯ)</td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td rowspan="3"><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td rowspan="3"><span></span></td>
+                                            </tr>
 
 
-                            </tr>
-                            <tr>
-                                <td class="text-left"><span>ML 2 : (Calibration, Testing) (จำนวนสถานีฯ)</span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br />
 
-                            </tr>
-                            <tr>
-                                <td class="text-left"><span>ML 3 : (Overhual, Replacement) (จำนวนสถานีฯ)</span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
-                                <td><span></span></td>
+                                <!-- Summary Gatestation Table-->
+                                <div class="table-responsive">
+                                    <table class="tableSum table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2" class="textheadSumT">Equipment<br />(Gate & BV & Reducing St.)</th>
+                                                <th colspan="4">Month</th>
+                                                <th colspan="4">Month - Month Year (Accumulate)</th>
+                                            </tr>
+                                            <tr>
 
-                            </tr>
+                                                <th>Plan</th>
+                                                <th>Actual</th>
+                                                <th>% completion</th>
+                                                <th>% Overall</th>
+                                                <th>Plan</th>
+                                                <th>Actual</th>
+                                                <th>% completion</th>
+                                                <th>% Overall</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        
-        <button class="accordion b" >Pipeline</button>
-        <div class="panel bg-grey-100 ">
-            <div class=" ph2 ph1-xs pv2 col-container-white">
-                </div>
-            </div>
+                                                <td class="text-left">ML 1 : (Visual Inspection) (จำนวนสถานีฯ)</td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td rowspan="3"><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td rowspan="3"><span></span></td>
 
 
-        <!-- Panel Gate -->
-        <button class="accordion b">Equipment (Gate & BV & Reducing St.)</button>
-        <div class="panel bg-grey-100">
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left"><span>ML 2 : (Calibration, Testing) (จำนวนสถานีฯ)</span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
 
-            <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
-                <center> <span class="h2">Gate & BV & Reducing St. PM IA Monitoring Results &#64; </span><span class="h2" id="TextMYTable_gate"></span></center>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left"><span>ML 3 : (Overhual, Replacement) (จำนวนสถานีฯ)</span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
 
-                <div class="table-responsive">
-                    <table id="tblGate" class="table table-bordered"></table>
-                </div>
-            </div>
+                                            </tr>
 
-            <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
-                <center> <span class="h2">Gate & BV & Reducing St. PM% Completion (Ref. Master Plan)</span></center>
-                <div id="chart-container" style="height:500px">
-                    <canvas id="canvasGate"></canvas>
-                </div>
-            </div>
-            <!-- section Gate Graph -->
-           <!-- <div class=" ph2 ph1-xs pv2 col-container-white ">
-                <div class="row ">
-                    <div class="   hidden-xs  fr" style="padding-right: 15px;padding-bottom:15px">
-                        <button class="btn btn-block btn-primary btn-sm" id="btnZoomIn">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <button class="btn btn-block btn-primary btn-sm" id="btnZoomOut">
-                            <i class="fa fa-minus" aria-hidden="true"></i>
-                        </button>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br />
+
+                                <!-- Summary Metering Table-->
+                                <div class="table-responsive">
+                                    <table class="tableSum table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2" class="textheadSumT">Equipment<br />(M/R St.)</th>
+                                                <th colspan="4">Month</th>
+                                                <th colspan="4">Month - Month Year (Accumulate)</th>
+                                            </tr>
+                                            <tr>
+
+                                                <th>Plan</th>
+                                                <th>Actual</th>
+                                                <th>% completion</th>
+                                                <th>% Overall</th>
+                                                <th>Plan</th>
+                                                <th>Actual</th>
+                                                <th>% completion</th>
+                                                <th>% Overall</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+
+                                                <td class="text-left">ML 1 : (Visual Inspection) (จำนวนสถานีฯ)</td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td rowspan="3"><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td rowspan="3"><span></span></td>
+
+
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left"><span>ML 2 : (Calibration, Testing) (จำนวนสถานีฯ)</span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left"><span>ML 3 : (Overhual, Replacement) (จำนวนสถานีฯ)</span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+                                                <td><span></span></td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <center> <span class="h2">M/R St. PM IA Monitoring Accumulated Results </span><span class="h2" id="TextMYChart"></span></center>
-                </div>
-                <div class="row ">
-                    <div class="col-lg-12" id="divGraph"></div>
-                </div>
-            </div>-->
-            <!-- End Meter Graph -->
 
-        </div>
-
-        <!-- Panel Metering -->
-        <button class="accordion b">Equipment (M/R St.)</button>
-        <div class="panel bg-grey-100">
-     
-            <div class=" ph2 ph1-xs pv2 mb-2p col-container-white" id="divResultSummary">
-                <center> <span class="h2">PM IA Monitoring Results Summary &#64; </span><span class="h2" id="TextMYTable"></span></center>
-     
-                <div class="table-responsive">
-                    <table id="tblMeter" class="table table-bordered"></table>
-                </div>
-            </div>
-
-            <div class=" ph2 ph1-xs pv2 mb-2p col-container-white" id="divCompletion">
-                <center> <span class="h2">M/R St. PM% Completion (Ref. Master Plan)</span></center>
-                <div id="chart-container" style="height:500px">
-                    <canvas id="canvas"></canvas>
-                </div>
-            </div>
-            <!-- section Meter Graph -->
-            <div class=" ph2 ph1-xs pv2 col-container-white ">
-                <div class="row ">
-                    <div class="   hidden-xs  fr" style="padding-right: 15px;padding-bottom:15px">
-                        <button class="btn btn-block btn-primary btn-sm" id="btnZoomIn">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <button class="btn btn-block btn-primary btn-sm" id="btnZoomOut">
-                            <i class="fa fa-minus" aria-hidden="true"></i>
-                        </button>
+                <!--  Acc Pipeline -->
+                <div class="panel panel-default">
+                    <div class="panel-heading" data-toggle="collapse" data-target="#Pipe">
+                        <h4 class="panel-title">
+                            <a class="no-underline">Pipeline<span class="glyphicon glyphicon-plus fr"></span></a>
+                        </h4>
+                    </div>
+                    <div id="Pipe" class="panel-collapse collapse">
+                        <div class="panel-body bg-grey-100">
+                            <div class=" ph2 ph1-xs pv2 col-container-white">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <center> <span class="h2">M/R St. PM IA Monitoring Accumulated Results </span><span class="h2" id="TextMYChart"></span></center>
-                </div>
-                <div class="row ">
-                    <div class="col-lg-12" id="divGraph"></div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" data-toggle="collapse" data-target="#Gate">
+                        <h4 class="panel-title">
+                            <a class="no-underline">Equipment (Gate & BV & Reducing St.)<span class="glyphicon glyphicon-plus fr"></span></a>
+                        </h4>
+                    </div>
+                    <div id="Gate" class="panel-collapse collapse">
+                        <div class="panel-body bg-grey-100">
+
+                            <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
+                                <center> <span class="h2">Gate & BV & Reducing St. PM IA Monitoring Results &#64; </span><span class="h2" id="TextMYTable_gate"></span></center>
+
+                                <div class="table-responsive">
+                                    <table id="tblGate" class="table table-bordered"></table>
+                                </div>
+                            </div>
+
+                            <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
+                                <center> <span class="h2">Gate & BV & Reducing St. PM% Completion (Ref. Master Plan)</span></center>
+                                <div id="chart-container" style="height:500px">
+                                    <canvas id="canvasGate"></canvas>
+                                </div>
+                            </div>
+                            <!-- section Gate Graph -->
+                            <!-- <div class=" ph2 ph1-xs pv2 col-container-white ">
+            <div class="row ">
+                <div class="   hidden-xs  fr" style="padding-right: 15px;padding-bottom:15px">
+                    <button class="btn btn-block btn-primary btn-sm" id="btnZoomIn">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-block btn-primary btn-sm" id="btnZoomOut">
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
-            <!-- End Meter Graph -->
+            <div class="row">
+                <center> <span class="h2">M/R St. PM IA Monitoring Accumulated Results </span><span class="h2" id="TextMYChart"></span></center>
+            </div>
+            <div class="row ">
+                <div class="col-lg-12" id="divGraph"></div>
+            </div>
+        </div>-->
+                            <!-- End Meter Graph -->
+                        </div>
+                    </div>
+                </div>
 
+                <div class="panel panel-default">
+                    <div class="panel-heading " data-toggle="collapse" data-target="#Meter">
+                        <h4 class="panel-title">
+                            <a class="no-underline">Equipment (M/R St.)<span class="glyphicon glyphicon-plus fr"></span></a>
+                        </h4>
+                    </div>
+                    <div id="Meter" class="panel-collapse collapse">
+                        <div class="panel-body bg-grey-100">
+                            <div class=" ph2 ph1-xs pv2 mb-2p col-container-white" id="divResultSummary">
+                                <center> <span class="h2">PM IA Monitoring Results Summary &#64; </span><span class="h2" id="TextMYTable"></span></center>
+
+                                <div class="table-responsive">
+                                    <table id="tblMeter" class="table table-bordered"></table>
+                                </div>
+                            </div>
+
+                            <div class=" ph2 ph1-xs pv2 mb-2p col-container-white" id="divCompletion">
+                                <center> <span class="h2">M/R St. PM% Completion (Ref. Master Plan)</span></center>
+                                <div id="chart-container" style="height:500px">
+                                    <canvas id="canvas"></canvas>
+                                </div>
+                            </div>
+                            <!-- section Meter Graph -->
+                            <div class=" ph2 ph1-xs pv2 col-container-white ">
+                                <div class="row ">
+                                    <div class="   hidden-xs  fr" style="padding-right: 15px;padding-bottom:15px">
+                                        <button class="btn btn-block btn-primary btn-sm" id="btnZoomIn">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-block btn-primary btn-sm" id="btnZoomOut">
+                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <center> <span class="h2">M/R St. PM IA Monitoring Accumulated Results </span><span class="h2" id="TextMYChart"></span></center>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-lg-12" id="divGraph"></div>
+                                </div>
+                            </div>
+                            <!-- End Meter Graph -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
         </div>
+
     </div>
 
 </div>
