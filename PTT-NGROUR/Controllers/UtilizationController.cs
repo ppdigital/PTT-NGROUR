@@ -17,7 +17,7 @@ using PTT_NGROUR.Models.ViewModel;
 using PTT_NGROUR.Models;
 using System.Data;
 using Rotativa;
-using PTT_NGROUR.Models;
+//using PTT_NGROUR.Models;
 
 namespace PTT_NGROUR.Controllers
 {

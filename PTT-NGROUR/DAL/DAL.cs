@@ -9,7 +9,7 @@ namespace PTT_NGROUR.DAL
 {
     public class DAL
     {
-        private string _strConnection = "data source=10.120.2.151:1522/PTTGIS2;password=PTTOUR;persist security info=True;user id=PTTOUR";
+        private string _strConnection = "data source=10.120.2.125:1561/TGIS;password=PTTOUR;persist security info=True;user id=PTTOUR";
 
         public string ConnectionString { 
             get {
