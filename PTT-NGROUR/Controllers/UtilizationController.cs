@@ -353,7 +353,7 @@ namespace PTT_NGROUR.Controllers
                     METER_NUMBER = drmeter["METER_NUMBER"].ToString(),
                     METER_TYPE = drmeter["METER_TYPE"].ToString(),
                     REGION = drmeter["REGION"].ToString(),
-                    REGION_D = drmeter["REGION_D"].ToString(),
+                    REGION_D = drmeter["REGION_ID"].ToString(),
                     SHIP_TO = drmeter["SHIP_TO"].ToString(),
                     SOLD_TO = drmeter["SOLD_TO"].ToString(),
                     SOLD_TO_NAME = drmeter["SOLD_TO_NAME"].ToString(),
