@@ -193,7 +193,7 @@
                                             <td>@meter.SOLD_TO_NAME</td>
                                             <td>@meter.STATUS_DETAIL</td>
 
-                                            <td><center><i><a href="#" class="clickable dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewMeter" name="btnOpenView" onclick="ViewMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></i></center></td>
+                                            <td><center><i><a href="#" class="clickable dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewMeter" name="btnOpenView" onclick="ViewMeter(' @meter.METER_NUMBER ',' @meter.SHIP_TO')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></i></center></td>
                                             @if ((users.Roleid).Equals(1))
                                             {
                                                 <td>
@@ -217,7 +217,7 @@
                                             <td>@meter.SOLD_TO_NAME</td>
                                             <td>@meter.STATUS_DETAIL</td>
 
-                                            <td><center><i><a href="#" class="clickable dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewMeter" name="btnOpenView" onclick="ViewMeter('@meter.METER_NUMBER')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></i></center></td>
+                                            <td><center><i><a href="#" class="clickable dib glyphicon glyphicon-zoom-in fa-lg no-underline gray pointer" id="ViewMeter" name="btnOpenView" onclick="ViewMeter('@meter.METER_NUMBER','@meter.SHIP_TO')" data-toggle="modal" data-target="#ModalViewMeter" aria-hidden="true"></a></i></center></td>
                                             @if ((users.Roleid).Equals(1))
                                             {
                                                 <td>
@@ -777,7 +777,7 @@
                         </div>
                     </div>
 
-
+                    <iframe src="@System.Web.Configuration.WebConfigurationManager.AppSettings["ViewMeterrMap"]" style="min-height: 300px !important; width: 100% !important; border-width: 0px" id="view_map_meter"></iframe>
                 </div>
                 <br />
 
@@ -1542,9 +1542,9 @@
             };
 
 
-            function ViewMeter(meter) {
+            function ViewMeter(meter, shipto) {
                 //modalEdit.style.display = "block";
-
+                console.log(meter + ":" + shipto);
                 @foreach (var cusMeterV in Model.ListMeter)
                 {
                     <text>
@@ -1562,9 +1562,23 @@
                     $("#txtStatusMView").text('@cusMeterV.STATUS_DETAIL_T');
                     $("#txtCommDateMView").text('@cusMeterV.COMMDATE_T_S');
 
+
+
                     }
                     </text>
                 }
+
+                map_viewmeter_json = {
+                    "menu": "utilization-customer",
+                    "type": "METERING",
+                    "command": "view",
+                    "parameter": {
+                        "METER_NUMBER": meter,
+                        "SHIP_TO": shipto,
+                    }
+                }
+                view_map_meter = document.getElementById('view_map_meter');
+                view_map_meter.contentWindow.postMessage(map_viewmeter_json, '*');
             };
 
 
