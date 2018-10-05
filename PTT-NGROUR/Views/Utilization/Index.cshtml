@@ -335,7 +335,7 @@
                         }
                     }
                 }
-                utbt.scrollTo(0, 0);
+                $("#utbt").scrollTo(0, 0);
             }
 
             function utilTblOnclick() {
@@ -365,8 +365,8 @@
                 $('#type-filter').val('all');
                 $('#threshold-filter').val('all');
                 $('#utilTbl').find('tbody tr').each(function () {
-                    this.remove();
-                    utbt.scrollTo(0, 0);
+                    $(this).find('tbody tr').remove();
+                    $("#utbt").scrollTo(0, 0);
                 });
                 $('#txtSearch').val("");
                 for (let i in data) {
@@ -480,7 +480,7 @@
             function changeFilter(filterName) {
                 filters[filterName] = this.value;
                 updateFilters();
-                utbt.scrollTo(0, 0);
+                $("#utbt").scrollTo(0, 0);
             }
 
             // Threshold Dropdown Filter

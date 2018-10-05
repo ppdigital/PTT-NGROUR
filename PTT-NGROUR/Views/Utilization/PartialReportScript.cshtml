@@ -438,12 +438,12 @@
              tblShowGate = $("#searchTblGate").DataTable();
              tblShowGate.clear()
             $('#searchTblGate').find('tbody tr').each(function () {
-                this.remove();
+                $(this).find('tbody tr').remove();
             });
             tblShowPipe = $("#searchTblPipe").DataTable();
             tblShowPipe.clear()
             $('#searchTblPipe').find('tbody tr').each(function () {
-                this.remove();
+                $(this).find('tbody tr').remove();
             });
             let passPipe = 0;
             let passGate = 0;
