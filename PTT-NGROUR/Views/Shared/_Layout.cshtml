@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=11" />
     <title>@ViewBag.Title - NGROUR</title>
     @*  <script src="~/Scripts/chart.js"></script>*@
-    
+
     <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
 
     @*  @Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
     @*@Scripts.Render("~/bundles/jquery")
-    <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>*@
+        <script src="~/Content/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>*@
 
     @{
         PTT_NGROUR.Models.User userrole = new PTT_NGROUR.Models.User();
     }
 
-   @*<script src="~/Scripts/bootstrap.min.js"></script>*@
+    @*<script src="~/Scripts/bootstrap.min.js"></script>*@
 
 
     <link href="~/Style/create.css" rel="stylesheet" />
@@ -31,13 +31,13 @@
     @*<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>*@
     @RenderSection("style", false)
     <style>
-        .nav > li > a:hover,.nav > li > a:focus {
+        .nav > li > a:hover, .nav > li > a:focus {
             background-color: rgba(0,0,0,.2);
         }
+
         .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
             background-color: rgba(0,0,0,.2);
         }
-        
     </style>
     <script type="text/javascript">
         (function (document, navigator, standalone) {
