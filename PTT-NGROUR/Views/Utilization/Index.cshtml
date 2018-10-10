@@ -57,7 +57,7 @@
                                 <select class="selectpicker fz-12px form-control" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;">
                                     @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
                                     {
-                                        <option value="@ml.REGION_ID" class="text-grey" style="word-wrap:break-word;font-size:15px">@ml.REGION_NAME</option>
+                                        <option value="@ml.REGION_ID" class="text-grey" style="word-wrap:break-word;font-size:15px" selected="selected">@ml.REGION_NAME</option>
                                     }
                                 </select>
                             </div>
@@ -283,7 +283,7 @@
                 // console.log(region);
 
             })
-
+            var SeRegion = [ @Model.ListRegion.Select(x=> x.REGION_ID.ToString()).Aggregate((x,y)=> x+ ","+y) ];
             function Search() {
                 let url;
                 let multidata;
@@ -460,7 +460,7 @@
       filters = {
           color: null,
       };
-
+            Search();
             function updateFilters() {
                 $('.rowfil').hide().filter(function () {
                     var
