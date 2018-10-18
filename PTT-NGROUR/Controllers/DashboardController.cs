@@ -66,7 +66,7 @@ namespace PTT_NGROUR.Controllers
         public JsonResult AllGate()
         {   
             var dal = new DAL.DAL();
-            var ds = dal.GetDataSet("SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE TYPE = 'GATESTATION' AND REGION IS NOT NULL AND ");
+            var ds = dal.GetDataSet("SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE TYPE = 'GATESTATION' AND REGION IS NOT NULL");
             decimal green = 0;
             decimal red = 0;
             decimal yellow = 0;
