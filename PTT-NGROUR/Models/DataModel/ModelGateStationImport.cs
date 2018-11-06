@@ -28,9 +28,9 @@ namespace PTT_NGROUR.Models.DataModel
 
         public int GATE_ID { get; set; }
         public string GATE_NAME { get; set; }        
-        public decimal FLOW { get; set; }
+        public decimal? FLOW { get; set; }
 
-        public decimal PRESSURE { get; set; }
+        public decimal? PRESSURE { get; set; }
         public int MONTH { get; set; }
         public int YEAR { get; set; }
         public DateTime? UPLOAD_DATE { get; set; }

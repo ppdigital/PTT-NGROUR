@@ -587,11 +587,11 @@ namespace PTT_NGROUR.Controllers
                                         {
                                             if (fix_pressure != -1 && j == fix_pressure)
                                             {
-                                                obj[i, j] = 0;
+                                                obj[i, j] = null;
                                             }
                                             else if (fix_flow != -1 && j == fix_flow)
                                             {
-                                                obj[i, j] = 0;
+                                                obj[i, j] = null;
                                             }
                                             else
                                             {
@@ -602,7 +602,7 @@ namespace PTT_NGROUR.Controllers
                                         {
                                             if ((val.ToLower() == "n/a" || val.ToLower()=="") && j == fix_pressure)
                                             {
-                                                obj[i, j] = 0;
+                                                obj[i, j] = null;
                                             }
                                         }
 
@@ -619,11 +619,11 @@ namespace PTT_NGROUR.Controllers
                                     {
                                         if (fix_pressure != -1 && j == fix_pressure)
                                         {
-                                            obj[i, j] = 0;
+                                            obj[i, j] = null;
                                         }
                                         else if (fix_flow != -1 && j == fix_flow)
                                         {
-                                            obj[i, j] = 0;
+                                            obj[i, j] = null;
                                         }
                                     }
                                 }

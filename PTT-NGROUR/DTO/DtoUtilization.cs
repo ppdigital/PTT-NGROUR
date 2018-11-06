@@ -57,12 +57,14 @@ namespace PTT_NGROUR.DTO
                 int intEndRow = intRowCount - 6;
                 for (int intRow = intStartRow; intRow < intEndRow; ++intRow)
                 {
+                    var GateFlow = getExcelGateValue(exWorkSheet, intRow, enumExcelGateColumn.GateFlow);
+                    var GatePressure = getExcelGateValue(exWorkSheet, intRow, enumExcelGateColumn.GatePressure);
                     var gateImport = new Models.DataModel.ModelGateStationImport()
                     {
-                        FLOW = getExcelGateValue(exWorkSheet, intRow, enumExcelGateColumn.GateFlow).GetDecimal(),
+                        FLOW = (GateFlow != null && GateFlow.ToString().ToLower()!="n/a") ? GateFlow.GetDecimal() : default(decimal?),
                         GATE_NAME = getExcelGateValue(exWorkSheet, intRow, enumExcelGateColumn.GateName).GetString(),
                         MONTH = pIntMonth,
-                        PRESSURE = getExcelGateValue(exWorkSheet, intRow, enumExcelGateColumn.GatePressure).GetDecimal(),
+                        PRESSURE = GatePressure != null ? GatePressure.GetDecimal() : default(decimal?),
                         REGION = pStrRegionId,
                         UPLOAD_BY = pStrUploadBy,
                         UPLOAD_DATE = DateTime.Now,
@@ -191,7 +193,7 @@ namespace PTT_NGROUR.DTO
                 ROUGHNESS, LOAD, VELOCITY, OUTSIDE_DIAMETER, WALL_THICKNESS, SERVICE_STATE,
                 MONTH, YEAR, UPLOAD_DATE, UPLOAD_BY, REGION) 
                 VALUES ( '{0}' ,{1} ,{2} ,{3} ,{4} ,{5} ,{6} , {7} ,{8} ,{9} ,'{10}' ,{11} ,{12} , sysdate , '{13}' , {14} )";
-            strCommand = string.Format(strCommand,
+                strCommand = string.Format(strCommand,
                 pModel.RC_NAME.Trim().Replace("'", "''"), pModel.FLOW, pModel.DIAMETER, pModel.LENGTH, pModel.EFFICIENCY,
                 pModel.ROUGHNESS, pModel.LOAD, pModel.VELOCITY, pModel.OUTSIDE_DIAMETER, pModel.WALL_THICKNESS, pModel.SERVICE_STATE.Replace("'", "''"),
                 pModel.MONTH, pModel.YEAR, pModel.UPLOAD_BY.Trim().Replace("'", "''"), pModel.REGION.Trim().Replace("'", "''"));
@@ -206,13 +208,10 @@ namespace PTT_NGROUR.DTO
             {
                 return;
             }
-            string strCommand = @"INSERT INTO GATESTATION_IMPORT ( GATE_NAME,PRESSURE,FLOW, MONTH, YEAR,UPLOAD_DATE, UPLOAD_BY,REGION) 
-                VALUES ( '{0}',{1},{2},{3},{4},SYSDATE,'{5}','{6}' )";
+            string strCommand = "INSERT INTO GATESTATION_IMPORT ( GATE_NAME,PRESSURE,FLOW, MONTH, YEAR,UPLOAD_DATE, UPLOAD_BY,REGION) VALUES ('{0}',"+ (pModel.PRESSURE != null ? pModel.PRESSURE.ToString() : "NULL") +","+ (pModel.FLOW != null ? pModel.FLOW.ToString() : "NULL") +",{1},{2},SYSDATE,'{3}','{4}')";
 
             strCommand = string.Format(strCommand,
                 pModel.GATE_NAME.Trim().Replace("'", "''"),
-                pModel.PRESSURE,
-                pModel.FLOW,
                 pModel.MONTH,
                 pModel.YEAR,
                 pModel.UPLOAD_BY.Trim().Replace("'", "''"),
@@ -228,20 +227,9 @@ namespace PTT_NGROUR.DTO
             {
                 return;
             }
-            string strCommand = @"UPDATE GATESTATION_IMPORT SET    	
-GATE_NAME   = '{0}',
-    PRESSURE    = {1},
-    FLOW        = {2},
-    UPLOAD_DATE = sysdate,
-    UPLOAD_BY   = '{3}',
-    REGION      = '{4}'
-WHERE  	1=1
-	AND GATE_ID     = {5}
-	AND MONTH       = {6}
-	AND YEAR        = {7}";
+            string strCommand = "UPDATE GATESTATION_IMPORT SET GATE_NAME = '{0}',PRESSURE = "+ (pModel.PRESSURE != null ? pModel.PRESSURE.ToString() : "NULL") + ",FLOW = "+(pModel.FLOW != null ? pModel.FLOW.ToString() : "NULL")+",UPLOAD_DATE = sysdate,UPLOAD_BY = '{1}',REGION = '{2}' WHERE 1=1 AND GATE_ID = {3} AND MONTH = {4} AND YEAR = {5}";
             strCommand = string.Format(strCommand,
                 pModel.GATE_NAME.Trim().Replace("'", "''"),
-                pModel.PRESSURE, pModel.FLOW,
                 pModel.UPLOAD_BY.Trim().Replace("'", "''"),
                 pModel.REGION.Trim().Replace("'", "''"), pModel.GATE_ID,
                 pModel.MONTH,
@@ -305,23 +293,11 @@ WHERE 1=1
             {
                 return;
             }
-            string strCommand = @"UPDATE GATESTATION_ARCHIVE SET    
-       	GATE_NAME   = '{0}',
-       	FLOW        = {1},
-       	UPLOAD_DATE = sysdate,
-       	UPLOAD_BY   = '{2}',
-       	REGION      = '{3}',
-        PRESSURE    = {4}
-WHERE 1=1 
-	AND GATE_ID     = {5}
-	AND MONTH       = {6}
-	AND YEAR        = {7}";
+            string strCommand = "UPDATE GATESTATION_ARCHIVE SET GATE_NAME = '{0}',FLOW = "+ (pModel.FLOW != null ? pModel.FLOW.ToString() : "NULL") + ",UPLOAD_DATE = sysdate,UPLOAD_BY = '{1}',REGION = '{2}',PRESSURE = "+(pModel.PRESSURE != null ? pModel.PRESSURE.ToString() : "NULL")+" WHERE 1=1 AND GATE_ID = {3} AND MONTH = {4} AND YEAR = {5}";
             strCommand = string.Format(strCommand,
                 pModel.GATE_NAME.Trim().Replace("'", "''"),
-                pModel.FLOW,
                 pModel.UPLOAD_BY.Trim().Replace("'", "''"),
                 pModel.REGION,
-                pModel.PRESSURE,
                 pModel.GATE_ID,
                 pModel.MONTH,
                 pModel.YEAR);
@@ -414,18 +390,15 @@ WHERE  1=1
             {
                 return;
             }
-            string strCommand = @"INSERT INTO PTTOUR.GATESTATION_ARCHIVE (GATE_NAME, FLOW,MONTH,YEAR, UPLOAD_DATE,UPLOAD_BY, REGION, FLAG_ID , PRESSURE) 
-                VALUES ('{0}',{1},{2},{3},sysdate,'{4}','{5}',{6} , {7} )";
+            string strCommand = "INSERT INTO PTTOUR.GATESTATION_ARCHIVE (GATE_NAME, FLOW,MONTH,YEAR, UPLOAD_DATE,UPLOAD_BY, REGION, FLAG_ID , PRESSURE) VALUES ('{0}',"+ (pModel.FLOW != null ? pModel.FLOW.ToString() : "NULL") + ",{1},{2},sysdate,'{3}','{4}',{5} , "+ (pModel.PRESSURE != null ? pModel.PRESSURE.ToString() : "NULL") + " )";
 
             strCommand = string.Format(strCommand,
                 pModel.GATE_NAME.Trim().Replace("'", "''"),
-                pModel.FLOW,
                 pModel.MONTH,
                 pModel.YEAR,
                 pModel.UPLOAD_BY.Trim().Replace("'", "''"),
                 pModel.REGION.Trim().Replace("'", "''"),
-                pModel.FLAG_ID,
-                pModel.PRESSURE);
+                pModel.FLAG_ID);
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
             dal = null;
