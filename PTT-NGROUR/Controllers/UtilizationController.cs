@@ -17,6 +17,7 @@ using PTT_NGROUR.Models.ViewModel;
 using PTT_NGROUR.Models;
 using System.Data;
 using Rotativa;
+using Syncfusion.XlsIO;
 //using PTT_NGROUR.Models;
 
 namespace PTT_NGROUR.Controllers
@@ -555,18 +556,15 @@ namespace PTT_NGROUR.Controllers
             {
                 try
                 {
+
                     object[,] obj = null;
                     int noOfCol = 0;
                     int noOfRow = 0;
                     HttpFileCollectionBase file = Request.Files;
                     if ((file != null) && (file.Count > 0))
                     {
-                        //string fileName = file.FileName;
-                        //string fileContentType = file.ContentType;
                         byte[] fileBytes = new byte[Request.ContentLength];
                         var data = Request.InputStream.Read(fileBytes, 0, Convert.ToInt32(Request.ContentLength));
-                        // var usersList = new List<Users>();
-                        //using (var package = new ExcelPackage())
                         using (var package = new ExcelPackage(Request.InputStream))
                         {
                             var currentSheet = package.Workbook.Worksheets;
@@ -575,9 +573,81 @@ namespace PTT_NGROUR.Controllers
                             noOfRow = workSheet.Dimension.End.Row;
                             obj = new object[noOfRow, noOfCol];
                             obj = (object[,])workSheet.Cells.Value;
+
+                            int fix_pressure = -1;
+                            int fix_flow = -1;
+                            for(int i=0;i< noOfRow; i++)
+                            {
+                                for (int j = 0; j < noOfCol; j++)
+                                {
+                                    if (obj[i, j] != null)
+                                    {
+                                        string val = obj[i, j].ToString();
+                                        if (val.ToLower() == "n/a")
+                                        {
+                                            if (fix_pressure != -1 && j == fix_pressure)
+                                            {
+                                                obj[i, j] = 0;
+                                            }
+                                            else if (fix_flow != -1 && j == fix_flow)
+                                            {
+                                                obj[i, j] = 0;
+                                            }
+                                            else
+                                            {
+                                                obj[i, j] = null;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if ((val.ToLower() == "n/a" || val.ToLower()=="") && j == fix_pressure)
+                                            {
+                                                obj[i, j] = 0;
+                                            }
+                                        }
+
+                                        if(val.ToLower() == "pressure" && fix_pressure==-1)
+                                        {
+                                            fix_pressure = j;
+                                        }
+                                        if(val.ToLower().IndexOf("flow")==0 && fix_flow==-1)
+                                        {
+                                            fix_flow = j;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (fix_pressure != -1 && j == fix_pressure)
+                                        {
+                                            obj[i, j] = 0;
+                                        }
+                                        else if (fix_flow != -1 && j == fix_flow)
+                                        {
+                                            obj[i, j] = 0;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     return Json(new { data = obj, row = noOfRow, col = noOfCol }, JsonRequestBehavior.AllowGet);
+
+
+                    //using (Stream fileStream = Request.InputStream)
+                    //{
+                    //    ExcelEngine engine = new ExcelEngine();
+                    //    fileStream.Position = 0;
+                    //    var wb = engine.Excel.Workbooks.Open(fileStream, ExcelOpenType.Automatic, ExcelParseOptions.Default);
+                    //    IWorksheet worksheet = wb.Worksheets[0];
+                    //    var count = wb.ActiveSheet.Rows.Count();
+
+                    //    DataTable table = worksheet.ExportDataTable(worksheet.UsedRange, ExcelExportDataTableOptions.ColumnNames);
+                    //    string json = ConvertDataTableTojSonString(table);
+                    //    noOfCol = worksheet.UsedRange.End.Column;
+                    //    noOfRow = worksheet.UsedRange.End.Row;
+                    //    obj = new object[noOfRow, noOfCol];
+                    //}
+
                 }
                 catch (Exception ex)
                 {
@@ -586,6 +656,27 @@ namespace PTT_NGROUR.Controllers
 
             }
             return Json("", JsonRequestBehavior.AllowGet);
+        }
+
+        public String ConvertDataTableTojSonString(DataTable dataTable)
+        {
+            System.Web.Script.Serialization.JavaScriptSerializer serializer =
+                   new System.Web.Script.Serialization.JavaScriptSerializer();
+
+            List<Dictionary<String, Object>> tableRows = new List<Dictionary<String, Object>>();
+
+            Dictionary<String, Object> row;
+
+            foreach (DataRow dr in dataTable.Rows)
+            {
+                row = new Dictionary<String, Object>();
+                foreach (DataColumn col in dataTable.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                tableRows.Add(row);
+            }
+            return serializer.Serialize(tableRows);
         }
 
         [HttpPost]

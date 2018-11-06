@@ -10,14 +10,17 @@ namespace PTT_NGROUR.DAL
     public class DAL
     {
         //Production
-        private string _strConnection = "data source=10.120.2.151:1522/PTTGIS2;password=PTTOUR;persist security info=True;user id=PTTOUR";
+        //private string _strConnection = "data source=10.120.2.151:1522/PTTGIS2;password=PTTOUR;persist security info=True;user id=PTTOUR";
         //Test
-        //private string _strConnection = "data source=10.120.2.125:1561/TGIS;password=PTTOUR;persist security info=True;user id=PTTOUR";
-        public string ConnectionString { 
-            get {
+        private string _strConnection = "data source=10.120.2.125:1561/TGIS;password=PTTOUR;persist security info=True;user id=PTTOUR;";
+        public string ConnectionString
+        {
+            get
+            {
                 return _strConnection;
             }
-            set {
+            set
+            {
                 _strConnection = value;
             }
         }
@@ -30,60 +33,86 @@ namespace PTT_NGROUR.DAL
         public DAL(string pStrConnection)
         {
             _strConnection = pStrConnection;
-
         }
 
         public IDbConnection GetConnection()
         {
             IDbConnection result;
-            result = new OracleConnection(_strConnection);
-            return result;
+            try
+            {
+                result = new OracleConnection(_strConnection);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
-        public IDbCommand GetCommand(string pStrCommand , IDbConnection pConnection)
+        public IDbCommand GetCommand(string pStrCommand, IDbConnection pConnection)
         {
-            if (string.IsNullOrEmpty(pStrCommand) || pConnection == null)
+            try
+            {
+                if (string.IsNullOrEmpty(pStrCommand) || pConnection == null)
+                {
+                    return null;
+                }
+
+                IDbCommand result = null;
+                if (!(pConnection is OracleConnection con))
+                {
+                    return null;
+                }
+                result = new OracleCommand(pStrCommand, con);
+                return result;
+            }
+            catch (Exception)
             {
                 return null;
             }
-            IDbCommand result = null;
-            var con = pConnection as OracleConnection;
-            if (con == null)
-            {
-                return null;
-            }
-            result = new OracleCommand(pStrCommand, con);
-            return result;
         }
 
         public IDataAdapter GetDataAdaptor(string pStrCommand, IDbConnection pConnection)
         {
-            if (string.IsNullOrEmpty(pStrCommand) || pConnection == null)
+            try
             {
-                return null;
-            }            
-            var con = pConnection as OracleConnection;
-            if (con == null)
+                if (string.IsNullOrEmpty(pStrCommand) || pConnection == null)
+                {
+                    return null;
+                }
+                if (!(pConnection is OracleConnection con))
+                {
+                    return null;
+                }
+                IDataAdapter result = null;
+                result = new OracleDataAdapter(pStrCommand, con);
+                return result;
+            }
+            catch (Exception ex)
             {
                 return null;
             }
-            IDataAdapter result = null;
-            result = new OracleDataAdapter(pStrCommand , con);
-            return result;
         }
 
         public DataSet GetDataSet(string pStrCommand)
         {
-            var con = GetConnection();
-            var da = GetDataAdaptor(pStrCommand, con);
-            var result = new DataSet();
-            da.Fill(result);
-            con.Close();
-            con.Dispose();
-            con = null;           
-            da = null;
-            GC.Collect();
-            return result;
+            try
+            {
+                var con = GetConnection();
+                var da = GetDataAdaptor(pStrCommand, con);
+                var result = new DataSet();
+                da.Fill(result);
+                con.Close();
+                con.Dispose();
+                con = null;
+                da = null;
+                GC.Collect();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public IEnumerable<T> ReadData<T>(string pStrCommand, Func<IDataReader, T> pFuncReadData)
@@ -105,7 +134,7 @@ namespace PTT_NGROUR.DAL
             if (con.State != ConnectionState.Open)
             {
                 con.Open();
-            }            
+            }
             var reader = com.ExecuteReader();
             while (reader.Read())
             {
@@ -139,62 +168,76 @@ namespace PTT_NGROUR.DAL
 
         public object ExecuteScalar(string pStrCommand, IDbConnection pConnection)
         {
-            if (string.IsNullOrEmpty(pStrCommand) || pConnection == null)
+            try
             {
-                return null;
-            }
-            var con = pConnection as OracleConnection;
-            if (con == null)
-            {
-                return null;
-            }
-            var com = GetCommand(pStrCommand, con);
-            if (com == null)
-            {
-                return null;
-            }
-            if (con.State != ConnectionState.Open)
-            {
-                con.Open();
-            }
-            var result = com.ExecuteScalar();
+                if (string.IsNullOrEmpty(pStrCommand) || pConnection == null)
+                {
+                    return null;
+                }
+                if (!(pConnection is OracleConnection con))
+                {
+                    return null;
+                }
+                var com = GetCommand(pStrCommand, con);
+                if (com == null)
+                {
+                    return null;
+                }
+                if (con.State != ConnectionState.Open)
+                {
+                    con.Open();
+                }
+                var result = com.ExecuteScalar();
 
-            com.Dispose();
-            com = null;
-            GC.Collect();
-            return result;
+                com.Dispose();
+                com = null;
+                GC.Collect();
+                return result;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         public void ExecuteNonQuery(string pStrCommand)
         {
-            using (var con = GetConnection()) { 
-                ExecuteNonQuery(pStrCommand, con);            
-            };
+            try
+            {
+                using (var con = GetConnection())
+                {
+                    ExecuteNonQuery(pStrCommand, con);
+                };
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
         public void ExecuteNonQuery(string pStrCommand, IDbConnection pConnection)
         {
             if (string.IsNullOrEmpty(pStrCommand) || pConnection == null)
             {
-                return ;
+                return;
             }
-            var con = pConnection as OracleConnection;
-            if (con == null)
+            if (!(pConnection is OracleConnection con))
             {
-                return ;
+                return;
             }
             var com = GetCommand(pStrCommand, con);
             if (com == null)
             {
-                return ;
+                return;
             }
             if (con.State != ConnectionState.Open)
             {
                 con.Open();
             }
-            com.ExecuteNonQuery();
+
+            int result = com.ExecuteNonQuery();
             com.Dispose();
             com = null;
-            GC.Collect();            
+            GC.Collect();
         }
     }
 }

@@ -45,7 +45,6 @@
 
                         <div class="col-xs-12">
                             <div class="col-xs-1" style="width:6%"></div>
-
                             <div class="col-xs-2" style="width:13%">
                                 <select class="form-control form-control-sm" id="seRegion">
                                     <option value="1" class="f5 f8-m drop_role" selected>Region 1</option>
@@ -62,44 +61,43 @@
                                 </select>
                             </div>
                             <div class="col-xs-2" style="width:12%">
-                                <select class="form-control form-control-sm " id="seType">
+                                <select class="form-control form-control-sm " id="seType" onchange="hideRegion()">
                                     <option value="pipeline" class="f5 f8-m drop_role" selected>Pipeline</option>
                                     <option value="gate" class="f5 drop_role">Gate Station</option>
                                 </select>
                             </div>
                             <!--<div class="col-xs-1" style="width:12%">
-                                <select class="form-control form-control-sm " id="seMonth">
-                                    <option value="1" class="f5 f8-m drop_role" selected>January</option>
-                                    <option value="2" class="f5 drop_role">February</option>
-                                    <option value="3" class="f5 drop_role">March</option>
-                                    <option value="4" class="f5  drop_role">April</option>
-                                    <option value="5" class="f5 f8-m drop_role">May</option>
-                                    <option value="6" class="f5 drop_role">June</option>
-                                    <option value="7" class="f5 drop_role">July</option>
-                                    <option value="8" class="f5  drop_role">August</option>
-                                    <option value="9" class="f5 f8-m drop_role">September</option>
-                                    <option value="10" class="f5 drop_role">October</option>
-                                    <option value="11" class="f5 drop_role">November</option>
-                                    <option value="12" class="f5 drop_role">December</option>
-                                </select>
-                            </div>-->
+        <select class="form-control form-control-sm " id="seMonth">
+            <option value="1" class="f5 f8-m drop_role" selected>January</option>
+            <option value="2" class="f5 drop_role">February</option>
+            <option value="3" class="f5 drop_role">March</option>
+            <option value="4" class="f5  drop_role">April</option>
+            <option value="5" class="f5 f8-m drop_role">May</option>
+            <option value="6" class="f5 drop_role">June</option>
+            <option value="7" class="f5 drop_role">July</option>
+            <option value="8" class="f5  drop_role">August</option>
+            <option value="9" class="f5 f8-m drop_role">September</option>
+            <option value="10" class="f5 drop_role">October</option>
+            <option value="11" class="f5 drop_role">November</option>
+            <option value="12" class="f5 drop_role">December</option>
+        </select>
+    </div>-->
                             <div class="col-xs-2">
                                 <input type="text" class="form-control form-control-sm " id="MonthYear-filter" />
                                 <!--  <select class="form-control form-control-sm " id="seYear">
 
-                                      <option value="2018" class="5 f8-m drop_role" selected>2018</option>
-                                      <option value="2019" class="f5 drop_role">2019</option>
-                                      <option value="2020" class="f5 drop_role">2020</option>
-                                      <option value="2021" class="f5  drop_role">2021</option>
-                                      <option value="2022" class="f5 f8-m drop_role">2022</option>
-                                      <option value="2023" class="f5 drop_role">2023</option>
-                                      <option value="2024" class="f5 drop_role">2024</option>
-                                      <option value="2025" class="f5  drop_role">2025</option>
-                                      <option value="2026" class="f5 f8-m drop_role">2026</option>
-                                      <
-                                  </select>-->
+              <option value="2018" class="5 f8-m drop_role" selected>2018</option>
+              <option value="2019" class="f5 drop_role">2019</option>
+              <option value="2020" class="f5 drop_role">2020</option>
+              <option value="2021" class="f5  drop_role">2021</option>
+              <option value="2022" class="f5 f8-m drop_role">2022</option>
+              <option value="2023" class="f5 drop_role">2023</option>
+              <option value="2024" class="f5 drop_role">2024</option>
+              <option value="2025" class="f5  drop_role">2025</option>
+              <option value="2026" class="f5 f8-m drop_role">2026</option>
+              <
+          </select>-->
                             </div>
-
                             <div class="col-xs-4">
                                 <div class="panel panel-default " style="padding:4px 4px 4px 4px;margin-bottom:0px">
                                     @using (Html.BeginForm("UploadFile", "InsertExceldata", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -114,14 +112,12 @@
                                 </div>
                             </div>
 
-
                             <!-- <div class="dib" id="btnCreate" align="right">
-                                <input type="button" value="Import File" id="uploadFile" class="f5 bg-green2 white tc br1  pv2 ph3 ba">
-                            </div>-->
+        <input type="button" value="Import File" id="uploadFile" class="f5 bg-green2 white tc br1  pv2 ph3 ba">
+    </div>-->
                             <div align="right" class="col-xs-1" id="btnCreate">
                                 <input type="submit" value="Import File" id="uploadFile" class="btn btn-primary white tc" />
                             </div>
-
                         </div>
 
                     </div>
@@ -244,7 +240,7 @@
         //show Data Excel//
         $(function () {
             $('input[type="file"]').change(function (e) {
-                debugger
+                //debugger
 
                 var filename = e.target.files[0].name;
                 var Files = $("#fileLoadDoc").get(0);
@@ -263,10 +259,10 @@
                     processData: false,
                     data: formdata,
                     success: function (result) {
-                        debugger
+                        //debugger
                         var count = 0;
                         if (result != null) {
-                            debugger
+                            //debugger
                             $("#message").css('color', 'b3b3b3').text("Your File has succesfully Loaded !!!")
                             $(".head").empty();
                             $(".body").empty();
@@ -310,15 +306,27 @@
             });
         });
         function fileLoad() {
-            debugger
+            //debugger
 
             $('#fileLoadDoc').val("");
             $('#btnFileLoad').val("");
             // $('#seRegion').val("");
             $("#fileLoadDoc").trigger('click');
+            
+        }
+
+        function hideRegion() {
+            var index = $("#seType option:selected").index();
+            if (index==1) {
+                $('#seRegion').css('display', 'none');
+            }
+            else {
+ 
+                $('#seRegion').css('display', 'block');
+            }
+            // alert(index);
         }
     </script>
 
     @Html.Partial("PartialModalExcelScript")
-
 }

@@ -6,6 +6,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.DirectoryServices;
+using System.Data;
+using Oracle.ManagedDataAccess.Client;
 
 namespace PTT_NGROUR.Models
 {
@@ -16,20 +18,63 @@ namespace PTT_NGROUR.Models
 
         public User()
         {
-            ds = dal.GetDataSet("select * from Users_Auth");
-            var dt = ds.Tables[0];
-            var listUsers = new List<Models.DataModel.ModelUsersAuth>();
-            foreach (System.Data.DataRow dr in dt.Rows)
+            //ds = dal.GetDataSet("select * from Users_Auth");
+            //DataTable dt = ds.Tables[0];
+            //if (dt != null)
+            //{
+            //    var listUsers = new List<Models.DataModel.ModelUsersAuth>();
+            //    foreach (System.Data.DataRow dr in dt.Rows)
+            //    {
+            //        var user = new Models.DataModel.ModelUsersAuth()
+            //        {
+            //            //CREATE_BY = dr["CREATE_BY"].ToString(),
+            //            //CREATE_DATE = Convert.ToDateTime(dr["CREATE_DATE"]),
+            //            FIRSTNAME = dr["FIRSTNAME"].ToString()
+            //        };
+            //        listUsers.Add(user);
+            //    }
+            //}
+
+            try
             {
-                var user = new Models.DataModel.ModelUsersAuth()
+                using (var conn = new OracleConnection(dal.ConnectionString))
                 {
-                    //CREATE_BY = dr["CREATE_BY"].ToString(),
-                    //CREATE_DATE = Convert.ToDateTime(dr["CREATE_DATE"]),
-                    FIRSTNAME = dr["FIRSTNAME"].ToString()
-                };
-                listUsers.Add(user);
+                    conn.Open();
+                    using (OracleCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "select * from Users_Auth";
+
+                        using (OracleDataReader reader = cmd.ExecuteReader())
+                        {
+                            var dataTable = new DataTable();
+                            dataTable.Load(reader);
+                            if (dataTable != null)
+                            {
+                                var listUsers = new List<Models.DataModel.ModelUsersAuth>();
+                                foreach (System.Data.DataRow dr in dataTable.Rows)
+                                {
+                                    var user = new Models.DataModel.ModelUsersAuth()
+                                    {
+                                        //CREATE_BY = dr["CREATE_BY"].ToString(),
+                                        //CREATE_DATE = Convert.ToDateTime(dr["CREATE_DATE"]),
+                                        FIRSTNAME = dr["FIRSTNAME"].ToString()
+                                    };
+                                    listUsers.Add(user);
+                                }
+                            }
+                            Console.WriteLine("VisibleFieldCount: {0}", reader.VisibleFieldCount);
+                            Console.WriteLine("HiddenFieldCount: {0}", reader.HiddenFieldCount);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error:{0}", ex.Message);
             }
         }//user
+
+
         [Required]
         [Display(Name = "Username")]
         public string Username
