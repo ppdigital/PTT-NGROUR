@@ -19,12 +19,12 @@
         var result = "";
         for (var i in pList) {
             var lsg = pList[i];
-            result += "<tr><td>" + lsg.GATE_NAME
-                + "</td><td>" + lsg.PRESSURE
-                + "</td><td>" + lsg.FLOW + "</td><tr>";
+            result += "<tr><td>" + lsg.GATE_NAME + "</td>"
+                + "<td>" + (lsg.PRESSURE === null ? '' : lsg.PRESSURE) + "</td>"
+                + "<td>" + (lsg.FLOW === null ? '' : lsg.FLOW) + "</td><tr>";
         }
-        return result;
-    }
+            return result;
+        }
     function getHtmlPipeline(pList) {
         if (!Array.isArray(pList) || !pList.length) {
             return "";
