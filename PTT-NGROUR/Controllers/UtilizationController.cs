@@ -643,7 +643,7 @@ namespace PTT_NGROUR.Controllers
 
                     //    DataTable table = worksheet.ExportDataTable(worksheet.UsedRange, ExcelExportDataTableOptions.ColumnNames);
                     //    string json = ConvertDataTableTojSonString(table);
-                    //    noOfCol = worksheet.UsedRange.End.Column;
+                    //    noOfCol = worksheetUsedRange.End.Column;
                     //    noOfRow = worksheet.UsedRange.End.Row;
                     //    obj = new object[noOfRow, noOfCol];
                     //}
