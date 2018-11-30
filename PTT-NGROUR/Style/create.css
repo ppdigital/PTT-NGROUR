@@ -851,5 +851,17 @@ input:-webkit-autofill {
 
 .vh-22{height:22vh}
 .fr{float:right}
-
-
+.w-98p5
+{width:98.5%;}
+.h-100{height:100%;}
+.h-98p5{height:98.5%;}
+.h-97 {
+    height: 97%;
+}
+.center
+{margin-left:auto;
+ margin-right:auto;
+}
+.mt-9px{margin-top:9px;
+      
+}
