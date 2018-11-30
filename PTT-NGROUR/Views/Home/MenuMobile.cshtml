@@ -68,35 +68,35 @@
 
             <nav>
                 <ul class="nav">
-                    <li style="width:100%"><a href="@Url.Action("MenuWeb", "Home")"><i class="fa fa-home fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Home</a></li>
-                    <li style="width:100%"><a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-tachometer fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Dashboard</a></li>
+                    <li style="width:100%"><a href="@Url.Action("MenuWeb", "Home")"><i class="fa fa-home fa-2x gray7" aria-hidden="true" style="width:9%"> </i><label class="f4">Home</label></a></li>
+                    <li style="width:100%"><a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-tachometer fa-2x gray7" aria-hidden="true" style="width:9%"> </i><label class="f4">Dashboard</label></a></li>
                     <li style="width:100%">
                         <a href="#" id="btn-1" data-toggle="collapse" data-target="#submenu1" aria-expanded="false">
-                            <i class="fa fa-map-marker fa-lg gray7" aria-hidden="true" style="width:9%"></i>Utilization
-                            <i class="glyphicon glyphicon-menu-down pull-right"></i>
+                            <i class="fa fa-map-marker fa-2x gray7" aria-hidden="true" style="width:9%"></i><label class="f4">Utilization</label>
+                            <i class="glyphicon glyphicon-menu-down pull-right top-13px"></i>
                         </a>
                         <ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1">
-                            <li style="width:100%"><a href="@Url.Action("Index", "Utilization")"><span style="padding-left: 50px">Utilization</span></a></li>
-                            <li style="display:@ViewData["Threshold_page"];width:100%;"><a href="@Url.Action("ThresholdSetting", "Utilization")"><span style="padding-left:50px">Threshold Setting</span></a></li>
-                           <li style="width: 100%;"><a href="@Url.Action("Report", "Utilization")"><span style="padding-left:50px">Report</span></a></li>
-                            <li style="width:100%"><a href="@Url.Action("Customer", "Utilization")"><span style="padding-left:50px">Customer Management</span></a></li>
+                            <li style="width:100%"><a href="@Url.Action("Index", "Utilization")"><span style="padding-left: 50px"><label class="f4">Utilization</label></span></a></li>
+                            <li style="display:@ViewData["Threshold_page"];width:100%;"><a href="@Url.Action("ThresholdSetting", "Utilization")"><span style="padding-left:50px" ><label class="f4"><span class="f4">Threshold Setting</span></label></span></a></li>
+                           <li style="width: 100%;"><a href="@Url.Action("Report", "Utilization")"><span style="padding-left:50px" class="f4"><label class="f4">Report</label></span></a></li>
+                            <li style="width:100%"><a href="@Url.Action("Customer", "Utilization")"><span style="padding-left:50px " ><label class="f4">Customer Management</label></span></a></li>
                          </ul>
                     </li>
-                    <li style="width:100%"><a href="#"><i class="fa fa-cogs fa-lg gray7" aria-hidden="true" style="width:9%"> </i><span class="gray7">O & M</span></a></li>
-                    <li style="width:100%"><a href="#"><i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" style="width:9%"> </i><span class="gray7">Risk Management</span></a></li>
+                    <li style="width:100%"><a href="#"><i class="fa fa-cogs fa-2x gray7" aria-hidden="true" style="width:9%"> </i><span class="gray7"><label class="f4">O & M</label></span></a></li>
+                    <li style="width:100%"><a href="#"><i class="fa fa-exclamation-triangle fa-2x gray7" aria-hidden="true" style="width:9%"> </i><span class="gray7"><label class="f4">Risk Management</label></span></a></li>
                     <li style="width:100%">
                         <a href="#" id="btn-1" data-toggle="collapse" data-target="#Admin" aria-expanded="false" style="display:@ViewData["Admin_page"]">
-                            <i class="fa fa-user fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Admin<i class="glyphicon glyphicon-menu-down pull-right"></i>
+                            <i class="fa fa-user fa-2x gray7" aria-hidden="true" style="width:9%"> </i><label class="f4">Admin</label><i class="glyphicon glyphicon-menu-down pull-right "></i>
                         </a>
                         <ul class="nav collapse" id="Admin" role="menu" aria-labelledby="btn-1">
-                            <li><a href="@Url.Action("UserManagement", "Admin")"><span style="padding-left:50px">User Management</span></a></li>
+                            <li><a href="@Url.Action("UserManagement", "Admin")"><span  style="padding-left:50px"><label class="f4">User Management</label></span></a></li>
 
                         </ul>
                     </li>
 @if ((userrole.IS_AD).Equals("0"))
                                     {
-                    <li style="width:100%"><a href="@Url.Action("ResetPassword", "User", new { id = userrole.Username , IsExpired = false  }, null)"><i class="fa fa-cog fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Change Password</a></li>}
-                    <li style="width:100%"><a href="@Url.Action("Logout", "User")"><i class="fa fa-sign-out fa-lg gray7" aria-hidden="true" style="width:9%"> </i>Sign Out</a></li>
+                    <li style="width:100%"><a href="@Url.Action("ResetPassword", "User", new { id = userrole.Username , IsExpired = false  }, null)"><i class="fa fa-cog fa-2x gray7" aria-hidden="true" style="width:9%"> </i>Change Password</a></li>}
+                    <li style="width:100%"><a href="@Url.Action("Logout", "User")"><i class="fa fa-sign-out fa-2x gray7" aria-hidden="true" style="width:9%"> </i><label class="f4">Sign Out</label></a></li>
 
                 </ul>
             </nav>
@@ -112,14 +112,14 @@
                                 <center>
                                     <a href="@Url.Action("Index", "Dashboard")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
 
-                                        <i class="fa fa-tachometer fa-lg gray7" aria-hidden="true" id="dashboard"></i>
+                                        <i class="fa fa-tachometer fa-2x gray7" aria-hidden="true" id="dashboard"></i>
                                         <div class="gray6 f-menu-footer pt1" id="t_dashboard" style="padding-top: .25rem;">Dashboard</div>
                                     </a>
                                 </center>
                                 <center>
                                     <a href="@Url.Action("MenuUtilization", "Utilization")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
 
-                                        <i class="fa fa-map-marker fa-lg gray7" aria-hidden="true" id="utilization"></i>
+                                        <i class="fa fa-map-marker fa-2x gray7" aria-hidden="true" id="utilization"></i>
                                         <div class="gray6 f-menu-footer pt1" id="t_utilization" style="padding-top: .25rem;">Utilization</div>
 
                                     </a>
@@ -127,7 +127,7 @@
                                 <center>
                                     <div class="dtc v-mid tc w-20 menu_hover no-underline" style="float:left;">
 
-                                        <i class="fa fa-cogs fa-lg gray7" aria-hidden="true" id="o_and_m"></i>
+                                        <i class="fa fa-cogs fa-2x gray7" aria-hidden="true" id="o_and_m"></i>
                                         <div class="gray6 f-menu-footer pt1 " id="text_o_and_m" style="padding-top: .25rem;">O & M</div>
 
                                     </div>
@@ -136,7 +136,7 @@
                                     <div class="dtc v-mid tc w-20 menu_hover no-underline" style="float:left;">
 
                                         <div class="dib ">
-                                            <i class="fa fa-exclamation-triangle fa-lg gray7" aria-hidden="true" id="risk_manage"></i>
+                                            <i class="fa fa-exclamation-triangle fa-2x gray7" aria-hidden="true" id="risk_manage"></i>
                                             <div class="gray6 f-menu-footer pt1" id="t_risk_manage" style="padding-top: .25rem;">Risk Management</div>
                                         </div>
 
@@ -146,7 +146,7 @@
                                     <div class="dtc v-mid tc w-20 menu_hover " style="float:left;">
 
                                         <a class="tc no-underline" href="@Url.Action("MenuMobile", "Home")">
-                                            <i class="fa fa-bars fa-lg gray7" aria-hidden="true" id="user"></i>
+                                            <i class="fa fa-bars fa-2x gray7" aria-hidden="true" id="user"></i>
                                             <div class="gray6 f-menu-footer pt1" style="padding-top: .25rem;">Menu</div>
                                         </a>
 
