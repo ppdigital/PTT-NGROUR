@@ -100,36 +100,36 @@ namespace PTT_NGROUR.Controllers
             var dal = new DAL.DAL();
             var ds = dal.GetDataSet("SELECT LICENSE_ID ,LICENSE FROM LICENSE_MASTER");
             var dt = ds.Tables[0];
-            var listLicense = new List<Models.DataModel.ModelLicenseMaster>();
+            var listLicense = new List<ModelLicenseMaster>();
 
             foreach (System.Data.DataRow dr in dt.Rows)
             {
-                var license = new Models.DataModel.ModelLicenseMaster()
+                var license = new ModelLicenseMaster()
                 {
                     LICENSE = dr["LICENSE"].ToString(),
                     LICENSE_ID = Convert.ToInt32(dr["LICENSE_ID"].ToString())
                 };
 
 
-                listLicense.Add(new Models.DataModel.ModelLicenseMaster { LICENSE = license.LICENSE, LICENSE_ID = license.LICENSE_ID });
+                listLicense.Add(new ModelLicenseMaster { LICENSE = license.LICENSE, LICENSE_ID = license.LICENSE_ID });
             }
             //  var jsonResult = Json(listLicense.Distinct(), JsonRequestBehavior.AllowGet);
             //  jsonResult.MaxJsonLength = int.MaxValue;
 
             var dsRegion = dal.GetDataSet("SELECT REGION_ID ,REGION_NAME FROM REGION");
             var dtRegion = dsRegion.Tables[0];
-            var listRegion = new List<Models.DataModel.ModelRegion>();
+            var listRegion = new List<ModelRegion>();
 
             foreach (System.Data.DataRow drArea in dtRegion.Rows)
             {
-                var region = new Models.DataModel.ModelRegion()
+                var region = new ModelRegion()
                 {
                     REGION_NAME = drArea["REGION_NAME"].ToString(),
                     REGION_ID = Convert.ToInt32(drArea["REGION_ID"].ToString())
                 };
 
 
-                listRegion.Add(new Models.DataModel.ModelRegion { REGION_NAME = region.REGION_NAME, REGION_ID = region.REGION_ID });
+                listRegion.Add(new ModelRegion { REGION_NAME = region.REGION_NAME, REGION_ID = region.REGION_ID });
             }
 
             //  ViewBag.seLicense = listLicense;
@@ -138,7 +138,6 @@ namespace PTT_NGROUR.Controllers
             {
                 ListLicense = listLicense,
                 ListRegion = listRegion
-
             };
 
             return View(model);
@@ -148,45 +147,45 @@ namespace PTT_NGROUR.Controllers
             var dal = new DAL.DAL();
             var ds = dal.GetDataSet("SELECT LICENSE_ID ,LICENSE FROM LICENSE_MASTER");
             var dt = ds.Tables[0];
-            var listLicense = new List<Models.DataModel.ModelLicenseMaster>();
+            var listLicense = new List<ModelLicenseMaster>();
 
             foreach (System.Data.DataRow dr in dt.Rows)
             {
-                var license = new Models.DataModel.ModelLicenseMaster()
+                var license = new ModelLicenseMaster()
                 {
                     LICENSE = dr["LICENSE"].ToString(),
                     LICENSE_ID = Convert.ToInt32(dr["LICENSE_ID"].ToString())
                 };
 
 
-                listLicense.Add(new Models.DataModel.ModelLicenseMaster { LICENSE = license.LICENSE, LICENSE_ID = license.LICENSE_ID });
+                listLicense.Add(new ModelLicenseMaster { LICENSE = license.LICENSE, LICENSE_ID = license.LICENSE_ID });
             }
             //  var jsonResult = Json(listLicense.Distinct(), JsonRequestBehavior.AllowGet);
             //  jsonResult.MaxJsonLength = int.MaxValue;
 
             var dsRegion = dal.GetDataSet("SELECT REGION_ID ,REGION_NAME FROM REGION");
             var dtRegion = dsRegion.Tables[0];
-            var listRegion = new List<Models.DataModel.ModelRegion>();
+            var listRegion = new List<ModelRegion>();
 
             foreach (System.Data.DataRow drArea in dtRegion.Rows)
             {
-                var region = new Models.DataModel.ModelRegion()
+                var region = new ModelRegion()
                 {
                     REGION_NAME = drArea["REGION_NAME"].ToString(),
                     REGION_ID = Convert.ToInt32(drArea["REGION_ID"].ToString())
                 };
 
 
-                listRegion.Add(new Models.DataModel.ModelRegion { REGION_NAME = region.REGION_NAME, REGION_ID = region.REGION_ID });
+                listRegion.Add(new ModelRegion { REGION_NAME = region.REGION_NAME, REGION_ID = region.REGION_ID });
             }
 
             var dsThresholdG = dal.GetDataSet("SELECT MINVAL ,MAXVAL ,GATE_THRESHOLD_NAME FROM GATESTATION_THRESHOLD");
             var dtThresholdG = dsThresholdG.Tables[0];
-            var listThresholdG = new List<Models.DataModel.ModelThresholdTable>();
+            var listThresholdG = new List<ModelThresholdTable>();
 
             foreach (System.Data.DataRow drThresholdG in dtThresholdG.Rows)
             {
-                var thresholdG = new Models.DataModel.ModelThresholdTable()
+                var thresholdG = new ModelThresholdTable()
                 {   
                     MINVAL = drThresholdG["MINVAL"].GetDecimal(),
                     MAXVAL = drThresholdG["MAXVAL"].GetDecimal(),
@@ -199,11 +198,11 @@ namespace PTT_NGROUR.Controllers
 
             var dsThresholdP = dal.GetDataSet("SELECT MINVAL ,MAXVAL ,PIPELINE_THRESHOLD_NAME FROM PIPELINE_THRESHOLD");
             var dtThresholdP = dsThresholdP.Tables[0];
-            var listThresholdP = new List<Models.DataModel.ModelThresholdTable>();
+            var listThresholdP = new List<ModelThresholdTable>();
 
             foreach (System.Data.DataRow drThresholdP in dtThresholdP.Rows)
             {
-                var thresholdP = new Models.DataModel.ModelThresholdTable()
+                var thresholdP = new ModelThresholdTable()
                 {
                     MINVAL = drThresholdP["MINVAL"].GetDecimal(),
                     MAXVAL = drThresholdP["MAXVAL"].GetDecimal(),
@@ -268,7 +267,7 @@ namespace PTT_NGROUR.Controllers
             var ds = dal.GetDataSet(searchregion);
 
 
-            var listRegion = dal.ReadData(searchregion, x => new ModelGetU(x)).ToList(); //new List<Models.DataModel.ModelGetU>();
+            var listRegion = dal.ReadData(searchregion, x => new ModelGetU(x)).ToList(); //new List<ModelGetU>();
 
             dal = null;
             return new ViewAsPdf(listRegion);
@@ -288,11 +287,11 @@ namespace PTT_NGROUR.Controllers
             var i = 0;
             var ds = dal.GetDataSet("SELECT * FROM VIEW_SHIPTO_SOLDTO");
             var dt = ds.Tables[0];
-            var listCus = new List<Models.DataModel.ModelVIEW_SHIPTO_SOLDTO>();
+            var listCus = new List<ModelVIEW_SHIPTO_SOLDTO>();
             foreach (System.Data.DataRow dr in dt.Rows)
             {
                 i = i + 1;
-                var cus = new Models.DataModel.ModelVIEW_SHIPTO_SOLDTO()
+                var cus = new ModelVIEW_SHIPTO_SOLDTO()
                 {
                     count = i,
                     SHIP_TO_NAME = dr["SHIP_TO_NAME"].ToString(),
@@ -308,10 +307,10 @@ namespace PTT_NGROUR.Controllers
 
             var dscus = dal.GetDataSet("SELECT * FROM NGR_CUSTOMER C LEFT JOIN NGR_CUSTOMER_OFFICE CO ON C.SOLD_TO = CO.SOLD_TO");
             var dtcus = dscus.Tables[0];
-            var listCusAll = new List<Models.DataModel.ModelNGR_CUST_ALL>();
+            var listCusAll = new List<ModelNGR_CUST_ALL>();
             foreach (System.Data.DataRow drcus in dtcus.Rows)
             {
-                var cusAll = new Models.DataModel.ModelNGR_CUST_ALL()
+                var cusAll = new ModelNGR_CUST_ALL()
                 {
                     CUST_NAME = drcus["CUST_NAME"].ToString(),
                     CUST_SNAME = drcus["CUST_SNAME"].ToString(),
@@ -339,11 +338,11 @@ namespace PTT_NGROUR.Controllers
             var dsmeter = dal.GetDataSet("SELECT * FROM VIEW_METER");
             var dtmeter = dsmeter.Tables[0];
             //public List<DataModel.ModelVIEW_METER> ListViewMeter { get; set; }
-            var listMeterV = new List<Models.DataModel.ModelVIEW_METER>();
+            var listMeterV = new List<ModelVIEW_METER>();
             foreach (System.Data.DataRow drmeter in dtmeter.Rows)
             {
                 j = j + 1;
-                var meter = new Models.DataModel.ModelVIEW_METER()
+                var meter = new ModelVIEW_METER()
                 {
                     countMeter = j,
                     CUST_NAME = drmeter["CUST_NAME"].ToString(),
@@ -368,11 +367,11 @@ namespace PTT_NGROUR.Controllers
             var dsmeterT = dal.GetDataSet("SELECT N.METER_NUMBER,N.METER_NAME,N.METER_TYPE,A.METER_TYPE METER_TYPE_NAME,N.STATUS,S.STATUS_DETAIL,N.LICENSE_ID LICENSE_CODE,TO_CHAR(N.COMMDATE,'dd/mm/yyyy') as COMMDATE,CASE WHEN LENGTH(N.LICENSE_ID) > 1 AND (SELECT LICENSE_CODE FROM LICENSE_MASTER WHERE LICENSE_CODE = N.LICENSE_ID) IS NOT NULL THEN (SELECT LICENSE_ID FROM LICENSE_MASTER WHERE LICENSE_CODE = N.LICENSE_ID) ELSE TO_NUMBER(N.LICENSE_ID) END LICENSE_ID, CASE WHEN LENGTH(N.LICENSE_ID) = 1 AND (SELECT LICENSE_ID FROM LICENSE_MASTER WHERE LICENSE_ID = TO_NUMBER(N.LICENSE_ID)) IS NOT NULL THEN (SELECT LICENSE_CODE FROM LICENSE_MASTER WHERE LICENSE_ID = TO_NUMBER(N.LICENSE_ID)) ELSE N.LICENSE_ID END LICENSE_CODE,C.SHIP_TO,C.CUST_NAME,CO.SOLD_TO,CO.SOLD_TO_NAME,REGION AS REGION_D, CASE WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = C.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME = C.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = C.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_TH = C.REGION) WHEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = C.REGION) IS NOT NULL THEN (SELECT REGION_ID FROM REGION WHERE REGION_NAME_EN = C.REGION) ELSE TO_NUMBER(C.REGION) END REGION FROM NGR_CUSTOMER_METER N, METER_TYPE A, STATUS S, NGR_CUSTOMER C, NGR_CUSTOMER_OFFICE CO WHERE N.METER_TYPE = A.ID AND N.STATUS = S.STATUS_ID(+)  AND (N.SHIP_TO = SUBSTR(C.SHIP_TO,3) OR N.SHIP_TO = C.SHIP_TO) AND C.SOLD_TO = CO.SOLD_TO(+)");
             var dtmeterT = dsmeterT.Tables[0];
             //public List<DataModel.ModelVIEW_METER> ListViewMeter { get; set; }
-            var listMeterT = new List<Models.DataModel.ModelMETER>();
+            var listMeterT = new List<ModelMETER>();
             foreach (System.Data.DataRow drmeterT in dtmeterT.Rows)
             {
 
-                var meterT = new Models.DataModel.ModelMETER()
+                var meterT = new ModelMETER()
                 {
                    // OBJECT_ID_T = Convert.ToInt32(drmeterT["METER_NUMBER"].ToString()),
                     METER_NUMBER = drmeterT["METER_NUMBER"].ToString(),
@@ -399,12 +398,12 @@ namespace PTT_NGROUR.Controllers
             }
             var shipTo = @"select SHIP_TO, CUST_NAME from VIEW_CUSTOMER WHERE SHIP_TO IS NOT NULL ORDER BY SHIP_TO";
             var ds_shipto = dal.GetDataSet(shipTo);
-            var listshipto = new List<Models.DataModel.ModeVIEW_CUSTOMER>();
+            var listshipto = new List<ModeVIEW_CUSTOMER>();
             if (ds_shipto.Tables[0].Rows.Count > 0)
             {
                 foreach (System.Data.DataRow drshipto in ds_shipto.Tables[0].Rows)
                 {
-                    var shipto_Add = new Models.DataModel.ModeVIEW_CUSTOMER()
+                    var shipto_Add = new ModeVIEW_CUSTOMER()
                     {
                         SHIP_TO_VC = drshipto["SHIP_TO"].ToString(),
                         CUST_NAME_VC = drshipto["CUST_NAME"].ToString()
@@ -415,12 +414,12 @@ namespace PTT_NGROUR.Controllers
             
             var license = @"select * from LICENSE_MASTER WHERE LICENSE_CODE IS NOT NULL";
             var ds_license = dal.GetDataSet(license);
-            var listlicense = new List<Models.DataModel.ModeLICENSE_MASTER>();
+            var listlicense = new List<ModeLICENSE_MASTER>();
             if (ds_license.Tables[0].Rows.Count > 0)
             {
                 foreach (System.Data.DataRow drlicense in ds_license.Tables[0].Rows)
                 {
-                    var license_Add = new Models.DataModel.ModeLICENSE_MASTER()
+                    var license_Add = new ModeLICENSE_MASTER()
                     {
                         LICENSE_CODE = drlicense["LICENSE_CODE"].ToString(),
                         LICENSE_ID = drlicense["LICENSE_ID"].GetInt(),
@@ -432,12 +431,12 @@ namespace PTT_NGROUR.Controllers
             
             var metertype = @"select ID,METER_TYPE from METER_TYPE WHERE METER_TYPE IS NOT NULL ORDER BY METER_TYPE";
             var ds_Mtype = dal.GetDataSet(metertype);
-            var listMtype = new List<Models.DataModel.ModelMETER_TYPE>();
+            var listMtype = new List<ModelMETER_TYPE>();
             if (ds_Mtype.Tables[0].Rows.Count > 0)
             {
                 foreach (System.Data.DataRow drMtype in ds_Mtype.Tables[0].Rows)
                 {
-                    var Mtype_Add = new Models.DataModel.ModelMETER_TYPE()
+                    var Mtype_Add = new ModelMETER_TYPE()
                     {
                         ID_M = drMtype["ID"].GetInt(),
                         METER_TYPE_M = drMtype["METER_TYPE"].ToString()
@@ -448,12 +447,12 @@ namespace PTT_NGROUR.Controllers
 
             var status = @"select STATUS_ID, STATUS_DETAIL from STATUS";
             var ds_status = dal.GetDataSet(status);
-            var liststatus = new List<Models.DataModel.ModelSTATUS>();
+            var liststatus = new List<ModelSTATUS>();
             if (ds_status.Tables[0].Rows.Count > 0)
             {
                 foreach (System.Data.DataRow drstatus in ds_status.Tables[0].Rows)
                 {
-                    var status_Add = new Models.DataModel.ModelSTATUS()
+                    var status_Add = new ModelSTATUS()
                     {
                         STATUS_ID = drstatus["STATUS_ID"].GetInt(),
                         STATUS_DETAIL = drstatus["STATUS_DETAIL"].ToString()
@@ -498,19 +497,19 @@ namespace PTT_NGROUR.Controllers
             var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "')";
             var ds = dal.GetDataSet(searchregion);
 
-            var listRegion = dal.ReadData(searchregion, x => new Models.DataModel.ModelGetU(x)).ToList();
+            var listRegion = dal.ReadData(searchregion, x => new ModelGetU(x)).ToList();
             dal = null;
 
             return Json(listRegion, JsonRequestBehavior.AllowGet);
 
-          /*  var listRegion = new List<Models.DataModel.ModelGetU>();
+          /*  var listRegion = new List<ModelGetU>();
             if (ds.Tables[0].Rows.Count > 0)
             {
 
 
                 foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
                 {
-                    var reg = new Models.DataModel.ModelGetU()
+                    var reg = new ModelGetU()
                     {
                         CUST_NAME = dr["CUST_NAME"].ToString(),
                         NO = Convert.ToInt32(dr["NO"].ToString()),
@@ -541,7 +540,7 @@ namespace PTT_NGROUR.Controllers
             string licenseStr = string.Join("','", license);
             var searchlicense = @"select * from VIEW_GATEPIPEMETER_MENU WHERE LICENSE IN ('" + licenseStr + "')";
             var ds = dal.GetDataSet(searchlicense);
-            var listLicense = dal.ReadData(searchlicense, x => new Models.DataModel.ModelGetU(x)).ToList();
+            var listLicense = dal.ReadData(searchlicense, x => new ModelGetU(x)).ToList();
             dal = null;
 
             return Json(listLicense, JsonRequestBehavior.AllowGet);
@@ -704,12 +703,14 @@ namespace PTT_NGROUR.Controllers
                 result.SetError("No File Data To Load");
                 return Json(result);
             }
+
             string exttension = System.IO.Path.GetExtension(fb.FileName);
             if (!(new string[] { ".xls", ".xlsx" }).Contains(exttension))
             {
                 result.SetError("File Type Not In xls or xlsx");
                 return Json(result);
             }
+
             var dto = new DTO.DtoUtilization();
             bool isDuplicate = false;
             switch (inType)
@@ -749,7 +750,6 @@ namespace PTT_NGROUR.Controllers
             var modelInsertExcel = new ModelInsertExcelData();
             try
             {
-
                 string inYear = Request["year"];
                 string inMonth = Request["month"];
                 string inRegion = Request["region"];
@@ -1345,12 +1345,12 @@ namespace PTT_NGROUR.Controllers
             var ds = dal.GetDataSet(searchregion);
 
 
-            var listRegion = new List<Models.DataModel.ModelGetU>();
+            var listRegion = new List<ModelGetU>();
             if (ds.Tables[0].Rows.Count > 0)
             {
                 foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
                 {
-                    var reg = new Models.DataModel.ModelGetU()
+                    var reg = new ModelGetU()
                     {
                         NAME = dr["NAME"].ToString(),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),
@@ -1444,14 +1444,14 @@ namespace PTT_NGROUR.Controllers
             var ds = dal.GetDataSet(searchregion);
 
 
-            var listRegion = new List<Models.DataModel.ModelGetU>();
+            var listRegion = new List<ModelGetU>();
             if (ds.Tables[0].Rows.Count > 0)
             {
 
 
                 foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
                 {
-                    var reg = new Models.DataModel.ModelGetU()
+                    var reg = new ModelGetU()
                     {
 
                         NAME = dr["NAME"].ToString(),
@@ -1512,14 +1512,14 @@ namespace PTT_NGROUR.Controllers
             var ds = dal.GetDataSet(searchlicense);
 
 
-            var listLicense = new List<Models.DataModel.ModelGetU>();
+            var listLicense = new List<ModelGetU>();
             if (ds.Tables[0].Rows.Count > 0)
             {
 
 
                 foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
                 {
-                    var reg = new Models.DataModel.ModelGetU()
+                    var reg = new ModelGetU()
                     {
                         NAME = dr["NAME"].ToString(),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),
