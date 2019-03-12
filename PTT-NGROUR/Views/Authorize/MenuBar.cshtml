@@ -7,28 +7,35 @@
     }
 </style>
 
- <ul class="nav navbar-nav">
-                            <li ><a href="@Url.Action("Index", "Dashboard")" class="white"><span class="white">Dashboard</span></a></li>
-     <li style="display:none;"><a class="white"><span class="white">O & M</span></a></li>
-                            <!--<li><a href="#contact">Contact</a></li>-->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white ">Utilization</span><span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="@Url.Action("Index", "Utilization")" ><span class="text-grey txt-normal ">Utilization</span></a></li>
-                                   
-                                    <li class="hidden-sm hidden-xs" style="display:@ViewData["UImport_page"]"><a href="@Url.Action("ImportExcel", "Utilization")"><span class="text-grey txt-normal ">Import Excel</span></a></li>
-                                    <li style="display:@ViewData["Threshold_page"]"><a href="@Url.Action("ThresholdSetting", "Utilization")"><span class="text-grey txt-normal ">Threshold Setting</span></a></li>
-                                    <li><a href="@Url.Action("Report", "Utilization")"><span class="text-grey txt-normal ">Report</span></a></li>
-                                    <li><a href="@Url.Action("Customer", "Utilization")"><span class="text-grey txt-normal">Customer</span></a></li>
-                                </ul>
-                            </li>
-                            <li style="display:none;"><a  class="white"><span class="white ">Risk Management</span></a></li>
-                            <li class="dropdown" style="display:@ViewData["Admin_page"]">
-                            <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white">Admin</span><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("UserManagement", "Admin")"><span class="text-grey txt-normal ">User Management</span></a></li>
-                            </ul>
-                            </li>
-                            <li><a href="@Url.Action("index", "Help")" class="white" ><span class="white ">Help</span></a></li>
+<ul class="nav navbar-nav">
+    <li><a href="@Url.Action("Index", "Dashboard")" class="white"><span class="white">Dashboard</span></a></li>
+    <li style="display:none;"><a class="white"><span class="white">O & M</span></a></li>
+    <!--<li><a href="#contact">Contact</a></li>-->
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white ">Utilization</span><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="@Url.Action("Index", "Utilization")"><span class="text-grey txt-normal ">Utilization</span></a></li>
 
-                        </ul>
+            <li class="hidden-sm hidden-xs" style="display:@ViewData["UImport_page"]"><a href="@Url.Action("ImportExcel", "Utilization")"><span class="text-grey txt-normal ">Import Excel</span></a></li>
+            <li style="display:@ViewData["Threshold_page"]"><a href="@Url.Action("ThresholdSetting", "Utilization")"><span class="text-grey txt-normal ">Threshold Setting</span></a></li>
+            <li><a href="@Url.Action("Report", "Utilization")"><span class="text-grey txt-normal ">Report</span></a></li>
+            <li><a href="@Url.Action("Customer", "Utilization")"><span class="text-grey txt-normal">Customer</span></a></li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white ">Risk Management</span><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="@Url.Action("Index", "Risk")"><span class="text-grey txt-normal ">Report</span></a></li>
+            <li class="hidden-sm hidden-xs" style="display:@ViewData["UImport_page"]"><a href="@Url.Action("ImportExcel", "Risk")"><span class="text-grey txt-normal ">Import Excel</span></a></li>
+            <li><a href="@Url.Action("File", "Risk")"><span class="text-grey txt-normal ">File</span></a></li>
+            <li><a href="@Url.Action("AcceptanceCriteria", "Risk")"><span class="text-grey txt-normal">Acceptance Criteria</span></a></li>
+        </ul>
+    </li>
+    <li class="dropdown" style="display:@ViewData["Admin_page"]">
+        <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white">Admin</span><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="@Url.Action("UserManagement", "Admin")"><span class="text-grey txt-normal ">User Management</span></a></li>
+        </ul>
+    </li>
+    <li><a href="@Url.Action("index", "Help")" class="white"><span class="white ">Help</span></a></li>
+</ul>

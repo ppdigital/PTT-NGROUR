@@ -23,5 +23,10 @@ namespace PTT_NGROUR.Models.ViewModel
 
         //public DataModel.ModelGateStationImport[] ListDuplicateGateStation { get; set; }
 
+
+        #region Risk Management
+        public DataModel.ModelRiskManagementImport[] ListUnSuccessRiskManagement { get; set; }
+        public DataModel.ModelRiskManagementImport[] ListSuccessRiskManagement { get; set; }
+        #endregion
     }
 }

@@ -38,6 +38,10 @@
         .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
             background-color: rgba(0,0,0,.2);
         }
+
+        .rounded-0 {
+            border-radius: 0;
+        }
     </style>
     <script type="text/javascript">
         (function (document, navigator, standalone) {
@@ -66,7 +70,6 @@
 
     <div id="container" class="bg-grey-100">
         <!--   <div class="cover bg-center" style="background-image:url(http://localhost:13788/Content/Images/bg3.jpg);">-->
-
         <div id="header">
             <nav class="navbar bg-blue5 hidden-xs hidden-sm  white" style="margin-bottom:0rem;border-radius:0px;padding:0rem 2rem 0rem 2rem">
                 <div class="container-fluid">
@@ -80,45 +83,41 @@
                         <a href="@Url.Action("MenuWeb", "Home")" class=" navbar-brand">
                             <img id="logo" width="58" style="margin-top:-.5rem;" src="~/Content/logo/ngrwhite.png" />
                         </a>
-
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         @{Html.RenderAction("MenuBar", "Authorize");}
                         <ul class="nav navbar-nav navbar-right">
-                            
-@if (Request.IsAuthenticated)
-                                {<li class="dropdown">
-                                <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white">@Html.Encode(User.Identity.Name) <span class="caret"></span></span></a>
-                                <ul class="dropdown-menu ">
-                                 @if ((userrole.IS_AD).Equals("0"))
-                                    {
-                               <li><a href="@Url.Action("ResetPassword", "User", new { id = userrole.Username , IsExpired = false  }, null)">
-                                            <i class="fa fa-user text-grey" aria-hidden="true"></i>
-                                            <span class="text-grey txt-normal h6">&nbsp;Change Password</span></a></li>}
 
-                                 <li><a href="@Url.Action("Logout", "User")">
-                                         <i class=" fa fa-power-off text-grey" aria-hidden="true">
-    </i>
-    <span class="text-grey txt-normal h6">&nbsp;Sign Out</span>
-</a>
-                                    </li>
-                                </ul>   </li>}
-                           
-                            
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="white">@Html.Encode(User.Identity.Name) <span class="caret"></span></span></a>
+                                    <ul class="dropdown-menu ">
+                                        @if ((userrole.IS_AD).Equals("0"))
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("ResetPassword", "User", new { id = userrole.Username , IsExpired = false  }, null)">
+                                                    <i class="fa fa-user text-grey" aria-hidden="true"></i>
+                                                    <span class="text-grey txt-normal h6">&nbsp;Change Password</span>
+                                                </a>
+                                            </li>}
 
-                            
+                                        <li>
+                                            <a href="@Url.Action("Logout", "User")">
+                                                <i class=" fa fa-power-off text-grey" aria-hidden="true">
+                                                </i>
+                                                <span class="text-grey txt-normal h6">&nbsp;Sign Out</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>}
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
             </nav>
 
-
-
-
-
             <!--        Mobile version     -->
             <div class="bg-blue5 shadow-2 hidden-lg hidden-md" style="padding: 1rem 1rem; display: table;width:100%">
-                
                     <div class=" w-nav-menu col-sm-4 " style=" float: left; margin-top: 0.6rem; padding-left: 0rem ;cursor:pointer" >
                         <a class="white no-underline form-inline " href="javascript:goback()" style=" float: left; line-height: 3px;">
 
@@ -126,20 +125,14 @@
                             <label class="h4"> Back</label>
                         </a>
                     </div>
-                
-               
                     <div class="w-nav-menu col-sm-4 v-mid" style=" float: left">
                         <center><img id="logo" class="mt-5px" width="60" src="~/Content/logo/ngrwhite.png" /></center>
                     </div>
-                
                 <div class="w-nav-menu col-sm-4 " style="float:right">
 
                 </div>
-
-
             </div>
             <div style="float:none"></div>
-
         </div>
 
 
@@ -228,10 +221,8 @@
                         </center>
                         <center>
                             <a href="@Url.Action("MenuUtilization", "Utilization")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
-
                                 <i class="fa fa-map-marker fa-2x gray7" aria-hidden="true" id="utilization"></i>
                                 <div class="gray6 f-menu-footer pt1" id="t_utilization">Utilization</div>
-
                             </a>
                         </center>
                         <center>
@@ -239,18 +230,13 @@
 
                                 <i class="fa fa-cogs fa-2x gray7" aria-hidden="true" id="o_and_m"></i>
                                 <div class="gray6 f-menu-footer pt1" id="text_o_and_m">O & M</div>
-
                             </div>
                         </center>
                         <center>
-                            <div class="dtc v-mid tc w-20 menu_hover" style="float:left;">
-
-                                <div class="dib ">
-                                    <i class="fa fa-exclamation-triangle fa-2x gray7" aria-hidden="true" id="risk_manage"></i>
-                                    <div class="gray6 f-menu-footer pt1" id="t_risk_manage">Risk Management</div>
-                                </div>
-
-                            </div>
+                            <a href="@Url.Action("Index", "Risk")" class="no-underline dtc v-mid tc w-20 menu_hover" style="float:left;">
+                                <i class="fa fa-exclamation-triangle fa-2x gray7" aria-hidden="true" id="risk_manage"></i>
+                                <div class="gray6 f-menu-footer pt1" id="t_risk_manage">Risk Management</div>
+                            </a>
                         </center>
                         <center>
                             <div class="dtc v-mid tc w-20 menu_hover" style="float:left;">

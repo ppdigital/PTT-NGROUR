@@ -1,0 +1,195 @@
+﻿<script>
+    var _divModalPipelineImport = $("#ModalImportPipe");
+    var _divModalGateImport = $("#ModalImportGate");
+
+    var _divModalLoading = $("#ModalLoading").modal({ backdrop: "static", keyboard: false, show : false });
+
+    var _tblPipelineImportSuccess = $("#tblPipelineSuccess");
+    var _tblPipelineImportError = $("#tblPipelineError");
+    var _tblGateSuccess = $("#tblGateSuccess");
+    var _tblGateError = $("#tblGateError");
+    //_divModalPipelineImport.modal("show");
+    
+    //_divModalLoading.modal('show');
+
+    function getHtmlGate(pList) {
+        if (!Array.isArray(pList) || !pList.length) {
+            return "";
+        }
+        var result = "";
+        for (var i in pList) {
+            var lsg = pList[i];
+            result += "<tr><td>" + lsg.GATE_NAME + "</td>"
+                + "<td>" + (lsg.PRESSURE === null ? '' : lsg.PRESSURE) + "</td>"
+                + "<td>" + (lsg.FLOW === null ? '' : lsg.FLOW) + "</td><tr>";
+        }
+            return result;
+        }
+    function getHtmlPipeline(pList) {
+        if (!Array.isArray(pList) || !pList.length) {
+            return "";
+        }
+        var result = "";
+        for (var i in pList) {
+            var lsg = pList[i];
+            result += "<tr><td>" + lsg.RC_NAME
+                + "</td><td>" + lsg.FLOW
+                + "</td><td>" + lsg.DIAMETER
+                + "</td><td>" + lsg.LENGTH
+                + "</td><td>" + lsg.EFFICIENCY
+                + "</td><td>" + lsg.ROUGHNESS
+                + "</td><td>" + lsg.LOAD
+                + "</td><td>" + lsg.VELOCITY
+                + "</td><td>" + lsg.OUTSIDE_DIAMETER
+                + "</td><td>" + lsg.WALL_THICKNESS
+                + "</td><td>" + lsg.SERVICE_STATE
+                + "</td><tr>";
+        }
+        return result;
+    }
+
+
+    function importExcelSuccess(pData) {
+        if (pData == null) {
+            return;
+        }
+        switch (pData.Status) {
+            case 0:                
+                console.log(pData.Result);
+                var result = pData.Result;
+                var listPipelineS = result.ListSuccessPipeLine;
+                var listPipelineE = result.ListUnSuccessPipeLine;
+                if ((result.ListSuccessGateStation != null && result.ListSuccessGateStation.length > 0)
+                    || (result.ListUnSuccessGateStation != null && result.ListUnSuccessGateStation.length > 0)) {
+                    var strHtmlGateError = getHtmlGate(result.ListUnSuccessGateStation);
+                    var strHtmlGateSuccess = getHtmlGate(result.ListSuccessGateStation);
+                    
+                    _tblGateError.html(strHtmlGateError);
+                    _tblGateSuccess.html(strHtmlGateSuccess);
+                    _divModalGateImport.modal('show');
+                }
+                else if ((listPipelineS && listPipelineS.length) || (listPipelineE && listPipelineE.length)) {
+                    console.log(listPipelineE);
+                    console.log(listPipelineS);
+                    var strHtmlPipeS = getHtmlPipeline(listPipelineS);
+                    var strHtmlPipeE = getHtmlPipeline(listPipelineE);
+                    _tblPipelineImportError.html(strHtmlPipeE);
+                    _tblPipelineImportSuccess.html(strHtmlPipeS);
+                    _divModalPipelineImport.modal("show");
+                }
+
+                break;
+            case 1:
+                var strError = pData.ErrorMessage + "\r\n" + pData.ErrorStackTrace;
+                alert(strError);
+                break;
+            case 2:
+                alert(pData.ErrorMessage);
+                break;
+        }
+    }
+    function showLoading(pIsShow) {
+        if (pIsShow) {
+            _divModalLoading.modal('show');
+        } else {
+            _divModalLoading.modal('hide');
+        }
+    }
+
+
+    var handlingError = function (jqXHR, exception) {
+        var msg = '';
+        if (jqXHR.status === 0) {
+            msg = 'Not connect.\n Verify Network.';
+        } else if (jqXHR.status == 404) {
+            msg = 'Requested page not found. [404]';
+        } else if (jqXHR.status == 500) {
+            msg = 'Internal Server Error [500].';
+        } else if (exception === 'parsererror') {
+            msg = 'Requested JSON parse failed.';
+        } else if (exception === 'timeout') {
+            msg = 'Time out error.';
+        } else if (exception === 'abort') {
+            msg = 'Ajax request aborted.';
+        } else {
+            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        }
+        showLoading(false);
+        alert(msg);
+    }
+
+    function checkExcelDupclicate(pFileData, pOnsuccess) {
+        if (pFileData == null) {
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("IsDuplicateExcelData")',
+            data: pFileData,
+            dataType: 'JSON',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.StatusText == "OK") {                    
+                    if (!response.Result || confirm("Data Is Duplicate Are You Sure To Import ?")) {
+                        if (pOnsuccess != null) {
+                            pOnsuccess();
+                        }
+                    } else {
+                        showLoading(false);
+                    }
+                } else {
+                    showLoading(false);
+                    alert(response.ErrorMessage);
+                }                
+            },
+            error: handlingError
+        });
+    }
+
+    $("#uploadFile").click(function () {
+
+        showLoading(true);
+        // var Region = $("#seRegion").val();
+        var fileUpload = $("#fileLoadDoc").get(0);
+        var files = fileUpload.files;
+        var fileData = new FormData();
+
+        for (var k = 0; k < files.length; k++) {
+            fileData.append(files.name, files[k]);
+        }
+        var currentDate = $("#MonthYear-filter").datepicker("getDate");
+        var Year = currentDate.getFullYear(); //$('#seYear').val();
+        var Month = currentDate.getMonth() + 1;
+        var Region = $('#seRegion').val();
+        var Type = $('#seType').val();
+        fileData.append("year", Year);
+        fileData.append("month", Month);
+        fileData.append("region", Region);
+        fileData.append("type", Type);
+
+
+        checkExcelDupclicate(fileData, function () {
+           $.ajax({
+               type: "POST",
+               url: '@Url.Action("InsertExceldata")',
+               data:  fileData,
+               dataType: 'JSON',
+               cache: false,
+               contentType: false,
+               processData: false,
+               success: function (response) {
+                   importExcelSuccess(response);
+                   showLoading(false);
+               },
+               error : handlingError
+
+           });
+
+        });
+    });
+
+
+</script>

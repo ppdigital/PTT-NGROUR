@@ -176,6 +176,7 @@
     <Compile Include="Controllers\LDAPSearch.cs" />
     <Compile Include="Controllers\OMController.cs" />
     <Compile Include="Controllers\PdfController.cs" />
+    <Compile Include="Controllers\RiskController.cs" />
     <Compile Include="Controllers\SQLServerQuery.cs" />
     <Compile Include="Controllers\TestD3GraphController.cs" />
     <Compile Include="Controllers\ThresholdController.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="DAL\DAL.cs" />
     <Compile Include="DTO\DtoOMGate.cs" />
     <Compile Include="DTO\DtoOM.cs" />
+    <Compile Include="DTO\DtoRisk.cs" />
     <Compile Include="DTO\DtoUtilization.cs" />
     <Compile Include="ExtentionAndLib\Ext.cs" />
     <Compile Include="DI\CommonConventions.cs" />
@@ -193,6 +195,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataModel\ModelGateMaintenance.cs" />
+    <Compile Include="Models\DataModel\ModelRiskManagementImport.cs" />
+    <Compile Include="Models\DataModel\ModelRiskReport.cs" />
+    <Compile Include="Models\DataModel\ModelRiskType.cs" />
     <Compile Include="Models\DataModel\ModelThresholdTable.cs" />
     <Compile Include="Models\DataModel\ModelPmInterval.cs" />
     <Compile Include="Models\DataModel\ModelStatus.cs" />
@@ -211,9 +216,11 @@
     <Compile Include="Models\DataModel\ModelViewGatePipeReport.cs" />
     <Compile Include="Models\UserManagement.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\DataModel\ModelAcceptanceCriteria.cs" />
     <Compile Include="Models\ViewModel\ModelOmIndexGate.cs" />
     <Compile Include="Models\ViewModel\ModelOmIndex.cs" />
     <Compile Include="Models\ViewModel\ModelReportPDF.cs" />
+    <Compile Include="Models\ViewModel\ModelRisk.cs" />
     <Compile Include="Models\ViewModel\ModelUtilizationReportPdfOutput.cs" />
     <Compile Include="Models\ViewModel\ModelViewCustomer.cs" />
     <Compile Include="Models\ViewModel\ModelJsonResult.cs" />
@@ -221,6 +228,7 @@
     <Compile Include="Models\ViewModel\ModelHome.cs" />
     <Compile Include="Models\ViewModel\ModelInsertExcelData.cs" />
     <Compile Include="Models\ViewModel\ModelThreshold.cs" />
+    <Compile Include="Models\ViewModel\ModelViewRiskReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -736,6 +744,12 @@
     <Content Include="Views\TestD3Graph\BarChart.cshtml" />
     <Content Include="Views\Utilization\PartialMeterTable.cshtml" />
     <Content Include="Views\OM\PartialGateScript.cshtml" />
+    <Content Include="Views\Risk\Index.cshtml" />
+    <Content Include="Views\Risk\ImportExcel.cshtml" />
+    <Content Include="Views\Risk\PartialModalExcelScript.cshtml" />
+    <Content Include="Views\Risk\PartialModalExcel.cshtml" />
+    <Content Include="Views\Risk\AcceptanceCriteria.cshtml" />
+    <Content Include="Views\Risk\File.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

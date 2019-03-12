@@ -1,0 +1,387 @@
+﻿using OfficeOpenXml;
+using PTT_NGROUR.DTO;
+using PTT_NGROUR.ExtentionAndLib;
+using PTT_NGROUR.Models.DataModel;
+using PTT_NGROUR.Models.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace PTT_NGROUR.Controllers
+{
+    public class RiskController : Controller
+    {
+        // GET: /Risk/
+        public ActionResult Index()
+        {
+            var dal = new DAL.DAL();
+
+            #region Risk Type
+            var dsRiskType = dal.GetDataSet("SELECT ID ,RISK_TYPE FROM RISK_TYPE");
+            var dtRiskType = dsRiskType.Tables[0];
+            var listRiskType = new List<ModelRiskType>();
+
+            foreach (System.Data.DataRow dr in dtRiskType.Rows)
+            {
+                var riskType = new ModelRiskType()
+                {
+                    ID = Convert.ToInt32(dr["ID"].ToString()),
+                    RISK_TYPE = dr["RISK_TYPE"].ToString()
+                };
+
+
+                listRiskType.Add(new ModelRiskType { ID = riskType.ID, RISK_TYPE = riskType.RISK_TYPE });
+            }
+            dsRiskType.Dispose();
+            dtRiskType.Dispose();
+            #endregion
+
+            #region License
+            var dsLicense = dal.GetDataSet("SELECT LICENSE_ID ,LICENSE FROM LICENSE_MASTER");
+            var dtLicense = dsLicense.Tables[0];
+            var listLicense = new List<ModelLicenseMaster>();
+
+            foreach (System.Data.DataRow dr in dtLicense.Rows)
+            {
+                var license = new ModelLicenseMaster()
+                {
+                    LICENSE = dr["LICENSE"].ToString(),
+                    LICENSE_ID = Convert.ToInt32(dr["LICENSE_ID"].ToString())
+                };
+
+                listLicense.Add(new ModelLicenseMaster { LICENSE = license.LICENSE, LICENSE_ID = license.LICENSE_ID });
+            }
+            dsLicense.Dispose();
+            dtLicense.Dispose();
+            #endregion
+
+            #region Region
+            var dsRegion = dal.GetDataSet("SELECT REGION_ID ,REGION_NAME FROM REGION");
+            var dtRegion = dsRegion.Tables[0];
+            var listRegion = new List<ModelRegion>();
+
+            foreach (System.Data.DataRow drArea in dtRegion.Rows)
+            {
+                var region = new ModelRegion()
+                {
+                    REGION_NAME = drArea["REGION_NAME"].ToString(),
+                    REGION_ID = Convert.ToInt32(drArea["REGION_ID"].ToString())
+                };
+
+                listRegion.Add(new ModelRegion { REGION_NAME = region.REGION_NAME, REGION_ID = region.REGION_ID });
+            }
+            dtRegion.Dispose();
+            dsRegion.Dispose();
+            #endregion
+
+            ViewData["AcceptanceCriteria"] = dal.ReadData(
+                "SELECT RISK_CRITERIA, UPDATE_DATE, UPDATE_BY FROM RISK_THRESHOLD",
+                x => new ModelAcceptanceCriteria(x)).Select(x => x.RISK_CRITERIA).FirstOrDefault();
+
+            var model = new ModelRisk()
+            {
+                ListRiskType = listRiskType,
+                ListLicense = listLicense,
+                ListRegion = listRegion
+            };
+
+            return View(model);
+        }
+
+        // POST: /Risk/Json
+        [HttpPost]
+        public JsonResult Json(ModelViewRiskReport model)
+        {
+            string strCommand = $"SELECT * FROM RISK_REPORT WHERE MONTH = {model.Month} AND YEAR = {model.Year}";
+
+            if(model.Lists != null)
+            {
+                if (model.Type.Equals("region"))
+                {
+                    strCommand = $"{strCommand} AND REION IN ('{ string.Join("','", model.Lists) }')";
+                }
+
+                if (model.Type.Equals("license"))
+                {
+                    strCommand = $"{strCommand} AND LICENSE IN ('{ string.Join("','", model.Lists) }')";
+                }
+            }
+
+            var dal = new DAL.DAL();
+            var ds = dal.GetDataSet(strCommand);
+
+            if (ds == null)
+            {
+                return Json(null);
+            }
+
+            var dt = ds.Tables[0];
+            var riskReport = new List<ModelRiskReport>();
+
+            foreach (System.Data.DataRow dr in dt.Rows)
+            {
+                var risk = new ModelRiskReport()
+                {
+                    ORDERID = Convert.ToInt32(dr["ORDERID"].ToString()),
+                    REGION = Convert.ToInt32(dr["REION"].ToString()),
+                    LICENSE = Convert.ToInt32(dr["LICENSE"].ToString()),
+                    RC = dr["RC"].ToString(),
+                    INTERNAL_CORROSION = Convert.ToInt32(dr["INTERNAL_CORROSION"].ToString()),
+                    EXTERNAL_CORROSION = Convert.ToInt32(dr["EXTERNAL_CORROSION"].ToString()),
+                    THIRD_PARTY_INTERFERENCE = Convert.ToInt32(dr["INTERFERENCE"].ToString()),
+                    LOSS_OF_GROUND_SUPPORT = 55,
+                    C1 = Convert.ToInt32(dr["C1"].ToString()),
+                    C2 = Convert.ToInt32(dr["C2"].ToString()),
+                    RISK_SCORE = Convert.ToInt32(dr["RISK_SCORE"].ToString()),
+                    MONTH = Convert.ToInt32(dr["MONTH"].ToString()),
+                    YEAR = Convert.ToInt32(dr["YEAR"].ToString())
+                };
+
+                riskReport.Add(new ModelRiskReport
+                {
+                    ORDERID = risk.ORDERID,
+                    REGION = risk.REGION,
+                    LICENSE = risk.LICENSE,
+                    RC = risk.RC,
+                    INTERNAL_CORROSION = risk.INTERNAL_CORROSION,
+                    EXTERNAL_CORROSION = risk.EXTERNAL_CORROSION,
+                    THIRD_PARTY_INTERFERENCE = risk.THIRD_PARTY_INTERFERENCE,
+                    C1 = risk.C1,
+                    C2 = risk.C2,
+                    RISK_SCORE = risk.RISK_SCORE,
+                    MONTH = risk.MONTH,
+                    YEAR = risk.YEAR,
+                });
+            }
+
+            return Json(riskReport, JsonRequestBehavior.AllowGet);
+        }
+
+        #region Import Excel
+        // POST: /Risk/ImportExcel
+        public ActionResult ImportExcel()
+        {
+            return View();
+        }
+
+        // POST: /Risk/UploadFile
+        public JsonResult UploadFile()
+        {
+            var dto = new DTO.DtoRisk();
+
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+
+                    object[,] obj = null;
+                    int noOfCol = 0;
+                    int noOfRow = 0;
+                    HttpFileCollectionBase file = Request.Files;
+                    if ((file != null) && (file.Count > 0))
+                    {
+                        byte[] fileBytes = new byte[Request.ContentLength];
+                        var data = Request.InputStream.Read(fileBytes, 0, Convert.ToInt32(Request.ContentLength));
+                        using (var package = new ExcelPackage(Request.InputStream))
+                        {
+                            var currentSheet = package.Workbook.Worksheets;
+                            var workSheet = currentSheet.Single(x => x.Index.Equals(dto.Worksheet));
+                            noOfCol = workSheet.Dimension.End.Column;
+                            noOfRow = workSheet.Dimension.End.Row;
+                            obj = new object[noOfRow, noOfCol];
+                            obj = (object[,])workSheet.Cells.Value;
+                        }
+                    }
+                    return Json(new { data = obj, row = noOfRow, col = noOfCol }, JsonRequestBehavior.AllowGet);
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
+        // POST: /Risk/IsDuplicateExcelData
+        [HttpPost]
+        public JsonResult IsDuplicateExcelData()
+        {
+            var result = new ModelJsonResult<bool>();
+            string inYear = Request["year"];
+            string inMonth = Request["month"];
+
+            HttpFileCollectionBase files = Request.Files;
+
+            if (files == null || 0.Equals(files.Count))
+            {
+                result.SetError("No File Data To Load");
+                return Json(result);
+            }
+
+            var fb = files[0];
+
+            if (fb == null || fb.InputStream == null)
+            {
+                result.SetError("No File Data To Load");
+                return Json(result);
+            }
+
+            string exttension = System.IO.Path.GetExtension(fb.FileName);
+            if (!(new string[] { ".xls", ".xlsx" }).Contains(exttension))
+            {
+                result.SetError("File Type Not In xls or xlsx");
+                return Json(result);
+            }
+
+            var dto = new DTO.DtoRisk();
+            bool isDuplicate = false;
+            var listRiskManagement = dto.ReadExcelRiskManagementImport(
+                pStreamExcel: fb.InputStream,
+                pIntMonth: inMonth.GetInt(),
+                pIntYear: inYear.GetInt(),
+                pStrUploadBy: User.Identity.Name
+            );
+
+            isDuplicate = dto.GetListRiskManagementImportDuplicate(listRiskManagement).Any();
+            result.SetResultValue(isDuplicate);
+
+            return Json(result);
+        }
+
+        // POST: /Risk/InsertExceldata
+        [HttpPost]
+        public JsonResult InsertExceldata()
+        {
+            var result = new ModelJsonResult<ModelInsertExcelData>();
+            var modelInsertExcel = new ModelInsertExcelData();
+            try
+            {
+                string inYear = Request["year"];
+                string inMonth = Request["month"];
+
+                HttpFileCollectionBase files = Request.Files;
+
+
+                if (files == null || 0.Equals(files.Count))
+                {
+                    result.SetError("No File Data To Load");
+                    return Json(result);
+                }
+
+                var fb = files[0];
+
+                if (fb == null || fb.InputStream == null)
+                {
+                    result.SetError("No File Data To Load");
+                    return Json(result);
+                }
+                string exttension = System.IO.Path.GetExtension(fb.FileName);
+                if (!(new string[] { ".xls", ".xlsx" }).Contains(exttension))
+                {
+                    result.SetError("File Type Not In xls or xlsx");
+                    return Json(result);
+                }
+
+                insertExcelRiskManagementData(
+                   pFileStream: fb.InputStream,
+                   pStrUploadBy: User.Identity.Name,
+                   pIntMonth: inMonth.GetInt(),
+                   pIntYear: inYear.GetInt(),
+                   pModelResult: modelInsertExcel
+                );
+                result.SetResultValue(modelInsertExcel);
+
+                return Json(result);
+
+            }
+            catch (Exception ex)
+            {
+                result.SetException(ex);
+                return Json(result);
+            }
+        }
+
+        private void insertExcelRiskManagementData(
+        Stream pFileStream,
+        string pStrUploadBy,
+        int pIntMonth,
+        int pIntYear,
+        ModelInsertExcelData pModelResult)
+        {
+            var dto = new DtoRisk();
+            var listExcelRiskManagement = dto.ReadExcelRiskManagementImport(
+                 pStreamExcel: pFileStream,
+                 pStrUploadBy: pStrUploadBy,
+                 pIntMonth: pIntMonth,
+                 pIntYear: pIntYear).Where(x => x != null).ToList();
+
+            var listRiskManagementDuplicate = dto.GetListRiskManagementImportDuplicate(listExcelRiskManagement)
+            .Where(x => x != null).ToList();
+
+            for (int i = listExcelRiskManagement.Count - 1; i >= 0; --i)
+            {
+                var risks = listExcelRiskManagement[i];
+                var risksDuplicate = listRiskManagementDuplicate
+                    .FirstOrDefault(x => x.RC == risks.RC && x.MONTH == risks.MONTH && x.YEAR == risks.YEAR);
+                // Insert RiskManagement
+                if (risksDuplicate == null)
+                {
+                    dto.InsertRiskManagementImport(risks);
+                }
+                // If Exists Update Pipeline
+                else
+                {
+                    dto.UpdateRiskManagementImport(risks);
+                }
+            }
+
+            dto = null;
+            listExcelRiskManagement.Clear();
+            listExcelRiskManagement = null;
+            listRiskManagementDuplicate.Clear();
+            listRiskManagementDuplicate = null;
+            GC.Collect();
+        }
+        #endregion
+
+        #region File
+        public ActionResult File()
+        {
+            return View();
+        }
+        #endregion
+
+        [HttpGet]
+        #region AcceptanceCriteria
+        public ActionResult AcceptanceCriteria()
+        {
+            var dal = new DAL.DAL();
+            string strCommand = "SELECT RISK_CRITERIA, UPDATE_DATE, UPDATE_BY FROM RISK_THRESHOLD";
+            var result = dal.ReadData(strCommand, x => new ModelAcceptanceCriteria(x)).FirstOrDefault();
+            return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult AcceptanceCriteria(ModelAcceptanceCriteria model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.UPDATE_BY = User.Identity.Name;
+
+                var dto = new DtoRisk();
+                dto.UpdateAcceptanceCriteria(model);
+                dto = null;
+
+                return RedirectToAction("AcceptanceCriteria");
+            }
+
+            return View();
+        }
+        #endregion
+    }
+}
