@@ -40,13 +40,22 @@
             <div class=" p-3 mb-2 col-container col-container-white text-dark ">
                 <div class="box-wrapper">
                     <div class="box-center">
+                        @if (TempData["status"] == "successfully")
+                        {
+                            <div class="alert alert-success">
+                                Acceptance Criteria changed successfully
+                            </div>
+                        }
                         @using (Html.BeginForm("AcceptanceCriteria", "Risk", FormMethod.Post, new { @class = "form-horizontal" }))
                         {
                             @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                             <div class="form-group mb-5">
                                 <label for="inputAcceptanceCriteria" class="col-md-5 control-label">Acceptance Criteria</label>
                                 <div class="col-md-7">
-                                    @Html.TextBoxFor(model => model.RISK_CRITERIA, null, new { @class = "form-control", min = 0, max = 100, type = "number" })
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(model => model.RISK_CRITERIA, null, new { @class = "form-control text-right", min = 0, max = 100, type = "number" })
+                                        <span class="input-group-addon" id="basic-addon1">%</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">

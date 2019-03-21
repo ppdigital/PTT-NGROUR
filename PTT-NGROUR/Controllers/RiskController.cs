@@ -17,7 +17,7 @@ namespace PTT_NGROUR.Controllers
         // GET: /Risk/
         public ActionResult Index()
         {
-            var dal = new DAL.DAL();
+            DAL.DAL dal = new DAL.DAL();
 
             #region Risk Type
             var dsRiskType = dal.GetDataSet("SELECT ID ,RISK_TYPE FROM RISK_TYPE");
@@ -371,6 +371,7 @@ namespace PTT_NGROUR.Controllers
                 dto.UpdateAcceptanceCriteria(model);
                 dto = null;
 
+                TempData["status"] = "successfully";
                 return RedirectToAction("AcceptanceCriteria");
             }
 
