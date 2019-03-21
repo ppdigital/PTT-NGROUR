@@ -1,9 +1,7 @@
 ﻿using PTT_NGROUR.ExtentionAndLib;
 using PTT_NGROUR.Models.DataModel;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace PTT_NGROUR.DTO
 {
@@ -51,7 +49,7 @@ namespace PTT_NGROUR.DTO
                 int intEndRow = intRowCount - 6;
                 for (int intRow = StartRow; intRow < intEndRow; ++intRow)
                 {
-                    var pipImport = new Models.DataModel.ModelRiskManagementImport()
+                    var pipImport = new ModelRiskManagementImport()
                     {
                         REGION = getExcelRiskManagementValue(exWorkSheet, intRow, enumExcelRiskManagementColumn.REGION_ID).GetInt(),
                         RC = getExcelRiskManagementValue(exWorkSheet, intRow, enumExcelRiskManagementColumn.RC).GetString(),
@@ -102,12 +100,12 @@ namespace PTT_NGROUR.DTO
             var dal = new DAL.DAL();
             var result = dal.ReadData(
                 pStrCommand: strCommand,
-                pFuncReadData: r => new Models.DataModel.ModelRiskManagementImport(r));
+                pFuncReadData: r => new ModelRiskManagementImport(r));
             dal = null;
             return result;
         }
 
-        public void InsertRiskManagementImport(Models.DataModel.ModelRiskManagementImport pModel)
+        public void InsertRiskManagementImport(ModelRiskManagementImport pModel)
         {
             if (pModel == null)
             {
@@ -143,7 +141,7 @@ namespace PTT_NGROUR.DTO
             dal = null;
         }
 
-        public void UpdateRiskManagementImport(Models.DataModel.ModelRiskManagementImport pModel)
+        public void UpdateRiskManagementImport(ModelRiskManagementImport pModel)
         {
             if (pModel == null)
             {

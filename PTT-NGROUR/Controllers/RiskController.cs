@@ -95,13 +95,13 @@ namespace PTT_NGROUR.Controllers
         [HttpPost]
         public JsonResult Json(ModelViewRiskReport model)
         {
-            string strCommand = $"SELECT * FROM RISK_REPORT WHERE MONTH = {model.Month} AND YEAR = {model.Year}";
+            string strCommand = $"SELECT * FROM VIEW_RISK_REPORT WHERE MONTH = {model.Month} AND YEAR = {model.Year}";
 
             if(model.Lists != null)
             {
                 if (model.Type.Equals("region"))
                 {
-                    strCommand = $"{strCommand} AND REION IN ('{ string.Join("','", model.Lists) }')";
+                    strCommand = $"{strCommand} AND REGION IN ('{ string.Join("','", model.Lists) }')";
                 }
 
                 if (model.Type.Equals("license"))
@@ -125,32 +125,26 @@ namespace PTT_NGROUR.Controllers
             {
                 var risk = new ModelRiskReport()
                 {
-                    ORDERID = Convert.ToInt32(dr["ORDERID"].ToString()),
-                    REGION = Convert.ToInt32(dr["REION"].ToString()),
+                    REGION = Convert.ToInt32(dr["REGION"].ToString()),
                     LICENSE = Convert.ToInt32(dr["LICENSE"].ToString()),
                     RC = dr["RC"].ToString(),
-                    INTERNAL_CORROSION = Convert.ToInt32(dr["INTERNAL_CORROSION"].ToString()),
-                    EXTERNAL_CORROSION = Convert.ToInt32(dr["EXTERNAL_CORROSION"].ToString()),
-                    THIRD_PARTY_INTERFERENCE = Convert.ToInt32(dr["INTERFERENCE"].ToString()),
-                    LOSS_OF_GROUND_SUPPORT = 55,
-                    C1 = Convert.ToInt32(dr["C1"].ToString()),
-                    C2 = Convert.ToInt32(dr["C2"].ToString()),
-                    RISK_SCORE = Convert.ToInt32(dr["RISK_SCORE"].ToString()),
+                    INTERNAL_CORROSION = Convert.ToDouble(dr["INTERNAL_CORROSION"].ToString()),
+                    EXTERNAL_CORROSION = Convert.ToDouble(dr["EXTERNAL_CORROSION"].ToString()),
+                    THIRD_PARTY_INTERFERENCE = Convert.ToDouble(dr["THIRD_PARTY_INTERFERENCE"].ToString()),
+                    LOSS_OF_GROUND_SUPPORT = Convert.ToDouble(dr["LOSS_OF_GROUND_SUPPORT"].ToString()),
+                    RISK_SCORE = Convert.ToDouble(dr["RISK_SCORE"].ToString()),
                     MONTH = Convert.ToInt32(dr["MONTH"].ToString()),
                     YEAR = Convert.ToInt32(dr["YEAR"].ToString())
                 };
 
                 riskReport.Add(new ModelRiskReport
                 {
-                    ORDERID = risk.ORDERID,
                     REGION = risk.REGION,
                     LICENSE = risk.LICENSE,
                     RC = risk.RC,
                     INTERNAL_CORROSION = risk.INTERNAL_CORROSION,
                     EXTERNAL_CORROSION = risk.EXTERNAL_CORROSION,
                     THIRD_PARTY_INTERFERENCE = risk.THIRD_PARTY_INTERFERENCE,
-                    C1 = risk.C1,
-                    C2 = risk.C2,
                     RISK_SCORE = risk.RISK_SCORE,
                     MONTH = risk.MONTH,
                     YEAR = risk.YEAR,
