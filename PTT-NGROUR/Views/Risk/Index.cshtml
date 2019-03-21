@@ -12,6 +12,9 @@
     <link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
     <style>
+        .axis {
+            font-size: 14px;
+        }
         .axis path, .axis line {
             fill: none;
             stroke: rgba(0,0,0,.25);
@@ -187,14 +190,14 @@
             // Key
             var colors = ["rgba(255,0,0,.15"]
             var defaultKeys = [
-                {
-                    Key: "C1",
-                    Color: "#ca9561"
-                },
-                {
-                    Key: "C2",
-                    Color: "#a2d66a"
-                }
+                //{
+                //    Key: "C1",
+                //    Color: "#ca9561"
+                //},
+                //{
+                //    Key: "C2",
+                //    Color: "#a2d66a"
+                //}
             ]
 
             var selectKey = {
@@ -235,8 +238,8 @@
                 EXTERNAL_CORROSION: "EXTERNAL CORROSION",
                 THIRD_PARTY_INTERFERENCE: "THIRD PARTY INTERFERENCE",
                 LOSS_OF_GROUND_SUPPORT: "LOSS OF GROUND SUPPORT",
-                C1: "C1: Societal",
-                C2: "C2: Cost",
+                //C1: "C1: Societal",
+                //C2: "C2: Cost",
                 RISK_SCORE: "Risk Score",
                 ACCEPTANCE_CRITERIA: "Acceptance Criteria"
             }
@@ -343,6 +346,7 @@
 
             // axis-y left
             var axisYLeft = g.append("g")
+                .style("font", "14px")
                 .attr("class", "axis")
                 .call(d3.axisLeft(yLeft)
                     .ticks(10)
@@ -375,21 +379,21 @@
                 .text("Acceptance criteria");
 
             // --license
-            var licenseY = (acceptanceCriteria > 70 && acceptanceCriteria < 85) ? 90 : 75
-            ac.append("line")
-                .attr("x1", 0)
-                .attr("y1", yLeft(licenseY))
-                .attr("x2", width)
-                .attr("y2", yLeft(licenseY))
-                .attr("style", "stroke: #258fe5; stroke-width: 2");
+            //var licenseY = (acceptanceCriteria > 70 && acceptanceCriteria < 85) ? 90 : 75
+            //ac.append("line")
+            //    .attr("x1", 0)
+            //    .attr("y1", yLeft(licenseY))
+            //    .attr("x2", width)
+            //    .attr("y2", yLeft(licenseY))
+            //    .attr("style", "stroke: #258fe5; stroke-width: 2");
 
-            ac.append("text")
-                .attr("x", width / 2)
-                .attr("y", yLeft(licenseY) - 9.5)
-                .attr("dy", "0.32em")
-                .attr("fill", "#258fe5")
-                .attr("text-anchor", "middle")
-                .text("ใบอนุญาตที่ 1 - 50");
+            //ac.append("text")
+            //    .attr("x", width / 2)
+            //    .attr("y", yLeft(licenseY) - 9.5)
+            //    .attr("dy", "0.32em")
+            //    .attr("fill", "#258fe5")
+            //    .attr("text-anchor", "middle")
+            //    .text("ใบอนุญาตที่ 1 - 50");
             // axis-y left
 
             // axis-y right
