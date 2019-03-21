@@ -15,11 +15,12 @@
         .axis {
             font-size: 14px;
         }
-        .axis path, .axis line {
-            fill: none;
-            stroke: rgba(0,0,0,.25);
-            shape-rendering: crispEdges;
-        }
+
+            .axis path, .axis line {
+                fill: none;
+                stroke: rgba(0,0,0,.25);
+                shape-rendering: crispEdges;
+            }
 
         #chart {
             display: inline-block;
@@ -30,11 +31,11 @@
             text-align: center;
         }
 
-        .chart-wrapper .chart {
-            display: inline-block;
-            margin: auto 0;
-            border: 1px solid #666;
-        }
+            .chart-wrapper .chart {
+                display: inline-block;
+                margin: auto 0;
+                border: 1px solid #666;
+            }
     </style>
 }
 
@@ -121,6 +122,7 @@
 @section scripts{
     <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
     <script src="~/Content/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/lodash.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
@@ -230,9 +232,6 @@
                 colors.push(v.Color)
             })
 
-            console.log(keys)
-            console.log(colors)
-
             var keysText = {
                 INTERNAL_CORROSION: "INTERNAL CORROSION",
                 EXTERNAL_CORROSION: "EXTERNAL CORROSION",
@@ -243,6 +242,15 @@
                 RISK_SCORE: "Risk Score",
                 ACCEPTANCE_CRITERIA: "Acceptance Criteria"
             }
+
+            var topDomain = data.map(function (o, k) {
+                var filter = _.filter(o, function (object, key) {
+                    return _.includes(Object.keys(keysText), key);
+                });
+                return _.max(Object.values(filter))
+            });
+
+            topDomain = Math.floor((topDomain.pop() * 1.1) / 100) * 100;
 
             // Chart
             var svg = d3.select("#chart").append("svg")
@@ -275,7 +283,7 @@
             x1.domain(keys).rangeRound([0, x0.bandwidth()]);
 
             yLeft.domain([0, 100]).nice();
-            y.domain([0, 5000]).nice();
+            y.domain([0, topDomain]).nice();
 
             // data
             var d = g.append("g")
