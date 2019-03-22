@@ -12,30 +12,50 @@ namespace PTT_NGROUR.DTO
 {
     public class DtoOM
     {
+        public IEnumerable<ModelPipelineMonitoringResults> GetListPipelineMonitoringResults(string month, string year, string[] pArrRegion) => this.GetListPipelineMonitoringResults(month, year, pArrRegion, false);
+        public IEnumerable<ModelPipelineMonitoringResults> GetListPipelineMonitoringResults(string month, string year, string[] pArrRegion, bool accumulate)
+        {
+            string strCommand = "SELECT * FROM VIEW_PM_IA_MONITORING_RESULTS WHERE 1=1 ";
+            if (!string.IsNullOrEmpty(month))
+            {
+                strCommand += $" AND CP_MONTH {(accumulate ? "<" :  "")}= " + month;
+            }
+
+            if (!string.IsNullOrEmpty(year))
+            {
+                strCommand += " AND CP_YEAR = " + year;
+            }
+
+            var dal = new DAL.DAL();
+            var result = dal.ReadData(strCommand, x => new ModelPipelineMonitoringResults(x));
+            dal = null;
+            return result;
+        }
+
         public IEnumerable<ModelMeterMaintenance> GetListMeterMaintenance()
         {
             string strCommand = "select * from METER_MAINTENANCE";
             var dal = new DAL.DAL();
-            var result = dal.ReadData(strCommand,  x => new ModelMeterMaintenance(x));
+            var result = dal.ReadData(strCommand, x => new ModelMeterMaintenance(x));
             dal = null;
             return result;
         }
 
         public IEnumerable<ModelMeterMaintenance> GetListMeterMaintenance(string pStrMonth , string pStrYear , string[] pArrRegion)
         {
-            string strCommand = "select * from METER_MAINTENANCE where 1=1 ";
+            string strCommand = "SELECT * from METER_MAINTENANCE where 1=1 ";
             if (!string.IsNullOrEmpty(pStrMonth))
             {
-                strCommand += " and MONTH =" + pStrMonth;
+                strCommand += " AND MONTH =" + pStrMonth;
             }
             if (!string.IsNullOrEmpty(pStrYear))
             {
-                strCommand += " and YEAR =" + pStrYear;
+                strCommand += " AND YEAR =" + pStrYear;
             }
             if(pArrRegion != null && pArrRegion.Any())
             {
                 string strAllRegion = string.Join(",", pArrRegion);
-                strCommand += " and region in (" + strAllRegion + ")";
+                strCommand += " AND REGION in (" + strAllRegion + ")";
             }
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelMeterMaintenance(x));

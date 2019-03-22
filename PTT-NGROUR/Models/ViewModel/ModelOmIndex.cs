@@ -9,6 +9,37 @@ namespace PTT_NGROUR.Models.ViewModel
 {
     public class ModelOmIndex
     {
+        public class ModelPipeline
+        {
+            public ModelPipeline(int month, IEnumerable<ModelPipelineMonitoringResults> listPipeline)
+            {
+                Summary = listPipeline.GroupBy(x => x.PM_ID, (pm_id, o) => new
+                {
+                    PM_ID = pm_id,
+                    List = o.OrderByDescending(list => list.YEAR).ThenByDescending(list => list.MONTH)
+                })
+                .Select(x => new ModelPipelineMonitoringResultsSummary
+                {
+                    PM_ID = x.PM_ID,
+                    PM_NAME_FULL = x.List.FirstOrDefault().PM_NAME_FULL,
+                    PM_TYPE = x.List.FirstOrDefault().PM_TYPE,
+                    PLAN = x.List.Where(o => o.MONTH == month).Sum(o => o.PLAN),
+                    ACTUAL = x.List.Where(o => o.MONTH == month).Sum(o => o.PLAN),
+                    SUM_PLAN = x.List.Sum(o => o.PLAN),
+                    SUM_ACTUAL = x.List.Sum(o => o.ACTUAL),
+                    SUM_MAJOR_PLAN = x.List.Where(o => o.PM_TYPE.ToLower().Equals("major")).Sum(o => o.PLAN),
+                    SUM_MAJOR_ACTUAL = x.List.Where(o => o.PM_TYPE.ToLower().Equals("major")).Sum(o => o.ACTUAL),
+                    SUM_MINOR_PLAN = x.List.Where(o => o.PM_TYPE.ToLower().Equals("minor")).Sum(o => o.PLAN),
+                    SUM_MINOR_ACTUAL = x.List.Where(o => o.PM_TYPE.ToLower().Equals("minor")).Sum(o => o.ACTUAL),
+                }).ToList();
+
+                var xxx = listPipeline.OrderByDescending(x => x.MONTH).FirstOrDefault();
+            }
+
+            public List<ModelPipelineMonitoringResultsSummary> Summary { get; set; }
+            List<ModelPipelineMonitoringResults> Results { get; set; }
+        }
+
         public class ModelBarGraph
         {
             public class ModelML
@@ -73,8 +104,7 @@ namespace PTT_NGROUR.Models.ViewModel
                     this.ListML.Add(ml);
                 }
             }
-
-        }        
+        } 
         public class ModelAccGraph
         {
             private string[] arrMonthName = new[] { string.Empty, "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
@@ -134,6 +164,7 @@ namespace PTT_NGROUR.Models.ViewModel
                 ListPmIntervals = new List<ModelPmInterval>();
             }
         }
+        public ModelPipeline Pipeline { get; set; }
         public IEnumerable<ModelMeterMaintenance> ListMeterMaintenance { get; set; }
         public IEnumerable<ModelOmColor> ListOmColor { get; set; }
         public ModelBarGraph BarGraph { get; set; }

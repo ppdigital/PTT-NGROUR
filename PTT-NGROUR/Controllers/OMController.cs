@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using PTT_NGROUR.DTO;
 using PTT_NGROUR.Models.ViewModel;
 using PTT_NGROUR.ExtentionAndLib;
+using static PTT_NGROUR.Models.ViewModel.ModelOmIndex;
+using PTT_NGROUR.Models.DataModel;
+
 namespace PTT_NGROUR.Controllers
 {
     public class OMController : Controller
@@ -37,10 +40,10 @@ namespace PTT_NGROUR.Controllers
             var result = new ModelJsonResult<ModelOmIndex>();
             try
             {
-                var modelOm = new ModelOmIndex();
+                ModelOmIndex modelOm = new ModelOmIndex();
                 var dto = new DtoOM();
                 var listAllMM = dto.GetListMeterMaintenance(string.Empty, pStrYear, pArrRegion).ToList();
-                List<Models.DataModel.ModelMeterMaintenance> listMM = null;
+                List<ModelMeterMaintenance> listMM = null;
                 int intMonth = pStrMonth.GetInt();
                 if (intMonth > 0)
                 {
@@ -52,6 +55,10 @@ namespace PTT_NGROUR.Controllers
                 }
                 //var listMM = dto.GetListMeterMaintenance(pStrMonth, pStrYear, pArrRegion).ToList();
                 var listColor = dto.GetListOmColor().ToList();
+
+                IEnumerable<ModelPipelineMonitoringResults> listPipeline = dto.GetListPipelineMonitoringResults(pStrMonth, pStrYear, pArrRegion, true);
+
+                modelOm.Pipeline = new ModelPipeline(intMonth, listPipeline);
                 modelOm.BarGraph = dto.GetModelBarGraph(listMM, listColor);
                 modelOm.ListRegionForTableHeader = dto.GetListRegionForTableHeader(listMM);
                 modelOm.ListMeterMaintenanceLevelForTable = dto.GetModelModelMeterMaintenanceLevel(listMM, modelOm.ListRegionForTableHeader);
