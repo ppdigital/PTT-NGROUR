@@ -12,18 +12,26 @@ namespace PTT_NGROUR.DTO
 {
     public class DtoOM
     {
+        public List<ModelPipelineActivity> GetPipelineActivity()
+        {
+            string strCommand = "SELECT * FROM PIPELINE_ACTIVITY";
+            var dal = new DAL.DAL();
+            var result = dal.ReadData(strCommand, x => new ModelPipelineActivity(x));
+            dal = null;
+            return result.ToList();
+        }
         public IEnumerable<ModelPipelineMonitoringResults> GetListPipelineMonitoringResults(string month, string year, string[] pArrRegion) => this.GetListPipelineMonitoringResults(month, year, pArrRegion, false);
         public IEnumerable<ModelPipelineMonitoringResults> GetListPipelineMonitoringResults(string month, string year, string[] pArrRegion, bool accumulate)
         {
             string strCommand = "SELECT * FROM VIEW_PM_IA_MONITORING_RESULTS WHERE 1=1 ";
             if (!string.IsNullOrEmpty(month))
             {
-                strCommand += $" AND CP_MONTH {(accumulate ? "<" :  "")}= " + month;
+                strCommand += $" AND MONTH {(accumulate ? "<" :  "")}= " + month;
             }
 
             if (!string.IsNullOrEmpty(year))
             {
-                strCommand += " AND CP_YEAR = " + year;
+                strCommand += " AND YEAR = " + year;
             }
 
             var dal = new DAL.DAL();

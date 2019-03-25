@@ -58,7 +58,12 @@ namespace PTT_NGROUR.Controllers
 
                 IEnumerable<ModelPipelineMonitoringResults> listPipeline = dto.GetListPipelineMonitoringResults(pStrMonth, pStrYear, pArrRegion, true);
 
-                modelOm.Pipeline = new ModelPipeline(intMonth, listPipeline);
+                modelOm.PipelineActivity = dto.GetPipelineActivity();
+                modelOm.Pipeline = new ModelPipeline
+                {
+                    Summary = new ModelPipelineSummary(intMonth, listPipeline),
+                    Results = new ModelPipelineResults(intMonth, listPipeline),
+                };
                 modelOm.BarGraph = dto.GetModelBarGraph(listMM, listColor);
                 modelOm.ListRegionForTableHeader = dto.GetListRegionForTableHeader(listMM);
                 modelOm.ListMeterMaintenanceLevelForTable = dto.GetModelModelMeterMaintenanceLevel(listMM, modelOm.ListRegionForTableHeader);

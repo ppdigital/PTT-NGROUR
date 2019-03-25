@@ -195,6 +195,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataModel\ModelGateMaintenance.cs" />
+    <Compile Include="Models\DataModel\ModelPipelineActivity.cs" />
     <Compile Include="Models\DataModel\ModelRiskManagementImport.cs" />
     <Compile Include="Models\DataModel\ModelRiskReport.cs" />
     <Compile Include="Models\DataModel\ModelRiskType.cs" />
