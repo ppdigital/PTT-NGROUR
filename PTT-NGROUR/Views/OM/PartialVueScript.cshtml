@@ -1,0 +1,22 @@
+﻿<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
+<script type="text/javascript">
+    var vueSummary = new Vue({
+        el: '#app',
+        data: {
+            Year: null,
+            Month: null,
+            pipeline: null
+        },
+        computed: {
+            currentMonthText() {
+                var date = new Date();
+                date.setFullYear(this.Year, this.Month - 1)
+                return date.toLocaleDateString('en-US', {
+                    month: 'long'
+                })
+            }
+        },
+        groupRegien
+    })
+</script>

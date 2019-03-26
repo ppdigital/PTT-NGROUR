@@ -264,6 +264,9 @@
                     return;
                 }
                 window.myBar.options.horizontalLine = null;
+                vueSummary.Year = data.Result.Year;
+                vueSummary.Month = data.Result.Month;
+                vueSummary.pipeline = data.Result.Pipeline;
                 var rs = data.Result.BarGraph;
                 if (rs) {
                     var barChartData = {

@@ -22,76 +22,70 @@ namespace PTT_NGROUR.Models.ViewModel
 
                 #region Current
                 Current = listPipeline.Where(x => x.MONTH.Equals(month))
-                    .GroupBy(x => x.PM_ID, (pm_id, o) => new
+                    .Where(x => !string.IsNullOrEmpty(x.PM_TYPE))
+                    .GroupBy(x => x.PM_TYPE, (pm_type, list) => new ModelPipelineMonitoringResultsType
                     {
-                        PM_ID   = pm_id,
-                        List    = o.OrderByDescending(list => list.YEAR).ThenByDescending(list => list.MONTH)
-                    })
-                    .Select(x => new ModelPipelineMonitoringResultsActivity
-                    {
-                        PM_ID       = x.PM_ID,
-                        PM_NAME     = x.List.First().PM_NAME_FULL,
-                        PM_TYPE     = x.List.First().PM_TYPE,
-                        PLAN        = x.List.Sum(o => o.PLAN),
-                        ACTUAL      = x.List.Sum(o => o.ACTUAL),
-                        PERCENTAGE  = (x.List.Sum(o => o.ACTUAL) / (x.List.Sum(o => o.PLAN).Equals(0) ? 1 : x.List.Sum(o => o.PLAN))) * 100,
-                    })
-                    .ToList();
+                        PM_TYPE = pm_type,
+                        Activities = list.GroupBy(x => x.PM_ID, (pm_id, l) => new ModelPipelineMonitoringResultsActivity
+                        {
+                            PM_ID = pm_id,
+                            PM_NAME = l.First().PM_NAME_FULL,
+                            PM_TYPE = l.First().PM_TYPE,
+                            PLAN = l.Sum(o => o.PLAN),
+                            ACTUAL = l.Sum(o => o.ACTUAL),
+                            PERCENTAGE = GetPercentage(l),
+                        }).ToList(),
+                        Percentage = GetPercentage(list)
+                    }).ToList();
 
-                CurrentMajorPercentage      = GetTypePercentage(Current.Where(x => x.PM_TYPE.Equals("Major")));
-                CurrentMinorPercentage      = GetTypePercentage(Current.Where(x => x.PM_TYPE.Equals("Minor")));
-                CurrentOrverallPercentage   = GetTypePercentage(Current);
+
+                CurrentOrverallPercentage = GetTypePercentage(Current);
                 #endregion
 
 
 
 
                 #region Accumulate
-                Accumulate = listPipeline.GroupBy(x => x.PM_ID, (pm_id, o) => new
-                {
-                    PM_ID   = pm_id,
-                    List    = o.OrderByDescending(list => list.YEAR).ThenByDescending(list => list.MONTH)
-                })
-                    .Select(x => new ModelPipelineMonitoringResultsActivity
+                Accumulate = listPipeline
+                    .Where(x => !string.IsNullOrEmpty(x.PM_TYPE))
+                    .GroupBy(x => x.PM_TYPE, (pm_type, list) => new ModelPipelineMonitoringResultsType
                     {
-                        PM_ID       = x.PM_ID,
-                        PM_NAME     = x.List.First().PM_NAME_FULL,
-                        PM_TYPE     = x.List.First().PM_TYPE,
-                        PLAN        = x.List.Sum(o => o.PLAN),
-                        ACTUAL      = x.List.Sum(o => o.ACTUAL),
-                        PERCENTAGE  = GetPercentage(x.List),
-                    })
-                    .ToList();
+                        PM_TYPE = pm_type,
+                        Activities = list.GroupBy(x => x.PM_ID, (pm_id, l) => new ModelPipelineMonitoringResultsActivity
+                        {
+                            PM_ID = pm_id,
+                            PM_NAME = l.First().PM_NAME_FULL,
+                            PM_TYPE = l.First().PM_TYPE,
+                            PLAN = l.Sum(o => o.PLAN),
+                            ACTUAL = l.Sum(o => o.ACTUAL),
+                            PERCENTAGE = GetPercentage(l),
+                        }).ToList(),
+                        Percentage = GetPercentage(list)
+                    }).ToList();
 
-                AccumulateMajorPercentage       = GetTypePercentage(Accumulate.Where(x => x.PM_TYPE.Equals("Major")));
-                AccumulateMinorPercentage       = GetTypePercentage(Accumulate.Where(x => x.PM_TYPE.Equals("Minor")));
                 AccumulateOrverallPercentage    = GetTypePercentage(Accumulate);
                 #endregion
 
-                decimal GetPercentage(IOrderedEnumerable<ModelPipelineMonitoringResults> list)
+                decimal GetPercentage(IEnumerable<ModelPipelineMonitoringResults> list)
                 {
                     decimal actual = list.Sum(o => o.ACTUAL);
                     decimal plan = list.Sum(o => o.PLAN).Equals(0) ? 1 : list.Sum(o => o.PLAN);
                     return Decimal.Round((actual / plan) * 100, 2);
                 }
 
-                decimal GetTypePercentage(IEnumerable<ModelPipelineMonitoringResultsActivity> list)
+                decimal GetTypePercentage(IEnumerable<ModelPipelineMonitoringResultsType> list)
                 {
-                    decimal actual = list.Sum(o => o.ACTUAL);
-                    decimal plan = list.Sum(o => o.PLAN).Equals(0) ? 1 : list.Sum(o => o.PLAN);
+                    decimal actual = list.Sum(x => x.Activities.Sum(o => o.ACTUAL));
+                    decimal plan = list.Sum(x => x.Activities.Sum(o => o.PLAN));
                     return Decimal.Round((actual / plan) * 100, 2);
                 }
             }
 
             List<ModelPipelineMonitoringResults> Results { get; set; }
-            public List<ModelPipelineMonitoringResultsActivity> Current { get; set; }
-            public decimal CurrentMajorPercentage { get; set; }
-            public decimal CurrentMinorPercentage { get; set; }
+            public List<ModelPipelineMonitoringResultsType> Current { get; set; }
             public decimal CurrentOrverallPercentage { get; set; }
 
-            public List<ModelPipelineMonitoringResultsActivity> Accumulate { get; set; }
-            public decimal AccumulateMajorPercentage { get; set; }
-            public decimal AccumulateMinorPercentage { get; set; }
+            public List<ModelPipelineMonitoringResultsType> Accumulate { get; set; }
             public decimal AccumulateOrverallPercentage { get; set; }
         }
 
@@ -99,13 +93,14 @@ namespace PTT_NGROUR.Models.ViewModel
         {
             public ModelPipelineResults(int month, IEnumerable<ModelPipelineMonitoringResults> listPipeline)
             {
-                Results = listPipeline.Where(x => x.MONTH.Equals(month))
+                Results = listPipeline.Where(x => x.MONTH.Equals(month) && !string.IsNullOrEmpty(x.PM_TYPE))
                     .GroupBy(x => x.REGION, (region_id, x) => new {
                         REGION = region_id,
                         List = x.ToList()
                     })
                     .Select(x => new ModelPipelineMonitoringResultsRegion
                     {
+                        REGION_ID = x.REGION.Replace("Region", "").GetInt(),
                         REGION = x.REGION,
                         Activities = x.List.GroupBy(o => o.PM_ID, (pm_id, o) => new
                         {
@@ -119,16 +114,37 @@ namespace PTT_NGROUR.Models.ViewModel
                             PM_TYPE = o.List.First().PM_TYPE,
                             PLAN = o.List.Sum(p => p.PLAN),
                             ACTUAL = o.List.Sum(p => p.ACTUAL),
-                            PERCENTAGE = GetPercentage(x.List),
+                            PERCENTAGE = GetPercentage(o.List),
                         })
                         .OrderBy(o => o.PM_ID)
                         .ToList()
                     })
-                    .OrderBy(x => x.REGION)
+                    .OrderBy(x => x.REGION_ID)
                     .ToList();
+
+                Results.Add(new ModelPipelineMonitoringResultsRegion
+                {
+                    REGION = "Overall",
+                    Activities = listPipeline.GroupBy(o => o.PM_ID, (pm_id, o) => new
+                        {
+                            PM_ID = pm_id,
+                            List = o.OrderByDescending(list => list.YEAR).ThenByDescending(list => list.MONTH)
+                        })
+                        .Select(o => new ModelPipelineMonitoringResultsActivity
+                        {
+                            PM_ID = o.PM_ID,
+                            PM_NAME = o.List.First().PM_NAME_FULL,
+                            PM_TYPE = o.List.First().PM_TYPE,
+                            PLAN = o.List.Sum(p => p.PLAN),
+                            ACTUAL = o.List.Sum(p => p.ACTUAL),
+                            PERCENTAGE = GetPercentage(o.List),
+                        })
+                        .OrderBy(o => o.PM_ID)
+                        .ToList()
+                });
             }
 
-            decimal GetPercentage(List<ModelPipelineMonitoringResults> list)
+            decimal GetPercentage(IOrderedEnumerable<ModelPipelineMonitoringResults> list)
             {
                 decimal actual = list.Sum(o => o.ACTUAL);
                 decimal plan = list.Sum(o => o.PLAN).Equals(0) ? 1 : list.Sum(o => o.PLAN);
@@ -262,6 +278,8 @@ namespace PTT_NGROUR.Models.ViewModel
                 ListPmIntervals = new List<ModelPmInterval>();
             }
         }
+        public int Year { get; set; }
+        public int Month { get; set; }
         public List<ModelPipelineActivity> PipelineActivity { get; set; }
         public ModelPipeline Pipeline { get; set; }
         public IEnumerable<ModelMeterMaintenance> ListMeterMaintenance { get; set; }

@@ -44,6 +44,7 @@ namespace PTT_NGROUR.Controllers
                 var dto = new DtoOM();
                 var listAllMM = dto.GetListMeterMaintenance(string.Empty, pStrYear, pArrRegion).ToList();
                 List<ModelMeterMaintenance> listMM = null;
+                int intYear = pStrYear.GetInt();
                 int intMonth = pStrMonth.GetInt();
                 if (intMonth > 0)
                 {
@@ -58,6 +59,8 @@ namespace PTT_NGROUR.Controllers
 
                 IEnumerable<ModelPipelineMonitoringResults> listPipeline = dto.GetListPipelineMonitoringResults(pStrMonth, pStrYear, pArrRegion, true);
 
+                modelOm.Year = intYear;
+                modelOm.Month = intMonth;
                 modelOm.PipelineActivity = dto.GetPipelineActivity();
                 modelOm.Pipeline = new ModelPipeline
                 {

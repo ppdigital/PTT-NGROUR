@@ -72,11 +72,6 @@
     .textheadSumT {color:#fbdb1b} */
 </style>
 
-
-
-
-
-
 <div class="ph2 ph1-xs pt-15px">
     <div class="row">
         <div class="col-lg-1 col-md-1 col-sm-1"></div>
@@ -110,7 +105,7 @@
 
     </div>
     <br />
-    <div class="container-fluid ph0-xs ">
+    <div id="app" class="container-fluid ph0-xs ">
 
         <div class="bs-example">
             <div class="panel-group" id="accordion">
@@ -123,17 +118,19 @@
                     <div id="Summary" class="panel-collapse collapse in">
                         <div class="panel-body bg-grey-100">
                             <div class=" ph2 ph1-xs pv2 col-container-white">
-                                <!-- Summary Pipeline Table-->
                                 <div class="table-responsive">
                                     <table class="tableSum table table-bordered ">
                                         <thead>
                                             <tr>
                                                 <th rowspan="2" colspan="2" class="textheadSumT h4 b">Pipeline</th>
-                                                <th colspan="5">Month</th>
-                                                <th colspan="5">Month - Month Year (Accumulate)</th>
+                                                <th colspan="5">
+                                                    {{ currentMonthText }} {{ Year }}
+                                                </th>
+                                                <th colspan="5">
+                                                    January - {{ currentMonthText }} {{ Year }} (Accumulate)
+                                                </th>
                                             </tr>
                                             <tr>
-
                                                 <th>Plan</th>
                                                 <th>Actual</th>
                                                 <th>% completion</th>
@@ -147,86 +144,55 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td rowspan="5" style="text-align: center; vertical-align: middle;"><span class="textAlignVer">Major</span></td>
-                                                <td class="text-left">Vehicle Patrolling (จำนวน Route Code)</td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td rowspan="5"><span></span></td>
-                                                <td rowspan="7"><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td rowspan="5"><span></span></td>
-                                                <td rowspan="7"><span></span></td>
+                                            <tr v-if="pipeline === null">
+                                                <td colspan="12" class="text-center">
+                                                    <h2>ไม่พบข้อมูล</h2>
+                                                </td>
                                             </tr>
-                                            <tr>
-                                                <td class="text-left"><span>Ground Leakage Survey (จำนวน Route Code)</span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
+                                            <template v-else
+                                                      v-for="(type, indexType) in pipeline.Summary.Current">
+                                                <template v-for="(item, i) in type.Activities">
+                                                    <tr>
+                                                        <td v-if="i === 0"
+                                                            :rowspan="type.Activities.length"
+                                                            style="text-align: center; vertical-align: middle;">
+                                                            <span class="textAlignVer">
+                                                                {{ type.PM_TYPE }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            {{ item.PM_NAME }}
+                                                        </td>
+                                                        <td><span>{{ item.PLAN }}</span></td>
+                                                        <td><span>{{ item.ACTUAL }}</span></td>
+                                                        <td><span>{{ item.PERCENTAGE }}%</span></td>
+                                                        <td v-if="i === 0"
+                                                            :rowspan="type.Activities.length">
+                                                            <span>{{ type.Percentage }}</span>
+                                                        </td>
+                                                        <td v-if="indexType === 0 && i === 0"
+                                                            rowspan="11">
+                                                            <span>
+                                                                {{ pipeline.Summary.CurrentOrverallPercentage }}
+                                                            </span>
+                                                        </td>
 
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">DC De-coupler (จำนวนสถานีฯ)</td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">Insulation Flange/Joint (จำนวนสถานีฯ)</td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">Wall Thickness Inspection (จำนวนสถานีฯ)</td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td rowspan="2" style="text-align: center; vertical-align: middle;"><span class="textAlignVer">Minor</span></td>
-                                                <td class="text-left">Soil to Air Inspection (จำนวนสถานีฯ)</td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td rowspan="2"></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td rowspan="2"></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">Corrosion under Pipe Support Inspection (จำนวนสถานีฯ)</td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-                                                <td><span></span></td>
-
-
-                                            </tr>
-
-
+                                                        <td><span>{{ pipeline.Summary.Accumulate[indexType].Activities[i].PLAN }}</span></td>
+                                                        <td><span>{{ pipeline.Summary.Accumulate[indexType].Activities[i].ACTUAL }}</span></td>
+                                                        <td><span>{{ pipeline.Summary.Accumulate[indexType].Activities[i].PERCENTAGE }}</span></td>
+                                                        <td v-if="i === 0"
+                                                            :rowspan="type.Activities.length">
+                                                            <span>{{ pipeline.Summary.Accumulate[indexType].Percentage }}</span>
+                                                        </td>
+                                                        <td v-if="indexType === 0 && i === 0"
+                                                            rowspan="11">
+                                                            <span>
+                                                                {{ pipeline.Summary.AccumulateOrverallPercentage }}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </template>
                                         </tbody>
                                     </table>
                                 </div>
@@ -369,6 +335,69 @@
                     <div id="Pipe" class="panel-collapse collapse">
                         <div class="panel-body bg-grey-100">
                             <div class=" ph2 ph1-xs pv2 col-container-white">
+
+                                <div class="table-responsive">
+                                    <table class="tableSum table table-bordered ">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2" colspan="2" class="textheadSumT h4 b">PM Activity</th>
+                                                <th rowspan="2" class="textheadSumT h4 b">Interval</th>
+                                                <template v-if="pipeline !== null">
+                                                    <th v-for="region in pipeline.Results.Results"
+                                                        colspan="2">
+                                                        {{ region.REGION }}
+                                                    </th>
+                                                </template>
+                                            </tr>
+                                            <tr v-if="pipeline !== null">
+                                                <template v-for="region in pipeline.Results.Results">
+                                                    <th>Plan</th>
+                                                    <th>Actual</th>
+                                                </template>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-if="pipeline === null">
+                                                <td colspan="12" class="text-center">
+                                                    <h2>ไม่พบข้อมูล</h2>
+                                                </td>
+                                            </tr>
+                                            <template v-else
+                                                      v-for="(type, indexType) in pipeline.Summary.Current">
+                                                <template v-for="(pm, i) in type.Activities">
+                                                    <tr>
+                                                        <td v-if="i === 0"
+                                                            :rowspan="type.Activities.length"
+                                                            style="text-align: center; vertical-align: middle;">
+                                                            <span class="textAlignVer">
+                                                                {{ type.PM_TYPE }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            {{ pm.PM_NAME }}
+                                                        </td>
+                                                        <td><span>1 Week</span></td>
+
+                                                        <template v-for="item in pipeline.Results.Results">
+                                                            <td><span>{{ i + (indexType === 0 ? 0 : pipeline.Summary.Current[indexType - 1].Activities.length) }}</</span></td>
+                                                            <td><span>{{ i }}</span></td>
+                                                        </template>
+                                                    </tr>
+                                                </template>
+                                            </template>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <span>
+                                                        CP System : Anode ground bed, Bond Box, Pipe to
+                                                        soil potential survey, Close Interval potential survey
+                                                        (CIPS), Coating Defect Survey (DCVG)
+                                                    </span>
+                                                </td>
+                                                <td colspan="3" class="text-center"><span>GTM will submit all reports to NGR Quarterly</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -521,6 +550,5 @@
 
 @section scripts{
     @Html.Partial("PartialMeteringScript")
-
-
+    @Html.Partial("PartialVueScript")
 }

@@ -752,6 +752,7 @@
     <Content Include="Views\Risk\PartialModalExcel.cshtml" />
     <Content Include="Views\Risk\AcceptanceCriteria.cshtml" />
     <Content Include="Views\Risk\File.cshtml" />
+    <Content Include="Views\OM\PartialVueScript.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

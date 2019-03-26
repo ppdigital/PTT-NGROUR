@@ -43,6 +43,20 @@ namespace PTT_NGROUR.Models.DataModel
         public int YEAR { get; set; }
     }
 
+    public class ModelPipelineMonitoringResultsType
+    {
+        public string PM_TYPE { get; set; }
+        public List<ModelPipelineMonitoringResultsActivity> Activities { get; set; }
+        public decimal Percentage { get; set; }
+    }
+
+    public class ModelPipelineMonitoringResultsRegion
+    {
+        public int REGION_ID { get; set; }
+        public string REGION { get; set; }
+        public List<ModelPipelineMonitoringResultsActivity> Activities { get; set; }
+    }
+
     public class ModelPipelineMonitoringResultsActivity
     {
         public string REGION { get; set; }
@@ -53,11 +67,5 @@ namespace PTT_NGROUR.Models.DataModel
         public decimal PLAN { get; set; }
         public decimal ACTUAL { get; set; }
         public decimal PERCENTAGE { get; set; }
-    }
-
-    public class ModelPipelineMonitoringResultsRegion
-    {
-        public string REGION { get; set; }
-        public List<ModelPipelineMonitoringResultsActivity> Activities { get; set; }
     }
 }
