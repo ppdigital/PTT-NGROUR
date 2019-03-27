@@ -356,7 +356,7 @@
                                             <tr v-if="pipeline !== null">
                                                 <template v-for="region in pipeline.Results.Results">
                                                     <th>Plan</th>
-                                                    <th>Actual</th>
+                                                    <th class="actual">Actual</th>
                                                 </template>
                                             </tr>
                                         </thead>
@@ -366,39 +366,40 @@
                                                     <h2>ไม่พบข้อมูล</h2>
                                                 </td>
                                             </tr>
-                                            <template v-else
-                                                      v-for="(type, indexType) in pipeline.Summary.Current">
-                                                <template v-for="(pm, i) in type.Activities">
-                                                    <tr>
-                                                        <td v-if="i === 0"
-                                                            :rowspan="type.Activities.length"
-                                                            style="text-align: center; vertical-align: middle;">
-                                                            <span class="textAlignVer">
-                                                                {{ type.PM_TYPE }}
-                                                            </span>
-                                                        </td>
-                                                        <td class="text-left">
-                                                            {{ pm.PM_NAME }}
-                                                        </td>
-                                                        <td><span>1 Week</span></td>
+                                            <template v-else>
+                                                <template v-for="(type, indexType) in pipeline.Summary.Current">
+                                                    <template v-for="(pm, i) in type.Activities">
+                                                        <tr>
+                                                            <td v-if="i === 0"
+                                                                :rowspan="type.Activities.length"
+                                                                style="text-align: center; vertical-align: middle;">
+                                                                <span class="textAlignVer">
+                                                                    {{ type.PM_TYPE }}
+                                                                </span>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                {{ pm.PM_NAME }}
+                                                            </td>
+                                                            <td><span>1 Week</span></td>
 
-                                                        <template v-for="item in pipeline.Results.Results">
-                                                            <td><span>{{ getPMActivity(item.Activities, pm.PM_ID, 'PLAN') }}</</span></td>
-                                                            <td><span>{{ getPMActivity(item.Activities, pm.PM_ID, 'ACTUAL') }}</span></td>
-                                                        </template>
-                                                    </tr>
+                                                            <template v-for="item in pipeline.Results.Results">
+                                                                <td><span>{{ getPMActivity(item.Activities, pm.PM_ID, 'PLAN') }}</</span></td>
+                                                                <td class="actual"><span>{{ getPMActivity(item.Activities, pm.PM_ID, 'ACTUAL') }}</span></td>
+                                                            </template>
+                                                        </tr>
+                                                    </template>
                                                 </template>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <span>
+                                                            CP System : Anode ground bed, Bond Box, Pipe to
+                                                            soil potential survey, Close Interval potential survey
+                                                            (CIPS), Coating Defect Survey (DCVG)
+                                                        </span>
+                                                    </td>
+                                                    <td colspan="3" class="text-center"><span>GTM will submit all reports to NGR Quarterly</span></td>
+                                                </tr>
                                             </template>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <span>
-                                                        CP System : Anode ground bed, Bond Box, Pipe to
-                                                        soil potential survey, Close Interval potential survey
-                                                        (CIPS), Coating Defect Survey (DCVG)
-                                                    </span>
-                                                </td>
-                                                <td colspan="3" class="text-center"><span>GTM will submit all reports to NGR Quarterly</span></td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -548,6 +549,11 @@
             line-height: normal;
             display: table-cell;
             min-height: 10em;
+        }
+
+        th.actual,
+        td.actual {
+            background-color: #d9edf7;
         }
     </style>
 }

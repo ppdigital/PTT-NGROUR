@@ -93,8 +93,8 @@ namespace PTT_NGROUR.Models.ViewModel
         {
             public ModelPipelineResults(int month, IEnumerable<ModelPipelineMonitoringResults> listPipeline)
             {
-                Results = listPipeline.Where(x => x.MONTH.Equals(month) && !string.IsNullOrEmpty(x.PM_TYPE))
-                    .GroupBy(x => x.REGION, (region_id, x) => new {
+                IEnumerable<ModelPipelineMonitoringResults> _listPipeline = listPipeline.Where(x => x.MONTH.Equals(month) && !string.IsNullOrEmpty(x.PM_TYPE));
+                Results = _listPipeline.GroupBy(x => x.REGION, (region_id, x) => new {
                         REGION = region_id,
                         List = x.ToList()
                     })
@@ -125,7 +125,7 @@ namespace PTT_NGROUR.Models.ViewModel
                 Results.Add(new ModelPipelineMonitoringResultsRegion
                 {
                     REGION = "Overall",
-                    Activities = listPipeline.GroupBy(o => o.PM_ID, (pm_id, o) => new
+                    Activities = _listPipeline.GroupBy(o => o.PM_ID, (pm_id, o) => new
                         {
                             PM_ID = pm_id,
                             List = o.OrderByDescending(list => list.YEAR).ThenByDescending(list => list.MONTH)
