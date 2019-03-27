@@ -253,6 +253,7 @@
     <Content Include="Content\Images\wall.png" />
     <Content Include="Content\jasny-bootstrap.min.css" />
     <Content Include="Content\jquery-ui-slider-pips.css" />
+    <Content Include="Content\lds-grid.css" />
     <Content Include="Content\Logo\login_logo114.png" />
     <Content Include="Content\Logo\login_logo144.png" />
     <Content Include="Content\Logo\login_logo57.png" />
@@ -753,6 +754,7 @@
     <Content Include="Views\Risk\AcceptanceCriteria.cshtml" />
     <Content Include="Views\Risk\File.cshtml" />
     <Content Include="Views\OM\PartialVueScript.cshtml" />
+    <Content Include="Views\Shared\PartialLoadingGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
