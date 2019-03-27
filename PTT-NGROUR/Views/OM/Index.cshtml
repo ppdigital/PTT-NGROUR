@@ -123,7 +123,7 @@
                         <div class="panel-body bg-grey-100">
                             <div class=" ph2 ph1-xs pv2 col-container-white">
                                 <div class="table-responsive">
-                                    <table class="tableSum table table-bordered ">
+                                    <table class="tableSum table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th rowspan="2" colspan="2" class="textheadSumT h4 b">Pipeline</th>
@@ -341,14 +341,15 @@
                             <div class=" ph2 ph1-xs pv2 col-container-white">
 
                                 <div class="table-responsive">
-                                    <table class="tableSum table table-bordered ">
+                                    <table class="tableSum table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th rowspan="2" colspan="2" class="textheadSumT h4 b">PM Activity</th>
                                                 <th rowspan="2" class="textheadSumT h4 b">Interval</th>
                                                 <template v-if="pipeline !== null">
                                                     <th v-for="region in pipeline.Results.Results"
-                                                        colspan="2">
+                                                        colspan="2"
+                                                        class="region">
                                                         {{ region.REGION }}
                                                     </th>
                                                 </template>
@@ -390,14 +391,20 @@
                                                     </template>
                                                 </template>
                                                 <tr>
-                                                    <td colspan="2">
-                                                        <span>
-                                                            CP System : Anode ground bed, Bond Box, Pipe to
-                                                            soil potential survey, Close Interval potential survey
-                                                            (CIPS), Coating Defect Survey (DCVG)
-                                                        </span>
+                                                    <td colspan="2" class="text-left">
+                                                        <div style="max-width: 500px;">
+                                                            <span>
+                                                                CP System : Anode ground bed, Bond Box, Pipe to
+                                                                soil potential survey, Close Interval potential survey
+                                                                (CIPS), Coating Defect Survey (DCVG)
+                                                            </span>
+                                                        </div>
                                                     </td>
-                                                    <td colspan="3" class="text-center"><span>GTM will submit all reports to NGR Quarterly</span></td>
+                                                    <td :colspan="pipeline.Results.Results.length * 2 + 1"
+                                                        class="text-center"
+                                                        style="vertical-align: middle;">
+                                                        <strong>GTM will submit all reports to NGR Quarterly</strong>
+                                                    </td>
                                                 </tr>
                                             </template>
                                         </tbody>
@@ -551,8 +558,7 @@
             min-height: 10em;
         }
 
-        th.actual,
-        td.actual {
+        th.actual, th.region, td.actual {
             background-color: #d9edf7;
         }
     </style>
