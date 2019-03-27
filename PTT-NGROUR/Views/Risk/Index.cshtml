@@ -243,14 +243,7 @@
                 ACCEPTANCE_CRITERIA: "Acceptance Criteria"
             }
 
-            var topDomain = data.map(function (o, k) {
-                var filter = _.filter(o, function (object, key) {
-                    return _.includes(Object.keys(keysText), key);
-                });
-                return _.max(Object.values(filter))
-            });
-
-            topDomain = Math.floor((topDomain.pop() * 1.1) / 100) * 100;
+            var topDomain = 3000;
 
             // Chart
             var svg = d3.select("#chart").append("svg")
@@ -410,7 +403,7 @@
                 .attr("transform", function (d, i) {
                     return "translate(" + width + ",0)";
                 })
-                .call(d3.axisRight(y).ticks(null, "s"))
+                .call(d3.axisRight(y).ticks(6))
                 .append("text")
                 .attr("x", 0)
                 .attr("y", y(y.ticks().pop()) - 15)
