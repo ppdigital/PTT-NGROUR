@@ -17,6 +17,11 @@
                 })
             }
         },
-        groupRegien
+        methods: {
+            getPMActivity(activity, pm_id, key) {
+                var data = _.find(activity, ['PM_ID', pm_id])
+                return data ? data[key] : 0
+            }
+        }
     })
 </script>
