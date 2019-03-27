@@ -158,6 +158,8 @@
         // Chart
         var acceptanceCriteria = @ViewData["AcceptanceCriteria"];
         var acceptanceCriteriaColor = "rgb(255, 0, 0, .8)";
+        var topDomain = 3000;
+        var topDomainSpace = 500; // topDomain / topDomainSpace
 
         var responsivefy = function (svg) {
             // get container + svg aspect ratio
@@ -237,13 +239,11 @@
                 EXTERNAL_CORROSION: "EXTERNAL CORROSION",
                 THIRD_PARTY_INTERFERENCE: "THIRD PARTY INTERFERENCE",
                 LOSS_OF_GROUND_SUPPORT: "LOSS OF GROUND SUPPORT",
-                //C1: "C1: Societal",
-                //C2: "C2: Cost",
+                C1: "C1: Societal",
+                C2: "C2: Cost",
                 RISK_SCORE: "Risk Score",
                 ACCEPTANCE_CRITERIA: "Acceptance Criteria"
             }
-
-            var topDomain = 3000;
 
             // Chart
             var svg = d3.select("#chart").append("svg")
@@ -286,6 +286,7 @@
                 .append("g");
 
             d.attr("transform", function (d) {
+                console.log(d.RC)
                     return "translate(" + x0(d.RC) + ",0)";
                 })
                 .selectAll("rect")
@@ -403,7 +404,7 @@
                 .attr("transform", function (d, i) {
                     return "translate(" + width + ",0)";
                 })
-                .call(d3.axisRight(y).ticks(6))
+                .call(d3.axisRight(y).ticks(topDomain / topDomainSpace))
                 .append("text")
                 .attr("x", 0)
                 .attr("y", y(y.ticks().pop()) - 15)

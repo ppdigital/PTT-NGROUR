@@ -137,18 +137,7 @@ namespace PTT_NGROUR.Controllers
                     YEAR = Convert.ToInt32(dr["YEAR"].ToString())
                 };
 
-                riskReport.Add(new ModelRiskReport
-                {
-                    REGION = risk.REGION,
-                    LICENSE = risk.LICENSE,
-                    RC = risk.RC,
-                    INTERNAL_CORROSION = risk.INTERNAL_CORROSION,
-                    EXTERNAL_CORROSION = risk.EXTERNAL_CORROSION,
-                    THIRD_PARTY_INTERFERENCE = risk.THIRD_PARTY_INTERFERENCE,
-                    RISK_SCORE = risk.RISK_SCORE,
-                    MONTH = risk.MONTH,
-                    YEAR = risk.YEAR,
-                });
+                riskReport.Add(risk);
             }
 
             return Json(riskReport, JsonRequestBehavior.AllowGet);
