@@ -196,10 +196,10 @@
     </Compile>
     <Compile Include="Models\DataModel\ModelGateMaintenance.cs" />
     <Compile Include="Models\DataModel\ModelPipelineActivity.cs" />
+    <Compile Include="Models\DataModel\ModelPipelineMonitoringResults.cs" />
     <Compile Include="Models\DataModel\ModelRiskManagementImport.cs" />
     <Compile Include="Models\DataModel\ModelRiskReport.cs" />
     <Compile Include="Models\DataModel\ModelRiskType.cs" />
-    <Compile Include="Models\DataModel\ModelPipelineMonitoringResults.cs" />
     <Compile Include="Models\DataModel\ModelThresholdTable.cs" />
     <Compile Include="Models\DataModel\ModelPmInterval.cs" />
     <Compile Include="Models\DataModel\ModelStatus.cs" />
