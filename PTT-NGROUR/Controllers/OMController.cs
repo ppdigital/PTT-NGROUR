@@ -57,7 +57,7 @@ namespace PTT_NGROUR.Controllers
                 //var listMM = dto.GetListMeterMaintenance(pStrMonth, pStrYear, pArrRegion).ToList();
                 var listColor = dto.GetListOmColor().ToList();
 
-                IEnumerable<ModelPipelineMonitoringResults> listPipeline = dto.GetListPipelineMonitoringResults(pStrMonth, pStrYear, pArrRegion, true);
+                IEnumerable<ModelPipelineMonitoringResults> listPipeline = dto.GetListPipelineMonitoringResults(intMonth, intYear, pArrRegion, true);
 
                 modelOm.Year = intYear;
                 modelOm.Month = intMonth;

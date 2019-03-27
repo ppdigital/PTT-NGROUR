@@ -252,6 +252,9 @@
             $("#TextMYChart").text(TextMYChart);
             _divGraph.html("");
             _tblMeter.html("");
+
+            vueSummary.isLoading = true;
+
             $.post(strUrl, param, function (data) {
 
                 if (!data || !data.Result) {
@@ -267,6 +270,7 @@
                 vueSummary.Year = data.Result.Year;
                 vueSummary.Month = data.Result.Month;
                 vueSummary.pipeline = data.Result.Pipeline;
+                vueSummary.isLoading = false;
                 var rs = data.Result.BarGraph;
                 if (rs) {
                     var barChartData = {
@@ -605,4 +609,5 @@
             _tblMeter.html(strAll);
         }
         searchData();
+        Check();
     </script>

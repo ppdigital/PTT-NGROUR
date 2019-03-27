@@ -94,7 +94,7 @@
                     <label for="radioMonth">Month</label>
                 </span>
                 <span class="input-group-addon">
-                    <input type="radio" name="radioMY" id="radioYear" onclick="javascript: Check();">
+                    <input type="radio" name="radioMY" id="radioYear" onclick="javascript:Check();">
                     <label for="radioYear">Year</label>
                 </span>
                 <input type="text" placeholder="Month" class="form-control form-control-sm fz-12px" id="Month-filter" />
@@ -127,7 +127,7 @@
                                         <thead>
                                             <tr>
                                                 <th rowspan="2" colspan="2" class="textheadSumT h4 b">Pipeline</th>
-                                                <th colspan="5">
+                                                <th v-if="Month !== 0" colspan="5">
                                                     {{ currentMonthText }} {{ Year }}
                                                 </th>
                                                 <th colspan="5">
@@ -135,64 +135,76 @@
                                                 </th>
                                             </tr>
                                             <tr>
+                                                <template v-if="Month !== 0">
+                                                    <th>Plan</th>
+                                                    <th>Actual</th>
+                                                    <th>% Completion</th>
+                                                    <th>% Major<br />% Minor</th>
+                                                    <th>% Overall</th>
+                                                </template>
                                                 <th>Plan</th>
                                                 <th>Actual</th>
-                                                <th>% completion</th>
-                                                <th>% Major<br />% Minor</th>
-                                                <th>% Overall</th>
-                                                <th>Plan</th>
-                                                <th>Actual</th>
-                                                <th>% completion</th>
+                                                <th>% Completion</th>
                                                 <th>% Major<br />% Minor</th>
                                                 <th>% Overall</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-if="pipeline === null">
-                                                <td colspan="12" class="text-center">
-                                                    <h2>ไม่พบข้อมูล</h2>
+                                            <tr v-if="pipeline === null || isLoading">
+                                                <td :colspan="Month === 0 ? 7:12" class="text-center">
+                                                    <template v-if="isLoading">
+                                                        @Html.Partial("PartialLoadingGrid")
+                                                    </template>
+                                                    <template v-else>
+                                                        <h2>Not found</h2>
+                                                    </template>
                                                 </td>
                                             </tr>
                                             <template v-else
-                                                      v-for="(type, indexType) in pipeline.Summary.Current">
+                                                      v-for="(type, indexType) in summary">
                                                 <template v-for="(item, i) in type.Activities">
                                                     <tr>
                                                         <td v-if="i === 0"
                                                             :rowspan="type.Activities.length"
-                                                            style="text-align: center; vertical-align: middle;">
-                                                            <span class="textAlignVer">
+                                                            class="text-center text-middle">
+                                                            <strong class="textAlignVer">
                                                                 {{ type.PM_TYPE }}
-                                                            </span>
+                                                            </strong>
                                                         </td>
                                                         <td class="text-left">
                                                             {{ item.PM_NAME }}
                                                         </td>
-                                                        <td><span>{{ item.PLAN }}</span></td>
-                                                        <td><span>{{ item.ACTUAL }}</span></td>
-                                                        <td><span>{{ item.PERCENTAGE }}%</span></td>
-                                                        <td v-if="i === 0"
-                                                            :rowspan="type.Activities.length">
-                                                            <span>{{ type.Percentage }}</span>
-                                                        </td>
-                                                        <td v-if="indexType === 0 && i === 0"
-                                                            rowspan="11">
-                                                            <span>
-                                                                {{ pipeline.Summary.CurrentOrverallPercentage }}
-                                                            </span>
-                                                        </td>
-
+                                                        <template v-if="Month !== 0">
+                                                            <td><span>{{ item.PLAN }}</span></td>
+                                                            <td><span>{{ item.ACTUAL }}</span></td>
+                                                            <td><span>{{ item.PERCENTAGE }}%</span></td>
+                                                            <td v-if="i === 0"
+                                                                :rowspan="type.Activities.length"
+                                                                class="text-center text-middle">
+                                                                <strong>{{ type.Percentage }}</strong>
+                                                            </td>
+                                                            <td v-if="indexType === 0 && i === 0"
+                                                                rowspan="11"
+                                                                class="text-center text-middle">
+                                                                <strong>
+                                                                    {{ pipeline.Summary.CurrentOrverallPercentage }}
+                                                                </strong>
+                                                            </td>
+                                                        </template>
                                                         <td><span>{{ pipeline.Summary.Accumulate[indexType].Activities[i].PLAN }}</span></td>
                                                         <td><span>{{ pipeline.Summary.Accumulate[indexType].Activities[i].ACTUAL }}</span></td>
                                                         <td><span>{{ pipeline.Summary.Accumulate[indexType].Activities[i].PERCENTAGE }}</span></td>
                                                         <td v-if="i === 0"
-                                                            :rowspan="type.Activities.length">
-                                                            <span>{{ pipeline.Summary.Accumulate[indexType].Percentage }}</span>
+                                                            :rowspan="type.Activities.length"
+                                                            class="text-center text-middle">
+                                                            <strong>{{ pipeline.Summary.Accumulate[indexType].Percentage }}</strong>
                                                         </td>
                                                         <td v-if="indexType === 0 && i === 0"
-                                                            rowspan="11">
-                                                            <span>
+                                                            rowspan="11"
+                                                            class="text-center text-middle">
+                                                            <strong>
                                                                 {{ pipeline.Summary.AccumulateOrverallPercentage }}
-                                                            </span>
+                                                            </strong>
                                                         </td>
                                                     </tr>
                                                 </template>
@@ -339,7 +351,6 @@
                     <div id="Pipe" class="panel-collapse collapse">
                         <div class="panel-body bg-grey-100">
                             <div class=" ph2 ph1-xs pv2 col-container-white">
-
                                 <div class="table-responsive">
                                     <table class="tableSum table table-bordered table-striped">
                                         <thead>
@@ -362,18 +373,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-if="pipeline === null">
+                                            <tr v-if="pipeline === null || isLoading">
                                                 <td colspan="12" class="text-center">
-                                                    <h2>ไม่พบข้อมูล</h2>
+                                                    <template v-if="isLoading">
+                                                        @Html.Partial("PartialLoadingGrid")
+                                                    </template>
+                                                    <template v-else>
+                                                        <h2>Not found</h2>
+                                                    </template>
                                                 </td>
                                             </tr>
                                             <template v-else>
-                                                <template v-for="(type, indexType) in pipeline.Summary.Current">
+                                                <template v-for="(type, indexType) in this.pipeline.Summary.Accumulate">
                                                     <template v-for="(pm, i) in type.Activities">
                                                         <tr>
                                                             <td v-if="i === 0"
                                                                 :rowspan="type.Activities.length"
-                                                                style="text-align: center; vertical-align: middle;">
+                                                                class="text-center text-middle">
                                                                 <span class="textAlignVer">
                                                                     {{ type.PM_TYPE }}
                                                                 </span>
@@ -401,8 +417,7 @@
                                                         </div>
                                                     </td>
                                                     <td :colspan="pipeline.Results.Results.length * 2 + 1"
-                                                        class="text-center"
-                                                        style="vertical-align: middle;">
+                                                        class="text-center text-middle">
                                                         <strong>GTM will submit all reports to NGR Quarterly</strong>
                                                     </td>
                                                 </tr>
@@ -519,6 +534,10 @@
     <link href="~/Scripts/DataTables/datatables.min.css" rel="stylesheet" />
     <link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
     <style>
+        .text-middle {
+            vertical-align: middle !important;
+        }
+
         .head {
             background-color: #e0e0e0;
         }
@@ -552,7 +571,7 @@
 
         th {
             text-align: center;
-            vertical-align: middle;
+            vertical-align: middle !important;
             line-height: normal;
             display: table-cell;
             min-height: 10em;

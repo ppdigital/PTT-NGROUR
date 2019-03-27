@@ -17,16 +17,21 @@ namespace PTT_NGROUR.DTO
             dal = null;
             return result.ToList();
         }
-        public IEnumerable<ModelPipelineMonitoringResults> GetListPipelineMonitoringResults(string month, string year, string[] pArrRegion) => this.GetListPipelineMonitoringResults(month, year, pArrRegion, false);
-        public IEnumerable<ModelPipelineMonitoringResults> GetListPipelineMonitoringResults(string month, string year, string[] pArrRegion, bool accumulate)
+        public IEnumerable<ModelPipelineMonitoringResults> GetListPipelineMonitoringResults(int month, int year, string[] pArrRegion) => this.GetListPipelineMonitoringResults(month, year, pArrRegion, false);
+        public IEnumerable<ModelPipelineMonitoringResults> GetListPipelineMonitoringResults(int month, int year, string[] pArrRegion, bool accumulate)
         {
+            if (month.Equals(0)) month = 12;
+            if (month.Equals(0) && !accumulate)
+            {
+                return null;
+            }
             string strCommand = "SELECT * FROM VIEW_PM_IA_MONITORING_RESULTS WHERE 1=1 ";
-            if (!string.IsNullOrEmpty(month))
+            if (!month.Equals(0))
             {
                 strCommand += $" AND MONTH {(accumulate ? "<" :  "")}= " + month;
             }
 
-            if (!string.IsNullOrEmpty(year))
+            if (!month.Equals(0))
             {
                 strCommand += " AND YEAR = " + year;
             }

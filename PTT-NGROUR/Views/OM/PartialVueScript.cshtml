@@ -6,7 +6,8 @@
         data: {
             Year: null,
             Month: null,
-            pipeline: null
+            pipeline: null,
+            isLoading: false
         },
         computed: {
             currentMonthText() {
@@ -15,6 +16,12 @@
                 return date.toLocaleDateString('en-US', {
                     month: 'long'
                 })
+            },
+            summary() {
+                if (this.pipeline) {
+                    return this.Month === 0 ? this.pipeline.Summary.Accumulate : this.pipeline.Summary.Current
+                }
+                return null
             }
         },
         methods: {
