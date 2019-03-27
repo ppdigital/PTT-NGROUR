@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
+﻿using PTT_NGROUR.ExtentionAndLib;
 using PTT_NGROUR.Models.DataModel;
 using PTT_NGROUR.Models.ViewModel;
-using PTT_NGROUR.ExtentionAndLib;
-using System.Collections;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PTT_NGROUR.DTO
 {
