@@ -755,6 +755,7 @@
     <Content Include="Views\Risk\File.cshtml" />
     <Content Include="Views\OM\PartialVueScript.cshtml" />
     <Content Include="Views\Shared\PartialLoadingGrid.cshtml" />
+    <Content Include="Views\OM\PartialPipelineChartScript.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
