@@ -29,7 +29,7 @@ namespace PTT_NGROUR.DTO
         public int Worksheet = 5;
         public int StartRow = 3;
 
-        public IEnumerable<Models.DataModel.ModelRiskManagementImport> ReadExcelRiskManagementImport(
+        public IEnumerable<ModelRiskManagementImport> ReadExcelRiskManagementImport(
           System.IO.Stream pStreamExcel,
           int pIntMonth,
           int pIntYear,
