@@ -297,11 +297,22 @@ namespace PTT_NGROUR.Controllers
         ModelInsertExcelData pModelResult)
         {
             var dto = new DtoRisk();
+
             var listExcelRiskManagement = dto.ReadExcelRiskManagementImport(
-                 pStreamExcel: pFileStream,
-                 pStrUploadBy: pStrUploadBy,
-                 pIntMonth: pIntMonth,
-                 pIntYear: pIntYear).Where(x => x != null).ToList();
+                pStreamExcel: pFileStream,
+                pStrUploadBy: pStrUploadBy,
+                pIntMonth: pIntMonth,
+                pIntYear: pIntYear
+                )
+                .Where(x => x != null)
+                .GroupBy(x => x.RC)
+                .Select(g => g.Last())
+                .ToList();
+
+            var duplicateInListAfter = listExcelRiskManagement.GroupBy(x => x.RC)
+              .Where(g => g.Count() > 1)
+              .Select(y => new { Element = y.Key, Counter = y.Count() })
+              .ToList();
 
             var listRiskManagementDuplicate = dto.GetListRiskManagementImportDuplicate(listExcelRiskManagement)
             .Where(x => x != null).ToList();
