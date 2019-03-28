@@ -158,8 +158,8 @@
         // Chart
         var acceptanceCriteria = @ViewData["AcceptanceCriteria"];
         var acceptanceCriteriaColor = "rgb(255, 0, 0, .8)";
-        var topDomain = 3000;
-        var topDomainSpace = 500; // topDomain / topDomainSpace
+        var MaxRiskScore = 3000;
+        var MaxRiskScoreSpace = 500; // MaxRiskScore / MaxRiskScoreSpace
 
         var responsivefy = function (svg) {
             // get container + svg aspect ratio
@@ -188,8 +188,14 @@
             }
         }
 
-        var randerChart = function (data) {
+        var renderChart = function (data) {
             $("#chart svg").remove();
+
+
+            /**
+             * Config
+             * 
+             */
 
             // Key
             var colors = ["rgba(255,0,0,.15"]
@@ -245,7 +251,11 @@
                 ACCEPTANCE_CRITERIA: "Acceptance Criteria"
             }
 
-            // Chart
+
+            /**
+             * Initial
+             * 
+             */
             var svg = d3.select("#chart").append("svg")
                 .attr("width", $('.chart-wrapper').width())
                 .attr("height", $('.chart-wrapper').width() / 1.92)
@@ -266,6 +276,8 @@
                 .rangeRound([height, 0]);
             var yLeft = d3.scaleLinear()
                 .rangeRound([height, 0]);
+            var yRight = d3.scaleLinear()
+                .rangeRound([height, 0]);
 
             var z = d3.scaleOrdinal()
                 .range(colors);
@@ -276,9 +288,13 @@
             x1.domain(keys).rangeRound([0, x0.bandwidth()]);
 
             yLeft.domain([0, 100]).nice();
-            y.domain([0, topDomain]).nice();
+            yRight.domain([0, MaxRiskScore]).nice();
 
-            // data
+
+            /**
+             * Data
+             * 
+             */
             var d = g.append("g")
                 .selectAll("g")
                 .data(data)
@@ -286,7 +302,6 @@
                 .append("g");
 
             d.attr("transform", function (d) {
-                console.log(d.RC)
                     return "translate(" + x0(d.RC) + ",0)";
                 })
                 .selectAll("rect")
@@ -295,6 +310,7 @@
                         return { key: key, value: d[key] };
                     });
 
+                    // Insert Risk Score for Background
                     k.unshift({ key: "RISK_SCORE", value: d["RISK_SCORE"] })
 
                     return k;
@@ -306,7 +322,9 @@
                     }
                     return x1(d.key);
                 })
-                .attr("y", function (d) { return y(d.value); })
+                .attr("y", function (d) {
+                    return d.key === "RISK_SCORE" ? yRight(d.value) : yLeft(d.value);
+                })
                 .attr("width", function (d) {
                     if (d.key === "RISK_SCORE") {
                         var posStart = (x1.bandwidth() / 2) + x1(keys[0])
@@ -315,28 +333,38 @@
                     }
                     return x1.bandwidth()
                 })
-                .attr("height", function (d) { return height - y(d.value); })
+                .attr("height", function (d) {
+                    var _y = d.key === "RISK_SCORE" ? yRight(d.value) : yLeft(d.value);
+                    return height - _y;
+                })
                 .attr("fill", function (d) { return z(d.key); });
 
             if (data.length <= 15) {
                 d.append("text")
                     .attr("text-anchor", "end")
-                    .attr("dy", "0.32em")
                     .attr("transform", function (d) {
                         var translateY = 0;
                         var translateX = (x1.bandwidth() * keys.length) / 2;
                         keys.forEach(function (element) {
                             if (d[element] > translateY) translateY = d[element]
                         });
-                        return "translate(" + translateX + ", " + (y(translateY) - 20) + ") rotate(90)"
+
+                        translateY = yLeft(translateY);
+
+                        return "translate(" + translateX + ", " + (translateY - 60) + ") rotate(90)"
                     })
+                    .attr("font-size", "1.5em")
+                    .attr("font-weight", "bold")
                     .text(function (d) {
                         return d.RC;
                     });
             }
-            // data
 
-            // axis-x bottom
+
+            /**
+             * Axis Bottom
+             * 
+             */
             axisBottom = g.append("g")
                 .attr("class", "axis")
                 .attr("transform", "translate(0," + height + ")")
@@ -344,9 +372,12 @@
                     .tickSize(0));
 
             axisBottom.selectAll("text").remove()
-            // axis-x bottom
 
-            // axis-y left
+
+            /**
+             * Axis Left
+             * 
+             */
             var axisYLeft = g.append("g")
                 .style("font", "14px")
                 .attr("class", "axis")
@@ -357,7 +388,7 @@
 
             axisYLeft.append("text")
                 .attr("x", 0)
-                .attr("y", y(y.ticks().pop()) - 15)
+                .attr("y", y(yLeft.ticks().pop()) - 15)
                 .attr("dy", "0.32em")
                 .attr("fill", "#258fe5")
                 .attr("font-weight", "bold")
@@ -398,16 +429,20 @@
             //    .text("ใบอนุญาตที่ 1 - 50");
             // axis-y left
 
-            // axis-y right
+
+            /**
+             * Axis Right
+             * 
+             */
             g.append("g")
                 .attr("class", "axis")
                 .attr("transform", function (d, i) {
                     return "translate(" + width + ",0)";
                 })
-                .call(d3.axisRight(y).ticks(topDomain / topDomainSpace))
+                .call(d3.axisRight(yRight).ticks(MaxRiskScore / MaxRiskScoreSpace))
                 .append("text")
                 .attr("x", 0)
-                .attr("y", y(y.ticks().pop()) - 15)
+                .attr("y", y(yRight.ticks().pop()) - 15)
                 .attr("dy", "0.32em")
                 .attr("fill", "#258fe5")
                 .attr("font-weight", "bold")
@@ -415,7 +450,11 @@
                 .text("Total Score");
             // axis-y right
 
-            // legend
+
+            /**
+             * Legend
+             * 
+             */
             var tabSpace = 240
             var legend_tabs = [];
             var colMax = 3
@@ -485,7 +524,6 @@
                 .attr("dy", ".35em")
                 .style("text-anchor", "begin")
                 .text(keysText.ACCEPTANCE_CRITERIA);
-            // legend
         }
 
         function onSubmit() {
@@ -505,7 +543,7 @@
             })
                 .then(function (response) {
                     data = response.data
-                    randerChart(data)
+                    renderChart(data)
                 })
                 .catch(function (error) {
                     // handle error
@@ -519,7 +557,7 @@
         getRiskJson();
 
         $('[name="riskType"]').on('change', function () {
-            randerChart(data)
+            renderChart(data)
         })
     </script>
 }
