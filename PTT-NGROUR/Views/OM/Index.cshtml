@@ -150,13 +150,13 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-if="pipeline === null || isLoading">
+                                            <tr v-if="pipeline === null || pipeline.Summary.Accumulate.length === 0 || isLoading">
                                                 <td :colspan="Month === 0 ? 7:12" class="text-center">
                                                     <template v-if="isLoading">
                                                         @Html.Partial("PartialLoadingGrid")
                                                     </template>
                                                     <template v-else>
-                                                        <h2>Not found</h2>
+                                                        <h2>No data</h2>
                                                     </template>
                                                 </td>
                                             </tr>
@@ -373,13 +373,13 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-if="pipeline === null || isLoading">
+                                            <tr v-if="pipeline === null || pipeline.Summary.Accumulate.length === 0 || isLoading">
                                                 <td colspan="12" class="text-center">
                                                     <template v-if="isLoading">
                                                         @Html.Partial("PartialLoadingGrid")
                                                     </template>
                                                     <template v-else>
-                                                        <h2>Not found</h2>
+                                                        <h2>No data</h2>
                                                     </template>
                                                 </td>
                                             </tr>
@@ -424,6 +424,10 @@
                                             </template>
                                         </tbody>
                                     </table>
+                                </div>
+
+                                <div class="chart-wrapper">
+                                    <div id="chart" class="chart"></div>
                                 </div>
                             </div>
                         </div>
@@ -577,13 +581,36 @@
             min-height: 10em;
         }
 
+        .axis {
+            font-size: 14px;
+        }
+
+            .axis path, .axis line {
+                fill: none;
+                stroke: rgba(0,0,0,.25);
+                shape-rendering: crispEdges;
+            }
+
         th.actual, th.region, td.actual {
             background-color: #d9edf7;
         }
+
+        .chart-wrapper {
+            text-align: center;
+        }
+
+            .chart-wrapper .chart {
+                display: inline-block;
+                margin: auto 0;
+                border: 1px solid #ddd;
+                overflow: hidden;
+            }
     </style>
 }
 
 @section scripts{
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     @Html.Partial("PartialVueScript")
     @Html.Partial("PartialMeteringScript")
+    @Html.Partial("PartialPipelineChartScript")
 }

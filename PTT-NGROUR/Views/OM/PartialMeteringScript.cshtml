@@ -267,10 +267,13 @@
                     return;
                 }
                 window.myBar.options.horizontalLine = null;
+                vueSummary.PipelineActivity = _.keyBy(data.Result.PipelineActivity, 'PM_ID');
                 vueSummary.Year = data.Result.Year;
                 vueSummary.Month = data.Result.Month;
                 vueSummary.pipeline = data.Result.Pipeline;
                 vueSummary.isLoading = false;
+                renderChart();
+
                 var rs = data.Result.BarGraph;
                 if (rs) {
                     var barChartData = {
