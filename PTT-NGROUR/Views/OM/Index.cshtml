@@ -66,6 +66,10 @@
     .panel-title .glyphicon {
         font-size: 11px;
     }
+
+    .text-white {
+        color: #ffffff;
+    }
     /* .tableSum > tbody > tr:nth-child(even) > td,
     .tableSum > thead:nth-last-child(-n+2) > tr:nth-last-child(-n+2) > th {
         background-color: #d9edf7;
@@ -151,7 +155,7 @@
                                         </thead>
                                         <tbody>
                                             <tr v-if="pipeline === null || pipeline.Summary.Accumulate.length === 0 || isLoading">
-                                                <td :colspan="Month === 0 ? 7:12" class="text-center">
+                                                <td :colspan="Month === 0 ? 7:12" class="text-center pv3">
                                                     <template v-if="isLoading">
                                                         @Html.Partial("PartialLoadingGrid")
                                                     </template>
@@ -171,7 +175,7 @@
                                                                 {{ type.PM_TYPE }}
                                                             </strong>
                                                         </td>
-                                                        <td class="text-left">
+                                                        <td class="text-left text-white" :style="{ 'background-color': getBackgroundColor(PipelineActivity[item.PM_ID].PIPELINE_HEX) }">
                                                             {{ item.PM_NAME }}
                                                         </td>
                                                         <template v-if="Month !== 0">
@@ -374,7 +378,7 @@
                                         </thead>
                                         <tbody>
                                             <tr v-if="pipeline === null || pipeline.Summary.Accumulate.length === 0 || isLoading">
-                                                <td colspan="12" class="text-center">
+                                                <td :colspan="this.pipeline ? (pipeline.Summary.Accumulate[0].Activities.length * 2) + 3 : 2" class="text-center pv3">
                                                     <template v-if="isLoading">
                                                         @Html.Partial("PartialLoadingGrid")
                                                     </template>
@@ -394,10 +398,10 @@
                                                                     {{ type.PM_TYPE }}
                                                                 </span>
                                                             </td>
-                                                            <td class="text-left">
+                                                            <td class="text-left text-white" :style="{ 'background-color': getBackgroundColor(PipelineActivity[pm.PM_ID].PIPELINE_HEX) }">
                                                                 {{ pm.PM_NAME }}
                                                             </td>
-                                                            <td><span>1 Week</span></td>
+                                                            <td><span>{{ PipelineActivity[pm.PM_ID].INTERVAL }}</span></td>
 
                                                             <template v-for="item in pipeline.Results.Results">
                                                                 <td><span>{{ getPMActivity(item.Activities, pm.PM_ID, 'PLAN') }}</</span></td>
@@ -427,7 +431,7 @@
                                 </div>
 
                                 <div class="chart-wrapper">
-                                    <div id="chart" class="chart"></div>
+                                    <div v-show="!isLoading" id="chart" class="chart"></div>
                                 </div>
                             </div>
                         </div>
