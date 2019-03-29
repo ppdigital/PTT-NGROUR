@@ -25,6 +25,7 @@ namespace PTT_NGROUR.Models.DataModel
             this.PM_TYPE = pReader.GetColumnValue("PM_TYPE").GetString();
             this.PM_NAME_FULL = pReader.GetColumnValue("PM_NAME_FULL").GetString();
             this.PM_SYSTEM = pReader.GetColumnValue("PM_SYSTEM").GetString();
+            this.PIPELINE_HEX = pReader.GetColumnValue("PIPELINE_HEX").GetString();
         }
         public string PIPELINE_ACT_ID { get; set; }
         public string PM_NAME_ABV { get; set; }
@@ -33,5 +34,6 @@ namespace PTT_NGROUR.Models.DataModel
         public string PM_NAME_FULL { get; set; }
         public string PM_TYPE { get; set; }
         public string PM_SYSTEM { get; set; }
+        public string PIPELINE_HEX { get; set; }
     }
 }

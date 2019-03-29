@@ -11,7 +11,7 @@ namespace PTT_NGROUR.DTO
     {
         public List<ModelPipelineActivity> GetPipelineActivity()
         {
-            string strCommand = "SELECT * FROM PIPELINE_ACTIVITY";
+            string strCommand = "SELECT * FROM VIEW_PIPELINE_ACTIVITY";
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelPipelineActivity(x));
             dal = null;
