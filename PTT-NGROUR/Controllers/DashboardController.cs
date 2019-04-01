@@ -12,7 +12,7 @@ namespace PTT_NGROUR.Controllers
     {
         //
         // GET: /Dashboard/
-        [PTT_NGROUR.Controllers.AuthorizeController.CustomAuthorize]
+        [AuthorizeController.CustomAuthorize]
         public ActionResult Index()
         {
             var dal = new DAL.DAL();

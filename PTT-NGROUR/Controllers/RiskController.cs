@@ -15,6 +15,7 @@ namespace PTT_NGROUR.Controllers
     public class RiskController : Controller
     {
         // GET: /Risk/
+        [AuthorizeController.CustomAuthorize]
         public ActionResult Index()
         {
             DAL.DAL dal = new DAL.DAL();
@@ -93,6 +94,7 @@ namespace PTT_NGROUR.Controllers
 
         // POST: /Risk/Json
         [HttpPost]
+        [AuthorizeController.CustomAuthorize]
         public JsonResult Json(ModelViewRiskReport model)
         {
             string strCommand = $"SELECT * FROM VIEW_RISK_REPORT WHERE MONTH = {model.Month} AND YEAR = {model.Year}";
@@ -145,12 +147,14 @@ namespace PTT_NGROUR.Controllers
 
         #region Import Excel
         // POST: /Risk/ImportExcel
+        [AuthorizeController.CustomAuthorize]
         public ActionResult ImportExcel()
         {
             return View();
         }
 
         // POST: /Risk/UploadFile
+        [AuthorizeController.CustomAuthorize]
         public JsonResult UploadFile()
         {
             var dto = new DTO.DtoRisk();
@@ -192,6 +196,7 @@ namespace PTT_NGROUR.Controllers
 
         // POST: /Risk/IsDuplicateExcelData
         [HttpPost]
+        [AuthorizeController.CustomAuthorize]
         public JsonResult IsDuplicateExcelData()
         {
             var result = new ModelJsonResult<bool>();
@@ -238,6 +243,7 @@ namespace PTT_NGROUR.Controllers
 
         // POST: /Risk/InsertExceldata
         [HttpPost]
+        [AuthorizeController.CustomAuthorize]
         public JsonResult InsertExceldata()
         {
             var result = new ModelJsonResult<ModelInsertExcelData>();
@@ -351,6 +357,7 @@ namespace PTT_NGROUR.Controllers
         #endregion
 
         [HttpGet]
+        [AuthorizeController.CustomAuthorize]
         #region AcceptanceCriteria
         public ActionResult AcceptanceCriteria()
         {
@@ -361,6 +368,7 @@ namespace PTT_NGROUR.Controllers
         }
 
         [HttpPost]
+        [AuthorizeController.CustomAuthorize]
         public ActionResult AcceptanceCriteria(ModelAcceptanceCriteria model)
         {
             if (ModelState.IsValid)
