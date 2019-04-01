@@ -193,6 +193,7 @@ namespace PTT_NGROUR.Controllers
             //Source data returned as JSON  
             return Json(iData, JsonRequestBehavior.AllowGet);
         }  
+
         [HttpPost]
         public JsonResult SearchRegion(int[] region)
         {
@@ -202,7 +203,10 @@ namespace PTT_NGROUR.Controllers
             var ds = dal.GetDataSet(searchregion);
             var listUtilization = dal.ReadData(searchregion, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
             dal = null;
-            return Json(listRegion, JsonRequestBehavior.AllowGet);
+            return Json(new
+            {
+                utilization = listUtilization
+            }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -234,11 +238,14 @@ namespace PTT_NGROUR.Controllers
                         YEAR = Convert.ToInt32(dr["YEAR"].ToString()),
                         THRESHOLD = dr["THRESHOLD"].ToString(),
                     };
-                    listRegion.Add(reg);
+                    listUtilization.Add(reg);
                 }
             }
 
-            return Json(listRegion, JsonRequestBehavior.AllowGet);
+            return Json(new
+            {
+                utilization = listUtilization
+            }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -252,10 +259,10 @@ namespace PTT_NGROUR.Controllers
             var listUtilization = dal.ReadData(searchlicense, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
             dal = null;
 
-            
-           
-
-            return Json(listLicense, JsonRequestBehavior.AllowGet);
+            return Json(new
+            {
+                utilization = listUtilization
+            }, JsonRequestBehavior.AllowGet);
         }
 
     }
