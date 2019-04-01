@@ -1,0 +1,40 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelUtilization
+<script type="text/javascript">
+    var SeRegion = [ @Model.ListRegion.Select(x=> x.REGION_ID.ToString()).Aggregate((x,y)=> x+ ","+y) ];
+    function Search() {
+
+        let url;
+
+        let multidata;
+        let strMode = "";
+        if (document.getElementById('radioRegion').checked) {
+            url = '@Url.Action("SearchRegion")';
+            multidata = SeRegion;
+            strMode = "region";
+        }
+        else if (document.getElementById('radioLicense').checked) {
+            url = '@Url.Action("SearchLicense")';
+            multidata = SeLicense;
+            strMode = "license";
+        }
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(multidata),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+                showPIE("PIPELINE", data.utilization);
+                showPIE("GATESTATION", data.utilization);
+                showUtilTable(data.utilization);
+            },
+            error: function (result) {
+                alert('Please select the data');
+            }
+        });
+    }
+    $(document).ready(function () {
+        Search();
+    });
+</script>

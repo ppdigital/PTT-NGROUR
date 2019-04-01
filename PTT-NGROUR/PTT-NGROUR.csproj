@@ -756,6 +756,12 @@
     <Content Include="Views\OM\PartialVueScript.cshtml" />
     <Content Include="Views\Shared\PartialLoadingGrid.cshtml" />
     <Content Include="Views\OM\PartialPipelineChartScript.cshtml" />
+    <Content Include="Views\Dashboard\PartialSearch.cshtml" />
+    <Content Include="Views\Dashboard\PartialSearchScript.cshtml" />
+    <Content Include="Views\Dashboard\PartialUtilization.cshtml" />
+    <Content Include="Views\Dashboard\PartialUtilizationScript.cshtml" />
+    <Content Include="Views\Dashboard\PartialOM.cshtml" />
+    <Content Include="Views\Dashboard\PartialRiskManagement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

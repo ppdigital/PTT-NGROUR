@@ -1,0 +1,60 @@
+﻿<div class="ph0-xs">
+    <div class=" p-3 mb-2 text-dark " style="border: none !important">
+        <div class=" " style="padding-bottom:.5rem;padding-top:1rem;">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <span class=" col-lg-2 col-md-2 col-sm-1"></span>
+                    <span class="col-lg-2 col-md-2 col-sm-3 col-xs-10">
+                        <label class=" ml-5 lato" style="padding-right:6px">
+                            <input type="radio" name="radio" id="radioRegion" checked="checked" onclick="javascript:Check();">
+                            <span class="checkmark h6 b">Region</span>
+                        </label>&nbsp;
+                        <label class="d-none ">
+                            <input type="radio" name="radio" id="radioLicense" onclick="javascript:Check();">
+                            <span class="checkmark h6 b"> License</span>
+                        </label>
+                    </span>
+                    <div class="col-lg-4 col-md-5  col-sm-5 col-xs-7" id="seRegion" style="padding-bottom: 0rem !important">
+                        <div class="form-group" style="margin-bottom:5px;">
+
+                            <select class="selectpicker fz-12px form-control" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;">
+                                @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
+                                {
+                                    <option value="@ml.REGION_ID" class="text-grey" style="word-wrap:break-word;font-size:15px" selected="selected">@ml.REGION_NAME</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-4 col-md-5 col-sm-5 col-xs-7" id="seLicense" style="padding-bottom: 0rem !important">
+                        <div class="form-group" style="margin-bottom:5px;">
+                            <select class="selectpicker fz-12px form-control" name="MultiLicense" id="MultiLicense" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="">
+                                @foreach (PTT_NGROUR.Models.DataModel.ModelLicenseMaster ml in Model.ListLicense)
+                                {
+                                    <option class="hidden-sm hidden-xs" value="@ml.LICENSE_ID" style="word-wrap: break-word">@ml.LICENSE</option>
+                                    <option class="hidden-lg hidden-md" value="@ml.LICENSE_ID" style="word-wrap: break-word;white-space:normal">@ml.LICENSE</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-5" id="seLicense" style="padding-bottom: 0rem !important">
+                        <div class="form-group" style="margin-bottom:5px;">
+                            <select class="selectpicker fz-12px form-control">
+                                <option value="pipeline">Pipeline</option>
+                                <option value="mustard">Gate Station</option>
+                            </select>
+                        </div>
+                    </div>-->
+                    <span class="col-lg-1 col-sm-2 col-xs-1">
+                        <button type="button" class="btn btn-primary" id="btnSearch" onclick="Search()" style="border-radius:0">
+                            <span class="glyphicon glyphicon-search"></span> Search
+                        </button>
+                    </span>
+                    <span class="col-lg-3 col-md-3 col-sm-3 col-xs-1"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
