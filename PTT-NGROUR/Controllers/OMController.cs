@@ -16,6 +16,7 @@ namespace PTT_NGROUR.Controllers
         //
         // GET: /OM/
         //S[PTT_NGROUR.Controllers.AuthorizeController.CustomAuthorize]
+        [AuthorizeController.CustomAuthorize]
         public ActionResult Index()
         {
             var dto = new DtoOM();
@@ -35,6 +36,7 @@ namespace PTT_NGROUR.Controllers
         }
 
         [HttpPost]
+        [AuthorizeController.CustomAuthorize]
         public ActionResult SearchData(string pStrYear, string pStrMonth, string[] pArrRegion)
         {
             var result = new ModelJsonResult<ModelOmIndex>();
@@ -87,6 +89,7 @@ namespace PTT_NGROUR.Controllers
         }
 
         [HttpPost]
+        [AuthorizeController.CustomAuthorize]
         public ActionResult SearchData2(string pStrYear , string pStrMonth , string[] pArrRegion)
         {
             var result = new ModelJsonResult<ModelOmIndex.ModelBarGraph>();
