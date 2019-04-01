@@ -267,7 +267,7 @@ namespace PTT_NGROUR.Controllers
             var ds = dal.GetDataSet(searchregion);
 
 
-            var listRegion = dal.ReadData(searchregion, x => new ModelGetU(x)).ToList(); //new List<ModelGetU>();
+            var listRegion = dal.ReadData(searchregion, x => new ModelGetUtilization(x)).ToList(); //new List<ModelGetU>();
 
             dal = null;
             return new ViewAsPdf(listRegion);
@@ -497,7 +497,7 @@ namespace PTT_NGROUR.Controllers
             var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "')";
             var ds = dal.GetDataSet(searchregion);
 
-            var listRegion = dal.ReadData(searchregion, x => new ModelGetU(x)).ToList();
+            var listRegion = dal.ReadData(searchregion, x => new ModelGetUtilization(x)).ToList();
             dal = null;
 
             return Json(listRegion, JsonRequestBehavior.AllowGet);
@@ -540,7 +540,7 @@ namespace PTT_NGROUR.Controllers
             string licenseStr = string.Join("','", license);
             var searchlicense = @"select * from VIEW_GATEPIPEMETER_MENU WHERE LICENSE IN ('" + licenseStr + "')";
             var ds = dal.GetDataSet(searchlicense);
-            var listLicense = dal.ReadData(searchlicense, x => new ModelGetU(x)).ToList();
+            var listLicense = dal.ReadData(searchlicense, x => new ModelGetUtilization(x)).ToList();
             dal = null;
 
             return Json(listLicense, JsonRequestBehavior.AllowGet);
@@ -1345,12 +1345,12 @@ namespace PTT_NGROUR.Controllers
             var ds = dal.GetDataSet(searchregion);
 
 
-            var listRegion = new List<ModelGetU>();
+            var listRegion = new List<ModelGetUtilization>();
             if (ds.Tables[0].Rows.Count > 0)
             {
                 foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
                 {
-                    var reg = new ModelGetU()
+                    var reg = new ModelGetUtilization()
                     {
                         NAME = dr["NAME"].ToString(),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),
@@ -1444,14 +1444,14 @@ namespace PTT_NGROUR.Controllers
             var ds = dal.GetDataSet(searchregion);
 
 
-            var listRegion = new List<ModelGetU>();
+            var listRegion = new List<ModelGetUtilization>();
             if (ds.Tables[0].Rows.Count > 0)
             {
 
 
                 foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
                 {
-                    var reg = new ModelGetU()
+                    var reg = new ModelGetUtilization()
                     {
 
                         NAME = dr["NAME"].ToString(),
@@ -1512,14 +1512,14 @@ namespace PTT_NGROUR.Controllers
             var ds = dal.GetDataSet(searchlicense);
 
 
-            var listLicense = new List<ModelGetU>();
+            var listLicense = new List<ModelGetUtilization>();
             if (ds.Tables[0].Rows.Count > 0)
             {
 
 
                 foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
                 {
-                    var reg = new ModelGetU()
+                    var reg = new ModelGetUtilization()
                     {
                         NAME = dr["NAME"].ToString(),
                         REGION = Convert.ToInt32(dr["REGION"].ToString()),

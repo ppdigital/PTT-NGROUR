@@ -200,7 +200,7 @@ namespace PTT_NGROUR.Controllers
             string regionStr = string.Join("','", region);
             var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "') AND TYPE NOT LIKE 'METERING'"; 
             var ds = dal.GetDataSet(searchregion);
-            var listRegion = dal.ReadData(searchregion, x => new Models.DataModel.ModelGetU(x)).ToList();
+            var listUtilization = dal.ReadData(searchregion, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
             dal = null;
             return Json(listRegion, JsonRequestBehavior.AllowGet);
         }
@@ -213,14 +213,14 @@ namespace PTT_NGROUR.Controllers
             var ds = dal.GetDataSet(searchregion);
 
 
-            var listRegion = new List<Models.DataModel.ModelGetU>();
+            var listUtilization = new List<Models.DataModel.ModelGetUtilization>();
             if (ds.Tables[0].Rows.Count > 0)
             {
 
 
                 foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
                 {
-                    var reg = new Models.DataModel.ModelGetU()
+                    var reg = new Models.DataModel.ModelGetUtilization()
                     {
                         //CUST_NAME = dr["CUST_NAME"].ToString(),
                         NO = Convert.ToInt32(dr["NO"].ToString()),
@@ -249,7 +249,7 @@ namespace PTT_NGROUR.Controllers
             var searchlicense = @"select * from VIEW_GATEPIPEMETER_MENU WHERE LICENSE IN ('" + licenseStr + "') AND TYPE NOT LIKE 'METERING'";
             var ds = dal.GetDataSet(searchlicense);
 
-            var listLicense = dal.ReadData(searchlicense, x => new Models.DataModel.ModelGetU(x)).ToList();
+            var listUtilization = dal.ReadData(searchlicense, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
             dal = null;
 
             

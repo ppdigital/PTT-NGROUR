@@ -207,7 +207,7 @@
     <Compile Include="Models\DataModel\ModelGateStationArchive.cs" />
     <Compile Include="Models\DataModel\ModelGateStationImport.cs" />
     <Compile Include="Models\DataModel\ModelCustomer.cs" />
-    <Compile Include="Models\DataModel\ModelGetU.cs" />
+    <Compile Include="Models\DataModel\ModelGetUtilization.cs" />
     <Compile Include="Models\DataModel\ModelMeterMaintenance.cs" />
     <Compile Include="Models\DataModel\ModelOmColor.cs" />
     <Compile Include="Models\DataModel\ModelRegion.cs" />
