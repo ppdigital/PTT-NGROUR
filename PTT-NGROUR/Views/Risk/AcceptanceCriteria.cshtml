@@ -52,10 +52,7 @@
                             <div class="form-group mb-5">
                                 <label for="inputAcceptanceCriteria" class="col-md-5 control-label">Acceptance Criteria</label>
                                 <div class="col-md-7">
-                                    <div class="input-group">
-                                        @Html.TextBoxFor(model => model.RISK_CRITERIA, null, new { @class = "form-control text-right", min = 0, type = "number" })
-                                        <span class="input-group-addon" id="basic-addon1">%</span>
-                                    </div>
+                                    @Html.TextBoxFor(model => model.RISK_CRITERIA, null, new { @class = "form-control text-right", min = 0, type = "number" })
                                 </div>
                             </div>
                             <div class="row">

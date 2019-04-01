@@ -24,7 +24,7 @@ namespace PTT_NGROUR.Models.DataModel
 
         [Required]
         [DataType(DataType.PhoneNumber)]
-        [Range(0, 100)]
+        //[Range(0, 100)]
         [Display(Name = "Acceptance Criteria")]
         public int RISK_CRITERIA { get; set; }
         public DateTime? UPDATE_DATE { get; set; }
