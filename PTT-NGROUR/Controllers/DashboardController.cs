@@ -200,12 +200,13 @@ namespace PTT_NGROUR.Controllers
             var dal = new DAL.DAL();
             string regionStr = string.Join("','", region);
             var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "') AND TYPE NOT LIKE 'METERING'"; 
-            var ds = dal.GetDataSet(searchregion);
             var listUtilization = dal.ReadData(searchregion, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
             dal = null;
             return Json(new
             {
-                utilization = listUtilization
+                utilization = listUtilization,
+                //pipeline = null,
+                //risk= null
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -215,7 +216,6 @@ namespace PTT_NGROUR.Controllers
             var dal = new DAL.DAL();
             var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE TYPE NOT LIKE 'METERING' AND REGION IS NOT NULL";
             var ds = dal.GetDataSet(searchregion);
-
 
             var listUtilization = new List<Models.DataModel.ModelGetUtilization>();
             if (ds.Tables[0].Rows.Count > 0)

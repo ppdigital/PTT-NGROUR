@@ -25,7 +25,7 @@ namespace PTT_NGROUR.DTO
             {
                 return null;
             }
-            string strCommand = "SELECT * FROM VIEW_PM_IA_MONITORING_RESULTS WHERE 1=1 ";
+            string strCommand = "SELECT * FROM VIEW_OM_PIPELINE_HISTORY WHERE 1=1 ";
             if (!month.Equals(0))
             {
                 strCommand += $" AND MONTH {(accumulate ? "<" :  "")}= " + month;

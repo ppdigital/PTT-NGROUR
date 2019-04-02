@@ -16,7 +16,7 @@ namespace PTT_NGROUR.Models.DataModel
             }
             this.YEAR = pReader.GetColumnValue("YEAR").GetInt();
             this.MONTH = pReader.GetColumnValue("MONTH").GetInt();
-            this.REGION = pReader.GetColumnValue("REGION").GetString();
+            this.REGION = pReader.GetColumnValue("REGION_NAME").GetString();
             this.RC = pReader.GetColumnValue("RC").GetString();
             this.PM_TYPE = pReader.GetColumnValue("PM_TYPE").GetString();
             this.PM_ID = pReader.GetColumnValue("PM").GetString();

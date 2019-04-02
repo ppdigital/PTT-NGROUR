@@ -8,7 +8,7 @@ namespace PTT_NGROUR.Models.DataModel
     public class ModelRiskReport
     {
         public int REGION { get; set; }
-        public int? LICENSE { get; set; }
+        public string LICENSE { get; set; }
         public string RC { get; set; }
         public double INTERNAL_CORROSION { get; set; }
         public double EXTERNAL_CORROSION { get; set; }

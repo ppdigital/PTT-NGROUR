@@ -97,7 +97,7 @@ namespace PTT_NGROUR.Controllers
         [AuthorizeController.CustomAuthorize]
         public JsonResult Json(ModelViewRiskReport model)
         {
-            string strCommand = $"SELECT * FROM VIEW_RISK_REPORT WHERE MONTH = {model.Month} AND YEAR = {model.Year}";
+            string strCommand = $"SELECT * FROM VIEW_RISK_HISTORY WHERE MONTH = {model.Month} AND YEAR = {model.Year}";
 
             if(model.Lists != null)
             {
@@ -128,8 +128,8 @@ namespace PTT_NGROUR.Controllers
                 var risk = new ModelRiskReport()
                 {
                     REGION = Convert.ToInt32(dr["REGION"].ToString()),
-                    LICENSE = Convert.ToInt32(dr["LICENSE"].ToString()),
-                    RC = dr["RC"].ToString(),
+                    LICENSE = dr["LICENSE"].ToString(),
+                    RC = dr["RC_NAME"].ToString(),
                     INTERNAL_CORROSION = Convert.ToDouble(dr["INTERNAL_CORROSION"].ToString()),
                     EXTERNAL_CORROSION = Convert.ToDouble(dr["EXTERNAL_CORROSION"].ToString()),
                     THIRD_PARTY_INTERFERENCE = Convert.ToDouble(dr["THIRD_PARTY_INTERFERENCE"].ToString()),

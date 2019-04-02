@@ -121,20 +121,24 @@ namespace PTT_NGROUR.DAL
             {
                 yield break;
             }
+
             var con = GetConnection();
             if (con == null)
             {
                 yield break;
             }
+
             var com = GetCommand(pStrCommand, con);
             if (com == null)
             {
                 yield break;
             }
+
             if (con.State != ConnectionState.Open)
             {
                 con.Open();
             }
+
             var reader = com.ExecuteReader();
             while (reader.Read())
             {
@@ -144,6 +148,7 @@ namespace PTT_NGROUR.DAL
                     yield return result;
                 }
             }
+
             reader.Close();
             reader.Dispose();
             reader = null;
