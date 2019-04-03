@@ -1,0 +1,158 @@
+﻿<script type="text/javascript">
+    function showRiskTable(data) {
+        $('#risk-type-filter').val('all');
+        $('#risk-threshold-filter').val('all');
+        $('#riskTbl').find('tbody tr').each(function () {
+            $(this).remove();
+        });
+
+        $('#txtRiskSearch').val("");
+
+        _.forEach(data, function (o) {
+            var tds = '';
+            var isRisk = _.includes(Object.values(o), 'RISK');
+
+            tds = tds + '<td><span class="fa fa-circle" style="color:' + (isRisk ? '#e74c3c' : '#16a085') + '"></span></td>';
+            tds = tds + '<td>' + o.REGION + '</td>';
+            tds = tds + '<td>' + o.RC_NAME + '</td>';
+
+            var key = ['RISK_SCORE', 'INTERNAL_CORROSION', 'EXTERNAL_CORROSION', 'THIRD_PARTY_INTERFERENCE', 'LOSS_OF_GROUND_SUPPORT'];
+            _.forEach(key, function (v) {
+                tds = tds + '<td>' + o[v] + '</td>'
+                //tds = tds + '<td style="background: ' + o[v + '_RISK'] === 'RISK' ? o[v + '_COLOR'] : 'inherit' + '">' + o[v] + '</td>';
+            });
+
+            $('#riskTbl > tbody:last-child').append('<tr id="' + o.RC_NAME + '" class="rowfil pointer">' + tds + '</tr>');
+            $('#riskTbl > tbody > tr:last-child').data('map_info', o);
+            $('#riskTbl > tbody > tr:last-child').click(utilTblOnclick);
+        });
+    }
+
+    function utilTblOnclick() {
+        $('#ModalMapDashboard').modal('show');
+        let map_info = $(this).data("map_info");
+        map_dashboard_json = {
+            "menu": "dashboard",
+            "type": map_info.TYPE,
+            "command": "view",
+            "flag": $('#flag').val() == 1 ? true : false,
+            "flagby": $('#username').val(),
+            "parameter": {
+                "REGION": map_info.REGION,
+                "LICENSE": map_info.LICENSE,
+                "NAME": map_info.NAME,
+                "MONTH": map_info.MONTH,
+                "YEAR": map_info.YEAR,
+            }
+        }
+        map_frame = document.getElementById('map_frame');
+        map_frame.contentWindow.postMessage(map_dashboard_json, '*');
+    }
+
+    function RiskGraphfilter(label) {
+        console.log(label);
+        if (label == 'OK') {
+            color = 'green'
+        } else if (label == 'Flag') {
+            color = 'flag'
+        } else if (label == 'Alert') {
+            color = 'red'
+        } else if (label == 'Warning') {
+            color = 'yellow'
+        }
+
+        var filters = {
+            "color": color,
+            "type": type,
+        }
+
+        $('.rowfil')
+            .hide()
+            .filter(function () {
+                var
+                    self = $(this),
+                    result = true; // not guilty until proven guilty
+                console.log(filters);
+                Object.keys(filters).forEach(function (filter) {
+                    if (filters[filter] && (filters[filter] != 'all') && (filters[filter] != 'Any')) {
+                        result = result && filters[filter] === self.data(filter);
+                    }
+                });
+                return result;
+            })
+            .show();
+
+        if (type == 'PIPELINE') {
+            $('#type-filter').val('PIPELINE');
+            $('#threshold-filter').val(color);
+        } else if (type = 'GATESTATION') {
+            $('#type-filter').val('GATESTATION');
+            $('#threshold-filter').val(color);
+        }
+    }
+
+    function showPieRisk(pListData) {
+        let objGraph = _graphPipeRisk;
+        if (objGraph != null) {
+            objGraph.destroy();
+        }
+
+        var dataCount = _.countBy(pListData, function (o) {
+            return _.includes(Object.values(o), 'RISK') ? 'risk' : 'noRisk'
+        })
+
+        let intRisk = (dataCount.risk * 100) / pListData.length;
+        let intNoRisk = (dataCount.noRisk * 100) / pListData.length;
+
+        intRisk = Math.round(intRisk * 100) / 100
+        intNoRisk = Math.round(intNoRisk * 100) / 100
+
+        var ds = [];
+        var dsData = [intRisk, intNoRisk];
+        if (!dsData.every(function (x) { return x === 0 })) {
+            ds = [{
+                label: "Test Data",
+                data: dsData,
+                fill: false,
+                backgroundColor: ["#e74c3c", "#16a085"],
+                hoverBackgroundColor: ["#e74c3c", "#16a085"],
+                borderWidth: 0
+            }];
+        };
+        let dataT = {
+            labels: ["Risk", "No Risk"],
+            datasets: ds
+        };
+
+        let ctx = $("#pieRisk").get(0).getContext("2d");
+        objGraph = new Chart(ctx, {
+            type: 'doughnut',
+            data: dataT,
+            options: {
+                responsive: true,
+                pieceLabel: { mode: 'value', fontColor: 'white' },
+                title: { display: true },
+                legend: { position: 'top' },
+                scales: {
+                    xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
+                    yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
+                },
+                onClick: chartClcikEvent
+            }
+        });
+        _graphPipeRisk = objGraph;
+        objGraph.update();
+
+        function chartClcikEvent(evt) {
+            var activePoints = objGraph.getElementsAtEvent(evt);
+            if (activePoints[0]) {
+                var chartData = activePoints[0]['_chart'].config.data;
+                var idx = activePoints[0]['_index'];
+
+                var label = chartData.labels[idx];
+
+                RiskGraphfilter(label);
+            }
+        }
+    }
+</script>

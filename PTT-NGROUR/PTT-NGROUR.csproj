@@ -195,6 +195,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataModel\ModelGateMaintenance.cs" />
+    <Compile Include="Models\DataModel\ModelGetRisk.cs" />
     <Compile Include="Models\DataModel\ModelPipelineActivity.cs" />
     <Compile Include="Models\DataModel\ModelPipelineMonitoringResults.cs" />
     <Compile Include="Models\DataModel\ModelRiskManagementImport.cs" />
@@ -762,6 +763,7 @@
     <Content Include="Views\Dashboard\PartialUtilizationScript.cshtml" />
     <Content Include="Views\Dashboard\PartialOM.cshtml" />
     <Content Include="Views\Dashboard\PartialRiskManagement.cshtml" />
+    <Content Include="Views\Dashboard\PartialRiskManagementScript.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

@@ -79,7 +79,7 @@
     }
 
     function Graphfilter(label, type) {
-        console.log(label);
+        //console.log(label);
         if (label == 'OK') {
             color = 'green'
         } else if (label == 'Flag') {
@@ -102,7 +102,7 @@
                 var
                     self = $(this),
                     result = true; // not guilty until proven guilty
-                console.log(filters);
+                //console.log(filters);
                 Object.keys(filters).forEach(function (filter) {
                     if (filters[filter] && (filters[filter] != 'all') && (filters[filter] != 'Any')) {
                         result = result && filters[filter] === self.data(filter);

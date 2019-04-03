@@ -28,6 +28,8 @@
                 showPIE("PIPELINE", data.utilization);
                 showPIE("GATESTATION", data.utilization);
                 showUtilTable(data.utilization);
+                showPieRisk(data.risk);
+                showRiskTable(data.risk);
             },
             error: function (result) {
                 alert('Please select the data');

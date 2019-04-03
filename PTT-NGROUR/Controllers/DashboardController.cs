@@ -56,7 +56,6 @@ namespace PTT_NGROUR.Controllers
             {
                 ListLicense = listLicense,
                 ListRegion = listRegion
-
             };
 
             return View(model);
@@ -199,14 +198,21 @@ namespace PTT_NGROUR.Controllers
         {
             var dal = new DAL.DAL();
             string regionStr = string.Join("','", region);
-            var searchregion = @"select * from VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "') AND TYPE NOT LIKE 'METERING'"; 
-            var listUtilization = dal.ReadData(searchregion, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
+
+            string strCommand;
+
+            strCommand = @"SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "') AND TYPE NOT LIKE 'METERING'"; 
+            var listUtilization = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
+
+            strCommand = @"SELECT * FROM VIEW_RISK_HISTORY WHERE REGION IN ('" + regionStr + "')";
+            var listRisk = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetRisk(x)).ToList();
+
             dal = null;
             return Json(new
             {
                 utilization = listUtilization,
                 //pipeline = null,
-                //risk= null
+                risk = listRisk
             }, JsonRequestBehavior.AllowGet);
         }
 
