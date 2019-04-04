@@ -11,24 +11,31 @@
         _.forEach(data, function (o) {
             var tds = '';
             var isRisk = _.includes(Object.values(o), 'RISK');
+            var style = '';
+
+            if (isRisk) style = 'color:#e74c3c'
 
             tds = tds + '<td><span class="fa fa-circle" style="color:' + (isRisk ? '#e74c3c' : '#16a085') + '"></span></td>';
             tds = tds + '<td>' + o.REGION + '</td>';
-            tds = tds + '<td>' + o.RC_NAME + '</td>';
+            tds = tds + '<td style="' + style +'">' + o.RC_NAME + '</td>';
 
             var key = ['RISK_SCORE', 'INTERNAL_CORROSION', 'EXTERNAL_CORROSION', 'THIRD_PARTY_INTERFERENCE', 'LOSS_OF_GROUND_SUPPORT'];
             _.forEach(key, function (v) {
-                tds = tds + '<td>' + o[v] + '</td>'
-                //tds = tds + '<td style="background: ' + o[v + '_RISK'] === 'RISK' ? o[v + '_COLOR'] : 'inherit' + '">' + o[v] + '</td>';
+                var style = '';
+
+                if (o[v + '_RISK'] === 'RISK') {
+                    style = 'background-color: ' + o[v + '_COLOR'] + '; color: #fff;'
+                }
+                tds = tds + '<td style="' + style + '">' + Math.round(o[v] * 100) / 100 + '</td>'
             });
 
-            $('#riskTbl > tbody:last-child').append('<tr id="' + o.RC_NAME + '" class="rowfil pointer">' + tds + '</tr>');
+            $('#riskTbl > tbody:last-child').append('<tr id="' + o.RC_NAME + '" data-status="' + (isRisk ? 'risk' : 'norisk') + '" class="rowfilRisk pointer">' + tds + '</tr>');
             $('#riskTbl > tbody > tr:last-child').data('map_info', o);
-            $('#riskTbl > tbody > tr:last-child').click(utilTblOnclick);
+            $('#riskTbl > tbody > tr:last-child').click(riskTblOnclick);
         });
     }
 
-    function utilTblOnclick() {
+    function riskTblOnclick() {
         $('#ModalMapDashboard').modal('show');
         let map_info = $(this).data("map_info");
         map_dashboard_json = {
@@ -49,46 +56,68 @@
         map_frame.contentWindow.postMessage(map_dashboard_json, '*');
     }
 
+    var riskFilters = {
+        status: null,
+    };
+
+    function updateRiskFilters() {
+        $('.rowfilRisk').hide().filter(function () {
+            var self = $(this),
+                result = true; // not guilty until proven guilty
+            Object.keys(riskFilters).forEach(function (filter) {
+                if (riskFilters[filter] && (riskFilters[filter] != 'all') && (riskFilters[filter] != 'Any')) {
+                    result = result && riskFilters[filter] === self.data(filter);
+                }
+            });
+
+            return result;
+        }).show();
+    }
+
+    function changeRiskFilter(v) {
+        riskFilters[v] = this.value;
+        updateRiskFilters();
+        dashtbtRisk.scrollTo(0, 0);
+    }
+
+    // Threshold Dropdown Filter
+    $('#risk-threshold-filter').on('change', function () {
+        changeRiskFilter.call(this, 'status');
+        $('#txtRiskSearch').val("");
+    });
+
+    //function searcch
+    function RiskTableSearch() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("txtRiskSearch");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("riskTbl");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+        dashtbtRisk.scrollTo(0, 0);
+    }
+
     function RiskGraphfilter(label) {
-        console.log(label);
-        if (label == 'OK') {
-            color = 'green'
-        } else if (label == 'Flag') {
-            color = 'flag'
-        } else if (label == 'Alert') {
-            color = 'red'
-        } else if (label == 'Warning') {
-            color = 'yellow'
+        if (label == 'No Risk') {
+            status = 'norisk'
+        } else if (label == 'Risk') {
+            status = 'risk'
         }
 
-        var filters = {
-            "color": color,
-            "type": type,
-        }
+        riskFilters['status'] = status;
 
-        $('.rowfil')
-            .hide()
-            .filter(function () {
-                var
-                    self = $(this),
-                    result = true; // not guilty until proven guilty
-                console.log(filters);
-                Object.keys(filters).forEach(function (filter) {
-                    if (filters[filter] && (filters[filter] != 'all') && (filters[filter] != 'Any')) {
-                        result = result && filters[filter] === self.data(filter);
-                    }
-                });
-                return result;
-            })
-            .show();
+        updateRiskFilters();
 
-        if (type == 'PIPELINE') {
-            $('#type-filter').val('PIPELINE');
-            $('#threshold-filter').val(color);
-        } else if (type = 'GATESTATION') {
-            $('#type-filter').val('GATESTATION');
-            $('#threshold-filter').val(color);
-        }
+        $('#risk-threshold-filter').val(status);
     }
 
     function showPieRisk(pListData) {

@@ -24,33 +24,17 @@
                                 <div class="form-inline">
                                     <center>
                                         <div class="input-group" style="z-index:0!important">
-
-                                            <div class="input-group-btn col-lg-1 col-md-3 col-sm-3 col-xs-3 fn-xs" style="padding-left:0rem;padding-right:0rem;">
-
-                                                <select class="form-control form-control-sm fz-12px" id="risk-type-filter" style="height: 30px !important;">
-                                                    <option id="seAll" class="fz-12px drop_role" value="all">All</option>
-                                                    <option id="sePipeline" class="fz-12px drop_role" value="PIPELINE">Pipeline</option>
-                                                    <option id="seGate" class="fz-12px drop_role" value="GATESTATION">Gate Station</option>
-
-                                                </select>
-
-                                            </div>
-
                                             <div class="input-group-btn col-lg-1 col-md-6 col-sm-6 col-xs-6 fn-xs" style="padding-left:0rem;padding-right:0rem;">
-                                                <input id="txtRiskSearch" class="form-control input-sm" type="text" aria-describedby="name-desc" onkeyup="myFunction()">
+                                                <input id="txtRiskSearch" class="form-control input-sm" type="text" aria-describedby="name-desc" placeholder="Search by RC Name" onkeyup="RiskTableSearch()">
                                             </div>
                                             <div class="input-group-btn col-lg-1 col-md-3 col-sm-3 col-xs-3 fn-xs" style="padding-left:0rem;padding-right:0rem;">
 
                                                 <select class="form-control form-control-sm fz-12px" id="risk-threshold-filter" style="height: 30px !important;">
                                                     <option id="seAllThres" class="fz-12px drop_role" value="all">All Threshold</option>
-                                                    <option id="seGree" class="fz-12px drop_role" value="green">OK</option>
-                                                    <option id="seYello" class="fz-12px drop_role" value="yellow">Warning</option>
-                                                    <option id="seRed" class="fz-12px drop_role" value="red">Alert</option>
-                                                    <option id="seFlag" class="fz-12px drop_role" value="flag">Flag</option>
+                                                    <option id="seRisk" class="fz-12px drop_role" value="risk">Risk</option>
+                                                    <option id="seNoRisk" class="fz-12px drop_role" value="norisk">No Risk</option>
                                                 </select>
-
                                             </div>
-
                                             <!--<div class="cr"></div>-->
                                         </div>
                                     </center>
@@ -58,7 +42,7 @@
                                 <br />
 
                                 <div class="table-responsive " id="TableRisk">
-                                    <div class="tableFixHead" id="dashtbt">
+                                    <div class="tableFixHead" id="dashtbtRisk">
                                         <table class=" table table-striped table-hover" id="riskTbl">
                                             <thead>
                                                 <tr>
