@@ -259,15 +259,22 @@ namespace PTT_NGROUR.Controllers
         {
             var dal = new DAL.DAL();
             string licenseStr = string.Join("','", license);
-            var searchlicense = @"select * from VIEW_GATEPIPEMETER_MENU WHERE LICENSE IN ('" + licenseStr + "') AND TYPE NOT LIKE 'METERING'";
-            var ds = dal.GetDataSet(searchlicense);
 
-            var listUtilization = dal.ReadData(searchlicense, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
+            string strCommand;
+
+            strCommand = @"select * from VIEW_GATEPIPEMETER_MENU WHERE LICENSE IN ('" + licenseStr + "') AND TYPE NOT LIKE 'METERING'";
+
+            var listUtilization = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
+
+            strCommand = @"SELECT * FROM VIEW_RISK_HISTORY WHERE LICENSE_NO IN ('" + licenseStr + "')";
+            var listRisk = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetRisk(x)).ToList();
+
             dal = null;
-
             return Json(new
             {
-                utilization = listUtilization
+                utilization = listUtilization,
+                //pipeline = null,
+                risk = listRisk
             }, JsonRequestBehavior.AllowGet);
         }
 
