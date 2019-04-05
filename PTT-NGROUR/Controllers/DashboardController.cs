@@ -204,14 +204,17 @@ namespace PTT_NGROUR.Controllers
             strCommand = @"SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "') AND TYPE NOT LIKE 'METERING'"; 
             var listUtilization = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
 
-            strCommand = @"SELECT * FROM VIEW_RISK_HISTORY WHERE REGION IN ('" + regionStr + "')";
+            strCommand = @"SELECT * FROM VIEW_OM_CURRENT WHERE REGION IN ('" + regionStr + "')";
+            var listOM = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetOM(x)).ToList();
+
+            strCommand = @"SELECT * FROM VIEW_RISK_CURRENT WHERE REGION IN ('" + regionStr + "')";
             var listRisk = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetRisk(x)).ToList();
 
             dal = null;
             return Json(new
             {
                 utilization = listUtilization,
-                //pipeline = null,
+                om = listOM,
                 risk = listRisk
             }, JsonRequestBehavior.AllowGet);
         }
@@ -262,18 +265,20 @@ namespace PTT_NGROUR.Controllers
 
             string strCommand;
 
-            strCommand = @"select * from VIEW_GATEPIPEMETER_MENU WHERE LICENSE IN ('" + licenseStr + "') AND TYPE NOT LIKE 'METERING'";
-
+            strCommand = @"SELECT * from VIEW_GATEPIPEMETER_MENU WHERE LICENSE IN ('" + licenseStr + "') AND TYPE NOT LIKE 'METERING'";
             var listUtilization = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
 
-            strCommand = @"SELECT * FROM VIEW_RISK_HISTORY WHERE LICENSE_NO IN ('" + licenseStr + "')";
+            strCommand = @"SELECT * FROM VIEW_OM_CURRENT WHERE LICENSE_NO IN ('" + licenseStr + "')";
+            var listOM = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetRisk(x)).ToList();
+
+            strCommand = @"SELECT * FROM VIEW_RISK_CURRENT WHERE LICENSE_NO IN ('" + licenseStr + "')";
             var listRisk = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetRisk(x)).ToList();
 
             dal = null;
             return Json(new
             {
                 utilization = listUtilization,
-                //pipeline = null,
+                om = listOM,
                 risk = listRisk
             }, JsonRequestBehavior.AllowGet);
         }

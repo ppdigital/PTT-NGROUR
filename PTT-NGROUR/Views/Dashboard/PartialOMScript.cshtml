@@ -1,0 +1,147 @@
+﻿<script type="text/javascript">
+    function showOMTable(data) {
+        $('#om-type-filter').val('all');
+        $('#om-threshold-filter').val('all');
+        $('#omTbl').find('tbody tr').each(function () {
+            $(this).remove();
+        });
+
+        $('#txtOMSearch').val("");
+
+        _.forEach(data, function (o) {
+            var tds = '';
+            var style = '';
+
+            if (o.ACTUAL >= o.PLAN) style = 'color:#16a085'
+
+            tds = tds + '<td><span class="fa fa-circle" style="' + style +'"></span></td>';
+            tds = tds + '<td>' + o.REGION + '</td>';
+            tds = tds + '<td>' + o.RC_NAME + '</td>';
+            tds = tds + '<td>' + o.PLAN + '</td>';
+            tds = tds + '<td>' + o.ACTUAL + '</td>';
+            tds = tds + '<td>' + o.TYPE.toUpperCase() + '</td>';
+            tds = tds + '<td>' + o.PM_NAME_FULL + '</td>';
+
+            $('#omTbl > tbody:last-child').append('<tr id="' + o.RC_NAME + '" data-type="' + o.TYPE + '" class="rowfilOM pointer">' + tds + '</tr>');
+            $('#omTbl > tbody > tr:last-child').data('map_info', o);
+            $('#omTbl > tbody > tr:last-child').click(omTblOnclick);
+        });
+    }
+
+    function omTblOnclick() {
+        $('#ModalMapDashboard').modal('show');
+        let map_info = $(this).data("map_info");
+        map_dashboard_json = {
+            "menu": "dashboard",
+            "type": map_info.TYPE,
+            "command": "view",
+            "flag": $('#flag').val() == 1 ? true : false,
+            "flagby": $('#username').val(),
+            "parameter": {
+                "REGION": map_info.REGION,
+                "LICENSE": map_info.LICENSE,
+                "NAME": map_info.NAME,
+                "MONTH": map_info.MONTH,
+                "YEAR": map_info.YEAR,
+            }
+        }
+        map_frame = document.getElementById('map_frame');
+        map_frame.contentWindow.postMessage(map_dashboard_json, '*');
+    }
+
+    var omFilters = {
+        type: null,
+    };
+
+    function updateOMFilters() {
+        $('.rowfilOM').hide().filter(function () {
+            var self = $(this),
+                result = true; // not guilty until proven guilty
+            Object.keys(omFilters).forEach(function (filter) {
+                if (omFilters[filter] && (omFilters[filter] != 'all') && (omFilters[filter] != 'Any')) {
+                    result = result && omFilters[filter] === self.data(filter);
+                }
+            });
+
+            return result;
+        }).show();
+    }
+
+    function changeOMFilter(v) {
+        omFilters[v] = this.value;
+        updateOMFilters();
+        dashtbtRisk.scrollTo(0, 0);
+    }
+
+    // Threshold Dropdown Filter
+    $('#om-type-filter').on('change', function () {
+        changeOMFilter.call(this, 'type');
+        $('#txtOMSearch').val("");
+    });
+
+    //function searcch
+    function OMTableSearch() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("txtOMSearch");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("omTbl");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+        dashtbtRisk.scrollTo(0, 0);
+    }
+
+    function showPieOM(pListData) {
+        var data = _.groupBy(pListData, function (o) { return o.TYPE; });
+        var omGraph = ['pipeline', 'meter', 'gate'];
+
+        omGraph.forEach(function (element) {
+            let objGraph = _graphPipeOM[element];
+            if (objGraph != null) {
+                objGraph.destroy();
+            }
+
+            var plan = _.sumBy(data[element], function (o) { return o.PLAN; });
+            var actual = _.sumBy(data[element], function (o) { return o.ACTUAL; });
+            var percentage = actual > plan ? 100 : (actual * 100) / plan;
+
+            let ctx = $('[data-pie-om="' + element + '"]').get(0).getContext("2d");
+            objGraph = new Chart(ctx, {
+                type: 'radialGauge',
+                data: {
+                    labels: ['Score'],
+                    datasets: [
+                        {
+                            data: [percentage],
+                            backgroundColor: ['#258fe5'],
+                            borderWidth: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        display: false
+                    },
+                    showValue: true,
+                    centerArea: {
+                        text: function (value, options) {
+                            return value + '%';
+                        }
+                    },
+                    maintainAspectRatio: false
+                }
+            });
+            _graphPipeOM[element] = objGraph;
+            objGraph.update();
+        })
+    }
+</script>

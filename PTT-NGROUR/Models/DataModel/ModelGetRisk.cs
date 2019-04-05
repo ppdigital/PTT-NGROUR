@@ -1,9 +1,5 @@
 ﻿using PTT_NGROUR.ExtentionAndLib;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
 
 namespace PTT_NGROUR.Models.DataModel
 {
