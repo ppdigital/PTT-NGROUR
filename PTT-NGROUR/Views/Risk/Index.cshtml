@@ -11,34 +11,53 @@
 @section style{
     <link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
-    <style>
-        .axis {
-            font-size: 14px;
-        }
-
-            .axis path, .axis line {
-                fill: none;
-                stroke: rgba(0,0,0,.25);
-                shape-rendering: crispEdges;
-            }
-
-        #chart {
-            display: inline-block;
-            overflow: hidden;
-        }
-
-        .chart-wrapper {
-            text-align: center;
-        }
-
-            .chart-wrapper .chart {
-                display: inline-block;
-                margin: auto 0;
-                border: 1px solid #666;
-            }
-    </style>
 }
 
+
+<style>
+    .tableFixHead {
+        overflow-y: auto;
+        height: 425px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        background: white;
+    }
+
+    .accordion {
+        background-color: #d9edf7;
+        color: #31708f;
+        cursor: pointer;
+        padding: 10px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+    }
+
+        .active, .accordion:hover {
+            background-color: #bce8f1;
+        }
+
+        .accordion:after {
+            content: '\002B';
+            color: #777;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+    .active:after {
+        content: "\2212";
+    }
+</style>
 <br />
 <div class="container-fluid" style="margin-top:-.8rem">
     <div class="ph2 ph0-xs">
@@ -49,6 +68,9 @@
                     <div class="col-md-4 text-right">
                         <div class="form-control-static">
                             <label class="radio-inline">
+                                <input type="radio" name="radioMode" id="radioModeRisk" value="risk"> Risk
+                            </label>
+                            <label class="radio-inline">
                                 <input type="radio" name="radioMode" id="radioModeRegion" value="region"> Region
                             </label>
                             <label class="radio-inline">
@@ -58,7 +80,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <select class="selectpicker form-control" name="region" id="selectRegion" data-target="region" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;">
+                            <select class="selectpicker form-control" name="region" id="selectRegion" data-target="region" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;" disabled>
                                 @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
                                 {
                                     <option value="@ml.REGION_ID" class="text-grey" style="word-wrap:break-word; font-size:15px" selected>@ml.REGION_NAME</option>
@@ -96,22 +118,65 @@
 
             <div class="ph2 pv2">
                 <div class="row">
-                    <div class="col-md-offset-8 col-md-4 col-lg-offset-9 col-lg-3">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Display</label>
-                            <select class="selectpicker form-control" name="riskType" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;">
-                                @foreach (PTT_NGROUR.Models.DataModel.ModelRiskType ml in Model.ListRiskType)
-                                {
-                                    <option value="@ml.ID" class="text-grey" style="word-wrap:break-word; font-size:15px" selected>@ml.RISK_TYPE</option>
-                                }
-                            </select>
-                        </div>
+                    <div class="col-md-6">
+                        <iframe src="@System.Web.Configuration.WebConfigurationManager.AppSettings["DashboardMap"]" style="min-height: 500px; height: 100% !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
                     </div>
-                </div>
-                <div class="chart-wrapper">
-                    <div class="chart">
-                        <h4>Distribution Pipeline risk</h4>
-                        <div id="chart"></div>
+                    <div class="col-md-6">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-15px pb-15px pr-0 pl-0 border-left-md border-left-lg" style="float:none">
+                            <div class="form-inline">
+                                <center>
+                                    <div class="input-group" style="z-index:0!important">
+                                        <div class="input-group-btn col-lg-1 col-md-6 col-sm-6 col-xs-6 fn-xs" style="padding-left:0rem;padding-right:0rem;">
+                                            <input id="txtRiskSearch" class="form-control input-sm" type="text" aria-describedby="name-desc" placeholder="Search by RC Name" onkeyup="RiskTableSearch()">
+                                        </div>
+                                        <div class="input-group-btn col-lg-1 col-md-3 col-sm-3 col-xs-3 fn-xs" style="padding-left:0rem;padding-right:0rem;">
+
+                                            <select class="form-control form-control-sm fz-12px" id="risk-threshold-filter" style="height: 30px !important;">
+                                                <option id="seAllThres" class="fz-12px drop_role" value="all">All Threshold</option>
+                                                <option id="seRisk" class="fz-12px drop_role" value="risk">Risk</option>
+                                                <option id="seNoRisk" class="fz-12px drop_role" value="norisk">No Risk</option>
+                                            </select>
+                                        </div>
+                                        <!--<div class="cr"></div>-->
+                                    </div>
+                                </center>
+                            </div>
+                            <br />
+
+                            <div class="table-responsive " id="TableRisk">
+                                <div class="tableFixHead" id="dashtbtRisk">
+                                    <table class=" table table-striped table-hover table-bordered" id="riskTbl">
+                                        <thead style="position: relative; z-index: 1;">
+                                            <tr>
+                                                <th>Region</th>
+                                                <th>RC</th>
+                                                <th>Risk Score</th>
+                                                <th>Internal Corrosion</th>
+                                                <th>External Corrosion</th>
+                                                <th>Third Party Interference</th>
+                                                <th>Loss of Ground Support</th>
+                                                <th>Import</th>
+                                                <th>View File</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="scrollable-height scrollable-height-lg">
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -125,8 +190,13 @@
     <script src="~/Scripts/lodash.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/Scripts/lodash.js"></script>
 
     <script type="text/javascript">
+        $('.tableFixHead').on('scroll', function () {
+            $('thead', this).css('transform', 'translateY(' + this.scrollTop + 'px)');
+        });
+
         $('[data-datepicker]').datepicker({
             format: "MM yyyy",
             viewMode: "months",
@@ -135,10 +205,13 @@
             inline: true,
         }).datepicker("setDate", new Date());
 
-        $('#radioModeRegion').prop('checked', true)
+        $('#radioModeRisk').prop('checked', true)
         $('select[data-target]').on('loaded.bs.select', function () {
             if ($('[name="radioMode"]:checked').val() !== $(this).data('target')) {
                 $(this).prop('disabled', true).parent('.bootstrap-select').hide()
+            }
+            if ($('[name="radioMode"]:checked').val() === 'risk' && $(this).data('target') === 'region') {
+                $(this).parent('.bootstrap-select').show()
             }
         });
 
@@ -155,379 +228,44 @@
             $('.selectpicker').selectpicker('refresh');
         })
 
-        // Chart
-        var acceptanceCriteria = @ViewData["AcceptanceCriteria"];
-        var acceptanceCriteriaColor = "rgb(255, 0, 0, .8)";
-        var MaxRiskScore = 3000;
-        var MaxRiskScoreSpace = 500; // MaxRiskScore / MaxRiskScoreSpace
-
-        var responsivefy = function (svg) {
-            // get container + svg aspect ratio
-            var container = d3.select('.chart-wrapper'),
-                width = parseInt(svg.style("width")),
-                height = parseInt(svg.style("height")),
-                aspect = width / height;
-
-            // add viewBox and preserveAspectRatio properties,
-            // and call resize so that svg resizes on inital page load
-            svg.attr("viewBox", "0 0 " + width + " " + height)
-                .attr("preserveAspectRatio", "xMinYMid")
-                .call(resize);
-
-            // to register multiple listeners for same event type,
-            // you need to add namespace, i.e., 'click.foo'
-            // necessary if you call invoke this function for multiple svgs
-            // api docs: https://github.com/mbostock/d3/wiki/Selections#on
-            d3.select(window).on("resize." + container.attr("id"), resize);
-
-            // get width of container and resize svg to fit it
-            function resize() {
-                var targetWidth = parseInt(container.style("width"));
-                svg.attr("width", targetWidth);
-                svg.attr("height", Math.round(targetWidth / aspect));
-            }
-        }
-
-        var renderChart = function (data) {
-            $("#chart svg").remove();
-
-
-            /**
-             * Config
-             * 
-             */
-
-            // Key
-            var colors = ["rgba(255,0,0,.15"]
-            var defaultKeys = [
-                //{
-                //    Key: "C1",
-                //    Color: "#ca9561"
-                //},
-                //{
-                //    Key: "C2",
-                //    Color: "#a2d66a"
-                //}
-            ]
-
-            var selectKey = {
-                1: {
-                    Key: "INTERNAL_CORROSION",
-                    Color: "#d06e13",
-                },
-                2: {
-                    Key: "EXTERNAL_CORROSION",
-                    Color: "#567A0D",
-                },
-                3: {
-                    Key: "THIRD_PARTY_INTERFERENCE",
-                    Color: "#99A3CA",
-                },
-                4: {
-                    Key: "LOSS_OF_GROUND_SUPPORT",
-                    Color: "#b942f4",
-                }
-            };
-
-            var keys = []
-            $.each($('[name="riskType"]').val(), function (k, v) {
-                keys.push(selectKey[v].Key)
-                colors.push(selectKey[v].Color)
-            });
-
-            $.each(defaultKeys, function (k, v) {
-                keys.push(v.Key)
-                colors.push(v.Color)
-            })
-
-            var keysText = {
-                INTERNAL_CORROSION: "INTERNAL CORROSION",
-                EXTERNAL_CORROSION: "EXTERNAL CORROSION",
-                THIRD_PARTY_INTERFERENCE: "THIRD PARTY INTERFERENCE",
-                LOSS_OF_GROUND_SUPPORT: "LOSS OF GROUND SUPPORT",
-                C1: "C1: Societal",
-                C2: "C2: Cost",
-                RISK_SCORE: "Risk Score",
-                ACCEPTANCE_CRITERIA: "Acceptance Criteria"
-            }
-
-
-            /**
-             * Initial
-             * 
-             */
-            var svg = d3.select("#chart").append("svg")
-                .attr("width", $('.chart-wrapper').width())
-                .attr("height", $('.chart-wrapper').width() / 1.92)
-                .call(responsivefy)
-            var margin = { top: 80, right: 80, bottom: 30, left: 80 },
-                width = +svg.attr("width") - margin.left - margin.right,
-                height = +svg.attr("height") - margin.top - margin.bottom,
-                g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-            var x0 = d3.scaleBand()
-                .rangeRound([0, width])
-                .paddingInner(0.1);
-
-            var x1 = d3.scaleBand()
-                .padding(0.05);
-
-            var y = d3.scaleLinear()
-                .rangeRound([height, 0]);
-            var yLeft = d3.scaleLinear()
-                .rangeRound([height, 0]);
-            var yRight = d3.scaleLinear()
-                .rangeRound([height, 0]);
-
-            var z = d3.scaleOrdinal()
-                .range(colors);
-
-            x0.domain(data.map(function (d) {
-                return d.RC;
-            }));
-            x1.domain(keys).rangeRound([0, x0.bandwidth()]);
-
-            yLeft.domain([0, 100]).nice();
-            yRight.domain([0, MaxRiskScore]).nice();
-
-
-            /**
-             * Data
-             * 
-             */
-            var d = g.append("g")
-                .selectAll("g")
-                .data(data)
-                .enter()
-                .append("g");
-
-            d.attr("transform", function (d) {
-                    return "translate(" + x0(d.RC) + ",0)";
-                })
-                .selectAll("rect")
-                .data(function (d) {
-                    var k = keys.map(function (key) {
-                        return { key: key, value: d[key] };
-                    });
-
-                    // Insert Risk Score for Background
-                    k.unshift({ key: "RISK_SCORE", value: d["RISK_SCORE"] })
-
-                    return k;
-                })
-                .enter().append("rect")
-                .attr("x", function (d) {
-                    if (d.key === "RISK_SCORE") {
-                        return (x1.bandwidth() / 2) + x1(keys[0])
-                    }
-                    return x1(d.key);
-                })
-                .attr("y", function (d) {
-                    return d.key === "RISK_SCORE" ? yRight(d.value) : yLeft(d.value);
-                })
-                .attr("width", function (d) {
-                    if (d.key === "RISK_SCORE") {
-                        var posStart = (x1.bandwidth() / 2) + x1(keys[0])
-                        var posEnd = x1(keys[keys.length - 1]) + (x1.bandwidth() / 2)
-                        return posEnd - posStart;
-                    }
-                    return x1.bandwidth()
-                })
-                .attr("height", function (d) {
-                    var _y = d.key === "RISK_SCORE" ? yRight(d.value) : yLeft(d.value);
-                    return height - _y;
-                })
-                .attr("fill", function (d) { return z(d.key); });
-
-            if (data.length <= 15) {
-                d.append("text")
-                    .attr("text-anchor", "end")
-                    .attr("transform", function (d) {
-                        var translateY = 0;
-                        var translateX = (x1.bandwidth() * keys.length) / 2;
-                        keys.forEach(function (element) {
-                            if (d[element] > translateY) translateY = d[element]
-                        });
-
-                        translateY = yLeft(translateY);
-
-                        return "translate(" + translateX + ", " + (translateY - 60) + ") rotate(90)"
-                    })
-                    .attr("font-size", "1.5em")
-                    .attr("font-weight", "bold")
-                    .text(function (d) {
-                        return d.RC;
-                    });
-            }
-
-
-            /**
-             * Axis Bottom
-             * 
-             */
-            axisBottom = g.append("g")
-                .attr("class", "axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x0)
-                    .tickSize(0));
-
-            axisBottom.selectAll("text").remove()
-
-
-            /**
-             * Axis Left
-             * 
-             */
-            var axisYLeft = g.append("g")
-                .style("font", "14px")
-                .attr("class", "axis")
-                .call(d3.axisLeft(yLeft)
-                    .ticks(10)
-                    .tickSize(-(width))
-                );
-
-            axisYLeft.append("text")
-                .attr("x", 0)
-                .attr("y", y(yLeft.ticks().pop()) - 15)
-                .attr("dy", "0.32em")
-                .attr("fill", "#258fe5")
-                .attr("font-weight", "bold")
-                .attr("text-anchor", "middle")
-                .text("%");
-
-            // --acceptance criteria
-            var ac = g.append("g");
-            ac.append("line")
-                .attr("x1", 0)
-                .attr("y1", yLeft(acceptanceCriteria))
-                .attr("x2", width)
-                .attr("y2", yLeft(acceptanceCriteria))
-                .attr("style", "stroke: " + acceptanceCriteriaColor + "; stroke-width: 2");
-
-            ac.append("text")
-                .attr("x", width - 24)
-                .attr("y", yLeft(acceptanceCriteria) - 9.5)
-                .attr("dy", "0.32em")
-                .attr("text-anchor", "end")
-                .text("Acceptance criteria");
-
-            // --license
-            //var licenseY = (acceptanceCriteria > 70 && acceptanceCriteria < 85) ? 90 : 75
-            //ac.append("line")
-            //    .attr("x1", 0)
-            //    .attr("y1", yLeft(licenseY))
-            //    .attr("x2", width)
-            //    .attr("y2", yLeft(licenseY))
-            //    .attr("style", "stroke: #258fe5; stroke-width: 2");
-
-            //ac.append("text")
-            //    .attr("x", width / 2)
-            //    .attr("y", yLeft(licenseY) - 9.5)
-            //    .attr("dy", "0.32em")
-            //    .attr("fill", "#258fe5")
-            //    .attr("text-anchor", "middle")
-            //    .text("ใบอนุญาตที่ 1 - 50");
-            // axis-y left
-
-
-            /**
-             * Axis Right
-             * 
-             */
-            g.append("g")
-                .attr("class", "axis")
-                .attr("transform", function (d, i) {
-                    return "translate(" + width + ",0)";
-                })
-                .call(d3.axisRight(yRight).ticks(MaxRiskScore / MaxRiskScoreSpace))
-                .append("text")
-                .attr("x", 0)
-                .attr("y", y(yRight.ticks().pop()) - 15)
-                .attr("dy", "0.32em")
-                .attr("fill", "#258fe5")
-                .attr("font-weight", "bold")
-                .attr("text-anchor", "middle")
-                .text("Total Score");
-            // axis-y right
-
-
-            /**
-             * Legend
-             * 
-             */
-            var tabSpace = 240
-            var legend_tabs = [];
-            var colMax = 3
-            var colIndex = 0
-            var rowSpace = 10
-            var i;
-            for (i = 0; i <= (keys.length + 1); i++) {
-                legend_tabs.push({
-                    x: margin.left + (tabSpace * colIndex),
-                    y: rowSpace
-                })
-
-                colIndex++
-
-                if ((i + 1) % colMax === 0) {
-                    colIndex = 0
-                    rowSpace = rowSpace + 20
-                }
-            }
-
-            var startp = svg.append("g")
-                .attr("class", "legendbox")
-                .attr("transform", function () {
-                    return "translate(" + (width - (tabSpace * colMax)) / 2 + ", 0)"
-                })
-                .attr("id", "legendbox");
-
-            var legend = startp.selectAll(".legend")
-                .data(z.domain().slice())
-                .enter().append("g")
-                .attr("class", "legend")
-                .attr("transform", function (d, i) {
-                    return "translate(" + legend_tabs[i].x + "," + legend_tabs[i].y + ")";
-                });
-
-            legend.append("rect")
-                .attr("x", 0)
-                .attr("y", 6)
-                .attr("width", 18)
-                .attr("height", 6)
-                .style("fill", z);
-
-            legend.append("text")
-                .attr("x", 22)
-                .attr("y", 9)
-                .attr("dy", ".35em")
-                .style("text-anchor", "begin")
-                .text(function (d, i) {
-                    return keysText[d];
-                });
-
-            legend = svg.selectAll(".legendbox")
-                .append("g")
-                .attr("class", "legend")
-                .attr("transform", "translate(" + legend_tabs[legend_tabs.length-1].x + "," + legend_tabs[legend_tabs.length-1].y + ")")
-
-            legend.append("line")
-                .attr("x1", 0)
-                .attr("y1", 9)
-                .attr("x2", 18)
-                .attr("y2", 9)
-                .attr("style", "stroke: " + acceptanceCriteriaColor + "; stroke-width: 2")
-
-            legend.append("text")
-                .attr("x", 22)
-                .attr("y", 9)
-                .attr("dy", ".35em")
-                .style("text-anchor", "begin")
-                .text(keysText.ACCEPTANCE_CRITERIA);
-        }
-
         function onSubmit() {
             getRiskJson()
+        }
+
+        function showRiskTable(data) {
+            console.log(data)
+            $('#risk-threshold-filter').val('all');
+            $('#riskTbl').find('tbody tr').each(function () {
+                $(this).remove();
+            });
+
+            $('#txtRiskSearch').val("");
+
+            _.forEach(data, function (o) {
+                var tds = '';
+                var isRisk = _.includes(Object.values(o), 'RISK');
+                var style = '';
+
+                if (isRisk) style = 'color:#e74c3c'
+
+                tds = tds + '<td>' + o.REGION + '</td>';
+                tds = tds + '<td style="' + style + '">' + o.RC_NAME + '</td>';
+
+                var key = ['RISK_SCORE', 'INTERNAL_CORROSION', 'EXTERNAL_CORROSION', 'THIRD_PARTY_INTERFERENCE', 'LOSS_OF_GROUND_SUPPORT'];
+                _.forEach(key, function (v) {
+                    let bullet = ''
+
+                    if (o[v + '_RISK'] === 'RISK') {
+                        bullet = '<span class="fa fa-circle" style="color:#e74c3c;"></span>'
+                    }
+                    tds = tds + '<td class="text-center">' + bullet + '</td>';
+                });
+
+                tds = tds + '<td><button class="btn btn-success" onclick="onImport("' + o.RC_NAME + '")"><span class="glyphicon glyphicon-paperclip"></span></button></td>';
+                tds = tds + '<td><button class="btn btn-info" onclick="onView("' + o.RC_NAME + '")"><span class="glyphicon glyphicon-eye-open"></span></button></td>';
+
+                $('#riskTbl > tbody:last-child').append('<tr id="' + o.RC_NAME + '" data-status="' + (isRisk ? 'risk' : 'norisk') + '" class="rowfilRisk pointer">' + tds + '</tr>');
+            });
         }
 
         var getRiskJson = function () {
@@ -543,7 +281,7 @@
             })
                 .then(function (response) {
                     data = response.data
-                    renderChart(data)
+                    showRiskTable(data)
                 })
                 .catch(function (error) {
                     // handle error
@@ -555,9 +293,5 @@
         }
 
         getRiskJson();
-
-        $('[name="riskType"]').on('change', function () {
-            renderChart(data)
-        })
     </script>
 }

@@ -20,6 +20,63 @@ namespace PTT_NGROUR.Controllers
         {
             DAL.DAL dal = new DAL.DAL();
 
+            #region License
+            var dsLicense = dal.GetDataSet("SELECT LICENSE_ID ,LICENSE FROM LICENSE_MASTER");
+            var dtLicense = dsLicense.Tables[0];
+            var listLicense = new List<ModelLicenseMaster>();
+
+            foreach (System.Data.DataRow dr in dtLicense.Rows)
+            {
+                var license = new ModelLicenseMaster()
+                {
+                    LICENSE = dr["LICENSE"].ToString(),
+                    LICENSE_ID = Convert.ToInt32(dr["LICENSE_ID"].ToString())
+                };
+
+                listLicense.Add(new ModelLicenseMaster { LICENSE = license.LICENSE, LICENSE_ID = license.LICENSE_ID });
+            }
+            dsLicense.Dispose();
+            dtLicense.Dispose();
+            #endregion
+
+            #region Region
+            var dsRegion = dal.GetDataSet("SELECT REGION_ID ,REGION_NAME FROM REGION");
+            var dtRegion = dsRegion.Tables[0];
+            var listRegion = new List<ModelRegion>();
+
+            foreach (System.Data.DataRow drArea in dtRegion.Rows)
+            {
+                var region = new ModelRegion()
+                {
+                    REGION_NAME = drArea["REGION_NAME"].ToString(),
+                    REGION_ID = Convert.ToInt32(drArea["REGION_ID"].ToString())
+                };
+
+                listRegion.Add(new ModelRegion { REGION_NAME = region.REGION_NAME, REGION_ID = region.REGION_ID });
+            }
+            dtRegion.Dispose();
+            dsRegion.Dispose();
+            #endregion
+
+            ViewData["AcceptanceCriteria"] = dal.ReadData(
+                "SELECT RISK_CRITERIA, UPDATE_DATE, UPDATE_BY FROM RISK_THRESHOLD",
+                x => new ModelAcceptanceCriteria(x)).Select(x => x.RISK_CRITERIA).FirstOrDefault();
+
+            var model = new ModelRisk()
+            {
+                ListLicense = listLicense,
+                ListRegion = listRegion
+            };
+
+            return View(model);
+        }
+
+        // GET: /Risk/Report
+        [AuthorizeController.CustomAuthorize]
+        public ActionResult Report()
+        {
+            DAL.DAL dal = new DAL.DAL();
+
             #region Risk Type
             var dsRiskType = dal.GetDataSet("SELECT ID ,RISK_TYPE FROM RISK_TYPE");
             var dtRiskType = dsRiskType.Tables[0];
@@ -99,48 +156,23 @@ namespace PTT_NGROUR.Controllers
         {
             string strCommand = $"SELECT * FROM VIEW_RISK_HISTORY WHERE MONTH = {model.Month} AND YEAR = {model.Year}";
 
-            if(model.Lists != null)
+            if (model.Type.Equals("risk"))
+            {
+                strCommand = $"{strCommand} AND (RISK_SCORE_RISK = 'RISK' OR INTERNAL_CORROSION_RISK = 'RISK' OR EXTERNAL_CORROSION_RISK = 'RISK' OR THIRD_PARTY_INTERFERENCE_RISK = 'RISK' OR LOSS_OF_GROUND_SUPPORT_RISK = 'RISK')";
+            }
+            else if (model.Lists != null)
             {
                 if (model.Type.Equals("region"))
                 {
                     strCommand = $"{strCommand} AND REGION IN ('{ string.Join("','", model.Lists) }')";
                 }
-
-                if (model.Type.Equals("license"))
+                else if (model.Type.Equals("license"))
                 {
-                    strCommand = $"{strCommand} AND LICENSE IN ('{ string.Join("','", model.Lists) }')";
+                    strCommand = $"{strCommand} AND LICENSE_NO IN ('{ string.Join("','", model.Lists) }')";
                 }
             }
-
             var dal = new DAL.DAL();
-            var ds = dal.GetDataSet(strCommand);
-
-            if (ds == null)
-            {
-                return Json(null);
-            }
-
-            var dt = ds.Tables[0];
-            var riskReport = new List<ModelRiskReport>();
-
-            foreach (System.Data.DataRow dr in dt.Rows)
-            {
-                var risk = new ModelRiskReport()
-                {
-                    REGION = Convert.ToInt32(dr["REGION"].ToString()),
-                    LICENSE = dr["LICENSE"].ToString(),
-                    RC = dr["RC_NAME"].ToString(),
-                    INTERNAL_CORROSION = Convert.ToDouble(dr["INTERNAL_CORROSION"].ToString()),
-                    EXTERNAL_CORROSION = Convert.ToDouble(dr["EXTERNAL_CORROSION"].ToString()),
-                    THIRD_PARTY_INTERFERENCE = Convert.ToDouble(dr["THIRD_PARTY_INTERFERENCE"].ToString()),
-                    LOSS_OF_GROUND_SUPPORT = Convert.ToDouble(dr["LOSS_OF_GROUND_SUPPORT"].ToString()),
-                    RISK_SCORE = Convert.ToDouble(dr["RISK_SCORE"].ToString()),
-                    MONTH = Convert.ToInt32(dr["MONTH"].ToString()),
-                    YEAR = Convert.ToInt32(dr["YEAR"].ToString())
-                };
-
-                riskReport.Add(risk);
-            }
+            var riskReport = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetRisk(x)).ToList(); ;
 
             return Json(riskReport, JsonRequestBehavior.AllowGet);
         }

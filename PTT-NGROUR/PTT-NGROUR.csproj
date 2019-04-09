@@ -200,7 +200,6 @@
     <Compile Include="Models\DataModel\ModelPipelineActivity.cs" />
     <Compile Include="Models\DataModel\ModelPipelineMonitoringResults.cs" />
     <Compile Include="Models\DataModel\ModelRiskManagementImport.cs" />
-    <Compile Include="Models\DataModel\ModelRiskReport.cs" />
     <Compile Include="Models\DataModel\ModelRiskType.cs" />
     <Compile Include="Models\DataModel\ModelThresholdTable.cs" />
     <Compile Include="Models\DataModel\ModelPmInterval.cs" />
@@ -749,7 +748,7 @@
     <Content Include="Views\TestD3Graph\BarChart.cshtml" />
     <Content Include="Views\Utilization\PartialMeterTable.cshtml" />
     <Content Include="Views\OM\PartialGateScript.cshtml" />
-    <Content Include="Views\Risk\Index.cshtml" />
+    <Content Include="Views\Risk\Report.cshtml" />
     <Content Include="Views\Risk\ImportExcel.cshtml" />
     <Content Include="Views\Risk\PartialModalExcelScript.cshtml" />
     <Content Include="Views\Risk\PartialModalExcel.cshtml" />
@@ -766,6 +765,7 @@
     <Content Include="Views\Dashboard\PartialRiskManagement.cshtml" />
     <Content Include="Views\Dashboard\PartialRiskManagementScript.cshtml" />
     <Content Include="Views\Dashboard\PartialOMScript.cshtml" />
+    <Content Include="Views\Risk\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
