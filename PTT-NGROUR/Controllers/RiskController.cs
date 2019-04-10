@@ -177,6 +177,17 @@ namespace PTT_NGROUR.Controllers
             return Json(riskReport, JsonRequestBehavior.AllowGet);
         }
 
+        // POST: /Risk/Import
+        [HttpPost]
+        [AuthorizeController.CustomAuthorize]
+
+        public JsonResult Import()
+        {
+            return Json(new {
+                xx = "xxx"
+            });
+        }
+
         #region Import Excel
         // POST: /Risk/ImportExcel
         [AuthorizeController.CustomAuthorize]
