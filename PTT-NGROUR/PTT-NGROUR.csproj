@@ -695,6 +695,7 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Style\create.css" />
     <Content Include="Style\create_login.css" />
+    <Content Include="Style\modalbox.css" />
     <Content Include="Style\tachyons.min.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
