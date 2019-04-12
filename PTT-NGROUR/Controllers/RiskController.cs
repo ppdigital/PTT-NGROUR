@@ -181,7 +181,7 @@ namespace PTT_NGROUR.Controllers
         [HttpPost]
         [AuthorizeController.CustomAuthorize]
 
-        public JsonResult Import()
+        public JsonResult Import(ModelViewRiskImport model)
         {
             return Json(new {
                 xx = "xxx"

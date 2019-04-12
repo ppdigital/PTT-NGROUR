@@ -231,6 +231,7 @@
     <Compile Include="Models\ViewModel\ModelHome.cs" />
     <Compile Include="Models\ViewModel\ModelInsertExcelData.cs" />
     <Compile Include="Models\ViewModel\ModelThreshold.cs" />
+    <Compile Include="Models\ViewModel\ModelViewRiskImport.cs" />
     <Compile Include="Models\ViewModel\ModelViewRiskReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
