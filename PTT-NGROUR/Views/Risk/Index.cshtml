@@ -209,24 +209,26 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div id="ModalDialog" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modalbox success center animate">
+<div id="ModalDialogSuccess" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-modalbox" role="document">
+        <div class="modalbox success animate">
             <div class="icon">
                 <span class="glyphicon glyphicon-ok"></span>
             </div>
             <!--/.icon-->
             <h1>Success!</h1>
             <p>
-                We've sent a confirmation to your e-mail
-                <br>for verification.
+                Your file has been uploaded.
             </p>
-            <button type="button" class="redo btn">Ok</button>
-            <span class="change">-- Click to see opposite state --</span>
+            <button type="button" class="btn" data-dismiss="modal">Ok</button>
         </div>
         <!--/.success-->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-        <div class="modalbox error center animate" style="display: none;">
+<div id="ModalDialogError" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-modalbox" role="document">
+        <div class="modalbox error animate">
             <div class="icon">
                 <span class="glyphicon glyphicon-thumbs-down"></span>
             </div>
@@ -234,12 +236,12 @@
             <h1>Oh no!</h1>
             <p>
                 Oops! Something went wrong,
-                <br> you should try again.
+                <br>
+                <span data-text></span>
             </p>
-            <button type="button" class="redo btn">Try again</button>
-            <span class="change">-- Click to see opposite state --</span>
+            <button type="button" class="btn" data-dismiss="modal">Try again</button>
         </div>
-        <!--/.success-->
+        <!--/.error-->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
@@ -370,15 +372,12 @@
             })
                 .then(function (res) {
                     resetForm();
-                    $('#ModalDialog .modal-title').text('Error')
-                    $('#ModalDialog .modal-body').text('Success')
-                    $('#ModalDialog').modal('show')
+                    $('#ModalDialogSuccess').modal('show')
                     $('#ModalImport').modal('hide')
                 })
                 .catch(function (err) {
-                    $('#ModalDialog .modal-title').text('Error')
-                    $('#ModalDialog .modal-body').text(err)
-                    $('#ModalDialog').modal('show')
+                    $('#ModalDialogError [data-text]').text(err)
+                    $('#ModalDialogError').modal('show')
                 })
                 .then(function () {
                     $('[data-upload-progress]').addClass('invisible');
