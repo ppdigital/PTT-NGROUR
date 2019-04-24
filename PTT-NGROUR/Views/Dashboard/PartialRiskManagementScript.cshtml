@@ -37,7 +37,7 @@
 
     function riskTblOnclick() {
         let map_info = $(this).data("map_info");
-        map_dashboard_json = {
+        map_dashboard_risk_json = {
             "menu": "risk-dashboard",
             "type": 'PIPELINE',
             "command": "view",
@@ -52,10 +52,10 @@
             }
         }
 
-        console.log(map_dashboard_json)
+        console.log(map_dashboard_risk_json)
 
-        map_frame = document.getElementById('risk_map_frame');
-        map_frame.contentWindow.postMessage(map_dashboard_json, '*');
+        risk_map_frame = document.getElementById('risk_map_frame');
+        risk_map_frame.contentWindow.postMessage(map_dashboard_risk_json, '*');
         $('#ModalMapRiskDashboard').modal('show');
     }
 

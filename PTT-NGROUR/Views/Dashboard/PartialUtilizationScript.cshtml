@@ -116,7 +116,7 @@
 
     function utilTblOnclick() {
         let map_info = $(this).data("map_info");
-        map_dashboard_json = {
+        map_dashboard_util_json = {
             "menu": "dashboard",
             "type": map_info.TYPE,
             "command": "view",
@@ -131,10 +131,10 @@
             }
         }
 
-        console.log(map_dashboard_json)
+        console.log(map_dashboard_util_json)
 
-        map_frame = document.getElementById('util_map_frame');
-        map_frame.contentWindow.postMessage(map_dashboard_json, '*');
+        util_map_frame = document.getElementById('util_map_frame');
+        util_map_frame.contentWindow.postMessage(map_dashboard_util_json, '*');
         $('#ModalMapUtilDashboard').modal('show');
     }
 

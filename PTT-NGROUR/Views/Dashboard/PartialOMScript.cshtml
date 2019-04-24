@@ -31,7 +31,7 @@
     function omTblOnclick() {
         let map_info = $(this).data("map_info");
 
-        map_dashboard_json = {
+        map_dashboard_om_json = {
             "menu": "om-dashboard",
             "type": map_info.TYPE,
             "command": "view",
@@ -44,10 +44,10 @@
             }
         }
 
-        console.log(map_dashboard_json)
+        console.log(map_dashboard_om_json)
 
-        map_frame = document.getElementById('om_map_frame');
-        map_frame.contentWindow.postMessage(map_dashboard_json, '*');
+        om_map_frame = document.getElementById('om_map_frame');
+        om_map_frame.contentWindow.postMessage(map_dashboard_om_json, '*');
         $('#ModalMapOMDashboard').modal('show');
     }
 
