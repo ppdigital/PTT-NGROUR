@@ -36,10 +36,9 @@
     }
 
     function riskTblOnclick() {
-        $('#ModalMapDashboard').modal('show');
         let map_info = $(this).data("map_info");
         map_dashboard_json = {
-            "menu": "dashboard",
+            "menu": "risk-dashboard",
             "type": map_info.TYPE,
             "command": "view",
             "flag": $('#flag').val() == 1 ? true : false,
@@ -52,8 +51,9 @@
                 "YEAR": map_info.YEAR,
             }
         }
-        map_frame = document.getElementById('map_frame');
+        map_frame = document.getElementById('risk_map_frame');
         map_frame.contentWindow.postMessage(map_dashboard_json, '*');
+        $('#ModalMapRiskDashboard').modal('show');
     }
 
     var riskFilters = {

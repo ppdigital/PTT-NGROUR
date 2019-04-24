@@ -16,37 +16,39 @@
 
             tds = tds + '<td><span class="fa fa-circle" style="' + style +'"></span></td>';
             tds = tds + '<td>' + o.REGION + '</td>';
-            tds = tds + '<td>' + o.RC_NAME + '</td>';
+            tds = tds + '<td>' + o.NAME + '</td>';
             tds = tds + '<td>' + o.PLAN + '</td>';
             tds = tds + '<td>' + o.ACTUAL + '</td>';
             tds = tds + '<td>' + o.TYPE.toUpperCase() + '</td>';
             tds = tds + '<td>' + o.PM_NAME_FULL + '</td>';
 
-            $('#omTbl > tbody:last-child').append('<tr id="' + o.RC_NAME + '" data-type="' + o.TYPE + '" class="rowfilOM pointer">' + tds + '</tr>');
+            $('#omTbl > tbody:last-child').append('<tr id="' + o.NAME + '" data-type="' + o.TYPE + '" class="rowfilOM pointer">' + tds + '</tr>');
             $('#omTbl > tbody > tr:last-child').data('map_info', o);
             $('#omTbl > tbody > tr:last-child').click(omTblOnclick);
         });
     }
 
     function omTblOnclick() {
-        $('#ModalMapDashboard').modal('show');
         let map_info = $(this).data("map_info");
+
         map_dashboard_json = {
-            "menu": "dashboard",
+            "menu": "om-dashboard",
             "type": map_info.TYPE,
             "command": "view",
-            "flag": $('#flag').val() == 1 ? true : false,
-            "flagby": $('#username').val(),
+            "flag": false,
+            "flagby": '',
             "parameter": {
-                "REGION": map_info.REGION,
-                "LICENSE": map_info.LICENSE,
                 "NAME": map_info.NAME,
                 "MONTH": map_info.MONTH,
                 "YEAR": map_info.YEAR,
             }
         }
-        map_frame = document.getElementById('map_frame');
+
+        console.log(map_dashboard_json)
+
+        map_frame = document.getElementById('om_map_frame');
         map_frame.contentWindow.postMessage(map_dashboard_json, '*');
+        $('#ModalMapOMDashboard').modal('show');
     }
 
     var omFilters = {
