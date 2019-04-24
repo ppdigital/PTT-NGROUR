@@ -39,7 +39,7 @@
         let map_info = $(this).data("map_info");
         map_dashboard_json = {
             "menu": "risk-dashboard",
-            "type": map_info.TYPE,
+            "type": 'PIPELINE',
             "command": "view",
             "flag": false,
             "flagby": '',
@@ -51,6 +51,9 @@
                 "YEAR": map_info.YEAR,
             }
         }
+
+        console.log(map_dashboard_json)
+
         map_frame = document.getElementById('risk_map_frame');
         map_frame.contentWindow.postMessage(map_dashboard_json, '*');
         $('#ModalMapRiskDashboard').modal('show');

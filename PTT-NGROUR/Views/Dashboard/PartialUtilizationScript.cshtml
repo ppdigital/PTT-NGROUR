@@ -131,6 +131,8 @@
             }
         }
 
+        console.log(map_dashboard_json)
+
         map_frame = document.getElementById('util_map_frame');
         map_frame.contentWindow.postMessage(map_dashboard_json, '*');
         $('#ModalMapUtilDashboard').modal('show');

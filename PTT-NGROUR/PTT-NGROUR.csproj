@@ -570,6 +570,9 @@
     <Content Include="Scripts\bootstrap-select-1.12.4\README.md" />
     <Content Include="Scripts\bootstrap-select-1.12.4\sass\bootstrap-select.scss" />
     <Content Include="Scripts\bootstrap-select-1.12.4\sass\variables.scss" />
+    <Content Include="Scripts\Chart\chartjs-chart-radial-gauge\Chart.RadialGauge.cjs.js" />
+    <Content Include="Scripts\Chart\chartjs-chart-radial-gauge\Chart.RadialGauge.umd.js" />
+    <Content Include="Scripts\Chart\chartjs-chart-radial-gauge\Chart.RadialGauge.umd.min.js" />
     <Content Include="Scripts\DataTables\Buttons-1.5.2\css\common.scss" />
     <Content Include="Scripts\DataTables\Buttons-1.5.2\css\mixins.scss" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
@@ -686,6 +689,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
+    <Content Include="Scripts\lodash.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
