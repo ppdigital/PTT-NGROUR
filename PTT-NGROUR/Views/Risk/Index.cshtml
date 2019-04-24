@@ -95,7 +95,7 @@
             <div class="ph2 pv2">
                 <div class="row">
                     <div class="col-md-6">
-                        <iframe src="@System.Web.Configuration.WebConfigurationManager.AppSettings["DashboardMap"]" style="min-height: 500px; height: 100% !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
+                        <iframe src="@System.Web.Configuration.WebConfigurationManager.AppSettings["RiskMap"]" style="min-height: 500px; height: 100% !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
                     </div>
                     <div class="col-md-6 border-left-lg">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-15px pb-15px pr-0 pl-0 border-left-md" style="float:none">
@@ -424,7 +424,30 @@
                 tds = tds + '<td><button class="btn btn-info" onclick="showView(\'' + o.RC_NAME + '\', ' + o.MONTH + ', ' + o.YEAR + ')"><span class="glyphicon glyphicon-eye-open"></span></button></td>';
 
                 $('#riskTbl > tbody:last-child').append('<tr id="' + o.RC_NAME + '" data-status="' + (isRisk ? 'risk' : 'norisk') + '" class="rowfilRisk pointer">' + tds + '</tr>');
+                $('#riskTbl > tbody > tr:last-child').data('map_info', o);
+                $('#riskTbl > tbody > tr:last-child').click(riskTblOnclick);
             });
+        }
+
+        function riskTblOnclick() {
+            let map_info = $(this).data("map_info");
+            map_dashboard_json = {
+                "menu": "risk-dashboard",
+                "type": 'PIPELINE',
+                "command": "view",
+                "flag": false,
+                "flagby": '',
+                "parameter": {
+                    "NAME": map_info.RC_NAME,
+                    "MONTH": map_info.MONTH,
+                    "YEAR": map_info.YEAR,
+                }
+            }
+
+            console.log(map_dashboard_json)
+
+            map_frame = document.getElementById('map_frame');
+            map_frame.contentWindow.postMessage(map_dashboard_json, '*');
         }
 
         var getRiskJson = function () {
