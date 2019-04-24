@@ -14,7 +14,6 @@
     <link href="~/Style/modalbox.css" rel="stylesheet" />
 }
 
-
 <style>
     .tableFixHead {
         overflow-y: auto;
@@ -32,6 +31,18 @@
 
     .modal {
         z-index: 2;
+    }
+
+    .file-box > .panel {
+        display: none;
+    }
+
+    .file-box.-active > .panel {
+        display: block;
+    }
+
+    .file-box.-active > .btn {
+        display: none;
     }
 </style>
 <br />
@@ -170,11 +181,11 @@
             </div>
             <div class="modal-body">
                 <form data-inputs>
-                    <div data-init-input>
+                    <div class="file-box" data-init-input>
                         <div class="panel panel-default clearfix">
                             <div class="pull-left">
                                 <div class="panel-body">
-                                    <input type="file" id="inputFile" name="file[]">
+                                    <input type="file" name="file[]">
                                 </div>
                             </div>
                             <div class="pull-right">
@@ -185,12 +196,12 @@
                                 </div>
                             </div>
                         </div>
+                        <button type="button" class="btn btn-default btn-lg btn-block" onclick="AddInputFile()">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            Add file
+                        </button>
                     </div>
                 </form>
-                <button type="button" class="btn btn-default btn-lg btn-block" onclick="AddInputFile()">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    Add file
-                </button>
                 <div class="help-block">
                     The total file size must be less than 10 MB.
                 </div>
@@ -294,7 +305,7 @@
 
         function AddInputFile() {
             $('[data-inputs]').append(function () {
-                return $('[data-init-input]').clone(true).find('.sr-only').removeClass('sr-only').parents('[data-init-input]').html();
+                return $('[data-init-input]').clone(true).find('.sr-only').removeClass('sr-only').parents('[data-init-input]').addClass('-active').html();
             });
         }
 
@@ -317,9 +328,13 @@
             FileSize();
         });
 
-        $('[data-inputs]').on('change', '[name="file[]"]', function () {
-            FileSize();
-        });
+        $('[data-inputs]')
+            .on('change', '[name="file[]"]', function () {
+                FileSize();
+            })
+            .on('change', '[name="file[]"]:last', function () {
+                FileSize();
+            });
 
         function showImport(rc, month, year) {
             var modal = $('#ModalImport');
