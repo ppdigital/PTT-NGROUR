@@ -399,14 +399,14 @@
             var ac = g.append("g");
             ac.append("line")
                 .attr("x1", 0)
-                .attr("y1", yLeft(acceptanceCriteria))
+                .attr("y1", yRight(acceptanceCriteria))
                 .attr("x2", width)
-                .attr("y2", yLeft(acceptanceCriteria))
+                .attr("y2", yRight(acceptanceCriteria))
                 .attr("style", "stroke: " + acceptanceCriteriaColor + "; stroke-width: 2");
 
             ac.append("text")
                 .attr("x", width - 24)
-                .attr("y", yLeft(acceptanceCriteria) - 9.5)
+                .attr("y", yRight(acceptanceCriteria) - 9.5)
                 .attr("dy", "0.32em")
                 .attr("text-anchor", "end")
                 .text("Acceptance criteria");
