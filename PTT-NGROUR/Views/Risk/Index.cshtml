@@ -181,11 +181,11 @@
             </div>
             <div class="modal-body">
                 <form data-inputs>
-                    <div class="file-box" data-init-input>
+                    <div class="file-box">
                         <div class="panel panel-default clearfix">
                             <div class="pull-left">
                                 <div class="panel-body">
-                                    <input type="file" name="file[]">
+                                    <input id="file-0" type="file" name="file[]">
                                 </div>
                             </div>
                             <div class="pull-right">
@@ -196,10 +196,10 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-default btn-lg btn-block" onclick="AddInputFile()">
+                        <label for="file-0" class="btn btn-default btn-lg btn-block">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                             Add file
-                        </button>
+                        </label>
                     </div>
                 </form>
                 <div class="help-block">
@@ -303,14 +303,9 @@
             getRiskJson()
         }
 
-        function AddInputFile() {
-            $('[data-inputs]').append(function () {
-                return $('[data-init-input]').clone(true).find('.sr-only').removeClass('sr-only').parents('[data-init-input]').addClass('-active').html();
-            });
-        }
-
         function FileSize() {
             var bytes = 0;
+            $('[data-total-file-size]').removeClass('text-danger');
             $('[name="file[]"]').each(function () {
                 bytes = bytes + (this.files && this.files[0] ? this.files[0].size : 0);
             })
@@ -333,7 +328,14 @@
                 FileSize();
             })
             .on('change', '[name="file[]"]:last', function () {
-                FileSize();
+                var wrapper = $(this).parents('.file-box')
+                $('[data-inputs]').append(function () {
+                    var _id = Math.random().toString(36).substr(2, 9);
+
+                    newInput = wrapper.clone(true).find('[name="file[]"]').attr('id', 'file-' + _id).parents('.file-box')
+                    return newInput.find('label.btn').attr('for', 'file-' + _id).parents('.file-box').get(0).outerHTML;
+                });
+                $(this).parents('.file-box').find('.sr-only').removeClass('sr-only').parents('.file-box').addClass('-active');
             });
 
         function showImport(rc, month, year) {
@@ -348,9 +350,9 @@
         }
 
         function resetForm() {
-            $('[data-inputs] > .panel').remove();
+            $('[data-inputs] > .file-box.-active').remove();
             $('#ModalImport form').get(0).reset();
-            $('[data-total-file-size]').text(0);
+            FileSize();
         }
 
         $('#ModalImport').on('show.bs.modal', function (e) {
@@ -370,9 +372,12 @@
             data.append('MONTH', o.MONTH);
             data.append('YEAR', o.YEAR);
 
-            $('[name="file[]"]').each(function () {
-                data.append('FILE[]', this.files[0]);
+            $('[name="file[]"]').each(function (i, e) {
+                if (e.files[0]) data.append('FILES', e.files[0]);
             })
+
+            //data.append('FILE', $('[name="file[]"]').get(0).files[0]);
+            //data.append('FILE', $('[name="file[]"]').get(1).files[0]);
 
             $('[data-upload-progress]').removeClass('invisible');
 

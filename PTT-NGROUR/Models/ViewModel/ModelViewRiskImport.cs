@@ -11,6 +11,6 @@ namespace PTT_NGROUR.Models.ViewModel
         public string RC_NAME { get; set; }
         public int MONTH { get; set; }
         public int YEAR { get; set; }
-        public List<HttpPostedFileBase> FILE { get; set; }
+        public HttpPostedFileBase[] FILES { get; set; }
     }
 }

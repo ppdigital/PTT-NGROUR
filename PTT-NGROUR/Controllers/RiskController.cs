@@ -179,10 +179,37 @@ namespace PTT_NGROUR.Controllers
 
         // POST: /Risk/Import
         [HttpPost]
-        [AuthorizeController.CustomAuthorize]
+        //[AuthorizeController.CustomAuthorize]
 
         public JsonResult Import(ModelViewRiskImport model)
         {
+            foreach (HttpPostedFileBase FILE in model.FILES)
+            {
+                var xx = FILE;
+            }
+
+            string filename = DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + attachFile.FileName;
+            string destination = $@"{_hostingEnvironment.ContentRootPath}\..\Upload\MonthlyExpense\{year}\{month}\{branchID}\{category_id}\";
+
+            // Check Directory Exist
+            if (!Directory.Exists(destination))
+            {
+                Directory.CreateDirectory(destination);
+            }
+
+            //if (System.IO.File.Exists(FullPathOriginal))
+            //{
+            //    System.IO.File.Delete(FullPathOriginal);
+            //}
+
+            // Upload original file
+            using (FileStream fs = System.IO.File.Create(destination + filename))
+            {
+                attachFile.CopyTo(fs);
+                fs.Flush();
+                fs.Dispose();
+            }
+
             return Json(new {
                 xx = "xxx"
             });
@@ -206,7 +233,6 @@ namespace PTT_NGROUR.Controllers
             {
                 try
                 {
-
                     object[,] obj = null;
                     int noOfCol = 0;
                     int noOfRow = 0;
