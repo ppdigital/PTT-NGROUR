@@ -231,6 +231,7 @@
     <Compile Include="Models\ViewModel\ModelHome.cs" />
     <Compile Include="Models\ViewModel\ModelInsertExcelData.cs" />
     <Compile Include="Models\ViewModel\ModelThreshold.cs" />
+    <Compile Include="Models\ViewModel\ModelViewRiskDownload.cs" />
     <Compile Include="Models\ViewModel\ModelViewRiskImport.cs" />
     <Compile Include="Models\ViewModel\ModelViewRiskReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -778,6 +779,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

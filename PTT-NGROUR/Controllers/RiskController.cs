@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -172,7 +173,7 @@ namespace PTT_NGROUR.Controllers
                 }
             }
             var dal = new DAL.DAL();
-            var riskReport = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetRisk(x)).ToList(); ;
+            var riskReport = dal.ReadData(strCommand, x => new ModelGetRisk(x)).ToList(); ;
 
             return Json(riskReport, JsonRequestBehavior.AllowGet);
         }
@@ -180,39 +181,59 @@ namespace PTT_NGROUR.Controllers
         // POST: /Risk/Import
         [HttpPost]
         //[AuthorizeController.CustomAuthorize]
-
         public JsonResult Import(ModelViewRiskImport model)
         {
-            foreach (HttpPostedFileBase FILE in model.FILES)
-            {
-                var xx = FILE;
-            }
-
-            string filename = DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + attachFile.FileName;
-            string destination = $@"{_hostingEnvironment.ContentRootPath}\..\Upload\MonthlyExpense\{year}\{month}\{branchID}\{category_id}\";
+            string _dir = Server.MapPath($"~/UploadedFiles/{model.YEAR}/{model.MONTH}/{model.RC_NAME}");
 
             // Check Directory Exist
-            if (!Directory.Exists(destination))
+            if (!Directory.Exists(_dir))
             {
-                Directory.CreateDirectory(destination);
+                Directory.CreateDirectory(_dir);
             }
 
-            //if (System.IO.File.Exists(FullPathOriginal))
-            //{
-            //    System.IO.File.Delete(FullPathOriginal);
-            //}
-
-            // Upload original file
-            using (FileStream fs = System.IO.File.Create(destination + filename))
+            foreach (HttpPostedFileBase FILE in model.FILES)
             {
-                attachFile.CopyTo(fs);
-                fs.Flush();
-                fs.Dispose();
+                string _fileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + FILE.FileName;
+                string _path = Path.Combine(_dir, _fileName);
+                FILE.SaveAs(_path);
             }
 
-            return Json(new {
-                xx = "xxx"
-            });
+            return Json(new {});
+        }
+
+        // GET: /Risk/ListFile
+        [HttpGet]
+        //[AuthorizeController.CustomAuthorize]
+        public JsonResult ListFile(ModelViewRiskImport model)
+        {
+            string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), model.YEAR.ToString(), model.MONTH.ToString(), model.RC_NAME);
+            string[] FileList = new string[] { };
+
+            if (System.IO.Directory.Exists(_path))
+            {
+                DirectoryInfo d = new DirectoryInfo(_path);
+                FileInfo[] Files = d.GetFiles(); //Getting files
+                FileList = Files.Select(x => x.Name).ToArray();
+
+                return Json(FileList, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(FileList, JsonRequestBehavior.AllowGet);
+        }
+
+        // GET: Risk/Download/2019/3/RC0653110116/25620429092912544_1.txt
+        [HttpGet]
+        [AuthorizeController.CustomAuthorize]
+        public ActionResult Download(ModelViewRiskDownload model)
+        {
+            string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), model.YEAR.ToString(), model.MONTH.ToString(), model.RC_NAME, model.FILE_NAME);
+            if (System.IO.File.Exists(_path))
+            {
+                FileStream file = System.IO.File.OpenRead(_path);
+                return File(file, "Application/octet-stream", model.FILE_NAME);
+            }
+
+            return HttpNotFound();
         }
 
         #region Import Excel
