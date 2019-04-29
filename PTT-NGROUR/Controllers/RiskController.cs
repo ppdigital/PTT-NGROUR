@@ -209,7 +209,7 @@ namespace PTT_NGROUR.Controllers
             string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), model.YEAR.ToString(), model.MONTH.ToString(), model.RC_NAME);
             string[] FileList = new string[] { };
 
-            if (System.IO.Directory.Exists(_path))
+            if (Directory.Exists(_path))
             {
                 DirectoryInfo d = new DirectoryInfo(_path);
                 FileInfo[] Files = d.GetFiles(); //Getting files
@@ -248,7 +248,7 @@ namespace PTT_NGROUR.Controllers
         [AuthorizeController.CustomAuthorize]
         public JsonResult UploadFile()
         {
-            var dto = new DTO.DtoRisk();
+            var dto = new DtoRisk();
 
             if (Request.Files.Count > 0)
             {
