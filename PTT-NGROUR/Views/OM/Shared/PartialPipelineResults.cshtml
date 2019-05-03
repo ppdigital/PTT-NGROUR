@@ -1,0 +1,90 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelJsonResult<PTT_NGROUR.Models.ViewModel.ModelOmIndex>
+@using System.Globalization
+
+@{
+    int month = Model.Result.Month.Equals(0) ? 12 : Model.Result.Month;
+    string monthName = new DateTime(Model.Result.Year, month, 1).ToString("MMMM", CultureInfo.InvariantCulture);
+    var summary = Model.Result.Month.Equals(0) ? Model.Result.Pipeline.Summary.Accumulate : Model.Result.Pipeline.Summary.Current;
+}
+
+<h2 class="text-center">
+    Pipeline PM IA Monitoring Results
+    @if (!Model.Result.Month.Equals(0))
+    {
+        @("@") @monthName @Model.Result.Year
+    }
+</h2>
+
+<div id="Pipeline">
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th rowspan="2" colspan="2">PM Activity</th>
+                        <th rowspan="2">Interval</th>
+                        @foreach (var region in Model.Result.Pipeline.Results.Results)
+                        {
+                            <th colspan="2" class="bg-light-blue">
+                                @region.REGION
+                            </th>
+                        }
+                    </tr>
+                    <tr v-if="pipeline !== null">
+                        @foreach (var region in Model.Result.Pipeline.Results.Results)
+                        {
+                            <th class="text-center">Plan</th>
+                            <th class="text-center bg-light-blue">Actual</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var type in Model.Result.Pipeline.Summary.Accumulate.Select((value, i) => new { i, value }))
+                    {
+                        foreach (var pm in type.value.Activities.Select((value, i) => new { i, value }))
+                        {
+                            <tr>
+                                @if (pm.i.Equals(0))
+                                {
+                                    <td rowspan="@type.value.Activities.Count()"
+                                        class="text-center text-middle">
+                                        <span class="text-vertical">
+                                            @type.value.PM_TYPE
+                                        </span>
+                                    </td>
+                                }
+                                <td class="text-left text-white pm-name"
+                                    style="background-color: @Model.Result.PipelineActivity.FirstOrDefault(x => x.PM_ID.Equals(pm.value.PM_ID)).PIPELINE_HEX">
+                                    @pm.value.PM_NAME
+                                </td>
+                                <td><span>@Model.Result.PipelineActivity.Single(x => x.PM_ID.Equals(pm.value.PM_ID)).INTERVAL</span></td>
+
+                                @foreach (var item in Model.Result.Pipeline.Results.Results.Select((value, i) => new { i, value }))
+                                {
+                                    var activity = item.value.Activities.FirstOrDefault(x => x.PM_ID.Equals(pm.value.PM_ID));
+                                    <td class="text-center"><span>@Html.Raw(activity == null ? "-" : activity.PLAN.ToString("N0"))</span></td>
+                                    <td class="text-center bg-light-blue"><span>@Html.Raw(activity == null ? "-" : activity.ACTUAL.ToString("N0"))</span></td>
+                                }
+                            </tr>
+                        }
+                    }
+                    <tr>
+                        <td colspan="2" class="text-left">
+                            <div style="max-width: 500px;">
+                                <span>
+                                    CP System : Anode ground bed, Bond Box, Pipe to<br />
+                                    soil potential survey, Close Interval potential survey<br />
+                                    (CIPS), Coating Defect Survey (DCVG)
+                                </span>
+                            </div>
+                        </td>
+                        <td colspan="@(Model.Result.Pipeline.Results.Results.Count() * 2 + 1)"
+                            class="text-center text-middle">
+                            <strong>GTM will submit all reports to NGR Quarterly</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelJsonResult<PTT_NGROUR.Models.ViewModel.ModelOmIndex>
+@{
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+}
+
+@section style{
+    <style>
+        .bg-blue {
+            background-color: #5b9bd5;
+        }
+
+        .bg-light-blue {
+            background-color: #d9edf7;
+        }
+
+        .text-middle {
+            vertical-align: middle !important;
+        }
+
+        .text-white {
+            color: #fff !important;
+        }
+
+        .text-vertical {
+            display: block;
+            -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+            position: relative;
+        }
+
+        .header-title {
+            font-size: 3rem;
+            color: #ffc000;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.98);
+        }
+
+        .breakhere {
+            page-break-after: always
+        }
+
+        .table-blue.table > thead > tr > th {
+            vertical-align: middle;
+        }
+
+        .table-blue.table-striped > thead > tr:nth-of-type(2n),
+        .table-blue.table-striped > tbody > tr:nth-of-type(2n) {
+            background-color: #eaeff7;
+        }
+
+        .table-blue.table-striped > thead > tr:nth-of-type(2n+1),
+        .table-blue.table-striped > tbody > tr:nth-of-type(2n+1) {
+            background-color: #d2deef;
+        }
+
+        .table-blue.table-bordered > tbody > tr > td,
+        .table-blue.table-bordered > tbody > tr > th,
+        .table-blue.table-bordered > tfoot > tr > td,
+        .table-blue.table-bordered > tfoot > tr > th,
+        .table-blue.table-bordered > thead > tr > td,
+        .table-blue.table-bordered > thead > tr > th {
+            border-color: #000 !important;
+        }
+
+        .table-blue.table > caption + thead > tr:first-child > td,
+        .table-blue.table > caption + thead > tr:first-child > th,
+        .table-blue.table > colgroup + thead > tr:first-child > td,
+        .table-blue.table > colgroup + thead > tr:first-child > th,
+        .table-blue.table > thead:first-child > tr:first-child > td,
+        .table-blue.table > thead:first-child > tr:first-child > th {
+            border-top: 1px solid #000 !important;
+        }
+
+        .table .pm-name {
+            max-width: 380px;
+        }
+    </style>
+}
+
+    <div>
+        @Html.Partial("Shared/PartialSummary", Model)
+        <p CLASS="breakhere"></p>
+        @Html.Partial("Shared/PartialPipelineResults", Model)
+    </div>

@@ -773,6 +773,10 @@
     <Content Include="Views\Dashboard\PartialRiskManagementScript.cshtml" />
     <Content Include="Views\Dashboard\PartialOMScript.cshtml" />
     <Content Include="Views\Risk\Index.cshtml" />
+    <Content Include="Views\OM\Print.cshtml" />
+    <Content Include="Views\OM\Shared\PartialSummary.cshtml" />
+    <Content Include="Views\Shared\_PrintLayout.cshtml" />
+    <Content Include="Views\OM\Shared\PartialPipelineResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -781,6 +785,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Templates\" />
     <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <PropertyGroup>

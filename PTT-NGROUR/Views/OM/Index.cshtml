@@ -154,7 +154,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-if="pipeline === null || pipeline.Summary.Accumulate.length === 0 || isLoading">
+                                            <tr v-if="isLoading">
                                                 <td :colspan="Month === 0 ? 7:12" class="text-center pv3">
                                                     <template v-if="isLoading">
                                                         @Html.Partial("PartialLoadingGrid")
@@ -162,6 +162,11 @@
                                                     <template v-else>
                                                         <h2>No data</h2>
                                                     </template>
+                                                </td>
+                                            </tr>
+                                            <tr v-else-if="summary === null || summary.length === 0">
+                                                <td :colspan="Month === 0 ? 7:12" class="text-center pv3">
+                                                    <h1>No data</h1>
                                                 </td>
                                             </tr>
                                             <template v-else
@@ -188,7 +193,7 @@
                                                                 <strong>{{ type.Percentage }}</strong>
                                                             </td>
                                                             <td v-if="indexType === 0 && i === 0"
-                                                                rowspan="11"
+                                                                :rowspan="_.sumBy(summary, function(o) { return o.Activities.length; })"
                                                                 class="text-center text-middle">
                                                                 <strong>
                                                                     {{ pipeline.Summary.CurrentOrverallPercentage }}
@@ -204,7 +209,7 @@
                                                             <strong>{{ pipeline.Summary.Accumulate[indexType].Percentage }}</strong>
                                                         </td>
                                                         <td v-if="indexType === 0 && i === 0"
-                                                            rowspan="11"
+                                                            :rowspan="_.sumBy(summary, function(o) { return o.Activities.length; })"
                                                             class="text-center text-middle">
                                                             <strong>
                                                                 {{ pipeline.Summary.AccumulateOrverallPercentage }}
@@ -404,7 +409,7 @@
                                                             <td><span>{{ PipelineActivity[pm.PM_ID].INTERVAL }}</span></td>
 
                                                             <template v-for="item in pipeline.Results.Results">
-                                                                <td><span>{{ getPMActivity(item.Activities, pm.PM_ID, 'PLAN') }}</</span></td>
+                                                                <td><span>{{ getPMActivity(item.Activities, pm.PM_ID, 'PLAN') }}</span></td>
                                                                 <td class="actual"><span>{{ getPMActivity(item.Activities, pm.PM_ID, 'ACTUAL') }}</span></td>
                                                             </template>
                                                         </tr>
