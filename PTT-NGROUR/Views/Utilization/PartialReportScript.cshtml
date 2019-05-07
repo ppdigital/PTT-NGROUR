@@ -1217,9 +1217,10 @@
                     }
 
                 }
-                var strMonthName = monthNames[intMonth-1];
-                $("#lblLeftDate").text(strMonthName + " " + intYear);
-                $("#LeftDate").text(strMonthName + " " + intYear);
+                var strMonthName = intMonth == 0 ? '' : monthNames[intMonth - 1];
+                var strYear = intYear == 0 ? '' : intYear;
+                $("#lblLeftDate").text(strMonthName + " " + strYear);
+                $("#LeftDate").text(strMonthName + " " + strYear);
 
 
                 $("#Current_GatePass").text(passGate);
