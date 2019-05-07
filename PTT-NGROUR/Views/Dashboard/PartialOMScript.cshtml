@@ -122,7 +122,7 @@
                     datasets: [
                         {
                             data: [percentage],
-                            backgroundColor: ['#258fe5'],
+                            backgroundColor: ['#16a085'],
                             borderWidth: 0
                         }
                     ]
@@ -138,7 +138,9 @@
                             return value + '%';
                         }
                     },
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    centerPercentage: 65,
+                    roundedCorners: false,
                 }
             });
             _graphPipeOM[element] = objGraph;
