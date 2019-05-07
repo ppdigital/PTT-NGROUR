@@ -27,6 +27,15 @@
             overflow: hidden;
         }
 
+        #tooltip {
+            position: absolute;
+            color: #fff;
+            background-color: #000;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: left;
+        }
+
         .chart-wrapper {
             text-align: center;
         }
@@ -112,6 +121,7 @@
                     <div class="chart">
                         <h4>Distribution Pipeline risk</h4>
                         <div id="chart"></div>
+                        <div id='tooltip' style="opacity: 0"></div>
                     </div>
                 </div>
             </div>
@@ -198,7 +208,7 @@
              */
 
             // Key
-            var colors = ["rgba(255,0,0,.15"]
+            var colors = ["rgba(255,0,0,.15)"]
             var defaultKeys = [
                 //{
                 //    Key: "C1",
@@ -289,6 +299,8 @@
 
             yLeft.domain([0, 100]).nice();
             yRight.domain([0, MaxRiskScore]).nice();
+
+            var tooltip = d3.select('#tooltip');
 
 
             /**
@@ -524,6 +536,22 @@
                 .attr("dy", ".35em")
                 .style("text-anchor", "begin")
                 .text(keysText.ACCEPTANCE_CRITERIA);
+
+            d.on('mousemove', function (d) {
+                var i = 0;
+                var html = '<br><span style="color: #ff0000;">' + keysText['RISK_SCORE'] + ': ' + (Math.round(d['RISK_SCORE'] * 100) / 100).toLocaleString('th') + '</span>';
+
+                keys.forEach(function (element, i) {
+                    html = html + '<br><span style="color: ' + colors[i+1] + ';">' + keysText[element] + ': ' + Math.round(d[element] * 100) / 100 + '%</span>';
+                });
+                tooltip.style('display', 'block')
+                    .style('left', d3.event.pageX + 20 + 'px')
+                    .style('top', d3.event.pageY - 20 + 'px')
+                    .html(d.RC_NAME + html);
+                tooltip.transition().duration(200).style("opacity", 1);
+            }).on('mouseout', function () {
+                if (tooltip) tooltip.transition().duration(200).style("opacity", 0);
+            });
         }
 
         function onSubmit() {
