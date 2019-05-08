@@ -197,31 +197,13 @@
         //if (!pListData || !pListData.length) {
         //    return;
         //}
-        let intAlert = 0;
-        let intWarning = 0;
-        let intPass = 0;
-        let intFlag = 0;
-        for (let i in pListData) {
-            let data = pListData[i];
+        let data = _.filter(pListData, function (o) { return o.TYPE === pStrMode; });
+        let grouped = _.groupBy(data, 'THRESHOLD');
 
-            if (data.TYPE !== pStrMode) {
-                continue;
-            }
-            switch (data.THRESHOLD) {
-                case "OK":
-                    intPass++;
-                    break;
-                case "Alert":
-                    intAlert++;
-                    break;
-                case "Warning":
-                    intWarning++;
-                    break;
-                case "Flag":
-                    intFlag++;
-                    break;
-            }
-        }
+        let intAlert = grouped.Alert ? grouped.Alert.length : 0;
+        let intWarning = grouped.Warning ? grouped.Warning.length : 0;
+        let intPass = grouped.OK ? grouped.OK.length : 0;
+        let intFlag = grouped.Flag ? grouped.Flag.length : 0;
 
         var ds = [];
         var dsData = [intAlert, intWarning, intPass, intFlag];

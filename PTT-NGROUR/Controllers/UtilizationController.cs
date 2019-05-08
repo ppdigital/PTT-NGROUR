@@ -1622,7 +1622,7 @@ namespace PTT_NGROUR.Controllers
             try
             {
                 var dal = new DAL.DAL();
-                string strCommand = "SELECT * FROM VIEW_GATE_PIPE_REPORT_CURRENT";
+                string strCommand = "SELECT * FROM VIEW_UTILIZATION_REPORT WHERE YEAR > 2018 AND TYPE NOT LIKE 'METERING'";
                 var listData = dal.ReadData(strCommand, x => new ModelViewGatePipeReport(x));
                 if (pArrId != null && pArrId.Any())
                 {

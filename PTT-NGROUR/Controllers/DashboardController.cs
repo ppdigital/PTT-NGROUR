@@ -201,7 +201,7 @@ namespace PTT_NGROUR.Controllers
 
             string strCommand;
 
-            strCommand = @"SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE REGION IN ('" + regionStr + "') AND TYPE NOT LIKE 'METERING'"; 
+            strCommand = @"SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE YEAR > 2018 AND TYPE NOT LIKE 'METERING' AND REGION IN ('" + regionStr + "')"; 
             var listUtilization = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
 
             strCommand = @"SELECT * FROM VIEW_OM_CURRENT WHERE REGION IN ('" + regionStr + "')";
