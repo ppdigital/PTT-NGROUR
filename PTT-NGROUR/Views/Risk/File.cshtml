@@ -1,5 +1,172 @@
 ﻿@{
-    ViewBag.Title = "File";
+    ViewBag.Title = "Risk Management File";
 }
 
-<h2>File</h2>
+@section style{
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+}
+
+<br />
+
+<div class="container-fluid" style="margin-top:-.8rem">
+    <div class="ph2 ph0-xs">
+        <div class="p-3 mb-2 mv2 col-container-white text-dark">
+            <!-- View by -->
+            <div class="ph2 pv2">
+                <div class="row">
+                    <div class="col-sm-5 col-md-3 col-lg-2 col-sm-offset-1 col-md-offset-3 col-lg-offset-4">
+                        <button type="button" class="btn btn-default btn-block">Route Code</button>
+                    </div>
+                    <div class="col-sm-5 col-md-3 col-lg-2">
+                        <button type="button" class="btn btn-default btn-block">Year</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="ph2">
+                <div class="row">
+                    <div class="col-sm-5 col-md-4 col-lg-3">
+                        <button type="button" class="btn btn-info btn-block" onclick="showImport()">Import File</button>
+                    </div>
+                    <div class="col-sm-5 col-md-4 col-lg-3 col-sm-offset-2 col-md-offset-4 col-lg-offset-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button">Search</button>
+                            </span>
+                        </div><!-- /input-group -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="ph2 pv2">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Year</th>
+                            <th>Update at</th>
+                            <th>Update by</th>
+                            <th>Update file</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>x</td>
+                            <td>x</td>
+                            <td>x</td>
+                            <td>x</td>
+                            <td>x</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Import -->
+<div id="ModalImport" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="padding: 0;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Import <span data-title></span></h4>
+            </div>
+            <div class="modal-body">
+                <form data-inputs>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="yearPicker" data-datepicker />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="file-box">
+                        <div class="panel panel-default clearfix">
+                            <div class="pull-left">
+                                <div class="panel-body">
+                                    <input id="file-0" type="file" name="file[]">
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <div class="panel-body sr-only">
+                                    <button type="button" class="btn btn-danger btn-xs" data-remove-file>
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="file-0" class="btn btn-default btn-lg btn-block">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            Add file
+                        </label>
+                    </div>
+                </form>
+                <div class="help-block">
+                    The total file size must be less than 10 MB.
+                </div>
+            </div>
+            <div data-upload-progress class="progress p0 invisible" style="border-radius: 0; margin: 0">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                    0%
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-left">Total: <span data-total-file-size>0</span>/10MB</div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="onImport()">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section scripts{
+    <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
+    <script src="~/Content/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/lodash.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/Scripts/lodash.js"></script>
+
+    <script type="text/javascript">
+        $('[data-datepicker]').datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose: true,
+            inline: true,
+        }).datepicker("setDate", new Date());
+
+        function FileSize() {
+            var bytes = 0;
+            $('[data-total-file-size]').removeClass('text-danger');
+            $('[name="file[]"]').each(function () {
+                bytes = bytes + (this.files && this.files[0] ? this.files[0].size : 0);
+            })
+            var totalFileSize = parseFloat((bytes / Math.pow(1024, 2)).toFixed(2))
+            $('[data-total-file-size]').text(totalFileSize)
+            if (totalFileSize > 10) {
+                $('[data-total-file-size]').addClass('text-danger');
+            }
+
+            return totalFileSize;
+        }
+
+        function showImport() {
+            var modal = $('#ModalImport');
+            modal.modal('show');
+        }
+
+        function resetForm() {
+            $('[data-inputs] > .file-box.-active').remove();
+            $('#ModalImport form').get(0).reset();
+            FileSize();
+        }
+
+        $('#ModalImport').on('show.bs.modal', function (e) {
+            resetForm();
+        })
+    </script>
+}
