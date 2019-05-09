@@ -191,7 +191,7 @@ namespace PTT_NGROUR.Controllers
             }
             //Source data returned as JSON  
             return Json(iData, JsonRequestBehavior.AllowGet);
-        }  
+        }
 
         [HttpPost]
         public JsonResult SearchRegion(int[] region)
