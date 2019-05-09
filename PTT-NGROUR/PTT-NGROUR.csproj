@@ -755,7 +755,7 @@
     <Content Include="Views\TestD3Graph\BarChart.cshtml" />
     <Content Include="Views\Utilization\PartialMeterTable.cshtml" />
     <Content Include="Views\OM\PartialGateScript.cshtml" />
-    <Content Include="Views\Risk\Report.cshtml" />
+    <Content Include="Views\Risk\RiskManagementGraph.cshtml" />
     <Content Include="Views\Risk\ImportExcel.cshtml" />
     <Content Include="Views\Risk\PartialModalExcelScript.cshtml" />
     <Content Include="Views\Risk\PartialModalExcel.cshtml" />
@@ -777,6 +777,7 @@
     <Content Include="Views\OM\Shared\PartialSummary.cshtml" />
     <Content Include="Views\Shared\_PrintLayout.cshtml" />
     <Content Include="Views\OM\Shared\PartialPipelineResults.cshtml" />
+    <Content Include="Views\Risk\Report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

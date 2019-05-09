@@ -150,6 +150,84 @@ namespace PTT_NGROUR.Controllers
             return View(model);
         }
 
+        // GET: /Risk/Report
+        [AuthorizeController.CustomAuthorize]
+        public ActionResult RiskManagementGraph()
+        {
+            DAL.DAL dal = new DAL.DAL();
+
+            #region Risk Type
+            var dsRiskType = dal.GetDataSet("SELECT ID ,RISK_TYPE FROM RISK_TYPE");
+            var dtRiskType = dsRiskType.Tables[0];
+            var listRiskType = new List<ModelRiskType>();
+
+            foreach (System.Data.DataRow dr in dtRiskType.Rows)
+            {
+                var riskType = new ModelRiskType()
+                {
+                    ID = Convert.ToInt32(dr["ID"].ToString()),
+                    RISK_TYPE = dr["RISK_TYPE"].ToString()
+                };
+
+
+                listRiskType.Add(new ModelRiskType { ID = riskType.ID, RISK_TYPE = riskType.RISK_TYPE });
+            }
+            dsRiskType.Dispose();
+            dtRiskType.Dispose();
+            #endregion
+
+            #region License
+            var dsLicense = dal.GetDataSet("SELECT LICENSE_ID ,LICENSE FROM LICENSE_MASTER");
+            var dtLicense = dsLicense.Tables[0];
+            var listLicense = new List<ModelLicenseMaster>();
+
+            foreach (System.Data.DataRow dr in dtLicense.Rows)
+            {
+                var license = new ModelLicenseMaster()
+                {
+                    LICENSE = dr["LICENSE"].ToString(),
+                    LICENSE_ID = Convert.ToInt32(dr["LICENSE_ID"].ToString())
+                };
+
+                listLicense.Add(new ModelLicenseMaster { LICENSE = license.LICENSE, LICENSE_ID = license.LICENSE_ID });
+            }
+            dsLicense.Dispose();
+            dtLicense.Dispose();
+            #endregion
+
+            #region Region
+            var dsRegion = dal.GetDataSet("SELECT REGION_ID ,REGION_NAME FROM REGION");
+            var dtRegion = dsRegion.Tables[0];
+            var listRegion = new List<ModelRegion>();
+
+            foreach (System.Data.DataRow drArea in dtRegion.Rows)
+            {
+                var region = new ModelRegion()
+                {
+                    REGION_NAME = drArea["REGION_NAME"].ToString(),
+                    REGION_ID = Convert.ToInt32(drArea["REGION_ID"].ToString())
+                };
+
+                listRegion.Add(new ModelRegion { REGION_NAME = region.REGION_NAME, REGION_ID = region.REGION_ID });
+            }
+            dtRegion.Dispose();
+            dsRegion.Dispose();
+            #endregion
+
+            ViewData["AcceptanceCriteria"] = dal.ReadData(
+                "SELECT RISK_CRITERIA, UPDATE_DATE, UPDATE_BY FROM RISK_THRESHOLD",
+                x => new ModelAcceptanceCriteria(x)).Select(x => x.RISK_CRITERIA).FirstOrDefault();
+
+            var model = new ModelRisk()
+            {
+                ListRiskType = listRiskType,
+                ListLicense = listLicense,
+                ListRegion = listRegion
+            };
+
+            return View(model);
+        }
+
         // POST: /Risk/Json
         [HttpPost]
         [AuthorizeController.CustomAuthorize]
