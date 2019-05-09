@@ -9,42 +9,88 @@
 }
 
 @section style{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.1/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/datatables.min.css" />
+    <link href="~/Scripts/DataTables/DataTables-1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
     <style>
-        .axis {
-            font-size: 14px;
-        }
-
-            .axis path, .axis line {
-                fill: none;
-                stroke: rgba(0,0,0,.25);
-                shape-rendering: crispEdges;
-            }
-
-        #chart {
-            display: inline-block;
-            overflow: hidden;
-        }
-
-        #tooltip {
-            position: absolute;
-            color: #fff;
-            background-color: #000;
-            padding: 5px;
-            border-radius: 5px;
-            text-align: left;
-        }
-
-        .chart-wrapper {
+        .summary-graph .graph {
+            width: 100%;
             text-align: center;
+            float: left;
+            min-height: 1px;
+            padding: 0 15px;
+            border-right: 1px solid #ddd;
+            margin-bottom: 50px;
         }
 
-            .chart-wrapper .chart {
-                display: inline-block;
-                margin: auto 0;
-                border: 1px solid #666;
+            .summary-graph .graph:last-child {
+                border-right: none;
             }
+
+            .summary-graph .graph.-summary {
+                border-right: none;
+            }
+
+        @@media (min-width: 768px) {
+            .summary-graph .graph {
+                width: 50%;
+            }
+
+                .summary-graph .graph.-summary {
+                    margin-left: 25%;
+                }
+        }
+
+        @@media (min-width: 992px) {
+            .summary-graph .graph {
+                width: 33.33333333%;
+            }
+
+                .summary-graph .graph.-summary {
+                    margin-left: 16.666666665%;
+                }
+        }
+
+        @@media (min-width: 992px) and (max-width: 1199px) {
+            .summary-graph .graph.-summary {
+                border-right: 1px solid #ddd;
+            }
+
+            .summary-graph .graph:nth-child(2) {
+                border-right: none;
+            }
+        }
+
+        @@media (min-width: 1200px) {
+            .summary-graph .graph {
+                width: 25%;
+            }
+
+                .summary-graph .graph.-summary {
+                    margin-left: 37.5%;
+                    margin-right: 37.5%;
+                }
+        }
+
+        @@media (min-width: 1600px) {
+            .summary-graph .graph {
+                width: 20%;
+            }
+
+                .summary-graph .graph.-summary {
+                    border-right: 1px solid #ddd;
+                    margin: 0;
+                }
+        }
+
+        .summary-graph .graph .title {
+            color: #999;
+        }
+
+        .summary-graph .piegraph {
+            display: inline-block;
+        }
     </style>
 }
 
@@ -104,32 +150,112 @@
             <!--Search Bar -->
 
             <div class="ph2 pv2">
-                <div class="row">
-                    <div class="col-md-offset-8 col-md-4 col-lg-offset-9 col-lg-3">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Display</label>
-                            <select class="selectpicker form-control" name="riskType" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;">
-                                @foreach (PTT_NGROUR.Models.DataModel.ModelRiskType ml in Model.ListRiskType)
-                                {
-                                    <option value="@ml.ID" class="text-grey" style="word-wrap:break-word; font-size:15px" selected>@ml.RISK_TYPE</option>
-                                }
-                            </select>
+                <div class="summary-graph clearfix">
+                    <div class="graph -summary">
+                        <h4 class="title">Summary</h4>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="col-container-green" data-socre-risk="SUMMARY">-</div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="col-container-red" data-socre-norisk="SUMMARY">-</div>
+                            </div>
+                        </div>
+                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
+                            <canvas data-pie-chart="SUMMARY"></canvas>
+                        </div>
+                    </div>
+                    <div class="graph">
+                        <h4 class="title">Internal Corrosion</h4>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="col-container-green" data-socre-risk="INTERNAL_CORROSION">-</div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="col-container-red" data-socre-norisk="INTERNAL_CORROSION">-</div>
+                            </div>
+                        </div>
+                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
+                            <canvas data-pie-chart="INTERNAL_CORROSION"></canvas>
+                        </div>
+                    </div>
+                    <div class="graph">
+                        <h4 class="title">External Corrosion</h4>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="col-container-green" data-socre-risk="EXTERNAL_CORROSION">-</div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="col-container-red" data-socre-norisk="EXTERNAL_CORROSION">-</div>
+                            </div>
+                        </div>
+                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
+                            <canvas data-pie-chart="EXTERNAL_CORROSION"></canvas>
+                        </div>
+                    </div>
+                    <div class="graph">
+                        <h4 class="title">Third Party Interference</h4>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="col-container-green" data-socre-risk="THIRD_PARTY_INTERFERENCE">-</div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="col-container-red" data-socre-norisk="THIRD_PARTY_INTERFERENCE">-</div>
+                            </div>
+                        </div>
+                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
+                            <canvas data-pie-chart="THIRD_PARTY_INTERFERENCE"></canvas>
+                        </div>
+                    </div>
+                    <div class="graph">
+                        <h4 class="title">Loss of Ground Support</h4>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="col-container-green" data-socre-risk="LOSS_OF_GROUND_SUPPORT">-</div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="col-container-red" data-socre-norisk="LOSS_OF_GROUND_SUPPORT">-</div>
+                            </div>
+                        </div>
+                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
+                            <canvas data-pie-chart="LOSS_OF_GROUND_SUPPORT"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="chart-wrapper">
-                    <div class="chart">
-                        <h4>Distribution Pipeline risk</h4>
-                        <div id="chart"></div>
-                        <div id='tooltip' style="opacity: 0"></div>
-                    </div>
-                </div>
+            </div>
+
+            <div class="ph2 pv2">
+                <table id="tableRisk" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>RC</th>
+                            <th>Risk</th>
+                            <th>Value</th>
+                            <th>Map</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>x</td>
+                            <td>x</td>
+                            <td>x</td>
+                            <td class="text-center">
+                                <a href="#" class="clickable fa fa-globe fa-2x no-underline pointer"></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 
 @section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/DataTables/datatables.min.js"></script>
+    <script src="~/Scripts/DataTables/Responsive-2.2.2/js/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/DataTables/DataTables-1.10.16/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/Chart/Chart.PieceLabel.min.js"></script>
     <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
     <script src="~/Content/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/lodash.js"></script>
@@ -137,6 +263,135 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script type="text/javascript">
+        var data = []
+
+        var tbRisk = $("#tableRisk").DataTable();
+
+        var getRiskJson = function () {
+            var mode = $('[name="radioMode"]:checked').val();
+            var date = $("#datePicker").datepicker("getDate");
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            axios.post('/Risk/Json', {
+                type: mode,
+                lists: $('[data-target="' + mode + '"]').val(),
+                month: month,
+                year: year
+            })
+                .then(function (response) {
+                    var group = {}
+                    var pieChart = []
+                    var riskScore = {
+                        'SUMMARY': {
+                            RISK: 0,
+                            NO_RISK: 0
+                        }
+                    }
+
+                    data = response.data
+                    group['INTERNAL_CORROSION'] = _.groupBy(data, 'INTERNAL_CORROSION_RISK')
+                    group['EXTERNAL_CORROSION'] = _.groupBy(data, 'EXTERNAL_CORROSION_RISK')
+                    group['THIRD_PARTY_INTERFERENCE'] = _.groupBy(data, 'THIRD_PARTY_INTERFERENCE_RISK')
+                    group['LOSS_OF_GROUND_SUPPORT'] = _.groupBy(data, 'LOSS_OF_GROUND_SUPPORT_RISK')
+
+                    $.each(group, function (i, o) {
+                        var risk = o.RISK ? o.RISK.length : 0
+                        var noRisk = o.NO_RISK ? o.NO_RISK.length : 0
+                        riskScore['SUMMARY'].RISK += risk
+                        riskScore['SUMMARY'].NO_RISK += noRisk
+                        riskScore[i] = {
+                            RISK: risk,
+                            NO_RISK: noRisk
+                        }
+                    });
+
+                    // Card risk
+                    $('[data-socre-risk]') && $.each($('[data-socre-risk]'), function (i, e) {
+                        var score = riskScore[$(e).data('socre-risk')];
+                        $(e).text(score ? score.RISK : 0);
+                    })
+
+                    // Card no risk
+                    $('[data-socre-norisk]') && $.each($('[data-socre-norisk]'), function (i, e) {
+                        var score = riskScore[$(e).data('socre-norisk')];
+                        $(e).text(score ? score.NO_RISK : 0);
+                    })
+
+                    // Chart
+                    $('[data-pie-chart]') && $.each($('[data-pie-chart]'), function (i, e) {
+                        var k = $(e).data('pie-chart')
+                        var risk = riskScore[k]
+                        var noRisk = riskScore[k]
+                        var data = [
+                            risk ? risk.RISK : 0,
+                            noRisk ? noRisk.NO_RISK : 0
+                        ]
+
+                        if (pieChart[i] != null) {
+                            pieChart[i].destroy();
+                        }
+
+                        console.log(riskScore[k])
+
+                        pieChart[i] = new Chart(e.getContext("2d"), {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Risk', 'No Risk'],
+                                datasets: [{
+                                    label: "Test Data",
+                                    data: data,
+                                    fill: false,
+                                    backgroundColor: ["#e74c3c", "#16a085"],
+                                    hoverBackgroundColor: ["#e74c3c", "#16a085"],
+                                    //borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                                    borderWidth: 0
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                pieceLabel: { mode: 'value', fontColor: 'white' },
+                                title: { display: true },
+                                legend: { position: 'bottom' },
+                                scales: {
+                                    xAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' } }],
+                                    yAxes: [{ gridLines: { display: false }, display: false, scaleLabel: { display: false, labelString: '' }, ticks: { stepSize: 50, beginAtZero: true } }]
+                                },
+                            }
+                        });
+                        pieChart[i].update();
+                    })
+
+                    // Table
+                    tbRisk.clear()
+
+                    $.each(data, function (i, o) {
+                        var html = ''
+                        html += '<tr>'
+                        html += '<td>' + o.RC_NAME + '</td>'
+                        html += '<td>' + o.RISK_SCORE_RISK + '</td>'
+                        html += '<td>' + Math.round(o.RISK_SCORE * 100) / 100 + '</td>'
+                        html += '<td class="text-center">'
+                        html += '<a href="#" class="clickable fa fa-globe fa-2x no-underline pointer"></a>'
+                        html += '</td>'
+                        html += '</tr>'
+
+                        $(html).data('map_info', o);
+
+                        console.log($(html))
+                        tbRisk.row.add($(html));
+                    });
+
+                    tbRisk.draw();
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                });
+        }
+
         $('[data-datepicker]').datepicker({
             format: "MM yyyy",
             viewMode: "months",
@@ -165,427 +420,14 @@
             $('.selectpicker').selectpicker('refresh');
         })
 
-        // Chart
-        var acceptanceCriteria = @ViewData["AcceptanceCriteria"];
-        var acceptanceCriteriaColor = "rgb(255, 0, 0, .8)";
-        var MaxRiskScore = 3000;
-        var MaxRiskScoreSpace = 500; // MaxRiskScore / MaxRiskScoreSpace
-
-        var responsivefy = function (svg) {
-            // get container + svg aspect ratio
-            var container = d3.select('.chart-wrapper'),
-                width = parseInt(svg.style("width")),
-                height = parseInt(svg.style("height")),
-                aspect = width / height;
-
-            // add viewBox and preserveAspectRatio properties,
-            // and call resize so that svg resizes on inital page load
-            svg.attr("viewBox", "0 0 " + width + " " + height)
-                .attr("preserveAspectRatio", "xMinYMid")
-                .call(resize);
-
-            // to register multiple listeners for same event type,
-            // you need to add namespace, i.e., 'click.foo'
-            // necessary if you call invoke this function for multiple svgs
-            // api docs: https://github.com/mbostock/d3/wiki/Selections#on
-            d3.select(window).on("resize." + container.attr("id"), resize);
-
-            // get width of container and resize svg to fit it
-            function resize() {
-                var targetWidth = parseInt(container.style("width"));
-                svg.attr("width", targetWidth);
-                svg.attr("height", Math.round(targetWidth / aspect));
-            }
-        }
-
-        var renderChart = function (data) {
-            $("#chart svg").remove();
-
-
-            /**
-             * Config
-             * 
-             */
-
-            // Key
-            var colors = ["rgba(255,0,0,.15)"]
-            var defaultKeys = [
-                //{
-                //    Key: "C1",
-                //    Color: "#ca9561"
-                //},
-                //{
-                //    Key: "C2",
-                //    Color: "#a2d66a"
-                //}
-            ]
-
-            var selectKey = {
-                1: {
-                    Key: "INTERNAL_CORROSION",
-                    Color: "#d06e13",
-                },
-                2: {
-                    Key: "EXTERNAL_CORROSION",
-                    Color: "#567A0D",
-                },
-                3: {
-                    Key: "THIRD_PARTY_INTERFERENCE",
-                    Color: "#99A3CA",
-                },
-                4: {
-                    Key: "LOSS_OF_GROUND_SUPPORT",
-                    Color: "#b942f4",
-                }
-            };
-
-            var keys = []
-            $.each($('[name="riskType"]').val(), function (k, v) {
-                keys.push(selectKey[v].Key)
-                colors.push(selectKey[v].Color)
-            });
-
-            $.each(defaultKeys, function (k, v) {
-                keys.push(v.Key)
-                colors.push(v.Color)
-            })
-
-            var keysText = {
-                INTERNAL_CORROSION: "INTERNAL CORROSION",
-                EXTERNAL_CORROSION: "EXTERNAL CORROSION",
-                THIRD_PARTY_INTERFERENCE: "THIRD PARTY INTERFERENCE",
-                LOSS_OF_GROUND_SUPPORT: "LOSS OF GROUND SUPPORT",
-                C1: "C1: Societal",
-                C2: "C2: Cost",
-                RISK_SCORE: "Risk Score",
-                ACCEPTANCE_CRITERIA: "Acceptance Criteria"
-            }
-
-
-            /**
-             * Initial
-             * 
-             */
-            var svg = d3.select("#chart").append("svg")
-                .attr("width", $('.chart-wrapper').width())
-                .attr("height", $('.chart-wrapper').width() / 1.92)
-                .call(responsivefy)
-            var margin = { top: 80, right: 80, bottom: 30, left: 80 },
-                width = +svg.attr("width") - margin.left - margin.right,
-                height = +svg.attr("height") - margin.top - margin.bottom,
-                g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-            var x0 = d3.scaleBand()
-                .rangeRound([0, width])
-                .paddingInner(0.1);
-
-            var x1 = d3.scaleBand()
-                .padding(0.05);
-
-            var y = d3.scaleLinear()
-                .rangeRound([height, 0]);
-            var yLeft = d3.scaleLinear()
-                .rangeRound([height, 0]);
-            var yRight = d3.scaleLinear()
-                .rangeRound([height, 0]);
-
-            var z = d3.scaleOrdinal()
-                .range(colors);
-
-            x0.domain(data.map(function (d) {
-                return d.RC_NAME;
-            }));
-            x1.domain(keys).rangeRound([0, x0.bandwidth()]);
-
-            yLeft.domain([0, 100]).nice();
-            yRight.domain([0, MaxRiskScore]).nice();
-
-            var tooltip = d3.select('#tooltip');
-
-
-            /**
-             * Data
-             * 
-             */
-            var d = g.append("g")
-                .selectAll("g")
-                .data(data)
-                .enter()
-                .append("g");
-
-            d.attr("transform", function (d) {
-                return "translate(" + x0(d.RC_NAME) + ",0)";
-                })
-                .selectAll("rect")
-                .data(function (d) {
-                    var k = keys.map(function (key) {
-                        return { key: key, value: d[key] };
-                    });
-
-                    // Insert Risk Score for Background
-                    k.unshift({ key: "RISK_SCORE", value: d["RISK_SCORE"] })
-
-                    return k;
-                })
-                .enter().append("rect")
-                .attr("x", function (d) {
-                    if (d.key === "RISK_SCORE") {
-                        return (x1.bandwidth() / 2) + x1(keys[0])
-                    }
-                    return x1(d.key);
-                })
-                .attr("y", function (d) {
-                    return d.key === "RISK_SCORE" ? yRight(d.value) : yLeft(d.value);
-                })
-                .attr("width", function (d) {
-                    if (d.key === "RISK_SCORE") {
-                        var posStart = (x1.bandwidth() / 2) + x1(keys[0])
-                        var posEnd = x1(keys[keys.length - 1]) + (x1.bandwidth() / 2)
-                        return posEnd - posStart;
-                    }
-                    return x1.bandwidth()
-                })
-                .attr("height", function (d) {
-                    var _y = d.key === "RISK_SCORE" ? yRight(d.value) : yLeft(d.value);
-                    return height - _y;
-                })
-                .attr("fill", function (d) { return z(d.key); });
-
-            if (data.length <= 15) {
-                d.append("text")
-                    .attr("text-anchor", "end")
-                    .attr("transform", function (d) {
-                        var translateY = 0;
-                        var translateX = (x1.bandwidth() * keys.length) / 2;
-                        keys.forEach(function (element) {
-                            if (d[element] > translateY) translateY = d[element]
-                        });
-
-                        translateY = yLeft(translateY);
-
-                        return "translate(" + translateX + ", " + (translateY - 60) + ") rotate(90)"
-                    })
-                    .attr("font-size", "1.5em")
-                    .attr("font-weight", "bold")
-                    .text(function (d) {
-                        return d.RC_NAME;
-                    });
-            }
-
-
-            /**
-             * Axis Bottom
-             * 
-             */
-            axisBottom = g.append("g")
-                .attr("class", "axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x0)
-                    .tickSize(0));
-
-            axisBottom.selectAll("text").remove()
-
-
-            /**
-             * Axis Left
-             * 
-             */
-            var axisYLeft = g.append("g")
-                .style("font", "14px")
-                .attr("class", "axis")
-                .call(d3.axisLeft(yLeft)
-                    .ticks(10)
-                    .tickSize(-(width))
-                );
-
-            axisYLeft.append("text")
-                .attr("x", 0)
-                .attr("y", y(yLeft.ticks().pop()) - 15)
-                .attr("dy", "0.32em")
-                .attr("fill", "#258fe5")
-                .attr("font-weight", "bold")
-                .attr("text-anchor", "middle")
-                .text("%");
-
-            // --acceptance criteria
-            var ac = g.append("g");
-            ac.append("line")
-                .attr("x1", 0)
-                .attr("y1", yRight(acceptanceCriteria))
-                .attr("x2", width)
-                .attr("y2", yRight(acceptanceCriteria))
-                .attr("style", "stroke: " + acceptanceCriteriaColor + "; stroke-width: 2");
-
-            ac.append("text")
-                .attr("x", width - 24)
-                .attr("y", yRight(acceptanceCriteria) - 9.5)
-                .attr("dy", "0.32em")
-                .attr("text-anchor", "end")
-                .text("Acceptance criteria");
-
-            // --license
-            //var licenseY = (acceptanceCriteria > 70 && acceptanceCriteria < 85) ? 90 : 75
-            //ac.append("line")
-            //    .attr("x1", 0)
-            //    .attr("y1", yLeft(licenseY))
-            //    .attr("x2", width)
-            //    .attr("y2", yLeft(licenseY))
-            //    .attr("style", "stroke: #258fe5; stroke-width: 2");
-
-            //ac.append("text")
-            //    .attr("x", width / 2)
-            //    .attr("y", yLeft(licenseY) - 9.5)
-            //    .attr("dy", "0.32em")
-            //    .attr("fill", "#258fe5")
-            //    .attr("text-anchor", "middle")
-            //    .text("ใบอนุญาตที่ 1 - 50");
-            // axis-y left
-
-
-            /**
-             * Axis Right
-             * 
-             */
-            g.append("g")
-                .attr("class", "axis")
-                .attr("transform", function (d, i) {
-                    return "translate(" + width + ",0)";
-                })
-                .call(d3.axisRight(yRight).ticks(MaxRiskScore / MaxRiskScoreSpace))
-                .append("text")
-                .attr("x", 0)
-                .attr("y", y(yRight.ticks().pop()) - 15)
-                .attr("dy", "0.32em")
-                .attr("fill", "#258fe5")
-                .attr("font-weight", "bold")
-                .attr("text-anchor", "middle")
-                .text("Total Score");
-            // axis-y right
-
-
-            /**
-             * Legend
-             * 
-             */
-            var tabSpace = 240
-            var legend_tabs = [];
-            var colMax = 3
-            var colIndex = 0
-            var rowSpace = 10
-            var i;
-            for (i = 0; i <= (keys.length + 1); i++) {
-                legend_tabs.push({
-                    x: margin.left + (tabSpace * colIndex),
-                    y: rowSpace
-                })
-
-                colIndex++
-
-                if ((i + 1) % colMax === 0) {
-                    colIndex = 0
-                    rowSpace = rowSpace + 20
-                }
-            }
-
-            var startp = svg.append("g")
-                .attr("class", "legendbox")
-                .attr("transform", function () {
-                    return "translate(" + (width - (tabSpace * colMax)) / 2 + ", 0)"
-                })
-                .attr("id", "legendbox");
-
-            var legend = startp.selectAll(".legend")
-                .data(z.domain().slice())
-                .enter().append("g")
-                .attr("class", "legend")
-                .attr("transform", function (d, i) {
-                    return "translate(" + legend_tabs[i].x + "," + legend_tabs[i].y + ")";
-                });
-
-            legend.append("rect")
-                .attr("x", 0)
-                .attr("y", 6)
-                .attr("width", 18)
-                .attr("height", 6)
-                .style("fill", z);
-
-            legend.append("text")
-                .attr("x", 22)
-                .attr("y", 9)
-                .attr("dy", ".35em")
-                .style("text-anchor", "begin")
-                .text(function (d, i) {
-                    return keysText[d];
-                });
-
-            legend = svg.selectAll(".legendbox")
-                .append("g")
-                .attr("class", "legend")
-                .attr("transform", "translate(" + legend_tabs[legend_tabs.length-1].x + "," + legend_tabs[legend_tabs.length-1].y + ")")
-
-            legend.append("line")
-                .attr("x1", 0)
-                .attr("y1", 9)
-                .attr("x2", 18)
-                .attr("y2", 9)
-                .attr("style", "stroke: " + acceptanceCriteriaColor + "; stroke-width: 2")
-
-            legend.append("text")
-                .attr("x", 22)
-                .attr("y", 9)
-                .attr("dy", ".35em")
-                .style("text-anchor", "begin")
-                .text(keysText.ACCEPTANCE_CRITERIA);
-
-            d.on('mousemove', function (d) {
-                var i = 0;
-                var html = '<br><span style="color: #ff0000;">' + keysText['RISK_SCORE'] + ': ' + (Math.round(d['RISK_SCORE'] * 100) / 100).toLocaleString('th') + '</span>';
-
-                keys.forEach(function (element, i) {
-                    html = html + '<br><span style="color: ' + colors[i+1] + ';">' + keysText[element] + ': ' + Math.round(d[element] * 100) / 100 + '%</span>';
-                });
-                tooltip.style('display', 'block')
-                    .style('left', d3.event.pageX + 20 + 'px')
-                    .style('top', d3.event.pageY - 20 + 'px')
-                    .html(d.RC_NAME + html);
-                tooltip.transition().duration(200).style("opacity", 1);
-            }).on('mouseout', function () {
-                if (tooltip) tooltip.transition().duration(200).style("opacity", 0);
-            });
+        function showMap(id) {
+            alert(id)
         }
 
         function onSubmit() {
             getRiskJson()
         }
 
-        var getRiskJson = function () {
-            var mode = $('[name="radioMode"]:checked').val();
-            var date = $("#datePicker").datepicker("getDate");
-            var year = date.getFullYear();
-            var month = date.getMonth() + 1;
-            axios.post('/Risk/Json', {
-                type: mode,
-                lists: $('[data-target="' + mode + '"]').val(),
-                month: month,
-                year: year
-            })
-                .then(function (response) {
-                    data = response.data
-                    renderChart(data)
-                })
-                .catch(function (error) {
-                    // handle error
-                    console.log(error);
-                })
-                .then(function () {
-                    // always executed
-                });
-        }
-
         getRiskJson();
-
-        $('[name="riskType"]').on('change', function () {
-            renderChart(data)
-        })
     </script>
 }
