@@ -10,26 +10,27 @@
 
         _.forEach(data, function (o) {
             var tds = '';
-            var isRisk = _.includes(Object.values(o), 'RISK');
+            var hasRisk = _.includes(Object.values(o), 'RISK');
             var style = '';
 
-            if (isRisk) style = 'color:#e74c3c'
+            if (hasRisk) style = 'color:#e74c3c'
 
-            tds = tds + '<td><span class="fa fa-circle" style="color:' + (isRisk ? '#e74c3c' : '#16a085') + '"></span></td>';
+            tds = tds + '<td><span class="fa fa-circle" style="color:' + (hasRisk ? '#e74c3c' : '#16a085') + '"></span></td>';
             tds = tds + '<td>' + o.REGION + '</td>';
             tds = tds + '<td style="' + style +'">' + o.RC_NAME + '</td>';
 
             var key = ['RISK_SCORE', 'INTERNAL_CORROSION', 'EXTERNAL_CORROSION', 'THIRD_PARTY_INTERFERENCE', 'LOSS_OF_GROUND_SUPPORT'];
             _.forEach(key, function (v) {
                 var style = '';
+                var value = (Math.round(o[v] * 100) / 100).toLocaleString('th')
 
                 if (o[v + '_RISK'] === 'RISK') {
                     style = 'background-color: ' + o[v + '_COLOR'] + '; color: #fff;'
                 }
-                tds = tds + '<td style="' + style + '">' + Math.round(o[v] * 100) / 100 + '</td>'
+                tds = tds + '<td style="' + style + '">' + value + '</td>'
             });
 
-            $('#riskTbl > tbody:last-child').append('<tr id="' + o.RC_NAME + '" data-status="' + (isRisk ? 'risk' : 'norisk') + '" class="rowfilRisk pointer">' + tds + '</tr>');
+            $('#riskTbl > tbody:last-child').append('<tr id="' + o.RC_NAME + '" data-status="' + (hasRisk ? 'risk' : 'norisk') + '" class="rowfilRisk pointer">' + tds + '</tr>');
             $('#riskTbl > tbody > tr:last-child').data('map_info', o);
             $('#riskTbl > tbody > tr:last-child').click(riskTblOnclick);
         });
@@ -39,16 +40,14 @@
         let map_info = $(this).data("map_info");
         map_dashboard_risk_json = {
             "menu": "risk-dashboard",
-            "type": 'PIPELINE',
+            "type": "PIPELINE",
             "command": "view",
             "flag": false,
-            "flagby": '',
+            "flagby": "",
             "parameter": {
-                "REGION": map_info.LICENSE_NO,
-                "LICENSE": map_info.LICENSE,
                 "NAME": map_info.RC_NAME,
                 "MONTH": map_info.MONTH,
-                "YEAR": map_info.YEAR,
+                "YEAR": map_info.YEAR
             }
         }
 

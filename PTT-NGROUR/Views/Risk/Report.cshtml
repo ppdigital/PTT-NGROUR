@@ -20,57 +20,42 @@
             float: left;
             min-height: 1px;
             padding: 0 15px;
-            border-right: 1px solid #ddd;
             margin-bottom: 50px;
+            border-right: 1px solid #ddd;
         }
 
             .summary-graph .graph:last-child {
                 border-right: none;
             }
 
-            .summary-graph .graph.-summary {
+        @@media (max-width: 767px) {
+            .summary-graph .graph {
                 border-right: none;
             }
+        }
 
         @@media (min-width: 768px) {
             .summary-graph .graph {
                 width: 50%;
             }
-
-                .summary-graph .graph.-summary {
-                    margin-left: 25%;
-                }
         }
 
-        @@media (min-width: 992px) {
-            .summary-graph .graph {
-                width: 33.33333333%;
-            }
-
-                .summary-graph .graph.-summary {
-                    margin-left: 16.666666665%;
-                }
-        }
-
-        @@media (min-width: 992px) and (max-width: 1199px) {
-            .summary-graph .graph.-summary {
-                border-right: 1px solid #ddd;
-            }
-
-            .summary-graph .graph:nth-child(2) {
+        @@media (min-width: 768px) and (max-width: 1199px) {
+            .summary-graph .graph:nth-child(2n+0) {
                 border-right: none;
             }
         }
 
         @@media (min-width: 1200px) {
             .summary-graph .graph {
-                width: 25%;
+                width: 33.33333333%;
             }
+        }
 
-                .summary-graph .graph.-summary {
-                    margin-left: 37.5%;
-                    margin-right: 37.5%;
-                }
+        @@media (min-width: 1200px) and (max-width: 1599px) {
+            .summary-graph .graph:nth-child(3n+0) {
+                border-right: none;
+            }
         }
 
         @@media (min-width: 1600px) {
@@ -78,9 +63,12 @@
                 width: 20%;
             }
 
+                .summary-graph .graph:nth-child(5n+1) {
+                    border-right: none;
+                }
+
                 .summary-graph .graph.-summary {
-                    border-right: 1px solid #ddd;
-                    margin: 0;
+                    margin: 0 40%;
                 }
         }
 
@@ -90,6 +78,12 @@
 
         .summary-graph .piegraph {
             display: inline-block;
+        }
+
+        .summary-graph canvas {
+            padding: 0;
+            margin: auto;
+            display: block;
         }
     </style>
 }
@@ -155,27 +149,41 @@
                         <h4 class="title">Summary</h4>
                         <div class="row">
                             <div class="col-xs-6">
-                                <div class="col-container-green" data-socre-risk="SUMMARY">-</div>
+                                <div class="col-container-green" data-socre-norisk="SUMMARY">-</div>
                             </div>
                             <div class="col-xs-6">
-                                <div class="col-container-red" data-socre-norisk="SUMMARY">-</div>
+                                <div class="col-container-red" data-socre-risk="SUMMARY">-</div>
                             </div>
                         </div>
-                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
+                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs">
                             <canvas data-pie-chart="SUMMARY"></canvas>
+                        </div>
+                    </div>
+                    <div class="graph">
+                        <h4 class="title">Risk Score</h4>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="col-container-green" data-socre-norisk="RISK_SCORE">-</div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="col-container-red" data-socre-risk="RISK_SCORE">-</div>
+                            </div>
+                        </div>
+                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs">
+                            <canvas data-pie-chart="RISK_SCORE"></canvas>
                         </div>
                     </div>
                     <div class="graph">
                         <h4 class="title">Internal Corrosion</h4>
                         <div class="row">
                             <div class="col-xs-6">
-                                <div class="col-container-green" data-socre-risk="INTERNAL_CORROSION">-</div>
+                                <div class="col-container-green" data-socre-norisk="INTERNAL_CORROSION">-</div>
                             </div>
                             <div class="col-xs-6">
-                                <div class="col-container-red" data-socre-norisk="INTERNAL_CORROSION">-</div>
+                                <div class="col-container-red" data-socre-risk="INTERNAL_CORROSION">-</div>
                             </div>
                         </div>
-                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
+                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs">
                             <canvas data-pie-chart="INTERNAL_CORROSION"></canvas>
                         </div>
                     </div>
@@ -183,13 +191,13 @@
                         <h4 class="title">External Corrosion</h4>
                         <div class="row">
                             <div class="col-xs-6">
-                                <div class="col-container-green" data-socre-risk="EXTERNAL_CORROSION">-</div>
+                                <div class="col-container-green" data-socre-norisk="EXTERNAL_CORROSION">-</div>
                             </div>
                             <div class="col-xs-6">
-                                <div class="col-container-red" data-socre-norisk="EXTERNAL_CORROSION">-</div>
+                                <div class="col-container-red" data-socre-risk="EXTERNAL_CORROSION">-</div>
                             </div>
                         </div>
-                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
+                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs">
                             <canvas data-pie-chart="EXTERNAL_CORROSION"></canvas>
                         </div>
                     </div>
@@ -197,13 +205,13 @@
                         <h4 class="title">Third Party Interference</h4>
                         <div class="row">
                             <div class="col-xs-6">
-                                <div class="col-container-green" data-socre-risk="THIRD_PARTY_INTERFERENCE">-</div>
+                                <div class="col-container-green" data-socre-norisk="THIRD_PARTY_INTERFERENCE">-</div>
                             </div>
                             <div class="col-xs-6">
-                                <div class="col-container-red" data-socre-norisk="THIRD_PARTY_INTERFERENCE">-</div>
+                                <div class="col-container-red" data-socre-risk="THIRD_PARTY_INTERFERENCE">-</div>
                             </div>
                         </div>
-                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
+                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs">
                             <canvas data-pie-chart="THIRD_PARTY_INTERFERENCE"></canvas>
                         </div>
                     </div>
@@ -211,13 +219,13 @@
                         <h4 class="title">Loss of Ground Support</h4>
                         <div class="row">
                             <div class="col-xs-6">
-                                <div class="col-container-green" data-socre-risk="LOSS_OF_GROUND_SUPPORT">-</div>
+                                <div class="col-container-green" data-socre-norisk="LOSS_OF_GROUND_SUPPORT">-</div>
                             </div>
                             <div class="col-xs-6">
-                                <div class="col-container-red" data-socre-norisk="LOSS_OF_GROUND_SUPPORT">-</div>
+                                <div class="col-container-red" data-socre-risk="LOSS_OF_GROUND_SUPPORT">-</div>
                             </div>
                         </div>
-                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs" style="margin-top:-2rem;">
+                        <div class="piegraph pieGraph-lg pieGraph-md pieGraph-sm pieGraph-xs">
                             <canvas data-pie-chart="LOSS_OF_GROUND_SUPPORT"></canvas>
                         </div>
                     </div>
@@ -229,23 +237,35 @@
                     <thead>
                         <tr>
                             <th>RC</th>
-                            <th>Risk</th>
-                            <th>Value</th>
+                            <th>Risk Score</th>
+                            <th>Internal Corrosion</th>
+                            <th>External Corrosion</th>
+                            <th>Third Party Interference</th>
+                            <th>Loss of Ground Support</th>
                             <th>Map</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>x</td>
-                            <td>x</td>
-                            <td>x</td>
-                            <td class="text-center">
-                                <a href="#" class="clickable fa fa-globe fa-2x no-underline pointer"></a>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal View Risk -->
+<div id="ModalMapRiskDashboard" class="modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class=" modal-lg w-98p5 h-98p5 center mt-9px">
+        <div class="modal-content h-98p5" style="padding: 10px">
+            <div class="modal-header" style="border-bottom:0px;padding:0px">
+
+                <button type="button" class="close close_create" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+
+            <div class="  black-80 center h-97" style="border: 1px solid #808080;">
+                <iframe src="@System.Web.Configuration.WebConfigurationManager.AppSettings["DashboardRiskMap"]" style="min-height: 100% !important; width: 100% !important; border-width: 0px" id="risk_map_frame"></iframe>
+            </div>
+            <br />
         </div>
     </div>
 </div>
@@ -263,9 +283,73 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script type="text/javascript">
+        var key = ['RISK_SCORE', 'INTERNAL_CORROSION', 'EXTERNAL_CORROSION', 'THIRD_PARTY_INTERFERENCE', 'LOSS_OF_GROUND_SUPPORT'];
+        var keyText = {
+            RISK_SCORE: 'Risk Score',
+            INTERNAL_CORROSION: 'Internal Corrosion',
+            EXTERNAL_CORROSION: 'External Corrosion',
+            THIRD_PARTY_INTERFERENCE: 'Third Party Interference',
+            LOSS_OF_GROUND_SUPPORT: 'Loss of Ground Support'
+        }
         var data = []
+        var pieChart = []
+
+
+
+        var thead = '<tr>'
+        thead += '<th>RC</th>'
+        key.forEach(function (v) {
+            thead += `<th>${keyText[v]}</th>`
+        })
+        thead += '<th>Map</th>'
+        thead += '</tr>'
+
+        $("#tableRisk thead").html(thead)
 
         var tbRisk = $("#tableRisk").DataTable();
+
+        $('#tableRisk tbody').on('click', '[data-action="showmap"]', function (e) {
+            e.preventDefault()
+
+            var info = $(this).data();
+            map_dashboard_risk_json = {
+                "menu": "risk-report",
+                "type": "PIPELINE",
+                "command": "view",
+                "flag": false,
+                "flagby": "",
+                "parameter": {
+                    "NAME": info.rc_name,
+                    "MONTH": info.month,
+                    "YEAR": info.year
+                }
+            }
+
+            console.log(map_dashboard_risk_json)
+
+            var risk_map_frame = document.getElementById('risk_map_frame');
+            risk_map_frame.contentWindow.postMessage(map_dashboard_risk_json, '*');
+            $('#ModalMapRiskDashboard').modal('show');
+        });
+
+        Chart.plugins.register({
+            afterDraw: function (chart) {
+                if (chart.data.datasets.length === 0) {
+                    // No data is present
+                    var ctx = chart.chart.ctx;
+                    var width = chart.chart.width;
+                    var height = chart.chart.height
+                    chart.clear();
+
+                    ctx.save();
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = "20px Tahoma";
+                    ctx.fillText('No Data Available', width / 2, height / 2);
+                    ctx.restore();
+                }
+            }
+        });
 
         var getRiskJson = function () {
             var mode = $('[name="radioMode"]:checked').val();
@@ -280,73 +364,79 @@
             })
                 .then(function (response) {
                     var group = {}
-                    var pieChart = []
-                    var riskScore = {
-                        'SUMMARY': {
+                    var riskScore = []
+
+                    data = response.data
+                    if (data.length > 0) {
+                        riskScore['SUMMARY'] = {
                             RISK: 0,
                             NO_RISK: 0
                         }
+
+                        key.forEach(function (v, i) {
+                            group[v] = _.groupBy(data, `${v}_RISK`)
+                        })
+
+                        $.each(group, function (i, o) {
+                            var risk = o.RISK ? o.RISK.length : 0
+                            var noRisk = o.NO_RISK ? o.NO_RISK.length : 0
+                            riskScore['SUMMARY'].RISK += risk
+                            riskScore['SUMMARY'].NO_RISK += noRisk
+                            riskScore[i] = {
+                                RISK: risk,
+                                NO_RISK: noRisk
+                            }
+                        });
+
+                        // Card risk
+                        $('[data-socre-risk]') && $.each($('[data-socre-risk]'), function (i, e) {
+                            var score = riskScore[$(e).data('socre-risk')];
+                            $(e).text(score ? score.RISK : 0);
+                        })
+
+                        // Card no risk
+                        $('[data-socre-norisk]') && $.each($('[data-socre-norisk]'), function (i, e) {
+                            var score = riskScore[$(e).data('socre-norisk')];
+                            $(e).text(score ? score.NO_RISK : 0);
+                        })
+                    } else {
+                        $('[data-socre-risk], [data-socre-norisk]').text('-');
                     }
 
-                    data = response.data
-                    group['INTERNAL_CORROSION'] = _.groupBy(data, 'INTERNAL_CORROSION_RISK')
-                    group['EXTERNAL_CORROSION'] = _.groupBy(data, 'EXTERNAL_CORROSION_RISK')
-                    group['THIRD_PARTY_INTERFERENCE'] = _.groupBy(data, 'THIRD_PARTY_INTERFERENCE_RISK')
-                    group['LOSS_OF_GROUND_SUPPORT'] = _.groupBy(data, 'LOSS_OF_GROUND_SUPPORT_RISK')
-
-                    $.each(group, function (i, o) {
-                        var risk = o.RISK ? o.RISK.length : 0
-                        var noRisk = o.NO_RISK ? o.NO_RISK.length : 0
-                        riskScore['SUMMARY'].RISK += risk
-                        riskScore['SUMMARY'].NO_RISK += noRisk
-                        riskScore[i] = {
-                            RISK: risk,
-                            NO_RISK: noRisk
-                        }
-                    });
-
-                    // Card risk
-                    $('[data-socre-risk]') && $.each($('[data-socre-risk]'), function (i, e) {
-                        var score = riskScore[$(e).data('socre-risk')];
-                        $(e).text(score ? score.RISK : 0);
-                    })
-
-                    // Card no risk
-                    $('[data-socre-norisk]') && $.each($('[data-socre-norisk]'), function (i, e) {
-                        var score = riskScore[$(e).data('socre-norisk')];
-                        $(e).text(score ? score.NO_RISK : 0);
-                    })
 
                     // Chart
                     $('[data-pie-chart]') && $.each($('[data-pie-chart]'), function (i, e) {
-                        var k = $(e).data('pie-chart')
-                        var risk = riskScore[k]
-                        var noRisk = riskScore[k]
-                        var data = [
-                            risk ? risk.RISK : 0,
-                            noRisk ? noRisk.NO_RISK : 0
-                        ]
-
-                        if (pieChart[i] != null) {
+                        if (pieChart[i]) {
                             pieChart[i].destroy();
                         }
 
-                        console.log(riskScore[k])
+                        var datasets = []
 
-                        pieChart[i] = new Chart(e.getContext("2d"), {
+                        if (data.length > 0) {
+                            var _riskScore = riskScore[$(e).data('pie-chart')]
+
+                            datasets = [{
+                                label: "Test Data",
+                                data: [
+                                    _riskScore ? _riskScore.RISK : 0,
+                                    _riskScore ? _riskScore.NO_RISK : 0
+                                ],
+                                fill: false,
+                                backgroundColor: ["#e74c3c", "#16a085"],
+                                hoverBackgroundColor: ["#e74c3c", "#16a085"],
+                                //borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
+                                borderWidth: 0
+                            }]
+                        }
+
+                        var _data = {
+                            labels: ['Risk', 'No Risk'],
+                            datasets: datasets
+                        }
+
+                        var objGraph = new Chart(e.getContext("2d"), {
                             type: 'doughnut',
-                            data: {
-                                labels: ['Risk', 'No Risk'],
-                                datasets: [{
-                                    label: "Test Data",
-                                    data: data,
-                                    fill: false,
-                                    backgroundColor: ["#e74c3c", "#16a085"],
-                                    hoverBackgroundColor: ["#e74c3c", "#16a085"],
-                                    //borderColor: ["#e74c3c", "#f1c40f", "#16a085", "#e67e22"],
-                                    borderWidth: 0
-                                }]
-                            },
+                            data: _data,
                             options: {
                                 responsive: true,
                                 pieceLabel: { mode: 'value', fontColor: 'white' },
@@ -358,27 +448,47 @@
                                 },
                             }
                         });
-                        pieChart[i].update();
+                        objGraph.update();
+
+                        pieChart[i] = objGraph;
                     })
 
                     // Table
                     tbRisk.clear()
 
                     $.each(data, function (i, o) {
-                        var html = ''
-                        html += '<tr>'
-                        html += '<td>' + o.RC_NAME + '</td>'
-                        html += '<td>' + o.RISK_SCORE_RISK + '</td>'
-                        html += '<td>' + Math.round(o.RISK_SCORE * 100) / 100 + '</td>'
-                        html += '<td class="text-center">'
-                        html += '<a href="#" class="clickable fa fa-globe fa-2x no-underline pointer"></a>'
-                        html += '</td>'
-                        html += '</tr>'
+                        var hasRisk = _.includes(Object.values(o), 'RISK');
+                        var rcNameStyle = '';
 
-                        $(html).data('map_info', o);
+                        if (hasRisk) rcNameStyle = 'color:#e74c3c'
 
-                        console.log($(html))
-                        tbRisk.row.add($(html));
+                        var tr = ''
+                        tr += '<tr>'
+                        tr += `<td style="${rcNameStyle}">${o.RC_NAME}</td>`
+                        key.forEach(function (v) {
+                            var style = ''
+                            var value = (Math.round((o[v] || 0) * 100) / 100).toLocaleString('th')
+
+                            if (v !== 'RISK_SCORE') {
+                                value = value + '%'
+                            }
+
+                            if (o[`${v}_RISK`] === 'RISK') {
+                                style = 'background-color: ' + o[v + '_COLOR'] + '; color: #fff;'
+                            }
+                            tr += `<th style="${style}">${value}</th>`
+                        })
+                        tr += '<td class="text-center">'
+
+                        var _data = ' data-action="showmap"'
+                        $.each(o, function (k, v) {
+                            _data += ` data-${k}="${v}"`
+                        })
+                        tr += `<a href="#"${_data} class="fa fa-globe fa-2x no-underline pointer"></a>`
+                        tr += '</td>'
+                        tr += '</tr>'
+
+                        tbRisk.row.add($(tr));
                     });
 
                     tbRisk.draw();

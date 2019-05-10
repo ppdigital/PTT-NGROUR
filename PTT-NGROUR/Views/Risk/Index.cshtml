@@ -528,15 +528,15 @@
         function riskTblOnclick() {
             let map_info = $(this).data("map_info");
             map_dashboard_json = {
-                "menu": "risk-report",
-                "type": 'PIPELINE',
+                "menu": "risk-main",
+                "type": "PIPELINE",
                 "command": "view",
                 "flag": false,
-                "flagby": '',
+                "flagby": "",
                 "parameter": {
                     "NAME": map_info.RC_NAME,
                     "MONTH": map_info.MONTH,
-                    "YEAR": map_info.YEAR,
+                    "YEAR": map_info.YEAR
                 }
             }
 
