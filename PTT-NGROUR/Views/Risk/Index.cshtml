@@ -44,6 +44,12 @@
     .file-box.-active > .btn {
         display: none;
     }
+
+    .text-ellipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 </style>
 <br />
 <div class="container-fluid" style="margin-top:-.8rem">
@@ -105,10 +111,10 @@
 
             <div class="ph2 pv2">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-lg-6">
                         <iframe src="@System.Web.Configuration.WebConfigurationManager.AppSettings["RiskMap"]" style="min-height: 500px; height: 100% !important; width: 100% !important; border-width: 0px" id="map_frame"></iframe>
                     </div>
-                    <div class="col-md-6 border-left-lg">
+                    <div class="col-lg-6 border-left-lg">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-15px pb-15px pr-0 pl-0 border-left-md" style="float:none">
                             <div class="form-inline">
                                 <center>
@@ -372,19 +378,19 @@
                     if (typeof res.data === 'object' && res.data.length > 0) {
                         res.data.forEach(function (filename, i) {
                             body = body + '<div class="panel panel-default clearfix">'
-                            body = body + '<div class="pull-left">'
                             body = body + '<div class="panel-body">'
+                            body = body + '<div class="row">'
+                            body = body + '<div class="col-sm-8 col-md-9 text-ellipsis">'
                             body = body + filename
                             body = body + '</div>'
-                            body = body + '</div>'
-                            body = body + '<div class="pull-right">'
-                            body = body + '<div class="panel-body">'
+                            body = body + '<div class="col-sm-4 col-md-3">'
                             //body = body + '<button type="button" class="btn btn-danger btn-xs" onclick="doDelete(' + year + ', ' + month + ', ' + rc + ', ' + filename + ')">'
                             //body = body + '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>'
                             //body = body + '</button>'
-                            body = body + '<a class="btn btn-primary btn-xs" href="@Url.Content("~/Risk/Download")?YEAR=' + year + '&MONTH=' + month + '&RC_NAME=' + rc + '&FILE_NAME=' + filename + '">'
+                            body = body + '<a class="btn btn-primary btn-xs btn-block" href="@Url.Content("~/Risk/Download")?YEAR=' + year + '&MONTH=' + month + '&RC_NAME=' + rc + '&FILE_NAME=' + filename + '">'
                             body = body + '<span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download'
                             body = body + '</a>'
+                            body = body + '</div>'
                             body = body + '</div>'
                             body = body + '</div>'
                             body = body + '</div>'
