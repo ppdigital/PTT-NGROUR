@@ -58,5 +58,7 @@ namespace PTT_NGROUR.Models.DataModel
         public string LOSS_OF_GROUND_SUPPORT_RISK { get; set; }
         public int MONTH { get; set; }
         public int YEAR { get; set; }
+        public bool HAS_FILE { get; set; }
+        public string[] FILES { get; set; }
     }
 }

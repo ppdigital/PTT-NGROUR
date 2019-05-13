@@ -251,67 +251,31 @@ namespace PTT_NGROUR.Controllers
                 }
             }
             var dal = new DAL.DAL();
-            var riskReport = dal.ReadData(strCommand, x => new ModelGetRisk(x)).ToList(); ;
+            var riskReport = dal.ReadData(strCommand, x => new ModelGetRisk(x)).ToList();
+
+            riskReport.ForEach(x =>
+            {
+                ModelViewRiskImport _model = new ModelViewRiskImport
+                {
+                    RC_NAME = x.RC_NAME,
+                    YEAR = x.YEAR
+                };
+
+                string _path = GetPathUploadPath(_model); ;
+                string[] FileList = new string[] { };
+
+                if (Directory.Exists(_path))
+                {
+                    DirectoryInfo d = new DirectoryInfo(_path);
+                    FileInfo[] Files = d.GetFiles(); //Getting files
+                    FileList = Files.Select(s => s.Name).ToArray();
+                }
+
+                x.FILES = FileList;
+                x.HAS_FILE = FileList.Count() > 0;
+            });
 
             return Json(riskReport, JsonRequestBehavior.AllowGet);
-        }
-
-        // POST: /Risk/Import
-        [HttpPost]
-        //[AuthorizeController.CustomAuthorize]
-        public JsonResult Import(ModelViewRiskImport model)
-        {
-            string _dir = Server.MapPath($"~/UploadedFiles/{model.YEAR}/{model.MONTH}/{model.RC_NAME}");
-
-            // Check Directory Exist
-            if (!Directory.Exists(_dir))
-            {
-                Directory.CreateDirectory(_dir);
-            }
-
-            foreach (HttpPostedFileBase FILE in model.FILES)
-            {
-                string _fileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + FILE.FileName;
-                string _path = Path.Combine(_dir, _fileName);
-                FILE.SaveAs(_path);
-            }
-
-            return Json(new {});
-        }
-
-        // GET: /Risk/ListFile
-        [HttpGet]
-        //[AuthorizeController.CustomAuthorize]
-        public JsonResult ListFile(ModelViewRiskImport model)
-        {
-            string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), model.YEAR.ToString(), model.MONTH.ToString(), model.RC_NAME);
-            string[] FileList = new string[] { };
-
-            if (Directory.Exists(_path))
-            {
-                DirectoryInfo d = new DirectoryInfo(_path);
-                FileInfo[] Files = d.GetFiles(); //Getting files
-                FileList = Files.Select(x => x.Name).ToArray();
-
-                return Json(FileList, JsonRequestBehavior.AllowGet);
-            }
-
-            return Json(FileList, JsonRequestBehavior.AllowGet);
-        }
-
-        // GET: Risk/Download/2019/3/RC0653110116/25620429092912544_1.txt
-        [HttpGet]
-        [AuthorizeController.CustomAuthorize]
-        public ActionResult Download(ModelViewRiskDownload model)
-        {
-            string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), model.YEAR.ToString(), model.MONTH.ToString(), model.RC_NAME, model.FILE_NAME);
-            if (System.IO.File.Exists(_path))
-            {
-                FileStream file = System.IO.File.OpenRead(_path);
-                return File(file, "Application/octet-stream", model.FILE_NAME);
-            }
-
-            return HttpNotFound();
         }
 
         #region Import Excel
@@ -521,6 +485,86 @@ namespace PTT_NGROUR.Controllers
         public ActionResult File()
         {
             return View();
+        }
+
+        // POST: /Risk/Upload
+        [HttpPost]
+        //[AuthorizeController.CustomAuthorize]
+        public JsonResult Upload(ModelViewRiskImport model)
+        {
+            string _dir = GetPathUploadPath(model);
+
+            // Check Directory Exist
+            if (!Directory.Exists(_dir))
+            {
+                Directory.CreateDirectory(_dir);
+            }
+
+            foreach (HttpPostedFileBase FILE in model.FILES)
+            {
+                string _fileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + FILE.FileName;
+                string _path = Path.Combine(_dir, _fileName);
+                FILE.SaveAs(_path);
+            }
+
+            return Json(new { });
+        }
+
+        // GET: /Risk/ListFile
+        [HttpGet]
+        //[AuthorizeController.CustomAuthorize]
+        public JsonResult ListFile(ModelViewRiskImport model)
+        {
+            string _path = GetPathUploadPath(model); ;
+            string[] FileList = new string[] { };
+
+            if (Directory.Exists(_path))
+            {
+                DirectoryInfo d = new DirectoryInfo(_path);
+                FileInfo[] Files = d.GetFiles(); //Getting files
+                FileList = Files.Select(x => x.Name).ToArray();
+
+                return Json(FileList, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(FileList, JsonRequestBehavior.AllowGet);
+        }
+
+        // GET: Risk/Download/2019/3/RC0653110116/25620429092912544_1.txt
+        [HttpGet]
+        [AuthorizeController.CustomAuthorize]
+        public ActionResult Download(ModelViewRiskDownload model)
+        {
+            ModelViewRiskImport _model = new ModelViewRiskImport
+            {
+                RC_NAME = model.RC_NAME,
+                YEAR = model.YEAR
+            };
+
+            string _path = Path.Combine(GetPathUploadPath(_model), model.FILE_NAME);
+            if (System.IO.File.Exists(_path))
+            {
+                FileStream file = System.IO.File.OpenRead(_path);
+                return File(file, "Application/octet-stream", model.FILE_NAME);
+            }
+
+            return HttpNotFound();
+        }
+
+        private string GetPathUploadPath(ModelViewRiskImport model)
+        {
+            string dir = Server.MapPath("~/UploadedFiles");
+
+            if (string.IsNullOrEmpty(model.RC_NAME))
+            {
+                dir = Path.Combine(dir, "year", model.YEAR.ToString());
+            }
+            else
+            {
+                dir = Path.Combine(dir, "rc", model.YEAR.ToString(), model.RC_NAME);
+            }
+
+            return dir;
         }
         #endregion
 
