@@ -293,9 +293,9 @@
         });
 
         $('[data-datepicker]').datepicker({
-            format: "MM yyyy",
-            viewMode: "months",
-            minViewMode: "months",
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
             autoclose: true,
             inline: true,
         }).datepicker("setDate", new Date());
@@ -362,17 +362,20 @@
                 $(this).parents('.file-box').find('.sr-only').removeClass('sr-only').parents('.file-box').addClass('-active');
             });
 
-        function showView(rc, month, year) {
+        function showView(rc, year) {
             var modal = $('#ModalView');
             modal.find('[data-title]').text(rc)
             modal.data('object', {
                 RC_NAME: rc,
-                MONTH: month,
                 YEAR: year
             });
 
-            axios.get('/Risk/ListFile?YEAR=' + year + '&MONTH=' + month + '&RC_NAME=' + rc + '')
-                .then(function (res) {
+            axios.get('/Risk/ListFile', {
+                params: {
+                    YEAR: year,
+                    RC_NAME: rc
+                }
+            }).then(function (res) {
                     var body = '';
                     console.log(res.data)
                     if (typeof res.data === 'object' && res.data.length > 0) {
@@ -384,10 +387,10 @@
                             body = body + filename
                             body = body + '</div>'
                             body = body + '<div class="col-sm-4 col-md-3">'
-                            //body = body + '<button type="button" class="btn btn-danger btn-xs" onclick="doDelete(' + year + ', ' + month + ', ' + rc + ', ' + filename + ')">'
+                            //body = body + '<button type="button" class="btn btn-danger btn-xs" onclick="doDelete(' + year + ', ' + rc + ', ' + filename + ')">'
                             //body = body + '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>'
                             //body = body + '</button>'
-                            body = body + '<a class="btn btn-primary btn-xs btn-block" href="@Url.Content("~/Risk/Download")?YEAR=' + year + '&MONTH=' + month + '&RC_NAME=' + rc + '&FILE_NAME=' + filename + '">'
+                            body = body + '<a class="btn btn-primary btn-xs btn-block" href="@Url.Content("~/Risk/Download")?YEAR=' + year + '&RC_NAME=' + rc + '&FILE_NAME=' + filename + '">'
                             body = body + '<span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download'
                             body = body + '</a>'
                             body = body + '</div>'
@@ -412,13 +415,12 @@
                 });
         }
 
-        function showImport(rc, month, year) {
+        function showImport(rc, year) {
             var modal = $('#ModalImport');
             modal.find('[data-title]').text(rc)
             modal.modal('show');
             modal.data('object', {
                 RC_NAME: rc,
-                MONTH: month,
                 YEAR: year
             });
         }
@@ -443,7 +445,6 @@
 
             var data = new FormData();
             data.append('RC_NAME', o.RC_NAME);
-            data.append('MONTH', o.MONTH);
             data.append('YEAR', o.YEAR);
 
             $('[name="file[]"]').each(function (i, e) {
@@ -455,7 +456,7 @@
 
             $('[data-upload-progress]').removeClass('invisible');
 
-            axios.post('/Risk/Import', data, {
+            axios.post('/Risk/Upload', data, {
                 onUploadProgress: function (progressEvent) {
                     var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                     $('[data-upload-progress] .progress-bar').width(percentCompleted + '%');
@@ -465,6 +466,7 @@
             })
                 .then(function (res) {
                     resetForm();
+                    getRiskJson();
                     $('#ModalDialogSuccess').modal('show')
                     $('#ModalImport').modal('hide')
                 })
@@ -480,7 +482,7 @@
                 });
         };
 
-        function showRiskTable(data) {
+        function initMapTable(data) {
             $('#risk-threshold-filter').val('all');
             $('#riskTbl').find('tbody tr').each(function () {
                 $(this).remove();
@@ -513,8 +515,18 @@
                     tds = tds + '<td class="text-center">' + bullet + '</td>';
                 });
 
-                tds = tds + '<td><button class="btn btn-success" onclick="showImport(\'' + o.RC_NAME + '\', ' + o.MONTH + ', ' + o.YEAR + ')"><span class="glyphicon glyphicon-paperclip"></span></button></td>';
-                tds = tds + '<td><button class="btn btn-info" onclick="showView(\'' + o.RC_NAME + '\', ' + o.MONTH + ', ' + o.YEAR + ')"><span class="glyphicon glyphicon-eye-open"></span></button></td>';
+                tds = tds + '<td><button class="btn btn-success" onclick="showImport(\'' + o.RC_NAME + '\', ' + o.YEAR + ')"><span class="glyphicon glyphicon-paperclip"></span></button></td>';
+
+                var btnView = '<button class="btn '
+                if (o.HAS_FILE) {
+                    btnView += `btn-info" onclick="showView('${o.RC_NAME}', '${o.YEAR}')"`
+                }
+                else {
+                    btnView += 'btn-default" disabled'
+                }
+                btnView += '><span class="glyphicon glyphicon-eye-open"></span></button>'
+
+                tds = tds + `<td>${btnView}</td>`;
 
                 $('#riskTbl > tbody:last-child').append('<tr id="' + o.RC_NAME + '" data-status="' + (isRisk ? 'risk' : 'norisk') + '" class="rowfilRisk pointer">' + tds + '</tr>');
                 $('#riskTbl > tbody > tr:last-child').data('map_info', o);
@@ -522,10 +534,23 @@
             });
         }
 
-        function doDelete(year, month, rc_name, file_name) {
+        function getDataFromMap(newData) {
+            //console.log(x);
+            if (x.length > 1) {
+                for (let i in x) {
+                    if (newData.NAME == x[i].NAME) {
+                        x[i].THRESHOLD = newData.THRESHOLD;
+                        break;
+                    }
+                }
+
+                initMapTable(x);
+            }
+        }
+
+        function doDelete(year, rc_name, file_name) {
             axios.post('/Risk/FileDelete', {
                 YEAR: year,
-                MONTH: month,
                 RC_NAME: rc_name,
                 FILE_NAME: file_name
             }, {});
@@ -541,7 +566,6 @@
                 "flagby": "",
                 "parameter": {
                     "NAME": map_info.RC_NAME,
-                    "MONTH": map_info.MONTH,
                     "YEAR": map_info.YEAR
                 }
             }
@@ -556,16 +580,14 @@
             var mode = $('[name="radioMode"]:checked').val();
             var date = $("#datePicker").datepicker("getDate");
             var year = date.getFullYear();
-            var month = date.getMonth() + 1;
             axios.post('/Risk/Json', {
                 type: mode,
                 lists: $('[data-target="' + mode + '"]').val(),
-                month: month,
                 year: year
             })
                 .then(function (response) {
                     data = response.data
-                    showRiskTable(data)
+                    initMapTable(data)
                 })
                 .catch(function (error) {
                     // handle error

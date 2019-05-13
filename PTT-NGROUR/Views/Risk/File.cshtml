@@ -3,64 +3,78 @@
 }
 
 @section style{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.1/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/datatables.min.css" />
+    <link href="~/Scripts/DataTables/DataTables-1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <style>
+        .modal {
+            z-index: 3;
+        }
+
+        .col-container-white.pannel-block {
+            border: 1px solid #ddd !important;
+            border-top: none !important;
+        }
+    </style>
 }
 
 <br />
 
 <div class="container-fluid" style="margin-top:-.8rem">
     <div class="ph2 ph0-xs">
-        <div class="p-3 mb-2 mv2 col-container-white text-dark">
-            <!-- View by -->
-            <div class="ph2 pv2">
-                <div class="row">
-                    <div class="col-sm-5 col-md-3 col-lg-2 col-sm-offset-1 col-md-offset-3 col-lg-offset-4">
-                        <button type="button" class="btn btn-default btn-block">Route Code</button>
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#tab-rc" aria-controls="rc" role="tab" data-toggle="tab">Route Code</a></li>
+            <li role="presentation"><a href="#tab-year" aria-controls="year" role="tab" data-toggle="tab">Year</a></li>
+        </ul>
+        <div class="p-3 mb-2 col-container-white pannel-block text-dark">
+            <div class="tab-content pv2">
+
+                <!-- RC Tab -->
+                <div role="tabpanel" class="tab-pane active" id="tab-rc">
+                    <div class="ph2 pv2">
+                        <table id="tableRC" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Route Code</th>
+                                    <th>Update at</th>
+                                    <th>Update by</th>
+                                    <th>Update file</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
-                    <div class="col-sm-5 col-md-3 col-lg-2">
-                        <button type="button" class="btn btn-default btn-block">Year</button>
+                    <!-- RC Tab -->
+                </div>
+                <!-- RC Tab -->
+                <!-- Year Tab -->
+                <div role="tabpanel" class="tab-pane" id="tab-year">
+                    <!-- Search Bar -->
+                    <div class="ph2">
+                        <div class="row">
+                            <div class="col-sm-5 col-md-4 col-lg-3">
+                                <button type="button" class="btn btn-info btn-block" onclick="showImport()">Import File</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ph2 pv2">
+                        <table id="tableYear" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Year</th>
+                                    <th>Update at</th>
+                                    <th>Update by</th>
+                                    <th>Update file</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-
-            <!-- Search Bar -->
-            <div class="ph2">
-                <div class="row">
-                    <div class="col-sm-5 col-md-4 col-lg-3">
-                        <button type="button" class="btn btn-info btn-block" onclick="showImport()">Import File</button>
-                    </div>
-                    <div class="col-sm-5 col-md-4 col-lg-3 col-sm-offset-2 col-md-offset-4 col-lg-offset-6">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search for...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">Search</button>
-                            </span>
-                        </div><!-- /input-group -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="ph2 pv2">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Year</th>
-                            <th>Update at</th>
-                            <th>Update by</th>
-                            <th>Update file</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>x</td>
-                            <td>x</td>
-                            <td>x</td>
-                            <td>x</td>
-                            <td>x</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <!-- Year Tab -->
             </div>
         </div>
     </div>
@@ -78,7 +92,7 @@
                 <form data-inputs>
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="yearPicker" data-datepicker />
+                            <input type="text" class="form-control form-control-sm " id="yearPicker" />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon glyphicon-calendar"></span>
                             </span>
@@ -126,12 +140,17 @@
 @section scripts{
     <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
     <script src="~/Content/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/DataTables/datatables.min.js"></script>
+    <script src="~/Scripts/DataTables/Responsive-2.2.2/js/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/DataTables/DataTables-1.10.16/js/dataTables.bootstrap.min.js"></script>
     <script src="~/Scripts/lodash.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="~/Scripts/lodash.js"></script>
 
     <script type="text/javascript">
-        $('[data-datepicker]').datepicker({
+        var tbRC = $("#tableRC").DataTable();
+        var tbYear = $("#tableYear").DataTable();
+
+        $('#yearPicker').datepicker({
             format: "yyyy",
             viewMode: "years",
             minViewMode: "years",
@@ -168,5 +187,67 @@
         $('#ModalImport').on('show.bs.modal', function (e) {
             resetForm();
         })
+
+        function initMapTable(tb, data) {
+            var _dtb = $(tb).DataTable()
+
+            _dtb.clear()
+
+            if (typeof data === 'undefined' || data.length === 0) {
+                $('tb').find('tbody').append('<tr><td colspan="' + $(tb + ' thead > tr > th').length + '" class="text-center"><h2 class="pv3">No Data</h2></td></tr>')
+                return
+            }
+
+            _.forEach(data, function (o) {
+                var tr = ''
+                tr += '<tr>'
+                tr = tr + `<td>${o.RC_NAME || o.YEAR}</td>`;
+                tr = tr + `<td>${o.LAST_UPDATED_AT}</td>`;
+                tr = tr + `<td>${o.LAST_UPADTED_BY}</td>`;
+
+                var files = ''
+
+                if (o.FILES && Array.isArray(o.FILES)) {
+                    files += '<ol>'
+                    o.FILES.forEach(function (v, i) {
+                        var link = `@Url.Content("~/Risk/Download")?YEAR=${o.YEAR}&FILE_NAME=${v}`
+                        if (link) link += `&RC_NAME=${o.RC_NAME}`
+                        files += `<li><a href="${link}">${v}</a></li>`
+                    })
+                    files += '</ol>'
+                }
+                tr = tr + `<td>${files}</td>`;
+                tr += '</tr>'
+
+                $(tb + ' > tbody:last-child').append(tr);
+
+                _dtb.row.add($(tr));
+            });
+            _dtb.draw();
+        }
+
+        var getRiskJson = function (mode) {
+            var date = new Date();
+
+            axios.post('/Risk/FileJson', {
+                mode: mode,
+                rc_name: null,
+                year: date.getFullYear()
+            })
+                .then(function (response) {
+                    data = response.data
+                    var tb = mode === 'rc ' ? 'tableRC' : 'tableYear'
+                    initMapTable(tb, data)
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                });
+        }
+
+        getRiskJson('rc')
     </script>
 }

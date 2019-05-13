@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -233,7 +234,7 @@ namespace PTT_NGROUR.Controllers
         [AuthorizeController.CustomAuthorize]
         public JsonResult Json(ModelViewRiskReport model)
         {
-            string strCommand = $"SELECT * FROM VIEW_RISK_HISTORY WHERE MONTH = {model.Month} AND YEAR = {model.Year}";
+            string strCommand = $"SELECT * FROM VIEW_RISK_HISTORY WHERE YEAR = {model.Year}";
 
             if (model.Type.Equals("risk"))
             {
@@ -333,7 +334,6 @@ namespace PTT_NGROUR.Controllers
         {
             var result = new ModelJsonResult<bool>();
             string inYear = Request["year"];
-            string inMonth = Request["month"];
 
             HttpFileCollectionBase files = Request.Files;
 
@@ -362,7 +362,6 @@ namespace PTT_NGROUR.Controllers
             bool isDuplicate = false;
             var listRiskManagement = dto.ReadExcelRiskManagementImport(
                 pStreamExcel: fb.InputStream,
-                pIntMonth: inMonth.GetInt(),
                 pIntYear: inYear.GetInt(),
                 pStrUploadBy: User.Identity.Name
             );
@@ -383,7 +382,6 @@ namespace PTT_NGROUR.Controllers
             try
             {
                 string inYear = Request["year"];
-                string inMonth = Request["month"];
 
                 HttpFileCollectionBase files = Request.Files;
 
@@ -411,7 +409,6 @@ namespace PTT_NGROUR.Controllers
                 insertExcelRiskManagementData(
                    pFileStream: fb.InputStream,
                    pStrUploadBy: User.Identity.Name,
-                   pIntMonth: inMonth.GetInt(),
                    pIntYear: inYear.GetInt(),
                    pModelResult: modelInsertExcel
                 );
@@ -430,7 +427,6 @@ namespace PTT_NGROUR.Controllers
         private void insertExcelRiskManagementData(
         Stream pFileStream,
         string pStrUploadBy,
-        int pIntMonth,
         int pIntYear,
         ModelInsertExcelData pModelResult)
         {
@@ -439,7 +435,6 @@ namespace PTT_NGROUR.Controllers
             var listExcelRiskManagement = dto.ReadExcelRiskManagementImport(
                 pStreamExcel: pFileStream,
                 pStrUploadBy: pStrUploadBy,
-                pIntMonth: pIntMonth,
                 pIntYear: pIntYear
                 )
                 .Where(x => x != null)
@@ -459,7 +454,7 @@ namespace PTT_NGROUR.Controllers
             {
                 var risks = listExcelRiskManagement[i];
                 var risksDuplicate = listRiskManagementDuplicate
-                    .FirstOrDefault(x => x.RC == risks.RC && x.MONTH == risks.MONTH && x.YEAR == risks.YEAR);
+                    .FirstOrDefault(x => x.RC == risks.RC && x.YEAR == risks.YEAR);
                 // Insert RiskManagement
                 if (risksDuplicate == null)
                 {
@@ -487,6 +482,44 @@ namespace PTT_NGROUR.Controllers
             return View();
         }
 
+        // POST: /Risk/FileJson
+        [HttpPost]
+        [AuthorizeController.CustomAuthorize]
+        public JsonResult FileJson(string mode, ModelViewRiskImport model)
+        {
+            StringBuilder strCommand = new StringBuilder();
+            //strCommand.AppendFormat("SELECT * FROM RISK_FILE WHERE YEAR = {0}", model.YEAR);
+            strCommand.Append("SELECT * FROM RISK_FILE");
+
+            if (mode.Equals("rc"))
+            {
+                //strCommand.AppendFormat(" AND RC_NAME = '{0}'", model.RC_NAME);
+            }
+
+            var dal = new DAL.DAL();
+            var riskFiles = dal.ReadData(strCommand.ToString(), x => new ModelGetRiskFile(x)).ToList();
+
+            if (mode.Equals("rc"))
+            {
+                return Json(riskFiles.GroupBy(x => x.RC_NAME).Select(x => new
+                {
+                    RC_NAME = x.Key,
+                    LAST_UPDATED_AT = x.OrderByDescending(o => o.UPLOADED_AT).Select(o => o.UPLOADED_AT).First(),
+                    LAST_UPADTED_BY = x.OrderByDescending(o => o.UPLOADED_AT).Select(o => o.UPLOADED_BY).First(),
+                    FILES = x.Select(o => o.FILE_NAME).ToList()
+                }), JsonRequestBehavior.AllowGet);
+            }
+
+
+            return Json(riskFiles.GroupBy(x => x.YEAR).Select(x => new
+            {
+                YEAR = x.Key,
+                LAST_UPDATED_AT = x.OrderByDescending(o => o.UPLOADED_AT).Select(o => o.UPLOADED_AT).First(),
+                LAST_UPADTED_BY = x.OrderByDescending(o => o.UPLOADED_AT).Select(o => o.UPLOADED_BY).First(),
+                FILES = x.Select(o => o.FILE_NAME).ToList()
+        }), JsonRequestBehavior.AllowGet);
+        }
+
         // POST: /Risk/Upload
         [HttpPost]
         //[AuthorizeController.CustomAuthorize]
@@ -505,6 +538,11 @@ namespace PTT_NGROUR.Controllers
                 string _fileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + FILE.FileName;
                 string _path = Path.Combine(_dir, _fileName);
                 FILE.SaveAs(_path);
+
+                var dto = new DtoRisk();
+                string username = User.Identity.Name;
+                dto.InsertRiskFile(username, model.RC_NAME, model.YEAR, FILE.FileName);
+                dto = null;
             }
 
             return Json(new { });

@@ -138,9 +138,9 @@
 
     <script type="text/javascript">
         $('[data-datepicker]').datepicker({
-            format: "MM yyyy",
-            viewMode: "months",
-            minViewMode: "months",
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
             autoclose: true,
             inline: true,
         }).datepicker("setDate", new Date());
@@ -562,11 +562,9 @@
             var mode = $('[name="radioMode"]:checked').val();
             var date = $("#datePicker").datepicker("getDate");
             var year = date.getFullYear();
-            var month = date.getMonth() + 1;
             axios.post('/Risk/Json', {
                 type: mode,
                 lists: $('[data-target="' + mode + '"]').val(),
-                month: month,
                 year: year
             })
                 .then(function (response) {

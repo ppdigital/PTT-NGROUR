@@ -196,6 +196,7 @@
     </Compile>
     <Compile Include="Models\DataModel\ModelGateMaintenance.cs" />
     <Compile Include="Models\DataModel\ModelGetOM.cs" />
+    <Compile Include="Models\DataModel\ModelGetRiskFile.cs" />
     <Compile Include="Models\DataModel\ModelGetRisk.cs" />
     <Compile Include="Models\DataModel\ModelPipelineActivity.cs" />
     <Compile Include="Models\DataModel\ModelPipelineMonitoringResults.cs" />

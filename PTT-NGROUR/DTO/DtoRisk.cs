@@ -1,7 +1,10 @@
 ﻿using PTT_NGROUR.ExtentionAndLib;
 using PTT_NGROUR.Models.DataModel;
+using PTT_NGROUR.Models.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Web;
 
 namespace PTT_NGROUR.DTO
 {
@@ -31,7 +34,6 @@ namespace PTT_NGROUR.DTO
 
         public IEnumerable<ModelRiskManagementImport> ReadExcelRiskManagementImport(
           System.IO.Stream pStreamExcel,
-          int pIntMonth,
           int pIntYear,
           string pStrUploadBy)
         {
@@ -58,7 +60,6 @@ namespace PTT_NGROUR.DTO
                         EXTERNAL_CORROSION = getExcelRiskManagementValue(exWorkSheet, intRow, enumExcelRiskManagementColumn.EXTERNAL_CORROSION).GetDecimal(),
                         THIRD_PARTY_INTERFERENCE = getExcelRiskManagementValue(exWorkSheet, intRow, enumExcelRiskManagementColumn.THIRD_PARTY_INTERFERENCE).GetDecimal(),
                         LOSS_OF_GROUND_SUPPORT = getExcelRiskManagementValue(exWorkSheet, intRow, enumExcelRiskManagementColumn.LOSS_OF_GROUND_SUPPORT).GetDecimal(),
-                        MONTH = pIntMonth,
                         YEAR = pIntYear
                     };
                     yield return pipImport;
@@ -74,7 +75,7 @@ namespace PTT_NGROUR.DTO
             }
             return pWorkSheet.GetValue(intRow, (int)pCol);
         }
-        public IEnumerable<Models.DataModel.ModelRiskManagementImport> GetListRiskManagementImportDuplicate(IEnumerable<Models.DataModel.ModelRiskManagementImport> pListModel)
+        public IEnumerable<ModelRiskManagementImport> GetListRiskManagementImportDuplicate(IEnumerable<ModelRiskManagementImport> pListModel)
         {
             if (pListModel == null && !pListModel.Any(x => x != null))
             {
@@ -93,10 +94,9 @@ namespace PTT_NGROUR.DTO
 
             string strCommand = @"SELECT * FROM RISK_IMPORT
             WHERE YEAR = {0}
-            AND MONTH = {1}
-            AND RC IN ({2})";
+            AND RC IN ({1})";
             var model1 = pListModel.Where(x => x != null).First();
-            strCommand = string.Format(strCommand, model1.YEAR, model1.MONTH, strAllRc);
+            strCommand = string.Format(strCommand, model1.YEAR, strAllRc);
             var dal = new DAL.DAL();
             var result = dal.ReadData(
                 pStrCommand: strCommand,
@@ -120,7 +120,6 @@ namespace PTT_NGROUR.DTO
                     EXTERNAL_CORROSION,
                     THIRD_PARTY_INTERFERENCE,
                     LOSS_OF_GROUND_SUPPORT,
-                    MONTH,
                     YEAR
                 ) 
                 VALUES ( '{0}' ,{1} ,{2} ,{3} ,{4} ,{5} ,{6} , {7} ,{8} )";
@@ -133,7 +132,6 @@ namespace PTT_NGROUR.DTO
                 pModel.EXTERNAL_CORROSION,
                 pModel.THIRD_PARTY_INTERFERENCE,
                 pModel.LOSS_OF_GROUND_SUPPORT,
-                pModel.MONTH,
                 pModel.YEAR
             );
             var dal = new DAL.DAL();
@@ -155,8 +153,7 @@ namespace PTT_NGROUR.DTO
                 "LOSS_OF_GROUND_SUPPORT = '{4}'," +
                 "WHERE 1=1 " +
                 "AND RC = {5} " +
-                "AND MONTH = {6} " +
-                "AND YEAR = {7}";
+                "AND YEAR = {6}";
             strCommand = string.Format(
                 strCommand,
                 pModel.RISK_SCORE,
@@ -165,7 +162,6 @@ namespace PTT_NGROUR.DTO
                 pModel.THIRD_PARTY_INTERFERENCE,
                 pModel.LOSS_OF_GROUND_SUPPORT,
                 pModel.RC,
-                pModel.MONTH,
                 pModel.YEAR);
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
@@ -190,6 +186,30 @@ namespace PTT_NGROUR.DTO
 
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
+            dal = null;
+        }
+
+        public void InsertRiskFile(string username, string rc_name, int year, string file_name)
+        {
+            StringBuilder strCommand = new StringBuilder();
+
+            strCommand.AppendFormat(@"INSERT INTO RISK_IMPORT
+            (
+                RC_NAME,
+                YEAR,
+                FILE_NAME,
+                UPLOADED_AT,
+                UPLOADED_BY
+            )
+            VALUES ( '{0}' ,{1} ,{2} ,Sysdate ,{4} )",
+                rc_name,
+                year,
+                file_name,
+                username
+            );
+
+            var dal = new DAL.DAL();
+            dal.ExecuteNonQuery(strCommand.ToString());
             dal = null;
         }
     }

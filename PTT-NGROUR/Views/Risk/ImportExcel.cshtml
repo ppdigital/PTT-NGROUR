@@ -40,7 +40,7 @@
 
                         <div class="col-xs-12">
                             <div class="col-xs-2">
-                                <input type="text" class="form-control form-control-sm " id="MonthYear-filter" />
+                                <input type="text" class="form-control form-control-sm " id="Year-filter" />
                             </div>
                             <div class="col-xs-4">
                                 <div class="panel panel-default " style="padding:4px 4px 4px 4px;margin-bottom:0px">
@@ -167,10 +167,10 @@
 
     <script>
 
-        $('#MonthYear-filter').datepicker({
-            format: "MM yyyy",
-            viewMode: "months",
-            minViewMode: "months",
+        $('#Year-filter').datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
             autoclose: true,
             inline: true,
         }).datepicker("setDate", new Date());

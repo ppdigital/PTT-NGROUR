@@ -34,7 +34,6 @@ namespace PTT_NGROUR.Models.DataModel
             LOSS_OF_GROUND_SUPPORT = pReader.GetColumnValue("LOSS_OF_GROUND_SUPPORT").GetDecimal();
             LOSS_OF_GROUND_SUPPORT_COLOR = pReader.GetColumnValue("LOSS_OF_GROUND_SUPPORT_COLOR").GetString();
             LOSS_OF_GROUND_SUPPORT_RISK = pReader.GetColumnValue("LOSS_OF_GROUND_SUPPORT_RISK").GetString();
-            MONTH = pReader.GetColumnValue("MONTH").GetInt();
             YEAR = pReader.GetColumnValue("YEAR").GetInt();
         }
 
@@ -56,7 +55,6 @@ namespace PTT_NGROUR.Models.DataModel
         public decimal LOSS_OF_GROUND_SUPPORT { get; set; }
         public string LOSS_OF_GROUND_SUPPORT_COLOR { get; set; }
         public string LOSS_OF_GROUND_SUPPORT_RISK { get; set; }
-        public int MONTH { get; set; }
         public int YEAR { get; set; }
         public bool HAS_FILE { get; set; }
         public string[] FILES { get; set; }
