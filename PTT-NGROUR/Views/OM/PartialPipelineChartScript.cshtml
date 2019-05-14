@@ -88,9 +88,17 @@
          */
         // Get Text Axis Bottom
         x0.domain(data.map(function (d) { return d.REGION; }));
+        var max = _.maxBy(data.map(function (d) {
+            return _.maxBy(d.Activities, function (o) {
+                return o.PERCENTAGE || 0
+            });
+        }), function (o) {
+            return o.PERCENTAGE || 0
+        })
 
         x1.domain(keys).rangeRound([0, x0.bandwidth()]);
-        y.domain([0, 200]).nice();
+
+        y.domain([0, max.PERCENTAGE]).nice();
         var gd = g.append("g")
             .selectAll("g")
             .data(data)
@@ -114,29 +122,26 @@
         gd.append("rect")
             .attr("x", function (d) { return x1(d.key); })
             .attr("y", function (d) {
-                var value = d.value > 200 ? 200 : d.value
-                return y(value);
+                return y(d.value);
             })
             .attr("width", x1.bandwidth())
             .attr("height", function (d) {
-                var value = d.value > 200 ? 200 : d.value
-                return height - y(value);
+                return height - y(d.value);
             })
             .attr("fill", function (d) { return z(d.key); });
 
         gd.append("text")
-            .attr("text-anchor", "start")
+            .attr("text-anchor", "middle")
             .attr("transform", function (d) {
-                var value = d.value > 200 ? 200 : d.value
-                var _x = x1(d.key) + (x1.bandwidth() / 2) + 5;
-                var _y = y(value) - 10;
-                return "translate(" + _x + ", " + _y + ") rotate(-90)"
+                var _x = x1(d.key) + (x1.bandwidth() / 2);
+                var _y = y(d.value);
+                return "translate(" + _x + ", " + _y + ")"
             })
             .attr("fill", function (d) {
                 return d.value === 0 ? _colors.alert : null
             })
             .text(function (d) {
-                return d.value > 200 ? '>200' : d.value
+                return d.value
             });
 
         // Add frame for Overall
