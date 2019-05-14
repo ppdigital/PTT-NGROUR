@@ -317,37 +317,34 @@
             var _dtb = datatables[tb]
 
             _dtb.clear()
-            if (typeof data === 'undefined' || data.length === 0) {
-                $('tb').find('tbody').append('<tr><td colspan="' + $(tb + ' thead > tr > th').length + '" class="text-center"><h2 class="pv3">No Data</h2></td></tr>')
-                return
+            if (typeof data !== 'undefined' && data.length > 0) {
+                _.forEach(data, function (o) {
+                    var tr = ''
+                    tr += '<tr>'
+                    //tr += `<td></td>`;
+                    tr += `<td>${o.RC_NAME || o.YEAR}</td>`;
+
+                    var date = new Date(parseInt(o.LAST_UPDATED_AT.substr(6)));
+                    tr += `<td>${date.toLocaleString('th')}</td>`;
+                    tr += `<td>${o.LAST_UPADTED_BY}</td>`;
+
+                    var files = ''
+
+                    if (o.FILES && Array.isArray(o.FILES)) {
+                        files += '<ol>'
+                        o.FILES.forEach(function (v, i) {
+                            var link = `@Url.Content("~/Risk/Download")?YEAR=${v.YEAR}&FILE_NAME=${v.FILE_NAME}`
+                            if (v.RC_NAME) link += `&RC_NAME=${v.RC_NAME}`
+                            files += `<li><a href="${link}">${v.FILE_NAME}</a></li>`
+                        })
+                        files += '</ol>'
+                    }
+                    tr += `<td>${files}</td>`;
+                    tr += '</tr>'
+
+                    _dtb.row.add($(tr));
+                });
             }
-
-            _.forEach(data, function (o) {
-                var tr = ''
-                tr += '<tr>'
-                //tr += `<td></td>`;
-                tr += `<td>${o.RC_NAME || o.YEAR}</td>`;
-
-                var date = new Date(parseInt(o.LAST_UPDATED_AT.substr(6)));
-                tr += `<td>${date.toLocaleString('th')}</td>`;
-                tr += `<td>${o.LAST_UPADTED_BY}</td>`;
-
-                var files = ''
-
-                if (o.FILES && Array.isArray(o.FILES)) {
-                    files += '<ol>'
-                    o.FILES.forEach(function (v, i) {
-                        var link = `@Url.Content("~/Risk/Download")?YEAR=${v.YEAR}&FILE_NAME=${v.FILE_NAME}`
-                        if (v.RC_NAME) link += `&RC_NAME=${v.RC_NAME}`
-                        files += `<li><a href="${link}">${v.FILE_NAME}</a></li>`
-                    })
-                    files += '</ol>'
-                }
-                tr += `<td>${files}</td>`;
-                tr += '</tr>'
-
-                _dtb.row.add($(tr));
-            });
 
             _dtb.draw();
         }
