@@ -191,17 +191,14 @@ namespace PTT_NGROUR.DTO
 
         public void InsertRiskFile(string username, string rc_name, int year, string file_name)
         {
-            StringBuilder strCommand = new StringBuilder();
-
-            strCommand.AppendFormat(@"INSERT INTO RISK_IMPORT
+            string strCommand = string.Format(@"INSERT INTO RISK_FILE
             (
                 RC_NAME,
                 YEAR,
                 FILE_NAME,
                 UPLOADED_AT,
                 UPLOADED_BY
-            )
-            VALUES ( '{0}' ,{1} ,{2} ,Sysdate ,{4} )",
+            ) VALUES ( '{0}', {1}, '{2}', Sysdate, '{3}')",
                 rc_name,
                 year,
                 file_name,
@@ -209,7 +206,7 @@ namespace PTT_NGROUR.DTO
             );
 
             var dal = new DAL.DAL();
-            dal.ExecuteNonQuery(strCommand.ToString());
+            dal.ExecuteNonQuery(strCommand);
             dal = null;
         }
     }

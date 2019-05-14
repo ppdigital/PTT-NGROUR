@@ -20,6 +20,7 @@ namespace PTT_NGROUR.Models.DataModel
             ID = pReader.GetColumnValue("ID").GetInt();
             RC_NAME = pReader.GetColumnValue("RC_NAME").GetString();
             YEAR = pReader.GetColumnValue("YEAR").GetInt();
+            FILE_NAME = pReader.GetColumnValue("FILE_NAME").GetString();
             UPLOADED_AT = pReader.GetColumnValue("UPLOADED_AT").GetDate();
             UPLOADED_BY = pReader.GetColumnValue("UPLOADED_BY").GetString();
         }

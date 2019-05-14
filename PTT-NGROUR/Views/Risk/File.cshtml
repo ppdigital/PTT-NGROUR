@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.1/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/datatables.min.css" />
     <link href="~/Scripts/DataTables/DataTables-1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Style/modalbox.css" rel="stylesheet" />
     <style>
         .modal {
             z-index: 3;
@@ -14,6 +15,24 @@
         .col-container-white.pannel-block {
             border: 1px solid #ddd !important;
             border-top: none !important;
+        }
+
+        .file-box > .panel {
+            display: none;
+        }
+
+        .file-box.-active > .panel {
+            display: block;
+        }
+
+        .file-box.-active > .btn {
+            display: none;
+        }
+
+        .text-ellipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     </style>
 }
@@ -35,7 +54,7 @@
                         <table id="tableRC" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>No.</th>
+                                    @*<th>No.</th>*@
                                     <th>Route Code</th>
                                     <th>Update at</th>
                                     <th>Update by</th>
@@ -54,7 +73,10 @@
                     <div class="ph2">
                         <div class="row">
                             <div class="col-sm-5 col-md-4 col-lg-3">
-                                <button type="button" class="btn btn-info btn-block" onclick="showImport()">Import File</button>
+                                <button type="button" class="btn btn-info" onclick="showImport()">
+                                    <span class="glyphicon glyphicon-upload"></span>
+                                    Import File
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -63,7 +85,7 @@
                         <table id="tableYear" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>No.</th>
+                                    @*<th>No.</th>*@
                                     <th>Year</th>
                                     <th>Update at</th>
                                     <th>Update by</th>
@@ -137,6 +159,42 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div id="ModalDialogSuccess" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-modalbox" role="document">
+        <div class="modalbox success animate">
+            <div class="icon">
+                <span class="glyphicon glyphicon-ok"></span>
+            </div>
+            <!--/.icon-->
+            <h1>Success!</h1>
+            <p>
+                Your file has been uploaded.
+            </p>
+            <button type="button" class="btn" data-dismiss="modal">Ok</button>
+        </div>
+        <!--/.success-->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="ModalDialogError" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-modalbox" role="document">
+        <div class="modalbox error animate">
+            <div class="icon">
+                <span class="glyphicon glyphicon-thumbs-down"></span>
+            </div>
+            <!--/.icon-->
+            <h1>Oh no!</h1>
+            <p>
+                Oops! Something went wrong,
+                <br>
+                <span data-text></span>
+            </p>
+            <button type="button" class="btn" data-dismiss="modal">Try again</button>
+        </div>
+        <!--/.error-->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @section scripts{
     <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
     <script src="~/Content/bootstrap-datepicker.js"></script>
@@ -147,8 +205,10 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script type="text/javascript">
-        var tbRC = $("#tableRC").DataTable();
-        var tbYear = $("#tableYear").DataTable();
+        var datatables = {
+            rc: $("#tableRC").DataTable(),
+            year: $("#tableYear").DataTable()
+        }
 
         $('#yearPicker').datepicker({
             format: "yyyy",
@@ -173,6 +233,26 @@
             return totalFileSize;
         }
 
+        $('[data-inputs]').on('click', '[data-remove-file]', function () {
+            $(this).parents('.panel').remove();
+            FileSize();
+        });
+
+        $('[data-inputs]')
+            .on('change', '[name="file[]"]', function () {
+                FileSize();
+            })
+            .on('change', '[name="file[]"]:last', function () {
+                var wrapper = $(this).parents('.file-box')
+                $('[data-inputs]').append(function () {
+                    var _id = Math.random().toString(36).substr(2, 9);
+
+                    newInput = wrapper.clone(true).find('[name="file[]"]').attr('id', 'file-' + _id).parents('.file-box')
+                    return newInput.find('label.btn').attr('for', 'file-' + _id).parents('.file-box').get(0).outerHTML;
+                });
+                $(this).parents('.file-box').find('.sr-only').removeClass('sr-only').parents('.file-box').addClass('-active');
+            });
+
         function showImport() {
             var modal = $('#ModalImport');
             modal.modal('show');
@@ -181,18 +261,62 @@
         function resetForm() {
             $('[data-inputs] > .file-box.-active').remove();
             $('#ModalImport form').get(0).reset();
+            $('#yearPicker').datepicker("setDate", new Date());
             FileSize();
         }
 
-        $('#ModalImport').on('show.bs.modal', function (e) {
+        $('#ModalImport').on('hidden.bs.modal', function (e) {
             resetForm();
         })
 
+        function onImport() {
+            //if (FileSize() > 10) {
+            //    alert('The total file size must be less than 10 MB.')
+            //    return
+            //}
+
+            var data = new FormData();
+            data.append('YEAR', $('#yearPicker').val());
+
+            $('[name="file[]"]').each(function (i, e) {
+                if (e.files[0]) data.append('FILES', e.files[0]);
+            })
+
+            //data.append('FILE', $('[name="file[]"]').get(0).files[0]);
+            //data.append('FILE', $('[name="file[]"]').get(1).files[0]);
+
+            $('[data-upload-progress]').removeClass('invisible');
+
+            axios.post('/Risk/Upload', data, {
+                onUploadProgress: function (progressEvent) {
+                    var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    $('[data-upload-progress] .progress-bar').width(percentCompleted + '%');
+                    $('[data-upload-progress] .progress-bar').text(percentCompleted + '%');
+                    $('[data-upload-progress] .progress-bar').attr('aria-valuenow', percentCompleted);
+                }
+            })
+                .then(function (res) {
+                    resetForm();
+                    getRiskJson('year')
+                    $('#ModalDialogSuccess').modal('show')
+                    $('#ModalImport').modal('hide')
+                })
+                .catch(function (err) {
+                    $('#ModalDialogError [data-text]').text(err)
+                    $('#ModalDialogError').modal('show')
+                })
+                .then(function () {
+                    $('[data-upload-progress]').addClass('invisible');
+                    $('[data-upload-progress] .progress-bar').width('0%');
+                    $('[data-upload-progress] .progress-bar').text('0%');
+                    $('[data-upload-progress] .progress-bar').attr('aria-valuenow', 0);
+                });
+        };
+
         function initMapTable(tb, data) {
-            var _dtb = $(tb).DataTable()
+            var _dtb = datatables[tb]
 
             _dtb.clear()
-
             if (typeof data === 'undefined' || data.length === 0) {
                 $('tb').find('tbody').append('<tr><td colspan="' + $(tb + ' thead > tr > th').length + '" class="text-center"><h2 class="pv3">No Data</h2></td></tr>')
                 return
@@ -201,28 +325,30 @@
             _.forEach(data, function (o) {
                 var tr = ''
                 tr += '<tr>'
-                tr = tr + `<td>${o.RC_NAME || o.YEAR}</td>`;
-                tr = tr + `<td>${o.LAST_UPDATED_AT}</td>`;
-                tr = tr + `<td>${o.LAST_UPADTED_BY}</td>`;
+                //tr += `<td></td>`;
+                tr += `<td>${o.RC_NAME || o.YEAR}</td>`;
+
+                var date = new Date(parseInt(o.LAST_UPDATED_AT.substr(6)));
+                tr += `<td>${date.toLocaleString('th')}</td>`;
+                tr += `<td>${o.LAST_UPADTED_BY}</td>`;
 
                 var files = ''
 
                 if (o.FILES && Array.isArray(o.FILES)) {
                     files += '<ol>'
                     o.FILES.forEach(function (v, i) {
-                        var link = `@Url.Content("~/Risk/Download")?YEAR=${o.YEAR}&FILE_NAME=${v}`
-                        if (link) link += `&RC_NAME=${o.RC_NAME}`
-                        files += `<li><a href="${link}">${v}</a></li>`
+                        var link = `@Url.Content("~/Risk/Download")?YEAR=${v.YEAR}&FILE_NAME=${v.FILE_NAME}`
+                        if (v.RC_NAME) link += `&RC_NAME=${v.RC_NAME}`
+                        files += `<li><a href="${link}">${v.FILE_NAME}</a></li>`
                     })
                     files += '</ol>'
                 }
-                tr = tr + `<td>${files}</td>`;
+                tr += `<td>${files}</td>`;
                 tr += '</tr>'
-
-                $(tb + ' > tbody:last-child').append(tr);
 
                 _dtb.row.add($(tr));
             });
+
             _dtb.draw();
         }
 
@@ -236,8 +362,7 @@
             })
                 .then(function (response) {
                     data = response.data
-                    var tb = mode === 'rc ' ? 'tableRC' : 'tableYear'
-                    initMapTable(tb, data)
+                    initMapTable(mode, data)
                 })
                 .catch(function (error) {
                     // handle error
@@ -249,5 +374,6 @@
         }
 
         getRiskJson('rc')
+        getRiskJson('year')
     </script>
 }
