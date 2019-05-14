@@ -94,11 +94,12 @@
             });
         }), function (o) {
             return o.PERCENTAGE || 0
-        })
+            })
+        var maxDomain = max.PERCENTAGE > 200 ? max.PERCENTAGE : 200
 
         x1.domain(keys).rangeRound([0, x0.bandwidth()]);
 
-        y.domain([0, max.PERCENTAGE]).nice();
+        y.domain([0, maxDomain]).nice();
         var gd = g.append("g")
             .selectAll("g")
             .data(data)
