@@ -17,8 +17,8 @@ namespace PTT_NGROUR.DTO
             dal = null;
             return result.ToList();
         }
-        public IEnumerable<ModelPipelineMonitoringResults> GetListPipelineMonitoringResults(int month, int year, string[] pArrRegion) => this.GetListPipelineMonitoringResults(month, year, pArrRegion, false);
-        public IEnumerable<ModelPipelineMonitoringResults> GetListPipelineMonitoringResults(int month, int year, string[] pArrRegion, bool accumulate)
+        public IEnumerable<ModelMonitoringResults> GetListPipelineMonitoringResults(int month, int year, string[] pArrRegion) => this.GetListPipelineMonitoringResults(month, year, pArrRegion, false);
+        public IEnumerable<ModelMonitoringResults> GetListPipelineMonitoringResults(int month, int year, string[] pArrRegion, bool accumulate)
         {
             if (month.Equals(0)) month = 12;
             if (month.Equals(0) && !accumulate)
@@ -37,7 +37,7 @@ namespace PTT_NGROUR.DTO
             }
 
             var dal = new DAL.DAL();
-            var result = dal.ReadData(strCommand, x => new ModelPipelineMonitoringResults(x));
+            var result = dal.ReadData(strCommand, x => new ModelMonitoringResults(x));
             dal = null;
             return result;
         }

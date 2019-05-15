@@ -4,11 +4,11 @@ using System.Data;
 
 namespace PTT_NGROUR.Models.DataModel
 {
-    public class ModelPipelineMonitoringResults
+    public class ModelMonitoringResults
     {
-        public ModelPipelineMonitoringResults() { }
+        public ModelMonitoringResults() { }
 
-        public ModelPipelineMonitoringResults(IDataReader pReader)
+        public ModelMonitoringResults(IDataReader pReader)
         {
             if(pReader == null)
             {
@@ -43,21 +43,21 @@ namespace PTT_NGROUR.Models.DataModel
         public int YEAR { get; set; }
     }
 
-    public class ModelPipelineMonitoringResultsType
+    public class ModelMonitoringResultsType
     {
         public string PM_TYPE { get; set; }
-        public List<ModelPipelineMonitoringResultsActivity> Activities { get; set; }
+        public List<ModelMonitoringResultsActivity> Activities { get; set; }
         public decimal Percentage { get; set; }
     }
 
-    public class ModelPipelineMonitoringResultsRegion
+    public class ModelResults
     {
         public int REGION_ID { get; set; }
         public string REGION { get; set; }
-        public List<ModelPipelineMonitoringResultsActivity> Activities { get; set; }
+        public List<ModelMonitoringResultsActivity> Activities { get; set; }
     }
 
-    public class ModelPipelineMonitoringResultsActivity
+    public class ModelMonitoringResultsActivity
     {
         public string REGION { get; set; }
         public string RC { get; set; }

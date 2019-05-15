@@ -186,16 +186,41 @@ namespace PTT_NGROUR.Controllers
                 //var listMM = dto.GetListMeterMaintenance(pStrMonth, pStrYear, pArrRegion).ToList();
                 var listColor = dto.GetListOmColor().ToList();
 
-                IEnumerable<ModelPipelineMonitoringResults> listPipeline = dto.GetListPipelineMonitoringResults(intMonth, intYear, pArrRegion, true);
-
+                // Master Data
                 modelOm.Year = intYear;
                 modelOm.Month = intMonth;
                 modelOm.PipelineActivity = dto.GetPipelineActivity();
-                modelOm.Pipeline = new ModelPipeline
+
+                // Pipeline
+                IEnumerable<ModelMonitoringResults> listPipeline = dto.GetListPipelineMonitoringResults(intMonth, intYear, pArrRegion, true);
+                ModelOMResults pipelineResults = new ModelOMResults(intMonth, listPipeline);
+                modelOm.Pipeline = new
                 {
-                    Summary = new ModelPipelineSummary(intMonth, listPipeline),
-                    Results = new ModelPipelineResults(intMonth, listPipeline),
+                    Summary = new ModelOMSummary(intMonth, listPipeline),
+                    pipelineResults.Results,
+                    //Accumulated = ,
                 };
+
+                // Equipment (Gate & BV & Reducing St.)
+                IEnumerable<ModelMonitoringResults> listEquipmentGateBVReducing = dto.GetListPipelineMonitoringResults(intMonth, intYear, pArrRegion, true);
+                ModelOMResults equipmentGateBVReducingResults = new ModelOMResults(intMonth, listPipeline);
+                modelOm.EquipmentGateBVReducing = new
+                {
+                    Summary = new ModelOMSummary(intMonth, listEquipmentGateBVReducing),
+                    equipmentGateBVReducingResults.Results,
+                    //Accumulated = ,
+                };
+
+                // Equipment (M/R St.)
+                IEnumerable<ModelMonitoringResults> listEquipmentMR = dto.GetListPipelineMonitoringResults(intMonth, intYear, pArrRegion, true);
+                ModelOMResults equipmentMRResults = new ModelOMResults(intMonth, listPipeline);
+                modelOm.EquipmentMR = new
+                {
+                    Summary = new ModelOMSummary(intMonth, listEquipmentMR),
+                    equipmentMRResults.Results,
+                    //Accumulated = ,
+                };
+
                 modelOm.BarGraph = dto.GetModelBarGraph(listMM, listColor);
                 modelOm.ListRegionForTableHeader = dto.GetListRegionForTableHeader(listMM);
                 modelOm.ListMeterMaintenanceLevelForTable = dto.GetModelModelMeterMaintenanceLevel(listMM, modelOm.ListRegionForTableHeader);

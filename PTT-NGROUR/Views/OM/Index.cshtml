@@ -367,7 +367,7 @@
                                                 <th rowspan="2" colspan="2" class="textheadSumT h4 b">PM Activity</th>
                                                 <th rowspan="2" class="textheadSumT h4 b">Interval</th>
                                                 <template v-if="pipeline !== null">
-                                                    <th v-for="region in pipeline.Results.Results"
+                                                    <th v-for="region in pipeline.Results"
                                                         colspan="2"
                                                         class="region">
                                                         {{ region.REGION }}
@@ -375,7 +375,7 @@
                                                 </template>
                                             </tr>
                                             <tr v-if="pipeline !== null">
-                                                <template v-for="region in pipeline.Results.Results">
+                                                <template v-for="region in pipeline.Results">
                                                     <th>Plan</th>
                                                     <th class="actual">Actual</th>
                                                 </template>
@@ -408,7 +408,7 @@
                                                             </td>
                                                             <td><span>{{ PipelineActivity[pm.PM_ID].INTERVAL }}</span></td>
 
-                                                            <template v-for="item in pipeline.Results.Results">
+                                                            <template v-for="item in pipeline.Results">
                                                                 <td><span>{{ getPMActivity(item.Activities, pm.PM_ID, 'PLAN') }}</span></td>
                                                                 <td class="actual"><span>{{ getPMActivity(item.Activities, pm.PM_ID, 'ACTUAL') }}</span></td>
                                                             </template>
@@ -425,7 +425,7 @@
                                                             </span>
                                                         </div>
                                                     </td>
-                                                    <td :colspan="pipeline.Results.Results.length * 2 + 1"
+                                                    <td :colspan="pipeline.Results.length * 2 + 1"
                                                         class="text-center text-middle">
                                                         <strong>GTM will submit all reports to NGR Quarterly</strong>
                                                     </td>

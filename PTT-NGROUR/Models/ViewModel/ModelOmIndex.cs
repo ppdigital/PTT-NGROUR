@@ -11,26 +11,26 @@ namespace PTT_NGROUR.Models.ViewModel
     {
         public class ModelPipeline
         {
-            public ModelPipelineSummary Summary { get; set; }
-            public ModelPipelineResults Results { get; set; }
+            public ModelOMSummary Summary { get; set; }
+            public List<ModelResults> Results { get; set; }
         }
-        public class ModelPipelineSummary
+        public class ModelOMSummary
         {
-            public ModelPipelineSummary(int month, IEnumerable<ModelPipelineMonitoringResults> listPipeline)
+            public ModelOMSummary(int month, IEnumerable<ModelMonitoringResults> listResults)
             {
-                Results = listPipeline.ToList();
+                Results = listResults.ToList();
 
                 if (month.Equals(0)) month = 12;
 
                 #region Current
                 if (!month.Equals(0))
                 {
-                    Current = listPipeline.Where(x => x.MONTH.Equals(month))
+                    Current = listResults.Where(x => x.MONTH.Equals(month))
                         .Where(x => !string.IsNullOrEmpty(x.PM_TYPE))
-                        .GroupBy(x => x.PM_TYPE, (pm_type, list) => new ModelPipelineMonitoringResultsType
+                        .GroupBy(x => x.PM_TYPE, (pm_type, listGroup) => new ModelMonitoringResultsType
                         {
                             PM_TYPE = pm_type,
-                            Activities = list.GroupBy(x => x.PM_ID, (pm_id, l) => new ModelPipelineMonitoringResultsActivity
+                            Activities = listGroup.GroupBy(x => x.PM_ID, (pm_id, l) => new ModelMonitoringResultsActivity
                             {
                                 PM_ID = pm_id,
                                 PM_NAME = l.First().PM_NAME_FULL,
@@ -39,7 +39,7 @@ namespace PTT_NGROUR.Models.ViewModel
                                 ACTUAL = l.Sum(o => o.ACTUAL),
                                 PERCENTAGE = GetPercentage(l),
                             }).ToList(),
-                            Percentage = GetPercentage(list)
+                            Percentage = GetPercentage(listGroup)
                         }).ToList();
 
                     CurrentOrverallPercentage = GetTypePercentage(Current);
@@ -50,12 +50,12 @@ namespace PTT_NGROUR.Models.ViewModel
 
 
                 #region Accumulate
-                Accumulate = listPipeline
+                Accumulate = listResults
                     .Where(x => !string.IsNullOrEmpty(x.PM_TYPE))
-                    .GroupBy(x => x.PM_TYPE, (pm_type, list) => new ModelPipelineMonitoringResultsType
+                    .GroupBy(x => x.PM_TYPE, (pm_type, listGroup) => new ModelMonitoringResultsType
                     {
                         PM_TYPE = pm_type,
-                        Activities = list.GroupBy(x => x.PM_ID, (pm_id, l) => new ModelPipelineMonitoringResultsActivity
+                        Activities = listGroup.GroupBy(x => x.PM_ID, (pm_id, l) => new ModelMonitoringResultsActivity
                         {
                             PM_ID = pm_id,
                             PM_NAME = l.First().PM_NAME_FULL,
@@ -64,20 +64,20 @@ namespace PTT_NGROUR.Models.ViewModel
                             ACTUAL = l.Sum(o => o.ACTUAL),
                             PERCENTAGE = GetPercentage(l),
                         }).ToList(),
-                        Percentage = GetPercentage(list)
+                        Percentage = GetPercentage(listGroup)
                     }).ToList();
 
                 AccumulateOrverallPercentage    = GetTypePercentage(Accumulate);
                 #endregion
 
-                decimal GetPercentage(IEnumerable<ModelPipelineMonitoringResults> list)
+                decimal GetPercentage(IEnumerable<ModelMonitoringResults> list)
                 {
                     decimal actual = list.Sum(o => o.ACTUAL);
                     decimal plan = list.Sum(o => o.PLAN).Equals(0) ? 1 : list.Sum(o => o.PLAN);
                     return Decimal.Round((actual / plan) * 100, 2);
                 }
 
-                decimal GetTypePercentage(IEnumerable<ModelPipelineMonitoringResultsType> list)
+                decimal GetTypePercentage(IEnumerable<ModelMonitoringResultsType> list)
                 {
                     decimal actual = list.Sum(x => x.Activities.Sum(o => o.ACTUAL));
                     decimal plan = list.Sum(x => x.Activities.Sum(o => o.PLAN)).Equals(0) ? 1 : list.Sum(x => x.Activities.Sum(o => o.PLAN));
@@ -85,24 +85,24 @@ namespace PTT_NGROUR.Models.ViewModel
                 }
             }
 
-            List<ModelPipelineMonitoringResults> Results { get; set; }
-            public List<ModelPipelineMonitoringResultsType> Current { get; set; }
+            List<ModelMonitoringResults> Results { get; set; }
+            public List<ModelMonitoringResultsType> Current { get; set; }
             public decimal CurrentOrverallPercentage { get; set; }
 
-            public List<ModelPipelineMonitoringResultsType> Accumulate { get; set; }
+            public List<ModelMonitoringResultsType> Accumulate { get; set; }
             public decimal AccumulateOrverallPercentage { get; set; }
         }
 
-        public class ModelPipelineResults
+        public class ModelOMResults
         {
-            public ModelPipelineResults(int month, IEnumerable<ModelPipelineMonitoringResults> listPipeline)
+            public ModelOMResults(int month, IEnumerable<ModelMonitoringResults> listPipeline)
             {
-                IEnumerable<ModelPipelineMonitoringResults> _listPipeline = listPipeline.Where(x => (x.MONTH.Equals(month) || month.Equals(0)) && !string.IsNullOrEmpty(x.PM_TYPE));
+                IEnumerable<ModelMonitoringResults> _listPipeline = listPipeline.Where(x => (x.MONTH.Equals(month) || month.Equals(0)) && !string.IsNullOrEmpty(x.PM_TYPE));
                 Results = _listPipeline.GroupBy(x => x.REGION, (region_id, x) => new {
                         REGION = region_id,
                         List = x.ToList()
                     })
-                    .Select(x => new ModelPipelineMonitoringResultsRegion
+                    .Select(x => new ModelResults
                     {
                         REGION_ID = x.REGION.Replace("Region", "").GetInt(),
                         REGION = x.REGION,
@@ -111,7 +111,7 @@ namespace PTT_NGROUR.Models.ViewModel
                             PM_ID = pm_id,
                             List = o.OrderByDescending(list => list.YEAR).ThenByDescending(list => list.MONTH)
                         })
-                        .Select(o => new ModelPipelineMonitoringResultsActivity
+                        .Select(o => new ModelMonitoringResultsActivity
                         {
                             PM_ID = o.PM_ID,
                             PM_NAME = o.List.First().PM_NAME_FULL,
@@ -126,7 +126,7 @@ namespace PTT_NGROUR.Models.ViewModel
                     .OrderBy(x => x.REGION_ID)
                     .ToList();
 
-                Results.Add(new ModelPipelineMonitoringResultsRegion
+                Results.Add(new ModelResults
                 {
                     REGION = "Overall",
                     Activities = _listPipeline.GroupBy(o => o.PM_ID, (pm_id, o) => new
@@ -134,7 +134,7 @@ namespace PTT_NGROUR.Models.ViewModel
                             PM_ID = pm_id,
                             List = o.OrderByDescending(list => list.YEAR).ThenByDescending(list => list.MONTH)
                         })
-                        .Select(o => new ModelPipelineMonitoringResultsActivity
+                        .Select(o => new ModelMonitoringResultsActivity
                         {
                             PM_ID = o.PM_ID,
                             PM_NAME = o.List.First().PM_NAME_FULL,
@@ -148,14 +148,14 @@ namespace PTT_NGROUR.Models.ViewModel
                 });
             }
 
-            decimal GetPercentage(IOrderedEnumerable<ModelPipelineMonitoringResults> list)
+            decimal GetPercentage(IOrderedEnumerable<ModelMonitoringResults> list)
             {
                 decimal actual = list.Sum(o => o.ACTUAL);
                 decimal plan = list.Sum(o => o.PLAN).Equals(0) ? 1 : list.Sum(o => o.PLAN);
                 return Decimal.Round((actual / plan) * 100, 2);
             }
 
-            public List<ModelPipelineMonitoringResultsRegion> Results { get; set; }
+            public List<ModelResults> Results { get; set; }
         }
 
         public class ModelBarGraph
@@ -285,7 +285,9 @@ namespace PTT_NGROUR.Models.ViewModel
         public int Year { get; set; }
         public int Month { get; set; }
         public List<ModelPipelineActivity> PipelineActivity { get; set; }
-        public ModelPipeline Pipeline { get; set; }
+        public object Pipeline { get; set; }
+        public object EquipmentGateBVReducing { get; set; }
+        public object EquipmentMR { get; set; }
         public IEnumerable<ModelMeterMaintenance> ListMeterMaintenance { get; set; }
         public IEnumerable<ModelOmColor> ListOmColor { get; set; }
         public ModelBarGraph BarGraph { get; set; }
