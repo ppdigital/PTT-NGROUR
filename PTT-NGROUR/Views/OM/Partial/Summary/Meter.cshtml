@@ -1,0 +1,103 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelOmIndex
+@using System.Globalization
+
+@{
+    string monthName = new DateTime(Model.Year, Model.Month, 1).ToString("MMMM", CultureInfo.InvariantCulture);
+    var summary = Model.Month.Equals(0) ? Model.Summary.Pipeline.Accumulate : Model.Summary.Pipeline.Current;
+}
+
+<div class="table-responsive">
+    <table id="Summary" class="table-summary table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th rowspan="2" class="h4 b">Equipment (M/R St.)</th>
+                @if (!Model.Month.Equals(0))
+                {
+                    <th colspan="5" class="bg-blue text-center">
+                        @monthName @Model.Year
+                    </th>
+                }
+                <th colspan="5" class="bg-blue text-center" ">
+                    January - @monthName @Model.Year (Accumulate)
+                </th>
+            </tr>
+            <tr>
+                @if (!Model.Month.Equals(0))
+                {
+                    <th>Plan</th>
+                    <th>Actual</th>
+                    <th>% Completion</th>
+                    <th>% Major<br />% Minor</th>
+                    <th>% Overall</th>
+                }
+                <th>Plan</th>
+                <th>Actual</th>
+                <th>% Completion</th>
+                <th>% Major<br />% Minor</th>
+                <th>% Overall</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var type in summary.Select((value, i) => new { i, value }))
+            {
+                foreach (var item in type.value.Activities.Select((value, i) => new { i, value }))
+                {
+                    <tr>
+                        <td class="text-left text-white pm-name text-white"
+                            style="background-color: @Model.Master.Pipeline.FirstOrDefault(x => x.PM_ID.Equals(item.value.PM_ID)).PIPELINE_HEX">
+                            @item.value.PM_NAME
+                        </td>
+                        @if (Model.Month != 0)
+                        {
+                            <td><span>@item.value.PLAN.ToString("N0")</span></td>
+                            <td><span>@item.value.ACTUAL.ToString("N0")</span></td>
+                            <td><span>@item.value.PERCENTAGE.ToString("N0")%</span></td>
+                            if (item.i.Equals(0))
+                            {
+                                <td rowspan="@type.value.Activities.Count()" class="text-center text-middle">
+                                    <h4>
+                                        <strong>@type.value.Percentage.ToString("N0")%</strong>
+                                    </h4>
+                                </td>
+                            }
+                            if (type.i.Equals(0) && item.i.Equals(0))
+                            {
+                                <td rowspan="@summary.Sum(x => x.Activities.Count())" class="text-center text-middle">
+                                    <h3>
+                                        <strong>
+                                            @Model.Summary.Pipeline.CurrentOrverallPercentage.ToString("N0")%
+                                        </strong>
+                                    </h3>
+                                </td>
+                            }
+                        }
+
+                        <td><span>@Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].PLAN.ToString("N0")</span></td>
+                        <td><span>@Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].ACTUAL.ToString("N0")</span></td>
+                        <td><span>@Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].PERCENTAGE.ToString("N0")</span></td>
+                        @if (item.i.Equals(0))
+                        {
+                            <td rowspan="@type.value.Activities.Count()" class="text-center text-middle">
+                                <h4>
+                                    <strong>
+                                        @Model.Summary.Pipeline.Accumulate[type.i].Percentage.ToString("N0")%
+                                    </strong>
+                                </h4>
+                            </td>
+                        }
+                        @if (type.i.Equals(0) && item.i.Equals(0))
+                        {
+                            <td rowspan="@summary.Sum(x => x.Activities.Count())" class="text-center text-middle">
+                                <h3>
+                                    <strong>
+                                        @Model.Summary.Pipeline.AccumulateOrverallPercentage.ToString("N0")%
+                                    </strong>
+                                </h3>
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

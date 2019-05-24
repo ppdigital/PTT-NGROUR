@@ -135,7 +135,7 @@ namespace PTT_NGROUR.Models.ViewModel
             }
         }
         public IEnumerable<ModelGateMaintenance> ListGateMaintenance { get; set; }
-        public IEnumerable<ModelOmColor> ListOmColor { get; set; }
+        //public IEnumerable<ModelOmColor> ListOmColor { get; set; }
         public ModelBarGraph BarGraph { get; set; }
         public IEnumerable<ModelRegion> ListRegion { get; set; }
         public List<string> ListRegionForTableHeader { get; set; }

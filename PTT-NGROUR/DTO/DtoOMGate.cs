@@ -43,14 +43,14 @@ namespace PTT_NGROUR.DTO
             return result;
         }
 
-        public IEnumerable<ModelOmColor> GetListOmColor()
-        {
-            string strCommand = "select * from OM_GATE_COLOR";
-            var dal = new DAL.DAL();
-            var result = dal.ReadData(strCommand, x => new ModelOmColor(x));
-            dal = null;
-            return result;
-        }
+        //public IEnumerable<ModelOmColor> GetListOmColor()
+        //{
+        //    string strCommand = "select * from OM_GATE_COLOR";
+        //    var dal = new DAL.DAL();
+        //    var result = dal.ReadData(strCommand, x => new ModelOmColor(x));
+        //    dal = null;
+        //    return result;
+        //}
 
         public IEnumerable<ModelRegion> GetListRegion()
         {
@@ -70,89 +70,89 @@ namespace PTT_NGROUR.DTO
             return result;
         }
 
-        public ModelOmIndexGate.ModelBarGraph GetModelBarGraph(
-        IEnumerable<ModelGateMaintenance> pListModelGateMaintenance, 
-        IEnumerable<ModelOmColor> pListModelOmColor)
-        {
-            if(pListModelGateMaintenance == null || !pListModelGateMaintenance.Any() || pListModelOmColor == null || !pListModelOmColor.Any())
-            {
-                return null;
-            }
-            var result = new ModelOmIndexGate.ModelBarGraph();
-            var listRegion = pListModelGateMaintenance.Select(x => x.REGION)
-                .Distinct().Where(x => !string.IsNullOrEmpty(x))
-                .OrderBy(x => x.Length)
-                .ThenBy(x => x)
-                .ToList();
-            result.ListLabel = listRegion
-                    .Select(x => "Region " + x.ToString())
-                    .Union(new string[] { "Over All" })
-                    .ToList();
-            result.ListML = new List<ModelOmIndexGate.ModelBarGraph.ModelML>();
-            var listML = pListModelGateMaintenance.Select(x => x.ML).Distinct().OrderBy(x => x).ToList();
-            foreach (var itemML in listML)
-            {
-                var ml = new ModelOmIndexGate.ModelBarGraph.ModelML();
-                ml.Label = itemML;
-                var omColor = pListModelOmColor.Where(x => x.ML_ID == itemML).FirstOrDefault();
-                if(omColor == null)
-                {
-                    ml.HexColor = "#000000";
-                }
-                else
-                {
-                    ml.HexColor = omColor.ML_HEX;
-                }
-                omColor = null;
+        //public ModelOmIndexGate.ModelBarGraph GetModelBarGraph(
+        //IEnumerable<ModelGateMaintenance> pListModelGateMaintenance, 
+        //IEnumerable<ModelOmColor> pListModelOmColor)
+        //{
+        //    if(pListModelGateMaintenance == null || !pListModelGateMaintenance.Any() || pListModelOmColor == null || !pListModelOmColor.Any())
+        //    {
+        //        return null;
+        //    }
+        //    var result = new ModelOmIndexGate.ModelBarGraph();
+        //    var listRegion = pListModelGateMaintenance.Select(x => x.REGION)
+        //        .Distinct().Where(x => !string.IsNullOrEmpty(x))
+        //        .OrderBy(x => x.Length)
+        //        .ThenBy(x => x)
+        //        .ToList();
+        //    result.ListLabel = listRegion
+        //            .Select(x => "Region " + x.ToString())
+        //            .Union(new string[] { "Over All" })
+        //            .ToList();
+        //    result.ListML = new List<ModelOmIndexGate.ModelBarGraph.ModelML>();
+        //    var listML = pListModelGateMaintenance.Select(x => x.ML).Distinct().OrderBy(x => x).ToList();
+        //    foreach (var itemML in listML)
+        //    {
+        //        var ml = new ModelOmIndexGate.ModelBarGraph.ModelML();
+        //        ml.Label = itemML;
+        //        var omColor = pListModelOmColor.Where(x => x.ML_ID == itemML).FirstOrDefault();
+        //        if(omColor == null)
+        //        {
+        //            ml.HexColor = "#000000";
+        //        }
+        //        else
+        //        {
+        //            ml.HexColor = omColor.ML_HEX;
+        //        }
+        //        omColor = null;
                 
-                ml.ListData = new List<int>();
-                var listML1 = pListModelGateMaintenance.Where(x => x.ML == itemML).ToList();
-                foreach (var itemRegion in listRegion)
-                {
-                    var listML2 = listML1.Where(x => x.REGION == itemRegion).ToList();
-                    var sumPlan = listML2.Select(x => x.PLAN).Sum();
-                    var sumAc = listML2.Select(x => x.ACTUAL).Sum();
-                    if (sumPlan==sumAc)
-                    {                        
-                        ml.ListData.Add(100);
-                    }
-                    else if (decimal.Zero.Equals(sumPlan))
-                    {
-                        ml.ListData.Add((sumAc * 100).GetInt());
-                    }
-                    else
-                    {                        
-                        var intData = Convert.ToInt32(sumAc * 100 / sumPlan);
-                        ml.ListData.Add(intData);
-                    }
-                    //ml.ListData.Add(50);
-                    listML2.Clear();
-                    listML2 = null;
-                }
-                var sumPlanAll = listML1.Select(x => x.PLAN).Sum();
-                if (decimal.Zero.Equals(sumPlanAll))
-                {
-                    ml.ListData.Add(0);
-                }
-                else
-                {
-                    var sumAcAll = listML1.Select(x => x.ACTUAL).Sum();
-                    var intData = Convert.ToInt32(sumAcAll * 100 / sumPlanAll);
-                    ml.ListData.Add(intData);
-                }
-                result.ListML.Add(ml);
+        //        ml.ListData = new List<int>();
+        //        var listML1 = pListModelGateMaintenance.Where(x => x.ML == itemML).ToList();
+        //        foreach (var itemRegion in listRegion)
+        //        {
+        //            var listML2 = listML1.Where(x => x.REGION == itemRegion).ToList();
+        //            var sumPlan = listML2.Select(x => x.PLAN).Sum();
+        //            var sumAc = listML2.Select(x => x.ACTUAL).Sum();
+        //            if (sumPlan==sumAc)
+        //            {                        
+        //                ml.ListData.Add(100);
+        //            }
+        //            else if (decimal.Zero.Equals(sumPlan))
+        //            {
+        //                ml.ListData.Add((sumAc * 100).GetInt());
+        //            }
+        //            else
+        //            {                        
+        //                var intData = Convert.ToInt32(sumAc * 100 / sumPlan);
+        //                ml.ListData.Add(intData);
+        //            }
+        //            //ml.ListData.Add(50);
+        //            listML2.Clear();
+        //            listML2 = null;
+        //        }
+        //        var sumPlanAll = listML1.Select(x => x.PLAN).Sum();
+        //        if (decimal.Zero.Equals(sumPlanAll))
+        //        {
+        //            ml.ListData.Add(0);
+        //        }
+        //        else
+        //        {
+        //            var sumAcAll = listML1.Select(x => x.ACTUAL).Sum();
+        //            var intData = Convert.ToInt32(sumAcAll * 100 / sumPlanAll);
+        //            ml.ListData.Add(intData);
+        //        }
+        //        result.ListML.Add(ml);
 
-                listML1.Clear();
-                listML1 = null;
+        //        listML1.Clear();
+        //        listML1 = null;
 
-            }
-            listRegion.Clear();
-            listRegion = null;
-            listML.Clear();
-            listML = null;
-            GC.Collect();
-            return result;
-        }
+        //    }
+        //    listRegion.Clear();
+        //    listRegion = null;
+        //    listML.Clear();
+        //    listML = null;
+        //    GC.Collect();
+        //    return result;
+        //}
 
         public ModelOmIndexGate.ModelAccGraph[] GetModelAccGraph(IEnumerable<ModelGateMaintenance> pListModelGateMaintenance)
         {

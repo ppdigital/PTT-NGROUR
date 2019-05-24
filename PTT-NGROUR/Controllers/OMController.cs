@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using PTT_NGROUR.DTO;
-using PTT_NGROUR.Models.ViewModel;
+﻿using PTT_NGROUR.DTO;
 using PTT_NGROUR.ExtentionAndLib;
-using static PTT_NGROUR.Models.ViewModel.ModelOmIndex;
 using PTT_NGROUR.Models.DataModel;
-using System.IO;
-using Syncfusion.XlsIO;
-using System.Text;
+using PTT_NGROUR.Models.ViewModel;
 using Rotativa;
 using Rotativa.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using static PTT_NGROUR.Models.DataModel.ModelOMSummary;
 
 namespace PTT_NGROUR.Controllers
 {
@@ -22,24 +18,30 @@ namespace PTT_NGROUR.Controllers
         // GET: /OM/
         //S[PTT_NGROUR.Controllers.AuthorizeController.CustomAuthorize]
         [AuthorizeController.CustomAuthorize]
-        public ActionResult Index()
+        public ActionResult Index(string radioMY, string pStrYear, string pStrMonth, string[] pArrRegion)
         {
-            return View(GetMasterData());
+            if (radioMY == "year") pStrMonth = null;
+
+            ModelJsonResult<ModelOmIndex> data = GetData(pStrYear, pStrMonth, pArrRegion);
+
+            return View(data);
         }
 
-        [HttpPost]
-        [AuthorizeController.CustomAuthorize]
-        public ActionResult SearchData(string pStrYear, string pStrMonth, string[] pArrRegion)
+        //[AuthorizeController.CustomAuthorize]
+        public ActionResult Print(string radioMY, string pStrYear, string pStrMonth, string[] pArrRegion)
         {
-            return Json(GetData(pStrYear, pStrMonth, pArrRegion));
-        }
+            if (radioMY == "year") pStrMonth = null;
 
-        public ActionResult Print(string pStrYear, string pStrMonth, string[] pArrRegion)
-        {
-            ViewBag.meta = GetMasterData();
             ModelJsonResult<ModelOmIndex> data = GetData(pStrYear, pStrMonth, pArrRegion);
             
             return View(data);
+        }
+
+        [HttpPost]
+        //[AuthorizeController.CustomAuthorize]
+        public ActionResult SearchData(string pStrYear, string pStrMonth, string[] pArrRegion)
+        {
+            return Json(GetData(pStrYear, pStrMonth, pArrRegion));
         }
 
         public ActionResult Export(string pStrYear, string pStrMonth, string[] pArrRegion)
@@ -134,102 +136,102 @@ namespace PTT_NGROUR.Controllers
         //    return File(ms, "Application/pdf", $"OM_PM_IA_Montoring_Results_{DateTime.Now.ToString("yyy_MM_dd_HHmmss")}.pdf");
         //}
 
-        public JsonResult Test()
-        {
-            var modelOm = new ModelOmIndex();
-            var dto = new DtoOM();
-            var listMM = dto.GetListMeterMaintenance().ToList();
-            var listRegionHeader = dto.GetListRegionForTableHeader(listMM);
-            var result =  dto.GetModelModelMeterMaintenanceLevel(listMM , listRegionHeader);
-            return Json(result ,  JsonRequestBehavior.AllowGet);
-        }
-
-        private ModelOmIndex GetMasterData()
-        {
-            var dto = new DtoOM();
-            var result = new ModelOmIndex();
-            result.ListMeterMaintenance = dto.GetListMeterMaintenance().ToList();
-            result.ListOmColor = dto.GetListOmColor().ToList();
-            result.BarGraph = dto.GetModelBarGraph(
-                pListModelMeterMaintenance: result.ListMeterMaintenance,
-                pListModelOmColor: result.ListOmColor);
-            result.ListRegion = dto.GetListRegion()
-                .OrderBy(x => x.REGION_NAME.Length)
-                .ThenBy(x => x.REGION_NAME)
-                .ToList();
-            dto = null;
-
-            GC.Collect();
-
-            return result;
-        }
+        //public JsonResult Test()
+        //{
+        //    var modelOm = new ModelOmIndex();
+        //    var dto = new DtoOM();
+        //    var listMM = dto.GetListMeterMaintenance().ToList();
+        //    var listRegionHeader = dto.GetListRegionForTableHeader(listMM);
+        //    var result =  dto.GetModelModelMeterMaintenanceLevel(listMM , listRegionHeader);
+        //    return Json(result ,  JsonRequestBehavior.AllowGet);
+        //}
 
         private ModelJsonResult<ModelOmIndex> GetData(string pStrYear, string pStrMonth, string[] pArrRegion)
         {
-            var result = new ModelJsonResult<ModelOmIndex>();
+            ModelJsonResult<ModelOmIndex> result = new ModelJsonResult<ModelOmIndex>();
             try
             {
+                // Inint
                 ModelOmIndex modelOm = new ModelOmIndex();
-                var dto = new DtoOM();
-                var listAllMM = dto.GetListMeterMaintenance(string.Empty, pStrYear, pArrRegion).ToList();
-                List<ModelMeterMaintenance> listMM = null;
-                int intYear = pStrYear.GetInt();
-                int intMonth = pStrMonth.GetInt();
-                if (intMonth > 0)
-                {
-                    listMM = listAllMM.Where(x => intMonth.Equals(x.MONTH)).ToList();
-                }
-                else
-                {
-                    listMM = listAllMM;
-                }
-                //var listMM = dto.GetListMeterMaintenance(pStrMonth, pStrYear, pArrRegion).ToList();
-                var listColor = dto.GetListOmColor().ToList();
+                DtoOM dto = new DtoOM();
+                int _intMonth = pStrMonth == null ? DateTime.Now.Month : pStrMonth.GetInt();
+                int intYear = pStrYear == null ? DateTime.Now.Year : pStrYear.GetInt();
+                int intMonth = _intMonth.Equals(0) ? 12 : _intMonth;
 
                 // Master Data
+                modelOm.ListRegion = dto.GetListRegion()
+                    .OrderBy(x => x.REGION_NAME.Length)
+                    .ThenBy(x => x.REGION_NAME)
+                    .ToList();
                 modelOm.Year = intYear;
                 modelOm.Month = intMonth;
-                modelOm.PipelineActivity = dto.GetPipelineActivity();
-
-                // Pipeline
-                IEnumerable<ModelMonitoringResults> listPipeline = dto.GetListPipelineMonitoringResults(intMonth, intYear, pArrRegion, true);
-                ModelOMResults pipelineResults = new ModelOMResults(intMonth, listPipeline);
-                modelOm.Pipeline = new
+                modelOm.Master = new ModelOMMaster
                 {
-                    Summary = new ModelOMSummary(intMonth, listPipeline),
-                    pipelineResults.Results,
-                    //Accumulated = ,
+                    Pipeline = dto.GetPipelineActivity(),
+                    MaintenanceLevel = dto.GetListMaintenanceLevelColor()
                 };
+
+
+                //var listAllMM = dto.GetListMeterMaintenance(string.Empty, pStrYear, pArrRegion).ToList();
+                //List<ModelMeterMaintenance> listMM = null;
+                //if (_intMonth > 0)
+                //{
+                //    listMM = listAllMM.Where(x => _intMonth.Equals(x.MONTH)).ToList();
+                //}
+                //else
+                //{
+                //    listMM = listAllMM;
+                //}
+                //var listMM = dto.GetListMeterMaintenance(pStrMonth, pStrYear, pArrRegion).ToList();
+                //var listColor = dto.GetListOmColor().ToList();
+
+
+                // Summary
+                IEnumerable<ModelMonitoringResults> listPipeline = dto.GetListOMPipelineHistory(intMonth, intYear, pArrRegion, true);
+                IEnumerable<ModelMonitoringResults> listGate = dto.GetListOMGateHistory(intMonth, intYear, pArrRegion, true);
+                IEnumerable<ModelMonitoringResults> listMeter = dto.GetListOMMeterHistory(intMonth, intYear, pArrRegion, true);
+                modelOm.Summary = new ModelOMSummary
+                {
+                    Pipeline = new ModelOMSummaryPipeline(intMonth, listPipeline),
+                    Gate = new ModelOMSummaryMaintenanceLevel(intMonth, listGate),
+                    Meter = new ModelOMSummaryMaintenanceLevel(intMonth, listMeter),
+                };
+                //ModelOMResults pipelineResults = new ModelOMResults(intMonth, listPipeline);
+                //modelOm.Pipeline = new
+                //{
+                //    Summary = new ModelOMSummary(intMonth, listPipeline),
+                //    pipelineResults.Results,
+                //    //Accumulated = ,
+                //};
 
                 // Equipment (Gate & BV & Reducing St.)
-                IEnumerable<ModelMonitoringResults> listEquipmentGateBVReducing = dto.GetListPipelineMonitoringResults(intMonth, intYear, pArrRegion, true);
-                ModelOMResults equipmentGateBVReducingResults = new ModelOMResults(intMonth, listPipeline);
-                modelOm.EquipmentGateBVReducing = new
-                {
-                    Summary = new ModelOMSummary(intMonth, listEquipmentGateBVReducing),
-                    equipmentGateBVReducingResults.Results,
-                    //Accumulated = ,
-                };
+                //IEnumerable<ModelMonitoringResults> listEquipmentGateBVReducing = dto.GetListPipelineMonitoringResults(intMonth, intYear, pArrRegion, true);
+                //ModelOMResults equipmentGateBVReducingResults = new ModelOMResults(intMonth, listPipeline);
+                //modelOm.EquipmentGateBVReducing = new
+                //{
+                //    Summary = new ModelOMSummary(intMonth, listEquipmentGateBVReducing),
+                //    equipmentGateBVReducingResults.Results,
+                //    //Accumulated = ,
+                //};
 
                 // Equipment (M/R St.)
-                IEnumerable<ModelMonitoringResults> listEquipmentMR = dto.GetListPipelineMonitoringResults(intMonth, intYear, pArrRegion, true);
-                ModelOMResults equipmentMRResults = new ModelOMResults(intMonth, listPipeline);
-                modelOm.EquipmentMR = new
-                {
-                    Summary = new ModelOMSummary(intMonth, listEquipmentMR),
-                    equipmentMRResults.Results,
-                    //Accumulated = ,
-                };
+                //IEnumerable<ModelMonitoringResults> listEquipmentMR = dto.GetListPipelineMonitoringResults(intMonth, intYear, pArrRegion, true);
+                //ModelOMResults equipmentMRResults = new ModelOMResults(intMonth, listPipeline);
+                //modelOm.EquipmentMR = new
+                //{
+                //    Summary = new ModelOMSummary(intMonth, listEquipmentMR),
+                //    equipmentMRResults.Results,
+                //    //Accumulated = ,
+                //};
 
-                modelOm.BarGraph = dto.GetModelBarGraph(listMM, listColor);
-                modelOm.ListRegionForTableHeader = dto.GetListRegionForTableHeader(listMM);
-                modelOm.ListMeterMaintenanceLevelForTable = dto.GetModelModelMeterMaintenanceLevel(listMM, modelOm.ListRegionForTableHeader);
-                modelOm.ListAccGraph = dto.GetModelAccGraph(listAllMM);
+                //modelOm.BarGraph = dto.GetModelBarGraph(listMM, listColor);
+                //modelOm.ListRegionForTableHeader = dto.GetListRegionForTableHeader(listMM);
+                //modelOm.ListMeterMaintenanceLevelForTable = dto.GetModelModelMeterMaintenanceLevel(listMM, modelOm.ListRegionForTableHeader);
+                //modelOm.ListAccGraph = dto.GetModelAccGraph(listAllMM);
                 result.SetResultValue(modelOm);
-                listMM.Clear();
-                listMM = null;
-                listColor.Clear();
-                listColor = null;
+                //listMM.Clear();
+                //listMM = null;
+                //listColor = null;
                 dto = null;
                 GC.Collect();
             }

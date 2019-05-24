@@ -1,0 +1,59 @@
+﻿<script src="~/Scripts/Chart/Chart.js"></script>
+<script src="~/Scripts/Chart/Chart.PieceLabel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
+<script src="~/Content/bootstrap-datepicker.js"></script>
+
+<script>
+    var Check = function () {
+        if (document.getElementById('radioMonth').checked) {
+            document.getElementById('Month-filter').style.display = 'inline-block';
+            document.getElementById('Year-filter').style.display = 'none';
+        }
+        else if (document.getElementById('radioYear').checked) {
+            document.getElementById('Month-filter').style.display = 'none';
+            document.getElementById('Year-filter').style.display = 'inline-block';
+        }
+    }
+
+    $(document).ready(function () {
+
+        $('#MultiRegion').selectpicker('selectAll');
+
+        $('#Month-filter').datepicker({
+            format: "m/yyyy",
+            viewMode: "months",
+            minViewMode: "months",
+            autoclose: true
+        }).datepicker("setDate", d)
+
+        $('[name="pStrMonth"]').val(initMonth)
+
+        $('#Month-filter').datepicker()
+            .on('clearDate', function (e) {
+                $('[name="pStrMonth"]').val($(e).val())
+            });
+
+        $('#Month-filter').change(function () {
+            var x = $("#Month-filter").val().split("/");
+            $('[name="pStrMonth"]').val(x[0])
+            $('[name="pStrYear"]').val(x[1])
+        })
+
+        $("#Year-filter").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose: true
+        }).datepicker("setDate", d);
+
+        $('[name="pStrYear"]').val(initYear)
+
+        $('#Month-filter').datepicker()
+            .on('clearDate', function (e) {
+                $('[name="pStrYear"]').val($("#Year-filter").val())
+            });
+
+        Check();
+    });
+</script>

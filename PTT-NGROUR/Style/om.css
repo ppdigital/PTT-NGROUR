@@ -1,0 +1,19 @@
+﻿.text-middle {
+    vertical-align: middle !important;
+}
+
+.text-vertical {
+    display: block;
+    filter: flipv fliph;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    position: relative;
+    white-space: nowrap;
+}
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

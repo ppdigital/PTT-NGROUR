@@ -198,7 +198,8 @@
     <Compile Include="Models\DataModel\ModelGetOM.cs" />
     <Compile Include="Models\DataModel\ModelGetRiskFile.cs" />
     <Compile Include="Models\DataModel\ModelGetRisk.cs" />
-    <Compile Include="Models\DataModel\ModelPipelineActivity.cs" />
+    <Compile Include="Models\DataModel\ModelOMMaster.cs" />
+    <Compile Include="Models\DataModel\ModelOMSummary.cs" />
     <Compile Include="Models\DataModel\ModelPipelineMonitoringResults.cs" />
     <Compile Include="Models\DataModel\ModelRiskManagementImport.cs" />
     <Compile Include="Models\DataModel\ModelRiskType.cs" />
@@ -211,7 +212,6 @@
     <Compile Include="Models\DataModel\ModelCustomer.cs" />
     <Compile Include="Models\DataModel\ModelGetUtilization.cs" />
     <Compile Include="Models\DataModel\ModelMeterMaintenance.cs" />
-    <Compile Include="Models\DataModel\ModelOmColor.cs" />
     <Compile Include="Models\DataModel\ModelRegion.cs" />
     <Compile Include="Models\DataModel\ModelPipelineArchive.cs" />
     <Compile Include="Models\DataModel\ModelPipelineImport.cs" />
@@ -236,6 +236,7 @@
     <Compile Include="Models\ViewModel\ModelViewRiskImport.cs" />
     <Compile Include="Models\ViewModel\ModelViewRiskReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Style\om.css" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-3.3.7-dist\css\bootstrap-theme.css" />
@@ -762,7 +763,6 @@
     <Content Include="Views\Risk\PartialModalExcel.cshtml" />
     <Content Include="Views\Risk\AcceptanceCriteria.cshtml" />
     <Content Include="Views\Risk\File.cshtml" />
-    <Content Include="Views\OM\PartialVueScript.cshtml" />
     <Content Include="Views\Shared\PartialLoadingGrid.cshtml" />
     <Content Include="Views\OM\PartialPipelineChartScript.cshtml" />
     <Content Include="Views\Dashboard\PartialSearch.cshtml" />
@@ -775,10 +775,12 @@
     <Content Include="Views\Dashboard\PartialOMScript.cshtml" />
     <Content Include="Views\Risk\Index.cshtml" />
     <Content Include="Views\OM\Print.cshtml" />
-    <Content Include="Views\OM\Shared\PartialSummary.cshtml" />
     <Content Include="Views\Shared\_PrintLayout.cshtml" />
-    <Content Include="Views\OM\Shared\PartialPipelineResults.cshtml" />
     <Content Include="Views\Risk\Report.cshtml" />
+    <Content Include="Views\OM\Partial\Script.cshtml" />
+    <Content Include="Views\OM\Partial\Summary\Pipeline.cshtml" />
+    <Content Include="Views\OM\Partial\Summary\Meter.cshtml" />
+    <Content Include="Views\OM\Partial\Summary\Gate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
