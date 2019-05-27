@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -92,24 +93,27 @@ namespace PTT_NGROUR.Models.DataModel
 
         public class ModelOMSummaryMaintenanceLevel
         {
-            public ModelOMSummaryMaintenanceLevel(int month, IEnumerable<ModelMonitoringResults> listResults)
+            public ModelOMSummaryMaintenanceLevel(int month, int year, IEnumerable<ModelMonitoringResults> listResults, string mode)
             {
                 Results = listResults.ToList();
+                DateTime date = DateTime.Parse($"{month}/1/{year}", CultureInfo.InvariantCulture);
 
                 #region Current
-                if (!month.Equals(0))
+                if (mode.Equals("monthly"))
                 {
-                    Current.Add(new ModelMonitoringResultsType
-                    {
-                        Activities = listResults.Where(x => x.MONTH.Equals(month)).GroupBy(x => x.PM_ID, (pm_id, l) => new ModelMonitoringResultsActivity
+                    Current = listResults.Where(x => x.START_DATE <= date && x.END_DATE >= date)
+                        .GroupBy(x => x.PM_TYPE, (pm_type, listGroup) => new ModelMonitoringResultsType
                         {
-                            PM_ID = pm_id,
-                            PLAN = l.Sum(o => o.PLAN),
-                            ACTUAL = l.Sum(o => o.ACTUAL),
-                            PERCENTAGE = GetPercentage(l),
-                        }).ToList(),
-                        Percentage = GetPercentage(listResults)
-                    });
+                            Activities = listGroup.GroupBy(x => x.PM_ID, (pm_id, l) => new ModelMonitoringResultsActivity
+                            {
+                                PM_ID = pm_id,
+                                PLAN = l.Sum(o => o.PLAN),
+                                ACTUAL = l.Sum(o => o.ACTUAL),
+                                PERCENTAGE = GetPercentage(l),
+                            }).ToList(),
+                            Percentage = GetPercentage(listGroup)
+                        })
+                        .ToList();
 
                     CurrentOrverallPercentage = GetTypePercentage(Current);
                 }
@@ -119,17 +123,20 @@ namespace PTT_NGROUR.Models.DataModel
 
 
                 #region Accumulate
-                Accumulate.Add(new ModelMonitoringResultsType
-                {
-                    Activities = listResults.GroupBy(x => x.PM_ID, (pm_id, l) => new ModelMonitoringResultsActivity
+                Accumulate = listResults
+                    .GroupBy(x => x.PM_TYPE, (pm_type, listGroup) => new ModelMonitoringResultsType
                     {
-                        PM_ID = pm_id,
-                        PLAN = l.Sum(o => o.PLAN),
-                        ACTUAL = l.Sum(o => o.ACTUAL),
-                        PERCENTAGE = GetPercentage(l),
-                    }).ToList(),
-                    Percentage = GetPercentage(listResults)
-                });
+                        Activities = listGroup.GroupBy(x => x.PM_ID, (pm_id, l) => new ModelMonitoringResultsActivity
+                        {
+                            PM_ID = pm_id,
+                            PM_NAME = l.First().PM_NAME_FULL,
+                            PM_TYPE = l.First().PM_TYPE,
+                            PLAN = l.Sum(o => o.PLAN),
+                            ACTUAL = l.Sum(o => o.ACTUAL),
+                            PERCENTAGE = GetPercentage(l),
+                        }).ToList(),
+                        Percentage = GetPercentage(listGroup)
+                    }).ToList();
 
                 AccumulateOrverallPercentage = GetTypePercentage(Accumulate);
                 #endregion

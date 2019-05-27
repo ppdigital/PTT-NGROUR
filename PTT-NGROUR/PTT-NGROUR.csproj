@@ -781,6 +781,9 @@
     <Content Include="Views\OM\Partial\Summary\Pipeline.cshtml" />
     <Content Include="Views\OM\Partial\Summary\Meter.cshtml" />
     <Content Include="Views\OM\Partial\Summary\Gate.cshtml" />
+    <Content Include="Views\OM\Partial\Completion\Pipeline.cshtml" />
+    <Content Include="Views\OM\Partial\Completion\Gate.cshtml" />
+    <Content Include="Views\OM\Partial\Completion\Meter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

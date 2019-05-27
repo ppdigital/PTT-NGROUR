@@ -135,7 +135,8 @@
                     </div>
                 </div>
 
-                <!--  Acc Pipeline -->
+
+                <!-- [Completion Pipeline] -->
                 <div class="panel panel-default">
                     <div class="panel-heading" data-toggle="collapse" data-target="#Pipe">
                         <h4 class="panel-title">
@@ -145,88 +146,14 @@
                     <div id="Pipe" class="panel-collapse collapse">
                         <div class="panel-body bg-grey-100">
                             <div class=" ph2 ph1-xs pv2 col-container-white">
-                                <div class="table-responsive">
-                                    <table class="tableSum table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th rowspan="2" colspan="2" class="textheadSumT h4 b">PM Activity</th>
-                                                <th rowspan="2" class="textheadSumT h4 b">Interval</th>
-                                                <template v-if="pipeline !== null">
-                                                    <th v-for="region in pipeline.Results"
-                                                        colspan="2"
-                                                        class="region">
-                                                        {{ region.REGION }}
-                                                    </th>
-                                                </template>
-                                            </tr>
-                                            <tr v-if="pipeline !== null">
-                                                <template v-for="region in pipeline.Results">
-                                                    <th>Plan</th>
-                                                    <th class="actual">Actual</th>
-                                                </template>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-if="pipeline === null || pipeline.Summary.Accumulate.length === 0 || isLoading">
-                                                <td :colspan="this.pipeline ? (pipeline.Summary.Accumulate[0].Activities.length * 2) + 3 : 2" class="text-center pv3">
-                                                    <template v-if="isLoading">
-                                                        @*@Html.Partial("PartialLoadingGrid")*@
-                                                    </template>
-                                                    <template v-else>
-                                                        <h2>No data</h2>
-                                                    </template>
-                                                </td>
-                                            </tr>
-                                            <template v-else>
-                                                <template v-for="(type, indexType) in this.pipeline.Summary.Accumulate">
-                                                    <template v-for="(pm, i) in type.Activities">
-                                                        <tr>
-                                                            <td v-if="i === 0"
-                                                                :rowspan="type.Activities.length"
-                                                                class="text-center text-middle">
-                                                                <span class="text-vertical">
-                                                                    {{ type.PM_TYPE }}
-                                                                </span>
-                                                            </td>
-                                                            <td class="text-left text-white" :style="{ 'background-color': getBackgroundColor(PipelineActivity[pm.PM_ID].PIPELINE_HEX) }">
-                                                                {{ pm.PM_NAME }}
-                                                            </td>
-                                                            <td><span>{{ PipelineActivity[pm.PM_ID].INTERVAL }}</span></td>
-
-                                                            <template v-for="item in pipeline.Results">
-                                                                <td><span>{{ getPMActivity(item.Activities, pm.PM_ID, 'PLAN') }}</span></td>
-                                                                <td class="actual"><span>{{ getPMActivity(item.Activities, pm.PM_ID, 'ACTUAL') }}</span></td>
-                                                            </template>
-                                                        </tr>
-                                                    </template>
-                                                </template>
-                                                <tr>
-                                                    <td colspan="2" class="text-left">
-                                                        <div style="max-width: 500px;">
-                                                            <span>
-                                                                CP System : Anode ground bed, Bond Box, Pipe to
-                                                                soil potential survey, Close Interval potential survey
-                                                                (CIPS), Coating Defect Survey (DCVG)
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                    <td :colspan="pipeline.Results.length * 2 + 1"
-                                                        class="text-center text-middle">
-                                                        <strong>GTM will submit all reports to NGR Quarterly</strong>
-                                                    </td>
-                                                </tr>
-                                            </template>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="chart-wrapper">
-                                    <div v-show="!isLoading" id="chart" class="chart"></div>
-                                </div>
+                                @Html.Partial("Partial/Completion/Pipeline", Model.Result)
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+                <!-- [Completion Gate] -->
                 <div class="panel panel-default">
                     <div class="panel-heading" data-toggle="collapse" data-target="#Gate">
                         <h4 class="panel-title">
@@ -239,9 +166,6 @@
                             <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
                                 <center> <span class="h2">Gate & BV & Reducing St. PM IA Monitoring Results &#64; </span><span class="h2" id="TextMYTable_gate"></span></center>
 
-                                <div class="table-responsive">
-                                    <table id="tblGate" class="table table-bordered"></table>
-                                </div>
                             </div>
 
                             <div class=" ph2 ph1-xs pv2 mb-2p col-container-white">
@@ -252,28 +176,29 @@
                             </div>
                             <!-- section Gate Graph -->
                             <!-- <div class=" ph2 ph1-xs pv2 col-container-white ">
-                                <div class="row ">
-                                    <div class="   hidden-xs  fr" style="padding-right: 15px;padding-bottom:15px">
-                                        <button class="btn btn-block btn-primary btn-sm" id="btnZoomIn">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                        </button>
-                                        <button class="btn btn-block btn-primary btn-sm" id="btnZoomOut">
-                                            <i class="fa fa-minus" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <center> <span class="h2">M/R St. PM IA Monitoring Accumulated Results </span><span class="h2" id="TextMYChart"></span></center>
-                                </div>
-                                <div class="row ">
-                                    <div class="col-lg-12" id="divGraph"></div>
-                                </div>
-                            </div>-->
+                    <div class="row ">
+                        <div class="   hidden-xs  fr" style="padding-right: 15px;padding-bottom:15px">
+                            <button class="btn btn-block btn-primary btn-sm" id="btnZoomIn">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                            <button class="btn btn-block btn-primary btn-sm" id="btnZoomOut">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <center> <span class="h2">M/R St. PM IA Monitoring Accumulated Results </span><span class="h2" id="TextMYChart"></span></center>
+                    </div>
+                    <div class="row ">
+                        <div class="col-lg-12" id="divGraph"></div>
+                    </div>
+                </div>-->
                             <!-- End Meter Graph -->
                         </div>
                     </div>
                 </div>
 
+                <!-- [Completion Meter] -->
                 <div class="panel panel-default">
                     <div class="panel-heading " data-toggle="collapse" data-target="#Meter">
                         <h4 class="panel-title">

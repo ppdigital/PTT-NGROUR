@@ -6,6 +6,7 @@ namespace PTT_NGROUR.Models.ViewModel
     public class ModelOmIndex
     {
         public IEnumerable<ModelRegion> ListRegion { get; set; }
+        public string Mode { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }
         public ModelOMMaster Master { get; set; }

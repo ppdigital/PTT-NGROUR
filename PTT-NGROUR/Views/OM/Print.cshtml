@@ -14,28 +14,51 @@
         }
     </style>
 }
-<div>
-    <h2 class="text-center">
-        PM IA Monitoring Results Summary
-        @if (!Model.Result.Month.Equals(0))
-        {
-            @("@ ") @monthName @Model.Result.Year
-        }
-    </h2>
+    <div>
+        <h2 class="text-center">
+            PM IA Monitoring Results Summary
+            @if (!Model.Result.Month.Equals(0))
+            {
+                @("@ ") @monthName @Model.Result.Year
+            }
+        </h2>
 
-    <div id="Summary" class="panel-collapse collapse in">
-        <div class="panel-body">
-            <!-- [Summary Pipeline] -->
-            @Html.Partial("Partial/Summary/Pipeline", Model.Result)
-            <br />
+        <div id="Summary">
+            <div class="panel-body">
+                <!-- [Summary Pipeline] -->
+                @Html.Partial("Partial/Summary/Pipeline", Model.Result)
+                <br />
 
-            <!-- [Summary Gate] -->
-            @Html.Partial("Partial/Summary/Gate", Model.Result)
-            <br />
+                <!-- [Summary Gate] -->
+                @Html.Partial("Partial/Summary/Gate", Model.Result)
+                <br />
 
-            <!-- [Summary Meter] -->
-            @Html.Partial("Partial/Summary/Meter", Model.Result)
+                <!-- [Summary Meter] -->
+                @Html.Partial("Partial/Summary/Meter", Model.Result)
+            </div>
+        </div>
+        <p class="breakhere"></p>
+
+        <h2 class="text-center">
+            Pipeline PM IA Monitoring Results
+            @if (!Model.Result.Month.Equals(0))
+            {
+                @("@ ") @monthName @Model.Result.Year
+            }
+        </h2>
+
+        <div id="Summary">
+            <div class="panel-body">
+                <!-- [Completion Pipeline] -->
+                @Html.Partial("Partial/Completion/Pipeline", Model.Result)
+                <br />
+
+                <!-- [Completion Gate] -->
+                @Html.Partial("Partial/Completion/Gate", Model.Result)
+                <br />
+
+                <!-- [Completion Meter] -->
+                @Html.Partial("Partial/Completion/Meter", Model.Result)
+            </div>
         </div>
     </div>
-    <p class="breakhere"></p>
-</div>

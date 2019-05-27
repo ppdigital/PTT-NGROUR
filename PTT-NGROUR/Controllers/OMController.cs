@@ -21,8 +21,9 @@ namespace PTT_NGROUR.Controllers
         public ActionResult Index(string radioMY, string pStrYear, string pStrMonth, string[] pArrRegion)
         {
             if (radioMY == "year") pStrMonth = null;
+            string mode = radioMY == "year" ? "yearly" : "monthly";
 
-            ModelJsonResult<ModelOmIndex> data = GetData(pStrYear, pStrMonth, pArrRegion);
+            ModelJsonResult<ModelOmIndex> data = GetData(pStrYear, pStrMonth, pArrRegion, mode);
 
             return View(data);
         }
@@ -31,8 +32,9 @@ namespace PTT_NGROUR.Controllers
         public ActionResult Print(string radioMY, string pStrYear, string pStrMonth, string[] pArrRegion)
         {
             if (radioMY == "year") pStrMonth = null;
+            string mode = radioMY == "year" ? "yearly" : "monthly";
 
-            ModelJsonResult<ModelOmIndex> data = GetData(pStrYear, pStrMonth, pArrRegion);
+            ModelJsonResult<ModelOmIndex> data = GetData(pStrYear, pStrMonth, pArrRegion, mode);
             
             return View(data);
         }
@@ -41,7 +43,9 @@ namespace PTT_NGROUR.Controllers
         //[AuthorizeController.CustomAuthorize]
         public ActionResult SearchData(string pStrYear, string pStrMonth, string[] pArrRegion)
         {
-            return Json(GetData(pStrYear, pStrMonth, pArrRegion));
+            string mode = pStrMonth == null ? "yearly" : "monthly";
+
+            return Json(GetData(pStrYear, pStrMonth, pArrRegion, mode));
         }
 
         public ActionResult Export(string pStrYear, string pStrMonth, string[] pArrRegion)
@@ -146,7 +150,7 @@ namespace PTT_NGROUR.Controllers
         //    return Json(result ,  JsonRequestBehavior.AllowGet);
         //}
 
-        private ModelJsonResult<ModelOmIndex> GetData(string pStrYear, string pStrMonth, string[] pArrRegion)
+        private ModelJsonResult<ModelOmIndex> GetData(string pStrYear, string pStrMonth, string[] pArrRegion, string mode)
         {
             ModelJsonResult<ModelOmIndex> result = new ModelJsonResult<ModelOmIndex>();
             try
@@ -157,18 +161,20 @@ namespace PTT_NGROUR.Controllers
                 int _intMonth = pStrMonth == null ? DateTime.Now.Month : pStrMonth.GetInt();
                 int intYear = pStrYear == null ? DateTime.Now.Year : pStrYear.GetInt();
                 int intMonth = _intMonth.Equals(0) ? 12 : _intMonth;
+                var maintenanceLevel = dto.GetListMaintenanceLevelColor();
 
                 // Master Data
                 modelOm.ListRegion = dto.GetListRegion()
                     .OrderBy(x => x.REGION_NAME.Length)
                     .ThenBy(x => x.REGION_NAME)
                     .ToList();
+                modelOm.Mode = mode;
                 modelOm.Year = intYear;
                 modelOm.Month = intMonth;
                 modelOm.Master = new ModelOMMaster
                 {
                     Pipeline = dto.GetPipelineActivity(),
-                    MaintenanceLevel = dto.GetListMaintenanceLevelColor()
+                    MaintenanceLevel = maintenanceLevel
                 };
 
 
@@ -190,11 +196,12 @@ namespace PTT_NGROUR.Controllers
                 IEnumerable<ModelMonitoringResults> listPipeline = dto.GetListOMPipelineHistory(intMonth, intYear, pArrRegion, true);
                 IEnumerable<ModelMonitoringResults> listGate = dto.GetListOMGateHistory(intMonth, intYear, pArrRegion, true);
                 IEnumerable<ModelMonitoringResults> listMeter = dto.GetListOMMeterHistory(intMonth, intYear, pArrRegion, true);
+
                 modelOm.Summary = new ModelOMSummary
                 {
                     Pipeline = new ModelOMSummaryPipeline(intMonth, listPipeline),
-                    Gate = new ModelOMSummaryMaintenanceLevel(intMonth, listGate),
-                    Meter = new ModelOMSummaryMaintenanceLevel(intMonth, listMeter),
+                    Gate = new ModelOMSummaryMaintenanceLevel(intMonth, intYear, listGate, mode),
+                    Meter = new ModelOMSummaryMaintenanceLevel(intMonth, intYear, listMeter, mode),
                 };
                 //ModelOMResults pipelineResults = new ModelOMResults(intMonth, listPipeline);
                 //modelOm.Pipeline = new

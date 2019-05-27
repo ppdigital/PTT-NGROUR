@@ -1,4 +1,5 @@
 ﻿using PTT_NGROUR.ExtentionAndLib;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -16,6 +17,8 @@ namespace PTT_NGROUR.Models.DataModel
             }
             this.YEAR = pReader.GetColumnValue("YEAR").GetInt();
             this.MONTH = pReader.GetColumnValue("MONTH").GetInt();
+            this.START_DATE = pReader.GetColumnValue("START_DATE").GetDate();
+            this.END_DATE = pReader.GetColumnValue("END_DATE").GetDate();
             this.REGION = pReader.GetColumnValue("REGION_NAME").GetString();
             this.RC = pReader.GetColumnValue("RC").GetString();
             this.PM_TYPE = pReader.GetColumnValue("PM_TYPE").GetString();
@@ -41,6 +44,8 @@ namespace PTT_NGROUR.Models.DataModel
         public int MONTH { get; set; }
 
         public int YEAR { get; set; }
+        public DateTime? START_DATE { get; set; }
+        public DateTime? END_DATE { get; set; }
     }
 
     public class ModelMonitoringResultsType
