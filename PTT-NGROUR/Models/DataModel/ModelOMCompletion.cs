@@ -24,6 +24,33 @@ namespace PTT_NGROUR.Models.DataModel
                     listResults = listResults.Where(x => x.MONTH.Equals(month) || mode.Equals("yearly"))
                         .Where(x => !string.IsNullOrEmpty(x.PM_TYPE));
 
+                    #region Activity
+                    Activity = listResults
+                        .GroupBy(type => type.PM_TYPE, (pm_type, types) => new ModelTypeResults
+                        {
+                            PM_TYPE = pm_type,
+                            Activities = types.GroupBy(activity => activity.PM_ID, (pm_id, activities) => new ModelActivityResults
+                            {
+                                PM_ID = pm_id,
+                                Regions = activities.GroupBy(x => x.REGION, (region_id, x) => new
+                                {
+                                    REGION = region_id,
+                                    List = x.ToList()
+                                })
+                                .Select(x => new ModelResults
+                                {
+                                    REGION_ID = x.REGION.Replace("Region", "").GetInt(),
+                                    REGION = x.REGION,
+                                    PLAN = x.List.Sum(o => o.PLAN),
+                                    ACTUAL = x.List.Sum(o => o.ACTUAL),
+                                })
+                                .OrderBy(x => x.REGION_ID)
+                                .ToList()
+                            }).ToList()
+                        }).ToList();
+                    #endregion
+
+                    #region Region
                     Region = listResults.GroupBy(x => x.REGION, (region_id, x) => new {
                         REGION = region_id,
                         List = x.ToList()
@@ -51,10 +78,12 @@ namespace PTT_NGROUR.Models.DataModel
                     })
                     .OrderBy(x => x.REGION_ID)
                     .ToList();
+                    #endregion
                 }
             }
 
             List<ModelMonitoringResults> Results { get; set; }
+            public List<ModelTypeResults> Activity { get; set; }
             public List<ModelResults> Region { get; set; }
 
             decimal GetPercentage(IOrderedEnumerable<ModelMonitoringResults> list)

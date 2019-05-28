@@ -146,9 +146,7 @@
                     <div id="panelChartCompletionPipeline" class="panel-collapse collapse">
                         <div class="panel-body bg-grey-100">
                             <div class=" ph2 ph1-xs pv2 col-container-white">
-                                <div class="chart-wrapper">
-                                    <div id="chartCompletionPipeline"></div>
-                                </div>
+                                @Html.Partial("Partial/Completion/Pipeline", Model.Result)
                             </div>
                         </div>
                     </div>
@@ -165,9 +163,7 @@
                     <div id="panelChartCompletionGate" class="panel-collapse collapse">
                         <div class="panel-body bg-grey-100">
                             <div class=" ph2 ph1-xs pv2 col-container-white">
-                                <div class="chart-wrapper">
-                                    <div id="chartCompletionGate"></div>
-                                </div>
+                                @Html.Partial("Partial/Completion/Gate", Model.Result)
                             </div>
                         </div>
                     </div>
@@ -183,9 +179,7 @@
                     <div id="panelChartCompletionMeter" class="panel-collapse collapse">
                         <div class="panel-body bg-grey-100">
                             <div class=" ph2 ph1-xs pv2 col-container-white">
-                                <div class="chart-wrapper">
-                                    <div id="chartCompletionMeter"></div>
-                                </div>
+                                @Html.Partial("Partial/Completion/Meter", Model.Result)
                             </div>
                         </div>
                     </div>
@@ -282,5 +276,7 @@
     @Html.Partial("Partial/Script")
     @*@Html.Partial("PartialMeteringScript")*@
     @*@Html.Partial("PartialPipelineChartScript")*@
-    @Html.Partial("Partial/Completion/Pipeline")
+    @Html.Partial("Partial/Completion/ScriptPipeline")
+    @Html.Partial("Partial/Completion/ScriptGate")
+    @Html.Partial("Partial/Completion/ScriptMeter")
 }

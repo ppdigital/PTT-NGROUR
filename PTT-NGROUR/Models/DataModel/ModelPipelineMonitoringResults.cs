@@ -55,10 +55,25 @@ namespace PTT_NGROUR.Models.DataModel
         public decimal Percentage { get; set; }
     }
 
+    public class ModelTypeResults
+    {
+        public string PM_TYPE { get; set; }
+        public List<ModelActivityResults> Activities { get; set; }
+    }
+
+    public class ModelActivityResults
+    {
+        public string PM_ID { get; set; }
+        public List<ModelResults> Regions { get; set; }
+    }
+
+
     public class ModelResults
     {
         public int REGION_ID { get; set; }
         public string REGION { get; set; }
+        public decimal PLAN { get; set; }
+        public decimal ACTUAL { get; set; }
         public List<ModelMonitoringResultsActivity> Activities { get; set; }
     }
 

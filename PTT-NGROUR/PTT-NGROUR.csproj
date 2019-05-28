@@ -782,6 +782,9 @@
     <Content Include="Views\OM\Partial\Summary\Pipeline.cshtml" />
     <Content Include="Views\OM\Partial\Summary\Meter.cshtml" />
     <Content Include="Views\OM\Partial\Summary\Gate.cshtml" />
+    <Content Include="Views\OM\Partial\Completion\ScriptPipeline.cshtml" />
+    <Content Include="Views\OM\Partial\Completion\ScriptGate.cshtml" />
+    <Content Include="Views\OM\Partial\Completion\ScriptMeter.cshtml" />
     <Content Include="Views\OM\Partial\Completion\Pipeline.cshtml" />
     <Content Include="Views\OM\Partial\Completion\Gate.cshtml" />
     <Content Include="Views\OM\Partial\Completion\Meter.cshtml" />
