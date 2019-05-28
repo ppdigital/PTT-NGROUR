@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using static PTT_NGROUR.Models.DataModel.ModelOMCompletion;
 using static PTT_NGROUR.Models.DataModel.ModelOMSummary;
 
 namespace PTT_NGROUR.Controllers
@@ -160,7 +161,7 @@ namespace PTT_NGROUR.Controllers
                 DtoOM dto = new DtoOM();
                 int _intMonth = pStrMonth == null ? DateTime.Now.Month : pStrMonth.GetInt();
                 int intYear = pStrYear == null ? DateTime.Now.Year : pStrYear.GetInt();
-                int intMonth = _intMonth.Equals(0) ? 12 : _intMonth;
+                int intMonth = mode.Equals("yearly") ? 12 : _intMonth;
                 var maintenanceLevel = dto.GetListMaintenanceLevelColor();
 
                 // Master Data
@@ -202,6 +203,13 @@ namespace PTT_NGROUR.Controllers
                     Pipeline = new ModelOMSummaryPipeline(intMonth, listPipeline),
                     Gate = new ModelOMSummaryMaintenanceLevel(intMonth, intYear, listGate, mode),
                     Meter = new ModelOMSummaryMaintenanceLevel(intMonth, intYear, listMeter, mode),
+                };
+
+                modelOm.Completion = new ModelOMCompletion
+                {
+                    Pipeline = new ModelOMCompletionPipeline(intMonth, listPipeline, mode),
+                    Gate = new ModelOMCompletionMaintenanceLevel(intMonth, intYear, listGate, mode),
+                    Meter = new ModelOMCompletionMaintenanceLevel(intMonth, intYear, listMeter, mode),
                 };
                 //ModelOMResults pipelineResults = new ModelOMResults(intMonth, listPipeline);
                 //modelOm.Pipeline = new
