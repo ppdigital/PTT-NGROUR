@@ -1,0 +1,119 @@
+﻿using PTT_NGROUR.ExtentionAndLib;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PTT_NGROUR.Models.DataModel
+{
+    public class ModelOMCompletion
+    {
+        public ModelOMCompletion() { }
+        public ModelOMCompletionPipeline Pipeline { get; set; }
+        public ModelOMCompletionMaintenanceLevel Gate { get; set; }
+        public ModelOMCompletionMaintenanceLevel Meter { get; set; }
+
+        public class ModelOMCompletionPipeline
+        {
+            public ModelOMCompletionPipeline(int month, IEnumerable<ModelMonitoringResults> listResults, string mode)
+            {
+                Results = listResults.ToList();
+                
+                if (!month.Equals(0))
+                {
+                    listResults = listResults.Where(x => x.MONTH.Equals(month) || mode.Equals("yearly"))
+                        .Where(x => !string.IsNullOrEmpty(x.PM_TYPE));
+
+                    Region = listResults.GroupBy(x => x.REGION, (region_id, x) => new {
+                        REGION = region_id,
+                        List = x.ToList()
+                    })
+                    .Select(x => new ModelResults
+                    {
+                        REGION_ID = x.REGION.Replace("Region", "").GetInt(),
+                        REGION = x.REGION,
+                        Activities = x.List.GroupBy(o => o.PM_ID, (pm_id, o) => new
+                        {
+                            PM_ID = pm_id,
+                            List = o.OrderByDescending(list => list.YEAR).ThenByDescending(list => list.MONTH)
+                        })
+                        .Select(o => new ModelMonitoringResultsActivity
+                        {
+                            PM_ID = o.PM_ID,
+                            PM_NAME = o.List.First().PM_NAME_FULL,
+                            PM_TYPE = o.List.First().PM_TYPE,
+                            PLAN = o.List.Sum(p => p.PLAN),
+                            ACTUAL = o.List.Sum(p => p.ACTUAL),
+                            PERCENTAGE = GetPercentage(o.List),
+                        })
+                        .OrderBy(o => o.PM_ID)
+                        .ToList()
+                    })
+                    .OrderBy(x => x.REGION_ID)
+                    .ToList();
+                }
+            }
+
+            List<ModelMonitoringResults> Results { get; set; }
+            public List<ModelResults> Region { get; set; }
+
+            decimal GetPercentage(IOrderedEnumerable<ModelMonitoringResults> list)
+            {
+                decimal actual = list.Sum(o => o.ACTUAL);
+                decimal plan = list.Sum(o => o.PLAN).Equals(0) ? 1 : list.Sum(o => o.PLAN);
+                return Decimal.Round((actual / plan) * 100, 2);
+            }
+        }
+
+        public class ModelOMCompletionMaintenanceLevel
+        {
+            public ModelOMCompletionMaintenanceLevel(int month, int year, IEnumerable<ModelMonitoringResults> listResults, string mode)
+            {
+                Results = listResults.ToList();
+                DateTime date = DateTime.Parse($"{month}/1/{year}", System.Globalization.CultureInfo.InvariantCulture);
+
+                if (!month.Equals(0))
+                {
+                    Region = listResults.Where(x => (x.START_DATE <= date && x.END_DATE >= date) || mode.Equals("yearly"))
+                        .GroupBy(x => x.REGION, (region_id, x) => new {
+                            REGION = region_id,
+                            List = x.ToList()
+                        })
+                    .Select(x => new ModelResults
+                    {
+                        REGION_ID = x.REGION.Replace("Region", "").GetInt(),
+                        REGION = x.REGION,
+                        Activities = x.List.GroupBy(o => o.PM_ID, (pm_id, o) => new
+                        {
+                            PM_ID = pm_id,
+                            List = o.OrderByDescending(list => list.YEAR).ThenByDescending(list => list.MONTH)
+                        })
+                        .Select(o => new ModelMonitoringResultsActivity
+                        {
+                            PM_ID = o.PM_ID,
+                            PM_NAME = o.List.First().PM_NAME_FULL,
+                            PM_TYPE = o.List.First().PM_TYPE,
+                            PLAN = o.List.Sum(p => p.PLAN),
+                            ACTUAL = o.List.Sum(p => p.ACTUAL),
+                            PERCENTAGE = GetPercentage(o.List),
+                        })
+                        .OrderBy(o => o.PM_ID)
+                        .ToList()
+                    })
+                    .OrderBy(x => x.REGION_ID)
+                    .ToList();
+                }
+            }
+
+            List<ModelMonitoringResults> Results { get; set; }
+            public List<ModelResults> Region { get; set; }
+
+            decimal GetPercentage(IOrderedEnumerable<ModelMonitoringResults> list)
+            {
+                decimal actual = list.Sum(o => o.ACTUAL);
+                decimal plan = list.Sum(o => o.PLAN).Equals(0) ? 1 : list.Sum(o => o.PLAN);
+                return Decimal.Round((actual / plan) * 100, 2);
+            }
+        }
+    }
+}

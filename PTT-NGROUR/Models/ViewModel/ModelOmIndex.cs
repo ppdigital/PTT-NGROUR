@@ -11,6 +11,7 @@ namespace PTT_NGROUR.Models.ViewModel
         public int Month { get; set; }
         public ModelOMMaster Master { get; set; }
         public ModelOMSummary Summary { get; set; }
+        public ModelOMCompletion Completion { get; set; }
 
         //    public class ModelPipeline
         //    {

@@ -198,6 +198,7 @@
     <Compile Include="Models\DataModel\ModelGetOM.cs" />
     <Compile Include="Models\DataModel\ModelGetRiskFile.cs" />
     <Compile Include="Models\DataModel\ModelGetRisk.cs" />
+    <Compile Include="Models\DataModel\ModelOMCompletion.cs" />
     <Compile Include="Models\DataModel\ModelOMMaster.cs" />
     <Compile Include="Models\DataModel\ModelOMSummary.cs" />
     <Compile Include="Models\DataModel\ModelPipelineMonitoringResults.cs" />
@@ -794,6 +795,7 @@
   <ItemGroup>
     <Folder Include="Templates\" />
     <Folder Include="UploadedFiles\" />
+    <Folder Include="Views\OM\Partial\Accumulate\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

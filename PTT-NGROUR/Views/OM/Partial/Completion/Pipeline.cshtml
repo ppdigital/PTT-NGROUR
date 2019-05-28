@@ -1,3 +1,283 @@
-﻿@model PTT_NGROUR.Models.ViewModel.ModelOmIndex
+﻿<script type="text/javascript">
+    // Chart
 
-xxx
+    var responsivefyChartCompletionPipeline = function (svg) {
+        // get container + svg aspect ratio
+        var container = d3.select('.chart-wrapper'),
+            width = parseInt(svg.style("width")),
+            height = parseInt(svg.style("height")),
+            aspect = width / height;
+
+        // add viewBox and preserveAspectRatio properties,
+        // and call resize so that svg resizes on inital page load
+        svg.attr("viewBox", "0 0 " + width + " " + height)
+            .attr("preserveAspectRatio", "xMinYMid")
+            .call(resize);
+
+        // to register multiple listeners for same event type,
+        // you need to add namespace, i.e., 'click.foo'
+        // necessary if you call invoke this function for multiple svgs
+        // api docs: https://github.com/mbostock/d3/wiki/Selections#on
+        d3.select(window).on("resize." + container.attr("id"), resize);
+
+        // get width of container and resize svg to fit it
+        function resize() {
+            var targetWidth = parseInt(container.style("width"));
+            svg.attr("width", targetWidth);
+            svg.attr("height", Math.round(targetWidth / aspect));
+        }
+    }
+
+    $(document).ready(function () {
+        var renderChartCompletionPipeline = function () {
+            $("#chartCompletionPipeline svg").remove();
+
+
+            /**
+             * Config
+             *
+             */
+            var _colors = {
+                alert: "#ea8a8a"
+            }
+            var colors = []
+            var keys = []
+
+            var data = model.Completion.Pipeline.Region || [];
+            var master = model.Master.Pipeline || []
+
+            data && data.forEach(function (element) {
+                keys = keys.concat(element.Activities.map(function (o) {
+                    colors.push(
+                        master.find(function (m) { return m.PM_ID === o.PM_ID }).PIPELINE_HEX
+                    );
+                    return o.PM_ID
+                }));
+            });
+
+
+            /**
+             * Initial
+             *
+             */
+            var svg = d3.select("#chartCompletionPipeline").append("svg")
+                .attr("width", $('.chart-wrapper').width())
+                .attr("height", $('.chart-wrapper').width() / 1.92)
+                .call(responsivefyChartCompletionPipeline);
+            var margin = { top: 200, right: 80, bottom: 30, left: 60 },
+                width = +svg.attr("width") - margin.left - margin.right,
+                height = +svg.attr("height") - margin.top - margin.bottom,
+                g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            // Group Bar
+            var x0 = d3.scaleBand()
+                .rangeRound([0, width])
+                .paddingInner(0.1);
+
+            // Bar
+            var x1 = d3.scaleBand()
+                .padding(0.05);
+
+            var y = d3.scaleLinear()
+                .rangeRound([height, 0]);
+
+            var z = d3.scaleOrdinal()
+                .range(colors);
+
+
+            /**
+             * Data
+             *
+             */
+            // Get Text Axis Bottom
+            x0.domain(data.map(function (d) { return d.REGION; }));
+            var max = _.maxBy(data.map(function (d) {
+                return _.maxBy(d.Activities, function (o) {
+                    return o.PERCENTAGE || 0
+                });
+            }), function (o) {
+                return o.PERCENTAGE || 0
+            })
+            var maxDomain = max && max.PERCENTAGE > 200 ? max.PERCENTAGE : 200
+
+            x1.domain(keys).rangeRound([0, x0.bandwidth()]);
+
+            y.domain([0, maxDomain]).nice();
+            var gd = g.append("g")
+                .selectAll("g")
+                .data(data)
+                .enter().append("g")
+                .attr("transform", function (d) { return "translate(" + x0(d.REGION) + ",0)"; })
+                .selectAll("rect")
+                .data(function (d) {
+                    var _d = _.keyBy(d.Activities, 'PM_ID')
+                    return keys.map(function (key) {
+                        var v = 0;
+
+                        if (_d[key]) v = _d[key].PERCENTAGE
+                        return {
+                            key: key,
+                            value: v
+                        };
+                    });
+                })
+                .enter();
+
+            gd.append("rect")
+                .attr("x", function (d) { return x1(d.key); })
+                .attr("y", function (d) {
+                    return y(d.value);
+                })
+                .attr("width", x1.bandwidth())
+                .attr("height", function (d) {
+                    return height - y(d.value);
+                })
+                .attr("fill", function (d) { return z(d.key); });
+
+            gd.append("text")
+                .attr("text-anchor", "middle")
+                .attr("transform", function (d) {
+                    var _x = x1(d.key) + (x1.bandwidth() / 2);
+                    var _y = y(d.value);
+                    return "translate(" + _x + ", " + _y + ")"
+                })
+                .attr("fill", function (d) {
+                    return d.value === 0 ? _colors.alert : null
+                })
+                .text(function (d) {
+                    return d.value
+                });
+
+            // Add frame for Overall
+            //var frame = {
+            //    padding: { top: 25, right: 20, bottom: 28, left: 20 }
+            //}
+
+            //g.append("rect")
+            //    .attr("x", function () { return x0(data.pop().REGION) - frame.padding.left; })
+            //    .attr("y", function () { return y(0) - height - frame.padding.top; })
+            //    .attr("width", x0.bandwidth() + frame.padding.left + frame.padding.right)
+            //    .attr("height", function () { return height + frame.padding.top + frame.padding.bottom; })
+            //    .attr("style", "stroke: " + _colors.alert + "; stroke-width: 2; stroke-dasharray: 10 5;")
+            //    .attr("fill", "none");
+
+
+            /**
+             * Axis Left
+             *
+             */
+            g.append("g")
+                .attr("class", "axis ")
+                .call(d3.axisLeft(y).ticks(20).tickSize(-(width)))
+                .append("text")
+                .attr("x", 0)
+                .attr("y", -40)
+                .attr("fill", "#000")
+                .attr("font-weight", "bold")
+                .attr("text-anchor", "end")
+                .attr("transform", "rotate(-90)")
+                .text("% Completion");
+
+            // 100% Level
+            var licenseY = y(100)
+            var lineLevel = g.append("g")
+            lineLevel.append("line")
+                .attr("x1", 0)
+                .attr("y1", licenseY)
+                .attr("x2", width)
+                .attr("y2", licenseY)
+                .attr("stroke-dasharray", "10, 10")
+                .attr("style", "stroke: #258fe5; stroke-width: 2");
+
+            lineLevel.append("text")
+                .attr("x", width)
+                .attr("y", licenseY)
+                .attr("dy", "0.32em")
+                .attr("fill", "#258fe5")
+                .attr("text-anchor", "start")
+                .text("100% Level");
+
+
+            /**
+             * Axis Bottom
+             *
+             */
+            g.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x0));
+
+
+            /**
+             * Title
+             *
+             */
+            svg.append("text")
+                .attr("x", 15)
+                .attr("y", 55)
+                .attr("dy", ".35em")
+                .attr("font-weight", "bold")
+                .attr("font-size", 22)
+                .style("text-anchor", "begin")
+                .text("Pipeline PM % Completion (Ref. Master Plan)");
+
+
+            /**
+             * Legend
+             *
+             */
+            var startAt = 530,
+                tabSpace = 570,
+                legend_tabs = [],
+                colMax = 2,
+                colIndex = 0,
+                rowSpace = 10,
+                i;
+            for (i = 0; i <= (keys.length + 1); i++) {
+                legend_tabs.push({
+                    x: tabSpace * colIndex,
+                    y: rowSpace
+                })
+
+                colIndex++
+
+                if ((i + 1) % colMax === 0) {
+                    colIndex = 0
+                    rowSpace = rowSpace + 20
+                }
+            }
+            var startp = svg.append("g")
+                .attr("class", "legendbox")
+                .attr("transform", function () {
+                    return "translate(" + startAt + ", 0)"
+                })
+                .attr("id", "legendbox");
+
+            var legend = startp.selectAll(".legend")
+                .data(z.domain().slice())
+                .enter().append("g")
+                .attr("class", "legend")
+                .attr("transform", function (d, i) {
+                    return "translate(" + legend_tabs[i].x + "," + legend_tabs[i].y + ")";
+                });
+
+            legend.append("rect")
+                .attr("x", 0)
+                .attr("y", 2)
+                .attr("width", 10)
+                .attr("height", 10)
+                .style("fill", z);
+
+            legend.append("text")
+                .attr("x", 16)
+                .attr("y", 9)
+                .attr("dy", ".35em")
+                .style("text-anchor", "begin")
+                .text(function (d) { return master.find(function (o) { return o.PM_ID === d }).PM_NAME_FULL; });
+        }
+
+        $('#accordion').on('shown.bs.collapse', function () {
+            renderChartCompletionPipeline()
+        })
+    });
+</script>
