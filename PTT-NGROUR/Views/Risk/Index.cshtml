@@ -507,12 +507,11 @@
 
                 var key = ['RISK_SCORE', 'INTERNAL_CORROSION', 'EXTERNAL_CORROSION', 'THIRD_PARTY_INTERFERENCE', 'LOSS_OF_GROUND_SUPPORT'];
                 _.forEach(key, function (v) {
-                    let bullet = ''
-
+                    var style = '';
                     if (o[v + '_RISK'] === 'RISK') {
-                        bullet = '<span class="fa fa-circle" style="color:#e74c3c;"></span>'
+                        style = 'color: #e74c3c;'
                     }
-                    tds = tds + '<td class="text-center">' + bullet + '</td>';
+                    tds = tds + `<td class="text-center" style="${style}">${o[v].toLocaleString('th', { maximumFractionDigits: 2 })}</td>`;
                 });
 
                 tds = tds + '<td><button class="btn btn-success" onclick="showImport(\'' + o.RC_NAME + '\', ' + o.YEAR + ')"><span class="glyphicon glyphicon-paperclip"></span></button></td>';
