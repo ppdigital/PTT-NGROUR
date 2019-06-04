@@ -55,12 +55,13 @@ namespace PTT_NGROUR.Controllers
             {
                 pStrYear,
                 pStrMonth,
-                pArrRegion
+                pArrRegion,
             }) {
                 //FileName = "Test.pdf",
                 PageSize = Size.A4,
                 PageOrientation = Orientation.Landscape,
-                PageMargins = new Margins(5, 0, 5, 0)
+                PageMargins = new Margins(5, 0, 5, 0),
+                CustomSwitches = "--javascript-delay 3000"
             };
         }
 

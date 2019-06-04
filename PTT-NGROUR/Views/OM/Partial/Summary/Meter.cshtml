@@ -41,7 +41,7 @@
                 var type = summary.Select((value, i) => new { i, value }).FirstOrDefault();
                 var item = type == null ? null : type.value.Activities.Select((value, i) => new { i, value }).SingleOrDefault(x => x.value.PM_ID.Equals(ml.value.ML_ID));
             <tr>
-                <td class="text-left text-white pm-name text-white"
+                <td class="pm-name text-truncate text-left text-white text-white"
                     style="background-color: @ml.value.ML_HEX">
                     @ml.value.ML_ID
                 </td>

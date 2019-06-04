@@ -51,8 +51,8 @@
                             @{ 
                                 _master = Model.Master.Pipeline.SingleOrDefault(x => x.PM_ID.Equals(activity.value.PM_ID));
                             }
-                            <td class="text-left text-white" style="background-color: @(_master == null ? "" : _master.PIPELINE_HEX);">
-                                @_master.PM_NAME_FULL
+                            <td class="pm-name text-truncate text-left text-white" style="background-color: @(_master == null ? "" : _master.PIPELINE_HEX);">
+                                @_master.PM_NAME_ABV
                             </td>
                             <td><span>@(_master == null ? "-" : _master.INTERVAL)</span></td>
                             @foreach(var region in activity.value.Regions)
@@ -67,9 +67,9 @@
                     <td colspan="2" class="text-left">
                         <div style="max-width: 500px;">
                             <span>
-                                CP System : Anode ground bed, Bond Box, Pipe to
-                                soil potential survey, Close Interval potential survey
-                                (CIPS), Coating Defect Survey (DCVG)
+                                CP System : Anode ground bed, Bond Box, Pipe to soil potential survey,
+                                <br />
+                                Close Interval potential survey (CIPS), Coating Defect Survey (DCVG)
                             </span>
                         </div>
                     </td>

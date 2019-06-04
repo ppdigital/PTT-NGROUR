@@ -53,9 +53,9 @@
                                     </strong>
                                 </td>
                             }
-                            <td class="text-left text-white pm-name text-white pm-name text-truncate"
+                            <td class="pm-name text-truncate text-left text-white text-white"
                                 style="background-color: @Model.Master.Pipeline.FirstOrDefault(x => x.PM_ID.Equals(item.value.PM_ID)).PIPELINE_HEX">
-                                @item.value.PM_NAME
+                                @Model.Master.Pipeline.FirstOrDefault(x => x.PM_ID.Equals(item.value.PM_ID)).PM_NAME_ABV
                             </td>
                             @if (Model.Mode.Equals("monthly"))
                             {

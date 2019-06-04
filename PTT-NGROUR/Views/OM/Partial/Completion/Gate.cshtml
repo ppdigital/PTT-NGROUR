@@ -43,7 +43,7 @@
                             @{
                                 _master = Model.Master.MaintenanceLevel.SingleOrDefault(x => x.ML_ID.Equals(activity.value.PM_ID));
                             }
-                            <td class="text-left text-white" style="background-color: @(_master == null ? "" : _master.ML_HEX);">
+                            <td class="pm-name text-truncate text-left text-white" style="background-color: @(_master == null ? "" : _master.ML_HEX);">
                                 @activity.value.PM_ID
                             </td>
                             @foreach (var intervals in activity.value.Activities)
