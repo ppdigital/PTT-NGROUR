@@ -44,12 +44,12 @@
             var keys = []
 
             var data = model.Completion.Gate.Region || [];
-            var master = model.Master.Gate || []
+            var master = model.Master.MaintenanceLevel || []
 
             data && data.forEach(function (element) {
                 keys = keys.concat(element.Activities.map(function (o) {
                     colors.push(
-                        master.find(function (m) { return m.PM_ID === o.PM_ID }).PIPELINE_HEX
+                        master.find(function (m) { return m.ML_ID === o.PM_ID }).ML_HEX
                     );
                     return o.PM_ID
                 }));
@@ -273,7 +273,7 @@
                 .attr("y", 9)
                 .attr("dy", ".35em")
                 .style("text-anchor", "begin")
-                .text(function (d) { return master.find(function (o) { return o.PM_ID === d }).PM_NAME_FULL; });
+                .text(function (d) { return master.find(function (o) { return o.ML_ID === d }).ML_ID; });
         }
 
         $('#accordion').on('shown.bs.collapse', function () {

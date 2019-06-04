@@ -69,8 +69,11 @@ namespace PTT_NGROUR.Models.DataModel
 
                 decimal GetPercentage(IEnumerable<ModelMonitoringResults> list)
                 {
+                    decimal plan = list.Sum(o => o.PLAN);
                     decimal actual = list.Sum(o => o.ACTUAL);
-                    decimal plan = list.Sum(o => o.PLAN).Equals(0) ? 1 : list.Sum(o => o.PLAN);
+
+                    if (plan.Equals(0)) return actual;
+
                     return Decimal.Round((actual / plan) * 100, 2);
                 }
 
@@ -143,8 +146,11 @@ namespace PTT_NGROUR.Models.DataModel
 
                 decimal GetPercentage(IEnumerable<ModelMonitoringResults> list)
                 {
+                    decimal plan = list.Sum(o => o.PLAN);
                     decimal actual = list.Sum(o => o.ACTUAL);
-                    decimal plan = list.Sum(o => o.PLAN).Equals(0) ? 1 : list.Sum(o => o.PLAN);
+
+                    if (plan.Equals(0)) return actual;
+
                     return Decimal.Round((actual / plan) * 100, 2);
                 }
 

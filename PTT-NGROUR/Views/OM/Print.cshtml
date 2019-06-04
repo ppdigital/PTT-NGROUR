@@ -64,10 +64,16 @@
 </div>
 
 @section scripts{
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/lodash.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
-        renderChart()
+        var model = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Result))');
+        var d = new Date(@Model.Result.Year, @(Model.Result.Month - 1))
+        var initMonth = d.getMonth() + 1
+        var initYear = d.getFullYear()
     </script>
-    @Html.Partial("Partial/Completion/Pipeline")
+    @Html.Partial("Partial/Completion/ScriptPipeline")
+    @Html.Partial("Partial/Completion/ScriptGate")
+    @Html.Partial("Partial/Completion/ScriptMeter")
 }

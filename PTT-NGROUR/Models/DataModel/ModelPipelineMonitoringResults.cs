@@ -23,6 +23,7 @@ namespace PTT_NGROUR.Models.DataModel
             this.RC = pReader.GetColumnValue("RC").GetString();
             this.PM_TYPE = pReader.GetColumnValue("PM_TYPE").GetString();
             this.PM_ID = pReader.GetColumnValue("PM").GetString();
+            this.INTERVAL = pReader.GetColumnValue("INTERVAL").GetString();
             this.PM_NAME_FULL = pReader.GetColumnValue("PM_NAME_FULL").GetString();
             this.PLAN = pReader.GetColumnValue("PLAN").GetDecimal();
             this.ACTUAL = pReader.GetColumnValue("ACTUAL").GetDecimal();
@@ -34,6 +35,7 @@ namespace PTT_NGROUR.Models.DataModel
         public string PM_TYPE { get; set; }
 
         public string PM_ID { get; set; }
+        public string INTERVAL { get; set; }
 
         public string REGION { get; set; }
 
@@ -59,6 +61,24 @@ namespace PTT_NGROUR.Models.DataModel
     {
         public string PM_TYPE { get; set; }
         public List<ModelActivityResults> Activities { get; set; }
+    }
+
+    public class ModelIntervalTypeResults
+    {
+        public string PM_TYPE { get; set; }
+        public List<ModelIntervalResults> Activities { get; set; }
+    }
+
+    public class ModelIntervalResults
+    {
+        public string PM_ID { get; set; }
+        public List<ModelIntervalActivityResults> Activities { get; set; }
+    }
+    
+    public class ModelIntervalActivityResults
+    {
+        public string INTERVAL { get; set; }
+        public List<ModelResults> Regions { get; set; }
     }
 
     public class ModelActivityResults

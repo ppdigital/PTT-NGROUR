@@ -88,8 +88,11 @@ namespace PTT_NGROUR.Models.DataModel
 
             decimal GetPercentage(IOrderedEnumerable<ModelMonitoringResults> list)
             {
+                decimal plan = list.Sum(o => o.PLAN);
                 decimal actual = list.Sum(o => o.ACTUAL);
-                decimal plan = list.Sum(o => o.PLAN).Equals(0) ? 1 : list.Sum(o => o.PLAN);
+
+                if (plan.Equals(0)) return actual;
+
                 return Decimal.Round((actual / plan) * 100, 2);
             }
         }
@@ -103,7 +106,40 @@ namespace PTT_NGROUR.Models.DataModel
 
                 if (!month.Equals(0))
                 {
-                    Region = listResults.Where(x => (x.START_DATE <= date && x.END_DATE >= date) || mode.Equals("yearly"))
+                    listResults = listResults.Where(x => (x.START_DATE <= date && x.END_DATE >= date) || mode.Equals("yearly"));
+
+                    #region Activity
+                    Activity = listResults
+                        .GroupBy(type => type.PM_TYPE, (pm_type, types) => new ModelIntervalTypeResults
+                        {
+                            PM_TYPE = pm_type,
+                            Activities = types.GroupBy(activity => activity.PM_ID, (pm_id, interval) => new ModelIntervalResults
+                            {
+                                PM_ID = pm_id,
+                                Activities = interval.GroupBy(x => x.INTERVAL, (interval_id, regions) => new ModelIntervalActivityResults
+                                {
+                                    INTERVAL = interval_id,
+                                    Regions = regions.GroupBy(x => x.REGION, (region_id, x) => new {
+                                        REGION = region_id,
+                                        List = x.ToList()
+                                    })
+                                    .Select(x => new ModelResults
+                                    {
+                                        REGION_ID = x.REGION.Replace("Region", "").GetInt(),
+                                        REGION = x.REGION,
+                                        PLAN = x.List.Sum(o => o.PLAN),
+                                        ACTUAL = x.List.Sum(o => o.ACTUAL),
+                                        //PERCENTAGE = GetPercentage(o.List),
+                                    })
+                                    .OrderBy(x => x.REGION_ID)
+                                    .ToList()
+                                }).ToList()
+                            }).ToList()
+                        }).ToList();
+                    #endregion
+
+                    #region Region
+                    Region = listResults
                         .GroupBy(x => x.REGION, (region_id, x) => new {
                             REGION = region_id,
                             List = x.ToList()
@@ -131,16 +167,21 @@ namespace PTT_NGROUR.Models.DataModel
                     })
                     .OrderBy(x => x.REGION_ID)
                     .ToList();
+                    #endregion
                 }
             }
 
             List<ModelMonitoringResults> Results { get; set; }
+            public List<ModelIntervalTypeResults> Activity { get; set; }
             public List<ModelResults> Region { get; set; }
 
             decimal GetPercentage(IOrderedEnumerable<ModelMonitoringResults> list)
             {
+                decimal plan = list.Sum(o => o.PLAN);
                 decimal actual = list.Sum(o => o.ACTUAL);
-                decimal plan = list.Sum(o => o.PLAN).Equals(0) ? 1 : list.Sum(o => o.PLAN);
+
+                if(plan.Equals(0)) return actual;
+
                 return Decimal.Round((actual / plan) * 100, 2);
             }
         }
