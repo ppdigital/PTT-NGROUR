@@ -49,7 +49,7 @@
                 {
                     <td><span>@(item == null ? "-" : item.value.PLAN.ToString("N0"))</span></td>
                     <td><span>@(item == null ? "-" : item.value.ACTUAL.ToString("N0"))</span></td>
-                    <td><span>@(item == null ? "-" : item.value.PERCENTAGE.ToString("N0") + "%")</span></td>
+                    <td><span>@(item == null || item.value.PERCENTAGE.Equals(0) ? "-" : item.value.PERCENTAGE.ToString("N0") + "%")</span></td>
                     if (ml.i.Equals(0))
                     {
                         <td rowspan="@Model.Master.MaintenanceLevel.Count()" class="text-center text-middle">
