@@ -74,8 +74,8 @@
 <div class="ph2 ph1-xs pt-15px">
     <div class="row">
         <form method="get">
-            <div class="col-lg-1 col-md-1 col-sm-1"></div>
-            <div class="col-sm-3 pb1">
+            <div class="col-md-1"></div>
+            <div class="col-md-2 pb1">
                 <select class="selectpicker fz-12px form-control fz-12px" name="pArrRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;">
                     @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.Result.ListRegion)
                     {
@@ -83,7 +83,7 @@
                     }
                 </select>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-7 pb1">
+            <div class="col-md-6 pb1">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <input type="radio" name="radioMY" value="month" id="radioMonth" checked="checked" onclick="javascript:Check();">
@@ -95,15 +95,18 @@
                     </span>
                     <input type="text" placeholder="Month" class="form-control form-control-sm fz-12px" id="Month-filter" />
                     <input type="text" placeholder="Year" class="form-control form-control-sm fz-12px col-xs-3" id="Year-filter" style="display:none" />
-                    <span class="input-group-btn">
-                        <button class="btn btn-block btn-primary col-xs-3" id="btnSearch">
-                            <span class="glyphicon glyphicon-search"></span> Search
-                        </button>
-                    </span>
-                    <input type="hidden" name="pStrMonth" value="" />
-                    <input type="hidden" name="pStrYear" value="" />
                 </div>
             </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary" id="btnSearch">
+                    <span class="glyphicon glyphicon-search"></span> Search
+                </button>
+                <button type="button" class="btn btn-default" onclick="ExportTo('pdf')">
+                    <span class="glyphicon glyphicon-download"></span> Export
+                </button>
+            </div>
+            <input type="hidden" name="pStrMonth" value="" />
+            <input type="hidden" name="pStrYear" value="" />
         </form>
     </div>
     <br />

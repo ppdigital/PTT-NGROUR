@@ -61,7 +61,7 @@ namespace PTT_NGROUR.Controllers
                 PageSize = Size.A4,
                 PageOrientation = Orientation.Landscape,
                 PageMargins = new Margins(5, 0, 5, 0),
-                CustomSwitches = "--javascript-delay 3000"
+                CustomSwitches = "--enable-javascript"
             };
         }
 

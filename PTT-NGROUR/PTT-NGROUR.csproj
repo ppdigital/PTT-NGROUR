@@ -790,6 +790,8 @@
     <Content Include="Views\OM\Partial\Completion\Pipeline.cshtml" />
     <Content Include="Views\OM\Partial\Completion\Gate.cshtml" />
     <Content Include="Views\OM\Partial\Completion\Meter.cshtml" />
+    <Content Include="Views\Risk\RiskManagementGraphPrint.cshtml" />
+    <Content Include="Views\Risk\Partial\ScriptGraph.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

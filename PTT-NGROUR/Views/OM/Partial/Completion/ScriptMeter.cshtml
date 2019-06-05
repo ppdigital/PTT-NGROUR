@@ -275,15 +275,6 @@
             .attr("dy", ".35em")
             .style("text-anchor", "begin")
             .text(function (d) { return master.find(function (o) { return o.ML_ID === d }).ML_ID; });
-
-        var svgString = getSVGString(svg.node());
-        $('#CompletionMeter .panel-body').append('dataBlob');
-        svgString2Image(svgString, 2 * width, 2 * height, 'png', save); // passes Blob and filesize String to the callback
-
-        function save(dataBlob, filesize) {
-            $('#CompletionMeter .panel-body').append('dataBlob2')
-            //saveAs(dataBlob, 'D3 vis exported to PNG.png'); // FileSaver.js function
-        }
     }
 
     renderChartCompletionMeter()

@@ -1,0 +1,58 @@
+﻿@model List<PTT_NGROUR.Models.DataModel.ModelGetRisk>
+
+@{
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+}
+
+@section style{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.1/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/datatables.min.css" />
+    <link href="~/Scripts/DataTables/DataTables-1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Scripts/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <style>
+        .axis {
+            font-size: 14px;
+        }
+
+            .axis path, .axis line {
+                fill: none;
+                stroke: rgba(0,0,0,.25);
+                shape-rendering: crispEdges;
+            }
+
+        #chart {
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .chart-wrapper {
+            text-align: center;
+        }
+
+            .chart-wrapper .chart {
+                display: inline-block;
+                margin: auto 0;
+                border: 1px solid #666;
+            }
+    </style>
+}
+
+<div class="ph2 ph1-xs pt-15px">
+    <div class="chart-wrapper">
+        <div class="chart">
+            <h4>Distribution Pipeline risk</h4>
+            <div id="chart"></div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Html.Partial("Partial/ScriptGraph")
+    <script>
+        var chartWidth = 1365
+        $('.chart').width(chartWidth);
+        $('.chart').height(chartWidth / 1.92);
+        var model = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))');
+        renderChart(model)
+    </script>
+}

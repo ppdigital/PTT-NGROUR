@@ -279,18 +279,6 @@
                 var f = _.find(master, function (o) { return o.PM_ID === d })
                 return f ? f.PM_NAME_ABV : null;
             });
-
-        $('#CompletionPipeline .panel-body').append('1')
-
-        var svgString = getSVGString(svg.node());
-
-        $('#CompletionMeter .panel-body').append('dataBlob');
-        svgString2Image(svgString, 2 * width, 2 * height, 'png', save); // passes Blob and filesize String to the callback
-
-        function save(dataBlob, filesize) {
-            $('#CompletionMeter .panel-body').append('dataBlob2')
-            //saveAs(dataBlob, 'D3 vis exported to PNG.png'); // FileSaver.js function
-        }
     }
 
     renderChartCompletionPipeline()

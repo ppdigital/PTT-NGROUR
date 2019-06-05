@@ -3,6 +3,8 @@ using PTT_NGROUR.DTO;
 using PTT_NGROUR.ExtentionAndLib;
 using PTT_NGROUR.Models.DataModel;
 using PTT_NGROUR.Models.ViewModel;
+using Rotativa;
+using Rotativa.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -229,10 +231,54 @@ namespace PTT_NGROUR.Controllers
             return View(model);
         }
 
+        //[AuthorizeController.CustomAuthorize]
+        public ActionResult RiskManagementGraphPrint(ModelViewRiskReport model)
+        {
+            if(string.IsNullOrEmpty(model.Year))
+            {
+                model.Year = DateTime.Now.Year.ToString();
+            }
+
+            if (string.IsNullOrEmpty(model.Type))
+            {
+                model.Type = "risk";
+            }
+
+            DAL.DAL dal = new DAL.DAL();
+
+            ViewData["AcceptanceCriteria"] = dal.ReadData(
+               "SELECT RISK_CRITERIA, UPDATE_DATE, UPDATE_BY FROM RISK_THRESHOLD",
+               x => new ModelAcceptanceCriteria(x)).Select(x => x.RISK_CRITERIA).FirstOrDefault();
+
+            List<ModelGetRisk> riskReport = this.GetData(model);
+
+            return View(riskReport);
+        }
+
+        [HttpPost]
+        public ActionResult RiskManagementGraphExport(ModelViewRiskReport model)
+        {
+            return new ActionAsPdf("RiskManagementGraphPrint", model)
+            {
+                //FileName = "Test.pdf",
+                PageSize = Size.A4,
+                PageOrientation = Orientation.Landscape,
+                PageMargins = new Margins(5, 0, 5, 0),
+                CustomSwitches = "--enable-javascript"
+            };
+        }
+
         // POST: /Risk/Json
         [HttpPost]
         [AuthorizeController.CustomAuthorize]
         public JsonResult Json(ModelViewRiskReport model)
+        {
+            List<ModelGetRisk> riskReport = this.GetData(model);
+
+            return Json(riskReport, JsonRequestBehavior.AllowGet);
+        }
+
+        private List<ModelGetRisk> GetData(ModelViewRiskReport model)
         {
             string strCommand = $"SELECT * FROM VIEW_RISK_HISTORY WHERE YEAR = {model.Year}";
 
@@ -276,7 +322,7 @@ namespace PTT_NGROUR.Controllers
                 x.HAS_FILE = FileList.Count() > 0;
             });
 
-            return Json(riskReport, JsonRequestBehavior.AllowGet);
+            return riskReport;
         }
 
         #region Import Excel
