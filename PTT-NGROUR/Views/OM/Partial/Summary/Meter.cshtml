@@ -65,7 +65,7 @@
                 <!-- [Accumulate ]-->
                 <td><span>@(Model.Summary.Meter.Accumulate.Count() == 0 || !Model.Summary.Meter.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "-" : Model.Summary.Meter.Accumulate[0].Activities[ml.i].PLAN.ToString("N0"))</span></td>
                 <td><span>@(Model.Summary.Meter.Accumulate.Count() == 0 || !Model.Summary.Meter.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "-" : Model.Summary.Meter.Accumulate[0].Activities[ml.i].ACTUAL.ToString("N0"))</span></td>
-                <td><span>@(Model.Summary.Meter.Accumulate.Count() == 0 || !Model.Summary.Meter.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "-" : Model.Summary.Meter.Accumulate[0].Activities[ml.i].PERCENTAGE.ToString("N0"))%</span></td>
+                <td><span>@(Model.Summary.Meter.Accumulate.Count() == 0 || !Model.Summary.Meter.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "-" : Model.Summary.Meter.Accumulate[0].Activities[ml.i].PERCENTAGE.ToString("N0") + "%")</span></td>
                 @if (ml.i.Equals(0))
                 {
                     <td rowspan="@Model.Master.MaintenanceLevel.Count()" class="text-center text-middle">
