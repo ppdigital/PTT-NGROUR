@@ -19,35 +19,44 @@
     }
 
     var ExportTo = function (type) {
-        var mode = $('[name="radioMode"]:checked').val();
-        var date = $("#datePicker").datepicker("getDate");
-        var year = date.getFullYear();
+        var mode = $('[name="radioMY"]').val();
+        var month = $('[name="pStrMonth"]').val();
+        var year = $('[name="pStrYear"]').val();
 
         var f = document.createElement("form");
-        f.action = "/Risk/RiskManagementGraphExport";
-        f.method = "post";
+        f.action = "/OM/Export";
+        f.method = "get";
         f.target = "blank";
 
-
         var i1 = document.createElement("input");
-        i1.name = "mode";
+        i1.name = "radioMY";
         i1.value = mode;
         f.appendChild(i1);
 
+        var i3 = document.createElement("input");
+        i3.name = "pStrMonth";
+        i3.value = month;
+        f.appendChild(i3);
+
         var i2 = document.createElement("input");
-        i2.name = "year";
+        i2.name = "pStrYear";
         i2.value = year;
         f.appendChild(i2);
 
-        var i2 = document.createElement("input");
-        i2.name = "lists";
-        i2.value = $('[data-target="' + mode + '"]').val();
-        f.appendChild(i2);
+        var list = $('[name="pArrRegion"]').val()
+        if (list) {
+            list.forEach(function (e, i) {
+                var i = document.createElement("input");
+                i.name = "pArrRegion";
+                i.value = e;
+                f.appendChild(i);
+            })
+        }
 
         $('body').append(f);
 
         f.submit();
-        //f.remove();
+        f.remove();
     }
 
     $(document).ready(function () {
@@ -55,7 +64,7 @@
         $('#MultiRegion').selectpicker('selectAll');
 
         $('#Month-filter').datepicker({
-            format: "m/yyyy",
+            format: "MM yyyy",
             viewMode: "months",
             minViewMode: "months",
             autoclose: true
@@ -69,9 +78,9 @@
             });
 
         $('#Month-filter').change(function () {
-            var x = $("#Month-filter").val().split("/");
-            $('[name="pStrMonth"]').val(x[0])
-            $('[name="pStrYear"]').val(x[1])
+            var date = $('#Month-filter').datepicker('getDates')[0]
+            $('[name="pStrMonth"]').val(date.getMonth() + 1)
+            $('[name="pStrYear"]').val(date.getFullYear())
         })
 
         $("#Year-filter").datepicker({

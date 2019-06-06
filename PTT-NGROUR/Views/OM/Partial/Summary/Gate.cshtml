@@ -10,14 +10,14 @@
     <table id="Summary" class="table-summary table table-bordered table-striped">
         <thead>
             <tr>
-                <th rowspan="2" class="h4 b">Equipment (M/R St.)</th>
+                <th rowspan="2" class="h4 b">Equipment (Gate & BV & Reducing St.)</th>
                 @if (Model.Mode.Equals("monthly"))
                 {
-                    <th colspan="5" class="bg-blue text-center">
+                    <th colspan="4" class="bg-blue text-center">
                         @monthName @Model.Year
                     </th>
                 }
-                <th colspan="5" class="bg-blue text-center">
+                <th colspan="4" class="bg-blue text-center">
                     January - @monthName @Model.Year (Accumulate)
                 </th>
             </tr>
@@ -47,9 +47,9 @@
                 </td>
                 @if (Model.Mode.Equals("monthly"))
                 {
-                    <td><span>@(item == null ? "-" : item.value.PLAN.ToString("N0"))</span></td>
-                    <td><span>@(item == null ? "-" : item.value.ACTUAL.ToString("N0"))</span></td>
-                    <td><span>@(item == null || item.value.PERCENTAGE.Equals(0) ? "-" : item.value.PERCENTAGE.ToString("N0") + "%")</span></td>
+                    <td><span>@(item == null ? "0" : item.value.PLAN.ToString("N0"))</span></td>
+                    <td><span>@(item == null ? "0" : item.value.ACTUAL.ToString("N0"))</span></td>
+                    <td><span>@(item == null || item.value.PLAN.Equals(0) ? "-" : item.value.PERCENTAGE.ToString("N0") + "%")</span></td>
                     if (ml.i.Equals(0))
                     {
                         <td rowspan="@Model.Master.MaintenanceLevel.Count()" class="text-center text-middle">
@@ -63,15 +63,15 @@
                 }
 
                 <!-- [Accumulate ]-->
-                <td><span>@(Model.Summary.Gate.Accumulate.Count() == 0 || !Model.Summary.Gate.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "-" : Model.Summary.Gate.Accumulate[0].Activities[ml.i].PLAN.ToString("N0"))</span></td>
-                <td><span>@(Model.Summary.Gate.Accumulate.Count() == 0 || !Model.Summary.Gate.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "-" : Model.Summary.Gate.Accumulate[0].Activities[ml.i].ACTUAL.ToString("N0"))</span></td>
-                <td><span>@(Model.Summary.Gate.Accumulate.Count() == 0 || !Model.Summary.Gate.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "-" : Model.Summary.Gate.Accumulate[0].Activities[ml.i].PERCENTAGE.ToString("N0") + "%")</span></td>
+                <td><span>@(Model.Summary.Gate.Accumulate.Count() == 0 || !Model.Summary.Gate.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "0" : Model.Summary.Gate.Accumulate[0].Activities.Single(x => x.PM_ID.Equals(ml.value.ML_ID)).PLAN.ToString("N0"))</span></td>
+                <td><span>@(Model.Summary.Gate.Accumulate.Count() == 0 || !Model.Summary.Gate.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "0" : Model.Summary.Gate.Accumulate[0].Activities.Single(x => x.PM_ID.Equals(ml.value.ML_ID)).ACTUAL.ToString("N0"))</span></td>
+                <td><span>@(Model.Summary.Gate.Accumulate.Count() == 0 || !Model.Summary.Gate.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "-" : Model.Summary.Gate.Accumulate[0].Activities.Single(x => x.PM_ID.Equals(ml.value.ML_ID)).PERCENTAGE.ToString("N0") + "%")</span></td>
                 @if (ml.i.Equals(0))
                 {
                     <td rowspan="@Model.Master.MaintenanceLevel.Count()" class="text-center text-middle">
                         <h3>
                             <strong>
-                                @(Model.Summary.Gate.Accumulate.Count() == 0 ? "-" : Model.Summary.Meter.AccumulateOrverallPercentage.ToString("N0") + "%")
+                                @(Model.Summary.Gate.Accumulate.Count() == 0 ? "-" : Model.Summary.Gate.AccumulateOrverallPercentage.ToString("N0") + "%")
                             </strong>
                         </h3>
                     </td>
