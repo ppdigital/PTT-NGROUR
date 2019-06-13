@@ -18,96 +18,100 @@
         }
     </style>
 }
-    <div>
-        <h2 class="text-center">
-            PM IA Monitoring Results Summary
-            @if (!Model.Result.Month.Equals(0))
-            {
-                @("@ ") @monthName @Model.Result.Year
-            }
-        </h2>
+<div>
+    <h2 class="text-center">
+        PM IA Monitoring Results Summary
+        @if (!Model.Result.Month.Equals(0))
+        {
+            @("@ ") @monthName @Model.Result.Year
+        }
+    </h2>
 
-        <div id="Summary">
-            <div class="panel-body">
-                <!-- [Summary Pipeline] -->
-                @Html.Partial("Partial/Summary/Pipeline", Model.Result)
-                <br />
+    <div id="Summary">
+        <div class="panel-body">
+            <!-- [Summary Pipeline] -->
+            @Html.Partial("Partial/Summary/Pipeline", Model.Result)
+            <br />
 
-                <!-- [Summary Gate] -->
-                @Html.Partial("Partial/Summary/Gate", Model.Result)
-                <br />
+            <!-- [Summary Gate] -->
+            @Html.Partial("Partial/Summary/Gate", Model.Result)
+            <br />
 
-                <!-- [Summary Meter] -->
-                @Html.Partial("Partial/Summary/Meter", Model.Result)
-            </div>
-        </div>
-        <p class="breakhere"></p>
-
-        <h2 class="text-center">
-            Pipeline PM IA Monitoring Results
-            @if (!Model.Result.Month.Equals(0))
-            {
-                @("@ ") @monthName @Model.Result.Year
-            }
-        </h2>
-
-        <div id="CompletionPipeline">
-            <div class="panel-body">
-                <!-- [Completion Pipeline] -->
-                @Html.Partial("Partial/Completion/Pipeline", Model.Result)
-            </div>
-        </div>
-        <p class="breakhere"></p>
-
-        <h2 class="text-center">
-            Gate & BV & Reducing St. PM IA Monitoring Results
-            @if (!Model.Result.Month.Equals(0))
-            {
-                @("@ ") @monthName @Model.Result.Year
-            }
-        </h2>
-
-        <div id="CompletionGate">
-            <div class="panel-body">
-                <!-- [Completion Gate] -->
-                @Html.Partial("Partial/Completion/Gate", Model.Result)
-            </div>
-        </div>
-        <p class="breakhere"></p>
-
-        <h2 class="text-center">
-            M/R St. PM IA Monitoring Results
-            @if (!Model.Result.Month.Equals(0))
-            {
-                @("@ ") @monthName @Model.Result.Year
-            }
-        </h2>
-
-        <div id="CompletionMeter">
-            <div class="panel-body">
-                <!-- [Completion Meter] -->
-                @Html.Partial("Partial/Completion/Meter", Model.Result)
-            </div>
+            <!-- [Summary Meter] -->
+            @Html.Partial("Partial/Summary/Meter", Model.Result)
         </div>
     </div>
+    <p class="breakhere"></p>
+
+    <h2 class="text-center">
+        Pipeline PM IA Monitoring Results
+        @if (!Model.Result.Month.Equals(0))
+        {
+            @("@ ") @monthName @Model.Result.Year
+        }
+    </h2>
+
+    <div id="CompletionPipeline">
+        <div class="panel-body">
+            <!-- [Completion Pipeline] -->
+            @Html.Partial("Partial/Completion/Pipeline", Model.Result)
+        </div>
+    </div>
+    <p class="breakhere"></p>
+
+    <h2 class="text-center">
+        Gate & BV & Reducing St. PM IA Monitoring Results
+        @if (!Model.Result.Month.Equals(0))
+        {
+            @("@ ") @monthName @Model.Result.Year
+        }
+    </h2>
+
+    <div id="CompletionGate">
+        <div class="panel-body">
+            <!-- [Completion Gate] -->
+            @Html.Partial("Partial/Completion/Gate", Model.Result)
+        </div>
+    </div>
+    <p class="breakhere"></p>
+
+    <h2 class="text-center">
+        M/R St. PM IA Monitoring Results
+        @if (!Model.Result.Month.Equals(0))
+        {
+            @("@ ") @monthName @Model.Result.Year
+        }
+    </h2>
+
+    <div id="CompletionMeter">
+        <div class="panel-body">
+            <!-- [Completion Meter] -->
+            @Html.Partial("Partial/Completion/Meter", Model.Result)
+        </div>
+    </div>
+</div>
 
 @section scripts{
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/Scripts/lodash.js"></script>
+    <script src="~/Scripts/d3/d3.v3.js"></script>
     <script src="~/Scripts/d3/d3.v4.js"></script>
     <script>
         var model = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Result))');
         var d = new Date(@Model.Result.Year, @(Model.Result.Month - 1))
         var initMonth = d.getMonth() + 1
         var initYear = d.getFullYear()
+
+        var chartWidth = 1365
+        $('.chart').width(chartWidth);
+        $('.chart').height(chartWidth / 1.92);
     </script>
     @Html.Partial("Partial/Script")
     @Html.Partial("Partial/Completion/ScriptPipeline")
     @Html.Partial("Partial/Completion/ScriptGate")
     @Html.Partial("Partial/Completion/ScriptMeter")
     <script>
-        var chartWidth = 1365
-        $('.chart').width(chartWidth);
-        $('.chart').height(chartWidth / 1.92);
+        renderChartCompletionMeter()
+        renderChartCompletionGate()
     </script>
 }

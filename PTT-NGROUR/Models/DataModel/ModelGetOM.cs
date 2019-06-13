@@ -18,6 +18,7 @@ namespace PTT_NGROUR.Models.DataModel
             }
             REGION = pReader.GetColumnValue("REGION").GetInt();
             REGION_NAME = pReader.GetColumnValue("REGION_NAME").GetString();
+            RC_NAME = pReader.GetColumnValue("RC_NAME").GetString();
             NAME = pReader.GetColumnValue("NAME").GetString();
             LICENSE_NO = pReader.GetColumnValue("LICENSE_NO").GetInt();
             PM_TYPE = pReader.GetColumnValue("PM_TYPE").GetString();
@@ -32,6 +33,7 @@ namespace PTT_NGROUR.Models.DataModel
 
         public int REGION { get; set; }
         public string REGION_NAME { get; set; }
+        public string RC_NAME { get; set; }
         public string NAME { get; set; }
         public int LICENSE_NO { get; set; }
         public string PM_TYPE { get; set; }

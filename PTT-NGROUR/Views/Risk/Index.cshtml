@@ -20,6 +20,14 @@
         height: 425px;
     }
 
+    .tableFixHead .glyphicon {
+        position: initial;
+    }
+
+    .tableFixHead .btn {
+        opacity: 1 !important;
+    }
+
     table {
         border-collapse: collapse;
         width: 100%;
@@ -511,7 +519,8 @@
                     if (o[v + '_RISK'] === 'RISK') {
                         style = 'color: #e74c3c;'
                     }
-                    tds = tds + `<td class="text-center" style="${style}">${o[v].toLocaleString('th', { maximumFractionDigits: 2 })}</td>`;
+                    var d = o[v] || ''
+                    tds = tds + `<td class="text-center" style="${style}">${d.toLocaleString('th', { maximumFractionDigits: 2 })}</td>`;
                 });
 
                 tds = tds + '<td><button class="btn btn-success" onclick="showImport(\'' + o.RC_NAME + '\', ' + o.YEAR + ')"><span class="glyphicon glyphicon-paperclip"></span></button></td>';
@@ -574,6 +583,58 @@
             map_frame = document.getElementById('map_frame');
             map_frame.contentWindow.postMessage(map_dashboard_json, '*');
         }
+
+        //function searcch
+        function RiskTableSearch() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("txtRiskSearch");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("riskTbl");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+            dashtbtRisk.scrollTo(0, 0);
+        }
+
+        var
+            filters = {
+                status: null,
+            };
+
+        function updateFilters() {
+            $('.rowfilRisk').hide().filter(function () {
+                var
+                    self = $(this),
+                    result = true; // not guilty until proven guilty
+                Object.keys(filters).forEach(function (filter) {
+                    if (filters[filter] && (filters[filter] != 'all') && (filters[filter] != 'Any')) {
+                        result = result && filters[filter] === self.data(filter);
+                        console.log(filter)
+                    }
+                });
+
+                return result;
+            }).show();
+        }
+
+        function changeFilter(filterName) {
+            filters[filterName] = this.value;
+            updateFilters();
+            dashtbtRisk.scrollTo(0, 0);
+        }
+
+        // Threshold Dropdown Filter
+        $('#risk-threshold-filter').on('change', function () {
+            changeFilter.call(this, 'status');
+        });
 
         var getRiskJson = function () {
             var mode = $('[name="radioMode"]:checked').val();
