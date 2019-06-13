@@ -28,8 +28,6 @@
         }
     }
 
-
-
     function renderChartCompletionMeter () {
         $("#chartCompletionMeter svg").remove();
 
@@ -276,8 +274,6 @@
             .style("text-anchor", "begin")
             .text(function (d) { return master.find(function (o) { return o.ML_ID === d }).ML_ID; });
     }
-
-    renderChartCompletionMeter()
 
     $(document).ready(function () {
         $('#accordion').on('shown.bs.collapse', function () {

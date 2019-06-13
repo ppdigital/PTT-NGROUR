@@ -275,8 +275,6 @@
             .text(function (d) { return master.find(function (o) { return o.ML_ID === d }).ML_ID; });
     }
 
-    renderChartCompletionGate()
-
     $(document).ready(function () {
         $('#accordion').on('shown.bs.collapse', function () {
             renderChartCompletionGate()
