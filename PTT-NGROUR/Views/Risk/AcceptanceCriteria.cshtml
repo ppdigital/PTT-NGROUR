@@ -6,6 +6,8 @@
     PTT_NGROUR.Models.User users = new PTT_NGROUR.Models.User();
     @Html.Hidden("username", users.Username);
     @Html.Hidden("flag", users.Roleid);
+    String status = TempData["status"] as string;
+    String PreviousUrl = TempData["PreviousUrl"] as string ?? Model.PreviousUrl;
 }
 
 @section style{
@@ -40,7 +42,7 @@
             <div class=" p-3 mb-2 col-container col-container-white text-dark ">
                 <div class="box-wrapper">
                     <div class="box-center">
-                        @if (TempData["status"] == "successfully")
+                        @if (status == "successfully")
                         {
                             <div class="alert alert-success">
                                 Acceptance Criteria changed successfully
@@ -57,12 +59,13 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 text-center">
-                                    <a href="@Url.Action("Index")" class="btn btn-default rounded-0">Cancle</a>
+                                    <a href="@PreviousUrl" class="btn btn-default rounded-0">@(status == null ? "Cancle" : "Back")</a>
                                 </div>
                                 <div class="col-md-6 text-center">
                                     <button type="submit" class="btn btn-primary rounded-0">Save</button>
                                 </div>
                             </div>
+                            <input type="hidden" name="PreviousUrl" value="@PreviousUrl" />
                         }
                     </div>
                 </div>

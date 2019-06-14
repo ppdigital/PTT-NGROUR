@@ -672,9 +672,12 @@ namespace PTT_NGROUR.Controllers
         #region AcceptanceCriteria
         public ActionResult AcceptanceCriteria()
         {
-            var dal = new DAL.DAL();
+            DAL.DAL dal = new DAL.DAL();
             string strCommand = "SELECT RISK_CRITERIA, UPDATE_DATE, UPDATE_BY FROM RISK_THRESHOLD";
-            var result = dal.ReadData(strCommand, x => new ModelAcceptanceCriteria(x)).FirstOrDefault();
+            ModelAcceptanceCriteria result = dal.ReadData(strCommand, x => new ModelAcceptanceCriteria(x)).FirstOrDefault();
+
+            result.PreviousUrl = System.Web.HttpContext.Current.Request.UrlReferrer.ToString() ?? Url.Action("Index");
+
             return View(result);
         }
 
@@ -686,11 +689,12 @@ namespace PTT_NGROUR.Controllers
             {
                 model.UPDATE_BY = User.Identity.Name;
 
-                var dto = new DtoRisk();
+                DtoRisk dto = new DtoRisk();
                 dto.UpdateAcceptanceCriteria(model);
                 dto = null;
 
                 TempData["status"] = "successfully";
+                TempData["PreviousUrl"] = model.PreviousUrl;
                 return RedirectToAction("AcceptanceCriteria");
             }
 

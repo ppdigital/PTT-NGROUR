@@ -29,5 +29,6 @@ namespace PTT_NGROUR.Models.DataModel
         public int RISK_CRITERIA { get; set; }
         public DateTime? UPDATE_DATE { get; set; }
         public string UPDATE_BY { get; set; }
+        public string PreviousUrl { get; set; }
     }
 }
