@@ -528,59 +528,6 @@ namespace PTT_NGROUR.Controllers
             return View();
         }
 
-        // POST: /Risk/FileJson
-        [HttpPost]
-        [AuthorizeController.CustomAuthorize]
-        public JsonResult FileJson(string mode)
-        {
-            StringBuilder strCommand = new StringBuilder();
-            //strCommand.AppendFormat("SELECT * FROM RISK_FILE WHERE YEAR = {0}", model.YEAR);
-            strCommand.Append("SELECT * FROM RISK_FILE");
-
-            if (string.IsNullOrEmpty(mode) || mode.Equals("year"))
-            {
-                strCommand.AppendFormat(" WHERE RC_NAME IS NULL");
-            }
-            else
-            {
-                strCommand.AppendFormat(" WHERE RC_NAME IS NOT NULL");
-            }
-
-            var dal = new DAL.DAL();
-            var riskFiles = dal.ReadData(strCommand.ToString(), x => new ModelGetRiskFile(x)).ToList();
-
-            if (string.IsNullOrEmpty(mode) || mode.Equals("year"))
-            {
-                return Json(riskFiles.GroupBy(x => x.YEAR).Select(x => new
-                {
-                    YEAR = x.Key,
-                    LAST_UPDATED_AT = x.OrderByDescending(o => o.UPLOADED_AT).Select(o => o.UPLOADED_AT).First(),
-                    LAST_UPADTED_BY = x.OrderByDescending(o => o.UPLOADED_AT).Select(o => o.UPLOADED_BY).First(),
-                    FILES = x.Select(o => new
-                    {
-                        o.FILE_NAME,
-                        o.YEAR,
-                        o.RC_NAME
-                    })
-                    .ToList()
-                }), JsonRequestBehavior.AllowGet);
-            }
-
-            return Json(riskFiles.GroupBy(x => x.RC_NAME).Select(x => new
-            {
-                RC_NAME = x.Key,
-                LAST_UPDATED_AT = x.OrderByDescending(o => o.UPLOADED_AT).Select(o => o.UPLOADED_AT).First(),
-                LAST_UPADTED_BY = x.OrderByDescending(o => o.UPLOADED_AT).Select(o => o.UPLOADED_BY).First(),
-                FILES = x.Select(o => new
-                {
-                    o.FILE_NAME,
-                    o.YEAR,
-                    o.RC_NAME
-                })
-                .ToList()
-        }), JsonRequestBehavior.AllowGet);
-        }
-
         // POST: /Risk/Upload
         [HttpPost]
         //[AuthorizeController.CustomAuthorize]
@@ -609,24 +556,91 @@ namespace PTT_NGROUR.Controllers
             return Json(new { });
         }
 
+        // POST: /Risk/FileJson
+        [HttpPost]
+        [AuthorizeController.CustomAuthorize]
+        public JsonResult FileJson(string mode)
+        {
+            StringBuilder strCommand = new StringBuilder();
+            //strCommand.AppendFormat("SELECT * FROM RISK_FILE WHERE YEAR = {0}", model.YEAR);
+            strCommand.Append("SELECT * FROM RISK_FILE");
+
+            if (string.IsNullOrEmpty(mode) || mode.Equals("year"))
+            {
+                strCommand.AppendFormat(" WHERE RC_NAME IS NULL");
+            }
+            else
+            {
+                strCommand.AppendFormat(" WHERE RC_NAME IS NOT NULL");
+            }
+
+            DAL.DAL dal = new DAL.DAL();
+            List<ModelGetRiskFile> riskFiles = dal.ReadData(strCommand.ToString(), x => new ModelGetRiskFile(x)).ToList();
+
+            //Filter file in system
+            riskFiles = riskFiles.Where(x => this.FilterFileInSystem(x)).ToList();
+
+            // List by Yearly
+            if (string.IsNullOrEmpty(mode) || mode.Equals("year"))
+            {
+                return Json(riskFiles.GroupBy(x => x.YEAR).Select(x => new
+                {
+                    YEAR = x.Key,
+                    LAST_UPDATED_AT = x.OrderByDescending(o => o.UPLOADED_AT).Select(o => o.UPLOADED_AT).First(),
+                    LAST_UPADTED_BY = x.OrderByDescending(o => o.UPLOADED_AT).Select(o => o.UPLOADED_BY).First(),
+                    FILES = x.Select(o => new
+                    {
+                        o.FILE_NAME,
+                        o.YEAR,
+                        o.RC_NAME
+                    })
+                    .ToList()
+                }), JsonRequestBehavior.AllowGet);
+            }
+
+            // List by RC
+            return Json(riskFiles.GroupBy(x => x.RC_NAME).Select(x => new
+            {
+                RC_NAME = x.Key,
+                LAST_UPDATED_AT = x.OrderByDescending(o => o.UPLOADED_AT).Select(o => o.UPLOADED_AT).First(),
+                LAST_UPADTED_BY = x.OrderByDescending(o => o.UPLOADED_AT).Select(o => o.UPLOADED_BY).First(),
+                FILES = x.Select(o => new
+                {
+                    o.FILE_NAME,
+                    o.YEAR,
+                    o.RC_NAME
+                })
+                .ToList()
+            }), JsonRequestBehavior.AllowGet);
+        }
+
         // GET: /Risk/ListFile
         [HttpGet]
         //[AuthorizeController.CustomAuthorize]
         public JsonResult ListFile(ModelViewRiskImport model)
         {
-            string _path = GetPathUploadPath(model); ;
-            string[] FileList = new string[] { };
+            StringBuilder strCommand = new StringBuilder();
+            strCommand.AppendFormat("SELECT * FROM RISK_FILE WHERE YEAR = {0} AND RC_NAME = '{1}'", model.YEAR, model.RC_NAME);
 
-            if (Directory.Exists(_path))
-            {
-                DirectoryInfo d = new DirectoryInfo(_path);
-                FileInfo[] Files = d.GetFiles(); //Getting files
-                FileList = Files.Select(x => x.Name).ToArray();
+            DAL.DAL dal = new DAL.DAL();
+            List<ModelGetRiskFile> riskFiles = dal.ReadData(strCommand.ToString(), x => new ModelGetRiskFile(x)).ToList();
 
-                return Json(FileList, JsonRequestBehavior.AllowGet);
-            }
+            //Filter file in system
+            string[] FileList = riskFiles.Where(x => this.FilterFileInSystem(x)).Select(x => x.FILE_NAME).ToArray();
 
             return Json(FileList, JsonRequestBehavior.AllowGet);
+        }
+
+        private bool FilterFileInSystem(ModelGetRiskFile riskFiles)
+        {
+            ModelViewRiskImport _model = new ModelViewRiskImport
+            {
+                RC_NAME = riskFiles.RC_NAME,
+                YEAR = riskFiles.YEAR
+            };
+
+            string _path = Path.Combine(GetPathUploadPath(_model), riskFiles.FILE_NAME);
+            return System.IO.File.Exists(_path);
         }
 
         // GET: Risk/Download/2019/RC0653110116/3/25620429092912544_1.txt
@@ -667,9 +681,9 @@ namespace PTT_NGROUR.Controllers
         }
         #endregion
 
+        #region AcceptanceCriteria
         [HttpGet]
         [AuthorizeController.CustomAuthorize]
-        #region AcceptanceCriteria
         public ActionResult AcceptanceCriteria()
         {
             DAL.DAL dal = new DAL.DAL();
