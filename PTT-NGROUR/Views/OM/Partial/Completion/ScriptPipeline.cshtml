@@ -31,61 +31,6 @@
     function renderChartCompletionPipeline() {
         $("#chartCompletionPipeline svg").remove();
 
-        // ------------------[DEMO]------------------
-        var margin = { top: 20, right: 20, bottom: 30, left: 50 },
-            maxWidth = 300,
-            maxHeight = 250,
-            width = maxWidth - margin.left - margin.right,
-            height = maxHeight - margin.top - margin.bottom;
-        var x = d3.scaleTime().range([0, width]);
-        var y = d3.scaleLinear().range([height, 0]);
-        var dollarFormat = d3.format("$,.0f");
-        var dateFormat = d3.time.format("%d %b %Y");
-        var area = d3.area().x(function (d) { return x(d.date); }).y0(height).y1(function (d) { return y(d.close); });
-        var valueline = d3.line().x(function (d) { return x(d.date); }).y(function (d) { return y(d.close); });
-        var svg2 = d3.select("#divAreaChart").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
-        var raw_data = [
-            {
-                "Topic": 1,
-                "TopicName": "My data",
-                "Dates": [
-                    {
-                        "Date": "2017-04-28T00:00:00.000Z",
-                        "FullDate": "2017-04-28T00:00:00.000Z",
-                        "Value": 2009.9646400000000
-                    },
-                    {
-                        "Date": "2018-02-19T00:00:00.000Z",
-                        "FullDate": "2018-02-19T00:00:00.000Z",
-                        "Value": 8354.2158430000000
-                    }
-                ]
-            }
-        ];
-        var data = [];
-        raw_data[0].Dates.forEach(function (d) {
-            data.push({
-                "date": new Date(d.Date),
-                "close": d.Value,
-            });
-        });
-        x.domain(d3.extent(data, function (d) { return d.date; }));
-        y.domain([0, d3.max(data, function (d) { return d.close; })]);
-        svg2.append("path").data([data]).attr("class", "area").style("fill", '#EEEEF0').attr("d", area);
-        svg2.append("path").data([data]).attr("class", "line").style("fill", 'none').style("stroke", '#ABABAB').style("stroke-width", '2px').attr("d", valueline);
-        svg2.append("g").attr("id", "xTick").attr("transform", "translate(0," + (maxHeight - margin.top - margin.bottom) + ")").call(d3.axisBottom(x).ticks(5).tickFormat(function (d) { return dateFormat(new Date(d)); })).select(".domain").remove();
-        svg2.append("g").attr("id", "yTick").call(d3.axisLeft(y).ticks(6).tickFormat(function (d) { return dollarFormat(d); })).select(".domain").remove();
-        svg2.append("g").attr("class", "grid").call(make_X_gridlines().tickSize(-width).tickFormat(""));
-        function make_X_gridlines() {
-            return d3.axisLeft(y).ticks(5);
-        }
-        // ------------------[DEMO]------------------
-
         /**
          * Config
          *
