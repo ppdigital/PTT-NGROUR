@@ -1,36 +1,10 @@
 ﻿<script type="text/javascript">
     // Chart
 
-    var responsivefyChartCompletionPipeline = function (svg) {
-        // get container + svg aspect ratio
-        var container = d3.select('.chart-wrapper'),
-            width = parseInt(svg.style("width")),
-            height = parseInt(svg.style("height")),
-            aspect = width / height;
-
-        // add viewBox and preserveAspectRatio properties,
-        // and call resize so that svg resizes on inital page load
-        svg.attr("viewBox", "0 0 " + width + " " + height)
-            .attr("preserveAspectRatio", "xMinYMid")
-            .call(resize);
-
-        // to register multiple listeners for same event type,
-        // you need to add namespace, i.e., 'click.foo'
-        // necessary if you call invoke this function for multiple svgs
-        // api docs: https://github.com/mbostock/d3/wiki/Selections#on
-        d3.select(window).on("resize." + container.attr("id"), resize);
-
-        // get width of container and resize svg to fit it
-        function resize() {
-            var targetWidth = parseInt(container.style("width"));
-            svg.attr("width", targetWidth);
-            svg.attr("height", Math.round(targetWidth / aspect));
-        }
-    }
-
     function renderChartCompletionPipeline() {
         if ($("#chartCompletionPipeline").length === 0) return
         $("#chartCompletionPipeline svg").remove();
+
 
         /**
          * Config
@@ -68,7 +42,7 @@
             .attr("id", "svgCompletionPipeline")
             .attr("width", $('.chart-wrapper').width())
             .attr("height", $('.chart-wrapper').width() / 1.92)
-            .call(responsivefyChartCompletionPipeline);
+            .call(responsivefyChart);
         var margin = { top: 200, right: 80, bottom: 30, left: 60 },
             width = +svg.attr("width") - margin.left - margin.right,
             height = +svg.attr("height") - margin.top - margin.bottom,
@@ -281,10 +255,9 @@
                 return f ? f.PM_NAME_ABV : null;
             });
     }
-    renderChartCompletionPipeline()
 
     $(document).ready(function () {
-        $('#accordion').on('shown.bs.collapse', function () {
+        $('#panelPipeline').on('shown.bs.collapse', function () {
             renderChartCompletionPipeline()
         })
     });

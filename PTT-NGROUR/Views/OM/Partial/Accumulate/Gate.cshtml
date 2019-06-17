@@ -1,0 +1,13 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelOmIndex
+
+@{
+    List<PTT_NGROUR.Models.DataModel.ModelIntervalTypeResults> data = Model.Completion.Gate.Activity;
+    PTT_NGROUR.Models.DataModel.ModelOMMaster.ModelOMMasterMaintenanceLevel _master = null;
+}
+
+@if (data.Count() > 0)
+{
+    <div class="chart-wrapper">
+        <div id="chartAccumulateGate" class="chart"></div>
+    </div>
+}

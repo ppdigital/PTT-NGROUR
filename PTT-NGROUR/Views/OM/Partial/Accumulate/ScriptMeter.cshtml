@@ -1,9 +1,9 @@
 ﻿<script type="text/javascript">
     // Chart
 
-    function renderChartCompletionGate() {
-        if ($("#chartCompletionGate").length === 0) return
-        $("#chartCompletionGate svg").remove();
+    function renderChartAccumulateMeter() {
+        if ($("#chartAccumulateMeter").length === 0) return
+        $("#chartAccumulateMeter svg").remove();
 
 
         /**
@@ -16,7 +16,7 @@
         var colors = []
         var keys = []
 
-        var data = model.Completion.Gate.Region || [];
+        var data = model.Completion.Meter.Region || [];
         var master = model.Master.MaintenanceLevel || []
 
         data && data.forEach(function (element) {
@@ -33,7 +33,8 @@
          * Initial
          *
          */
-        var svg = d3.select("#chartCompletionGate").append("svg")
+        var svg = d3.select("#chartAccumulateMeter").append("svg")
+            .attr("id", "svgAccumulateMeter")
             .attr("width", $('.chart-wrapper').width())
             .attr("height", $('.chart-wrapper').width() / 1.92)
             .call(responsivefyChart);
@@ -192,7 +193,7 @@
             .attr("font-weight", "bold")
             .attr("font-size", 22)
             .style("text-anchor", "begin")
-            .text("Gate & BV & Reducing St. PM % Completion (Ref. Master Plan)");
+            .text("M/R St. PM IA Monitoring Accumulated Results");
 
 
         /**
@@ -250,8 +251,8 @@
     }
 
     $(document).ready(function () {
-        $('#panelGate').on('shown.bs.collapse', function () {
-            renderChartCompletionGate()
+        $('#panelMeter').on('shown.bs.collapse', function () {
+            renderChartAccumulateMeter()
         })
     });
 </script>

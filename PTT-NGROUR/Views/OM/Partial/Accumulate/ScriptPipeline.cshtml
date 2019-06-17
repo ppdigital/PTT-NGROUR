@@ -1,9 +1,9 @@
 ﻿<script type="text/javascript">
     // Chart
 
-    function renderChartCompletionGate() {
-        if ($("#chartCompletionGate").length === 0) return
-        $("#chartCompletionGate svg").remove();
+    function renderChartAccumulatePipeline() {
+        if ($("#chartAccumulatePipeline").length === 0) return
+        $("#chartAccumulatePipeline svg").remove();
 
 
         /**
@@ -16,14 +16,19 @@
         var colors = []
         var keys = []
 
-        var data = model.Completion.Gate.Region || [];
-        var master = model.Master.MaintenanceLevel || []
+        var data = model.Completion.Pipeline.Region || [];
+        var master = model.Master.Pipeline || []
 
         data && data.forEach(function (element) {
             keys = keys.concat(element.Activities.map(function (o) {
-                colors.push(
-                    master.find(function (m) { return m.ML_ID === o.PM_ID }).ML_HEX
-                );
+                var f = _.find(master, function (m) {
+                    return m.PM_ID === o.PM_ID
+                })
+
+                if (f && f.PIPELINE_HEX) {
+                    colors.push(f.PIPELINE_HEX);
+                }
+
                 return o.PM_ID
             }));
         });
@@ -33,10 +38,12 @@
          * Initial
          *
          */
-        var svg = d3.select("#chartCompletionGate").append("svg")
+        var svg = d3.select("#chartAccumulatePipeline").append("svg")
+            .attr("id", "svgAccumulatePipeline")
             .attr("width", $('.chart-wrapper').width())
-            .attr("height", $('.chart-wrapper').width() / 1.92)
-            .call(responsivefyChart);
+            .attr("height", $('.chart-wrapper').width() / 1.92);
+
+        responsivefyChart(svg, 'chartCompletionPipeline')
         var margin = { top: 200, right: 80, bottom: 30, left: 60 },
             width = +svg.attr("width") - margin.left - margin.right,
             height = +svg.attr("height") - margin.top - margin.bottom,
@@ -56,7 +63,6 @@
 
         var z = d3.scaleOrdinal()
             .range(colors);
-
 
         /**
          * Data
@@ -95,7 +101,6 @@
                 });
             })
             .enter();
-
         gd.append("rect")
             .attr("x", function (d) { return x1(d.key); })
             .attr("y", function (d) {
@@ -192,7 +197,7 @@
             .attr("font-weight", "bold")
             .attr("font-size", 22)
             .style("text-anchor", "begin")
-            .text("Gate & BV & Reducing St. PM % Completion (Ref. Master Plan)");
+            .text("Pipeline PM IA Monitoring Accumulated Results");
 
 
         /**
@@ -246,12 +251,15 @@
             .attr("y", 9)
             .attr("dy", ".35em")
             .style("text-anchor", "begin")
-            .text(function (d) { return master.find(function (o) { return o.ML_ID === d }).ML_ID; });
+            .text(function (d) {
+                var f = _.find(master, function (o) { return o.PM_ID === d })
+                return f ? f.PM_NAME_ABV : null;
+            });
     }
 
     $(document).ready(function () {
-        $('#panelGate').on('shown.bs.collapse', function () {
-            renderChartCompletionGate()
+        $('#panelPipeline').on('shown.bs.collapse', function () {
+            renderChartAccumulatePipeline()
         })
     });
 </script>

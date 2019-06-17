@@ -198,6 +198,7 @@
     <Compile Include="Models\DataModel\ModelGetOM.cs" />
     <Compile Include="Models\DataModel\ModelGetRiskFile.cs" />
     <Compile Include="Models\DataModel\ModelGetRisk.cs" />
+    <Compile Include="Models\DataModel\ModelOMAccumulated.cs" />
     <Compile Include="Models\DataModel\ModelOMCompletion.cs" />
     <Compile Include="Models\DataModel\ModelOMMaster.cs" />
     <Compile Include="Models\DataModel\ModelOMSummary.cs" />
@@ -792,6 +793,12 @@
     <Content Include="Views\OM\Partial\Completion\Meter.cshtml" />
     <Content Include="Views\Risk\RiskManagementGraphPrint.cshtml" />
     <Content Include="Views\Risk\Partial\ScriptGraph.cshtml" />
+    <Content Include="Views\OM\Partial\Accumulate\ScriptPipeline.cshtml" />
+    <Content Include="Views\OM\Partial\Accumulate\Gate.cshtml" />
+    <Content Include="Views\OM\Partial\Accumulate\Meter.cshtml" />
+    <Content Include="Views\OM\Partial\Accumulate\Pipeline.cshtml" />
+    <Content Include="Views\OM\Partial\Accumulate\ScriptGate.cshtml" />
+    <Content Include="Views\OM\Partial\Accumulate\ScriptMeter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -802,7 +809,6 @@
   <ItemGroup>
     <Folder Include="Templates\" />
     <Folder Include="UploadedFiles\" />
-    <Folder Include="Views\OM\Partial\Accumulate\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

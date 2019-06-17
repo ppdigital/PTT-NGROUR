@@ -1,6 +1,6 @@
 ﻿@model PTT_NGROUR.Models.ViewModel.ModelJsonResult<PTT_NGROUR.Models.ViewModel.ModelOmIndex>
 @{
-    ViewBag.Title = "OM";
+    ViewBag.Title = "Operation & Maintenance";
 }
 
 <link href="~/Style/om.css" rel="stylesheet" />
@@ -137,50 +137,53 @@
                 </div>
 
 
-                <!-- [Completion Pipeline] -->
+                <!-- [Pipeline] -->
                 <div class="panel panel-default">
-                    <div class="panel-heading" data-toggle="collapse" data-target="#panelChartCompletionPipeline">
+                    <div class="panel-heading" data-toggle="collapse" data-target="#panelPipeline">
                         <h4 class="panel-title">
                             <a class="no-underline">Pipeline<span class="glyphicon glyphicon-plus fr"></span></a>
                         </h4>
                     </div>
-                    <div id="panelChartCompletionPipeline" class="panel-collapse collapse">
+                    <div id="panelPipeline" class="panel-collapse collapse">
                         <div class="panel-body bg-grey-100">
                             <div class=" ph2 ph1-xs pv2 col-container-white">
                                 @Html.Partial("Partial/Completion/Pipeline", Model.Result)
+                                @*@Html.Partial("Partial/Accumulate/Pipeline", Model.Result)*@
                             </div>
                         </div>
                     </div>
                 </div>
 
 
-                <!-- [Completion Gate] -->
+                <!-- [Gate] -->
                 <div class="panel panel-default">
-                    <div class="panel-heading" data-toggle="collapse" data-target="#panelChartCompletionGate">
+                    <div class="panel-heading" data-toggle="collapse" data-target="#panelGate">
                         <h4 class="panel-title">
                             <a class="no-underline">Equipment (Gate & BV & Reducing St.)<span class="glyphicon glyphicon-plus fr"></span></a>
                         </h4>
                     </div>
-                    <div id="panelChartCompletionGate" class="panel-collapse collapse">
+                    <div id="panelGate" class="panel-collapse collapse">
                         <div class="panel-body bg-grey-100">
                             <div class=" ph2 ph1-xs pv2 col-container-white">
                                 @Html.Partial("Partial/Completion/Gate", Model.Result)
+                                @Html.Partial("Partial/Accumulate/Gate", Model.Result)
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- [Completion Meter] -->
+                <!-- [Meter] -->
                 <div class="panel panel-default">
-                    <div class="panel-heading " data-toggle="collapse" data-target="#panelChartCompletionMeter">
+                    <div class="panel-heading " data-toggle="collapse" data-target="#panelMeter">
                         <h4 class="panel-title">
                             <a class="no-underline">Equipment (M/R St.)<span class="glyphicon glyphicon-plus fr"></span></a>
                         </h4>
                     </div>
-                    <div id="panelChartCompletionMeter" class="panel-collapse collapse">
+                    <div id="panelMeter" class="panel-collapse collapse">
                         <div class="panel-body bg-grey-100">
                             <div class=" ph2 ph1-xs pv2 col-container-white">
                                 @Html.Partial("Partial/Completion/Meter", Model.Result)
+                                @Html.Partial("Partial/Accumulate/Meter", Model.Result)
                             </div>
                         </div>
                     </div>
@@ -275,7 +278,13 @@
         var initYear = d.getFullYear()
     </script>
     @Html.Partial("Partial/Script")
+
     @Html.Partial("Partial/Completion/ScriptPipeline")
+    @Html.Partial("Partial/Accumulate/ScriptPipeline")
+
     @Html.Partial("Partial/Completion/ScriptGate")
+    @Html.Partial("Partial/Accumulate/ScriptGate")
+
     @Html.Partial("Partial/Completion/ScriptMeter")
+    @Html.Partial("Partial/Accumulate/ScriptMeter")
 }

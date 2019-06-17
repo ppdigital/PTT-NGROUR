@@ -1,0 +1,13 @@
+﻿@model PTT_NGROUR.Models.ViewModel.ModelOmIndex
+
+@{
+    List<PTT_NGROUR.Models.DataModel.ModelTypeResults> data = Model.Completion.Pipeline.Activity;
+    PTT_NGROUR.Models.DataModel.ModelOMMaster.ModelOMMasterPipeline _master = null;
+}
+
+@if (data.Count() > 0)
+{
+    <div class="chart-wrapper">
+        <div id="chartAccumulatePipeline" class="chart"></div>
+    </div>
+}

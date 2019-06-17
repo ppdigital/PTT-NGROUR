@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using static PTT_NGROUR.Models.DataModel.ModelOMAccumulated;
 using static PTT_NGROUR.Models.DataModel.ModelOMCompletion;
 using static PTT_NGROUR.Models.DataModel.ModelOMSummary;
 
@@ -180,20 +181,6 @@ namespace PTT_NGROUR.Controllers
                 };
 
 
-                //var listAllMM = dto.GetListMeterMaintenance(string.Empty, pStrYear, pArrRegion).ToList();
-                //List<ModelMeterMaintenance> listMM = null;
-                //if (_intMonth > 0)
-                //{
-                //    listMM = listAllMM.Where(x => _intMonth.Equals(x.MONTH)).ToList();
-                //}
-                //else
-                //{
-                //    listMM = listAllMM;
-                //}
-                //var listMM = dto.GetListMeterMaintenance(pStrMonth, pStrYear, pArrRegion).ToList();
-                //var listColor = dto.GetListOmColor().ToList();
-
-
                 // Summary
                 IEnumerable<ModelMonitoringResults> listPipeline = dto.GetListOMPipelineHistory(intMonth, intYear, pArrRegion, true);
                 IEnumerable<ModelMonitoringResults> listGate = dto.GetListOMGateHistory(intMonth, intYear, pArrRegion, true);
@@ -212,42 +199,14 @@ namespace PTT_NGROUR.Controllers
                     Gate = new ModelOMCompletionMaintenanceLevel(intMonth, intYear, listGate, mode),
                     Meter = new ModelOMCompletionMaintenanceLevel(intMonth, intYear, listMeter, mode),
                 };
-                //ModelOMResults pipelineResults = new ModelOMResults(intMonth, listPipeline);
-                //modelOm.Pipeline = new
-                //{
-                //    Summary = new ModelOMSummary(intMonth, listPipeline),
-                //    pipelineResults.Results,
-                //    //Accumulated = ,
-                //};
 
-                // Equipment (Gate & BV & Reducing St.)
-                //IEnumerable<ModelMonitoringResults> listEquipmentGateBVReducing = dto.GetListPipelineMonitoringResults(intMonth, intYear, pArrRegion, true);
-                //ModelOMResults equipmentGateBVReducingResults = new ModelOMResults(intMonth, listPipeline);
-                //modelOm.EquipmentGateBVReducing = new
-                //{
-                //    Summary = new ModelOMSummary(intMonth, listEquipmentGateBVReducing),
-                //    equipmentGateBVReducingResults.Results,
-                //    //Accumulated = ,
-                //};
-
-                // Equipment (M/R St.)
-                //IEnumerable<ModelMonitoringResults> listEquipmentMR = dto.GetListPipelineMonitoringResults(intMonth, intYear, pArrRegion, true);
-                //ModelOMResults equipmentMRResults = new ModelOMResults(intMonth, listPipeline);
-                //modelOm.EquipmentMR = new
-                //{
-                //    Summary = new ModelOMSummary(intMonth, listEquipmentMR),
-                //    equipmentMRResults.Results,
-                //    //Accumulated = ,
-                //};
-
-                //modelOm.BarGraph = dto.GetModelBarGraph(listMM, listColor);
-                //modelOm.ListRegionForTableHeader = dto.GetListRegionForTableHeader(listMM);
-                //modelOm.ListMeterMaintenanceLevelForTable = dto.GetModelModelMeterMaintenanceLevel(listMM, modelOm.ListRegionForTableHeader);
-                //modelOm.ListAccGraph = dto.GetModelAccGraph(listAllMM);
+                modelOm.Accumulated = new ModelOMAccumulated
+                {
+                    Pipeline = new ModelOMAccumulatedPipeline(intMonth, listPipeline, mode),
+                    Gate = new ModelOMAccumulatedMaintenanceLevel(intMonth, intYear, listGate, mode),
+                    Meter = new ModelOMAccumulatedMaintenanceLevel(intMonth, intYear, listMeter, mode),
+                };
                 result.SetResultValue(modelOm);
-                //listMM.Clear();
-                //listMM = null;
-                //listColor = null;
                 dto = null;
                 GC.Collect();
             }
