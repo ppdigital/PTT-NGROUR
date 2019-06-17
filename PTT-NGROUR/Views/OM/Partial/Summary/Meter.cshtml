@@ -36,47 +36,58 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var ml in Model.Master.MaintenanceLevel.Select((value, i) => new { i, value }))
+            @if (summary.Count() > 0)
             {
-                var type = summary.Select((value, i) => new { i, value }).FirstOrDefault();
-                var item = type == null ? null : type.value.Activities.Select((value, i) => new { i, value }).SingleOrDefault(x => x.value.PM_ID.Equals(ml.value.ML_ID));
-            <tr>
-                <td class="pm-name text-truncate text-left text-white text-white"
-                    style="background-color: @ml.value.ML_HEX">
-                    @ml.value.ML_ID
-                </td>
-                @if (Model.Mode.Equals("monthly"))
+                foreach (var ml in Model.Master.MaintenanceLevel.Select((value, i) => new { i, value }))
                 {
-                    <td><span>@(item == null ? "0" : item.value.PLAN.ToString("N0"))</span></td>
-                    <td><span>@(item == null ? "0" : item.value.ACTUAL.ToString("N0"))</span></td>
-                    <td><span>@(item == null || item.value.PLAN.Equals(0) ? "-" : item.value.PERCENTAGE.ToString("N0") + "%")</span></td>
-                    if (ml.i.Equals(0))
-                    {
-                        <td rowspan="@Model.Master.MaintenanceLevel.Count()" class="text-center text-middle">
-                            <h3>
-                                <strong>
-                                    @(item == null ? "-" : Model.Summary.Meter.CurrentOrverallPercentage.ToString("N0") + "%")
-                                </strong>
-                            </h3>
+                    var type = summary.Select((value, i) => new { i, value }).FirstOrDefault();
+                    var item = type == null ? null : type.value.Activities.Select((value, i) => new { i, value }).SingleOrDefault(x => x.value.PM_ID.Equals(ml.value.ML_ID));
+                    <tr>
+                        <td class="pm-name text-truncate text-left text-white text-white"
+                            style="background-color: @ml.value.ML_HEX">
+                            @ml.value.ML_ID
                         </td>
-                    }
-                }
+                        @if (Model.Mode.Equals("monthly"))
+                        {
+                            <td><span>@(item == null ? "0" : item.value.PLAN.ToString("N0"))</span></td>
+                            <td><span>@(item == null ? "0" : item.value.ACTUAL.ToString("N0"))</span></td>
+                            <td><span>@(item == null || item.value.PLAN.Equals(0) ? "-" : item.value.PERCENTAGE.ToString("N0") + "%")</span></td>
+                            if (ml.i.Equals(0))
+                            {
+                                <td rowspan="@Model.Master.MaintenanceLevel.Count()" class="text-center text-middle">
+                                    <h3>
+                                        <strong>
+                                            @(item == null ? "-" : Model.Summary.Meter.CurrentOrverallPercentage.ToString("N0") + "%")
+                                        </strong>
+                                    </h3>
+                                </td>
+                            }
+                        }
 
-                <!-- [Accumulate ]-->
-                <td><span>@(Model.Summary.Meter.Accumulate.Count() == 0 || !Model.Summary.Meter.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "0" : Model.Summary.Meter.Accumulate[0].Activities.Single(x => x.PM_ID.Equals(ml.value.ML_ID)).PLAN.ToString("N0"))</span></td>
-                <td><span>@(Model.Summary.Meter.Accumulate.Count() == 0 || !Model.Summary.Meter.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "0" : Model.Summary.Meter.Accumulate[0].Activities.Single(x => x.PM_ID.Equals(ml.value.ML_ID)).ACTUAL.ToString("N0"))</span></td>
-                <td><span>@(Model.Summary.Meter.Accumulate.Count() == 0 || !Model.Summary.Meter.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "-" : Model.Summary.Meter.Accumulate[0].Activities.Single(x => x.PM_ID.Equals(ml.value.ML_ID)).PERCENTAGE.ToString("N0") + "%")</span></td>
-                @if (ml.i.Equals(0))
-                {
-                    <td rowspan="@Model.Master.MaintenanceLevel.Count()" class="text-center text-middle">
-                        <h3>
-                            <strong>
-                                @(Model.Summary.Meter.Accumulate.Count() == 0 ? "-" : Model.Summary.Meter.AccumulateOrverallPercentage.ToString("N0") + "%")
-                            </strong>
-                        </h3>
-                    </td>
+                        <!-- [Accumulate ]-->
+                        <td><span>@(Model.Summary.Meter.Accumulate.Count() == 0 || !Model.Summary.Meter.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "0" : Model.Summary.Meter.Accumulate[0].Activities.Single(x => x.PM_ID.Equals(ml.value.ML_ID)).PLAN.ToString("N0"))</span></td>
+                        <td><span>@(Model.Summary.Meter.Accumulate.Count() == 0 || !Model.Summary.Meter.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "0" : Model.Summary.Meter.Accumulate[0].Activities.Single(x => x.PM_ID.Equals(ml.value.ML_ID)).ACTUAL.ToString("N0"))</span></td>
+                        <td><span>@(Model.Summary.Meter.Accumulate.Count() == 0 || !Model.Summary.Meter.Accumulate.First().Activities.Exists(x => x.PM_ID.Equals(ml.value.ML_ID)) ? "-" : Model.Summary.Meter.Accumulate[0].Activities.Single(x => x.PM_ID.Equals(ml.value.ML_ID)).PERCENTAGE.ToString("N0") + "%")</span></td>
+                        @if (ml.i.Equals(0))
+                        {
+                            <td rowspan="@Model.Master.MaintenanceLevel.Count()" class="text-center text-middle">
+                                <h3>
+                                    <strong>
+                                        @(Model.Summary.Meter.Accumulate.Count() == 0 ? "-" : Model.Summary.Meter.AccumulateOrverallPercentage.ToString("N0") + "%")
+                                    </strong>
+                                </h3>
+                            </td>
+                        }
+                    </tr>
                 }
-            </tr>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="@(Model.Mode.Equals("monthly") ? 11 : 7)" class="text-center pv3">
+                        <h2>No data</h2>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

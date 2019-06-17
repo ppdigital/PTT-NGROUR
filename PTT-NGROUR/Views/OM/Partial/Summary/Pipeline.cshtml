@@ -84,33 +84,45 @@
 
                             <td><span>@Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].PLAN.ToString("N0")</span></td>
                             <td><span>@Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].ACTUAL.ToString("N0")</span></td>
-                            <td><span>@(Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].PLAN.Equals(0)
-                                ? "-"
-                                : Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].PERCENTAGE.ToString("N0")  + "%")</span></td>
-                            @if (item.i.Equals(0))
-                            {
-                                <td rowspan="@type.value.Activities.Count()" class="text-center text-middle">
-                                    <h4>
-                                        <strong>
-                                            @Model.Summary.Pipeline.Accumulate[type.i].Percentage.ToString("N0")%
-                                        </strong>
-                                    </h4>
-                                </td>
-                            }
-                            @if (type.i.Equals(0) && item.i.Equals(0))
-                            {
-                                <td rowspan="@summary.Sum(x => x.Activities.Count())" class="text-center text-middle">
-                                    <h3>
-                                        <strong>
-                                            @Model.Summary.Pipeline.AccumulateOrverallPercentage.ToString("N0")%
-                                        </strong>
-                                    </h3>
-                                </td>
-                            }
-                        </tr>
-                    }
+                            <td>
+                                <span>
+                                    @(Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].PLAN.Equals(0)
+                                      ? "-"
+                                      : Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].PERCENTAGE.ToString("N0") + "%")
+                            </span>
+                        </td>
+                        @if (item.i.Equals(0))
+                        {
+                            <td rowspan="@type.value.Activities.Count()" class="text-center text-middle">
+                                <h4>
+                                    <strong>
+                                        @Model.Summary.Pipeline.Accumulate[type.i].Percentage.ToString("N0")%
+                                    </strong>
+                                </h4>
+                            </td>
+                        }
+                        @if (type.i.Equals(0) && item.i.Equals(0))
+                        {
+                            <td rowspan="@summary.Sum(x => x.Activities.Count())" class="text-center text-middle">
+                                <h3>
+                                    <strong>
+                                        @Model.Summary.Pipeline.AccumulateOrverallPercentage.ToString("N0")%
+                                    </strong>
+                                </h3>
+                            </td>
+                        }
+                    </tr>
                 }
             }
-            </tbody>
+        }
+        else
+        {
+            <tr>
+                <td colspan="@(Model.Mode.Equals("monthly") ? 13 : 7)" class="text-center pv3">
+                    <h2>No data</h2>
+                </td>
+            </tr>
+        }
+        </tbody>
     </table>
 </div>

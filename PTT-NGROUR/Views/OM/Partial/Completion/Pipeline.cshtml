@@ -6,36 +6,36 @@
 }
 
 <div class="table-responsive">
-    <table class="tableSum table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th rowspan="2" colspan="2" class="textheadSumT h4 b">PM Activity</th>
-                <th rowspan="2" class="textheadSumT h4 b">Interval</th>
-                @if (data.Count() > 0)
-                {
-                    foreach (var region in data.First().Activities.First().Regions)
-                    {
-                        <th colspan="2" class="region">
-                            @region.REGION
-                        </th>
-                    }
-                }
-            </tr>
-            @if (data.Count() > 0)
-            {
+    @if (data.Count() > 0)
+    {
+        <table class="tableSum table table-bordered table-striped">
+            <thead>
                 <tr>
-                    @foreach (var region in data.First().Activities.First().Regions)
+                    <th rowspan="2" colspan="2" class="textheadSumT h4 b">PM Activity</th>
+                    <th rowspan="2" class="textheadSumT h4 b">Interval</th>
+                    @if (data.Count() > 0)
                     {
-                        <th>Plan</th>
-                        <th class="actual">Actual</th>
+                        foreach (var region in data.First().Activities.First().Regions)
+                        {
+                            <th colspan="2" class="region">
+                                @region.REGION
+                            </th>
+                        }
                     }
                 </tr>
-            }
-        </thead>
-        <tbody>
-            @if (data.Count() > 0)
-            {
-                foreach (var type in data)
+                @if (data.Count() > 0)
+                {
+                    <tr>
+                        @foreach (var region in data.First().Activities.First().Regions)
+                        {
+                            <th>Plan</th>
+                            <th class="actual">Actual</th>
+                        }
+                    </tr>
+                }
+            </thead>
+            <tbody>
+                @foreach (var type in data)
                 {
                     foreach (var activity in type.Activities.Select((value, i) => new { i, value }))
                     {
@@ -48,14 +48,14 @@
                                     </span>
                                 </td>
                             }
-                            @{ 
+                            @{
                                 _master = Model.Master.Pipeline.SingleOrDefault(x => x.PM_ID.Equals(activity.value.PM_ID));
                             }
                             <td class="pm-name text-truncate text-left text-white" style="background-color: @(_master == null ? "" : _master.PIPELINE_HEX);">
                                 @_master.PM_NAME_ABV
                             </td>
                             <td><span>@(_master == null ? "-" : _master.INTERVAL)</span></td>
-                            @foreach(var region in activity.value.Regions)
+                            @foreach (var region in activity.value.Regions)
                             {
                                 <td><span>@region.PLAN.ToString("N0")</span></td>
                                 <td class="actual"><span>@region.ACTUAL.ToString("N0")</span></td>
@@ -78,20 +78,22 @@
                         <strong>GTM will submit all reports to NGR Quarterly</strong>
                     </td>
                 </tr>
-            }
-            else
-            {
-                <tr>
-                    <td colspan="@(data.Count() > 0 ? (data.Count() * 2 + 3) : 2)" class="text-center pv3">
-                        <h2>No data</h2>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="text-center pv2">
+            <h2>No data</h2>
+        </div>
+    }
 </div>
 
+
+@if (data.Count() > 0)
+{
 <div class="chart-wrapper">
     <div id="chartCompletionPipeline" class="chart"></div>
     <div id="divAreaChart"></div>
 </div>
+}
