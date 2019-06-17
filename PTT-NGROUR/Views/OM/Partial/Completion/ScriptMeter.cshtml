@@ -28,7 +28,8 @@
         }
     }
 
-    function renderChartCompletionMeter () {
+    function renderChartCompletionMeter() {
+        if ($("#chartCompletionMeter").length === 0) return
         $("#chartCompletionMeter svg").remove();
 
 
