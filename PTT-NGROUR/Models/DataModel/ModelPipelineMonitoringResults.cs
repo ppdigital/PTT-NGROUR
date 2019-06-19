@@ -62,6 +62,13 @@ namespace PTT_NGROUR.Models.DataModel
         public string PM_TYPE { get; set; }
         public List<ModelActivityResults> Activities { get; set; }
     }
+    public class ModelAccumulatedResults
+    {
+        public string PM_ID { get; set; }
+        public int MONTH { get; set; }
+        public decimal PLAN { get; set; }
+        public decimal ACTUAL { get; set; }
+    }
 
     public class ModelIntervalTypeResults
     {
@@ -86,7 +93,6 @@ namespace PTT_NGROUR.Models.DataModel
         public string PM_ID { get; set; }
         public List<ModelResults> Regions { get; set; }
     }
-
 
     public class ModelResults
     {

@@ -200,12 +200,13 @@ namespace PTT_NGROUR.Controllers
                     Meter = new ModelOMCompletionMaintenanceLevel(intMonth, intYear, listMeter, mode),
                 };
 
-                modelOm.Accumulated = new ModelOMAccumulated
-                {
-                    Pipeline = new ModelOMAccumulatedPipeline(intMonth, listPipeline, mode),
-                    Gate = new ModelOMAccumulatedMaintenanceLevel(intMonth, intYear, listGate, mode),
-                    Meter = new ModelOMAccumulatedMaintenanceLevel(intMonth, intYear, listMeter, mode),
-                };
+                ModelOMAccumulated accumulated = new ModelOMAccumulated();
+
+                accumulated.getPipeline(intMonth, intYear, listPipeline, mode);
+                //accumulated.getGate(intMonth, intYear, listGate, mode);
+                //accumulated.getMeter(intMonth, intYear, listMeter, mode);
+                modelOm.Accumulated = accumulated;
+
                 result.SetResultValue(modelOm);
                 dto = null;
                 GC.Collect();
