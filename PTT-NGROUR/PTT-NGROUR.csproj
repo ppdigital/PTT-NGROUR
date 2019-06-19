@@ -198,6 +198,8 @@
     <Compile Include="Models\DataModel\ModelGetOM.cs" />
     <Compile Include="Models\DataModel\ModelGetRiskFile.cs" />
     <Compile Include="Models\DataModel\ModelGetRisk.cs" />
+    <Compile Include="Models\DataModel\ModelIndustry.cs" />
+    <Compile Include="Models\DataModel\ModelIndustryMaster.cs" />
     <Compile Include="Models\DataModel\ModelOMAccumulated.cs" />
     <Compile Include="Models\DataModel\ModelOMCompletion.cs" />
     <Compile Include="Models\DataModel\ModelOMMaster.cs" />

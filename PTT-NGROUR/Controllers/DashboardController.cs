@@ -50,10 +50,27 @@ namespace PTT_NGROUR.Controllers
                 listRegion.Add(new Models.DataModel.ModelRegion { REGION_NAME = region.REGION_NAME, REGION_ID = region.REGION_ID });
             }
 
+            var dsIndustry = dal.GetDataSet("SELECT DISTINCT PERMIT_NATURAL_GAS FROM GIS_NGR_PL_ME");
+            var dtIndustry = dsIndustry.Tables[0];
+            var listIndustry = new List<Models.DataModel.ModelIndustryMaster>();
+
+            foreach (System.Data.DataRow drArea in dtIndustry.Rows)
+            {
+                var region = new Models.DataModel.ModelIndustryMaster()
+                {
+                    PERMIT_NATURAL_GAS = drArea["PERMIT_NATURAL_GAS"].ToString()
+                };
+
+                listIndustry.Add(new Models.DataModel.ModelIndustryMaster {
+                    PERMIT_NATURAL_GAS = region.PERMIT_NATURAL_GAS
+                });
+            }
+
             //  ViewBag.seLicense = listLicense;
 
             var model = new Models.ViewModel.ModelUtilization()
             {
+                ListIndustry = listIndustry,
                 ListLicense = listLicense,
                 ListRegion = listRegion
             };

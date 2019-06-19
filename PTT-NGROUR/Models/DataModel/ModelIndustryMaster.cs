@@ -5,11 +5,8 @@ using System.Web;
 
 namespace PTT_NGROUR.Models.DataModel
 {
-
-    public class ModelLicenseMaster
+    public class ModelIndustryMaster
     {
-        public int LICENSE_ID { get; set; }
-
-        public string LICENSE { get; set; }
+        public string PERMIT_NATURAL_GAS { get; set; }
     }
 }
