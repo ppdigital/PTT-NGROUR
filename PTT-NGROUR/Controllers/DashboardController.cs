@@ -237,6 +237,32 @@ namespace PTT_NGROUR.Controllers
         }
 
         [HttpPost]
+        public JsonResult SearchIndustry(string[] industry)
+        {
+            var dal = new DAL.DAL();
+            string industryStr = string.Join("','", industry);
+
+            string strCommand;
+
+            strCommand = @"SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE YEAR > 2018 AND TYPE NOT LIKE 'METERING' AND NAME IN (SELECT DISTINCT RC_PROJECT FROM GIS_NGR_PL_ME WHERE PERMIT_NATURAL_GAS IN ('" + industryStr + "'))";
+            var listUtilization = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetUtilization(x)).ToList();
+
+            strCommand = @"SELECT * FROM VIEW_OM_CURRENT WHERE RC_NAME IN (SELECT DISTINCT RC_PROJECT FROM GIS_NGR_PL_ME WHERE PERMIT_NATURAL_GAS IN ('" + industryStr + "'))";
+            var listOM = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetOM(x)).ToList();
+
+            strCommand = @"SELECT * FROM VIEW_RISK_CURRENT WHERE RC_NAME IN (SELECT DISTINCT RC_PROJECT FROM GIS_NGR_PL_ME WHERE PERMIT_NATURAL_GAS IN ('" + industryStr + "'))";
+            var listRisk = dal.ReadData(strCommand, x => new Models.DataModel.ModelGetRisk(x)).ToList();
+
+            dal = null;
+            return Json(new
+            {
+                utilization = listUtilization,
+                om = listOM,
+                risk = listRisk
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public JsonResult SearchRegionAll()
         {
             var dal = new DAL.DAL();

@@ -17,6 +17,11 @@
             multidata = SeLicense;
             strMode = "license";
         }
+        else if (document.getElementById('radioIndustry').checked) {
+            url = '@Url.Action("SearchIndustry")';
+            multidata = SeLicense;
+            strMode = "industry";
+        }
 
         $.ajax({
             url: url,

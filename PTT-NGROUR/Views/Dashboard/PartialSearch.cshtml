@@ -9,7 +9,7 @@
                             <span class="checkmark h6 b">Region</span>
                         </label>&nbsp;
                         <label class=" ml-5 lato" style="padding-right:6px">
-                            <input type="radio" name="radio" id="radioIndustry" checked="checked" onclick="javascript:Check();">
+                            <input type="radio" name="radio" id="radioIndustry" onclick="javascript:Check();">
                             <span class="checkmark h6 b">Industry</span>
                         </label>&nbsp;
                         <label class="d-none ">
@@ -29,7 +29,6 @@
                     </div>
                     <div class="col-lg-4 col-md-5  col-sm-5 col-xs-7" id="seRegion" style="padding-bottom: 0rem !important">
                         <div class="form-group" style="margin-bottom:5px;">
-
                             <select class="selectpicker fz-12px form-control" name="MultiRegion" id="MultiRegion" multiple data-selected-text-format="count" data-live-search="true" data-actions-box="true" style="margin-bottom:-1rem;">
                                 @foreach (PTT_NGROUR.Models.DataModel.ModelRegion ml in Model.ListRegion)
                                 {
