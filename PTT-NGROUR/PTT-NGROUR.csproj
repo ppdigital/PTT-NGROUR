@@ -755,12 +755,10 @@
     <Content Include="Views\OM\Index.cshtml" />
     <Content Include="Views\Utilization\PartialReportScript.cshtml" />
     <Content Include="Views\Pdf\UtilizationReportPdf.cshtml" />
-    <Content Include="Views\OM\PartialMeteringScript.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />
     <Content Include="Views\TestD3Graph\Index.cshtml" />
     <Content Include="Views\TestD3Graph\BarChart.cshtml" />
     <Content Include="Views\Utilization\PartialMeterTable.cshtml" />
-    <Content Include="Views\OM\PartialGateScript.cshtml" />
     <Content Include="Views\Risk\RiskManagementGraph.cshtml" />
     <Content Include="Views\Risk\ImportExcel.cshtml" />
     <Content Include="Views\Risk\PartialModalExcelScript.cshtml" />
@@ -768,7 +766,6 @@
     <Content Include="Views\Risk\AcceptanceCriteria.cshtml" />
     <Content Include="Views\Risk\File.cshtml" />
     <Content Include="Views\Shared\PartialLoadingGrid.cshtml" />
-    <Content Include="Views\OM\PartialPipelineChartScript.cshtml" />
     <Content Include="Views\Dashboard\PartialSearch.cshtml" />
     <Content Include="Views\Dashboard\PartialSearchScript.cshtml" />
     <Content Include="Views\Dashboard\PartialUtilization.cshtml" />
