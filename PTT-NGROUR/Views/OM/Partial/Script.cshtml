@@ -59,10 +59,10 @@
         f.remove();
     }
 
-    function responsivefyChart(svg, id) {
-        console.log(id)
+    function responsivefyChart(svg) {
         // get container + svg aspect ratio
-        var container = d3.select('.chart-wrapper'),
+        console.log('#' + svg.attr("id").replace('svg', 'chartWrapper'))
+        var container = d3.select('#' + svg.attr("id").replace('svg', 'chartWrapper')),
             width = parseInt(svg.style("width")),
             height = parseInt(svg.style("height")),
             aspect = width / height;

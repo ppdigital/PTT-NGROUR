@@ -41,9 +41,9 @@
         var svg = d3.select("#chartAccumulatePipeline").append("svg")
             .attr("id", "svgAccumulatePipeline")
             .attr("width", $('.chart-wrapper').width())
-            .attr("height", $('.chart-wrapper').width() / 1.92);
+            .attr("height", $('.chart-wrapper').width() / 1.92)
+            .call(responsivefyChart);
 
-        responsivefyChart(svg, 'chartCompletionPipeline')
         var margin = { top: 200, right: 80, bottom: 30, left: 60 },
             width = +svg.attr("width") - margin.left - margin.right,
             height = +svg.attr("height") - margin.top - margin.bottom,
