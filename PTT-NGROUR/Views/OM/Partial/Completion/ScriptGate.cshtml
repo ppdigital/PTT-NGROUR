@@ -34,6 +34,7 @@
          *
          */
         var svg = d3.select("#chartCompletionGate").append("svg")
+            .attr("id", "svgCompletionGate")
             .attr("width", $('.chart-wrapper').width())
             .attr("height", $('.chart-wrapper').width() / 1.92)
             .call(responsivefyChart);

@@ -191,7 +191,7 @@
          */
         svg.append("text")
             .attr("x", 15)
-            .attr("y", 55)
+            .attr("y", 25)
             .attr("dy", ".35em")
             .attr("font-weight", "bold")
             .attr("font-size", 22)
@@ -203,10 +203,11 @@
          * Legend
          *
          */
-        var startAt = 530,
-            tabSpace = 570,
+        var startXAt = 15,
+            startYAt = 35,
+            tabSpace = 370,
             legend_tabs = [],
-            colMax = 2,
+            colMax = 3,
             colIndex = 0,
             rowSpace = 10,
             i;
@@ -226,7 +227,7 @@
         var startp = svg.append("g")
             .attr("class", "legendbox")
             .attr("transform", function () {
-                return "translate(" + startAt + ", 0)"
+                return "translate(" + startXAt + ", " + startYAt + ")"
             })
             .attr("id", "legendbox");
 
@@ -247,7 +248,7 @@
 
         legend.append("text")
             .attr("x", 16)
-            .attr("y", 9)
+            .attr("y", 7)
             .attr("dy", ".35em")
             .style("text-anchor", "begin")
             .text(function (d) {

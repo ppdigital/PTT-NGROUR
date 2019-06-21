@@ -10,28 +10,16 @@
          * Config
          *
          */
-        var _colors = {
-            alert: "#ea8a8a"
+        var colors = {
+            PLAN_PERCENTAGE: "#f0b386",
+            ACTUAL_PERCENTAGE: "#9ac5e7"
         }
-        var colors = []
-        var keys = []
+        var labels = {
+            PLAN_PERCENTAGE: "Plan",
+            ACTUAL_PERCENTAGE: "Actual"
+        }
 
-        var data = model.Accumulated.Pipeline.Activity || [];
-        var master = model.Master.Pipeline || []
-
-        data && data.forEach(function (element) {
-            keys = keys.concat(element.Activities.map(function (o) {
-                var f = _.find(master, function (m) {
-                    return m.PM_ID === o.PM_ID
-                })
-
-                if (f && f.PIPELINE_HEX) {
-                    colors.push(f.PIPELINE_HEX);
-                }
-
-                return o.PM_ID
-            }));
-        });
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
 
 
         /**
@@ -44,7 +32,7 @@
             .attr("height", $('.chart-wrapper').width() / 1.92)
             .call(responsivefyChart);
 
-        var margin = { top: 200, right: 80, bottom: 30, left: 60 },
+        var margin = { top: 100, right: 80, bottom: 60, left: 60 },
             width = +svg.attr("width") - margin.left - margin.right,
             height = +svg.attr("height") - margin.top - margin.bottom,
             g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -62,17 +50,17 @@
         var y1 = d3.scaleBand()
 
         var z = d3.scaleOrdinal()
-            .range(["#f0b386", "#9ac5e7"]);
+            .range(_.values(colors));
 
         var stack = d3.stack()
             .offset(d3.stackOffsetExpand);
 
         var data = model.Accumulated.Pipeline || [];
 
-        console.log("data", data);
+        //console.log("data", data);
 
         x0.domain(data.map(function (d) { return d.PM_ID; }));
-        x1.domain(data.map(function (d) { return d.MONTH; }))
+        x1.domain(_.sortBy(data, 'MONTH').map(function (d) { return d.MONTH; }))
             .rangeRound([0, x0.bandwidth()])
             .padding(0.2);
 
@@ -103,22 +91,22 @@
                     ACTUAL_PERCENTAGE: ACTUAL_PERCENTAGE
                 }
 
-                console.log("rollup d", d, d2);
+                //console.log("rollup d", d, d2);
                 return d2;
             })
             .entries(data)
             .map(function (d) { return d.value; });
 
-        console.log("groupData", groupData)
+        //console.log("groupData", groupData)
 
         var stackData = stack
             .keys(keys)(groupData)
 
-        console.log("stackData", stackData)
+        //console.log("stackData", stackData)
 
         //y.domain([0, 100]).nice();
 
-        console.log("keys", keys)
+        //console.log("keys", keys)
 
         var serie = g.selectAll(".serie")
             .data(stackData)
@@ -128,7 +116,8 @@
 
         serie.selectAll("rect")
             .data(function (d) { return d; })
-            .enter().append("rect")
+            .enter()
+            .append("rect")
             .attr("class", "serie-rect")
             .attr("transform", function (d) {
                 return "translate(" + x0(d.data.PM_ID) + ",0)";
@@ -145,16 +134,38 @@
             .attr("width", x1.bandwidth())
             .on("click", function (d, i) { console.log("serie-rect click d", i, d); });
 
+
+        /**
+         * Axis Bottom
+         *
+         */
+
+        // PM ID
         g.append("g")
-            .attr("class", "axis")
+            .attr("class", "xaxis axis")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x0));
 
-        g.append("g")
-            .attr("class", "axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x0));
+        g.selectAll(".xaxis text")  // select all the text elements for the xaxis
+            .attr("y", 35);
 
+        // Month
+        x0.domain().forEach(function (id) {
+            g.append("g")
+                .attr("class", "monthaxis axis")
+                .attr("transform", "translate(" + x0(id) + "," + height + ")")
+                .call(d3.axisBottom(x1).tickFormat(function (d) { return months[d]; }));
+        })
+
+        g.selectAll(".monthaxis text")  // select all the text elements for the xaxis
+            .attr("text-anchor", "end")
+            .attr("transform", "rotate(-45)");
+
+
+        /**
+         * Axis Left
+         *
+         */
         g.append("g")
             .attr("class", "axis ")
             .call(d3.axisLeft(y).ticks(null, "s"))
@@ -166,50 +177,91 @@
             .attr("text-anchor", "end")
             .attr("transform", "rotate(-90)")
             .text("จำนวน % (การทำ PM)");
-        /*
-          var legend = g.append("g")
-              .attr("font-family", "sans-serif")
-              .attr("font-size", 10)
-              .attr("text-anchor", "end")
-            .selectAll("g")
-            .data(keys.slice().reverse())
+
+
+        /**
+         * Title
+         *
+         */
+        svg.append("text")
+            .attr("x", 15)
+            .attr("y", 25)
+            .attr("dy", ".35em")
+            .attr("font-weight", "bold")
+            .attr("font-size", 22)
+            .style("text-anchor", "begin")
+            .text("Pipeline PM IA Monitoring Accumulated");
+
+        //var legend = serie.append("g")
+        //    .attr("class", "legend")
+        //    .attr("transform", function (d) {
+        //        if (!d) return null
+
+        //        var d = d[d.length - 1];
+        //        return "translate(" + (x0(d.data.PM_ID) + x1(d.data.MONTH) + x1.bandwidth()) + "," + ((y(d[0]) + y(d[1])) / 2) + ")";
+        //    });
+
+        //legend.append("line")
+        //    .attr("x1", -6)
+        //    .attr("x2", 6)
+        //    .attr("stroke", "#000");
+
+
+        /**
+         * Legend
+         *
+         */
+        var startXAt = 530,
+            startYAt = 10,
+            tabSpace = 170,
+            legend_tabs = [],
+            colMax = 3,
+            colIndex = 0,
+            rowSpace = 10,
+            i;
+        for (i = 0; i <= (keys.length + 1); i++) {
+            legend_tabs.push({
+                x: tabSpace * colIndex,
+                y: rowSpace
+            })
+
+            colIndex++
+
+            if ((i + 1) % colMax === 0) {
+                colIndex = 0
+                rowSpace = rowSpace + 20
+            }
+        }
+        var startp = svg.append("g")
+            .attr("class", "legendbox")
+            .attr("transform", function () {
+                return "translate(" + startXAt + ", " + startYAt + ")"
+            })
+            .attr("id", "legendbox");
+
+        var legend = startp.selectAll(".legend")
+            .data(z.domain().slice())
             .enter().append("g")
-              .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-        
-          legend.append("rect")
-              .attr("x", width - 19)
-              .attr("width", 19)
-              .attr("height", 19)
-              .attr("fill", z);
-        
-          legend.append("text")
-              .attr("x", width - 24)
-              .attr("y", 9.5)
-              .attr("dy", "0.32em")
-              .text(function(d) { return d; });
-              
-              */
-
-        var legend = serie.append("g")
             .attr("class", "legend")
-            .attr("transform", function (d) {
-                if (d) return null
-
-                var d = d[d.length - 1];
-                return "translate(" + (x0(d.data.PM_ID) + x1(d.data.MONTH) + x1.bandwidth()) + "," + ((y(d[0]) + y(d[1])) / 2) + ")";
+            .attr("transform", function (d, i) {
+                return "translate(" + legend_tabs[i].x + "," + legend_tabs[i].y + ")";
             });
 
-        legend.append("line")
-            .attr("x1", -6)
-            .attr("x2", 6)
-            .attr("stroke", "#000");
+        legend.append("rect")
+            .attr("x", 0)
+            .attr("y", 2)
+            .attr("width", 10)
+            .attr("height", 10)
+            .style("fill", z);
 
-        //legend.append("text")
-        //    .attr("x", 9)
-        //    .attr("dy", "0.35em")
-        //    .attr("fill", "#000")
-        //    .style("font", "10px sans-serif")
-        //    .text(function (d) { return d.key; });
+        legend.append("text")
+            .attr("x", 16)
+            .attr("y", 7)
+            .attr("dy", ".35em")
+            .style("text-anchor", "begin")
+            .text(function (d) {
+                return labels[d];
+            });
     }
 
     $(document).ready(function () {
