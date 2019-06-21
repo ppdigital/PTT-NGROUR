@@ -35,8 +35,8 @@
          */
         var svg = d3.select("#chartCompletionGate").append("svg")
             .attr("id", "svgCompletionGate")
-            .attr("width", $('.chart-wrapper').width())
-            .attr("height", $('.chart-wrapper').width() / 1.92)
+            .attr("width", $('#chartWrapperCompletionGate').width())
+            .attr("height", $('#chartWrapperCompletionGate').width() / 1.92)
             .call(responsivefyChart);
         var margin = { top: 200, right: 80, bottom: 30, left: 60 },
             width = +svg.attr("width") - margin.left - margin.right,

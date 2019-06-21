@@ -40,25 +40,40 @@ namespace PTT_NGROUR.Models.DataModel
                 month = 12;
             }
 
-            List<ModelAccumulatedResults> r = new List<ModelAccumulatedResults>();
+            DateTime endDate = DateTime.Parse($"{month}/1/{year}", System.Globalization.CultureInfo.InvariantCulture);
+
+            List<ModelAccumulatedResults> accumulatedResults = new List<ModelAccumulatedResults>();
+            List<ModelMonitoringResults> monitoringList = list.Where(x => x.END_DATE <= endDate)
+                    .Where(x => x.PLAN > 0 || x.ACTUAL > 0)
+                    .ToList();
 
             for (int i = 1; i <= month; i++)
             {
-                DateTime date = DateTime.Parse($"{month}/1/{year}", System.Globalization.CultureInfo.InvariantCulture);
-
-                r.Add(list.Where(x => x.START_DATE >= date && x.END_DATE <= date)
-                    .Where(x => x.PLAN > 0 || x.ACTUAL > 0)
+                var xsdsd = monitoringList
+                    .Where(x => (x.START_DATE.HasValue && i >= x.START_DATE.Value.Month) && (x.END_DATE.HasValue && i <= x.END_DATE.Value.Month))
+                    //.Where(x => x.PLAN > 0 || x.ACTUAL > 0)
                     .GroupBy(pm => pm.PM_ID)
                     .Select(g => new ModelAccumulatedResults
                     {
                         PM_ID = g.Key,
-                        MONTH = month,
+                        MONTH = i,
                         PLAN = g.Sum(x => x.PLAN),
                         ACTUAL = g.Sum(x => x.ACTUAL)
-                    }).First());
+                    })
+                    .ToList();
+
+                xsdsd.ForEach(x => {
+                        accumulatedResults.Add(new ModelAccumulatedResults
+                        {
+                            PM_ID = x.PM_ID,
+                            MONTH = i,
+                            PLAN = x.PLAN,
+                            ACTUAL = x.ACTUAL
+                        });
+                    });
             }
 
-            return r;
+            return accumulatedResults;
         }
 
         public List<ModelAccumulatedResults> Pipeline { get; set; }

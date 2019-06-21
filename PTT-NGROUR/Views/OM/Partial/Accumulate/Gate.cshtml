@@ -1,10 +1,28 @@
 ﻿@model PTT_NGROUR.Models.ViewModel.ModelOmIndex
 
 @{
-    List<PTT_NGROUR.Models.DataModel.ModelIntervalTypeResults> data = Model.Completion.Gate.Activity;
-    PTT_NGROUR.Models.DataModel.ModelOMMaster.ModelOMMasterMaintenanceLevel _master = null;
+    List<PTT_NGROUR.Models.DataModel.ModelAccumulatedResults> data = Model.Accumulated.Gate;
 }
 
-<div id="chartWrapperAccumulateGate" class="chart-wrapper">
-    <div id="chartAccumulateGate" class="chart"></div>
-</div>
+<style>
+    .xaxis line {
+        fill: none;
+        stroke: none;
+    }
+
+    .monthaxis text {
+        fill: #a4a4a4;
+    }
+
+    .monthaxis .domain {
+        display: none;
+    }
+</style>
+
+
+@if (data.Count() > 0)
+{
+    <div id="chartWrapperAccumulateGate" class="chart-wrapper">
+        <div id="chartAccumulateGate" class="chart"></div>
+    </div>
+}

@@ -28,8 +28,8 @@
          */
         var svg = d3.select("#chartAccumulatePipeline").append("svg")
             .attr("id", "svgAccumulatePipeline")
-            .attr("width", $('.chart-wrapper').width())
-            .attr("height", $('.chart-wrapper').width() / 1.92)
+            .attr("width", $('#chartWrapperAccumulatePipeline').width())
+            .attr("height", $('#chartWrapperAccumulatePipeline').width() / 1.92)
             .call(responsivefyChart);
 
         var margin = { top: 100, right: 80, bottom: 60, left: 60 },
@@ -158,6 +158,7 @@
         })
 
         g.selectAll(".monthaxis text")  // select all the text elements for the xaxis
+            .attr("font-size", 10)
             .attr("text-anchor", "end")
             .attr("transform", "rotate(-45)");
 

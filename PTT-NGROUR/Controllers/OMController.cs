@@ -203,8 +203,8 @@ namespace PTT_NGROUR.Controllers
                 ModelOMAccumulated accumulated = new ModelOMAccumulated();
 
                 accumulated.getPipeline(intMonth, intYear, listPipeline, mode);
-                //accumulated.getGate(intMonth, intYear, listGate, mode);
-                //accumulated.getMeter(intMonth, intYear, listMeter, mode);
+                accumulated.getGate(intMonth, intYear, listGate, mode);
+                accumulated.getMeter(intMonth, intYear, listMeter, mode);
                 modelOm.Accumulated = accumulated;
 
                 result.SetResultValue(modelOm);
