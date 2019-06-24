@@ -26,6 +26,7 @@
          * Initial
          *
          */
+        var tooltip = d3.select('#tooltip');
         var svg = d3.select("#chartAccumulateMeter").append("svg")
             .attr("id", "svgAccumulateMeter")
             .attr("width", $('#chartWrapperAccumulateMeter').width())
@@ -141,7 +142,7 @@
                     .style('left', d3.event.pageX + 20 + 'px')
                     .style('top', d3.event.pageY - 20 + 'px')
                     .style('visibility', 'visible')
-                    .html(d.data.PM_ID + html);
+                    .html(d.data.PM_ID + ': ' + months[d.data.MONTH] + html);
                 tooltip.transition().duration(200).style("opacity", 1);
             }).on('mouseout', function () {
                 if (tooltip) {
