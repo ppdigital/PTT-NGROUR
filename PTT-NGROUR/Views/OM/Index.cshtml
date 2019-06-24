@@ -86,11 +86,11 @@
             <div class="col-md-6 pb1">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="radio" name="radioMY" value="month" id="radioMonth" checked="checked" onclick="javascript:Check();">
+                        <input type="radio" name="radioMY" value="month" id="radioMonth" @(Context.Request.QueryString["radioMY"] == null || Context.Request.QueryString["radioMY"].Equals("month") ? "checked" : "") onclick="javascript:Check();">
                         <label for="radioMonth">Month</label>
                     </span>
                     <span class="input-group-addon">
-                        <input type="radio" name="radioMY" value="year" id="radioYear" onclick="javascript:Check();">
+                        <input type="radio" name="radioMY" value="year" id="radioYear" @(Context.Request.QueryString["radioMY"] != null && Context.Request.QueryString["radioMY"].Equals("year") ? "checked" : "") onclick="javascript:Check();">
                         <label for="radioYear">Year</label>
                     </span>
                     <input type="text" placeholder="Month" class="form-control form-control-sm fz-12px" id="Month-filter" />
