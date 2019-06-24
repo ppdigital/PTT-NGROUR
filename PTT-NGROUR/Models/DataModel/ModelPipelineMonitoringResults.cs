@@ -19,7 +19,8 @@ namespace PTT_NGROUR.Models.DataModel
             this.MONTH = pReader.GetColumnValue("MONTH").GetInt();
             this.START_DATE = pReader.GetColumnValue("START_DATE").GetDate();
             this.END_DATE = pReader.GetColumnValue("END_DATE").GetDate();
-            this.REGION = pReader.GetColumnValue("REGION_NAME").GetString();
+            this.REGION = pReader.GetColumnValue("REGION").GetString();
+            this.REGION_NAME = pReader.GetColumnValue("REGION_NAME").GetString();
             this.RC = pReader.GetColumnValue("RC").GetString();
             this.PM_TYPE = pReader.GetColumnValue("PM_TYPE").GetString();
             this.PM_ID = pReader.GetColumnValue("PM").GetString();
@@ -38,6 +39,7 @@ namespace PTT_NGROUR.Models.DataModel
         public string INTERVAL { get; set; }
 
         public string REGION { get; set; }
+        public string REGION_NAME { get; set; }
 
         public decimal PLAN { get; set; }
 

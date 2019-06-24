@@ -19,7 +19,6 @@ namespace PTT_NGROUR.Controllers
         //
         // GET: /OM/
         [AuthorizeController.CustomAuthorize]
-        [AuthorizeController.CustomAuthorize]
         public ActionResult Index(string radioMY, string pStrYear, string pStrMonth, string[] pArrRegion)
         {
             if (radioMY == "year") pStrMonth = null;
@@ -153,6 +152,7 @@ namespace PTT_NGROUR.Controllers
         //    return Json(result ,  JsonRequestBehavior.AllowGet);
         //}
 
+        [AuthorizeController.CustomAuthorize]
         private ModelJsonResult<ModelOmIndex> GetData(string pStrYear, string pStrMonth, string[] pArrRegion, string mode)
         {
             ModelJsonResult<ModelOmIndex> result = new ModelJsonResult<ModelOmIndex>();
