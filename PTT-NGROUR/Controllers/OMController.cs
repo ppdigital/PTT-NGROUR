@@ -18,7 +18,7 @@ namespace PTT_NGROUR.Controllers
     {
         //
         // GET: /OM/
-        //S[PTT_NGROUR.Controllers.AuthorizeController.CustomAuthorize]
+        [AuthorizeController.CustomAuthorize]
         [AuthorizeController.CustomAuthorize]
         public ActionResult Index(string radioMY, string pStrYear, string pStrMonth, string[] pArrRegion)
         {
@@ -42,7 +42,7 @@ namespace PTT_NGROUR.Controllers
         }
 
         [HttpPost]
-        //[AuthorizeController.CustomAuthorize]
+        [AuthorizeController.CustomAuthorize]
         public ActionResult SearchData(string pStrYear, string pStrMonth, string[] pArrRegion)
         {
             string mode = pStrMonth == null ? "yearly" : "monthly";
