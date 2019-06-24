@@ -37,25 +37,28 @@
             <tbody>
                 @foreach (var type in data)
                 {
-                    foreach (var activity in type.Activities.Select((value, i) => new { i, value }))
+                    foreach (var activity in type.Activities)
                     {
-                        <tr>
-                            @{
-                                _master = Model.Master.MaintenanceLevel.SingleOrDefault(x => x.ML_ID.Equals(activity.value.PM_ID));
-                            }
-                            <td class="pm-name text-truncate text-left text-white" style="background-color: @(_master == null ? "" : _master.ML_HEX);">
-                                @activity.value.PM_ID
-                            </td>
-                            @foreach (var intervals in activity.value.Activities)
-                            {
-                                <td rowspan="@intervals.Regions.Count()"><span>@intervals.INTERVAL</span></td>
-                                foreach (var region in intervals.Regions)
+                        foreach (var interval in activity.Activities.Select((value, i) => new { i, value }))
+                        {
+                            <tr>
+                                @{
+                                    _master = Model.Master.MaintenanceLevel.SingleOrDefault(x => x.ML_ID.Equals(activity.PM_ID));
+                                }
+                                @if(interval.i.Equals(0))
+                                {
+                                    <td rowspan="@activity.Activities.Count()" class="pm-name text-truncate text-center text-white" style="background-color: @(_master == null ? "" : _master.ML_HEX);">
+                                        @activity.PM_ID
+                                    </td>
+                                }
+                                <td><span>@interval.value.INTERVAL</span></td>
+                                @foreach (var region in interval.value.Regions)
                                 {
                                     <td><span>@region.PLAN.ToString("N0")</span></td>
                                     <td class="actual"><span>@region.ACTUAL.ToString("N0")</span></td>
                                 }
-                            }
-                        </tr>
+                            </tr>
+                        }
                     }
                 }
             </tbody>

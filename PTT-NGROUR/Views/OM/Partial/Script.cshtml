@@ -110,6 +110,11 @@
             $('[name="pStrYear"]').val(date.getFullYear())
         })
 
+        $('#Year-filter').change(function () {
+            $('[name="pStrMonth"]').val(null)
+            $('[name="pStrYear"]').val($("#Year-filter").val())
+        })
+
         $("#Year-filter").datepicker({
             format: "yyyy",
             viewMode: "years",

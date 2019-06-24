@@ -159,8 +159,10 @@
 
         g.selectAll(".monthaxis text")  // select all the text elements for the xaxis
             .attr("font-size", 10)
+            .attr("x", -8)
+            .attr("y", -5)
             .attr("text-anchor", "end")
-            .attr("transform", "rotate(-45)");
+            .attr("transform", "rotate(-90)");
 
 
         /**
@@ -212,8 +214,8 @@
          * Legend
          *
          */
-        var startXAt = 530,
-            startYAt = 10,
+        var startXAt = 15,
+            startYAt = 35,
             tabSpace = 170,
             legend_tabs = [],
             colMax = 3,

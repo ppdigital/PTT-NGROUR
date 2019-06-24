@@ -38,7 +38,7 @@
             .attr("width", $('#chartWrapperCompletionGate').width())
             .attr("height", $('#chartWrapperCompletionGate').width() / 1.92)
             .call(responsivefyChart);
-        var margin = { top: 200, right: 80, bottom: 30, left: 60 },
+        var margin = { top: 100, right: 80, bottom: 30, left: 60 },
             width = +svg.attr("width") - margin.left - margin.right,
             height = +svg.attr("height") - margin.top - margin.bottom,
             g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -188,7 +188,7 @@
          */
         svg.append("text")
             .attr("x", 15)
-            .attr("y", 55)
+            .attr("y", 25)
             .attr("dy", ".35em")
             .attr("font-weight", "bold")
             .attr("font-size", 22)
@@ -200,8 +200,9 @@
          * Legend
          *
          */
-        var startAt = 530,
-            tabSpace = 570,
+        var startXAt = 15,
+            startYAt = 35,
+            tabSpace = 170,
             legend_tabs = [],
             colMax = 2,
             colIndex = 0,
@@ -223,7 +224,7 @@
         var startp = svg.append("g")
             .attr("class", "legendbox")
             .attr("transform", function () {
-                return "translate(" + startAt + ", 0)"
+                return "translate(" + startXAt + ", " + startYAt + ")"
             })
             .attr("id", "legendbox");
 
@@ -244,7 +245,7 @@
 
         legend.append("text")
             .attr("x", 16)
-            .attr("y", 9)
+            .attr("y", 7)
             .attr("dy", ".35em")
             .style("text-anchor", "begin")
             .text(function (d) { return master.find(function (o) { return o.ML_ID === d }).ML_ID; });
