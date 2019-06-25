@@ -45,8 +45,28 @@ namespace PTT_NGROUR.DTO
                 strCommand += " AND YEAR = " + year;
             }
 
+            if (pArrRegion != null && pArrRegion.Any())
+            {
+                string strAllRegion = string.Join(",", pArrRegion);
+                strCommand += " AND REGION in (" + strAllRegion + ")";
+            }
+
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelMonitoringResults(x));
+            dal = null;
+            return result;
+        }
+
+        public IEnumerable<ModelPlanYearly> GetListOMPipelinePlanYearly(int year, string[] pArrRegion)
+        {
+            string strCommand = "SELECT PM, SUM(PLAN) AS PLAN FROM VIEW_OM_PIPELINE_HISTORY WHERE YEAR = " + year;
+
+            if (pArrRegion != null && pArrRegion.Any()) strCommand += " AND REGION in (" + string.Join(",", pArrRegion) + ")";
+
+            strCommand += " GROUP BY PM"; 
+
+            var dal = new DAL.DAL();
+            var result = dal.ReadData(strCommand, x => new ModelPlanYearly(x));
             dal = null;
             return result;
         }
@@ -76,6 +96,20 @@ namespace PTT_NGROUR.DTO
             return result;
         }
 
+        public IEnumerable<ModelPlanYearly> GetListOMGatePlanYearly(int year, string[] pArrRegion)
+        {
+            string strCommand = "SELECT PM, SUM(PLAN) AS PLAN FROM VIEW_OM_ML_GATE_HISTORY WHERE EXTRACT(year FROM END_DATE) = " + year;
+
+            if (pArrRegion != null && pArrRegion.Any()) strCommand += " AND REGION in (" + string.Join(",", pArrRegion) + ")";
+
+            strCommand += " GROUP BY PM";
+
+            var dal = new DAL.DAL();
+            var result = dal.ReadData(strCommand, x => new ModelPlanYearly(x));
+            dal = null;
+            return result;
+        }
+
         public IEnumerable<ModelMonitoringResults> GetListOMMeterHistory(int month, int year, string[] pArrRegion, bool accumulate)
         {
             if (month.Equals(0) && !accumulate)
@@ -97,6 +131,20 @@ namespace PTT_NGROUR.DTO
 
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelMonitoringResults(x));
+            dal = null;
+            return result;
+        }
+
+        public IEnumerable<ModelPlanYearly> GetListOMMeterPlanYearly(int year, string[] pArrRegion)
+        {
+            string strCommand = "SELECT PM, SUM(PLAN) AS PLAN FROM VIEW_OM_ML_METER_HISTORY WHERE EXTRACT(year FROM END_DATE) = " + year;
+
+            if (pArrRegion != null && pArrRegion.Any()) strCommand += " AND REGION in (" + string.Join(",", pArrRegion) + ")";
+
+            strCommand += " GROUP BY PM";
+
+            var dal = new DAL.DAL();
+            var result = dal.ReadData(strCommand, x => new ModelPlanYearly(x));
             dal = null;
             return result;
         }

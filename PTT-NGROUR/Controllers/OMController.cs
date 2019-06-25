@@ -96,14 +96,17 @@ namespace PTT_NGROUR.Controllers
 
                 // Summary
                 IEnumerable<ModelMonitoringResults> listPipeline = dto.GetListOMPipelineHistory(intMonth, intYear, pArrRegion, true);
+                IEnumerable<ModelPlanYearly> listPipelinePlan = dto.GetListOMPipelinePlanYearly(intYear, pArrRegion);
                 IEnumerable<ModelMonitoringResults> listGate = dto.GetListOMGateHistory(intMonth, intYear, pArrRegion, true);
+                IEnumerable<ModelPlanYearly> listGatePlan = dto.GetListOMGatePlanYearly(intYear, pArrRegion);
                 IEnumerable<ModelMonitoringResults> listMeter = dto.GetListOMMeterHistory(intMonth, intYear, pArrRegion, true);
+                IEnumerable<ModelPlanYearly> listMeterPlan = dto.GetListOMMeterPlanYearly(intYear, pArrRegion);
 
                 modelOm.Summary = new ModelOMSummary
                 {
-                    Pipeline = new ModelOMSummaryPipeline(intMonth, listPipeline),
-                    Gate = new ModelOMSummaryMaintenanceLevel(intMonth, intYear, listGate, mode),
-                    Meter = new ModelOMSummaryMaintenanceLevel(intMonth, intYear, listMeter, mode),
+                    Pipeline = new ModelOMSummaryPipeline(intMonth, listPipeline, mode, listPipelinePlan),
+                    Gate = new ModelOMSummaryMaintenanceLevel(intMonth, intYear, listGate, mode, listGatePlan),
+                    Meter = new ModelOMSummaryMaintenanceLevel(intMonth, intYear, listMeter, mode, listMeterPlan),
                 };
 
                 modelOm.Completion = new ModelOMCompletion

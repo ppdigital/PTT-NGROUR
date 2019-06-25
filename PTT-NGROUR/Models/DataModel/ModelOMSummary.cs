@@ -15,12 +15,12 @@ namespace PTT_NGROUR.Models.DataModel
 
         public class ModelOMSummaryPipeline
         {
-            public ModelOMSummaryPipeline(int month, IEnumerable<ModelMonitoringResults> listResults)
+            public ModelOMSummaryPipeline(int month, IEnumerable<ModelMonitoringResults> listResults, string mode, IEnumerable<ModelPlanYearly> PlanYearly)
             {
                 Results = listResults.ToList();
 
                 #region Current
-                if (!month.Equals(0))
+                if (mode.Equals("monthly"))
                 {
                     Current = listResults.Where(x => x.MONTH.Equals(month))
                         .Where(x => !string.IsNullOrEmpty(x.PM_TYPE))
@@ -57,7 +57,7 @@ namespace PTT_NGROUR.Models.DataModel
                             PM_ID = pm_id,
                             PM_NAME = l.First().PM_NAME_FULL,
                             PM_TYPE = l.First().PM_TYPE,
-                            PLAN = listResults.Where(p => p.PM_TYPE.Equals(pm_type) && p.PM_ID.Equals(pm_id)).Sum(p => p.PLAN),
+                            PLAN = PlanYearly.Any(x => x.PM_ID.Equals(pm_id)) ? PlanYearly.SingleOrDefault(x => x.PM_ID.Equals(pm_id)).PLAN : 0,
                             ACTUAL = l.Sum(o => o.ACTUAL),
                             PERCENTAGE = GetPercentage(l),
                         }).ToList(),
@@ -96,7 +96,7 @@ namespace PTT_NGROUR.Models.DataModel
 
         public class ModelOMSummaryMaintenanceLevel
         {
-            public ModelOMSummaryMaintenanceLevel(int month, int year, IEnumerable<ModelMonitoringResults> listResults, string mode)
+            public ModelOMSummaryMaintenanceLevel(int month, int year, IEnumerable<ModelMonitoringResults> listResults, string mode, IEnumerable<ModelPlanYearly> PlanYearly)
             {
                 Results = listResults.ToList();
                 DateTime date = DateTime.Parse($"{month}/1/{year}", CultureInfo.InvariantCulture);
@@ -134,7 +134,7 @@ namespace PTT_NGROUR.Models.DataModel
                             PM_ID = pm_id,
                             PM_NAME = l.First().PM_NAME_FULL,
                             PM_TYPE = l.First().PM_TYPE,
-                            PLAN = l.Where(p => p.PM_TYPE.Equals(pm_type) && p.PM_ID.Equals(pm_id)).Sum(p => p.PLAN),
+                            PLAN = PlanYearly.Any(x => x.PM_ID.Equals(pm_id)) ? PlanYearly.SingleOrDefault(x => x.PM_ID.Equals(pm_id)).PLAN : 0,
                             ACTUAL = l.Sum(o => o.ACTUAL),
                             PERCENTAGE = GetPercentage(l),
                         }).ToList(),

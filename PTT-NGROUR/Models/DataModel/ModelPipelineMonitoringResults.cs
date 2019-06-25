@@ -52,6 +52,25 @@ namespace PTT_NGROUR.Models.DataModel
         public DateTime? END_DATE { get; set; }
     }
 
+    public class ModelPlanYearly
+    {
+        public ModelPlanYearly() { }
+
+        public ModelPlanYearly(IDataReader pReader)
+        {
+            if (pReader == null)
+            {
+                return;
+            }
+            this.PM_ID = pReader.GetColumnValue("PM").GetString();
+            this.PLAN = pReader.GetColumnValue("PLAN").GetDecimal();
+        }
+
+        public string PM_ID { get; set; }
+
+        public decimal PLAN { get; set; }
+    }
+
     public class ModelMonitoringResultsType
     {
         public string PM_TYPE { get; set; }
