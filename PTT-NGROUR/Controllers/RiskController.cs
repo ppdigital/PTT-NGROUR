@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using PTT_NGROUR.DTO;
 using PTT_NGROUR.ExtentionAndLib;
+using PTT_NGROUR.Models;
 using PTT_NGROUR.Models.DataModel;
 using PTT_NGROUR.Models.ViewModel;
 using Rotativa;
@@ -18,6 +19,8 @@ namespace PTT_NGROUR.Controllers
 {
     public class RiskController : Controller
     {
+        private User UserA = new User();
+
         // GET: /Risk/
         [AuthorizeController.CustomAuthorize]
         public ActionResult Index()
@@ -62,6 +65,7 @@ namespace PTT_NGROUR.Controllers
             dsRegion.Dispose();
             #endregion
 
+            ViewData["UserRoleId"] = UserA.Roleid;
             ViewData["AcceptanceCriteria"] = dal.ReadData(
                 "SELECT RISK_CRITERIA, UPDATE_DATE, UPDATE_BY FROM RISK_THRESHOLD",
                 x => new ModelAcceptanceCriteria(x)).Select(x => x.RISK_CRITERIA).FirstOrDefault();

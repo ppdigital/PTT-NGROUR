@@ -28,7 +28,7 @@
             <li><a href="@Url.Action("Index", "Risk")"><span class="text-grey txt-normal ">Risk Management</span></a></li>
             <li><a href="@Url.Action("Report", "Risk")"><span class="text-grey txt-normal ">Risk Management Report</span></a></li>
             <li><a href="@Url.Action("RiskManagementGraph", "Risk")"><span class="text-grey txt-normal ">Risk Management Graph</span></a></li>
-            <li><a href="@Url.Action("File", "Risk")"><span class="text-grey txt-normal ">Risk Management File</span></a></li>
+            <li style="display:@ViewData["RiskFile_page"]"><a href="@Url.Action("File", "Risk")"><span class="text-grey txt-normal ">Risk Management File</span></a></li>
             <li class="hidden-sm hidden-xs" style="display:@ViewData["UImport_page"]"><a href="@Url.Action("ImportExcel", "Risk")"><span class="text-grey txt-normal ">Import Excel</span></a></li>
             <li><a href="@Url.Action("AcceptanceCriteria", "Risk")"><span class="text-grey txt-normal">Acceptance Criteria</span></a></li>
         </ul>

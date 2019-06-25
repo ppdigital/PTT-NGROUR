@@ -26,6 +26,7 @@ namespace PTT_NGROUR.Controllers
                 ViewData["UImport_page"] = "none";
                 ViewData["Threshold_page"] = "none";
                 ViewData["Admin_page"] = "none";
+                ViewData["RiskFile_page"] = "none";
  
             }
             return PartialView("MenuBar");
