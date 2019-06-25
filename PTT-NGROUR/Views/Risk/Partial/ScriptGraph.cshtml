@@ -443,7 +443,7 @@
                 var html = '<br><span style="color: #ff0000;">' + keysText['RISK_SCORE'] + ': ' + (Math.round(d['RISK_SCORE'] * 100) / 100).toLocaleString('th') + '</span>';
 
                 keys.forEach(function (element, i) {
-                    html = html + '<br><span style="color: ' + colors[i+1] + ';">' + keysText[element] + ': ' + Math.round(d[element] * 100) / 100 + '%</span>';
+                    html = html + '<br><span style="color: ' + colors[i+1] + ';">' + keysText[element] + ': ' + Math.round(d[element] * 100) / 100 + '</span>';
                 });
                 tooltip.style('display', 'block')
                     .style('left', d3.event.pageX + 20 + 'px')
@@ -482,7 +482,7 @@
                         var value = (Math.round((o[v] || 0) * 100) / 100).toLocaleString('th')
 
                         if (v !== 'RISK_SCORE') {
-                            value = value + '%'
+                            value = value
                         }
 
                         if (o[`${v}_RISK`] === 'RISK') {
