@@ -18,7 +18,7 @@
                         foreach (var region in data.First().Activities.First().Regions)
                         {
                             <th colspan="2" class="region">
-                                @region.REGION
+                                Region @region.REGION
                             </th>
                         }
                     }
@@ -37,7 +37,7 @@
             <tbody>
                 @foreach (var type in data)
                 {
-                    foreach (var activity in type.Activities.Select((value, i) => new { i, value }))
+                    foreach (var activity in type.Activities.OrderBy(x => x.PM_ID).Select((value, i) => new { i, value }))
                     {
                         <tr>
                             @if (activity.i.Equals(0))

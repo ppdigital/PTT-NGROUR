@@ -42,7 +42,7 @@
             {
                 foreach (var type in summary.Select((value, i) => new { i, value }))
                 {
-                    foreach (var item in type.value.Activities.Select((value, i) => new { i, value }))
+                    foreach (var item in type.value.Activities.OrderBy(x => x.PM_ID).Select((value, i) => new { i, value }))
                     {
                         <tr>
                             @if (item.i.Equals(0))

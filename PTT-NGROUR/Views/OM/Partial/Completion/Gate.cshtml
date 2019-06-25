@@ -3,6 +3,7 @@
 @{
     List<PTT_NGROUR.Models.DataModel.ModelIntervalTypeResults> data = Model.Completion.Gate.Activity;
     PTT_NGROUR.Models.DataModel.ModelOMMaster.ModelOMMasterMaintenanceLevel _master = null;
+    var masterRegion = data.Where(x => x.Activities == null).ToList();
 }
 
 <div class="table-responsive">
@@ -18,7 +19,7 @@
                         foreach (var region in data.First().Activities.First().Activities.First().Regions)
                         {
                             <th colspan="2" class="region">
-                                @region.REGION
+                                Region @region.REGION
                             </th>
                         }
                     }
@@ -37,7 +38,7 @@
             <tbody>
                 @foreach (var type in data)
                 {
-                    foreach (var activity in type.Activities)
+                    foreach (var activity in type.Activities.OrderBy(x => x.PM_ID))
                     {
                         foreach (var interval in activity.Activities.Select((value, i) => new { i, value }))
                         {
