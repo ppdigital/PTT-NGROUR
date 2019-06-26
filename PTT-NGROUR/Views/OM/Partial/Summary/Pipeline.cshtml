@@ -81,14 +81,17 @@
                                     </td>
                                 }
                             }
-
-                            <td><span>@Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].PLAN.ToString("N0")</span></td>
-                            <td><span>@Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].ACTUAL.ToString("N0")</span></td>
+                            @{ 
+                                var _type = Model.Summary.Pipeline.Accumulate.First(x => x.PM_TYPE.Equals(type.value.PM_TYPE));
+                                var _activities = _type.Activities.First(x => x.PM_ID.Equals(item.value.PM_ID));
+                            }
+                            <td><span>@_activities.PLAN.ToString("N0")</span></td>
+                            <td><span>@_activities.ACTUAL.ToString("N0")</span></td>
                             <td>
                                 <span>
-                                    @(Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].PLAN.Equals(0)
+                                    @(_activities.PLAN.Equals(0)
                                       ? "-"
-                                      : Model.Summary.Pipeline.Accumulate[type.i].Activities[item.i].PERCENTAGE.ToString("N0") + "%")
+                                      : _activities.PERCENTAGE.ToString("N0") + "%")
                             </span>
                         </td>
                         @if (item.i.Equals(0))
@@ -96,7 +99,7 @@
                             <td rowspan="@type.value.Activities.Count()" class="text-center text-middle">
                                 <h4>
                                     <strong>
-                                        @Model.Summary.Pipeline.Accumulate[type.i].Percentage.ToString("N0")%
+                                        @_type.Percentage.ToString("N0")%
                                     </strong>
                                 </h4>
                             </td>
