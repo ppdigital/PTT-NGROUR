@@ -8,6 +8,7 @@
 <div class="table-responsive">
     @if (data.Count() > 0)
     {
+        var max = data.Max(x => x.Activities.Max(o => o.Activities.Max(p =>p.Regions.Count())));
         <table class="tableSum table table-bordered table-striped">
             <thead>
                 <tr>
@@ -51,11 +52,19 @@
                                         @activity.PM_ID
                                     </td>
                                 }
-                                <td><span>@interval.value.INTERVAL</span></td>
+                                <td class="text-center"><span>@interval.value.INTERVAL</span></td>
                                 @foreach (var region in interval.value.Regions)
                                 {
-                                    <td><span>@region.PLAN.ToString("N0")</span></td>
-                                    <td class="actual"><span>@region.ACTUAL.ToString("N0")</span></td>
+                                    <td class="text-center"><span>@region.PLAN.ToString("N0")</span></td>
+                                    <td class="text-center actual"><span>@region.ACTUAL.ToString("N0")</span></td>
+                                }
+                                @{
+                                    var total = interval.value.Regions.Count();
+                                }
+                                @for (int i = 0; i < max - total; i++)
+                                {
+                                    <td></td>
+                                    <td></td>
                                 }
                             </tr>
                         }
