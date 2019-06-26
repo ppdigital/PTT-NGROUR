@@ -358,7 +358,7 @@ namespace PTT_NGROUR.Controllers
                         using (var package = new ExcelPackage(Request.InputStream))
                         {
                             var currentSheet = package.Workbook.Worksheets;
-                            var workSheet = currentSheet.Single(x => x.Index.Equals(dto.Worksheet));
+                            var workSheet = currentSheet.Single(x => x.Name.Equals(dto.WorksheetName));
                             noOfCol = workSheet.Dimension.End.Column;
                             noOfRow = workSheet.Dimension.End.Row;
                             obj = new object[noOfRow, noOfCol];

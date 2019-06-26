@@ -21,6 +21,15 @@ namespace PTT_NGROUR.DTO
             LOSS_OF_GROUND_SUPPORT = 15,
         }
 
+        public Dictionary<string, string> excelRiskManagementColumn = new Dictionary<string, string>() {
+            { "Region", "" },
+            { "RC", "" },
+            { "Risk Score", "" },
+            { "INTERNAL CORROSION", "" },
+            { "THIRD PARTY INTERFERENCE", "" },
+            { "Loss  of ground support", "" }
+        };
+
         public enum RiskType
         {
             INTERNAL_CORROSION = 1,
@@ -29,7 +38,7 @@ namespace PTT_NGROUR.DTO
             LOSS_OF_GROUND_SUPPORT = 4,
         }
 
-        public int Worksheet = 5;
+        public string WorksheetName = "Risk score summary";
         public int StartRow = 3;
 
         public IEnumerable<ModelRiskManagementImport> ReadExcelRiskManagementImport(
@@ -43,12 +52,19 @@ namespace PTT_NGROUR.DTO
             }
             using (var exel = new OfficeOpenXml.ExcelPackage(pStreamExcel))
             {
-                var exWorkSheet = exel.Workbook.Worksheets[Worksheet];
+                var exWorkSheet = exel.Workbook.Worksheets.FirstOrDefault(x => x.Name.Equals(WorksheetName));
 
                 int intColCount = exWorkSheet.Dimension.End.Column;
                 int intRowCount = exWorkSheet.Dimension.End.Row;
 
                 int intEndRow = intRowCount - 6;
+
+                //var q = exWorkSheet.Cells.Where(x => excelRiskManagementColumn.ContainsKey(x.Value?.ToString())).ToList();
+
+                //q.ForEach(x => {
+                //    excelRiskManagementColumn[x.Value.ToString()] = x.Address;
+                //});
+
                 for (int intRow = StartRow; intRow < intEndRow; ++intRow)
                 {
                     var pipImport = new ModelRiskManagementImport()
