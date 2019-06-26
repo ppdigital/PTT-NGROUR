@@ -10,6 +10,14 @@
     @if (data.Count() > 0)
     {
         var max = data.Max(x => x.Activities.Max(o => o.Activities.Max(p => p.Regions.Count())));
+        List<PTT_NGROUR.Models.DataModel.ModelResults> regionMaster = new List<PTT_NGROUR.Models.DataModel.ModelResults>();
+        data.ForEach(x => x.Activities.ForEach(o => o.Activities.ForEach(p =>
+        {
+            if (p.Regions.Count() >= max)
+            {
+                regionMaster = p.Regions.ToList();
+            }
+        })));
         <table class="tableSum table table-bordered table-striped">
             <thead>
                 <tr>
@@ -17,7 +25,7 @@
                     <th rowspan="@(data.Count() > 0 ? "2" : "0")" class="textheadSumT h4 b">Interval</th>
                     @if (data.Count() > 0)
                     {
-                        foreach (var region in data.First().Activities.First().Activities.First().Regions)
+                        foreach (var region in regionMaster)
                         {
                             <th colspan="2" class="region">
                                 Region @region.REGION
@@ -28,7 +36,7 @@
                 @if (data.Count() > 0)
                 {
                     <tr>
-                        @foreach (var region in data.First().Activities.First().Activities.First().Regions)
+                        @foreach (var region in regionMaster)
                         {
                             <th>Plan</th>
                             <th class="actual">Actual</th>
