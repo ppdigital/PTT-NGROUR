@@ -165,7 +165,10 @@
         g.append("g")
             .attr("class", "xaxis axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x0));
+            .call(d3.axisBottom(x0).tickFormat(function (d) {
+                return d;
+                //return _.find(model.Master.Pipeline, function (o) { return o.PM_ID === d }).PM_NAME_ABV;
+            }));
 
         g.selectAll(".xaxis text")  // select all the text elements for the xaxis
             .attr("y", 35);
