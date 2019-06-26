@@ -9,18 +9,17 @@
         $('#txtOMSearch').val("");
 
         _.forEach(data, function (o) {
-            var tds = '';
             var style = '';
 
             if (o.ACTUAL >= o.PLAN) style = 'color:#16a085'
 
-            tds = tds + '<td>' + o.REGION + '</td>';
+            var tds = '<td>' + o.REGION + '</td>';
             //tds = tds + '<td>' + o.RC_NAME + '</td>';
-            tds = tds + '<td>' + o.TYPE === 'pipeline' ? o.RC_NAME : o.NAME + '</td>';
-            tds = tds + '<td>' + o.PLAN + '</td>';
-            tds = tds + '<td>' + o.ACTUAL + '</td>';
-            tds = tds + '<td>' + o.TYPE.toUpperCase() + '</td>';
-            tds = tds + '<td>' + o.PM_NAME_FULL + '</td>';
+            tds += '<td>' + (o.TYPE === 'pipeline' ? o.RC_NAME : o.NAME) + '</td>';
+            tds += '<td>' + o.PLAN + '</td>';
+            tds += '<td>' + o.ACTUAL + '</td>';
+            tds += '<td>' + o.TYPE.toUpperCase() + '</td>';
+            tds += '<td>' + o.PM_NAME_FULL + '</td>';
 
             $('#omTbl > tbody:last-child').append('<tr id="' + o.NAME + '" data-type="' + o.TYPE + '" class="rowfilOM pointer">' + tds + '</tr>');
             $('#omTbl > tbody > tr:last-child').data('map_info', o);
