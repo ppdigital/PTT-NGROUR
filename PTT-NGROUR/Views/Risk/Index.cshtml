@@ -157,7 +157,10 @@
                                                 <th>External Corrosion</th>
                                                 <th>Third Party Interference</th>
                                                 <th>Loss of Ground Support</th>
-                                                <th>Import</th>
+                                                @if (UserRoleId != 2)
+                                                {
+                                                    <th>Import</th>
+                                                }
                                                 <th>View File</th>
                                             </tr>
                                         </thead>
@@ -527,7 +530,10 @@
                     tds = tds + `<td class="text-center" style="${style}">${d.toLocaleString('th', { maximumFractionDigits: 2 })}</td>`;
                 });
 
-                tds = tds + '<td><button class="btn btn-success" onclick="showImport(\'' + o.RC_NAME + '\', ' + o.YEAR + ')"><span class="glyphicon glyphicon-paperclip"></span></button></td>';
+                @if (UserRoleId != 2)
+                {
+                    @("tds = tds + '<td><button class=\"btn btn-success\" onclick=\"showImport(\'' + o.RC_NAME + '\', ' + o.YEAR + ')\"><span class=\"glyphicon glyphicon-paperclip\"></span></button></td>';")
+                }
 
                 var btnView = '<button class="btn '
                 if (o.HAS_FILE) {

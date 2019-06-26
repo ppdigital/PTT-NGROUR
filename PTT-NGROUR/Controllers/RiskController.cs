@@ -274,7 +274,7 @@ namespace PTT_NGROUR.Controllers
 
         // POST: /Risk/Json
         [HttpPost]
-        [AuthorizeController.CustomAuthorize]
+        //[AuthorizeController.CustomAuthorize]
         public JsonResult Json(ModelViewRiskReport model)
         {
             List<ModelGetRisk> riskReport = this.GetData(model);

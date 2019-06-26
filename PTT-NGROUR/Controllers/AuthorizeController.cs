@@ -43,7 +43,14 @@ namespace PTT_NGROUR.Controllers
                 bool cnN = false;
                 var url = filterContext.HttpContext.Request.UrlReferrer == null ? "" : filterContext.HttpContext.Request.UrlReferrer.AbsolutePath;
 
-                List<string> user1 = new List<string>() { "User/ResetPassword", "Dashboard/Index", "Home/Index", "Utilization/Index", "Utilization/Customer", "Utilization/Report"};
+                List<string> user1 = new List<string>() {
+                    "Home/Index",
+                    "User/ResetPassword",
+                    "Dashboard/Index",
+                    "Utilization/Index", "Utilization/Customer", "Utilization/Report",
+                    "OM/Index",
+                    "Risk/Index", "Risk/Report", "Risk/RiskManagementGraph",
+                };
 
 
                 if (userA.Roleid == 1)
