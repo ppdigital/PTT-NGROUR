@@ -76,7 +76,7 @@
         }), function (o) {
             return o.PERCENTAGE || 0
         })
-        var maxDomain = max && max.PERCENTAGE > 200 ? max.PERCENTAGE : 200
+        var maxDomain = max && max.PERCENTAGE > 100 ? max.PERCENTAGE : 100
 
         x1.domain(keys).rangeRound([0, x0.bandwidth()]);
 

@@ -36,7 +36,7 @@
         var svg = d3.select("#chartCompletionMeter").append("svg")
             .attr("id", "svgCompletionMeter")
             .attr("width", $('#chartWrapperCompletionMeter').width())
-            .attr("height", $('#chartWrapperCompletionMeter').width() / 2)
+            .attr("height", $('#chartWrapperCompletionMeter').width() / 2.5)
             .call(responsivefyChart);
         var margin = { top: 100, right: 80, bottom: 30, left: 60 },
             width = +svg.attr("width") - margin.left - margin.right,
@@ -72,7 +72,7 @@
         }), function (o) {
             return o.PERCENTAGE || 0
         })
-        var maxDomain = max && max.PERCENTAGE > 200 ? max.PERCENTAGE : 200
+        var maxDomain = max && max.PERCENTAGE > 100 ? max.PERCENTAGE : 100
 
         x1.domain(keys).rangeRound([0, x0.bandwidth()]);
 
