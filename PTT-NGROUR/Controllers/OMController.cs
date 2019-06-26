@@ -65,7 +65,6 @@ namespace PTT_NGROUR.Controllers
             };
         }
 
-        [AuthorizeController.CustomAuthorize]
         private ModelJsonResult<ModelOmIndex> GetData(string pStrYear, string pStrMonth, string[] pArrRegion, string mode)
         {
             ModelJsonResult<ModelOmIndex> result = new ModelJsonResult<ModelOmIndex>();
