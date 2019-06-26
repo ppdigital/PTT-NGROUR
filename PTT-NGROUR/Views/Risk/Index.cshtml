@@ -532,7 +532,7 @@
 
                 @if (UserRoleId != 2)
                 {
-                    @("tds = tds + '<td><button class=\"btn btn-success\" onclick=\"showImport(\'' + o.RC_NAME + '\', ' + o.YEAR + ')\"><span class=\"glyphicon glyphicon-paperclip\"></span></button></td>';")
+                    @Html.Raw("tds = tds + '<td><button class=\"btn btn-success\" onclick=\"showImport(\\'' + o.RC_NAME + '\\', ' + o.YEAR + ')\"><span class=\"glyphicon glyphicon-paperclip\"></span></button></td>';");
                 }
 
                 var btnView = '<button class="btn '
