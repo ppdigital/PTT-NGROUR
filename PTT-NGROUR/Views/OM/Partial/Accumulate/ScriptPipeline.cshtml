@@ -11,8 +11,8 @@
          *
          */
         var colors = {
-            PLAN_PERCENTAGE: "#f0b386",
-            ACTUAL_PERCENTAGE: "#9ac5e7"
+            PLAN_PERCENTAGE: "#9ac5e7",
+            ACTUAL_PERCENTAGE: "#f0b386"
         }
         var labels = {
             PLAN_PERCENTAGE: "Plan",
@@ -65,7 +65,7 @@
             .rangeRound([0, x0.bandwidth()])
             .padding(0.2);
 
-        z.domain(['PLAN_PERCENTAGE', 'ACTUAL_PERCENTAGE'])
+        z.domain(['ACTUAL_PERCENTAGE', 'PLAN_PERCENTAGE'])
         var keys = z.domain()
 
         var groupData = d3.nest()

@@ -11,8 +11,8 @@
          *
          */
         var colors = {
-            PLAN_PERCENTAGE: "#f0b386",
-            ACTUAL_PERCENTAGE: "#9ac5e7"
+            PLAN_PERCENTAGE: "#9ac5e7",
+            ACTUAL_PERCENTAGE: "#f0b386"
         }
         var labels = {
             PLAN_PERCENTAGE: "Plan",
@@ -38,7 +38,6 @@
             height = +svg.attr("height") - margin.top - margin.bottom,
             g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        console.log(height)
         var x0 = d3.scaleBand()
             .rangeRound([0, width])
             .paddingInner(0.1);
@@ -59,14 +58,14 @@
 
         var data = model.Accumulated.Meter || [];
 
-        console.log("data", data);
+        //console.log("data", data);
 
         x0.domain(data.map(function (d) { return d.PM_ID; }));
         x1.domain(_.sortBy(data, 'MONTH').map(function (d) { return d.MONTH; }))
             .rangeRound([0, x0.bandwidth()])
             .padding(0.2);
 
-        z.domain(['PLAN_PERCENTAGE', 'ACTUAL_PERCENTAGE'])
+        z.domain(['ACTUAL_PERCENTAGE', 'PLAN_PERCENTAGE'])
         var keys = z.domain()
 
         var groupData = d3.nest()
@@ -93,22 +92,22 @@
                     ACTUAL_PERCENTAGE: ACTUAL_PERCENTAGE
                 }
 
-                console.log("rollup d", d, d2);
+                //console.log("rollup d", d, d2);
                 return d2;
             })
             .entries(data)
             .map(function (d) { return d.value; });
 
-        console.log("groupData", groupData)
+        //console.log("groupData", groupData)
 
         var stackData = stack
             .keys(keys)(groupData)
 
-        console.log("stackData", stackData)
+        //console.log("stackData", stackData)
 
         //y.domain([0, 100]).nice();
 
-        console.log("keys", keys)
+        //console.log("keys", keys)
 
         var serie = g.selectAll(".serie")
             .data(stackData)
