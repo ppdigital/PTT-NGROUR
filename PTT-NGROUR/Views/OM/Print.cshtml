@@ -55,6 +55,7 @@
         <div class="panel-body">
             <!-- [Completion Pipeline] -->
             @Html.Partial("Partial/Completion/Pipeline", Model.Result)
+            @Html.Partial("Partial/Accumulate/Pipeline", Model.Result)
         </div>
     </div>
     <p class="breakhere"></p>
@@ -71,6 +72,7 @@
         <div class="panel-body">
             <!-- [Completion Gate] -->
             @Html.Partial("Partial/Completion/Gate", Model.Result)
+            @Html.Partial("Partial/Accumulate/Gate", Model.Result)
         </div>
     </div>
     <p class="breakhere"></p>
@@ -87,6 +89,7 @@
         <div class="panel-body">
             <!-- [Completion Meter] -->
             @Html.Partial("Partial/Completion/Meter", Model.Result)
+            @Html.Partial("Partial/Accumulate/Meter", Model.Result)
         </div>
     </div>
 </div>
@@ -97,21 +100,22 @@
     <script src="~/Scripts/d3/d3.v3.js"></script>
     <script src="~/Scripts/d3/d3.v4.js"></script>
     <script>
+        var isPrintMode = true
         var model = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Result))');
         var d = new Date(@Model.Result.Year, @(Model.Result.Month - 1))
         var initMonth = d.getMonth() + 1
         var initYear = d.getFullYear()
 
         var chartWidth = 1365
-        $('.chart').width(chartWidth);
-        $('.chart').height(chartWidth / 1.92);
     </script>
     @Html.Partial("Partial/Script")
+
     @Html.Partial("Partial/Completion/ScriptPipeline")
+    @Html.Partial("Partial/Accumulate/ScriptPipeline")
+
     @Html.Partial("Partial/Completion/ScriptGate")
+    @Html.Partial("Partial/Accumulate/ScriptGate")
+
     @Html.Partial("Partial/Completion/ScriptMeter")
-    <script>
-        renderChartCompletionMeter()
-        renderChartCompletionGate()
-    </script>
+    @Html.Partial("Partial/Accumulate/ScriptMeter")
 }
