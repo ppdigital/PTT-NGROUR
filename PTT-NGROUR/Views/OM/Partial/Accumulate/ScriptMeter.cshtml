@@ -27,16 +27,19 @@
          *
          */
         var tooltip = d3.select('#tooltip');
+        var width = isPrintMode ? chartWidth : $('#chartWrapperAccumulateMeter').width()
+        var height = width / 2.75
         var svg = d3.select("#chartAccumulateMeter").append("svg")
             .attr("id", "svgAccumulateMeter")
-            .attr("width", $('#chartWrapperAccumulateMeter').width())
-            .attr("height", $('#chartWrapperAccumulateMeter').width() / 2.75)
-            .call(responsivefyChart);
+            .attr("width", width)
+            .attr("height", height)
+
+        if (!isPrintMode) svg.call(responsivefyChart);
 
         var margin = { top: 100, right: 80, bottom: 60, left: 60 },
-            width = +svg.attr("width") - margin.left - margin.right,
-            height = +svg.attr("height") - margin.top - margin.bottom,
             g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        width = width - margin.left - margin.right
+        height = height - margin.top - margin.bottom
 
         var x0 = d3.scaleBand()
             .rangeRound([0, width])
@@ -216,76 +219,76 @@
             .style("text-anchor", "begin")
             .text("M/R St. PM IA Monitoring Accumulated Results");
 
-        //var legend = serie.append("g")
-        //    .attr("class", "legend")
-        //    .attr("transform", function (d) {
-        //        if (!d) return null
+        ////var legend = serie.append("g")
+        ////    .attr("class", "legend")
+        ////    .attr("transform", function (d) {
+        ////        if (!d) return null
 
-        //        var d = d[d.length - 1];
-        //        return "translate(" + (x0(d.data.PM_ID) + x1(d.data.MONTH) + x1.bandwidth()) + "," + ((y(d[0]) + y(d[1])) / 2) + ")";
+        ////        var d = d[d.length - 1];
+        ////        return "translate(" + (x0(d.data.PM_ID) + x1(d.data.MONTH) + x1.bandwidth()) + "," + ((y(d[0]) + y(d[1])) / 2) + ")";
+        ////    });
+
+        ////legend.append("line")
+        ////    .attr("x1", -6)
+        ////    .attr("x2", 6)
+        ////    .attr("stroke", "#000");
+
+
+        ///**
+        // * Legend
+        // *
+        // */
+        //var startXAt = 15,
+        //    startYAt = 35,
+        //    tabSpace = 170,
+        //    legend_tabs = [],
+        //    colMax = 3,
+        //    colIndex = 0,
+        //    rowSpace = 10,
+        //    i;
+        //for (i = 0; i <= (keys.length + 1); i++) {
+        //    legend_tabs.push({
+        //        x: tabSpace * colIndex,
+        //        y: rowSpace
+        //    })
+
+        //    colIndex++
+
+        //    if ((i + 1) % colMax === 0) {
+        //        colIndex = 0
+        //        rowSpace = rowSpace + 20
+        //    }
+        //}
+        //var startp = svg.append("g")
+        //    .attr("class", "legendbox")
+        //    .attr("transform", function () {
+        //        return "translate(" + startXAt + ", " + startYAt + ")"
+        //    })
+        //    .attr("id", "legendbox");
+
+        //var legend = startp.selectAll(".legend")
+        //    .data(z.domain().slice())
+        //    .enter().append("g")
+        //    .attr("class", "legend")
+        //    .attr("transform", function (d, i) {
+        //        return "translate(" + legend_tabs[i].x + "," + legend_tabs[i].y + ")";
         //    });
 
-        //legend.append("line")
-        //    .attr("x1", -6)
-        //    .attr("x2", 6)
-        //    .attr("stroke", "#000");
+        //legend.append("rect")
+        //    .attr("x", 0)
+        //    .attr("y", 2)
+        //    .attr("width", 10)
+        //    .attr("height", 10)
+        //    .style("fill", z);
 
-
-        /**
-         * Legend
-         *
-         */
-        var startXAt = 15,
-            startYAt = 35,
-            tabSpace = 170,
-            legend_tabs = [],
-            colMax = 3,
-            colIndex = 0,
-            rowSpace = 10,
-            i;
-        for (i = 0; i <= (keys.length + 1); i++) {
-            legend_tabs.push({
-                x: tabSpace * colIndex,
-                y: rowSpace
-            })
-
-            colIndex++
-
-            if ((i + 1) % colMax === 0) {
-                colIndex = 0
-                rowSpace = rowSpace + 20
-            }
-        }
-        var startp = svg.append("g")
-            .attr("class", "legendbox")
-            .attr("transform", function () {
-                return "translate(" + startXAt + ", " + startYAt + ")"
-            })
-            .attr("id", "legendbox");
-
-        var legend = startp.selectAll(".legend")
-            .data(z.domain().slice())
-            .enter().append("g")
-            .attr("class", "legend")
-            .attr("transform", function (d, i) {
-                return "translate(" + legend_tabs[i].x + "," + legend_tabs[i].y + ")";
-            });
-
-        legend.append("rect")
-            .attr("x", 0)
-            .attr("y", 2)
-            .attr("width", 10)
-            .attr("height", 10)
-            .style("fill", z);
-
-        legend.append("text")
-            .attr("x", 16)
-            .attr("y", 7)
-            .attr("dy", ".35em")
-            .style("text-anchor", "begin")
-            .text(function (d) {
-                return labels[d];
-            });
+        //legend.append("text")
+        //    .attr("x", 16)
+        //    .attr("y", 7)
+        //    .attr("dy", ".35em")
+        //    .style("text-anchor", "begin")
+        //    .text(function (d) {
+        //        return labels[d];
+        //    });
     }
 
     $(document).ready(function () {

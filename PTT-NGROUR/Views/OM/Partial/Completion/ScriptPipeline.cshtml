@@ -20,7 +20,7 @@
         var master = model.Master.Pipeline || []
 
         data && data.forEach(function (element) {
-            keys = keys.concat(element.Activities.map(function (o) {
+            keys = keys.concat(_.map(element.Activities, function (o) {
                 var f = _.find(master, function (m) {
                     return m.PM_ID === o.PM_ID
                 })
@@ -38,15 +38,19 @@
          * Initial
          *
          */
+        var width = isPrintMode ? chartWidth : $('#chartWrapperCompletionPipeline').width()
+        var height = width / 2.5
         var svg = d3.select("#chartCompletionPipeline").append("svg")
             .attr("id", "svgCompletionPipeline")
-            .attr("width", $('#chartWrapperCompletionPipeline').width())
-            .attr("height", $('#chartWrapperCompletionPipeline').width() / 2.5)
-            .call(responsivefyChart);
+            .attr("width", width)
+            .attr("height", height)
+
+        if (!isPrintMode) svg.call(responsivefyChart);
+
         var margin = { top: 200, right: 80, bottom: 30, left: 60 },
-            width = +svg.attr("width") - margin.left - margin.right,
-            height = +svg.attr("height") - margin.top - margin.bottom,
             g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        width = width - margin.left - margin.right
+        height = height - margin.top - margin.bottom
 
         // Group Bar
         var x0 = d3.scaleBand()
@@ -68,8 +72,8 @@
          *
          */
         // Get Text Axis Bottom
-        x0.domain(data.map(function (d) { return d.REGION; }));
-        var max = _.maxBy(data.map(function (d) {
+        x0.domain(_.map(data, function (d) { return d.REGION; }));
+        var max = _.maxBy(_.map(data, function (d) {
             return _.maxBy(d.Activities, function (o) {
                 return o.PERCENTAGE || 0
             });
@@ -89,7 +93,7 @@
             .selectAll("rect")
             .data(function (d) {
                 var _d = _.keyBy(d.Activities, 'PM_ID')
-                return keys.map(function (key) {
+                return _.map(keys, function (key) {
                     var v = 0;
 
                     if (_d[key]) v = _d[key].PERCENTAGE

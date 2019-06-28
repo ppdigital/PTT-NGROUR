@@ -27,16 +27,19 @@
          *
          */
         var tooltip = d3.select('#tooltip');
+        var width = isPrintMode ? chartWidth : $('#chartWrapperAccumulateGate').width()
+        var height = width / 2.75
         var svg = d3.select("#chartAccumulateGate").append("svg")
             .attr("id", "svgAccumulateGate")
-            .attr("width", $('#chartWrapperAccumulateGate').width())
-            .attr("height", $('#chartWrapperAccumulateGate').width() / 2.75)
-            .call(responsivefyChart);
+            .attr("width", width)
+            .attr("height", height)
+
+        if (!isPrintMode) svg.call(responsivefyChart);
 
         var margin = { top: 100, right: 80, bottom: 60, left: 60 },
-            width = +svg.attr("width") - margin.left - margin.right,
-            height = +svg.attr("height") - margin.top - margin.bottom,
             g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        width = width - margin.left - margin.right
+        height = height - margin.top - margin.bottom
 
         var x0 = d3.scaleBand()
             .rangeRound([0, width])

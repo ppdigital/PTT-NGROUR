@@ -188,7 +188,7 @@
             var z = d3.scaleOrdinal()
                 .range(colors);
 
-            x0.domain(data.map(function (d) {
+            x0.domain(_.map(data, function (d) {
                 return d.RC_NAME;
             }));
             x1.domain(keys).rangeRound([0, x0.bandwidth()]);
@@ -214,7 +214,7 @@
                 })
                 .selectAll("rect")
                 .data(function (d) {
-                    var k = keys.map(function (key) {
+                    var k = _.map(keys, function (key) {
                         return { key: key, value: d[key] };
                     });
 

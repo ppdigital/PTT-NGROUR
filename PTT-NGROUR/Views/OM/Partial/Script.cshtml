@@ -19,7 +19,7 @@
     }
 
     var ExportTo = function (type) {
-        var mode = $('[name="radioMY"]').val();
+        var mode = $('[name="radioMY"]:checked').val();
         var month = $('[name="pStrMonth"]').val();
         var year = $('[name="pStrYear"]').val();
 
@@ -33,10 +33,12 @@
         i1.value = mode;
         f.appendChild(i1);
 
-        var i3 = document.createElement("input");
-        i3.name = "pStrMonth";
-        i3.value = month;
-        f.appendChild(i3);
+        if (mode === 'month') {
+            var i3 = document.createElement("input");
+            i3.name = "pStrMonth";
+            i3.value = month;
+            f.appendChild(i3);
+        }
 
         var i2 = document.createElement("input");
         i2.name = "pStrYear";

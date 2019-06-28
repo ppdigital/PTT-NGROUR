@@ -118,4 +118,17 @@
 
     @Html.Partial("Partial/Completion/ScriptMeter")
     @Html.Partial("Partial/Accumulate/ScriptMeter")
+
+    <script>
+        if (isPrintMode) {
+            renderChartCompletionPipeline()
+            renderChartAccumulatePipeline()
+
+            renderChartCompletionGate()
+            renderChartAccumulateGate()
+
+            renderChartCompletionMeter()
+            renderChartAccumulateMeter()
+        }
+    </script>
 }

@@ -282,6 +282,7 @@
     <script src="~/Scripts/lodash.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
+        var isPrintMode = false
         var model = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Result))');
         var d = new Date(@Model.Result.Year, @(Model.Result.Month - 1))
         var initMonth = d.getMonth() + 1
