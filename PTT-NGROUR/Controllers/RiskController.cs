@@ -236,7 +236,7 @@ namespace PTT_NGROUR.Controllers
         }
 
         //[AuthorizeController.CustomAuthorize]
-        public ActionResult RiskManagementGraphPrint(ModelViewRiskReport model)
+        public ActionResult RiskManagementGraphPrint(ModelViewRiskReport model, string Lists)
         {
             if(string.IsNullOrEmpty(model.Year))
             {
@@ -246,6 +246,11 @@ namespace PTT_NGROUR.Controllers
             if (string.IsNullOrEmpty(model.Type))
             {
                 model.Type = "risk";
+            }
+
+            if (Lists != null)
+            {
+                model.Lists = Lists.Split(',').ToList();
             }
 
             DAL.DAL dal = new DAL.DAL();
@@ -262,7 +267,10 @@ namespace PTT_NGROUR.Controllers
         [HttpPost]
         public ActionResult RiskManagementGraphExport(ModelViewRiskReport model)
         {
-            return new ActionAsPdf("RiskManagementGraphPrint", model)
+            return new ActionAsPdf("RiskManagementGraphPrint", new {
+                model,
+                Lists = model.Lists.FirstOrDefault()
+            })
             {
                 //FileName = "Test.pdf",
                 PageSize = Size.A4,

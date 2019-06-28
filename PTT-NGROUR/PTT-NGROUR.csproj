@@ -798,6 +798,7 @@
     <Content Include="Views\OM\Partial\Accumulate\Pipeline.cshtml" />
     <Content Include="Views\OM\Partial\Accumulate\ScriptGate.cshtml" />
     <Content Include="Views\OM\Partial\Accumulate\ScriptMeter.cshtml" />
+    <Content Include="Views\Risk\Partial\ScriptGraphInclude.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

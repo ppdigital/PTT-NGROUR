@@ -47,12 +47,11 @@
 </div>
 
 @section scripts{
-    @Html.Partial("Partial/ScriptGraph")
+    @Html.Partial("Partial/ScriptGraphInclude")
     <script>
-        var chartWidth = 1365
-        $('.chart').width(chartWidth);
-        $('.chart').height(chartWidth / 1.92);
+        var isPrintMode = true
         var model = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))');
         renderChart(model)
     </script>
+    @Html.Partial("Partial/ScriptGraph")
 }

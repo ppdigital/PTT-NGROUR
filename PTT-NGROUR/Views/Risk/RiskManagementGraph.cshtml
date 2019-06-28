@@ -112,7 +112,7 @@
                 <div class="row">
                     <div class="col-md-8 col-lg-9">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Export to</label>
+                            <label>Export to</label>
                             <div>
                                 <button class="btn btn-default" onclick="ExportTo('pdf')">&nbsp;&nbsp;&nbsp;&nbsp;PDF&nbsp;&nbsp;&nbsp;&nbsp;</button>
                             </div>
@@ -157,8 +157,154 @@
 </div>
 
 @section scripts{
+    @Html.Partial("Partial/ScriptGraphInclude")
+    <script src="~/Scripts/DataTables/datatables.min.js"></script>
+    <script src="~/Scripts/DataTables/Responsive-2.2.2/js/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/DataTables/DataTables-1.10.16/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
+    <script src="~/Content/bootstrap-datepicker.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     @Html.Partial("Partial/ScriptGraph")
     <script>
+        var isPrintMode = true
+        $('[data-datepicker]').datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose: true,
+            inline: true,
+        }).datepicker("setDate", new Date());
+
+        $('#radioModeRegion').prop('checked', true)
+
+        $('select[data-target]').on('loaded.bs.select', function () {
+            if ($('[name="radioMode"]:checked').val() !== $(this).data('target')) {
+                $(this).prop('disabled', true).parent('.bootstrap-select').hide()
+            }
+        });
+
+        $('[name="radioMode"]').on('change', function (e) {
+            var val = $(this).val()
+
+            $('select[data-target]').prop('disabled', true)
+            var select = $('select[data-target="' + val + '"]')
+            if (select.length > 0) {
+                $('select[data-target]').parent('.bootstrap-select').hide()
+                select.prop('disabled', false).parent('.bootstrap-select').show()
+            }
+
+            $('.selectpicker').selectpicker('refresh');
+        })
+
+        var thead = '<tr>'
+        thead += '<th>Region</th>'
+        thead += '<th>RC</th>'
+        key.forEach(function (v) {
+            thead += `<th>${keyText[v]}</th>`
+        })
+        thead += '</tr>'
+
+        $("#tableRisk thead").html(thead)
+
+        var tableRisk = $("#tableRisk").DataTable()
+
+
+
+        function onSubmit() {
+            getRiskJson()
+        }
+
+        function initMapTable(data) {
+            $('#tableRisk_filter .form-control').val('')
+            $('#tableRisk_filter .form-control').trigger('keyup')
+            tableRisk.clear()
+            if (typeof data !== 'undefined' && data.length > 0) {
+                _.forEach(data, function (o) {
+                    var tr = ''
+                    tr += '<tr>'
+                    tr += `<td>${o.REGION}</td>`;
+                    tr += `<td>${o.RC_NAME}</td>`;
+                    key.forEach(function (v) {
+                        var style = ''
+                        var value = (Math.round((o[v] || 0) * 100) / 100).toLocaleString('th')
+
+                        if (v !== 'RISK_SCORE') {
+                            value = value
+                        }
+
+                        if (o[`${v}_RISK`] === 'RISK') {
+                            style = 'background-color: ' + o[v + '_COLOR'] + '; color: #fff;'
+                        }
+                        tr += `<th style="${style}">${value}</th>`
+                    })
+                    tr += '</tr>'
+
+                    tableRisk.row.add($(tr));
+                });
+            }
+
+            tableRisk.draw();
+        }
+
+        var getRiskJson = function () {
+            var mode = $('[name="radioMode"]:checked').val();
+            var date = $("#datePicker").datepicker("getDate");
+            var year = date.getFullYear();
+            axios.post('/Risk/Json', {
+                type: mode,
+                lists: $('[data-target="' + mode + '"]').val(),
+                year: year
+            })
+                .then(function (response) {
+                    data = response.data
+                    renderChart(data)
+                    initMapTable(data)
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                });
+        }
+
+        var ExportTo = function (type) {
+            var mode = $('[name="radioMode"]:checked').val();
+            var date = $("#datePicker").datepicker("getDate");
+            var year = date.getFullYear();
+
+            var f = document.createElement("form");
+            f.action = "/Risk/RiskManagementGraphExport";
+            f.method = "post";
+            f.target = "blank";
+
+
+            var i1 = document.createElement("input");
+            i1.name = "Type";
+            i1.value = mode;
+            f.appendChild(i1);
+
+            var i2 = document.createElement("input");
+            i2.name = "Year";
+            i2.value = year;
+            f.appendChild(i2);
+
+            var i2 = document.createElement("input");
+            i2.name = "Lists";
+            i2.value = $('[data-target="' + mode + '"]').val();
+            f.appendChild(i2);
+
+            $('body').append(f);
+
+            f.submit();
+            f.remove();
+        }
+
+        $('[name="riskType"]').on('change', function () {
+            renderChart(data)
+        })
+
         getRiskJson();
     </script>
 }
