@@ -29,11 +29,13 @@ namespace PTT_NGROUR.Controllers
             return View(data);
         }
 
-        //[AuthorizeController.CustomAuthorize]
-        public ActionResult Print(string radioMY, string pStrYear, string pStrMonth, string[] pArrRegion)
+        [HttpGet]
+        public ActionResult Print(string radioMY, string pStrYear, string pStrMonth, string pStrRegion)
         {
             if (radioMY == "year") pStrMonth = null;
             string mode = radioMY == "year" ? "yearly" : "monthly";
+
+            string[] pArrRegion = pStrRegion == null ? null : pStrRegion.Split(',');
 
             ModelJsonResult<ModelOmIndex> data = GetData(pStrYear, pStrMonth, pArrRegion, mode);
             
@@ -49,13 +51,16 @@ namespace PTT_NGROUR.Controllers
             return Json(GetData(pStrYear, pStrMonth, pArrRegion, mode));
         }
 
-        public ActionResult Export(string pStrYear, string pStrMonth, string[] pArrRegion)
+        [HttpGet]
+        [AuthorizeController.CustomAuthorize]
+        public ActionResult Export(string radioMY, string pStrYear, string pStrMonth, string[] pArrRegion)
         {
             return new ActionAsPdf("Print", new
             {
+                radioMY,
                 pStrYear,
                 pStrMonth,
-                pArrRegion,
+                pStrRegion = string.Join(",", pArrRegion),
             }) {
                 //FileName = "Test.pdf",
                 PageSize = Size.A4,

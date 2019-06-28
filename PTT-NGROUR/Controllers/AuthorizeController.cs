@@ -49,6 +49,7 @@ namespace PTT_NGROUR.Controllers
                     "Dashboard/Index",
                     "Utilization/Index", "Utilization/Customer", "Utilization/Report",
                     "OM/Index",
+                    "OM/Export",
                     "Risk/Index", "Risk/Report", "Risk/RiskManagementGraph",
                 };
 
