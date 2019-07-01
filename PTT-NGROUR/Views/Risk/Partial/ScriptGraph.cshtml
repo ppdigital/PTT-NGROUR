@@ -84,15 +84,21 @@
             };
 
             var keys = []
-            $.each($('[name="riskType"]').val(), function (k, v) {
-                keys.push(selectKey[v].Key)
-                colors.push(selectKey[v].Color)
-            });
 
-            $.each(defaultKeys, function (k, v) {
-                keys.push(v.Key)
-                colors.push(v.Color)
-            })
+            var _riskType = isPrintMode ? riskType : $('[name="riskType"]').val()
+            if (_riskType.length > 0) {
+                $.each(_riskType, function (k, v) {
+                    keys.push(selectKey[v].Key)
+                    colors.push(selectKey[v].Color)
+                });
+            }
+
+            if (defaultKeys.length > 0) {
+                $.each(defaultKeys, function (k, v) {
+                    keys.push(v.Key)
+                    colors.push(v.Color)
+                })
+            }
 
             var keysText = {
                 INTERNAL_CORROSION: "INTERNAL CORROSION",

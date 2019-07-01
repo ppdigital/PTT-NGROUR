@@ -166,7 +166,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     @Html.Partial("Partial/ScriptGraph")
     <script>
-        var isPrintMode = true
+        var isPrintMode = false
         $('[data-datepicker]').datepicker({
             format: "yyyy",
             viewMode: "years",
@@ -275,6 +275,7 @@
             var year = date.getFullYear();
 
             var f = document.createElement("form");
+            //f.action = "/Risk/RiskManagementGraphPrint";
             f.action = "/Risk/RiskManagementGraphExport";
             f.method = "post";
             f.target = "blank";
@@ -290,10 +291,15 @@
             i2.value = year;
             f.appendChild(i2);
 
-            var i2 = document.createElement("input");
-            i2.name = "Lists";
-            i2.value = $('[data-target="' + mode + '"]').val();
-            f.appendChild(i2);
+            var i3 = document.createElement("input");
+            i3.name = "strLists";
+            i3.value = $('[data-target="' + mode + '"]').val();
+            f.appendChild(i3);
+
+            var i4 = document.createElement("input");
+            i4.name = "strRiskType";
+            i4.value = $('[name="riskType"]').val().join(',');
+            f.appendChild(i4);
 
             $('body').append(f);
 

@@ -10,5 +10,7 @@ namespace PTT_NGROUR.Models.ViewModel
         public string Type { get; set; }
         public string Year { get; set; }
         public List<string> Lists { get; set; }
+        public string strLists { get; set; }
+        public string strRiskType { get; set; }
     }
 }

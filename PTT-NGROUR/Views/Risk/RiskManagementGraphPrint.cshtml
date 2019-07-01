@@ -51,7 +51,10 @@
     <script>
         var isPrintMode = true
         var model = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))');
-        renderChart(model)
+        var riskType = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["RiskType"] as List<string>))');
     </script>
     @Html.Partial("Partial/ScriptGraph")
+    <script>
+        renderChart(model)
+    </script>
 }
