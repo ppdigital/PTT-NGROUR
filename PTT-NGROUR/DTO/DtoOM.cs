@@ -22,8 +22,8 @@ namespace PTT_NGROUR.DTO
         public List<ModelOMMasterMaintenanceLevel> GetListMaintenanceLevelColor()
         {
             string strCommand = "SELECT * FROM OM_GATE_COLOR";
-            var dal = new DAL.DAL();
-            var result = dal.ReadData(strCommand, x => new ModelOMMasterMaintenanceLevel(x));
+            DAL.DAL dal = new DAL.DAL();
+            IEnumerable<ModelOMMasterMaintenanceLevel> result = dal.ReadData(strCommand, x => new ModelOMMasterMaintenanceLevel(x));
             dal = null;
             return result.ToList();
         }
