@@ -1,7 +1,4 @@
-﻿using PTT_NGROUR.ExtentionAndLib;
-using PTT_NGROUR.Models.DataModel;
-using PTT_NGROUR.Models.ViewModel;
-using System;
+﻿using PTT_NGROUR.Models.DataModel;
 using System.Collections.Generic;
 using System.Linq;
 using static PTT_NGROUR.Models.DataModel.ModelOMMaster;
@@ -121,11 +118,11 @@ namespace PTT_NGROUR.DTO
             {
                 if(accumulate)
                 {
-                    strCommand += $" AND EXTRACT(month FROM END_DATE) <= {month} AND EXTRACT(year FROM END_DATE) = " + year;
+                    strCommand += $"AND EXTRACT(month FROM END_DATE) <= {month} AND EXTRACT(year FROM END_DATE) = " + year;
                 }
                 else
                 {
-                    strCommand += $" AND TO_DATE ('{year}/{month}/01', 'yyyy/mm/dd') BETWEEN START_DATE AND END_DATE";
+                    strCommand += $"AND TO_DATE ('{year}/{month}/01', 'yyyy/mm/dd') BETWEEN START_DATE AND END_DATE";
                 }
             }
 
