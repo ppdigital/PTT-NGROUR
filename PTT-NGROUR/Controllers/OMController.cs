@@ -133,7 +133,8 @@ namespace PTT_NGROUR.Controllers
             }
             catch (Exception ex)
             {
-                result.SetException(ex);
+                throw ex;
+                //result.SetException(ex);
             }
 
             return result;
