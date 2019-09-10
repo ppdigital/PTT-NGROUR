@@ -93,7 +93,9 @@ namespace PTT_NGROUR.Models.DataModel
 
                 if (plan.Equals(0)) return actual;
 
-                return Decimal.Round((actual / plan) * 100, 2);
+                decimal result = Decimal.Round((actual / plan) * 100, 2);
+
+                return result > 100 ? 100 : result;
             }
         }
 
@@ -182,7 +184,9 @@ namespace PTT_NGROUR.Models.DataModel
 
                 if(plan.Equals(0)) return actual;
 
-                return Decimal.Round((actual / plan) * 100, 2);
+                decimal result = Decimal.Round((actual / plan) * 100, 2);
+
+                return result > 100 ? 100 : result;
             }
         }
     }

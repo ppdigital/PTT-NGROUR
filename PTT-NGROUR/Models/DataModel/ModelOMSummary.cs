@@ -74,14 +74,19 @@ namespace PTT_NGROUR.Models.DataModel
 
                     if (plan.Equals(0)) return actual;
 
-                    return Decimal.Round((actual / plan) * 100, 2);
+                    decimal result = Decimal.Round((actual / plan) * 100, 2);
+
+                    return result > 100 ? 100 : result;
                 }
 
                 decimal GetTypePercentage(IEnumerable<ModelMonitoringResultsType> list)
                 {
                     decimal actual = list.Sum(x => x.Activities.Sum(o => o.ACTUAL));
                     decimal plan = list.Sum(x => x.Activities.Sum(o => o.PLAN)).Equals(0) ? 1 : list.Sum(x => x.Activities.Sum(o => o.PLAN));
-                    return Decimal.Round((actual / plan) * 100, 2);
+
+                    decimal result = Decimal.Round((actual / plan) * 100, 2);
+
+                    return result > 100 ? 100 : result;
                 }
             }
 
