@@ -25,7 +25,7 @@ namespace PTT_NGROUR.DTO
             return result.ToList();
         }
 
-        public IEnumerable<ModelMonitoringResults> GetListOMPipelineHistory(int month, int year, string[] pArrRegion, bool accumulate)
+        public List<ModelMonitoringResults> GetListOMPipelineHistory(int month, int year, string[] pArrRegion, bool accumulate)
         {
             if (month.Equals(0) && !accumulate)
             {
@@ -51,10 +51,10 @@ namespace PTT_NGROUR.DTO
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelMonitoringResults(x));
             dal = null;
-            return result;
+            return result.ToList();
         }
 
-        public IEnumerable<ModelPlanYearly> GetListOMPipelinePlanYearly(int year, string[] pArrRegion)
+        public List<ModelPlanYearly> GetListOMPipelinePlanYearly(int year, string[] pArrRegion)
         {
             string strCommand = "SELECT PM, SUM(PLAN) AS PLAN FROM VIEW_OM_PIPELINE_HISTORY WHERE YEAR = " + year;
 
@@ -65,10 +65,10 @@ namespace PTT_NGROUR.DTO
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelPlanYearly(x));
             dal = null;
-            return result;
+            return result.ToList();
         }
 
-        public IEnumerable<ModelMonitoringResults> GetListOMGateHistory(int month, int year, string[] pArrRegion, bool accumulate)
+        public List<ModelMonitoringResults> GetListOMGateHistory(int month, int year, string[] pArrRegion, bool accumulate)
         {
             if (month.Equals(0) && !accumulate)
             {
@@ -90,10 +90,10 @@ namespace PTT_NGROUR.DTO
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelMonitoringResults(x));
             dal = null;
-            return result;
+            return result.ToList();
         }
 
-        public IEnumerable<ModelPlanYearly> GetListOMGatePlanYearly(int year, string[] pArrRegion)
+        public List<ModelPlanYearly> GetListOMGatePlanYearly(int year, string[] pArrRegion)
         {
             string strCommand = "SELECT PM, SUM(PLAN) AS PLAN FROM VIEW_OM_ML_GATE_HISTORY WHERE EXTRACT(year FROM END_DATE) = " + year;
 
@@ -104,10 +104,10 @@ namespace PTT_NGROUR.DTO
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelPlanYearly(x));
             dal = null;
-            return result;
+            return result.ToList();
         }
 
-        public IEnumerable<ModelMonitoringResults> GetListOMMeterHistory(int month, int year, string[] pArrRegion, bool accumulate)
+        public List<ModelMonitoringResults> GetListOMMeterHistory(int month, int year, string[] pArrRegion, bool accumulate)
         {
             if (month.Equals(0) && !accumulate)
             {
@@ -129,10 +129,10 @@ namespace PTT_NGROUR.DTO
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelMonitoringResults(x));
             dal = null;
-            return result;
+            return result.ToList();
         }
 
-        public IEnumerable<ModelPlanYearly> GetListOMMeterPlanYearly(int year, string[] pArrRegion)
+        public List<ModelPlanYearly> GetListOMMeterPlanYearly(int year, string[] pArrRegion)
         {
             string strCommand = "SELECT PM, SUM(PLAN) AS PLAN FROM VIEW_OM_ML_METER_HISTORY WHERE EXTRACT(year FROM END_DATE) = " + year;
 
@@ -143,19 +143,19 @@ namespace PTT_NGROUR.DTO
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelPlanYearly(x));
             dal = null;
-            return result;
+            return result.ToList();
         }
 
-        public IEnumerable<ModelMeterMaintenance> GetListMeterMaintenance()
+        public List<ModelMeterMaintenance> GetListMeterMaintenance()
         {
             string strCommand = "SELECT * from METER_MAINTENANCE";
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelMeterMaintenance(x));
             dal = null;
-            return result;
+            return result.ToList();
         }
 
-        public IEnumerable<ModelMeterMaintenance> GetListMeterMaintenance(string pStrMonth , string pStrYear , string[] pArrRegion)
+        public List<ModelMeterMaintenance> GetListMeterMaintenance(string pStrMonth , string pStrYear , string[] pArrRegion)
         {
             string strCommand = "SELECT * from METER_MAINTENANCE where 1=1 ";
             if (!string.IsNullOrEmpty(pStrMonth))
@@ -174,7 +174,7 @@ namespace PTT_NGROUR.DTO
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelMeterMaintenance(x));
             dal = null;
-            return result;
+            return result.ToList();
         }
 
         public IEnumerable<ModelRegion> GetListRegion()
@@ -183,7 +183,7 @@ namespace PTT_NGROUR.DTO
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelRegion(x));
             dal = null;
-            return result;
+            return result.ToList();
         }
 
         public IEnumerable<ModelPmInterval> GetListPmInterval()
@@ -192,7 +192,7 @@ namespace PTT_NGROUR.DTO
             var dal = new DAL.DAL();
             var result = dal.ReadData(strCommand, x => new ModelPmInterval(x));
             dal = null;
-            return result;
+            return result.ToList();
         }
 
         //public ModelOmIndex.ModelBarGraph GetModelBarGraph(
@@ -303,7 +303,7 @@ namespace PTT_NGROUR.DTO
                 .OrderBy(x => x.Length)
                 .ThenBy(x=>x)
                 .ToList();
-            return result;
+            return result.ToList();
         }
 
         //public List< ModelOmIndex.ModelMeterMaintenanceLevel> 

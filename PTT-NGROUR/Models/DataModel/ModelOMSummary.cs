@@ -15,9 +15,9 @@ namespace PTT_NGROUR.Models.DataModel
 
         public class ModelOMSummaryPipeline
         {
-            public ModelOMSummaryPipeline(int month, IEnumerable<ModelMonitoringResults> listResults, string mode, IEnumerable<ModelPlanYearly> PlanYearly)
+            public ModelOMSummaryPipeline(int month, List<ModelMonitoringResults> listResults, string mode, List<ModelPlanYearly> PlanYearly)
             {
-                Results = listResults.ToList();
+                Results = listResults;
 
                 #region Current
                 if (mode.Equals("monthly"))
@@ -101,9 +101,9 @@ namespace PTT_NGROUR.Models.DataModel
 
         public class ModelOMSummaryMaintenanceLevel
         {
-            public ModelOMSummaryMaintenanceLevel(int month, int year, IEnumerable<ModelMonitoringResults> listResults, string mode, IEnumerable<ModelPlanYearly> PlanYearly)
+            public ModelOMSummaryMaintenanceLevel(int month, int year, List<ModelMonitoringResults> listResults, string mode, List<ModelPlanYearly> PlanYearly)
             {
-                Results = listResults.ToList();
+                Results = listResults;
                 DateTime date = DateTime.Parse($"{month}/1/{year}", CultureInfo.InvariantCulture);
 
                 #region Current

@@ -97,14 +97,13 @@ namespace PTT_NGROUR.Controllers
                     MaintenanceLevel = maintenanceLevel
                 };
 
-
                 // Summary
-                IEnumerable<ModelMonitoringResults> listPipeline = dto.GetListOMPipelineHistory(intMonth, intYear, pArrRegion, true);
-                IEnumerable<ModelPlanYearly> listPipelinePlan = dto.GetListOMPipelinePlanYearly(intYear, pArrRegion);
-                IEnumerable<ModelMonitoringResults> listGate = dto.GetListOMGateHistory(intMonth, intYear, pArrRegion, true);
-                IEnumerable<ModelPlanYearly> listGatePlan = dto.GetListOMGatePlanYearly(intYear, pArrRegion);
-                IEnumerable<ModelMonitoringResults> listMeter = dto.GetListOMMeterHistory(intMonth, intYear, pArrRegion, true);
-                IEnumerable<ModelPlanYearly> listMeterPlan = dto.GetListOMMeterPlanYearly(intYear, pArrRegion);
+                List<ModelMonitoringResults> listPipeline = dto.GetListOMPipelineHistory(intMonth, intYear, pArrRegion, true);
+                List<ModelPlanYearly> listPipelinePlan = dto.GetListOMPipelinePlanYearly(intYear, pArrRegion);
+                List<ModelMonitoringResults> listGate = dto.GetListOMGateHistory(intMonth, intYear, pArrRegion, true);
+                List<ModelPlanYearly> listGatePlan = dto.GetListOMGatePlanYearly(intYear, pArrRegion);
+                List<ModelMonitoringResults> listMeter = dto.GetListOMMeterHistory(intMonth, intYear, pArrRegion, true);
+                List<ModelPlanYearly> listMeterPlan = dto.GetListOMMeterPlanYearly(intYear, pArrRegion);
 
                 modelOm.Summary = new ModelOMSummary
                 {
