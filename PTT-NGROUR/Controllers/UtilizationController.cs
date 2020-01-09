@@ -1,22 +1,20 @@
+using MoreLinq;
+using OfficeOpenXml;
+using PTT_NGROUR.DTO;
+using PTT_NGROUR.ExtentionAndLib;
+using PTT_NGROUR.Models;
+using PTT_NGROUR.Models.DataModel;
+using PTT_NGROUR.Models.ViewModel;
+using Rotativa;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using System.Data;
 //using OUR_App.Models;
 //using OfficeOpenXml;
 using System.IO;
-using OfficeOpenXml;
-using PTT_NGROUR.ExtentionAndLib;
-using PTT_NGROUR.DAL;
-
-using PTT_NGROUR.DTO;
-
-using PTT_NGROUR.Models.DataModel;
-using PTT_NGROUR.Models.ViewModel;
-using PTT_NGROUR.Models;
-using System.Data;
-using Rotativa;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 //using Syncfusion.XlsIO;
 //using PTT_NGROUR.Models;
 
@@ -723,6 +721,7 @@ namespace PTT_NGROUR.Controllers
                         pStrUploadBy: User.Identity.Name,
                         pIntYear: inYear.GetInt()
                     );
+
                     isDuplicate = dto.GetListPipelineImportDuplicate(listPipeLine).Any();
 
                     break;
@@ -839,10 +838,9 @@ namespace PTT_NGROUR.Controllers
             .Where(x => x != null).ToList();
 
             var dicPipeline = new Dictionary<string, List<ModelPipelineImport>>();
+            var listSuccess = new List<ModelPipelineImport>();
             var listError = new List<ModelPipelineImport>();
-            for (int i = listExcelPipeline.Count - 1; i >= 0; --i)
-            {
-                var pipeLine = listExcelPipeline[i];
+            listExcelPipeline.ForEach(pipeLine => {
                 var pipeLineDuplicate = listPipelineDuplicate.FirstOrDefault(x => x.RC_NAME == pipeLine.RC_NAME);
                 // Insert Pipeline
                 if (pipeLineDuplicate == null)
@@ -869,14 +867,50 @@ namespace PTT_NGROUR.Controllers
                         var listPl = new List<ModelPipelineImport>() { pipeLine.Clone() };
                         dicPipeline.Add(strRcName, listPl);
                     }
+                    listSuccess.Add(pipeLine);
                 }
                 else
                 {
-                    listExcelPipeline.RemoveAt(i);
                     listError.Add(pipeLine);
                 }
-            }
-            pModelResult.ListSuccessPipeLine = listExcelPipeline.ToArray();
+            });
+            //for (int i = listExcelPipeline.Count - 1; i >= 0; --i)
+            //{
+            //    var pipeLine = listExcelPipeline[i];
+            //    var pipeLineDuplicate = listPipelineDuplicate.FirstOrDefault(x => x.RC_NAME == pipeLine.RC_NAME);
+            //    // Insert Pipeline
+            //    if (pipeLineDuplicate == null)
+            //    {
+            //        dto.InsertPipelineImport(pipeLine);
+            //    }
+            //    else
+            //    {
+            //        // If Exists Update Pipeline
+            //        pipeLine.PIPELINE_ID = pipeLineDuplicate.PIPELINE_ID;
+            //        dto.UpdatePipelineImport(pipeLine);
+            //    }
+
+            //    // Group List Pipeline To Dictionary By RcName
+            //    string strRcName = pipeLine.RC_NAME.Split('-')[0];
+            //    if (listRc.Contains(strRcName))
+            //    {
+            //        if (dicPipeline.ContainsKey(strRcName))
+            //        {
+            //            dicPipeline[strRcName].Add(pipeLine.Clone());
+            //        }
+            //        else
+            //        {
+            //            var listPl = new List<ModelPipelineImport>() { pipeLine.Clone() };
+            //            dicPipeline.Add(strRcName, listPl);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        listExcelPipeline.RemoveAt(i);
+            //        listError.Add(pipeLine);
+            //    }
+            //}
+            pModelResult.ListSuccessPipeLine = listSuccess.ToArray();
             pModelResult.ListUnSuccessPipeLine = listError.ToArray();
 
             //convert Dictionary To List PipelineArchive

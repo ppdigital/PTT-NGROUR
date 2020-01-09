@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using PTT_NGROUR.DAL;
-using PTT_NGROUR.DTO;
 using System.Data;
+using System.Linq;
+using System.Web.Mvc;
 namespace PTT_NGROUR.Controllers
 {
     public class DashboardController : Controller
@@ -15,14 +12,14 @@ namespace PTT_NGROUR.Controllers
         [AuthorizeController.CustomAuthorize]
         public ActionResult Index()
         {
-            var dal = new DAL.DAL();
-            var ds = dal.GetDataSet("SELECT LICENSE_ID ,LICENSE FROM LICENSE_MASTER");
-            var dt = ds.Tables[0];
-            var listLicense = new List<Models.DataModel.ModelLicenseMaster>();
+            DAL.DAL dal = new DAL.DAL();
+            DataSet ds = dal.GetDataSet("SELECT LICENSE_ID ,LICENSE FROM LICENSE_MASTER");
+            DataTable dt = ds.Tables[0];
+            List<Models.DataModel.ModelLicenseMaster> listLicense = new List<Models.DataModel.ModelLicenseMaster>();
 
-            foreach (System.Data.DataRow dr in dt.Rows)
+            foreach (DataRow dr in dt.Rows)
             {
-                var license = new Models.DataModel.ModelLicenseMaster()
+                Models.DataModel.ModelLicenseMaster license = new Models.DataModel.ModelLicenseMaster()
                 {
                     LICENSE = dr["LICENSE"].ToString(),
                     LICENSE_ID = Convert.ToInt32(dr["LICENSE_ID"].ToString())
@@ -34,11 +31,11 @@ namespace PTT_NGROUR.Controllers
             //  var jsonResult = Json(listLicense.Distinct(), JsonRequestBehavior.AllowGet);
             //  jsonResult.MaxJsonLength = int.MaxValue;
 
-            var dsRegion = dal.GetDataSet("SELECT REGION_ID ,REGION_NAME FROM REGION");
-            var dtRegion = dsRegion.Tables[0];
-            var listRegion = new List<Models.DataModel.ModelRegion>();
+            DataSet dsRegion = dal.GetDataSet("SELECT REGION_ID ,REGION_NAME FROM REGION");
+            DataTable dtRegion = dsRegion.Tables[0];
+            List<Models.DataModel.ModelRegion> listRegion = new List<Models.DataModel.ModelRegion>();
 
-            foreach (System.Data.DataRow drArea in dtRegion.Rows)
+            foreach (DataRow drArea in dtRegion.Rows)
             {
                 var region = new Models.DataModel.ModelRegion()
                 {
@@ -54,7 +51,7 @@ namespace PTT_NGROUR.Controllers
             var dtIndustry = dsIndustry.Tables[0];
             var listIndustry = new List<Models.DataModel.ModelIndustryMaster>();
 
-            foreach (System.Data.DataRow drArea in dtIndustry.Rows)
+            foreach (DataRow drArea in dtIndustry.Rows)
             {
                 var region = new Models.DataModel.ModelIndustryMaster()
                 {
@@ -80,14 +77,14 @@ namespace PTT_NGROUR.Controllers
 
         [HttpPost]
         public JsonResult AllGate()
-        {   
-            var dal = new DAL.DAL();
-            var ds = dal.GetDataSet("SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE TYPE = 'GATESTATION' AND REGION IS NOT NULL");
+        {
+            DAL.DAL dal = new DAL.DAL();
+            DataSet ds = dal.GetDataSet("SELECT * FROM VIEW_GATEPIPEMETER_MENU WHERE TYPE = 'GATESTATION' AND REGION IS NOT NULL");
             decimal green = 0;
             decimal red = 0;
             decimal yellow = 0;
             decimal total = 0;
-            foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+            foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 if (dr["COLOR"].Equals("Green"))
                 {

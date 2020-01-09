@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MoreLinq;
 using PTT_NGROUR.ExtentionAndLib;
+using PTT_NGROUR.Models.DataModel;
 
 namespace PTT_NGROUR.DTO
 {
@@ -35,7 +37,7 @@ namespace PTT_NGROUR.DTO
             GateFlow = 3,
             GateDescription = 4
         }
-        public IEnumerable<Models.DataModel.ModelGateStationImport> ReadExcelGateStationImport(
+        public IEnumerable<ModelGateStationImport> ReadExcelGateStationImport(
         System.IO.Stream pStreamExcel,
         int pIntMonth,
         string pStrRegionId,
@@ -59,7 +61,7 @@ namespace PTT_NGROUR.DTO
                 {
                     var GateFlow = getExcelGateValue(exWorkSheet, intRow, enumExcelGateColumn.GateFlow);
                     var GatePressure = getExcelGateValue(exWorkSheet, intRow, enumExcelGateColumn.GatePressure);
-                    var gateImport = new Models.DataModel.ModelGateStationImport()
+                    var gateImport = new ModelGateStationImport()
                     {
                         FLOW = (GateFlow != null && GateFlow.ToString().ToLower()!="n/a") ? GateFlow.GetDecimal() : default(decimal?),
                         GATE_NAME = getExcelGateValue(exWorkSheet, intRow, enumExcelGateColumn.GateName).GetString(),
@@ -75,7 +77,7 @@ namespace PTT_NGROUR.DTO
             }
         }
 
-        public IEnumerable<Models.DataModel.ModelPipelineImport> ReadExcelPipelineImport(
+        public IEnumerable<ModelPipelineImport> ReadExcelPipelineImport(
         System.IO.Stream pStreamExcel,
         int pIntMonth,
         string pStrRegionId,
@@ -97,7 +99,7 @@ namespace PTT_NGROUR.DTO
                 int intEndRow = intRowCount - 6;
                 for (int intRow = intStartRow; intRow < intEndRow; ++intRow)
                 {
-                    var pipImport = new Models.DataModel.ModelPipelineImport()
+                    var pipImport = new ModelPipelineImport()
                     {
                         DIAMETER = getExcelPipelineValue(exWorkSheet, intRow, enumExcelPipelineColumn.DIAMETER).GetDecimal(),
                         EFFICIENCY = getExcelPipelineValue(exWorkSheet, intRow, enumExcelPipelineColumn.EFFICIENCY).GetDecimal(),
@@ -174,16 +176,16 @@ namespace PTT_NGROUR.DTO
             dal = null;
             return result;
         }
-        public IEnumerable<Models.DataModel.ModelGateStation> GetListModelGateStation()
+        public IEnumerable<ModelGateStation> GetListModelGateStation()
         {
             var dal = new DAL.DAL();
             string strCommand = "select * from GATE_STATION";
-            var result = dal.ReadData(strCommand, x => new Models.DataModel.ModelGateStation(x));
+            var result = dal.ReadData(strCommand, x => new ModelGateStation(x));
             dal = null;
             return result;
         }
 
-        public void InsertPipelineImport(Models.DataModel.ModelPipelineImport pModel)
+        public void InsertPipelineImport(ModelPipelineImport pModel)
         {
             if (pModel == null)
             {
@@ -202,7 +204,7 @@ namespace PTT_NGROUR.DTO
             dal = null;
         }
 
-        public void InsertGateImport(Models.DataModel.ModelGateStationImport pModel)
+        public void InsertGateImport(ModelGateStationImport pModel)
         {
             if (pModel == null)
             {
@@ -221,7 +223,7 @@ namespace PTT_NGROUR.DTO
             dal = null;
         }
 
-        public void UpdateGateImport(Models.DataModel.ModelGateStationImport pModel)
+        public void UpdateGateImport(ModelGateStationImport pModel)
         {
             if (pModel == null)
             {
@@ -240,7 +242,7 @@ namespace PTT_NGROUR.DTO
             dal = null;
         }
 
-        public void UpdatePipelineImport(Models.DataModel.ModelPipelineImport pModel)
+        public void UpdatePipelineImport(ModelPipelineImport pModel)
         {
             if (pModel == null)
             {
@@ -288,7 +290,7 @@ WHERE 1=1
             dal = null;
         }
 
-        public void UpdateGateArchive(Models.DataModel.ModelGateStationArchive pModel)
+        public void UpdateGateArchive(ModelGateStationArchive pModel)
         {
             if (pModel == null)
             {
@@ -307,7 +309,7 @@ WHERE 1=1
             dal = null;
         }
 
-        public void InsertPipelineArchive(Models.DataModel.ModelPipelineArchive pModel)
+        public void InsertPipelineArchive(ModelPipelineArchive pModel)
         {
             if (pModel == null)
             {
@@ -340,7 +342,7 @@ WHERE 1=1
         }
 
 
-        public void UpdatePipelineArchive(Models.DataModel.ModelPipelineArchive pModel)
+        public void UpdatePipelineArchive(ModelPipelineArchive pModel)
         {
             if (pModel == null) return;
             string strCommand = @"UPDATE PIPELINE_ARCHIVE SET    
@@ -385,7 +387,7 @@ WHERE  1=1
             dal.ExecuteNonQuery(strCommand);
             dal = null;
         }
-        public void InsertGateArchive(Models.DataModel.ModelGateStationArchive pModel)
+        public void InsertGateArchive(ModelGateStationArchive pModel)
         {
             if (pModel == null)
             {
@@ -406,7 +408,7 @@ WHERE  1=1
 
         }
 
-        public bool IsGateStationImportDuplicate(Models.DataModel.ModelGateStationImport pModel)
+        public bool IsGateStationImportDuplicate(ModelGateStationImport pModel)
         {
             if (pModel == null)
             {
@@ -422,7 +424,7 @@ WHERE  1=1
         }
 
 
-        public IEnumerable<Models.DataModel.ModelGateStationImport> GetListGateImportDuplicate(IEnumerable<Models.DataModel.ModelGateStationImport> pListModel)
+        public IEnumerable<ModelGateStationImport> GetListGateImportDuplicate(IEnumerable<ModelGateStationImport> pListModel)
         {
             if (pListModel == null && !pListModel.Any())
             {
@@ -441,54 +443,61 @@ WHERE  1=1
             var model1 = pListModel.First();
             strCommand = string.Format(strCommand, model1.YEAR, model1.MONTH, strAllGateName);
             var dal = new DAL.DAL();
-            var result = dal.ReadData<Models.DataModel.ModelGateStationImport>(
+            var result = dal.ReadData<ModelGateStationImport>(
                 pStrCommand: strCommand,
-                pFuncReadData: x => new Models.DataModel.ModelGateStationImport(x));
+                pFuncReadData: x => new ModelGateStationImport(x));
             dal = null;
             return result;
         }
 
-        public IEnumerable<Models.DataModel.ModelPipelineImport> GetListPipeline()
+        public IEnumerable<ModelPipelineImport> GetListPipeline()
         {
             string strCommand = @"select * from PIPELINE_IMPORT";
             var dal = new DAL.DAL();
-            var result = dal.ReadData<Models.DataModel.ModelPipelineImport>(
+            var result = dal.ReadData<ModelPipelineImport>(
                 pStrCommand: strCommand,
-                pFuncReadData: r => new Models.DataModel.ModelPipelineImport(r));
+                pFuncReadData: r => new ModelPipelineImport(r));
             dal = null;
             return result;
         }
 
 
-        public IEnumerable<Models.DataModel.ModelPipelineImport> GetListPipelineImportDuplicate(IEnumerable<Models.DataModel.ModelPipelineImport> pListModel)
+        public IEnumerable<ModelPipelineImport> GetListPipelineImportDuplicate(IEnumerable<ModelPipelineImport> pListModel)
         {
             if (pListModel == null && !pListModel.Any(x => x != null))
             {
                 return null;
             }
-            string strAllRcName = pListModel
-                .Where(x => x != null && !string.IsNullOrEmpty(x.RC_NAME))
-                .Select(x => "'" + x.RC_NAME.Replace("'", "''") + "'")
-                .Aggregate((x, y) => x + "," + y);
 
-            if (string.IsNullOrEmpty(strAllRcName))
-            {
-                return null;
-            }
             string strCommand = @"select * from PIPELINE_IMPORT
             where year = {0} and month = {1}
             and RC_NAME in ({2})";
-            var model1 = pListModel.Where(x => x != null).First();
-            strCommand = string.Format(strCommand, model1.YEAR, model1.MONTH, strAllRcName);
-            var dal = new DAL.DAL();
-            var result = dal.ReadData<Models.DataModel.ModelPipelineImport>(
-                pStrCommand: strCommand,
-                pFuncReadData: r => new Models.DataModel.ModelPipelineImport(r));
+            ModelPipelineImport model1 = pListModel.Where(x => x != null).First();
+            DAL.DAL dal = new DAL.DAL();
+            IEnumerable<ModelPipelineImport> result = Enumerable.Empty<ModelPipelineImport>();
+
+            pListModel.Batch(1000).ForEach(list => {
+                string strAllRcName = list
+                    .Where(x => x != null && !string.IsNullOrEmpty(x.RC_NAME))
+                    .Select(x => "'" + x.RC_NAME.Replace("'", "''") + "'")
+                    .Aggregate((x, y) => x + "," + y);
+
+                if (string.IsNullOrEmpty(strAllRcName))
+                {
+                    return;
+                }
+                result.Concat(
+                    dal.ReadData(
+                        pStrCommand: string.Format(strCommand, model1.YEAR, model1.MONTH, strAllRcName),
+                        pFuncReadData: r => new ModelPipelineImport(r)
+                    )
+                );
+            });
             dal = null;
             return result;
         }
 
-        public IEnumerable<Models.DataModel.ModelPipelineArchive> GetListPipelineArchiveDuplicate(IEnumerable<Models.DataModel.ModelPipelineArchive> pListModel)
+        public IEnumerable<ModelPipelineArchive> GetListPipelineArchiveDuplicate(IEnumerable<ModelPipelineArchive> pListModel)
         {
             if (pListModel == null && !pListModel.Any())
             {
@@ -507,17 +516,16 @@ WHERE  1=1
 
             strCommand = string.Format(strCommand, model1.YEAR, model1.MONTH, strAllRcName);
             var dal = new DAL.DAL();
-            var result = dal.ReadData<Models.DataModel.ModelPipelineArchive>(
+            var result = dal.ReadData<ModelPipelineArchive>(
                 pStrCommand: strCommand,
-                pFuncReadData: x => new Models.DataModel.ModelPipelineArchive(x)
+                pFuncReadData: x => new ModelPipelineArchive(x)
             );
 
             dal = null;
             return result;
-
         }
 
-        public IEnumerable<Models.DataModel.ModelGateStationArchive> GetListGateArchiveDuplicate(IEnumerable<Models.DataModel.ModelGateStationImport> pListModel)
+        public IEnumerable<ModelGateStationArchive> GetListGateArchiveDuplicate(IEnumerable<ModelGateStationImport> pListModel)
         {
             if (pListModel == null && !pListModel.Any())
             {
@@ -536,15 +544,15 @@ WHERE  1=1
             var model1 = pListModel.First();
             strCommand = string.Format(strCommand, model1.YEAR, model1.MONTH, strAllGateName);
             var dal = new DAL.DAL();
-            var result = dal.ReadData<Models.DataModel.ModelGateStationArchive>(
+            var result = dal.ReadData<ModelGateStationArchive>(
                 pStrCommand: strCommand,
-                pFuncReadData: x => new Models.DataModel.ModelGateStationArchive(x)
+                pFuncReadData: x => new ModelGateStationArchive(x)
             );
             dal = null;
             return result;
         }
 
-        public int GetGateImportID(Models.DataModel.ModelGateStationImport pModel)
+        public int GetGateImportID(ModelGateStationImport pModel)
         {
             if (pModel == null)
             {
@@ -558,7 +566,7 @@ WHERE  1=1
             return 0;
         }
 
-        public bool IsPipelineImportDuplicate(Models.DataModel.ModelPipelineImport pModel)
+        public bool IsPipelineImportDuplicate(ModelPipelineImport pModel)
         {
             if (pModel == null)
             {
