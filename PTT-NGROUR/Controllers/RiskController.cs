@@ -313,8 +313,8 @@ namespace PTT_NGROUR.Controllers
                     strCommand = $"{strCommand} AND LICENSE_NO IN ('{ string.Join("','", model.Lists) }')";
                 }
             }
-            var dal = new DAL.DAL();
-            var riskReport = dal.ReadData(strCommand, x => new ModelGetRisk(x)).ToList();
+            DAL.DAL dal = new DAL.DAL();
+            List<ModelGetRisk> riskReport = dal.ReadData(strCommand, x => new ModelGetRisk(x)).ToList();
 
             riskReport.ForEach(x =>
             {
@@ -353,7 +353,7 @@ namespace PTT_NGROUR.Controllers
         [AuthorizeController.CustomAuthorize]
         public JsonResult UploadFile()
         {
-            var dto = new DtoRisk();
+            DtoRisk dto = new DtoRisk();
 
             if (Request.Files.Count > 0)
             {
@@ -366,11 +366,11 @@ namespace PTT_NGROUR.Controllers
                     if ((file != null) && (file.Count > 0))
                     {
                         byte[] fileBytes = new byte[Request.ContentLength];
-                        var data = Request.InputStream.Read(fileBytes, 0, Convert.ToInt32(Request.ContentLength));
-                        using (var package = new ExcelPackage(Request.InputStream))
+                        int data = Request.InputStream.Read(fileBytes, 0, Convert.ToInt32(Request.ContentLength));
+                        using (ExcelPackage package = new ExcelPackage(Request.InputStream))
                         {
-                            var currentSheet = package.Workbook.Worksheets;
-                            var workSheet = currentSheet.Single(x => x.Name.Equals(dto.WorksheetName));
+                            ExcelWorksheets worksheets = package.Workbook.Worksheets;
+                            ExcelWorksheet workSheet = worksheets.Single(x => x.Name.Equals(dto.WorksheetName));
                             noOfCol = workSheet.Dimension.End.Column;
                             noOfRow = workSheet.Dimension.End.Row;
                             obj = new object[noOfRow, noOfCol];
