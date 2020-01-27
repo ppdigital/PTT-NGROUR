@@ -195,10 +195,24 @@ namespace PTT_NGROUR.DTO
                 ROUGHNESS, LOAD, VELOCITY, OUTSIDE_DIAMETER, WALL_THICKNESS, SERVICE_STATE,
                 MONTH, YEAR, UPLOAD_DATE, UPLOAD_BY, REGION) 
                 VALUES ( '{0}' ,{1} ,{2} ,{3} ,{4} ,{5} ,{6} , {7} ,{8} ,{9} ,'{10}' ,{11} ,{12} , sysdate , '{13}' , {14} )";
-                strCommand = string.Format(strCommand,
-                pModel.RC_NAME.Trim().Replace("'", "''"), pModel.FLOW, pModel.DIAMETER, pModel.LENGTH, pModel.EFFICIENCY,
-                pModel.ROUGHNESS, pModel.LOAD, pModel.VELOCITY, pModel.OUTSIDE_DIAMETER, pModel.WALL_THICKNESS, pModel.SERVICE_STATE.Replace("'", "''"),
-                pModel.MONTH, pModel.YEAR, pModel.UPLOAD_BY.Trim().Replace("'", "''"), pModel.REGION.Trim().Replace("'", "''"));
+                strCommand = string.Format(
+                    strCommand,
+                    pModel.RC_NAME.Trim().Replace("'", "''"),
+                    pModel.FLOW,
+                    pModel.DIAMETER,
+                    pModel.LENGTH,
+                    pModel.EFFICIENCY,
+                    pModel.ROUGHNESS,
+                    pModel.LOAD,
+                    pModel.VELOCITY,
+                    pModel.OUTSIDE_DIAMETER,
+                    pModel.WALL_THICKNESS,
+                    pModel.SERVICE_STATE.Replace("'", "''"),
+                    pModel.MONTH,
+                    pModel.YEAR,
+                    pModel.UPLOAD_BY.Trim().Replace("'", "''"),
+                    pModel.REGION.Trim().Replace("'", "''")
+                );
             var dal = new DAL.DAL();
             dal.ExecuteNonQuery(strCommand);
             dal = null;
@@ -486,9 +500,10 @@ WHERE  1=1
                 {
                     return;
                 }
-                result.Concat(
+                string _command = string.Format(strCommand, model1.YEAR, model1.MONTH, strAllRcName);
+                result = result.Concat(
                     dal.ReadData(
-                        pStrCommand: string.Format(strCommand, model1.YEAR, model1.MONTH, strAllRcName),
+                        pStrCommand: _command,
                         pFuncReadData: r => new ModelPipelineImport(r)
                     )
                 );

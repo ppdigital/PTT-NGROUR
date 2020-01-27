@@ -687,7 +687,6 @@ namespace PTT_NGROUR.Controllers
 
             HttpFileCollectionBase files = Request.Files;
 
-
             if (files == null || 0.Equals(files.Count))
             {
                 result.SetError("No File Data To Load");

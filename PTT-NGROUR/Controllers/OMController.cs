@@ -16,7 +16,6 @@ namespace PTT_NGROUR.Controllers
 {
     public class OMController : Controller
     {
-        //
         // GET: /OM/
         [AuthorizeController.CustomAuthorize]
         public ActionResult Index(string radioMY, string pStrYear, string pStrMonth, string[] pArrRegion)
